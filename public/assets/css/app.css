@@ -1,0 +1,147 @@
+main#main-container {
+    background-color: #7e3e98;
+}
+
+.nav-main-item {
+    color: white;
+}
+
+.nav-main-item>.active {
+    color: #ee1e7b;
+}
+
+.nav-main-item .nav-main-link .nav-main-link-name {
+    display: none;
+}
+
+#sidebar:hover .nav-main-item .nav-main-link .nav-main-link-name {
+    display: inline-block;
+}
+
+#sidebar {
+    transition: width .1s;
+    width: 150px;
+}
+
+#sidebar:hover {
+    width: 300px;
+}
+
+#page-header {
+    transition: width .1s;
+}
+
+#sidebar .content-header {
+    transition: width .1s;
+    margin-top: 40px;
+    justify-content: space-around;
+    flex-direction: column;
+    width: 150px;
+}
+
+#sidebar:hover .content-header {
+    margin-top: 0px;
+    flex-direction: row;
+}
+
+#page-container.side-scroll #sidebar:hover .content-header {
+    transition: width .1s;
+    width: 30px;
+}
+
+#page-container.page-header-fixed.sidebar-o .page-header-trigger,
+#page-container.page-header-glass.sidebar-o .page-header-trigger {
+    padding-left: 300px !important;
+}
+
+.sidetitle img {
+    height: 80px;
+    width: 120px;
+}
+
+#sidebar .simplebar-mask .content-header {
+    justify-content: flex-start;
+}
+
+.nav-main-item span.nav-main-link-name {
+    font-size: 16pt;
+    line-height: initial;
+    padding-left: 20px;
+}
+
+.nav-main-item .nav-main-link i.nav-main-link-icon {
+    font-size: 23pt;
+    color: white !important;
+    margin-left: auto;
+    /* padding-right: 20px; */
+    margin-right: auto;
+}
+
+.nav-main-item .nav-main-link.active i.nav-main-link-icon {
+    color: #be0f2d !important;
+}
+
+.nav-main-item .nav-main-link:hover i.nav-main-link-icon {
+    color: #be0f2d !important;
+}
+
+.content-header {
+    margin-top: -50px;
+}
+
+#page-header button.btn {
+    background-color: rgb(255, 255, 255, 0.5) !important;
+    font-size: 18pt;
+}
+
+li.nav-item.dropdown:hover .dropdown-menu.dropdown-menu-right {
+    display: block;
+}
+
+body {
+    background: #7e3e98;
+}
+
+nav.navbar.navbar-expand-md.navbar-light.bg-white.shadow-sm {
+    background-color: #2e3092 !important;
+}
+
+.container {}
+
+a.navbar-brand {
+    color: white !important;
+}
+
+a.nav-link {
+    color: white !important;
+}
+
+.card-header {
+    background-color: #2e3092;
+}
+
+.card-header {
+    color: white;
+}
+
+label.col-md-4.col-form-label.text-md-right {
+    color: black;
+}
+
+.card-body {
+    background-color: white;
+}
+
+.form-group.row {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.row.justify-content-center {
+    /* top: 100%; */
+    /* position: relative; */
+}
+
+.card {
+    background: #2e3092;
+}
