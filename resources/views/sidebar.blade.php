@@ -32,7 +32,7 @@
                         <div class="content-side">
                             <form class="push" action="http://localhost:8000/db_social.html" method="POST" onsubmit="return false;">
                                 <div class="input-group">
-                                    <input class="form-control form-control-alt" placeholder="Search People..">
+                                    <input class="form-control form-control-alt" placeholder="Search People...">
                                     <div class="input-group-append">
                                         <span class="input-group-text input-group-text-alt">
                                             <i class="fa fa-fw fa-search"></i>
