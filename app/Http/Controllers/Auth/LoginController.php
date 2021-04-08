@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Contracts\Session\Session;
 
 use Auth;
 
@@ -83,9 +83,6 @@ class LoginController extends Controller
     {
         $input = $request->all();
 
-        // var_dump(Hash::check("123123123", '$2y$10$kBAPK4eQdspCJOzH/yG1BegMFAvwGcZ989Fqn8XOQshkNWVm.Jx6i'));
-        // die;
-
         $validator = Validator::make($request->all(), [
             'username' => 'required',
             'password' => 'required',
@@ -93,22 +90,15 @@ class LoginController extends Controller
 
         $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'login';
         $user = User::where($fieldType, '=', $input['username'])->first();
-        // var_dump(Hash::check($request['password'], $user->));die;
-        // var_dump($user->password);die;
+
         if (Hash::check($input['password'], $user->password)) {
 
-            // die;
             $request->session()->regenerate();
-            if (session_id() != $user->last_session) {
-                $this->logout();
-                return true;
-            }
-
+            // var_dump(session()->getID());die;
             auth()->loginUsingId($user->id, true);
-            // var_dump(session_id());
-            // die;
 
-            $user->last_session = session_id();
+            $user->last_session = session()->getID();
+
             $user->save();
             return $this->sendLoginResponse($request);
             //return redirect()->route('home');
