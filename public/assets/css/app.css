@@ -1,3 +1,138 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.bg-blue-0 {
+    background-color: #1075bb !important;
+}
+
+.bg-blue-1 {
+    background-color: #70c4de !important;
+}
+
+.bg-blue-2 {
+    background-color: #a7acd6 !important;
+}
+
+.bg-blue-3 {
+    background-color: #6099aa !important;
+}
+
+.bg-green-0 {
+    background-color: #46706f !important;
+}
+
+.bg-red-0 {
+    background-color: #bd1f2d !important;
+}
+
+.bg-red-1 {
+    background-color: #b77f88 !important;
+}
+
+.bg-red-2 {
+    background-color: #b46270 !important;
+}
+
+.bg-red-3 {
+    background-color: #9a3169 !important;
+}
+
+.bg-pink-0 {
+    background-color: #c3aaca !important;
+}
+
+.bg-pink-1 {
+    background-color: #7e3f98 !important;
+}
+
+.bg-pink-2 {
+    background-color: #eb217b !important;
+}
+
+.bg-pink-3 {
+    background-color: #652d90 !important;
+}
+
+.bg-green-0 {
+    background-color: #ebcba5 !important;
+}
+
+.bg-yellow-0 {
+    background-color: #fa921f !important;
+}
+
+.bg-yellow-1 {
+    background-color: #fbb140 !important;
+}
+
+.text-blue-0 {
+    color: #1075bb !important;
+}
+
+.text-blue-1 {
+    color: #70c4de !important;
+}
+
+.text-blue-2 {
+    color: #a7acd6 !important;
+}
+
+
+.text-blue-3 {
+    color: #6099aa !important;
+}
+
+
+.text-red-0 {
+    color: #bd1f2d !important;
+}
+
+.text-red-1 {
+    color: #b77f88 !important;
+}
+
+.text-red-2 {
+    color: #b46270 !important;
+}
+
+.text-pink-0 {
+    color: #c3aaca !important;
+}
+
+.text-pink-1 {
+    color: #7e3f98 !important;
+}
+
+.text-pink-2 {
+    color: #eb217b !important;
+}
+
+.text-yellow-0 {
+    color: #fa921f !important;
+}
+
+
+
+.rounded {
+    border-radius: 10px !important;
+}
+
+.rounded-1 {
+    border-radius: 3px !important;
+}
+
+
+
+
+
+
+
+#page-container {
+    
+}
+
+
 main#main-container {
     background-color: #7e3e98;
 }
@@ -47,7 +182,7 @@ main#main-container {
 #page-container.side-scroll #sidebar:hover .content-header {
     transition: width .1s;
     width: 30px;
-    margin-top:50px;
+    margin-top: 50px;
 }
 
 .content-side.content-side-full {
@@ -172,10 +307,12 @@ main.main-container {
     display: flex;
     flex-direction: row;
     width: 100%;
-    margin-bottom:40px;
+    margin-bottom: 40px;
 }
 
-.tab-avatar i.fa.fa-users {font-size: 20pt;}
+.tab-avatar i.fa.fa-users {
+    font-size: 20pt;
+}
 
 .tab-item {
     background-color: #c3aaca;
@@ -221,14 +358,15 @@ span.tab-description {
 
 table.session-table {
     width: 100%;
-    margin-left:10px;
+    margin-left: 10px;
 }
 
-.session-table th div, .session-table td div{
+.session-table th div,
+.session-table td div {
     border: 1px solid #7e3e98;
     border-radius: 6px;
     padding: 6px;
-  }
+}
 
 table.session-table th {
     color: white;
@@ -236,7 +374,7 @@ table.session-table th {
     font-weight: 100;
 }
 
-table.session-table th div{
+table.session-table th div {
     background-color: #2e3092;
 }
 
@@ -245,14 +383,14 @@ table.session-table th i {
     padding: 10px;
 }
 
-.session-table td div{
+.session-table td>div {
     color: black;
     background-color: #a7acd6;
-    padding-top:19px;
+    padding-top: 19px;
 }
 
-.session-table tr:nth-child(even) div{
-    background-color:#c3aaca;
+.session-table tr:nth-child(even) div {
+    background-color: #c3aaca;
 }
 
 
@@ -265,7 +403,9 @@ table.session-table th i {
     float: left;
 }
 
-.collespe-header div {float: left;}
+.collespe-header div {
+    float: left;
+}
 
 .width-controller {
     padding-top: 360px;
@@ -274,7 +414,9 @@ table.session-table th i {
     float: left;
 }
 
-.width-controller i.fa {transition: inherit;}
+.width-controller i.fa {
+    transition: inherit;
+}
 
 .dash-table td div {
     display: inline-block;
@@ -284,18 +426,18 @@ table.dash-table {
     color: white;
 }
 
-table.dash-table tr:nth-child(even)  .round-corner-10{
+table.dash-table tr:nth-child(even) .round-corner-10 {
     background: #c3aaca;
-    padding:15px;
+    padding: 15px;
 }
 
 table.dash-table td {
     border: 1px solid transparent;
 }
 
-table.dash-table tr:nth-child(odd)  .round-corner-10{
+table.dash-table tr:nth-child(odd) .round-corner-10 {
     background-color: #a7acd6;
-    padding:15px;
+    padding: 15px;
 }
 
 .round-corner-10 {
@@ -317,7 +459,7 @@ p.height-controller {
 
 .flesible-colum {
     color: white;
-    flex:1
+    flex: 1
 }
 
 .dash-panel-content {
@@ -330,10 +472,14 @@ span.dash-panel {
 
 .dash-colum {
     padding: 10px;
-    flex:3
+    flex: 3
 }
 
-.dash-description {display: flex;flex-direction: row;justify-content: space-between;}
+.dash-description {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 
 .dash-panel {
     background: white;
@@ -361,13 +507,14 @@ span.dash-panel {
     border-radius: 10px;
 }
 
-.collespe-bottom-right, .collespe-bottom-left {
+.collespe-bottom-right,
+.collespe-bottom-left {
     width: 50%;
     float: left;
     padding: 20px 10px;
     text-align: center;
     font-size: 25px;
-    color:gray;
+    color: gray;
 }
 
 .collepse-bottom i.fa.fa-chart-line {
@@ -445,7 +592,8 @@ span.dash-avatar-title {
     padding: 20px;
 }
 
-.height-controller, .width-controller {
+.height-controller,
+.width-controller {
     padding: 10px;
     color: white;
     font-size: 25px;
@@ -475,3 +623,81 @@ span.dash-panel-bottom-title {
 
 /* Segoe UI
  */
+
+#lesson-blade .dropdown-toggle::after {
+    display: none;
+}
+
+#lessons .toolkit {
+    min-width: 500px;
+}
+
+#lessons .list-group-item.active {
+    background-color: #70c4de;
+}
+
+.list-group-item .float-left {
+    padding: 3.2px;
+}
+
+
+.dropdown .btn {
+    border-radius: 4px;
+}
+
+.list-group-item {
+    margin-bottom: 5px;
+}
+
+#lesson-course .list-group-item {
+    background-color: #b77f8b;
+}
+
+#lesson-course .list-group-item.active {
+    background-color: #b56171;
+}
+
+#lessons .list-group-item.active {
+    background-color: #6099aa;
+}
+
+#lessons .list-group-item {
+    background-color: #70c4de;
+}
+
+.float-left {
+    color: white;
+}
+
+#lesson-blade .card {
+    text-align: left;
+}
+
+.toolkit strong.float-left {
+    font-size: 20pt;
+}
+
+#lesson-blade strong {}
+
+#lesson-blade .dropdown-menu.show {
+    width: 100%;
+    min-width: 100% !important;
+}
+
+a.dropdown-item.p-1.bg-blue-2.text-white.mb-0 {
+    border-radius: 0;
+    margin-top: 2px;
+}
+
+.btn.btn-primary.dropdown-toggle.w-100 {
+    text-align: left;
+}
+
+.dropdown-menu.show.p-0 {
+    background-color: transparent;
+}
+
+i.fa.fa-cog {
+    color: #c31c2d;
+    font-size: 20pt;
+}
