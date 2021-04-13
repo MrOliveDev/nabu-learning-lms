@@ -57,27 +57,46 @@
     <script src="{{asset('assets/js/dashmix.core.min.js')}}"></script>
 
     <script src="{{asset('assets/js/dashmix.app.min.js')}}"></script>
-
-    <script src="{{asset('assets/js/plugins/highlightjs/highlight.pack.min.js')}}"></script>
     <script src="{{asset('assets/js/plugins/magnific-popup/jquery.magnific-popup.min.js')}}"></script>
-    <script src="{{asset('assets/js/popper.min.js')}}"></script>
-    <script src="{{asset('assets/js/app.js')}}"></script>
     <script>
         jQuery(function() {
             Dashmix.helpers(['highlightjs', 'magnific-popup']);
         });
 
-        $("document").ready(function(){
-            var element = document.getElementById("page-header");
+        $(document).ready(function(){
+            $("#page-header").removeClass("page-header-trigger");
+            $("#page-container").removeClass("page-header-trigger");
         })
 
-        show_sidebar = function() {
-            var element = document.getElementById("page-header");
-            var pageContainer = document.getElementById('page-container');
-            element.classList.toggle("page-header-trigger");
-            pageContainer.classList.toggle("page-header-trigger");
-        }
+        $("#sidebar").hover(
+            function(){$("#page-header, #page-container").addClass("page-header-trigger");},
+            function(){$("#page-header, #page-container").removeClass("page-header-trigger");}
+        )
     </script>
+<script>
+            var btns =
+                $("#sidebar .nav-main .nav-main-link");
+
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].addEventListener("click",
+                                      function () {
+                    var current = document
+                        .getElementsByClassName("active");
+
+                    current[0].className = current[0]
+                        .className.replace(" active", "");
+
+                    this.className += " active";
+                });
+            }
+</script>
+
+
+    <script src="{{asset('assets/js/plugins/highlightjs/highlight.pack.min.js')}}"></script>
+
+    <script src="{{asset('assets/js/popper.min.js')}}"></script>
+    <script src="{{asset('assets/js/app.js')}}"></script>
+
 
 </body>
 

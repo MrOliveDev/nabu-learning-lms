@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -44,10 +45,9 @@
 </head>
 
 <body>
-    <div id="page-container" class="sidebar-dark enable-page-overlay side-scroll page-header-fixed page-header-dark page-header-glass main-content-boxed side-trans-enabled sidebar-o-xs sidebar-o">
+    <div id="page-container" class="sidebar-dark enable-page-overlay side-scroll page-header-fixed page-header-dark page-header-glass main-content-boxed side-trans-enabled sidebar-o-xs sidebar-o p-0">
 
-
-        <main class="main-container">
+        <main class="main-container p-0">
             <div class="bg-image" style="background-image: url('assets/media/photos/photo22@2x.jpg');">
                 <div class="row no-gutters bg-primary-op">
                     <!-- Main Section -->
@@ -114,12 +114,15 @@
             Dashmix.helpers(['highlightjs', 'magnific-popup']);
         });
 
-        show_sidebar = function() {
-            var element = document.getElementById("page-header");
-            var pageContainer = document.getElementById('page-container');
-            element.classList.toggle("page-header-trigger");
-            pageContainer.classList.toggle("page-header-trigger");
-        }
+        $(document).ready(function(){
+            $("#page-header").removeClass("page-header-trigger");
+            $("#page-container").removeClass("page-header-trigger");
+        })
+
+        $("#sidebar").hover(
+            function(){$("#page-header, #page-container").addClass("page-header-trigger");},
+            function(){$("#page-header, #page-container").removeClass("page-header-trigger");}
+        )
     </script>
 
 
