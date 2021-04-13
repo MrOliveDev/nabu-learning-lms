@@ -17,6 +17,10 @@ Auth::routes();
 Route::group(['middleware' => ['auth' ,'checksinglesession'], 'prefix' => ''], function () {
     Route::get('/', '\App\Http\Controllers\HomeController@index');
     Route::get('home', '\App\Http\Controllers\HomeController@index')->name('home');
+    Route::get('session', '\App\Http\Controllers\SessionController@index')->name('session');
+    Route::get('lesson', '\App\Http\Controllers\LessonController@index')->name('lesson');
+    Route::get('admin/dash', '\App\Http\Controllers\admin\DashController@index')->name('admin.dash');
+    Route::get('dash', '\App\Http\Controllers\common\DashController@index')->name('common.dash');
 });
 
 // Route::get('/', function () {

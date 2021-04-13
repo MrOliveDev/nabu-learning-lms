@@ -88,7 +88,7 @@
                         <div class="content-side content-side-full">
                             <ul class="nav-main">
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link active" href="http://localhost:8000/#">
+                                    <a class="nav-main-link active" href="{{route('common.dash')}}">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon fas fa-tachometer-alt"></i>
                                         <!-- </div> -->
@@ -96,7 +96,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="http://localhost:8000/#">
+                                    <a class="nav-main-link" href="{{route('lesson')}}">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon fas fa-cogs"></i>
                                         <!-- </div> -->
@@ -104,7 +104,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="http://localhost:8000/#">
+                                    <a class="nav-main-link" href="{{route('session')}}">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon fas fa-user"></i>
                                         <!-- </div> -->
@@ -112,7 +112,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="http://localhost:8000/#">
+                                    <a class="nav-main-link" href="{{route('admin.dash')}}">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon fas fa-users"></i>
                                         <!-- </div> -->
@@ -120,7 +120,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="http://localhost:8000/#">
+                                    <a class="nav-main-link" href="{{route('common.dash')}}">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon fas fa-th"></i>
                                         <!-- </div> -->
