@@ -88,7 +88,7 @@
                         <div class="content-side content-side-full">
                             <ul class="nav-main">
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link active" href="{{route('common.dash')}}">
+                                    <a class="nav-main-link" href="{{route('common.dash')}}" id="tableau">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon fas fa-tachometer-alt"></i>
                                         <!-- </div> -->
@@ -96,7 +96,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('lesson')}}">
+                                    <a class="nav-main-link" href="{{route('lesson')}}" id="session">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon fas fa-cogs"></i>
                                         <!-- </div> -->
@@ -104,7 +104,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('session')}}">
+                                    <a class="nav-main-link" href="{{route('session')}}" id="utilisateurs">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon fas fa-user"></i>
                                         <!-- </div> -->
@@ -112,7 +112,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('admin.dash')}}">
+                                    <a class="nav-main-link" href="{{route('admin.dash')}}" id="groupes">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon fas fa-users"></i>
                                         <!-- </div> -->
@@ -120,7 +120,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('common.dash')}}">
+                                    <a class="nav-main-link" href="{{route('common.dash')}}" id="societes">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon fas fa-th"></i>
                                         <!-- </div> -->
@@ -131,7 +131,7 @@
                                 <hr>
 
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="#">
+                                    <a class="nav-main-link" href="#" id="parcours">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon fas fa-cubes"></i>
                                         <!-- </div> -->
@@ -140,7 +140,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="#">
+                                    <a class="nav-main-link" href="#" id="templates">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon fas fa-newspaper"></i>
                                         <!-- </div> -->
@@ -151,7 +151,7 @@
                                 <hr>
 
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="#">
+                                    <a class="nav-main-link" href="#" id="outil">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon far fa-envelope"></i>
                                         <!-- </div> -->
@@ -159,7 +159,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="#">
+                                    <a class="nav-main-link" href="#" id="rapports">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon fas fa-chart-pie"></i>
                                         <!-- </div> -->

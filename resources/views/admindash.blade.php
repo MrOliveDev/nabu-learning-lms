@@ -412,6 +412,8 @@
         </tr>
 
     </table>
-
+<script>
+    $('#groupes').addClass('active');
+</script>
 </div>
 @endsection

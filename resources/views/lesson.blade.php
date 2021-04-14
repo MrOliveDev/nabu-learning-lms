@@ -461,4 +461,7 @@
         </div>
     </div>
 </div>
+<script>
+    $('#session').addClass('active');
+</script>
 @endsection

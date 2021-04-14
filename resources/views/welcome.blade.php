@@ -40,6 +40,11 @@
     <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/xwork.min.css"> -->
     <link rel="stylesheet" id="css-theme" href="{{ asset('assets/css/themes/xmodern.min.css') }}">
     <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/app.css') }}">
+
+    <script src="{{asset('assets/js/dashmix.core.min.js')}}"></script>
+
+    <script src="{{asset('assets/js/dashmix.app.min.js')}}"></script>
+    <script src="{{asset('assets/js/app.js')}}"></script>
     <!-- END Stylesheets -->
 </head>
 
@@ -54,9 +59,6 @@
 
         </main>
     </div>
-    <script src="{{asset('assets/js/dashmix.core.min.js')}}"></script>
-
-    <script src="{{asset('assets/js/dashmix.app.min.js')}}"></script>
     <script src="{{asset('assets/js/plugins/magnific-popup/jquery.magnific-popup.min.js')}}"></script>
     <script>
         jQuery(function() {
@@ -73,29 +75,12 @@
             function(){$("#page-header, #page-container").removeClass("page-header-trigger");}
         )
     </script>
-<script>
-            var btns =
-                $("#sidebar .nav-main .nav-main-link");
-
-            for (var i = 0; i < btns.length; i++) {
-                btns[i].addEventListener("click",
-                                      function () {
-                    var current = document
-                        .getElementsByClassName("active");
-
-                    current[0].className = current[0]
-                        .className.replace(" active", "");
-
-                    this.className += " active";
-                });
-            }
-</script>
 
 
     <script src="{{asset('assets/js/plugins/highlightjs/highlight.pack.min.js')}}"></script>
 
     <script src="{{asset('assets/js/popper.min.js')}}"></script>
-    <script src="{{asset('assets/js/app.js')}}"></script>
+
 
 
 </body>
