@@ -1,10 +1,10 @@
 @extends('welcome')
 
 @section('con')
-<div id="admindash">
+<div id="commondash">
 
-    <div class="dashbord">
-        <div class="flesible-colum">
+    <div class="dashbord" id="content">
+        <div class="flesible-colum float-left w-50" id="LeftPanel">
             <div class="collespe-card">
                 <div class="collespe-header">
                     <div>
@@ -108,12 +108,12 @@
                 </div>
             </div>
         </div>
-        <div class="width-controller" id="div_vertical">
+        <div class="width-controller float-left" id="div_vertical">
             <i class="fas fa-grip-lines-vertical">
 
             </i>
         </div>
-        <div class="dash-colum">
+        <div class="dash-colum  float-right w-50" id="RightPanel">
             <table class="dash-table">
                 <tr>
                     <td>

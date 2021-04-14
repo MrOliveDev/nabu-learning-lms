@@ -58,7 +58,7 @@
     </div>
 </aside>
 
-<nav id="sidebar" aria-label="Main Navigation" data-simplebar="init" onmouseover="show_sidebar()" onmouseout="show_sidebar()">
+<nav id="sidebar" aria-label="Main Navigation" data-simplebar="init">
     <div class="simplebar-wrapper" style="margin: 0px;">
         <div class="simplebar-height-auto-observer-wrapper">
             <div class="simplebar-height-auto-observer"></div>

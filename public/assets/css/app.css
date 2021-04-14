@@ -129,7 +129,7 @@ body {
 
 
 #page-container {
-    
+
 }
 
 
@@ -398,9 +398,11 @@ table.session-table th i {
 /* //////////////////dashboard////////////// */
 
 .flesible-colum {
-    width: 400px;
+    width: 50%;
+    /* width: 400px; */
     padding: 10px;
     float: left;
+    height: 100%;
 }
 
 .collespe-header div {
@@ -472,7 +474,9 @@ span.dash-panel {
 
 .dash-colum {
     padding: 10px;
-    flex: 3
+    /* flex: 3 */
+    height:100%;
+    width:50%;
 }
 
 .dash-description {
@@ -486,8 +490,8 @@ span.dash-panel {
 }
 
 .dashbord {
-    display: flex;
-    flex-direction: row;
+    /* display: flex;
+    flex-direction: row; */
     height: 100%;
 }
 
@@ -601,10 +605,14 @@ span.dash-avatar-title {
 
 .height-controller {
     text-align: center;
+    cursor: row-resize;
 }
 
 .width-controller {
+    cursor: col-resize;
     padding-top: 550px;
+    width: 20px;
+    height: 100%;
 }
 
 span.dash-panel-title {

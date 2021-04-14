@@ -67,16 +67,16 @@
             Dashmix.helpers(['highlightjs', 'magnific-popup']);
         });
 
-        $("document").ready(function(){
-            var element = document.getElementById("page-header");
+        $(document).ready(function(){
+            $("#page-header").removeClass("page-header-trigger");
+            $("#page-container").removeClass("page-header-trigger");
         })
 
-        show_sidebar = function() {
-            var element = document.getElementById("page-header");
-            var pageContainer = document.getElementById('page-container');
-            element.classList.toggle("page-header-trigger");
-            pageContainer.classList.toggle("page-header-trigger");
-        }
+        $("#sidebar").hover(
+            function(){$("#page-header, #page-container").addClass("page-header-trigger");},
+            function(){$("#page-header, #page-container").removeClass("page-header-trigger");}
+        )
+
     </script>
 
 </body>

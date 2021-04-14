@@ -44,10 +44,10 @@
 </head>
 
 <body>
-    <div id="page-container" class="sidebar-dark enable-page-overlay side-scroll page-header-fixed page-header-dark page-header-glass main-content-boxed side-trans-enabled sidebar-o-xs sidebar-o">
+    <div id="page-container p-0" class="sidebar-dark enable-page-overlay side-scroll page-header-fixed page-header-dark page-header-glass main-content-boxed side-trans-enabled sidebar-o-xs sidebar-o">
 
 
-        <main class="main-container">
+        <main class="main-container p-0">
             <div class="bg-image" style="background-image: url('assets/media/photos/photo22@2x.jpg');">
                 <div class="row no-gutters bg-primary-op">
                     <!-- Main Section -->
