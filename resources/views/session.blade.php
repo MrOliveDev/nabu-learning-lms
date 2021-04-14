@@ -276,7 +276,7 @@
             <div class="px-2">
 
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="row py-3 bg-white rounded m-0">
+                    <div class="row py-3 bg-white rounded">
                         <div class="col-md-6">
                             <div class="card bg-white text-black">
                                 <img src="{{ asset('assets/media/17.jpg') }}" alt="" class="card-img-top">
@@ -444,7 +444,4 @@
             </div>
         </div>
     </div>
-    <script>
-    $('#utilisateurs').addClass('active');
-    </script>
 @endsection

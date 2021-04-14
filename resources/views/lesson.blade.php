@@ -2,11 +2,11 @@
 
 @section('con')
 <div id="lesson-blade">
-    <div class="d-flex mb-3 wrap">
-        <div class="px-2 resizable resizable1" style="width:600px;" id="lessons">
+    <div class="d-flex mb-3 wrap" id="content">
+        <div class="px-2 resizable resizable1" style="width:600px" id="RightPanel">
             <div class="clear-fix">
 
-                <div class="clear-fix bg-primary text-white mb-3 toolkit" style="height:50px;">
+                <div class="clear-fix bg-primary text-white mb-3 toolkit" style="height:50px">
                     <strong class="float-left p-2">Mes cours</strong>
                     <div class="float-right p-2">
                         <div class="input-container">
@@ -199,7 +199,7 @@
 
             </div>
 
-            <div class="height-controller"><i class="fa fa-grip-lines"></i></div>
+            <div class="height-controller" id="div_left"><i class="fa fa-grip-lines"></i></div>
 
             <div>
                 <div class="tab-content" id="nav-tabContent">
@@ -272,14 +272,14 @@
 
 
 
-        <div class="p-2 width-controller my-auto"><i class="fas fa-grip-lines-vertical"></i></div>
+        <div class="p-2 width-controller my-auto" id="div_vertical"><i class="fas fa-grip-lines-vertical"></i></div>
 
 
 
-        <div class="flex-grow-1" id="lesson-course">
+        <div class="flex-grow-1" id="">
             <div class="px-2">
 
-                <div class="toolkit clear-fix bg-danger text-white mb-3" style="height:50px;">
+                <div class="toolkit clear-fix bg-danger text-white mb-3" style="height:50px">
                     <strong class="float-left p-2">Mes Parcours de Formation</strong>
                     <div class="float-right p-2">
                         <div class="input-container">
@@ -383,7 +383,7 @@
                     </a>
                 </div>
 
-                <div class="height-controller"><i class="fa fa-grip-lines"></i></div>
+                <div class="height-controller" id="div_right"><i class="fa fa-grip-lines"></i></div>
 
                 <div class="tab-content" id="nav-tabContent">
                     <div class="row">
@@ -462,6 +462,6 @@
     </div>
 </div>
 <script>
-    $('#session').addClass('active');
+    $('#session').addClass('active')
 </script>
 @endsection
