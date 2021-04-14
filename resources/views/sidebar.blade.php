@@ -30,7 +30,7 @@
 
                         <!-- Side Content -->
                         <div class="content-side">
-                            <form class="push" action="http://localhost:8000/db_social.html" method="POST" onsubmit="return false;">
+                            <form class="push" action="db_social.html" method="POST" onsubmit="return false;">
                                 <div class="input-group">
                                     <input class="form-control form-control-alt" placeholder="Search People...">
                                     <div class="input-group-append">
@@ -70,10 +70,10 @@
                         <!-- Side Header -->
                         <div class="content-header">
                             <a class="img-link d-inline-block" href="javascript:void(0)">
-                                <img class="img-avatar img-avatar96" src="http://localhost:8000/assets/media/light.png" alt="">
+                                <img class="img-avatar img-avatar96" src="{{asset('assets/media/light.png')}}" alt="">
                             </a>
                             <div class="sidetitle">
-                                <img class="" src="http://localhost:8000/assets/media/letter.png">
+                                <img class="" src="{{asset('assets/media/letter.png')}}">
                             </div>
                         </div>
                         <!-- END Side Header -->
@@ -131,7 +131,7 @@
                                 <hr>
 
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="http://localhost:8000/#">
+                                    <a class="nav-main-link" href="#">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon fas fa-cubes"></i>
                                         <!-- </div> -->
@@ -140,7 +140,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="http://localhost:8000/#">
+                                    <a class="nav-main-link" href="#">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon fas fa-newspaper"></i>
                                         <!-- </div> -->
@@ -151,7 +151,7 @@
                                 <hr>
 
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="http://localhost:8000/#">
+                                    <a class="nav-main-link" href="#">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon far fa-envelope"></i>
                                         <!-- </div> -->
@@ -159,7 +159,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="http://localhost:8000/#">
+                                    <a class="nav-main-link" href="#">
                                         <!-- <div class="nav-cover"> -->
                                             <i class="nav-main-link-icon fas fa-chart-pie"></i>
                                         <!-- </div> -->

@@ -40,6 +40,11 @@
     <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/xwork.min.css"> -->
     <link rel="stylesheet" id="css-theme" href="{{ asset('assets/css/themes/xmodern.min.css') }}">
     <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/app.css') }}">
+
+    <script src="{{asset('assets/js/dashmix.core.min.js')}}"></script>
+
+    <script src="{{asset('assets/js/dashmix.app.min.js')}}"></script>
+    <script src="{{asset('assets/js/app.js')}}"></script>
     <!-- END Stylesheets -->
 </head>
 
@@ -54,14 +59,7 @@
 
         </main>
     </div>
-    <script src="{{asset('assets/js/dashmix.core.min.js')}}"></script>
-
-    <script src="{{asset('assets/js/dashmix.app.min.js')}}"></script>
-
-    <script src="{{asset('assets/js/plugins/highlightjs/highlight.pack.min.js')}}"></script>
     <script src="{{asset('assets/js/plugins/magnific-popup/jquery.magnific-popup.min.js')}}"></script>
-    <script src="{{asset('assets/js/popper.min.js')}}"></script>
-    <script src="{{asset('assets/js/app.js')}}"></script>
     <script>
         jQuery(function() {
             Dashmix.helpers(['highlightjs', 'magnific-popup']);
@@ -76,8 +74,14 @@
             function(){$("#page-header, #page-container").addClass("page-header-trigger");},
             function(){$("#page-header, #page-container").removeClass("page-header-trigger");}
         )
-
     </script>
+
+
+    <script src="{{asset('assets/js/plugins/highlightjs/highlight.pack.min.js')}}"></script>
+
+    <script src="{{asset('assets/js/popper.min.js')}}"></script>
+
+
 
 </body>
 
