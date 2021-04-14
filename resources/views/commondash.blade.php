@@ -4,7 +4,7 @@
 <div id="commondash">
 
     <div class="dashbord" id="content">
-        <div class="flesible-colum float-left w-50" id="LeftPanel">
+        <div class="flesible-colum" id="LeftPanel">
             <div class="collespe-card">
                 <div class="collespe-header">
                     <div>
@@ -108,12 +108,12 @@
                 </div>
             </div>
         </div>
-        <div class="width-controller float-left" id="div_vertical">
+        <div class="width-controller" id="div_vertical">
             <i class="fas fa-grip-lines-vertical">
 
             </i>
         </div>
-        <div class="dash-colum  float-right w-50" id="RightPanel">
+        <div class="dash-colum" id="RightPanel">
             <table class="dash-table">
                 <tr>
                     <td>

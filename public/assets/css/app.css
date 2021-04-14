@@ -402,11 +402,7 @@ table.session-table th i {
 /* //////////////////dashboard////////////// */
 
 .flesible-colum {
-    width: 50%;
-    /* width: 400px; */
-    padding: 10px;
-    float: left;
-    height: 100%;
+    /* padding: 10px; */
 }
 
 .collespe-header div {
@@ -465,7 +461,7 @@ p.height-controller {
 
 .flesible-colum {
     color: white;
-    flex: 1
+    /* flex: 1 */
 }
 
 .dash-panel-content {
@@ -479,8 +475,6 @@ span.dash-panel {
 .dash-colum {
     padding: 10px;
     /* flex: 3 */
-    height:100%;
-    width:50%;
 }
 
 .dash-description {
@@ -494,8 +488,8 @@ span.dash-panel {
 }
 
 .dashbord {
-    /* display: flex;
-    flex-direction: row; */
+    /* display: flex; */
+    /* flex-direction: row; */
     height: 100%;
 }
 
@@ -609,14 +603,10 @@ span.dash-avatar-title {
 
 .height-controller {
     text-align: center;
-    cursor: row-resize;
 }
 
 .width-controller {
-    cursor: col-resize;
     padding-top: 550px;
-    width: 20px;
-    height: 100%;
 }
 
 span.dash-panel-title {
@@ -640,11 +630,11 @@ span.dash-panel-bottom-title {
     display: none;
 }
 
-#lessons .toolkit {
+#lesson-blade .toolkit {
     min-width: 500px;
 }
 
-#lessons .list-group-item.active {
+#lesson-blade .list-group-item.active {
     background-color: #70c4de;
 }
 
@@ -661,19 +651,19 @@ span.dash-panel-bottom-title {
     margin-bottom: 5px;
 }
 
-#lesson-course .list-group-item {
+#lesson-blade .list-group-item {
     background-color: #b77f8b;
 }
 
-#lesson-course .list-group-item.active {
+#lesson-blade .list-group-item.active {
     background-color: #b56171;
 }
 
-#lessons .list-group-item.active {
+#lesson-blade .list-group-item.active {
     background-color: #6099aa;
 }
 
-#lessons .list-group-item {
+#lesson-blade .list-group-item {
     background-color: #70c4de;
 }
 
@@ -705,7 +695,7 @@ a.dropdown-item.p-1.bg-blue-2.text-white.mb-0 {
     text-align: left;
 }
 
-.dropdown-menu.show.p-0 {
+main .dropdown-menu.show.p-0 {
     background-color: transparent;
 }
 
@@ -714,7 +704,62 @@ i.fa.fa-cog {
     font-size: 20pt;
 }
 
-
 .nav-main-cover-item {
     width: 31px;
+}
+
+/* ?????????????? */
+
+/* ////////////////////////////////////////////////////////// */
+
+body {
+    /* background: none repeat scroll 0 0 #EFEFEF; */
+    /* overflow: hidden; */
+    position: relative;
+    margin: 0px;
+    padding: 10px;
+}
+div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0;
+}
+fieldset {
+    border: 0 none;
+}
+
+#LeftPanel {
+    width: 50%;
+    float: left;
+}
+
+#RightPanel {
+    width: 50%;
+    float: left;
+}
+
+.handler_vertical {
+    cursor: col-resize;
+    width: 8px;
+    float: left;
+}
+
+.handler_horizontal {
+    cursor: row-resize;
+    height: 8px;
+    width: 100%;
+    float: left;
+}
+
+.window {
+    border: 1px solid #ADADAD;
+    width: 100%;
+    float: left;
+}
+
+.top {
+    height: 25%;
+}
+
+.bottom {
+    height: 75%;
 }
