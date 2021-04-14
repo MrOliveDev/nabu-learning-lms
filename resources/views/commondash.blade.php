@@ -301,6 +301,8 @@
         </div>
 
     </div>
-
+<script>
+    $('#tableau').addClass('active');
+</script>
 </div>
 @endsection
