@@ -207,6 +207,10 @@ main#main-container {
     justify-content: flex-start;
 }
 
+#sidebar:not(:hover) .nav-main-cover-item {
+    margin-left: 26px;
+}
+
 .nav-main-item span.nav-main-link-name {
     font-size: 16pt;
     line-height: initial;
