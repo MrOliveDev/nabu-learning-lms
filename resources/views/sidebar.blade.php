@@ -90,7 +90,9 @@
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{route('common.dash')}}" id="tableau">
                                         <!-- <div class="nav-cover"> -->
+                                        <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-tachometer-alt"></i>
+                                            </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">Tableau de bord</span>
                                     </a>
@@ -98,7 +100,9 @@
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{route('lesson')}}" id="session">
                                         <!-- <div class="nav-cover"> -->
+                                        <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-cogs"></i>
+                                            </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">Session</span>
                                     </a>
@@ -106,7 +110,9 @@
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{route('session')}}" id="utilisateurs">
                                         <!-- <div class="nav-cover"> -->
+                                        <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-user"></i>
+                                            </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">Utilisateurs</span>
                                     </a>
@@ -114,7 +120,9 @@
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{route('admin.dash')}}" id="groupes">
                                         <!-- <div class="nav-cover"> -->
+                                        <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-users"></i>
+                                            </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">Groupes</span>
                                     </a>
@@ -122,7 +130,9 @@
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{route('common.dash')}}" id="societes">
                                         <!-- <div class="nav-cover"> -->
+                                        <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-th"></i>
+                                            </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">Sociétés</span>
                                     </a>
@@ -133,7 +143,9 @@
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="#" id="parcours">
                                         <!-- <div class="nav-cover"> -->
+                                        <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-cubes"></i>
+                                            </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">Parcours de
                                             Formation</span>
@@ -142,7 +154,9 @@
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="#" id="templates">
                                         <!-- <div class="nav-cover"> -->
+                                        <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-newspaper"></i>
+                                            </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">Templates</span>
                                     </a>
@@ -153,7 +167,9 @@
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="#" id="outil">
                                         <!-- <div class="nav-cover"> -->
+                                        <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon far fa-envelope"></i>
+                                            </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">Outil mail</span>
                                     </a>
@@ -161,7 +177,9 @@
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="#" id="rapports">
                                         <!-- <div class="nav-cover"> -->
+                                        <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-chart-pie"></i>
+                                            </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">Rapports et
                                             Certificats</span>
