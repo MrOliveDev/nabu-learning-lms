@@ -20,8 +20,9 @@ Route::group(['middleware' => ['auth' ,'checksinglesession'], 'prefix' => ''], f
     Route::get('session', '\App\Http\Controllers\SessionController@index')->name('session');
     Route::get('lesson', '\App\Http\Controllers\LessonController@index')->name('lesson');
     Route::get('admin/dash', '\App\Http\Controllers\admin\DashController@index')->name('admin.dash');
-    Route::get('dash', '\App\Http\Controllers\common\DashController@index')->name('common.dash');
+    Route::get('dash', '\App\Http\Controllers\common\DashController@index')->name('dash');
     Route::get('temp', '\App\Http\Controllers\TempController@index')->name('temp');
+    Route::get('student', '\App\Http\Controllers\StudentController@index')->name('student');
 });
 
 // Route::get('/', function () {

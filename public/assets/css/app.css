@@ -18,6 +18,10 @@ body {
     background-color: #6099aa !important;
 }
 
+.bg-blue-4 {
+    background-color: #2e3092 !important;
+}
+
 .bg-green-0 {
     background-color: #46706f !important;
 }
@@ -58,12 +62,26 @@ body {
     background-color: #ebcba5 !important;
 }
 
+.bg-green-1 {
+    background-color: #5cd65c !important;
+}
+
+.bg-green-2 {
+    background-color: #24a724 !important;
+}
+
 .bg-yellow-0 {
     background-color: #fa921f !important;
 }
 
 .bg-yellow-1 {
     background-color: #fbb140 !important;
+}
+.bg-yellow-2 {
+    background-color: #ffc61a  !important;
+}
+.bg-yellow-3 {
+    background-color: #e6ac00 !important;
 }
 
 .text-blue-0 {
@@ -409,15 +427,11 @@ table.session-table th i {
     float: left;
 }
 
-.width-controller {
-    padding-top: 360px;
-    padding-right: 5px;
-    padding-left: 5px;
-    float: left;
-}
-
-.width-controller i.fa {
-    transition: inherit;
+.width-controller i{
+    bottom: 50%;
+    position: absolute;
+    transform: translate(-5px, 0px);
+    font-size: 18pt;
 }
 
 .dash-table td div {
@@ -548,12 +562,10 @@ div.collespe-description {
 }
 
 .collespe-card {
-    height: 410px;
+
 }
 
 .collespe-header {
-    height: 70px;
-    background: #2e3092;
     padding: 10px;
     border-radius: 10px 10px 0px 0px;
 }
@@ -594,20 +606,11 @@ span.dash-avatar-title {
     padding: 20px;
 }
 
-.height-controller,
-.width-controller {
-    padding: 10px;
-    color: white;
-    font-size: 25px;
-}
 
 .height-controller {
     text-align: center;
 }
 
-.width-controller {
-    padding-top: 550px;
-}
 
 span.dash-panel-title {
     font-size: 30px;
@@ -686,7 +689,7 @@ span.dash-panel-bottom-title {
     min-width: 100% !important;
 }
 
-a.dropdown-item.p-1.bg-blue-2.text-white.mb-0 {
+a.dropdown-item.p-1.mb-0 {
     border-radius: 0;
     margin-top: 2px;
 }
@@ -751,15 +754,44 @@ fieldset {
 }
 
 .window {
-    border: 1px solid #ADADAD;
+    overflow-y: scroll;
     width: 100%;
     float: left;
 }
 
-.top {
-    height: 25%;
+.window::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
 }
 
-.bottom {
-    height: 75%;
+.bg-blue-1.active {
+    background-color: #6099aa !important;
+}
+
+.bg-red-1.active {
+    background-color: #b46270 !important;
+}
+
+.bg-red-2.active {
+    background-color: #bd1f2d !important;
+}
+
+.bg-yellow-2.active{
+    background-color: #c29100 !important;
+}
+
+.bg-green-1.active{
+    background-color: #24a724 !important;
+}
+
+a.bg-red-1 button{
+    color: #bd1f2d !important;
+}
+
+a.bg-yellow-2 button{
+    color: #503c00 !important;
+}
+
+a.bg-green-1 button{
+    color: #044704 !important;
 }
