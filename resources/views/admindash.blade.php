@@ -413,7 +413,7 @@
 
     </table>
 <script>
-    $('#groupes').addClass('active');
+    $('#tableau').addClass('active');
 </script>
 </div>
 @endsection

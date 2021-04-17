@@ -441,4 +441,7 @@
         </div>
     </fieldset>
 </div>
+<script>
+    $('#sessions').addClass('active')
+</script>
 @endsection

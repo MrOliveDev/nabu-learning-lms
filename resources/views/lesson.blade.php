@@ -459,6 +459,6 @@
     </div>
 </div>
 <script>
-    $('#session').addClass('active')
+    $('#parcours').addClass('active')
 </script>
 @endsection

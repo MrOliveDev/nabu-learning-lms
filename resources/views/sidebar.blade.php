@@ -98,7 +98,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('lesson')}}" id="session">
+                                    <a class="nav-main-link" href="{{route('session')}}" id="sessions">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-cogs"></i>
@@ -108,7 +108,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('session')}}" id="utilisateurs">
+                                    <a class="nav-main-link" href="{{route('student')}}" id="utilisateurs">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-user"></i>
@@ -141,7 +141,7 @@
                                 <hr>
 
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('session')}}" id="parcours">
+                                    <a class="nav-main-link" href="{{route('lesson')}}" id="parcours">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-cubes"></i>
