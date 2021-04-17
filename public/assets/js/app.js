@@ -8,11 +8,10 @@ $(document).ready(function(){
       $(".act span").text(x);
       $(".prev span").text(y);
     });
-  });
-  $(function () {
     window.onresize = resize;
     resize();
 });
+
 
 
 function resize() {
