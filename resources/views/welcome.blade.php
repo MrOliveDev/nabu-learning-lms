@@ -73,20 +73,24 @@
         $("#sidebar").hover(
             function() {
                 $("#page-header, #page-container").addClass("page-header-trigger");
-                $("#RightPanel").css({"width": $("#RightPanel").width()-150+"px"});
-                console.log($("#content").width());
+                $("#RightPanel").css({
+                    "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() + "px"
+                    // "width": $("#RightPanel").width() - 150 + "px"
+                });
+                console.log($("#content").width() + ":" + ($("#RightPanel").width() + $("#LeftPanel").width()));
             },
             function() {
                 $("#page-header, #page-container").removeClass("page-header-trigger");
-                $("#RightPanel").css({"width": $("#RightPanel").width()+150+"px"});
-                console.log($("#content").width());
+                if ($('#content').width()>($('#RightPanel').width()+$('#LeftPanel').width())) {
+                    $("#RightPanel").css({
+                        "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() + "px"
+                    });
+                }
+                console.log($("#content").width() + ":" + ($("#RightPanel").width() + $("#LeftPanel").width()));
 
             }
         )
-
-
-
-        $(function() {
+        $(document).ready(function() {
             window.onresize = resize;
             resize();
         });
@@ -110,6 +114,7 @@
         }
 
         jQuery.resizable = function(resizerID, vOrH) {
+            console.log("sjdflsjlf");
             jQuery('#' + resizerID).bind("mousedown", function(e) {
                 var start = e.pageY;
                 if (vOrH == 'v') start = e.pageX;
