@@ -88,7 +88,7 @@
                         <div class="content-side content-side-full">
                             <ul class="nav-main">
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('common.dash')}}" id="tableau">
+                                    <a class="nav-main-link" href="{{route('admin.dash')}}" id="tableau">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-tachometer-alt"></i>
@@ -118,7 +118,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('admin.dash')}}" id="groupes">
+                                    <a class="nav-main-link" href="{{route('dash')}}" id="groupes">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-users"></i>
@@ -128,7 +128,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('common.dash')}}" id="societes">
+                                    <a class="nav-main-link" href="{{route('lesson')}}" id="societes">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-th"></i>
@@ -141,7 +141,7 @@
                                 <hr>
 
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="#" id="parcours">
+                                    <a class="nav-main-link" href="{{route('session')}}" id="parcours">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-cubes"></i>
