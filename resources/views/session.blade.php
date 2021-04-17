@@ -336,7 +336,7 @@
 
                     <div class="height-controller"><i class="fa fa-grip-lines"></i></div>
 
-                    <div class="toolkit clear-fix bg-danger text-white mb-3" style="height:50px;">
+                    <div class="toolkit clear-fix bg-red-0 text-white mb-3" style="height:50px;">
                         <strong class="float-left p-2">Mes Parcours de Formation</strong>
                         <div class="float-right p-2">
                             <div class="input-container">

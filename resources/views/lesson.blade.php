@@ -279,7 +279,7 @@
         <div class="flex-grow-1" id="">
             <div class="px-2">
 
-                <div class="toolkit clear-fix bg-danger text-white mb-3" style="height:50px">
+                <div class="toolkit clear-fix bg-red-0 text-white mb-3" style="height:50px">
                     <strong class="float-left p-2">Mes Parcours de Formation</strong>
                     <div class="float-right p-2">
                         <div class="input-container">
@@ -294,7 +294,7 @@
                 </div>
 
                 <div class="list-group" id="list-tab" role="tablist">
-                    <a class="list-group-item list-group-item-action active p-1 border-0" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                    <a class="list-group-item list-group-item-action active p-1 border-0 bg-red-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
                             Module1
@@ -323,7 +323,7 @@
                             </button>
                         </div>
                     </a>
-                    <a class="list-group-item list-group-item-action p-1 border-0" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
+                    <a class="list-group-item list-group-item-action p-1 border-0  bg-red-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
                             Module1
@@ -352,7 +352,7 @@
                             </button>
                         </div>
                     </a>
-                    <a class="list-group-item list-group-item-action p-1 border-0" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
+                    <a class="list-group-item list-group-item-action p-1 border-0  bg-red-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
                             Module1
@@ -433,9 +433,8 @@
                                 </a>
 
                                 <div class="dropdown-menu show p-0" aria-labelledby="dropdownMenuLink3">
-                                    <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Action</a>
-                                    <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Another</a>
-                                    <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Something</a>
+                                    <a class="dropdown-item p-1 bg-blue-2 text-green-0 mb-0" href="#">Action</a>
+                                    <a class="dropdown-item p-1 bg-blue-2 text-red-0 mb-0" href="#">Another</a>
                                 </div>
                             </div>
                         </div>
@@ -446,15 +445,13 @@
                                 </a>
 
                                 <div class="dropdown-menu show p-0" aria-labelledby="dropdownMenuLink4">
-                                    <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Action</a>
-                                    <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Another</a>
-                                    <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Something</a>
+                                    <a class="dropdown-item p-1 bg-red-1 text-white mb-0" href="#">Action</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">Messages</div>
-                    <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">Settings</div>
+                    <div class="tab-pane fade " id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">Messages</div>
+                    <div class="tab-pane fade " id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">Settings</div>
                 </div>
 
             </div>
