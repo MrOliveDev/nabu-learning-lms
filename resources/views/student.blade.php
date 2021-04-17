@@ -18,7 +18,7 @@
 
             <div class="clear-fix mx-4">
 
-                <div class="clear-fix bg-primary text-white mb-3 toolkit" style="height:50px">
+                <div class="clear-fix bg-warning text-white mb-3 toolkit" style="height:50px">
                     <strong class="float-left p-2">Mes cours</strong>
                     <div class="float-right p-2">
                         <div class="input-container">
@@ -33,10 +33,10 @@
                 </div>
 
                 <div class="list-group" id="list-tab" role="tablist">
-                    <a class="list-group-item list-group-item-action active  p-1 border-0 bg-blue-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                    <a class="list-group-item list-group-item-action active  p-1 border-0 bg-yellow-2" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
-                            Module1
+                            John Madeo
                         </div>
                         <div class="btn-group float-right">
                             <button class="btn text-primary px-2">
@@ -62,10 +62,10 @@
                             </button>
                         </div>
                     </a>
-                    <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
+                    <a class="list-group-item list-group-item-action  p-1 border-0 bg-yellow-2" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
-                            Module1
+                            John Hode
                         </div>
                         <div class="btn-group float-right">
                             <button class="btn text-primary px-2">
@@ -91,10 +91,10 @@
                             </button>
                         </div>
                     </a>
-                    <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
+                    <a class="list-group-item list-group-item-action  p-1 border-0 bg-yellow-2" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
-                            Module1
+                            Rinda Nora
                         </div>
                         <div class="btn-group float-right">
                             <button class="btn text-primary px-2">
@@ -120,93 +120,7 @@
                             </button>
                         </div>
                     </a>
-                    <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
-                        <div class="float-left">
-                            <i class="fa fa-circle text-danger m-2"></i>
-                            Module1
-                        </div>
-                        <div class="btn-group float-right">
-                            <button class="btn text-primary px-2">
-                                <span class="font-weight-bolder">EN</span>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-eye"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-trash-alt"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-play"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-cube"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-sync-alt"></i>
-                            </button>
-                        </div>
-                    </a>
-                    <a class="list-group-item list-group-item-action p-1 border-0 bg-blue-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
-                        <div class="float-left">
-                            <i class="fa fa-circle text-danger m-2"></i>
-                            Module1
-                        </div>
-                        <div class="btn-group float-right">
-                            <button class="btn text-primary px-2">
-                                <span class="font-weight-bolder">EN</span>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-eye"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-trash-alt"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-play"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-cube"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-sync-alt"></i>
-                            </button>
-                        </div>
-                    </a>
-                    <a class="list-group-item list-group-item-action p-1 border-0 bg-blue-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
-                        <div class="float-left">
-                            <i class="fa fa-circle text-danger m-2"></i>
-                            Module1
-                        </div>
-                        <div class="btn-group float-right">
-                            <button class="btn text-primary px-2">
-                                <span class="font-weight-bolder">EN</span>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-eye"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-trash-alt"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-play"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-cube"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-sync-alt"></i>
-                            </button>
-                        </div>
-                    </a>
+
                 </div>
 
             </div>
@@ -220,7 +134,7 @@
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active container m-0 p-2" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
                         <div class="row">
-                            <div class="card col-md-5 bg-white text-black p-3 mx-2">
+                            <div class="card col-md-5 bg-white text-black p-3 mx-2 text-left">
                                 <strong>
                                     Objectifs :
                                     <i class="fa fa-cog float-right p-2"></i>
@@ -301,7 +215,7 @@
                 </li>
             </ul>
 
-            <div class="toolkit clear-fix bg-red-0 text-white mb-3 mx-4" style="height:50px">
+            <div class="toolkit clear-fix bg-success text-white mb-3 mx-4" style="height:50px">
                 <strong class="float-left p-2">Mes Parcours de Formation</strong>
                 <div class="float-right p-2">
                     <div class="input-container">
@@ -316,10 +230,10 @@
             </div>
 
             <div class="list-group mx-4" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action active p-1 border-0 bg-red-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                <a class="list-group-item list-group-item-action active p-1 border-0 bg-green-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                     <div class="float-left">
                         <i class="fa fa-circle text-danger m-2"></i>
-                        Module1
+                        Delta co.
                     </div>
                     <div class="btn-group float-right">
                         <button class="btn text-primary px-2">
@@ -345,10 +259,10 @@
                         </button>
                     </div>
                 </a>
-                <a class="list-group-item list-group-item-action p-1 border-0  bg-red-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
+                <a class="list-group-item list-group-item-action p-1 border-0  bg-green-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
                     <div class="float-left">
                         <i class="fa fa-circle text-danger m-2"></i>
-                        Module1
+                        Moscow university
                     </div>
                     <div class="btn-group float-right">
                         <button class="btn text-primary px-2">
@@ -374,10 +288,10 @@
                         </button>
                     </div>
                 </a>
-                <a class="list-group-item list-group-item-action p-1 border-0  bg-red-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
+                <a class="list-group-item list-group-item-action p-1 border-0  bg-green-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
                     <div class="float-left">
                         <i class="fa fa-circle text-danger m-2"></i>
-                        Module1
+                        Tronto stuff company
                     </div>
                     <div class="btn-group float-right">
                         <button class="btn text-primary px-2">

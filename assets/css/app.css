@@ -62,12 +62,26 @@ body {
     background-color: #ebcba5 !important;
 }
 
+.bg-green-1 {
+    background-color: #5cd65c !important;
+}
+
+.bg-green-2 {
+    background-color: #24a724 !important;
+}
+
 .bg-yellow-0 {
     background-color: #fa921f !important;
 }
 
 .bg-yellow-1 {
     background-color: #fbb140 !important;
+}
+.bg-yellow-2 {
+    background-color: #ffc61a  !important;
+}
+.bg-yellow-3 {
+    background-color: #e6ac00 !important;
 }
 
 .text-blue-0 {
@@ -762,6 +776,22 @@ fieldset {
     background-color: #bd1f2d !important;
 }
 
+.bg-yellow-2.active{
+    background-color: #c29100 !important;
+}
+
+.bg-green-1.active{
+    background-color: #24a724 !important;
+}
+
 a.bg-red-1 button{
     color: #bd1f2d !important;
+}
+
+a.bg-yellow-2 button{
+    color: #503c00 !important;
+}
+
+a.bg-green-1 button{
+    color: #044704 !important;
 }
