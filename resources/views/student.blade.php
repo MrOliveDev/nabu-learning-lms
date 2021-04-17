@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="list-group" id="list-tab" role="tablist">
-                    <a class="list-group-item list-group-item-action active  p-1 border-0" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                    <a class="list-group-item list-group-item-action active  p-1 border-0 bg-blue-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
                             Module1
@@ -62,7 +62,7 @@
                             </button>
                         </div>
                     </a>
-                    <a class="list-group-item list-group-item-action  p-1 border-0" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
+                    <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
                             Module1
@@ -91,7 +91,7 @@
                             </button>
                         </div>
                     </a>
-                    <a class="list-group-item list-group-item-action  p-1 border-0" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
+                    <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
                             Module1
@@ -120,7 +120,7 @@
                             </button>
                         </div>
                     </a>
-                    <a class="list-group-item list-group-item-action  p-1 border-0" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                    <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
                             Module1
@@ -149,7 +149,7 @@
                             </button>
                         </div>
                     </a>
-                    <a class="list-group-item list-group-item-action p-1 border-0" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
+                    <a class="list-group-item list-group-item-action p-1 border-0 bg-blue-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
                             Module1
@@ -178,7 +178,7 @@
                             </button>
                         </div>
                     </a>
-                    <a class="list-group-item list-group-item-action p-1 border-0" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
+                    <a class="list-group-item list-group-item-action p-1 border-0 bg-blue-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
                             Module1
