@@ -23,6 +23,7 @@ Route::group(['middleware' => ['auth' ,'checksinglesession'], 'prefix' => ''], f
     Route::get('dash', '\App\Http\Controllers\common\DashController@index')->name('dash');
     Route::get('temp', '\App\Http\Controllers\TempController@index')->name('temp');
     Route::get('student', '\App\Http\Controllers\StudentController@index')->name('student');
+    // Route::get('template', '\App\Http\Controllers\TemplateController@index')->name('template');
 });
 
 // Route::get('/', function () {

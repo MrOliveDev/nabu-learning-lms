@@ -6,13 +6,13 @@
         <div id="div_A" class="window top">
             <ul class="nav nav-tabs border-0 mb-2 mx-4">
                 <li class="nav-item">
-                    <a class="nav-link active m-1 bg-red-2 rounded-1 border-0" href="#home">STUDENTS</a>
+                    <a class="nav-link active m-1 bg-yellow-2 rounded-1 border-0" href="#home">STUDENTS</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link m-1 bg-red-2 rounded-1 border-0" href="#menu1"> TEACHERS</a>
+                    <a class="nav-link m-1 bg-yellow-2 rounded-1 border-0" href="#menu1"> TEACHERS</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link m-1 bg-red-2 rounded-1 border-0" href="#menu1">AUTHORS</a>
+                    <a class="nav-link m-1 bg-yellow-2 rounded-1 border-0" href="#menu1">AUTHORS</a>
                 </li>
             </ul>
 
@@ -208,10 +208,10 @@
 
             <ul class="nav nav-tabs border-0 mb-2 mx-4">
                 <li class="nav-item">
-                    <a class="nav-link active m-1 bg-red-2 rounded-1 border-0" href="#home">GROUPS</a>
+                    <a class="nav-link active m-1 bg-green-2 rounded-1 border-0" href="#home">GROUPS</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link m-1 bg-red-2 rounded-1 border-0" href="#menu1">COMPANIES</a>
+                    <a class="nav-link m-1 bg-green-2 rounded-1 border-0" href="#menu1">COMPANIES</a>
                 </li>
             </ul>
 

@@ -1,0 +1,57 @@
+<item lang="fr" ref="TZ6CV2KZ3">
+  <resources>
+    <img id="0" src="question1.jpg"/>
+    <img id="1" src="question18_23.jpg"/>
+    <img id="2" src="lc080102i2.jpg"/>
+    <sound id="3" src="lc080102s4.mp3"/>
+    <sound id="4" src="lc080102s1.mp3"/>
+  </resources>
+  <actions>
+    <action id="0" type="sound">
+      <src>3</src>
+      <play>true</play>
+    </action>
+    <action id="1" type="text">
+      <target>5</target>
+      <action>replace</action>
+      <text>BRAVO, vous avez tout compris</text>
+    </action>
+    <action id="2" type="text">
+      <target>5</target>
+      <action>replace</action>
+      <text>Ce n'est pas correct.</text>
+    </action>
+    <action id="3" type="sound">
+      <src>4</src>
+      <play>true</play>
+    </action>
+  </actions>
+  <content>
+    <zone1 id="0" width="5000" height="5000">
+      <qa id="1" attempts="1" onstart="0" onquestionclick="0" x="1250" y="1250" width="2500" height="2500">
+        <question>ASSOCIEZ LES IMAGES AUX BONS TERMES</question>
+        <answers>
+          <answer id="2" order="0">
+            <source resource="0">MEDICAMENT</source>
+            <target>MEDICAMENT</target>
+          </answer>
+          <answer id="3" order="1">
+            <source resource="1"/>
+            <target resource="1">FEMME</target>
+          </answer>
+          <answer id="4" order="2">
+            <source resource="2"/>
+            <target>MONTAGE</target>
+          </answer>
+        </answers>
+        <valid>
+          <right>1</right>
+          <wrong score="0">2,3</wrong>
+        </valid>
+      </qa>
+    </zone1>
+    <zone2 id="6" width="5000" height="5000">
+      <feedback id="5" x="1250" y="1250" width="2500" height="2500"/>
+    </zone2>
+  </content>
+</item>

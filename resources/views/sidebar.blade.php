@@ -117,16 +117,14 @@
                                         <span class="nav-main-link-name">Utilisateurs</span>
                                     </a>
                                 </li>
-                                <li class="nav-main-item">
+                                <!-- <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{route('dash')}}" id="groupes">
-                                        <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-users"></i>
                                             </div>
-                                        <!-- </div> -->
                                         <span class="nav-main-link-name">Groupes</span>
                                     </a>
-                                </li>
+                                </li> -->
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{route('lesson')}}" id="societes">
                                         <!-- <div class="nav-cover"> -->
@@ -152,7 +150,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="#" id="templates">
+                                    <a class="nav-main-link" href="{{ resource_path('views/template_editor/#/template-generator/dae8efee8afc1994204d76ee963bcfb1')}}" id="templates">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-newspaper"></i>
