@@ -36,7 +36,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = "admin/dash";
 
     /**
      * Create a new controller instance.
@@ -100,6 +100,7 @@ class LoginController extends Controller
             $user->last_session = session()->getID();
 
             $user->save();
+            // var_dump(auth()->user()->type===1);die;
             return $this->sendLoginResponse($request);
             //return redirect()->route('home');
         } else {

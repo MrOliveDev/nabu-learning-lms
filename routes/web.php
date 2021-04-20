@@ -12,10 +12,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('', '\App\Http\Controllers\HomeController@index');
+
 Auth::routes();
 
 Route::group(['middleware' => ['auth' ,'checksinglesession'], 'prefix' => ''], function () {
-    Route::get('/', '\App\Http\Controllers\HomeController@index');
+    Route::get('/', '\App\Http\Controllers\admin\DashController@index');
     Route::get('home', '\App\Http\Controllers\HomeController@index')->name('home');
     Route::get('session', '\App\Http\Controllers\SessionController@index')->name('session');
     Route::get('lesson', '\App\Http\Controllers\LessonController@index')->name('lesson');
@@ -23,7 +25,7 @@ Route::group(['middleware' => ['auth' ,'checksinglesession'], 'prefix' => ''], f
     Route::get('dash', '\App\Http\Controllers\common\DashController@index')->name('dash');
     Route::get('temp', '\App\Http\Controllers\TempController@index')->name('temp');
     Route::get('student', '\App\Http\Controllers\StudentController@index')->name('student');
-    // Route::get('template', '\App\Http\Controllers\TemplateController@index')->name('template');
+    Route::get('template', '\App\Http\Controllers\TemplateController@index')->name('template');
 });
 
 // Route::get('/', function () {
@@ -31,6 +33,5 @@ Route::group(['middleware' => ['auth' ,'checksinglesession'], 'prefix' => ''], f
 // })->middleware('auth');
 
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

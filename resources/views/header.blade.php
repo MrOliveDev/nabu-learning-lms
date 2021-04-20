@@ -1,13 +1,12 @@
 <header id="page-header">
     <div class="content-header">
+        @if(auth()->user()->type===0)
         <div>
-            <button type="button" class="btn btn-rounded btn-dual mr-1" data-toggle="layout"
-                data-action="sidebar_toggle">
+            <button type="button" class="btn btn-rounded btn-dual mr-1" data-toggle="layout" data-action="sidebar_toggle">
                 <!-- <i class="fa fa-fw fa-bars"></i> -->
                 <i class="fa fa-fw fa-bars"></i>
             </button>
-            <button type="button" class="btn btn-rounded btn-dual" data-toggle="layout"
-                data-action="side_overlay_toggle" style="margin-right: 10px;">
+            <button type="button" class="btn btn-rounded btn-dual" data-toggle="layout" data-action="side_overlay_toggle" style="margin-right: 10px;">
                 <i class="fas fa-cogs"></i>
             </button>
         </div>
@@ -50,17 +49,15 @@
                         </a>
                     </div>
                 </div>
-            </div>            
-            
+            </div>
+
             <!-- Notification Drop Down -->
             <div class="dropdown d-inline-block">
-                <button type="button" class="btn btn-dual btn-rounded" id="page-header-notifications-dropdown"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+                <button type="button" class="btn btn-dual btn-rounded" id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
                     <i class="fa fa-fw fa-bell"></i>
                     <span class="badge badge-secondary badge-pill">6</span>
                 </button>
-                <div class="dropdown-menu dropdown-menu-lg p-0" aria-labelledby="page-header-notifications-dropdown"
-                    style="">
+                <div class="dropdown-menu dropdown-menu-lg p-0" aria-labelledby="page-header-notifications-dropdown" style="">
                     <div class="bg-primary-darker rounded-top font-w600 text-white text-center p-3">
                         Notifications
                     </div>
@@ -147,11 +144,9 @@
             <div class="content-header">
                 <form class="w-100" action="http://localhost:8000/be_pages_generic_search.html" method="POST">
                     <div class="input-group">
-                        <input type="text" class="form-control border-0" placeholder="Search your network.."
-                            id="page-header-search-input" name="page-header-search-input">
+                        <input type="text" class="form-control border-0" placeholder="Search your network.." id="page-header-search-input" name="page-header-search-input">
                         <div class="input-group-append">
-                            <button type="button" class="btn btn-primary" data-toggle="layout"
-                                data-action="header_search_off">
+                            <button type="button" class="btn btn-primary" data-toggle="layout" data-action="header_search_off">
                                 <i class="fa fa-fw fa-times-circle"></i>
                             </button>
                         </div>
@@ -167,6 +162,6 @@
                 </div>
             </div>
         </div>
-
+        @endif
     </div>
 </header>
