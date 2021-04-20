@@ -36,7 +36,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = "admin/dash";
+    protected $redirectTo = "dash";
 
     /**
      * Create a new controller instance.
@@ -127,7 +127,12 @@ class LoginController extends Controller
     {
 
         $this->clearLoginAttempts($request);
-
+        if (auth()->user()->type === 0) {
+            $this->redirectTo = 'admin/dash';
+        }
+        else{
+            $this->redirectTo = 'dash';
+        }
         return $this->authenticated($request, $this->guard()->user())
             ?: redirect()->intended($this->redirectPath());
     }
