@@ -1,0 +1,11 @@
+{
+    "ETAT" : "TEST",
+    "DEBUG" : false,
+    "API_TEST" : "http://ov-c70599.infomaniak.ch/_mixte/html/html5_player_api/",
+    "API_DEV" : "http://ov-c70599.infomaniak.ch/_mixte/html/html5_player_api/",
+    "API_PROD" : "http://ov-c70599.infomaniak.ch/_mixte/html/html5_player_api/",
+    "URL" : "http://ov-c70599.infomaniak.ch/",
+    "API_FABRIQUE" : "http://ov-c70599.infomaniak.ch/fabrique/api/",
+    "API_CONVERTER" : "http://ov-c70599.infomaniak.ch/_mixte/html/ffmpeg/convert.php",
+    "DATA_FABRIQUE" : "/home/sites/default/www/fabrique/api/datas/products/"
+}

@@ -1,0 +1,19 @@
+{
+    "ETAT" : "TEST",
+    "DEBUG" : false,
+    "API_TEST" : "http://ov-c70599.infomaniak.ch/_mixte/html/html5_player_api/",
+    "API_DEV" : "http://ov-c70599.infomaniak.ch/_mixte/html/html5_player_api/",
+    "API_PROD" : "http://ov-c70599.infomaniak.ch/_mixte/html/html5_player_api/",
+    "URL" : "http://ov-c70599.infomaniak.ch/_mixte/html/player/",
+    "APP_URL" : "http://ov-c70599.infomaniak.ch/_mixte/html/fabrique/",
+    "API_FABRIQUE" : "http://ov-c70599.infomaniak.ch/fabrique/api/",
+    "PRODUCT_FABRIQUE_API" : "http://ov-c70599.infomaniak.ch/fabrique/api/datas/products",
+    "PRODUCT_FABRIQUE" : "http://ov-c70599.infomaniak.ch/export_fabrique/products",
+    "API_CONVERTER" : "http://ov-c70599.infomaniak.ch/_mixte/html/ffmpeg/convert.php",
+    "DATA_FABRIQUE" : "/home/sites/default/www/fabrique/api/datas/products/",
+    "FAKE_IMAGE" : "http://ov-c70599.infomaniak.ch/_mixte/html/fabrique/assets/fake.jpg",
+    "VIDEO_HOLDER" : "http://ov-c70599.infomaniak.ch/_mixte/html/fabrique/assets/videoholder.png",
+    "STAMP_ICON" : "http://ov-c70599.infomaniak.ch/_mixte/html/fabrique/assets/stamp.png",
+    "APPVERSION" : "2.01.03.040921",
+    "APPLOADINGIMG" : "http://ov-c70599.infomaniak.ch/_mixte/html/fabrique/assets/loading.png"
+}
