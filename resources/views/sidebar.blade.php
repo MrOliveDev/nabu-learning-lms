@@ -94,7 +94,7 @@
                                             <i class="nav-main-link-icon fas fa-tachometer-alt"></i>
                                             </div>
                                         <!-- </div> -->
-                                        <span class="nav-main-link-name">Tableau de bord</span>
+                                        <span class="nav-main-link-name">Dashboard</span>
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
@@ -114,7 +114,7 @@
                                             <i class="nav-main-link-icon fas fa-user"></i>
                                             </div>
                                         <!-- </div> -->
-                                        <span class="nav-main-link-name">Utilisateurs</span>
+                                        <span class="nav-main-link-name">Users</span>
                                     </a>
                                 </li>
                                 <!-- <li class="nav-main-item">
@@ -125,17 +125,15 @@
                                         <span class="nav-main-link-name">Groupes</span>
                                     </a>
                                 </li> -->
-                                <li class="nav-main-item">
+ <!--                                <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{route('lesson')}}" id="societes">
-                                        <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-th"></i>
                                             </div>
-                                        <!-- </div> -->
-                                        <span class="nav-main-link-name">Sociétés</span>
+                                        <span class="nav-main-link-name">Companies</span>
                                     </a>
                                 </li>
-
+ -->
                                 <hr>
 
                                 <li class="nav-main-item">
@@ -145,12 +143,11 @@
                                             <i class="nav-main-link-icon fas fa-cubes"></i>
                                             </div>
                                         <!-- </div> -->
-                                        <span class="nav-main-link-name">Parcours de
-                                            Formation</span>
+                                        <span class="nav-main-link-name">Training Courses</span>
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{ resource_path('views/template_editor/#/template-generator/dae8efee8afc1994204d76ee963bcfb1')}}" id="templates">
+                                    <a class="nav-main-link" href="{{ route('template')}}" id="templates">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-newspaper"></i>
@@ -169,7 +166,7 @@
                                             <i class="nav-main-link-icon far fa-envelope"></i>
                                             </div>
                                         <!-- </div> -->
-                                        <span class="nav-main-link-name">Outil mail</span>
+                                        <span class="nav-main-link-name">Mail</span>
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
@@ -179,8 +176,7 @@
                                             <i class="nav-main-link-icon fas fa-chart-pie"></i>
                                             </div>
                                         <!-- </div> -->
-                                        <span class="nav-main-link-name">Rapports et
-                                            Certificats</span>
+                                        <span class="nav-main-link-name">Report and Certificates</span>
                                     </a>
                                 </li>
                             </ul>
