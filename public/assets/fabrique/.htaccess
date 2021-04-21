@@ -1,0 +1,5 @@
+RewriteEngine on
+
+RewriteBase /fabrique/
+
+RewriteCond %{REQUEST_FILENAME} !-f

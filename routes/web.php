@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth' ,'checksinglesession'], 'prefix' => ''], f
     Route::get('temp', '\App\Http\Controllers\TempController@index')->name('temp');
     Route::get('student', '\App\Http\Controllers\StudentController@index')->name('student');
     Route::get('template', '\App\Http\Controllers\TemplateController@index')->name('template');
+    Route::get('temp', '\App\Http\Controllers\TempController@index')->name('temp');
 });
 
 // Route::get('/', function () {

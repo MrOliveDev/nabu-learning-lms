@@ -1,0 +1,933 @@
+{
+    "state": "success",
+    "productId": "TEMPLATEGENERATOR",
+    "dateCreate": "08.19.19 08:00",
+    "msg": "Le cours TEMPLATEGENERATOR existe bien.",
+    "datas": {
+        "label": "Plan de cours",
+        "lang": "fr",
+        "start": "0",
+        "courses": [
+            {
+                "id": "0",
+                "ref": null,
+                "name": "Sommaire",
+                "slug": "sommaire",
+                "type": "chapter",
+                "time": null,
+                "attempts": null,
+                "viewTime": "null",
+                "resultTime": "null",
+                "layout": "simple",
+                "nav": true,
+                "nextPage": null,
+                "isChapter": false,
+                "isEvaluation": false,
+                "contents": [],
+                "childrens": [
+                    {
+                        "id": "1",
+                        "ref": null,
+                        "name": "Général",
+                        "slug": "general",
+                        "type": "text",
+                        "time": null,
+                        "attempts": 2,
+                        "viewTime": "null",
+                        "resultTime": "null",
+                        "layout": "twoleft",
+                        "nav": true,
+                        "nextPage": null,
+                        "isChapter": false,
+                        "isEvaluation": false,
+                        "contents": [
+                            [
+                                {
+                                    "type" : "h1",
+                                    "content" :  "Bienvenue",
+                                    "id": "111",
+                                    "x": "0",
+                                    "y": "0",
+                                    "width": "2500",
+                                    "height": "2500",
+                                    "attributes": {
+                                        "@attributes": {
+                                            "id": "111",
+                                            "x": "0",
+                                            "y": "0",
+                                            "width": "2500",
+                                            "height": "2500",
+                                            "orderPosition": "1"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Titre 1",
+                                        "sidebar_zone": "contents",
+                                        "section_zone" : "titre_1",
+                                        "part_zone" : ""
+                                    }
+                                },
+                                {
+                                    "type" : "h2",
+                                    "content" :  "sur le générateur de template Nabu Learning",
+                                    "id": "112",
+                                    "x": "0",
+                                    "y": "0",
+                                    "width": "2500",
+                                    "height": "2500",
+                                    "attributes": {
+                                        "@attributes": {
+                                            "id": "112",
+                                            "x": "0",
+                                            "y": "0",
+                                            "width": "2500",
+                                            "height": "2500",
+                                            "orderPosition": "2"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Titre 2",
+                                        "sidebar_zone": "contents",
+                                        "section_zone" : "titre_2",
+                                        "part_zone" : ""
+                                    }
+                                },
+                                {
+                                    "type" : "h7",
+                                    "content" :  "Vestibulum in magna nibh. Sed maximus dolor sed metus sodales blandit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque et orci erat. Vestibulum vitae suscipit nibh. Donec porttitor efficitur quam at rhoncus. Nullam vel malesuada tortor. Sed ultricies justo ut nibh laoreet, a facilisis metus blandit. Suspendisse ullamcorper sit amet diam in lacinia. Morbi non odio orci. Cras euismod ultrices lobortis. Nunc ultricies mauris neque, at sollicitudin eros iaculis sed. Suspendisse in magna vitae metus iaculis molestie at non turpis. Donec efficitur faucibus mollis.",
+                                    "id": "113",
+                                    "x": "0",
+                                    "y": "0",
+                                    "width": "2500",
+                                    "height": "2500",
+                                    "attributes": {
+                                        "@attributes": {
+                                            "id": "113",
+                                            "x": "0",
+                                            "y": "0",
+                                            "width": "2500",
+                                            "height": "2500",
+                                            "orderPosition": "3"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Paragraphe 1",
+                                        "sidebar_zone": "contents",
+                                        "section_zone" : "paragraphe_1",
+                                        "part_zone" : ""
+                                    }
+                                }
+        
+                            ],
+                            [
+                                {
+                                    "type": "media",
+                                    "id": "121",
+                                    "styles": {
+                                        "x": "0",
+                                        "y": "0",
+                                        "width": "2500",
+                                        "height": "2500",
+                                        "orderPosition": "1"
+                                    },
+                                    "content": {
+                                        "type": "image",
+                                        "extension": "jpg",
+                                        "url": "./assets/TEMPLATEGENERATOR/images/page_general.jpg"
+                                    },
+                                    "attributesZone": {
+                                        "@attributes": {
+                                            "id": "121",
+                                            "width": "5000",
+                                            "height": "5000"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Medias",
+                                        "sidebar_zone": "contents",
+                                        "section_zone" : "medias",
+                                        "part_zone" : ""
+                                    }
+                                }
+                            ]
+                        ],
+                        "error": null
+                    },
+                    {
+                        "id": "2",
+                        "ref": null,
+                        "name": "Contenu",
+                        "slug": "contenu",
+                        "type": "free",
+                        "time": null,
+                        "attempts": 2,
+                        "viewTime": "null",
+                        "resultTime": "null",
+                        "layout": "twoleft",
+                        "nav": true,
+                        "nextPage": null,
+                        "isChapter": false,
+                        "isEvaluation": false,
+                        "contents": [
+                            [
+                                {
+                                    "type" : "h1",
+                                    "content" :  "H1 - Duis consectetur viverra quam vel fringilla.",
+                                    "id": "211",
+                                    "x": "0",
+                                    "y": "0",
+                                    "width": "2500",
+                                    "height": "2500",
+                                    "attributes": {
+                                        "@attributes": {
+                                            "id": "211",
+                                            "x": "0",
+                                            "y": "0",
+                                            "width": "2500",
+                                            "height": "2500",
+                                            "orderPosition": "1"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Titre 1",
+                                        "sidebar_zone": "contents",
+                                        "section_zone" : "titre_1",
+                                        "part_zone" : ""
+                                    }
+                                },
+                                {
+                                    "type" : "h7",
+                                    "content" :  "Vestibulum in magna nibh. Sed maximus dolor sed metus sodales blandit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque et orci erat. Vestibulum vitae suscipit nibh. Donec porttitor efficitur quam at rhoncus. Nullam vel malesuada tortor. Sed ultricies justo ut nibh laoreet, a facilisis metus blandit. Suspendisse ullamcorper sit amet diam in lacinia. Morbi non odio orci. Cras euismod ultrices lobortis. Nunc ultricies mauris neque, at sollicitudin eros iaculis sed. Suspendisse in magna vitae metus iaculis molestie at non turpis. Donec efficitur faucibus mollis.",
+                                    "id": "212",
+                                    "x": "0",
+                                    "y": "0",
+                                    "width": "2500",
+                                    "height": "2500",
+                                    "attributes": {
+                                        "@attributes": {
+                                            "id": "212",
+                                            "x": "0",
+                                            "y": "0",
+                                            "width": "2500",
+                                            "height": "2500",
+                                            "orderPosition": "2"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Paragraphe 1",
+                                        "sidebar_zone": "contents",
+                                        "section_zone" : "paragraphe_1",
+                                        "part_zone" : ""
+                                    }
+                                },
+                                {
+                                    "type" : "h2",
+                                    "content" :  "H2 - Donec ipsum magna, condimentum a tristique eget, semper vel lorem.",
+                                    "id": "213",
+                                    "x": "0",
+                                    "y": "0",
+                                    "width": "2500",
+                                    "height": "2500",
+                                    "attributes": {
+                                        "@attributes": {
+                                            "id": "213",
+                                            "x": "0",
+                                            "y": "0",
+                                            "width": "2500",
+                                            "height": "2500",
+                                            "orderPosition": "3"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Titre 2",
+                                        "sidebar_zone": "contents",
+                                        "section_zone" : "titre_2",
+                                        "part_zone" : ""
+                                    }
+                                },
+                                {
+                                    "type" : "h3",
+                                    "content" :  "H3 - Donec ipsum magna, condimentum a tristique eget, semper vel lorem.",
+                                    "id": "214",
+                                    "x": "0",
+                                    "y": "0",
+                                    "width": "2500",
+                                    "height": "2500",
+                                    "attributes": {
+                                        "@attributes": {
+                                            "id": "214",
+                                            "x": "0",
+                                            "y": "0",
+                                            "width": "2500",
+                                            "height": "2500",
+                                            "orderPosition": "4"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Titre 3",
+                                        "sidebar_zone": "contents",
+                                        "section_zone" : "titre_3",
+                                        "part_zone" : ""
+                                    }
+                                },
+                                {
+                                    "type" : "h4",
+                                    "content" :  "H4 - Suspendisse euismod lorem purus, sed suscipit sem posuere facilisis.",
+                                    "id": "216",
+                                    "x": "0",
+                                    "y": "0",
+                                    "width": "2500",
+                                    "height": "2500",
+                                    "attributes": {
+                                        "@attributes": {
+                                            "id": "216",
+                                            "x": "0",
+                                            "y": "0",
+                                            "width": "2500",
+                                            "height": "2500",
+                                            "orderPosition": "6"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Titre 4",
+                                        "sidebar_zone": "contents",
+                                        "section_zone" : "titre_4",
+                                        "part_zone" : ""
+                                    }
+                                }
+                            ],
+                            [
+                                {
+                                    "type": "media",
+                                    "id": "221",
+                                    "styles": {
+                                        "x": "0",
+                                        "y": "0",
+                                        "width": "2500",
+                                        "height": "2500",
+                                        "orderPosition": "1"
+                                    },
+                                    "content": {
+                                        "type": "image",
+                                        "extension": "jpg",
+                                        "url": "./assets/TEMPLATEGENERATOR/images/page_contents.jpg"
+                                    },
+                                    "attributesZone": {
+                                        "@attributes": {
+                                            "id": "221",
+                                            "width": "5000",
+                                            "height": "5000"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Medias",
+                                        "sidebar_zone": "contents",
+                                        "section_zone" : "medias",
+                                        "part_zone" : ""
+                                    }
+                                },
+                                {
+                                    "type" : "ul",
+                                    "content": {
+                                        "li": {
+                                            "@attributes": {
+                                                "id": "2221"
+                                            },
+                                            "0": "liste item 1",
+                                            "1": "liste item 2",
+                                            "2": "list item 3"
+                                        }
+                                    },
+                                    "id": "222",
+                                    "x": "0",
+                                    "y": "0",
+                                    "width": "2500",
+                                    "height": "2500",
+                                    "attributes": {
+                                        "@attributes": {
+                                            "id": "222",
+                                            "x": "0",
+                                            "y": "0",
+                                            "width": "2500",
+                                            "height": "2500",
+                                            "orderPosition": "2"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Liste à puce",
+                                        "sidebar_zone": "contents",
+                                        "section_zone" : "list",
+                                        "part_zone" : ""
+                                    }
+                                },
+                                {
+                                    "type": "picto",
+                                    "id": "223",
+                                    "x": "0",
+                                    "y": "0",
+                                    "index": "9999999999",
+                                    "width": "2500",
+                                    "height": "2500",
+                                    "attributes": {
+                                        "@attributes": {
+                                            "name": "arrowdown",
+                                            "id": "223",
+                                            "x": "0",
+                                            "y": "0",
+                                            "width": "2500",
+                                            "height": "2500",
+                                            "orderPosition": "1"
+                                        }
+                                    },
+                                    "content": "arrowdown",
+                                    "attributesZone": {
+                                        "@attributes": {
+                                            "id": "0",
+                                            "width": "5000",
+                                            "height": "5000"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Pictogramme",
+                                        "sidebar_zone": "contents",
+                                        "section_zone" : "picto",
+                                        "part_zone" : ""
+                                    }
+                                },
+                                {
+                                    "type" : "ol",
+                                    "content": {
+                                        "li": {
+                                            "@attributes": {
+                                                "id": "2241"
+                                            },
+                                            "0": "liste item 1",
+                                            "1": "liste item 2",
+                                            "2": "list item 3"
+                                        }
+                                    },
+                                    "id": "224",
+                                    "x": "0",
+                                    "y": "0",
+                                    "width": "2500",
+                                    "height": "2500",
+                                    "attributes": {
+                                        "@attributes": {
+                                            "id": "224",
+                                            "x": "0",
+                                            "y": "0",
+                                            "width": "2500",
+                                            "height": "2500",
+                                            "orderPosition": "2"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Liste numéroté",
+                                        "sidebar_zone": "contents",
+                                        "section_zone" : "list",
+                                        "part_zone" : ""
+                                    }
+                                }
+                            ]
+                        ],
+                        "error": null
+                    },
+                    {
+                        "id": "3",
+                        "ref": null,
+                        "name": "Checkboxes",
+                        "slug": "checkboxes",
+                        "type": "qr",
+                        "time": null,
+                        "attempts": 2,
+                        "viewTime": "null",
+                        "resultTime": "null",
+                        "layout": "twoleft",
+                        "nav": true,
+                        "nextPage": null,
+                        "isChapter": false,
+                        "isEvaluation": false,
+                        "contents": [
+                            [
+                                {
+                                    "type":"question",
+                                    "id":"31",
+                                    "x":"0",
+                                    "y":"0",
+                                    "index":"99",
+                                    "width":"2500",
+                                    "height":"2500",
+                                    "attributes": {
+                                        "@attributes":{
+                                            "unique":"true",
+                                            "attempts":"2",
+                                            "onstart":"0",
+                                            "onquestionclick":"0",
+                                            "id":"31",
+                                            "x":"0",
+                                            "y":"0","width":"2500","height":"2500","orderPosition":"0"
+                                        }
+                                    },
+                                    "content":"De quels couleurs est le drapeau français",
+                                    "admin" : {
+                                        "name_zone" : "Question",
+                                        "sidebar_zone": "surveys",
+                                        "section_zone" : "paragraph_2",
+                                        "part_zone" : ""
+                                    }
+                                },
+                                {
+                                    "type":"qr",
+                                    "id":"32",
+                                    "x":"0",
+                                    "y":"0",
+                                    "index":"99",
+                                    "width":"2500",
+                                    "height":"2500",
+                                    "attributes": {
+                                        "@attributes":{"unique":"false","attempts":"2","onstart":"0","onquestionclick":"0","id":"32","x":"0","y":"0","width":"2500","height":"2500","orderPosition":"1"
+                                        }
+                                    },
+                                    "content":{
+                                        "unique":"false",
+                                        "onstart": null,
+                                        "ifReponseTrue": null,
+                                        "ifReponseFalse": null,
+                                        "answers":[
+                                            {
+                                                "id":"321",
+                                                "order":"",
+                                                "responseRight":"false",
+                                                "type":"text",
+                                                "content":"Noir"
+                                            },{
+                                                "id":"322",
+                                                "order":"",
+                                                "responseRight":"true",
+                                                "type":"text",
+                                                "content":"Blanc"
+                                            },{
+                                                "id":"323",
+                                                "order":"",
+                                                "responseRight":"false",
+                                                "type":"text",
+                                                "content":"Gris"
+                                            },{
+                                                "id":"324",
+                                                "order":"",
+                                                "responseRight":"true",
+                                                "type":"text",
+                                                "content":"Bleu"
+                                            },{
+                                                "id":"325",
+                                                "order":"",
+                                                "responseRight":"false",
+                                                "type":"text",
+                                                "content":"Vert"
+                                            },{
+                                                "id":"326",
+                                                "order":"",
+                                                "responseRight":"true",
+                                                "type":"text",
+                                                "content":"Rouge"
+                                            }
+                                        ]
+                                    },
+                                    "attributesZone":{"@attributes":{"id":"3","width":"5000","height":"5000"}},
+                                    "admin" : {
+                                        "name_zone" : "Questions Réponses",
+                                        "sidebar_zone": "surveys",
+                                        "section_zone" : "checkboxes",
+                                        "part_zone" : ""
+                                    }
+                                }
+                            ],
+                            [
+                                {
+                                    "type": "media",
+                                    "id": "311",
+                                    "styles": {
+                                        "x": "0",
+                                        "y": "0",
+                                        "width": "2500",
+                                        "height": "2500",
+                                        "orderPosition": "1"
+                                    },
+                                    "content": {
+                                        "type": "image",
+                                        "extension": "jpg",
+                                        "url": "./assets/TEMPLATEGENERATOR/images/page_contents.jpg"
+                                    },
+                                    "attributesZone": {
+                                        "@attributes": {
+                                            "id": "014",
+                                            "width": "5000",
+                                            "height": "5000"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Medias",
+                                        "sidebar_zone": "contents",
+                                        "section_zone" : "medias",
+                                        "part_zone" : ""
+                                    }
+                                },
+                                {
+                                    "type":"feedback",
+                                    "class": "win",
+                                    "id":"312",
+                                    "x":"0",
+                                    "y":"0",
+                                    "index":"99999999",
+                                    "width":"2500",
+                                    "height":"2500",
+                                    "attributes": {
+                                        "@attributes":{
+                                            "id":"312",
+                                            "x":"0",
+                                            "y":"0",
+                                            "width":"2500",
+                                            "height":"2500",
+                                            "orderPosition":"2"
+                                        }
+                                    },
+                                    "content": "Message de succès",
+                                    "attributesZone":{
+                                        "@attributes":{
+                                            "id":"31",
+                                            "width":
+                                            "5000",
+                                            "height":"5000"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Succès Feedback",
+                                        "sidebar_zone": "surveys",
+                                        "section_zone" : "feedback_win",
+                                        "part_zone" : ""
+                                    }
+                                },
+                                {
+                                    "type":"feedback",
+                                    "class": "wrong",
+                                    "id":"313",
+                                    "x":"0",
+                                    "y":"0",
+                                    "index":"99999999",
+                                    "width":"2500",
+                                    "height":"2500",
+                                    "attributes": {
+                                        "@attributes":{
+                                            "id":"313",
+                                            "x":"0",
+                                            "y":"0",
+                                            "width":"2500",
+                                            "height":"2500",
+                                            "orderPosition":"3"
+                                        }
+                                    },
+                                    "content": "Message d'erreur",
+                                    "attributesZone":{
+                                        "@attributes":{
+                                            "id":"31",
+                                            "width":
+                                            "5000",
+                                            "height":"5000"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Erreur Feedback",
+                                        "sidebar_zone": "surveys",
+                                        "section_zone" : "feedback_wrong",
+                                        "part_zone" : ""
+                                    }
+                                },
+                                {
+                                    "type":"feedback",
+                                    "class": "warning",
+                                    "id":"314",
+                                    "x":"0",
+                                    "y":"0",
+                                    "index":"99999999",
+                                    "width":"2500",
+                                    "height":"2500",
+                                    "attributes": {
+                                        "@attributes":{
+                                            "id":"314",
+                                            "x":"0",
+                                            "y":"0",
+                                            "width":"2500",
+                                            "height":"2500",
+                                            "orderPosition":"4"
+                                        }
+                                    },
+                                    "content": "Message d'avertissement",
+                                    "attributesZone":{
+                                        "@attributes":{
+                                            "id":"31",
+                                            "width":
+                                            "5000",
+                                            "height":"5000"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Avertissement Feedback",
+                                        "sidebar_zone": "surveys",
+                                        "section_zone" : "feedback_warning",
+                                        "part_zone" : ""
+                                    }
+                                }
+                            ]
+                        ],
+                        "error": null
+                    },
+                    {
+                        "id": "4",
+                        "ref": null,
+                        "name": "Question en images",
+                        "slug": "question_en_images",
+                        "type": "qi",
+                        "time": null,
+                        "attempts": 2,
+                        "viewTime": "null",
+                        "resultTime": "null",
+                        "layout": "twoleft",
+                        "nav": true,
+                        "nextPage": null,
+                        "isChapter": false,
+                        "isEvaluation": false,
+                        "contents": [
+                            [
+                                {
+                                    "type": "question",
+                                    "id": "1",
+                                    "x": "0",
+                                    "y": "0",
+                                    "index": "99",
+                                    "width": "2500",
+                                    "height": "2500",
+                                    "attributes": {
+                                        "@attributes": {
+                                            "id": "1",
+                                            "attempts": "1",
+                                            "onstart": "0",
+                                            "onquestionclick": "0",
+                                            "x": "0",
+                                            "y": "0",
+                                            "width": "2500",
+                                            "height": "2500",
+                                            "orderPosition": "0"
+                                        }
+                                    },
+                                    "content": "ASSOCIEZ LES IMAGES AUX BONS TERMES"
+                                },
+                                {
+                                    "type": "qa",
+                                    "id": "1",
+                                    "x": "0",
+                                    "y": "0",
+                                    "index": "99",
+                                    "width": "2500",
+                                    "height": "2500",
+                                    "attributes": {
+                                        "@attributes": {
+                                            "id": "1",
+                                            "attempts": "1",
+                                            "onstart": "0",
+                                            "onquestionclick": "0",
+                                            "x": "0",
+                                            "y": "0",
+                                            "width": "2500",
+                                            "height": "2500",
+                                            "orderPosition": "1"
+                                        }
+                                    },
+                                    "content": {
+                                        "unique": "",
+                                        "onstart": {
+                                            "type": "sound",
+                                            "src": {
+                                                "type": "sound",
+                                                "extension": "mp3",
+                                                "url": "./assets/VQZ6QXBF/content/TZ6CV2KZ3/lc080102s4.mp3"
+                                            },
+                                            "play": "true",
+                                            "action": "",
+                                            "visible": "",
+                                            "text": "",
+                                            "targets": [],
+                                            "li": []
+                                        },
+                                        "oninit": {
+                                            "type": "sound",
+                                            "src": {
+                                                "type": "sound",
+                                                "extension": "mp3",
+                                                "url": "./assets/VQZ6QXBF/content/TZ6CV2KZ3/lc080102s4.mp3"
+                                            },
+                                            "play": "true",
+                                            "action": "",
+                                            "visible": "",
+                                            "text": "",
+                                            "targets": [],
+                                            "li": []
+                                        },
+                                        "onquestionclick": {
+                                            "type": "sound",
+                                            "src": {
+                                                "type": "sound",
+                                                "extension": "mp3",
+                                                "url": "./assets/VQZ6QXBF/content/TZ6CV2KZ3/lc080102s4.mp3"
+                                            },
+                                            "play": "true",
+                                            "action": "",
+                                            "visible": "",
+                                            "text": "",
+                                            "targets": [],
+                                            "li": []
+                                        },
+                                        "ifReponseTrue": [
+                                            {
+                                                "type": "text",
+                                                "src": null,
+                                                "play": "",
+                                                "action": "replace",
+                                                "visible": "",
+                                                "text": "BRAVO, vous avez tout compris",
+                                                "targets": [
+                                                    "5"
+                                                ],
+                                                "li": []
+                                            }
+                                        ],
+                                        "ifReponseFalse": [
+                                            {
+                                                "type": "text",
+                                                "src": null,
+                                                "play": "",
+                                                "action": "replace",
+                                                "visible": "",
+                                                "text": "Ce n'est pas correct.",
+                                                "targets": [
+                                                    "5"
+                                                ],
+                                                "li": []
+                                            },
+                                            {
+                                                "type": "sound",
+                                                "src": {
+                                                    "type": "sound",
+                                                    "extension": "mp3",
+                                                    "url": "./assets/VQZ6QXBF/content/TZ6CV2KZ3/lc080102s1.mp3"
+                                                },
+                                                "play": "true",
+                                                "action": "",
+                                                "visible": "",
+                                                "text": "",
+                                                "targets": [],
+                                                "li": []
+                                            }
+                                        ],
+                                        "answers": [
+                                            {
+                                                "id": 0,
+                                                "order": "0",
+                                                "responseRight": "",
+                                                "source": {
+                                                    "media": {
+                                                        "type": "image",
+                                                        "extension": "jpg",
+                                                        "url": "./assets/VQZ6QXBF/content/TZ6CV2KZ3/question1.jpg"
+                                                    },
+                                                    "text": "MEDICAMENT"
+                                                },
+                                                "target": {
+                                                    "text": "MEDICAMENT"
+                                                }
+                                            },
+                                            {
+                                                "id": 0,
+                                                "order": "1",
+                                                "responseRight": "",
+                                                "source": {
+                                                    "media": {
+                                                        "type": "image",
+                                                        "extension": "jpg",
+                                                        "url": "./assets/VQZ6QXBF/content/TZ6CV2KZ3/question18_23.jpg"
+                                                    }
+                                                },
+                                                "target": {
+                                                    "media": {
+                                                        "type": "image",
+                                                        "extension": "jpg",
+                                                        "url": "./assets/VQZ6QXBF/content/TZ6CV2KZ3/question18_23.jpg"
+                                                    },
+                                                    "text": "FEMME"
+                                                }
+                                            },
+                                            {
+                                                "id": 0,
+                                                "order": "2",
+                                                "responseRight": "",
+                                                "source": {
+                                                    "media": {
+                                                        "type": "image",
+                                                        "extension": "jpg",
+                                                        "url": "./assets/VQZ6QXBF/content/TZ6CV2KZ3/lc080102i2.jpg"
+                                                    }
+                                                },
+                                                "target": {
+                                                    "text": "MONTAGE"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "attributesZone": {
+                                        "@attributes": {
+                                            "id": "0",
+                                            "width": "5000",
+                                            "height": "5000"
+                                        }
+                                    }
+                                }
+                            ],
+                            [
+                                {
+                                    "type": "media",
+                                    "id": "014",
+                                    "styles": {
+                                        "x": "0",
+                                        "y": "0",
+                                        "width": "2500",
+                                        "height": "2500",
+                                        "orderPosition": "1"
+                                    },
+                                    "content": {
+                                        "type": "image",
+                                        "extension": "jpg",
+                                        "url": "./assets/TEMPLATEGENERATOR/images/page_contents.jpg"
+                                    },
+                                    "attributesZone": {
+                                        "@attributes": {
+                                            "id": "014",
+                                            "width": "5000",
+                                            "height": "5000"
+                                        }
+                                    },
+                                    "admin" : {
+                                        "name_zone" : "Medias",
+                                        "sidebar_zone": "contents",
+                                        "section_zone" : "medias",
+                                        "part_zone" : ""
+                                    }
+                                }
+                            ]
+                        ],
+                        "error": null
+                    }
+                ],
+                "error": null
+            }            
+        ]
+    }
+}

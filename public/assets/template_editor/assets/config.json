@@ -1,0 +1,10 @@
+{
+    "MODE" : "default",
+    "ETAT" : "TEST",
+    "DEBUG" : false,
+    "API_TEST" : "http://ov-c70599.infomaniak.ch/_mixte/html/html5_player_api/",
+    "API_DEV" : "http://ov-c70599.infomaniak.ch/_mixte/html/html5_player_api/",
+    "API_PROD" : "http://ov-c70599.infomaniak.ch/_mixte/html/html5_player_api/",
+    "APPVERSION" : "1.01.020321",
+    "APPLOADINGIMG" : "http://ov-c70599.infomaniak.ch/_mixte/html/template_editor/assets/loading.png"
+}

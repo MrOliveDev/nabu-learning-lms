@@ -1,0 +1,5 @@
+RewriteEngine on
+
+RewriteBase /_mixte/html/player/
+
+RewriteCond %{REQUEST_FILENAME} !-f

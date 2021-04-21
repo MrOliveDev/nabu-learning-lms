@@ -1,0 +1,14 @@
+{
+	"MODE" : "default",
+    "SCORM_DEBUG": false,
+    "ETAT" : "TEST",
+    "DEBUG" : false,
+    "API_TEST" : "http://ov-c70599.infomaniak.ch/_mixte/html/html5_player_api/",
+    "API_DEV" : "http://ov-c70599.infomaniak.ch/_mixte/html/html5_player_api/",
+    "API_PROD" : "http://ov-c70599.infomaniak.ch/_mixte/html/html5_player_api/",
+    "URL" : "http://ov-c70599.infomaniak.ch/_mixte/html/player/",
+    "APPVERSION" : "2.03.06.041021",
+    "APPLOADINGIMG" : "http://ov-c70599.infomaniak.ch/_mixte/html/player/assets/loading.png",
+    "enablePreloadMedia": false,
+    "delayAutoplay": 0
+}
