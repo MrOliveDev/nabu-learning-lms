@@ -14,4 +14,6 @@ class TemplateModel extends Model
     ];
 
     protected $table = 'tb_template_html5_edit';
+
+    public $timestamps = false;
 }

@@ -645,6 +645,9 @@ span.dash-panel-bottom-title {
     padding: 3.2px;
 }
 
+.list-group-item a.btn:hover i {
+    color: white;
+}
 
 .dropdown .btn {
     border-radius: 4px;
