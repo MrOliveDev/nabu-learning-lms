@@ -79,7 +79,6 @@
                     "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() + "px"
                     // "width": $("#RightPanel").width() - 150 + "px"
                 });
-                console.log($("#content").width() + ":" + ($("#RightPanel").width() + $("#LeftPanel").width()));
             },
             function() {
                 $("#page-header, #page-container").removeClass("page-header-trigger");
@@ -88,7 +87,6 @@
                         "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() + "px"
                     });
                 }
-                console.log($("#content").width() + ":" + ($("#RightPanel").width() + $("#LeftPanel").width()));
 
             }
         )

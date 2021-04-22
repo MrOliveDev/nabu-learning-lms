@@ -27,19 +27,19 @@
                     <div class="list-group-item list-group-item-action p-1 border-0 bg-yellow-2 " id="template_item_{{$template->id}}" data-toggle="list" role="tab">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
-                            <span id="template_name">{{$template->name}}</span>
+                            <span class="template_name">{{$template->name}}</span>
                         </div>
                         <div class="btn-group float-right">
-                            <a class="btn text-primary px-2" href="" onclick="viewTemplateItem()">
+                            <a class="btn text-primary px-2 viewTemplateItem" href="">
                                 <i class="fa fa-eye"></i>
                             </a>
-                            <a class="btn text-primary px-2" href="" onclick="editTemplateItem()">
+                            <a class="btn text-primary px-2 editTemplateItem" href="">
                                 <i class="fa fa-edit"></i>
                             </a>
-                            <a class="btn text-primary px-2" href="" onclick="deleteTemplateItem('{{$template->id}}')">
+                            <a class="btn text-primary px-2 deleteItem" href="">
                                 <i class="fa fa-trash-alt"></i>
                             </a>
-                            <a class="btn text-primary px-2" href="" onclick="toTemplateEditor('{{$template->id}}')">
+                            <a class="btn text-primary px-2 templateEditor" href="">
                                 <i class="fa fa-cube"></i>
                             </a>
                             <a class="btn text-primary px-2" href="">
@@ -70,12 +70,6 @@
 
                             <label id="template_name_label"></label>
                             <input type="label" id="template_name_input">
-                            <!--
-                            <p>
-                                <strong class="pt-1">Template Code :</strong>
-                            </p>
-
-                            <input type="text" value="" class=""> -->
                             <button class="float-right mt-3 p-2 border-0 float-right bg-yellow-1" id="template_save_btn">SAVE</button>
 
 
@@ -226,33 +220,15 @@
 
     let selecteditem;
 
-    toTemplateEditor = function(id) {
-        window.open("{{route('temp')}}", '_blank');
-    }
+    // $(".list-group-item").find('.btn').click( function(){
+    //     selecteditem = $(this).parents('.list-group-item');
+    //     $('#template_name_label').html(selecteditem.find(".template_name").html());
+    //     $('#template_name_input').val(selecteditem.find(".template_name").html());
+    // }
+    // );
 
-    viewTemplateItem = function() {
-        tmpbtnmode = VIEWMODE;
-        template_btn_action(null);
-    }
-
-    editTemplateItem = function() {
-        tmpbtnmode = EDITMODE;
-        template_btn_action(null);
-    }
-
-    deleteTemplateItem = function(id) {
-        $.post("{{route('template.delete')}}", {
-                "_token": "{{ csrf_token() }}",
-                "id": id
-            },
-            function(data, status) {
-                $("#div_B").hide();
-                $('#template_item_' + id).remove();
-            });
-    }
-
-    template_btn_action = function(data) {
-        switch (tmpbtnmode) {
+    template_btn_action = function(data, btnmode) {
+        switch (btnmode) {
             case VIEWMODE:
                 $('#template_name_label').show();
                 $('#template_name_input').hide();
@@ -265,20 +241,23 @@
 
             case SAVEMODE:
                 if (sendmode == UPDATEMODE) {
+                    // console.log();
+                    // console.log(selecteditem.children('.template_name').html());
                     $.post("{{route('template.update')}}", data,
                         function(data, status) {
                             tmpbtnmode = VIEWMODE;
-                            selecteditem.children('#template_name').html($('#template_name_input').val());
+                            selecteditem.find('.template_name').html($('#template_name_input').val());
+                            // .html($('#template_name_input').val());
                         });
                 } else {
                     $.post("{{route('template.add')}}", data,
                         function(data, status) {
                             tmpbtnmode = VIEWMODE;
                             $('#template-list-tab').append(
-                                "<div class='list-group-item list-group-item-action p-1 border-0 bg-yellow-2 ' id='template_item_"+data.id+"' data-toggle='list' role='tab'>" +
+                                "<div class='list-group-item list-group-item-action p-1 border-0 bg-yellow-2 ' id='template_item_" + data.id + "' data-toggle='list' role='tab'>" +
                                 "<div class='float-left'>" +
                                 "<i class='fa fa-circle text-danger m-2'></i>" +
-                                "<span id='template_name'>"+data.name+"</span>" +
+                                "<span class='template_name'>" + data.name + "</span>" +
                                 "</div>" +
                                 "<div class='btn-group float-right'>" +
                                 "<a class='btn text-primary px-2' href='' onclick='viewTemplateItem()'>" +
@@ -287,10 +266,10 @@
                                 "<a class='btn text-primary px-2' href='' onclick='editTemplateItem()'>" +
                                 "<i class='fa fa-edit'></i>" +
                                 " </a>" +
-                                "<a class='btn text-primary px-2' href='' onclick='deleteTemplateItem('"+data.id+"')'>" +
+                                "<a class='btn text-primary px-2' href='' onclick='deleteTemplateItem('" + data.id + "')'>" +
                                 "<i class='fa fa-trash-alt'></i>" +
                                 "</a>" +
-                                "<a class='btn text-primary px-2' href='' onclick='toTemplateEditor('"+data.id+"')'>" +
+                                "<a class='btn text-primary px-2' href='' onclick='toTemplateEditor('" + data.id + "')'>" +
                                 "<i class='fa fa-cube'></i>" +
                                 "</a>" +
                                 "<a class='btn text-primary px-2' href=''>" +
@@ -305,9 +284,50 @@
                 break;
 
             default:
+                console.error('overflow');
                 break;
         }
     };
+
+    $('.templateEditor').click(function(evt) {
+        event.stopProgation;
+        window.open("{{route('temp')}}", '_blank');
+    })
+
+    $('.viewTemplateItem').click(function(evt) {
+        selecteditem = $(this).parents('.list-group-item');
+        $('#template_name_label').html(selecteditem.find(".template_name").html());
+        $('#template_name_input').val(selecteditem.find(".template_name").html());
+        tmpbtnmode = VIEWMODE;
+        template_btn_action(null, tmpbtnmode);
+    });
+
+    $('.editTemplateItem').click(function(evt) {
+        console.log(evt);
+
+        evt.stopPropagation();
+        selecteditem = $(this).parents('.list-group-item');
+        tmpbtnmode = EDITMODE;
+        template_btn_action(null, tmpbtnmode);
+        $('#div_B').show();
+    });
+
+    $('.deleteItem').click(function(evt) {
+        evt.stopPropagation();
+        selecteditem = $(this).parents('.list-group-item');
+        console.log(selecteditem.attr("id"));
+        $.post("{{route('template.delete')}}", {
+                "_token": "{{ csrf_token() }}",
+                "id": selecteditem.attr("id").split('_')[2]
+            },
+            function(data, status) {
+                $("#div_B").hide();
+                $('#template_item_' + selecteditem.attr("id").split('_')[2]).remove();
+            });
+    });
+
+
+
     $(document).ready(function() {
         $.ajaxSetup({
             headers: {
@@ -316,7 +336,12 @@
         });
         $("#div_B").hide();
         $('#template-list-tab>.list-group-item').click(function(e) {
-                selecteditem = $(this);
+                if ($(this).attr('id').split('_')[0] == "template") {
+                    selecteditem = $(this);
+                } else {
+                    selecteditem = $(this).parents('.list-group-item');
+                }
+                // console.log(selecteditem.find(".template_name").html());
                 sendmode = UPDATEMODE;
                 tmpbtnmode = VIEWMODE;
                 $("#div_B").show();
@@ -326,18 +351,13 @@
                     _token: "{{ csrf_token() }}",
                     id: selecteditem.attr("id").split("_")[2],
                     name: $('#template_name_input').val(),
-                });
-
-                $('#template_name_label').html($("#" + e.target.id + " #template_name").html());
-                $('#template_name_input').val($("#" + e.target.id + " #template_name").html());
+                }, tmpbtnmode);
+                $('#template_name_label').html(selecteditem.find(".template_name").html());
+                $('#template_name_input').val(selecteditem.find(".template_name").html());
             }
 
         );
-        $('#template-list-tab>.list-group-item a.btn').click(function(event) {
-                event.stopProgation();
-            }
 
-        )
     });
 
     // $('')
@@ -348,7 +368,7 @@
                 _token: "{{ csrf_token() }}",
                 id: selecteditem.attr("id").split("_")[2],
                 name: $('#template_name_input').val()
-            });
+            }, tmpbtnmode);
             tmpbtnmode == 3 ? (tmpbtnmode = 1) : (tmpbtnmode++);
         }
     );
@@ -358,7 +378,7 @@
             tmpbtnmode = SAVEMODE;
             template_btn_action({
                 name: $('#template_name_input').val()
-            });
+            }, tmpbtnmode);
         }
     );
 
@@ -370,7 +390,7 @@
             template_btn_action({
                 _token: "{{ csrf_token() }}",
                 name: $('#template_name_input').val()
-            });
+            }, tmpbtnmode);
             $("#template_save_btn").show();
             $("#template_edit_btn").hide();
             $('#template_name_label').html('');
