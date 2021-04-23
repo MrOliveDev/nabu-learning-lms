@@ -142,7 +142,7 @@
 
         <div id="page-header-search" class="overlay-header bg-primary">
             <div class="content-header">
-                <form class="w-100" action="http://localhost:8000/be_pages_generic_search.html" method="POST">
+                <form class="w-100" action="http://dev2.nabuserver.com/newlms/be_pages_generic_search.html" method="POST">
                     <div class="input-group">
                         <input type="text" class="form-control border-0" placeholder="Search your network.." id="page-header-search-input" name="page-header-search-input">
                         <div class="input-group-append">

@@ -100,6 +100,10 @@ class LoginController extends Controller
             $user->last_session = session()->getID();
 
             $user->save();
+
+            session(['user_id' => auth()->user()->id]);
+
+
             // var_dump(auth()->user()->type===1);die;
             return $this->sendLoginResponse($request);
             //return redirect()->route('home');
@@ -129,8 +133,7 @@ class LoginController extends Controller
         $this->clearLoginAttempts($request);
         if (auth()->user()->type === 0) {
             $this->redirectTo = 'admin/dash';
-        }
-        else{
+        } else {
             $this->redirectTo = 'dash';
         }
         return $this->authenticated($request, $this->guard()->user())

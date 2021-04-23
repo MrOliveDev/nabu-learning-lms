@@ -11,9 +11,8 @@
 
     <link rel="icon" type="image/x-icon" href="{{asset('template_editor/favicon.ico')}}">
     <link rel="stylesheet" href="{{asset('template_editor/styles.css')}}">
-    <script src="{{asset('assets/js/jquery.min.js')}}"></script>
+    <script src="../assets/js/jquery.min.js"></script>
     <script>
-    console.log($('meta[name="csrf-token"]').attr('content'));
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -24,9 +23,9 @@
 
 <body>
     <app-root></app-root>
-    <script type="text/javascript" src="{{asset('template_editor/runtime.js')}}"></script>
-    <script type="text/javascript" src="{{asset('template_editor/polyfills.js')}}"></script>
-    <script type="text/javascript" src="{{asset('template_editor/main.js')}}"></script>
+    <script type="text/javascript" src="./runtime.js"></script>
+    <script type="text/javascript" src="./polyfills.js"></script>
+    <script type="text/javascript" src="./main.js"></script>
 </body>
 
 </html>
