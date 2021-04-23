@@ -2,9 +2,9 @@
     "MODE" : "default",
     "ETAT" : "TEST",
     "DEBUG" : false,
-    "API_TEST" : "http://dev2.nabuserver.com/newlms/html5_player_api/",
-    "API_DEV" : "http://dev2.nabuserver.com/newlms/html5_player_api/",
-    "API_PROD" : "http://dev2.nabuserver.com/newlms/html5_player_api/",
+    "API_TEST" : "http://dev2.nabuserver.com/newlms/public/html5_player_api/",
+    "API_DEV" : "http://dev2.nabuserver.com/newlms/public/html5_player_api/",
+    "API_PROD" : "http://dev2.nabuserver.com/newlms/public/html5_player_api/",
     "APPVERSION" : "1.01.020321",
-    "APPLOADINGIMG" : "http://dev2.nabuserver.com/newlms/template_editor/assets/loading.png"
+    "APPLOADINGIMG" : "http://dev2.nabuserver.com/newlms/public/template_editor/assets/loading.png"
 }
