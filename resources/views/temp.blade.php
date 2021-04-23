@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>EditorApp</title>
-    <base href="/public/template_editor/">
+    <base href="newlms/public/template_editor/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="assets/js/jquery.min.js"></script>
     <script>
-    console.log
+    // console.log
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
