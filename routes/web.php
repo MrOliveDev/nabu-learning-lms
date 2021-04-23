@@ -124,7 +124,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::get('temp', '\App\Http\Controllers\TempController@index')->name('temp');
     Route::get('student', '\App\Http\Controllers\StudentController@index')->name('student');
     Route::get('template', '\App\Http\Controllers\TemplateController@index')->name('template');
-    Route::get('temp', '\App\Http\Controllers\TempController@index')->name('temp');
+    Route::get('template_editor', '\App\Http\Controllers\TemplateEditorController@index')->name('template_editor');
     Route::post('template/update', '\App\Http\Controllers\TemplateController@update')->name('template.update');
     Route::post('template/add', '\App\Http\Controllers\TemplateController@add')->name('template.add');
     Route::post('template/delete', '\App\Http\Controllers\TemplateController@delete')->name('template.delete');

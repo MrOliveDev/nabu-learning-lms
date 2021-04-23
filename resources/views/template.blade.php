@@ -293,7 +293,7 @@
         evt.preventDefault();
         evt.stopPropagation();
         // console.log($(this).attr('href'));
-        window.open("{{route('temp')}}"+$(this).attr('href'), '_blank');
+        window.open("{{route('template_editor')}}"+"/"+$(this).attr('href'), '_blank');
     })
 
     $('.viewTemplateItem').click(function(evt) {

@@ -6,5 +6,5 @@
     "API_DEV" : "http://localhost:8000/html5_player_api/",
     "API_PROD" : "http://localhost:8000/html5_player_api/",
     "APPVERSION" : "1.01.020321",
-    "APPLOADINGIMG" : "http://localhost:8000/template_editor/assets/loading.png"
+    "APPLOADINGIMG" : "http://localhost:8000/assets/editorApp/assets/loading.png"
 }
