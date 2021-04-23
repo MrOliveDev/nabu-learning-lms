@@ -12,7 +12,7 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 
-/public/template_editor/assets/config.json
+/public/assets/editorApp/assets/config.json
 /public/html5_player/config/config1.php
 /public/html5_player/config/config2.php
 
