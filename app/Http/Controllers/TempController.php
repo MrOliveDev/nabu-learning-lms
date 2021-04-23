@@ -9,6 +9,7 @@ class TempController extends Controller
     //
     public function index()
     {
+        echo asset('');
         return view('temp');
     }
 }
