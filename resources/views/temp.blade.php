@@ -11,15 +11,6 @@
 
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="template_editor/styles.css">
-    <script src="template_editor/assets/js/jquery.min.js"></script>
-    <script>
-    // console.log
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-    </script>
 </head>
 
 <body>
