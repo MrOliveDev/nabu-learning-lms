@@ -52,9 +52,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://dev2.nabuserver.com/newlms'),
 
-    'asset_url' => env('ASSET_URL', null),
+    'asset_url' => env('ASSET_URL', "http://dev2.nabuserver.com/newlms/public"),
 
     /*
     |--------------------------------------------------------------------------
