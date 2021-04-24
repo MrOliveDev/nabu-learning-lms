@@ -9,7 +9,7 @@ class TempController extends Controller
     //
     public function index()
     {
-        echo asset('');
+        echo env('APP_URL');
         return view('temp');
     }
 }
