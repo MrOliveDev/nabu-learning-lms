@@ -39,7 +39,7 @@
                             <a class="btn text-primary px-2 deleteItem" href="">
                                 <i class="fa fa-trash-alt"></i>
                             </a>
-                            <a class="btn text-primary px-2 templateEditor" href="">
+                            <a class="btn text-primary px-2 templateEditor" href="{{'#/template-generator/'.$template->alpha_id}}">
                                 <i class="fa fa-cube"></i>
                             </a>
                             <a class="btn text-primary px-2" href="">
@@ -292,7 +292,8 @@
     $('.templateEditor').click(function(evt) {
         evt.preventDefault();
         evt.stopPropagation();
-        window.open("{{route('temp')}}", '_blank');
+        // console.log($(this).attr('href'));
+        window.open("{{route('temp')}}"+$(this).attr('href'), '_blank');
     })
 
     $('.viewTemplateItem').click(function(evt) {
