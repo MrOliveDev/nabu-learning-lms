@@ -10,8 +10,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="stylesheet" href="styles.css">
-    <script src="assets/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="template_editor/styles.css">
+    <script src="template_editor/assets/js/jquery.min.js"></script>
     <script>
     // console.log
         $.ajaxSetup({
@@ -24,9 +24,9 @@
 
 <body>
     <app-root></app-root>
-    <script type="text/javascript" src="runtime.js"></script>
-    <script type="text/javascript" src="polyfills.js"></script>
-    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="template_editor/runtime.js"></script>
+    <script type="text/javascript" src="template_editor/polyfills.js"></script>
+    <script type="text/javascript" src="template_editor/main.js"></script>
 </body>
 
 </html>
