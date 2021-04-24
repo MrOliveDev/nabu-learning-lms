@@ -132,7 +132,7 @@ class LoginController extends Controller
 
         $this->clearLoginAttempts($request);
         if (auth()->user()->type === 0) {
-            $this->redirectTo = 'admin/dash';
+            $this->redirectTo = 'admindash';
         } else {
             $this->redirectTo = 'dash';
         }
