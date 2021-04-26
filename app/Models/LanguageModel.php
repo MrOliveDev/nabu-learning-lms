@@ -41,7 +41,7 @@ class LanguageModel extends Model
         return $data['language_name'];
 	}
 
-	public function scopeGetLanguages($query, ){
+	public function scopeGetLanguages($query){
 
         $dataf=$query->all();
         return $dataf;
