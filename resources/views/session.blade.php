@@ -7,7 +7,7 @@
             <div class="clear-fix toolkit mx-4 flex-column">
 
                 <div class="clear-fix bg-primary text-white mb-3" style="height:50px;">
-                    <strong class="float-left p-2">Mes cours</strong>
+                    <strong class="float-left p-2">{{$translation->l('Mes cours')}}</strong>
                     <div class="float-right p-2">
                         <div class="input-container">
                             <i class="fa fa-plus icon p-2"></i>
@@ -25,7 +25,7 @@
                 <a class="list-group-item list-group-item-action active  p-1 border-0 bg-blue-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                     <div class="float-left">
                         <i class="fa fa-circle text-danger m-2"></i>
-                        Module1
+                        {{$translation->l('Module1')}}
                     </div>
                     <div class="btn-group float-right">
                         <button class="btn text-primary px-2">
@@ -54,7 +54,7 @@
                 <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
                     <div class="float-left">
                         <i class="fa fa-circle text-danger m-2"></i>
-                        Module1
+                        {{$translation->l('Module1')}}
                     </div>
                     <div class="btn-group float-right">
                         <button class="btn text-primary px-2">
@@ -83,7 +83,7 @@
                 <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
                     <div class="float-left">
                         <i class="fa fa-circle text-danger m-2"></i>
-                        Module1
+                        {{$translation->l('Module1')}}
                     </div>
                     <div class="btn-group float-right">
                         <button class="btn text-primary px-2">
@@ -112,7 +112,7 @@
                 <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                     <div class="float-left">
                         <i class="fa fa-circle text-danger m-2"></i>
-                        Module1
+                        {{$translation->l('Module1')}}
                     </div>
                     <div class="btn-group float-right">
                         <button class="btn text-primary px-2">
@@ -141,7 +141,7 @@
                 <a class="list-group-item list-group-item-action p-1 border-0  bg-blue-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
                     <div class="float-left">
                         <i class="fa fa-circle text-danger m-2"></i>
-                        Module1
+                        {{$translation->l('Module1')}}
                     </div>
                     <div class="btn-group float-right">
                         <button class="btn text-primary px-2">
@@ -170,7 +170,7 @@
                 <a class="list-group-item list-group-item-action p-1 border-0  bg-blue-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
                     <div class="float-left">
                         <i class="fa fa-circle text-danger m-2"></i>
-                        Module1
+                        {{$translation->l('Module1')}}
                     </div>
                     <div class="btn-group float-right">
                         <button class="btn text-primary px-2">
@@ -209,10 +209,10 @@
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs border-0 mb-2">
                             <li class="nav-item">
-                                <a class="nav-link active m-1 bg-red-1 rounded-1 border-0" href="#home">Home</a>
+                                <a class="nav-link active m-1 bg-red-1 rounded-1 border-0" href="#home">{{$translation->l('Home')}}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link m-1 bg-red-0 rounded-1 border-0" href="#menu1">Menu 1</a>
+                                <a class="nav-link m-1 bg-red-0 rounded-1 border-0" href="#menu1">{{$translation->l('Menu 1')}}</a>
                             </li>
                         </ul>
 
@@ -233,19 +233,19 @@
                                                     <a class="list-group-item list-group-item-action active p-1 border-0 bg-blue-1 text-black">
                                                         <div class="float-left">
                                                             <i class="fa fa-circle text-danger m-2"></i>
-                                                            Module1
+                                                            {{$translation->l('Module1')}}
                                                         </div>
                                                     </a>
                                                     <a class="list-group-item list-group-item-action active p-1 border-0 bg-blue-1 text-black">
                                                         <div class="float-left">
                                                             <i class="fa fa-circle text-danger m-2"></i>
-                                                            Module1
+                                                            {{$translation->l('Module1')}}
                                                         </div>
                                                     </a>
                                                     <a class="list-group-item list-group-item-action active p-1 border-0 bg-blue-1 text-black">
                                                         <div class="float-left">
                                                             <i class="fa fa-circle text-danger m-2"></i>
-                                                            Module1
+                                                            {{$translation->l('Module1')}}
                                                         </div>
                                                     </a>
                                                 </div>
@@ -256,7 +256,7 @@
 
                             </div>
                             <div id="menu1" class="container tab-pane fade"><br>
-                                <h3>Menu 1</h3>
+                                <h3>{{$translation->l('Menu 1')}}</h3>
                                 <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                             </div>
                         </div>
@@ -335,7 +335,7 @@
         </div>
         <div id="div_D" class="window bottom">
             <div class="toolkit clear-fix bg-red-0 text-white mb-3 mx-4 flex-column" style="height:50px;">
-                <strong class="float-left p-2">Mes Parcours de Formation</strong>
+                <strong class="float-left p-2">{{$translation->l('Mes Parcours de Formation')}}</strong>
                 <div class="float-right p-2">
                     <div class="input-container">
                         <i class="fa fa-plus icon p-2"></i>
@@ -352,7 +352,7 @@
                 <a class="list-group-item list-group-item-action active p-1 border-0 bg-red-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                     <div class="float-left">
                         <i class="fa fa-circle text-danger m-2"></i>
-                        Module1
+                        {{$translation->l('Module1')}}
                     </div>
                     <div class="btn-group float-right">
                         <button class="btn text-primary px-2">
@@ -381,7 +381,7 @@
                 <a class="list-group-item list-group-item-action p-1 border-0 bg-red-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
                     <div class="float-left">
                         <i class="fa fa-circle text-danger m-2"></i>
-                        Module1
+                        {{$translation->l('Module1')}}
                     </div>
                     <div class="btn-group float-right">
                         <button class="btn text-primary px-2">
@@ -410,7 +410,7 @@
                 <a class="list-group-item list-group-item-action p-1 border-0 bg-red-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
                     <div class="float-left">
                         <i class="fa fa-circle text-danger m-2"></i>
-                        Module1
+                        {{$translation->l('Module1')}}
                     </div>
                     <div class="btn-group float-right">
                         <button class="btn text-primary px-2">

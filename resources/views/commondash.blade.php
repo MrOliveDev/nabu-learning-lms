@@ -9,8 +9,7 @@
                     <i class="fa fa-bars float-right">
 
                     </i>
-                    Les Bonnes Pratiques de Fabrication
-                    Dans l’Industrie Pharmaceutique
+                    {{$translation->l('Les Bonnes Pratiques de Fabrication Dans l’Industrie Pharmaceutique')}}
                 </div>
 
             </div>
@@ -33,7 +32,7 @@
                     </span>
                 </div>
                 <div class="collespe-description">
-                    Ouvert jusqu’au 26 mars 2021
+                    {{$translation->l('Ouvert jusqu’au')}} 26 mars 2021
                 </div>
             </div>
         </div>
@@ -43,8 +42,7 @@
                     <i class="fa fa-bars float-right">
 
                     </i>
-                    Les Bonnes Pratiques de Fabrication
-                    Dans l’Industrie Pharmaceutique
+                    Les Bonnes Pratiques de Fabrication Dans l’Industrie Pharmaceutique
                 </div>
 
             </div>
@@ -67,7 +65,7 @@
                     </span>
                 </div>
                 <div class="collespe-description">
-                    Ouvert jusqu’au 26 mars 2021
+                    {{$translation->l('Ouvert jusqu’au')}} 26 mars 2021
                 </div>
             </div>
         </div>
@@ -77,8 +75,7 @@
                     <i class="fa fa-bars float-right">
 
                     </i>
-                    Les Bonnes Pratiques de Fabrication
-                    Dans l’Industrie Pharmaceutique
+                    {{$translation->l('Les Bonnes Pratiques de Fabrication Dans l’Industrie Pharmaceutique')}}
                 </div>
 
             </div>
@@ -101,7 +98,7 @@
                     </span>
                 </div>
                 <div class="collespe-description">
-                    Ouvert jusqu’au 26 mars 2021
+                    {{$translation->l('Ouvert jusqu’au')}} 26 mars 2021
                 </div>
             </div>
         </div>
@@ -137,7 +134,7 @@
                     <td>
                         <div class="round-corner-10">
                             <span>
-                                Les Bonnes Pratiques de Fabrication Dans l’Industrie Pharmaceutique
+                                {{$translation->l('Les Bonnes Pratiques de Fabrication Dans l’Industrie Pharmaceutique')}}
                             </span>
                             <i class="fas fa-exclamation-circle text-light">
 
@@ -172,7 +169,7 @@
                     <td>
                         <div class="round-corner-10">
                             <span>
-                                Les Bonnes Pratiques de Fabrication Dans l’Industrie Pharmaceutique
+                                {{$translation->l('Les Bonnes Pratiques de Fabrication Dans l’Industrie Pharmaceutique')}}')}}
                             </span>
                             <i class="fas fa-exclamation-circle text-light">
 
@@ -212,7 +209,7 @@
                     <td>
                         <div class="round-corner-10">
                             <span>
-                                Les Bonnes Pratiques de Fabrication Dans l’Industrie Pharmaceutique
+                                {{$translation->l('Les Bonnes Pratiques de Fabrication Dans l’Industrie Pharmaceutique')}}
                             </span>
                             <i class="fas fa-exclamation-circle text-light">
 
@@ -247,7 +244,7 @@
                     <td>
                         <div class="round-corner-10">
                             <span>
-                                Les Bonnes Pratiques de Fabrication Dans l’Industrie Pharmaceutique
+                                {{$translation->l('Les Bonnes Pratiques de Fabrication Dans l’Industrie Pharmaceutique')}}
                             </span>
                             <i class="fas fa-exclamation-circle text-light">
 
@@ -268,8 +265,9 @@
 
             <div class="dash-description mx-4">
                 <div class="dash-panel">
-                    <span class="dash-panel-title">Objectifs :</span>
+                    <span class="dash-panel-title">{{$translation->l('Objectifs')}} :</span>
                     <div class="dash-panel-content">
+                    {{$translation->l('
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eleifend
                         magna dignissim nunc maximus maximus. Nunc eget laoreet purus. Proin
                         interdum, felis non malesuada vehicula, est ante ornare tortor, blandit
@@ -277,24 +275,25 @@
                         curae; Curabitur ultricies odio velit, vitae rutrum ipsum viverra in. Suspendisse mollis et dolor gravida ultrices. Aenean iaculis, orci ultrices posuere
                         sagittis, nisi felis fermentum quam, viverra euismod eros velit non ligula.
                         Etiam sit amet tempor massa.
+                        ')}}
                     </div>
-                    <div class="dash-panel-footer"><span class="dash-panel-bottom-title">Durée :</span>25 minutes</div>
+                    <div class="dash-panel-footer"><span class="dash-panel-bottom-title">{{$translation->l('Durée')}} :</span>25 minutes</div>
                 </div>
                 <div class="dash-item-list">
                     <div class="dash-item">
                         <div><img src="{{ asset('assets/media/13.jpg') }}" alt="" class="dash-avatar"></div>
                         <div class="dash-avatar-title text-mute">
-                            Télécharger mon
+                            {{$translation->l('Télécharger mon
                             attestation de
-                            formation
+                            formation')}}
                         </div>
                     </div>
                     <div class="dash-item">
                         <img src="{{ asset('assets/media/14.jpg') }}" alt="" class="dash-avatar">
                         <div class="dash-avatar-title text-mute">
-                            Télécharger mon
+                            {{$translation->l('Télécharger mon
                             attestation de
-                            formation
+                            formation')}}
                         </div>
                     </div>
                 </div>

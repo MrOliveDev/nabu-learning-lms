@@ -7,7 +7,7 @@
             <div class="clear-fix mx-4">
 
                 <div class="clear-fix bg-warning text-white mb-3 toolkit" style="height:50px">
-                    <strong class="float-left p-2">Template</strong>
+                    <strong class="float-left p-2">{{$translation->l('Template')}}</strong>
                     <div class="float-right p-2">
                         <div class="input-container">
                             <button class="border-0 bg-transparent text-white" id="template_add_btn">
@@ -64,13 +64,13 @@
                     <div class="tab-pane fade show active container m-0 p-2" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
                         <div class="card bg-white text-black p-3 mx-2 text-left">
                             <p>
-                                <strong class="pt-1">Template Name :</strong>
+                                <strong class="pt-1">{{$translation->l('Template Name')}} :</strong>
                                 <button class="float-right p-2 border-0" id="template_edit_btn"><i class="fa fa-cog"></i></button>
                             </p>
 
                             <label id="template_name_label"></label>
                             <input type="label" id="template_name_input">
-                            <button class="float-right mt-3 p-2 border-0 float-right bg-yellow-1" id="template_save_btn">SAVE</button>
+                            <button class="float-right mt-3 p-2 border-0 float-right bg-yellow-1" id="template_save_btn">{{$translation->l('SAVE')}}</button>
 
 
                         </div>
@@ -91,15 +91,15 @@
 
             <ul class="nav nav-tabs border-0 mb-2 mx-4">
                 <li class="nav-item">
-                    <a class="nav-link m-1 bg-green-2 rounded-1 border-0" href="#menu1">COMPANIES</a>
+                    <a class="nav-link m-1 bg-green-2 rounded-1 border-0" href="#menu1">{{$translation->l('COMPANIES')}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active m-1 bg-green-2 rounded-1 border-0" href="#home">TRAINING COURSES</a>
+                    <a class="nav-link active m-1 bg-green-2 rounded-1 border-0" href="#home">{{$translation->l('TRAINING COURSES')}}</a>
                 </li>
             </ul>
 
             <div class="toolkit clear-fix bg-success text-white mb-3 mx-4" style="height:50px">
-                <strong class="float-left p-2">Companies</strong>
+                <strong class="float-left p-2">{{$translation->l('Companies')}}</strong>
                 <div class="float-right p-2">
                     <div class="input-container">
                         <i class="fa fa-plus icon p-2"></i>
@@ -337,11 +337,6 @@
 
 
     $(document).ready(function() {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
         $("#div_B").hide();
         $('#template-list-tab>.list-group-item').click(function(e) {
                 if ($(this).attr('id').split('_')[0] == "template") {

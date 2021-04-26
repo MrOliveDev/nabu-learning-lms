@@ -20,7 +20,6 @@ class TemplateController extends Controller
     {
         return TemplateModel::where('id', $request->id)
             ->update(['name' => $request->name, 'code' => $request->name]);
-        // echo $request->name;
     }
 
     public function add(Request $request)
@@ -33,7 +32,6 @@ class TemplateController extends Controller
             "style" =>"",
             "published" => "1"
         ]);
-        // echo $request->name;
     }
 
     public function delete(Request $request)
@@ -41,6 +39,5 @@ class TemplateController extends Controller
         $result = TemplateModel::where("id", $request->id)
         ->delete([]);
         return response()->json(["success" =>$result]);
-        // echo $request->name;
     }
 }

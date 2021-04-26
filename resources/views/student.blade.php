@@ -6,20 +6,20 @@
         <div id="div_A" class="window top">
             <ul class="nav nav-tabs border-0 mb-2 mx-4">
                 <li class="nav-item">
-                    <a class="nav-link active m-1 bg-yellow-2 rounded-1 border-0" href="#home">STUDENTS</a>
+                    <a class="nav-link active m-1 bg-yellow-2 rounded-1 border-0" href="#home">{{$translation->l('STUDENTS')}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link m-1 bg-yellow-2 rounded-1 border-0" href="#menu1"> TEACHERS</a>
+                    <a class="nav-link m-1 bg-yellow-2 rounded-1 border-0" href="#menu1"> {{$translation->l('TEACHERS')}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link m-1 bg-yellow-2 rounded-1 border-0" href="#menu1">AUTHORS</a>
+                    <a class="nav-link m-1 bg-yellow-2 rounded-1 border-0" href="#menu1">{{$translation->l('AUTHORS')}}</a>
                 </li>
             </ul>
 
             <div class="clear-fix mx-4">
 
                 <div class="clear-fix bg-warning text-white mb-3 toolkit" style="height:50px">
-                    <strong class="float-left p-2">Mes cours</strong>
+                    <strong class="float-left p-2">{{$translation->l('Mes cours')}}</strong>
                     <div class="float-right p-2">
                         <div class="input-container">
                             <i class="fa fa-plus icon p-2"></i>
@@ -136,7 +136,7 @@
                         <div class="row">
                             <div class="card col-md-5 bg-white text-black p-3 mx-2 text-left">
                                 <strong>
-                                    Objectifs :
+                                    {{$translation->l('Objectifs')}} :
                                     <i class="fa fa-cog float-right p-2"></i>
                                 </strong>
 
@@ -148,14 +148,14 @@
                                     vehicula, est ante ornare tortor, blandit
                                 </p>
                                 <span>
-                                    <b>Durée :</b>25 minutes
+                                    <b>{{$translation->l('Durée')}} :</b>25 minutes
                                 </span>
                                 <strong>
-                                    <br>Langue :</br>FR (français) En ligne
+                                    <br>{{$translation->l('Langue')}} :</br>FR (français) En ligne
                                 </strong>
                                 <br>
                                 <strong>
-                                    <b>Public cible :</b>techniciens
+                                    <b>{{$translation->l('Public cible')}} :</b>techniciens
                                 </strong>
 
 
@@ -164,7 +164,7 @@
                             <div class="px-2 col-md-3">
                                 <div class="dropdown bg-primary show">
                                     <a class="btn btn-primary dropdown-toggle w-100" href="#" role="button" id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Status
+                                        {{$translation->l('Status')}}
                                         <i class="fa fa-chevron-down float-right p-1"></i>
                                     </a>
 
@@ -208,15 +208,15 @@
 
             <ul class="nav nav-tabs border-0 mb-2 mx-4">
                 <li class="nav-item">
-                    <a class="nav-link active m-1 bg-green-2 rounded-1 border-0" href="#home">GROUPS</a>
+                    <a class="nav-link active m-1 bg-green-2 rounded-1 border-0" href="#home">{{$translation->l('GROUPS')}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link m-1 bg-green-2 rounded-1 border-0" href="#menu1">COMPANIES</a>
+                    <a class="nav-link m-1 bg-green-2 rounded-1 border-0" href="#menu1">{{$translation->l('COMPANIES')}}</a>
                 </li>
             </ul>
 
             <div class="toolkit clear-fix bg-success text-white mb-3 mx-4" style="height:50px">
-                <strong class="float-left p-2">Mes Parcours de Formation</strong>
+                <strong class="float-left p-2">{{$translation->l('Mes Parcours de Formation')}}</strong>
                 <div class="float-right p-2">
                     <div class="input-container">
                         <i class="fa fa-plus icon p-2"></i>
@@ -332,7 +332,7 @@
                             <img src="{{ asset('assets/media/17.jpg') }}" alt="" class="card-img-top">
                             <div class="card-body  p-3">
                                 <strong>
-                                    Objectifs :
+                                    {{$translation->l('Objectifs')}} :
                                     <i class="fa fa-cog float-right p-2"></i>
                                 </strong>
 
@@ -345,19 +345,19 @@
                                 </p>
                                 <span>
                                     <b>
-                                        Durée :
+                                        {{$translation->l('Durée')}} :
                                     </b> 25 minutes
                                 </span>
                                 <br>
                                 <span class="text-wrap">
                                     <b>
-                                        Langue :
+                                        {{$translation->l('Langue')}} :
                                     </b>FR (français) En ligne
                                 </span>
                                 <br>
                                 <span>
                                     <b>
-                                        Public cible :
+                                        {{$translation->l('Public cible')}} :
                                     </b>
                                 </span>
                                 techniciens
@@ -368,7 +368,7 @@
                     <div class="px-2 col-md-3">
                         <div class="dropdown bg-blue-2 show">
                             <a class="btn btn-primary dropdown-toggle w-100" href="#" role="button" id="dropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Status
+                                {{$translation->l('Status')}}
                                 <i class="fa fa-chevron-down float-right p-1"></i>
                             </a>
 

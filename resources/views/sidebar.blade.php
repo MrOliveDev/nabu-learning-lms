@@ -15,7 +15,7 @@
                         <div class="bg-primary">
                             <div class="content-header">
                                 <div class="font-size-lg font-w300 text-white">
-                                    <i class="fa fa-users mr-1"></i> People
+                                    <i class="fa fa-users mr-1"></i>
                                 </div>
 
                                 <!-- Close Side Overlay -->
@@ -32,7 +32,18 @@
                         <div class="content-side">
                             <form class="push" action="db_social.html" method="POST" onsubmit="return false;">
                                 <div class="input-group">
-                                    <input class="form-control form-control-alt" placeholder="Search People...">
+                                    <select class="form-control" id="val-language" name="val-language">
+                                        <option value="">{{$translation->l('Select your language')}}</option>
+                                        @isset($language)
+                                        @foreach($language as $languageItem)
+                                        <option value="{{$languageItem->language_iso}}">{{$languageItem->language_name}}</option>
+                                        @endforeach
+                                        @endisset
+                                    </select>
+                                </div>
+                                <br>
+                                <div class="input-group">
+                                    <input class="form-control form-control-alt" placeholder="Search Dictionary..." id="search_word">
                                     <div class="input-group-append">
                                         <span class="input-group-text input-group-text-alt">
                                             <i class="fa fa-fw fa-search"></i>
@@ -92,9 +103,11 @@
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-tachometer-alt"></i>
-                                            </div>
+                                        </div>
                                         <!-- </div> -->
-                                        <span class="nav-main-link-name">Dashboard</span>
+                                        <span class="nav-main-link-name">
+                                            {{$translation->l('Dashboard')}}
+                                        </span>
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
@@ -102,9 +115,11 @@
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-cogs"></i>
-                                            </div>
+                                        </div>
                                         <!-- </div> -->
-                                        <span class="nav-main-link-name">Session</span>
+                                        <span class="nav-main-link-name">
+                                            {{$translation->l('Sessions')}}
+                                        </span>
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
@@ -112,9 +127,11 @@
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-user"></i>
-                                            </div>
+                                        </div>
                                         <!-- </div> -->
-                                        <span class="nav-main-link-name">Users</span>
+                                        <span class="nav-main-link-name">
+                                            {{$translation->l('Users')}}
+                                        </span>
                                     </a>
                                 </li>
                                 <!-- <li class="nav-main-item">
@@ -125,7 +142,7 @@
                                         <span class="nav-main-link-name">Groupes</span>
                                     </a>
                                 </li> -->
- <!--                                <li class="nav-main-item">
+                                <!--                                <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{route('lesson')}}" id="societes">
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-th"></i>
@@ -141,9 +158,11 @@
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-cubes"></i>
-                                            </div>
+                                        </div>
                                         <!-- </div> -->
-                                        <span class="nav-main-link-name">Training Courses</span>
+                                        <span class="nav-main-link-name">
+                                            {{$translation->l('Training Courses')}}
+                                        </span>
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
@@ -151,22 +170,26 @@
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-newspaper"></i>
-                                            </div>
+                                        </div>
                                         <!-- </div> -->
-                                        <span class="nav-main-link-name">Templates</span>
+                                        <span class="nav-main-link-name">
+                                            {{$translation->l('Templates')}}
+                                        </span>
                                     </a>
                                 </li>
 
                                 <hr>
 
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="#" id="outil">
+                                    <a class="nav-main-link" href="{{route('dash')}}" id="outil">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon far fa-envelope"></i>
-                                            </div>
+                                        </div>
                                         <!-- </div> -->
-                                        <span class="nav-main-link-name">Mail</span>
+                                        <span class="nav-main-link-name">
+                                            {{$translation->l('Mail')}}
+                                        </span>
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
@@ -174,9 +197,11 @@
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-chart-pie"></i>
-                                            </div>
+                                        </div>
                                         <!-- </div> -->
-                                        <span class="nav-main-link-name">Report and Certificates</span>
+                                        <span class="nav-main-link-name">
+                                            {{$translation->l('Report and Certificates')}}
+                                        </span>
                                     </a>
                                 </li>
                             </ul>
@@ -197,3 +222,31 @@
         </div>
     </div>
 </nav>
+<script>
+    $(document).ready(
+        function() {
+            $('#val-language').change(function(evt) {
+                $.get(
+                    "{{route('changeLanguage')}}", {
+                        language: evt.target.value
+                    },
+                    function(data, statues) {
+                        //show alarm that language is changed
+                        window.location.reload();
+                    }
+                )
+            });
+            $('#search_word').change(function(evt){
+                $.post(
+                    "{{route('searchfromdictionary')}}",
+                    {
+                        'keyword':evt.target.value
+                    },
+                    function(data, statues){
+
+                    }
+                )
+            })
+        }
+    )
+</script>

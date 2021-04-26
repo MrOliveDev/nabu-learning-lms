@@ -9,7 +9,6 @@ class TemplateEditorController extends Controller
     //
     public function index()
     {
-        // echo asset('template-editor');
         return view('template_editor');
     }
 }
