@@ -8,7 +8,7 @@
             <div class="clear-fix mx-4">
 
                 <div class="clear-fix bg-primary text-white mb-3 toolkit" style="height:50px">
-                    <strong class="float-left p-2">Mes cours</strong>
+                    <strong class="float-left p-2">{{$translation->l('Mes cours')}}</strong>
                     <div class="float-right p-2">
                         <div class="input-container">
                             <i class="fa fa-plus icon p-2"></i>
@@ -25,7 +25,7 @@
                     <a class="list-group-item list-group-item-action active  p-1 border-0 bg-blue-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
-                            Module1
+                            {{$translation->l('Module1')}}
                         </div>
                         <div class="btn-group float-right">
                             <button class="btn text-primary px-2">
@@ -54,7 +54,7 @@
                     <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
-                            Module1
+                            {{$translation->l('Module1')}}
                         </div>
                         <div class="btn-group float-right">
                             <button class="btn text-primary px-2">
@@ -83,7 +83,7 @@
                     <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
-                            Module1
+                            {{$translation->l('Module1')}}
                         </div>
                         <div class="btn-group float-right">
                             <button class="btn text-primary px-2">
@@ -112,7 +112,7 @@
                     <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
-                            Module1
+                            {{$translation->l('Module1')}}
                         </div>
                         <div class="btn-group float-right">
                             <button class="btn text-primary px-2">
@@ -141,7 +141,7 @@
                     <a class="list-group-item list-group-item-action p-1 border-0 bg-blue-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
-                            Module1
+                            {{$translation->l('Module1')}}
                         </div>
                         <div class="btn-group float-right">
                             <button class="btn text-primary px-2">
@@ -170,7 +170,7 @@
                     <a class="list-group-item list-group-item-action p-1 border-0 bg-blue-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
-                            Module1
+                            {{$translation->l('Module1')}}
                         </div>
                         <div class="btn-group float-right">
                             <button class="btn text-primary px-2">
@@ -211,7 +211,7 @@
                         <div class="row">
                             <div class="card col-md-5 bg-white text-black p-3 mx-2">
                                 <strong>
-                                    Objectifs :
+                                    {{$translation->l('Objectifs')}} :
                                     <i class="fa fa-cog float-right p-2"></i>
                                 </strong>
 
@@ -223,14 +223,14 @@
                                     vehicula, est ante ornare tortor, blandit
                                 </p>
                                 <span>
-                                    <b>Durée :</b>25 minutes
+                                    <b>{{$translation->l('Durée')}} :</b>25 minutes
                                 </span>
                                 <strong>
-                                    <br>Langue :</br>FR (français) En ligne
+                                    <br>{{$translation->l('Langue')}} :</br>FR (français) En ligne
                                 </strong>
                                 <br>
                                 <strong>
-                                    <b>Public cible :</b>techniciens
+                                    <b>{{$translation->l('Public cible')}} :</b>{{$translation->l('techniciens')}}
                                 </strong>
 
 
@@ -239,14 +239,14 @@
                             <div class="px-2 col-md-3">
                                 <div class="dropdown bg-primary show">
                                     <a class="btn btn-primary dropdown-toggle w-100" href="#" role="button" id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Status
+                                        {{$translation->l('Status')}}
                                         <i class="fa fa-chevron-down float-right p-1"></i>
                                     </a>
 
                                     <div class="dropdown-menu show p-0" aria-labelledby="dropdownMenuLink1">
-                                        <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Action</a>
-                                        <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Another</a>
-                                        <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Something</a>
+                                        <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">{{$translation->l('Action')}}</a>
+                                        <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">{{$translation->l('Another')}}</a>
+                                        <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">{{$translation->l('Something')}}</a>
                                     </div>
                                 </div>
                             </div>
@@ -258,17 +258,17 @@
                                     </a>
 
                                     <div class="dropdown-menu show p-0" aria-labelledby="dropdownMenuLink2">
-                                        <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Action</a>
-                                        <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Another</a>
-                                        <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Something</a>
+                                        <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">{{$translation->l('Action')}}</a>
+                                        <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">{{$translation->l('Another')}}</a>
+                                        <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">{{$translation->l('Something')}}</a>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">Messages</div>
-                    <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">Settings</div>
+                    <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">{{$translation->l('Messages')}}</div>
+                    <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">{{$translation->l('Settings')}}</div>
                 </div>
             </div>
 
@@ -282,7 +282,7 @@
         <div id="div_C" class="window top">
 
         <div class="toolkit clear-fix bg-red-0 text-white mb-3 mx-4" style="height:50px">
-                <strong class="float-left p-2">Mes Parcours de Formation</strong>
+                <strong class="float-left p-2">{{$translation->l('Mes Parcours de Formation')}}</strong>
                 <div class="float-right p-2">
                     <div class="input-container">
                         <i class="fa fa-plus icon p-2"></i>
@@ -299,7 +299,7 @@
                 <a class="list-group-item list-group-item-action active p-1 border-0 bg-red-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                     <div class="float-left">
                         <i class="fa fa-circle text-danger m-2"></i>
-                        Module1
+                        {{$translation->l('Module1')}}
                     </div>
                     <div class="btn-group float-right">
                         <button class="btn text-primary px-2">
@@ -328,7 +328,7 @@
                 <a class="list-group-item list-group-item-action p-1 border-0  bg-red-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
                     <div class="float-left">
                         <i class="fa fa-circle text-danger m-2"></i>
-                        Module1
+                        {{$translation->l('Module1')}}
                     </div>
                     <div class="btn-group float-right">
                         <button class="btn text-primary px-2">
@@ -357,7 +357,7 @@
                 <a class="list-group-item list-group-item-action p-1 border-0  bg-red-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
                     <div class="float-left">
                         <i class="fa fa-circle text-danger m-2"></i>
-                        Module1
+                        {{$translation->l('Module1')}}
                     </div>
                     <div class="btn-group float-right">
                         <button class="btn text-primary px-2">
@@ -398,7 +398,7 @@
                             <img src="{{ asset('assets/media/17.jpg') }}" alt="" class="card-img-top">
                             <div class="card-body  p-3">
                                 <strong>
-                                    Objectifs :
+                                    {{$translation->l('Objectifs')}} :
                                     <i class="fa fa-cog float-right p-2"></i>
                                 </strong>
 
@@ -411,22 +411,22 @@
                                 </p>
                                 <span>
                                     <b>
-                                        Durée :
+                                        {{$translation->l('Durée')}} :
                                     </b> 25 minutes
                                 </span>
                                 <br>
                                 <span class="text-wrap">
                                     <b>
-                                        Langue :
+                                        {{$translation->l('Langue')}} :
                                     </b>FR (français) En ligne
                                 </span>
                                 <br>
                                 <span>
                                     <b>
-                                        Public cible :
+                                        {{$translation->l('Public cible')}} :
                                     </b>
                                 </span>
-                                techniciens
+                                {{$translation->l('techniciens')}}
                             </div>
                         </div>
                     </div>
@@ -434,13 +434,13 @@
                     <div class="px-2 col-md-3">
                         <div class="dropdown bg-blue-2 show">
                             <a class="btn btn-primary dropdown-toggle w-100" href="#" role="button" id="dropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Status
+                                {{$translation->l('Status')}}
                                 <i class="fa fa-chevron-down float-right p-1"></i>
                             </a>
 
                             <div class="dropdown-menu show p-0" aria-labelledby="dropdownMenuLink3">
-                                <a class="dropdown-item p-1 bg-blue-2 text-green-0 mb-0" href="#">Action</a>
-                                <a class="dropdown-item p-1 bg-blue-2 text-red-0 mb-0" href="#">Another</a>
+                                <a class="dropdown-item p-1 bg-blue-2 text-green-0 mb-0" href="#">{{$translation->l('Action')}}</a>
+                                <a class="dropdown-item p-1 bg-blue-2 text-red-0 mb-0" href="#">{{$translation->l('Another')}}</a>
                             </div>
                         </div>
                     </div>
@@ -451,13 +451,13 @@
                             </a>
 
                             <div class="dropdown-menu show p-0" aria-labelledby="dropdownMenuLink4">
-                                <a class="dropdown-item p-1 bg-red-1 text-white mb-0" href="#">Action</a>
+                                <a class="dropdown-item p-1 bg-red-1 text-white mb-0" href="#">{{$translation->l('Action')}}</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade " id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">Messages</div>
-                <div class="tab-pane fade " id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">Settings</div>
+                <div class="tab-pane fade " id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">{{$translation->l('Messages')}}</div>
+                <div class="tab-pane fade " id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">{{$translation->l('Settings')}}</div>
             </div>
 
         </div>

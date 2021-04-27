@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -125,6 +126,15 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::get('student', '\App\Http\Controllers\StudentController@index')->name('student');
     Route::get('template', '\App\Http\Controllers\TemplateController@index')->name('template');
     Route::get('template_editor', '\App\Http\Controllers\TemplateEditorController@index')->name('template_editor');
+    Route::get('changeLanuguage', function(Request $request){
+        session(['language'=>$request->language]);
+    })->name('changeLanguage');
+    Route::post('searchfromdictionary', function(Request $request){
+        $request->keyword;
+        // $users = DB::table('users')
+        //     ->leftJoin('posts', 'users.id', '=', 'posts.user_id')
+        //     ->get();
+    })->name('searchfromdictionary');
     Route::post('template/update', '\App\Http\Controllers\TemplateController@update')->name('template.update');
     Route::post('template/add', '\App\Http\Controllers\TemplateController@add')->name('template.add');
     Route::post('template/delete', '\App\Http\Controllers\TemplateController@delete')->name('template.delete');

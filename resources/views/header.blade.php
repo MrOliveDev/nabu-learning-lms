@@ -16,7 +16,9 @@
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn btn-dual btn-rounded" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <!-- <i class="fa fa-fw fa-user d-sm-none"></i> -->
-                    <span class="d-none d-sm-inline-block">Admin</span>
+                    <span class="d-none d-sm-inline-block">
+                    {{$translation->l('Admin')}}
+                    </span>
                     <i class="fa fa-fw fa-user"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="page-header-user-dropdown" x-placement="bottom-end" style="position: absolute; transform: translate3d(-90px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
@@ -45,7 +47,7 @@
 
                         <!-- <div role="separator" class="dropdown-divider"></div> -->
                         <a class="dropdown-item" href="{{ url('/logout') }}">
-                            <i class="far fa-fw fa-arrow-alt-circle-left mr-1"></i> Sign Out
+                            <i class="far fa-fw fa-arrow-alt-circle-left mr-1"></i> {{$translation->l('Sign Out')}}
                         </a>
                     </div>
                 </div>
@@ -59,7 +61,7 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-lg p-0" aria-labelledby="page-header-notifications-dropdown" style="">
                     <div class="bg-primary-darker rounded-top font-w600 text-white text-center p-3">
-                        Notifications
+                        {{$translation->l('Notifications')}}
                     </div>
                     <ul class="nav-items my-2">
                         <li>
@@ -68,7 +70,7 @@
                                     <i class="fa fa-fw fa-user-plus text-primary"></i>
                                 </div>
                                 <div class="media-body font-size-sm pr-2">
-                                    <div class="font-w600">John Doe send you a friend request!</div>
+                                    <div class="font-w600">{{$translation->l('John Doe send you a friend request!')}}</div>
                                     <div class="text-muted font-italic">6 min ago</div>
                                 </div>
                             </a>
@@ -79,7 +81,7 @@
                                     <i class="fa fa-fw fa-user-plus text-primary"></i>
                                 </div>
                                 <div class="media-body font-size-sm pr-2">
-                                    <div class="font-w600">Elisa Doe send you a friend request!</div>
+                                    <div class="font-w600">{{$translation->l('Elisa Doe send you a friend request!')}}</div>
                                     <div class="text-muted font-italic">10 min ago</div>
                                 </div>
                             </a>
@@ -90,7 +92,7 @@
                                     <i class="fa fa-check-circle text-success"></i>
                                 </div>
                                 <div class="media-body font-size-sm pr-2">
-                                    <div class="font-w600">Backup completed successfully!</div>
+                                    <div class="font-w600">{{$translation->l('Backup completed successfully!')}}</div>
                                     <div class="text-muted font-italic">2 hours ago</div>
                                 </div>
                             </a>
@@ -101,7 +103,7 @@
                                     <i class="fa fa-fw fa-user-plus text-primary"></i>
                                 </div>
                                 <div class="media-body font-size-sm pr-2">
-                                    <div class="font-w600">George Smith send you a friend request!</div>
+                                    <div class="font-w600">{{$translation->l('George Smith send you a friend request!')}}</div>
                                     <div class="text-muted font-italic">3 hours ago</div>
                                 </div>
                             </a>
@@ -112,8 +114,7 @@
                                     <i class="fa fa-exclamation-circle text-warning"></i>
                                 </div>
                                 <div class="media-body font-size-sm pr-2">
-                                    <div class="font-w600">You are running out of space. Please consider upgrading your
-                                        plan.</div>
+                                    <div class="font-w600">{{$translation->l('You are running out of space. Please consider upgrading your plan.')}}</div>
                                     <div class="text-muted font-italic">1 day ago</div>
                                 </div>
                             </a>
@@ -132,7 +133,7 @@
                     </ul>
                     <div class="p-2 border-top">
                         <a class="btn btn-light btn-block text-center" href="#">
-                            <i class="fa fa-fw fa-eye mr-1"></i> View All
+                            <i class="fa fa-fw fa-eye mr-1"></i> {{$translation->l('View All')}}
                         </a>
                     </div>
                 </div>

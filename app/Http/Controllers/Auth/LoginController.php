@@ -136,6 +136,8 @@ class LoginController extends Controller
         } else {
             $this->redirectTo = 'dash';
         }
+        session(['language'=>'en']);
+
         return $this->authenticated($request, $this->guard()->user())
             ?: redirect()->intended($this->redirectPath());
     }

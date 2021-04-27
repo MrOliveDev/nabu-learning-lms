@@ -70,6 +70,11 @@
         $(document).ready(function() {
             $("#page-header").removeClass("page-header-trigger");
             $("#page-container").removeClass("page-header-trigger");
+            $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         })
 
         $("#sidebar").hover(
