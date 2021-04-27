@@ -9,6 +9,19 @@ class LanguageModel extends Model
 {
     use HasFactory;
 
+//     SELECT
+// 	`tb_translations`.translation_value,
+// 	`tb_translations`.translation_string,
+// 	tb_languages.language_iso
+// FROM
+// 	`tb_translations`
+// 	LEFT JOIN `tb_languages` ON `tb_languages`.`language_id` = `tb_translations`.`language_id`
+// WHERE
+// 	tb_translations.translation_value LIKE '%as%'
+// GROUP BY
+// 	`tb_translations`.translation_string
+
+
     protected $fillable = [
         'language_id', 'language_name', 'language_iso', 'language_active'
     ];

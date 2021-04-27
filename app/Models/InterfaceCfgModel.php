@@ -16,4 +16,9 @@ class InterfaceCfgModel extends Model
     protected $table = 'tb_interface_config';
 
     public $timestamps = false;
+
+    public function scopeGet_selected_data($query, $title) {
+        $data = $query->where('tag_name', $title)->first();
+        return $data;
+    }
 }

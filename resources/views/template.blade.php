@@ -1,6 +1,43 @@
 @extends('welcome')
 
 @section('con')
+
+<style>
+    #companies .toolkit,
+    #companies .list-group-item {
+        background-color: <?php echo "#" . $companiesCfg->color_schemar_hex; ?> !important;
+    }
+
+    #companies .list-group-item.active {
+        background-color: <?php echo "#" . $companiesCfg->color_schemar_hex_hover; ?> !important;
+    }
+
+    #trainingcourses .toolkit,
+    #trainingcourses .list-group-item {
+        background-color: <?php echo "#" . $companiesCfg->color_schemar_hex; ?> !important;
+    }
+
+    #trainingcourses .list-group-item.active {
+        background-color: <?php echo "#" . $companiesCfg->color_schemar_hex_hover; ?> !important;
+    }
+
+    .nav-link#companies-tab {
+        background-color: <?php echo "#" . $companiesCfg->color_schemar_hex; ?> !important;
+    }
+
+    .nav-link#companies-tab.active {
+        background-color: <?php echo "#" . $companiesCfg->color_schemar_hex_hover; ?> !important;
+    }
+
+    .nav-link#trainingcourses-tab {
+        background-color: <?php echo "#" . $trainingcoursesCfg->color_schemar_hex; ?> !important;
+    }
+
+    .nav-link#trainingcourses-tab.active {
+        background-color: <?php echo "#" . $trainingcoursesCfg->color_schemar_hex_hover; ?> !important;
+    }
+</style>
+
 <div id="content">
     <fieldset id="LeftPanel">
         <div id="div_A" class="window top">
@@ -91,115 +128,116 @@
 
             <ul class="nav nav-tabs border-0 mb-2 mx-4">
                 <li class="nav-item">
-                    <a class="nav-link m-1 bg-green-2 rounded-1 border-0" href="#menu1">{{$translation->l('COMPANIES')}}</a>
+                    <a class="nav-link m-1  rounded-1 border-0" id="companies-tab" href="#menu1">{{$translation->l('COMPANIES')}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active m-1 bg-green-2 rounded-1 border-0" href="#home">{{$translation->l('TRAINING COURSES')}}</a>
+                    <a class="nav-link active m-1 rounded-1 border-0" id="trainingcourses-tab" href="#home">{{$translation->l('TRAINING COURSES')}}</a>
                 </li>
             </ul>
-
-            <div class="toolkit clear-fix bg-success text-white mb-3 mx-4" style="height:50px">
-                <strong class="float-left p-2">{{$translation->l('Companies')}}</strong>
-                <div class="float-right p-2">
-                    <div class="input-container">
-                        <i class="fa fa-plus icon p-2"></i>
-                        <span class="bg-white text-black p-2 rounded">
-                            <input class="input-field border-0" type="text" name="usrnm">
-                            <i class="fa fa-search icon p-2"></i>
-                        </span>
-                        <i class="fa fa-bars icon p-2"></i>
+            <div id="companies">
+                <div class="toolkit clear-fix text-white mb-3 mx-4" style="height:50px">
+                    <strong class="float-left p-2">{{$translation->l('Companies')}}</strong>
+                    <div class="float-right p-2">
+                        <div class="input-container">
+                            <i class="fa fa-plus icon p-2"></i>
+                            <span class="bg-white text-black p-2 rounded">
+                                <input class="input-field border-0" type="text" name="usrnm">
+                                <i class="fa fa-search icon p-2"></i>
+                            </span>
+                            <i class="fa fa-bars icon p-2"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="list-group mx-4" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action active p-1 border-0 bg-green-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
-                    <div class="float-left">
-                        <i class="fa fa-circle text-danger m-2"></i>
-                        Delta co.
-                    </div>
-                    <div class="btn-group float-right">
-                        <button class="btn text-primary px-2">
-                            <span class="font-weight-bolder">EN</span>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                        <button class="btn text-primary px-2" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-trash-alt"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-play"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-cube"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-sync-alt"></i>
-                        </button>
-                    </div>
-                </a>
-                <a class="list-group-item list-group-item-action p-1 border-0  bg-green-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
-                    <div class="float-left">
-                        <i class="fa fa-circle text-danger m-2"></i>
-                        Moscow university
-                    </div>
-                    <div class="btn-group float-right">
-                        <button class="btn text-primary px-2">
-                            <span class="font-weight-bolder">EN</span>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-trash-alt"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-play"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-cube"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-sync-alt"></i>
-                        </button>
-                    </div>
-                </a>
-                <a class="list-group-item list-group-item-action p-1 border-0  bg-green-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
-                    <div class="float-left">
-                        <i class="fa fa-circle text-danger m-2"></i>
-                        Tronto stuff company
-                    </div>
-                    <div class="btn-group float-right">
-                        <button class="btn text-primary px-2">
-                            <span class="font-weight-bolder">EN</span>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-trash-alt"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-play"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-cube"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-sync-alt"></i>
-                        </button>
-                    </div>
-                </a>
+                <div class="list-group mx-4" id="list-tab" role="tablist">
+                    <a class="list-group-item list-group-item-action active p-1 border-0 " id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                        <div class="float-left">
+                            <i class="fa fa-circle text-danger m-2"></i>
+                            Delta co.
+                        </div>
+                        <div class="btn-group float-right">
+                            <button class="btn text-primary px-2">
+                                <span class="font-weight-bolder">EN</span>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                            <button class="btn text-primary px-2" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-trash-alt"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-play"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-cube"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </a>
+                    <a class="list-group-item list-group-item-action p-1 border-0  " id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
+                        <div class="float-left">
+                            <i class="fa fa-circle text-danger m-2"></i>
+                            Moscow university
+                        </div>
+                        <div class="btn-group float-right">
+                            <button class="btn text-primary px-2">
+                                <span class="font-weight-bolder">EN</span>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-trash-alt"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-play"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-cube"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </a>
+                    <a class="list-group-item list-group-item-action p-1 border-0  " id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
+                        <div class="float-left">
+                            <i class="fa fa-circle text-danger m-2"></i>
+                            Tronto stuff company
+                        </div>
+                        <div class="btn-group float-right">
+                            <button class="btn text-primary px-2">
+                                <span class="font-weight-bolder">EN</span>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-trash-alt"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-play"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-cube"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </a>
+                </div>
             </div>
 
         </div>
@@ -254,7 +292,7 @@
                         function(data, status) {
                             tmpbtnmode = VIEWMODE;
                             $('#template-list-tab').append(
-                                "<div class='list-group-item list-group-item-action p-1 border-0 bg-yellow-2 ' id='template_item_" + data.id + "' data-toggle='list' role='tab'>" +
+                                "<div class='list-group-item list-group-item-action p-1 border-0 ' id='template_item_" + data.id + "' data-toggle='list' role='tab'>" +
                                 "<div class='float-left'>" +
                                 "<i class='fa fa-circle text-danger m-2'></i>" +
                                 "<span class='template_name'>" + data.name + "</span>" +
@@ -293,7 +331,7 @@
         evt.preventDefault();
         evt.stopPropagation();
         // console.log($(this).attr('href'));
-        window.open("{{route('template_editor')}}"+"/"+$(this).attr('href'), '_blank');
+        window.open("{{route('template_editor')}}" + "/" + $(this).attr('href'), '_blank');
     })
 
     $('.viewTemplateItem').click(function(evt) {

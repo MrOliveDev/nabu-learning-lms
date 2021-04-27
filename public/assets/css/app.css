@@ -637,10 +637,6 @@ span.dash-panel-bottom-title {
     min-width: 500px;
 }
 
-#lesson-blade .list-group-item.active {
-    background-color: #70c4de;
-}
-
 .list-group-item .float-left {
     padding: 3.2px;
 }
@@ -655,22 +651,6 @@ span.dash-panel-bottom-title {
 
 .list-group-item {
     margin-bottom: 5px;
-}
-
-#lesson-blade .list-group-item {
-    background-color: #b77f8b;
-}
-
-#lesson-blade .list-group-item.active {
-    background-color: #b56171;
-}
-
-#lesson-blade .list-group-item.active {
-    background-color: #6099aa;
-}
-
-#lesson-blade .list-group-item {
-    background-color: #70c4de;
 }
 
 .float-left {
