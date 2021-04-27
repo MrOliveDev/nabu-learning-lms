@@ -1,13 +1,31 @@
 @extends('welcome')
 
 @section('con')
+
+<style>
+        #lesson .toolkit, #lesson .list-group-item{
+            background-color:<?php echo "#".$lessonCfg->color_schemar_hex; ?> !important;
+        }
+        #lesson .list-group-item.active{
+            background-color:<?php echo "#".$lessonCfg->color_schemar_hex_hover; ?> !important;
+        }
+        #training-course .toolkit, #training-course .list-group-item{
+            background-color:<?php echo "#".$trainingcourseCfg->color_schemar_hex; ?> !important;
+        }
+        #training-course .list-group-item.active{
+            background-color:<?php echo "#".$trainingcourseCfg->color_schemar_hex_hover; ?> !important;
+        }
+
+</style>
+
+
 <div id="content">
     <fieldset id="LeftPanel">
         <div id="div_A" class="window top">
 
-            <div class="clear-fix mx-4">
+            <div class="clear-fix mx-4" id="lesson">
 
-                <div class="clear-fix bg-primary text-white mb-3 toolkit" style="height:50px">
+                <div class="clear-fix text-white mb-3 toolkit" style="height:50px">
                     <strong class="float-left p-2">{{$translation->l('Mes cours')}}</strong>
                     <div class="float-right p-2">
                         <div class="input-container">
@@ -22,7 +40,8 @@
                 </div>
 
                 <div class="list-group" id="list-tab" role="tablist">
-                    <a class="list-group-item list-group-item-action active  p-1 border-0 bg-blue-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+
+                    <a class="list-group-item list-group-item-action active  p-1 border-0" id="" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
                             {{$translation->l('Module1')}}
@@ -51,7 +70,7 @@
                             </button>
                         </div>
                     </a>
-                    <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
+                    <a class="list-group-item list-group-item-action  p-1 border-0" id="" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
                             {{$translation->l('Module1')}}
@@ -63,7 +82,7 @@
                             <button class="btn text-primary px-2">
                                 <i class="fa fa-eye"></i>
                             </button>
-                            <button class="btn text-primary px-2">
+                            <button class="btn text-primary px-2" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                                 <i class="fa fa-edit"></i>
                             </button>
                             <button class="btn text-primary px-2">
@@ -80,7 +99,7 @@
                             </button>
                         </div>
                     </a>
-                    <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
+                    <a class="list-group-item list-group-item-action p-1 border-0" id="" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
                             {{$translation->l('Module1')}}
@@ -92,7 +111,7 @@
                             <button class="btn text-primary px-2">
                                 <i class="fa fa-eye"></i>
                             </button>
-                            <button class="btn text-primary px-2">
+                            <button class="btn text-primary px-2" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                                 <i class="fa fa-edit"></i>
                             </button>
                             <button class="btn text-primary px-2">
@@ -109,93 +128,7 @@
                             </button>
                         </div>
                     </a>
-                    <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
-                        <div class="float-left">
-                            <i class="fa fa-circle text-danger m-2"></i>
-                            {{$translation->l('Module1')}}
-                        </div>
-                        <div class="btn-group float-right">
-                            <button class="btn text-primary px-2">
-                                <span class="font-weight-bolder">EN</span>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-eye"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-trash-alt"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-play"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-cube"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-sync-alt"></i>
-                            </button>
-                        </div>
-                    </a>
-                    <a class="list-group-item list-group-item-action p-1 border-0 bg-blue-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
-                        <div class="float-left">
-                            <i class="fa fa-circle text-danger m-2"></i>
-                            {{$translation->l('Module1')}}
-                        </div>
-                        <div class="btn-group float-right">
-                            <button class="btn text-primary px-2">
-                                <span class="font-weight-bolder">EN</span>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-eye"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-trash-alt"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-play"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-cube"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-sync-alt"></i>
-                            </button>
-                        </div>
-                    </a>
-                    <a class="list-group-item list-group-item-action p-1 border-0 bg-blue-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
-                        <div class="float-left">
-                            <i class="fa fa-circle text-danger m-2"></i>
-                            {{$translation->l('Module1')}}
-                        </div>
-                        <div class="btn-group float-right">
-                            <button class="btn text-primary px-2">
-                                <span class="font-weight-bolder">EN</span>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-eye"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-trash-alt"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-play"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-cube"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-sync-alt"></i>
-                            </button>
-                        </div>
-                    </a>
+
                 </div>
 
             </div>
@@ -280,111 +213,85 @@
     </div>
     <fieldset id="RightPanel">
         <div id="div_C" class="window top">
-
-        <div class="toolkit clear-fix bg-red-0 text-white mb-3 mx-4" style="height:50px">
-                <strong class="float-left p-2">{{$translation->l('Mes Parcours de Formation')}}</strong>
-                <div class="float-right p-2">
-                    <div class="input-container">
-                        <i class="fa fa-plus icon p-2"></i>
-                        <span class="bg-white text-black p-2 rounded">
-                            <input class="input-field border-0" type="text" name="usrnm">
-                            <i class="fa fa-search icon p-2"></i>
-                        </span>
-                        <i class="fa fa-bars icon p-2"></i>
+            <div id="training-course">
+                <div class="toolkit clear-fix text-white mb-3 mx-4" style="height:50px">
+                    <strong class="float-left p-2">{{$translation->l('Mes Parcours de Formation')}}</strong>
+                    <div class="float-right p-2">
+                        <div class="input-container">
+                            <i class="fa fa-plus icon p-2"></i>
+                            <span class="bg-white text-black p-2 rounded">
+                                <input class="input-field border-0" type="text" name="usrnm">
+                                <i class="fa fa-search icon p-2"></i>
+                            </span>
+                            <i class="fa fa-bars icon p-2"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="list-group mx-4" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action active p-1 border-0 bg-red-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
-                    <div class="float-left">
-                        <i class="fa fa-circle text-danger m-2"></i>
-                        {{$translation->l('Module1')}}
-                    </div>
-                    <div class="btn-group float-right">
-                        <button class="btn text-primary px-2">
-                            <span class="font-weight-bolder">EN</span>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                        <button class="btn text-primary px-2" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-trash-alt"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-play"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-cube"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-sync-alt"></i>
-                        </button>
-                    </div>
-                </a>
-                <a class="list-group-item list-group-item-action p-1 border-0  bg-red-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
-                    <div class="float-left">
-                        <i class="fa fa-circle text-danger m-2"></i>
-                        {{$translation->l('Module1')}}
-                    </div>
-                    <div class="btn-group float-right">
-                        <button class="btn text-primary px-2">
-                            <span class="font-weight-bolder">EN</span>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-trash-alt"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-play"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-cube"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-sync-alt"></i>
-                        </button>
-                    </div>
-                </a>
-                <a class="list-group-item list-group-item-action p-1 border-0  bg-red-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
-                    <div class="float-left">
-                        <i class="fa fa-circle text-danger m-2"></i>
-                        {{$translation->l('Module1')}}
-                    </div>
-                    <div class="btn-group float-right">
-                        <button class="btn text-primary px-2">
-                            <span class="font-weight-bolder">EN</span>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-trash-alt"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-play"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-cube"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-sync-alt"></i>
-                        </button>
-                    </div>
-                </a>
-            </div>
+                <div class="list-group mx-4" id="list-tab" role="tablist">
 
+                    <a class="list-group-item list-group-item-action p-1 border-0" id="training-course" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                        <div class="float-left">
+                            <i class="fa fa-circle text-danger m-2"></i>
+                            {{$translation->l('Module1')}}
+                        </div>
+                        <div class="btn-group float-right">
+                            <button class="btn text-primary px-2">
+                                <span class="font-weight-bolder">EN</span>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                            <button class="btn text-primary px-2" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-trash-alt"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-play"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-cube"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </a>
+
+                    <a class="list-group-item list-group-item-action active p-1 border-0" id="training-course" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                        <div class="float-left">
+                            <i class="fa fa-circle text-danger m-2"></i>
+                            {{$translation->l('Module1')}}
+                        </div>
+                        <div class="btn-group float-right">
+                            <button class="btn text-primary px-2">
+                                <span class="font-weight-bolder">EN</span>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                            <button class="btn text-primary px-2" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-trash-alt"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-play"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-cube"></i>
+                            </button>
+                            <button class="btn text-primary px-2">
+                                <i class="fa fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
         </div>
         <div id="div_right" class="handler_horizontal  text-center  font-size-h3 text-white mb-4">
             <i class="fas fa-grip-lines"></i>
@@ -464,6 +371,7 @@
     </fieldset>
 </div>
 <script>
-    $('#parcours').addClass('active')
+    $('#parcours').addClass('active');
+
 </script>
 @endsection

@@ -6,14 +6,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\TemplateModel;
 use GrahamCampbell\ResultType\Success;
+use App\Models\InterfaceCfgModel;
 
 class TemplateController extends Controller
 {
     public function index()
     {
         $templates = TemplateModel::all();
+        $trainingcoursesCfg = InterfaceCfgModel::get_selected_data('TRAINING COURSES');
+        $companiesCfg = InterfaceCfgModel::get_selected_data('COMPANIES');
+        return view('template', ['templates' => $templates,
+         'companiesCfg'=>$companiesCfg,
+         'trainingcoursesCfg'=>$trainingcoursesCfg
+         ]);
 
-        return view('template', ['templates' => $templates]);
     }
 
     public function update(Request $request)

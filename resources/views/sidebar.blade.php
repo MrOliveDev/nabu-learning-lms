@@ -2,7 +2,11 @@
 <div id="page-overlay"></div>
 <div id="page-overlay"></div>
 <!-- Side Overlay-->
+
+<script src="{{asset('assets/js/jquery-ui.js')}}"></script>
+
 <aside id="side-overlay" data-simplebar="init">
+
     <div class="simplebar-wrapper" style="margin: 0px;">
         <div class="simplebar-height-auto-observer-wrapper">
             <div class="simplebar-height-auto-observer"></div>
@@ -42,7 +46,7 @@
                                     </select>
                                 </div>
                                 <br>
-                                <div class="input-group">
+                                <div class="input-group ui-widget">
                                     <input class="form-control form-control-alt" placeholder="Search Dictionary..." id="search_word">
                                     <div class="input-group-append">
                                         <span class="input-group-text input-group-text-alt">
@@ -236,17 +240,80 @@
                     }
                 )
             });
-            $('#search_word').change(function(evt){
+            $('#search_word').change(function(evt) {
                 $.post(
-                    "{{route('searchfromdictionary')}}",
-                    {
-                        'keyword':evt.target.value
+                    "{{route('searchfromdictionary')}}", {
+                        'keyword': evt.target.value
                     },
-                    function(data, statues){
+                    function(data, statues) {
 
                     }
                 )
             })
         }
     )
+  $( function() {
+    var availableTags = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+    ];
+    function split( val ) {
+      return val.split( /,\s*/ );
+    }
+    function extractLast( term ) {
+      return split( term ).pop();
+    }
+
+    $( "#search_word" )
+      // don't navigate away from the field on tab when selecting an item
+      .on( "keydown", function( event ) {
+        if ( event.keyCode === $.ui.keyCode.TAB &&
+            $( this ).autocomplete( "instance" ).menu.active ) {
+          event.preventDefault();
+        }
+      })
+      .autocomplete({
+        minLength: 0,
+        source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            availableTags, extractLast( request.term ) ) );
+        },
+        focus: function() {
+          // prevent value inserted on focus
+          return false;
+        },
+        select: function( event, ui ) {
+          var terms = split( this.value );
+          // remove the current input
+          terms.pop();
+          // add the selected item
+          terms.push( ui.item.value );
+          // add placeholder to get the comma-and-space at the end
+          terms.push( "" );
+          this.value = terms.join( ", " );
+          return false;
+        }
+      });
+  } );
 </script>

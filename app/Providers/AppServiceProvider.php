@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Http\core\Language;
 use App\Models\LanguageModel;
+use App\Models\InterfaceCfgModel;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -28,5 +29,6 @@ class AppServiceProvider extends ServiceProvider
         view()->share('translation', $translation);
         $languageModel = LanguageModel::all();
         view()->share('language', $languageModel);
+
     }
 }
