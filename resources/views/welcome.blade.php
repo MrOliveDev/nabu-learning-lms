@@ -43,10 +43,14 @@
     <link rel="stylesheet" id="css-theme" href="{{ asset('assets/css/themes/xmodern.min.css') }}">
     <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/app.css') }}">
 
+    @yield('css_after')
+
     <script src="{{asset('assets/js/dashmix.core.min.js')}}"></script>
 
     <script src="{{asset('assets/js/dashmix.app.min.js')}}"></script>
     <script src="{{asset('assets/js/app.js')}}"></script>
+
+    @yield('js_after')
     <!-- END Stylesheets -->
 </head>
 
@@ -71,10 +75,10 @@
             $("#page-header").removeClass("page-header-trigger");
             $("#page-container").removeClass("page-header-trigger");
             $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
         })
 
         $("#sidebar").hover(
@@ -87,7 +91,7 @@
             },
             function() {
                 $("#page-header, #page-container").removeClass("page-header-trigger");
-                if ($('#content').width()>($('#RightPanel').width()+$('#LeftPanel').width())) {
+                if ($('#content').width() > ($('#RightPanel').width() + $('#LeftPanel').width())) {
                     $("#RightPanel").css({
                         "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() + "px"
                     });
@@ -102,7 +106,7 @@
 
         function resize() {
             var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document.body.clientHeight));
-            var divHight = 20 + $("#div_left").height(); //20=body padding:10px
+            var divHight = 20 + $("#div_left").height()+$('.content-header').height(); //20=body padding:10px
             $("#content").css({
                 "min-height": h - divHight + "px"
             });
@@ -116,10 +120,19 @@
                 "height": h - divHight + "px",
                 "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() + "px"
             });
+            $("#RightPanel1").css({
+                "height": h - divHight + "px",
+                "width": $("#content1").width() - $("#LeftPanel1").width() - $("#div_vertical1").width() + "px"
+            });
+            $("#content1").css({
+                "min-height": h - divHight + "px"
+            });
+            $("#LeftPanel1").css({
+                "height": h - divHight + "px"
+            });
         }
 
         jQuery.resizable = function(resizerID, vOrH) {
-            console.log("sjdflsjlf");
             jQuery('#' + resizerID).bind("mousedown", function(e) {
                 var start = e.pageY;
                 if (vOrH == 'v') start = e.pageX;
@@ -139,11 +152,13 @@
                         jQuery('#' + resizerID).next().width(jQuery('#' + resizerID).next().width() - (end - start));
                     }
                     start = end;
+                    console.log($("#content1").width()+"  "+$("#LeftPanel1").width()+"  "+$("#RightPanel1").width());
                 });
             });
         }
 
         jQuery.resizable('div_vertical', "v");
+        jQuery.resizable('div_vertical1', "v");
         jQuery.resizable('div_right', "h");
         jQuery.resizable('div_left', "h");
     </script>
