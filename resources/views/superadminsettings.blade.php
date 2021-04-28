@@ -44,6 +44,15 @@
     .form-group {
         background-color: #c8c7c7 !important;
     }
+
+    li.ui-tabs-active.ui-state-active {
+        /* back */
+    }
+
+
+    #color-picker-select .active-item span {
+        background-color:#aaa;
+    }
 </style>
 @endsection
 
@@ -51,9 +60,72 @@
 <script src="{{asset('assets/js/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
 
 <script>
-    jQuery(function() {
-        Dashmix.helpers(['colorpicker']);
+    $(document).ready(function() {
+        (function(factory) {
+            "use strict";
+            if (typeof define === "function" && define.amd) {
+
+                // AMD
+                define(["jquery"], factory);
+            } else if (typeof exports === "object") {
+
+                // CommonJs
+                factory(require("jquery"));
+            } else {
+
+                // Browser globals
+                factory(jQuery);
+            }
+        }(function($) {
+            "use strict";
+            $.fn.broiler = function(callBack) {
+                var image = this[0],
+                    canvas = $("<canvas/>")[0],
+                    imageData;
+                canvas.width = image.width;
+                canvas.height = image.height;
+                canvas.getContext("2d").drawImage(image, 0, 0, image.width, image.height);
+                imageData = canvas.getContext("2d").getImageData(0, 0, image.width, image.height).data;
+                this.click(function(event) {
+                    var offset = $(this).offset(),
+                        x, y, scrollLeft, scrollTop, start;
+                    scrollLeft = $(window).scrollLeft();
+                    scrollTop = $(window).scrollTop();
+                    x = Math.round(event.clientX - offset.left + scrollLeft);
+                    y = Math.round(event.clientY - offset.top + scrollTop);
+                    start = (x + y * image.width) * 4;
+
+                    console.log(imageData);
+                    callBack({
+                        r: imageData[start],
+                        g: imageData[start + 1],
+                        b: imageData[start + 2],
+                        a: imageData[start + 3]
+                    });
+                });
+            };
+        }));
+        $('#color-picker-select').children('.active-item').removeClass('active-item');
+        $("#color-picker-select").click(function(event) {
+            $('#color-picker-select').children('.active-item').removeClass('active-item');
+            $(event.target).parents('.form-group').addClass('active-item');
+        });
     });
+</script>
+<script src="{{asset('assets/js/ga.js')}}"></script>
+<script>
+    $(function() {
+        $("#rainbow").broiler(function(color) {
+            var hex = "#" + ((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1);
+            $("#color-picker-select").find('.active-item i div').css("background-color", hex);
+        });
+    });
+</script>
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36251023-1']);
+    _gaq.push(['_setDomainName', 'jqueryscript.net']);
+    _gaq.push(['_trackPageview']);
 </script>
 @endsection
 
@@ -140,62 +212,70 @@
                         <div class="card text-black mx-2 col-md-8 pt-3">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <img src="{{asset('assets/media/17.jpg')}}" alt="" class="card-img-top">
+                                    <img id="rainbow" src="{{asset('assets/media/17.jpg')}}" width="350" height="250">
                                     <i class="fa fa-cog float-right p-3 position-absolute ml-auto" style="right:0;"></i>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <div class="js-colorpicker input-group" data-format="hex">
-                                            <label for="" class="pr-2">
-                                                Menu Background
-                                            </label>
-                                            <div class="input-group-append float-right">
-                                                <span class="input-group-text colorpicker-input-addon">
-                                                    <i></i>
-                                                </span>
+                                    <div id="color-picker-select">
+                                        <div class="form-group">
+                                            <div class="js-colorpicker input-group" data-format="hex">
+                                                <label for="" class="pr-2">
+                                                    Menu Background
+                                                </label>
+                                                <div class="input-group-append float-right">
+                                                    <span class="input-group-text colorpicker-input-addon">
+                                                        <i>
+                                                            <div id="menuBackground" style="width:16px; height:16px; "></div>
+                                                        </i>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="js-colorpicker input-group" data-format="hex">
-                                            <label for="" class="pr-2">
-                                                Page Background
-                                            </label>
-                                            <div class="input-group-append float-right">
-                                                <span class="input-group-text colorpicker-input-addon">
-                                                    <i></i>
-                                                </span>
+                                        <div class="form-group active-item">
+                                            <div class="js-colorpicker input-group" data-format="hex">
+                                                <label for="" class="pr-2">
+                                                    Page Background
+                                                </label>
+                                                <div class="input-group-append float-right">
+                                                    <span class="input-group-text colorpicker-input-addon">
+                                                        <i>
+                                                            <div id="pageBackground" style="width:16px; height:16px; "></div>
+                                                        </i>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="js-colorpicker input-group" data-format="hex">
-                                            <label for="" class="pr-2">
-                                                Icon over color
-                                            </label>
-                                            <div class="input-group-append float-right">
-                                                <span class="input-group-text colorpicker-input-addon">
-                                                    <i></i>
-                                                </span>
+                                        <div class="form-group">
+                                            <div class="js-colorpicker input-group" data-format="hex">
+                                                <label for="" class="pr-2">
+                                                    Icon over color
+                                                </label>
+                                                <div class="input-group-append float-right">
+                                                    <span class="input-group-text colorpicker-input-addon">
+                                                        <i>
+                                                            <div id="iconOverColor" style="width:16px; height:16px; "></div>
+                                                        </i>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="js-colorpicker input-group" data-format="hex">
-                                            <label for="" class="pr-2">
-                                                Icon default color
-                                            </label>
-                                            <div class="input-group-append float-right">
-                                                <span class="input-group-text colorpicker-input-addon">
-                                                    <i></i>
-                                                </span>
+                                        <div class="form-group">
+                                            <div class="js-colorpicker input-group" data-format="hex">
+                                                <label for="" class="pr-2">
+                                                    Icon default color
+                                                </label>
+                                                <div class="input-group-append float-right">
+                                                    <span class="input-group-text colorpicker-input-addon">
+                                                        <i>
+                                                            <div id="iconDefaultColor" style="width:16px; height:16px; "></div>
+                                                        </i>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <a class="float-right">
-                                        <span>
-                                            Restore Default
-                                        </span>
+                                        Restore Default
                                     </a>
                                 </div>
                             </div>
@@ -207,7 +287,7 @@
                                                 Login Administrator
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control" id="" name="">
+                                        <input type="text" class="form-control" id="administrator" name="">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -217,7 +297,7 @@
                                                 Password
                                             </span>
                                         </div>
-                                        <input type="password" class="form-control" id="" name="">
+                                        <input type="password" class="form-control" id="password" name="">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -227,7 +307,7 @@
                                                 Company
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control" id="" name="">
+                                        <input type="text" class="form-control" id="company" name="">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -237,7 +317,7 @@
                                                 Name
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control" id="" name="">
+                                        <input type="text" class="form-control" id="name" name="">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -247,7 +327,7 @@
                                                 Surname
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control" id="" name="">
+                                        <input type="text" class="form-control" id="surname" name="">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -257,7 +337,7 @@
                                                 Complete Address
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control" id="" name="">
+                                        <input type="text" class="form-control" id="address" name="">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -267,7 +347,7 @@
                                                 Email
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control" id="" name="">
+                                        <input type="text" class="form-control" id="email" name="">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -277,7 +357,7 @@
                                                 Language of the Platform
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control" id="" name="">
+                                        <input type="text" class="form-control" id="languagePlatform" name="">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -287,7 +367,7 @@
                                                 Pack
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control" id="" name="">
+                                        <input type="text" class="form-control" id="pack" name="">
                                     </div>
                                 </div>
                                 <div class="form-group clearfix">
@@ -403,7 +483,7 @@
                                             Lesson Plan
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="" name="">
+                                    <input type="text" class="form-control" id="lessonPlan" name="">
                                 </div>
                             </div>
 
@@ -414,7 +494,7 @@
                                             Appendix
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="" name="">
+                                    <input type="text" class="form-control" id="appendix" name="">
                                 </div>
                             </div>
 
@@ -425,7 +505,7 @@
                                             Curren Language
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="" name="">
+                                    <input type="text" class="form-control" id="currenLanguage" name="">
                                 </div>
                             </div>
 
@@ -436,7 +516,7 @@
                                             Interface Language
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="" name="">
+                                    <input type="text" class="form-control" id="interfaceLanguage" name="">
                                 </div>
                             </div>
 
