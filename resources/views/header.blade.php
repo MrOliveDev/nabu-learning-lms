@@ -6,8 +6,8 @@
                 <!-- <i class="fa fa-fw fa-bars"></i> -->
                 <i class="fa fa-fw fa-bars"></i>
             </button>
-            <button type="button" class="btn btn-rounded btn-dual" data-toggle="layout" data-action="side_overlay_toggle" style="margin-right: 10px;">
-                <i class="fas fa-cogs"></i>
+            <button type="button" class="btn btn-rounded btn-dual" style="margin-right: 10px;">
+                <a href="{{route('superadminsettings')}}"><i class="fas fa-cogs"></i></a>
             </button>
         </div>
 

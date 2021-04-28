@@ -716,7 +716,7 @@ fieldset {
 }
 
 #RightPanel {
-    width: calc(50%-8px);
+    width: 50%;
     float: left;
 }
 
@@ -732,6 +732,7 @@ fieldset {
     width: 100%;
     float: left;
 }
+
 
 .window {
     overflow-y: scroll;

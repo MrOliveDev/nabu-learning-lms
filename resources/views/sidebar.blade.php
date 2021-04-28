@@ -3,6 +3,7 @@
 <div id="page-overlay"></div>
 <!-- Side Overlay-->
 
+<!-- <link rel='stylesheet' href="{{asset('assets/css/jquery-ui.css')}}"></link> -->
 <script src="{{asset('assets/js/jquery-ui.js')}}"></script>
 
 <aside id="side-overlay" data-simplebar="init">
