@@ -51,7 +51,15 @@
 
 
     #color-picker-select .active-item span {
-        background-color:#aaa;
+        background-color: #aaa;
+    }
+    #color-picker-select label {
+        width: 200px;
+    }
+
+    .fas.fa-crosshairs{
+        font-size:26pt;
+        color:red;
     }
 </style>
 @endsection
@@ -60,6 +68,9 @@
 <script src="{{asset('assets/js/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
 
 <script>
+    jQuery(function() {
+        Dashmix.helpers(['colorpicker']);
+    });
     $(document).ready(function() {
         (function(factory) {
             "use strict";
@@ -106,9 +117,11 @@
             };
         }));
         $('#color-picker-select').children('.active-item').removeClass('active-item');
-        $("#color-picker-select").click(function(event) {
+        $('#color-picker-select i').click(function(){
             $('#color-picker-select').children('.active-item').removeClass('active-item');
-            $(event.target).parents('.form-group').addClass('active-item');
+        })
+        $(".fas.fa-crosshairs").click(function(event) {
+            $(this).parents('.form-group').addClass('active-item');
         });
     });
 </script>
@@ -117,7 +130,7 @@
     $(function() {
         $("#rainbow").broiler(function(color) {
             var hex = "#" + ((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1);
-            $("#color-picker-select").find('.active-item i div').css("background-color", hex);
+            $("#color-picker-select").find('.active-item i:first').css("background-color", hex);
         });
     });
 </script>
@@ -208,26 +221,27 @@
 
                 <div class="mx-4">
 
-                    <div class="row">
-                        <div class="card text-black mx-2 col-md-8 pt-3">
-                            <div class="row">
-                                <div class="col-md-6">
+                    <div class="d-flex">
+                        <div class="card text-black mx-2 pt-3">
+                            <div class="d-flex  flex-wrap mx-auto" style="overflow:hidden;">
+                                <div style="width:350px !important; height:250px; position:relative">
                                     <img id="rainbow" src="{{asset('assets/media/17.jpg')}}" width="350" height="250">
                                     <i class="fa fa-cog float-right p-3 position-absolute ml-auto" style="right:0;"></i>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="flex-grow-1 p-4">
                                     <div id="color-picker-select">
                                         <div class="form-group">
                                             <div class="js-colorpicker input-group" data-format="hex">
                                                 <label for="" class="pr-2">
                                                     Menu Background
                                                 </label>
-                                                <div class="input-group-append float-right">
-                                                    <span class="input-group-text colorpicker-input-addon">
-                                                        <i>
-                                                            <div id="menuBackground" style="width:16px; height:16px; "></div>
+                                                <div class="input-group-append float-right" >
+                                                    <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
+                                                        <i  style="width:38px; height:38px; ">
                                                         </i>
                                                     </span>
+                                                    <i  style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
+                                                    </i>
                                                 </div>
                                             </div>
                                         </div>
@@ -237,11 +251,12 @@
                                                     Page Background
                                                 </label>
                                                 <div class="input-group-append float-right">
-                                                    <span class="input-group-text colorpicker-input-addon">
-                                                        <i>
-                                                            <div id="pageBackground" style="width:16px; height:16px; "></div>
+                                                    <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
+                                                        <i  style="width:38px; height:38px; ">
                                                         </i>
                                                     </span>
+                                                    <i  style="width:38px; height:38px; "  class="pl-2 fas fa-crosshairs">
+                                                    </i>
                                                 </div>
                                             </div>
                                         </div>
@@ -251,11 +266,12 @@
                                                     Icon over color
                                                 </label>
                                                 <div class="input-group-append float-right">
-                                                    <span class="input-group-text colorpicker-input-addon">
-                                                        <i>
-                                                            <div id="iconOverColor" style="width:16px; height:16px; "></div>
+                                                    <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
+                                                        <i  style="width:38px; height:38px; ">
                                                         </i>
                                                     </span>
+                                                    <i  style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
+                                                    </i>
                                                 </div>
                                             </div>
                                         </div>
@@ -265,14 +281,16 @@
                                                     Icon default color
                                                 </label>
                                                 <div class="input-group-append float-right">
-                                                    <span class="input-group-text colorpicker-input-addon">
-                                                        <i>
-                                                            <div id="iconDefaultColor" style="width:16px; height:16px; "></div>
+                                                    <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
+                                                        <i style="width:38px; height:38px; ">
                                                         </i>
                                                     </span>
+                                                    <i style="width:38px; height:38px; "  class="pl-2 fas fa-crosshairs">
+                                                    </i>
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
                                     <a class="float-right">
                                         Restore Default
