@@ -44,6 +44,7 @@
     <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/app.css') }}">
 
     @yield('css_after')
+    <!-- <script src="{{asset('assets/js/jquery.min.js')}}"></script> -->
 
     <script src="{{asset('assets/js/dashmix.core.min.js')}}"></script>
 

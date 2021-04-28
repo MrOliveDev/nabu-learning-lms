@@ -16,7 +16,7 @@ class openModel extends dbModel
 
 $openModel  = new openModel;
 
-$curso_sql = 'select * from tb_curso';
+$curso_sql = 'select * from tb_lesson';
 $curso_result = $openModel->getDatas( $curso_sql );
 
 $fileSearch = new fileSearch;

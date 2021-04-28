@@ -67,7 +67,7 @@
          * GET VARIABLES FROM DATA BASE
          */
 
-        $sql        = "SELECT threshold_score,template_player_id FROM `tb_curso` WHERE idFabrica = '$productId'";
+        $sql        = "SELECT threshold_score,template_player_id FROM `tb_lesson` WHERE idFabrica = '$productId'";
         $results    = $openModel->getDatas( $sql );
 
         // Threshold Score of the Lesson
@@ -88,7 +88,7 @@
             $where  = " AND c.status = 7 ";
         } // eo if
 
-        $sql        = "SELECT c.idFabrica FROM tb_curso c LEFT JOIN tb_manage_formations_courses mfc ON mfc.id_course = c.id WHERE mfc.id_formation = '$formationId' $where ORDER BY mfc.order";
+        $sql        = "SELECT c.idFabrica FROM tb_lesson c LEFT JOIN tb_manage_formations_courses mfc ON mfc.id_course = c.id WHERE mfc.id_formation = '$formationId' $where ORDER BY mfc.order";
         $results    = $openModel->getDatas( $sql );
 
         foreach( $results as $row )

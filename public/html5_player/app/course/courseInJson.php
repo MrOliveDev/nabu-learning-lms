@@ -195,7 +195,7 @@
 
         $openModel  = new openModel;
 
-        $curso_sql = 'select * from tb_curso where idFabrica = "'.$productId.'"';
+        $curso_sql = 'select * from tb_lesson where idFabrica = "'.$productId.'"';
         $curso_result = $openModel->getDatas( $curso_sql );
         $return['nome'] = $curso_result[0]['nome'];
 
