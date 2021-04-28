@@ -40,15 +40,7 @@
                         <button class="btn text-primary px-2">
                             <i class="fa fa-trash-alt"></i>
                         </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-play"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-cube"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-sync-alt"></i>
-                        </button>
+
                     </div>
                 </a>
                 <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
@@ -69,131 +61,7 @@
                         <button class="btn text-primary px-2">
                             <i class="fa fa-trash-alt"></i>
                         </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-play"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-cube"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-sync-alt"></i>
-                        </button>
-                    </div>
-                </a>
-                <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
-                    <div class="float-left">
-                        <i class="fa fa-circle text-danger m-2"></i>
-                        {{$translation->l('Module1')}}
-                    </div>
-                    <div class="btn-group float-right">
-                        <button class="btn text-primary px-2">
-                            <span class="font-weight-bolder">EN</span>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-trash-alt"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-play"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-cube"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-sync-alt"></i>
-                        </button>
-                    </div>
-                </a>
-                <a class="list-group-item list-group-item-action  p-1 border-0 bg-blue-1" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
-                    <div class="float-left">
-                        <i class="fa fa-circle text-danger m-2"></i>
-                        {{$translation->l('Module1')}}
-                    </div>
-                    <div class="btn-group float-right">
-                        <button class="btn text-primary px-2">
-                            <span class="font-weight-bolder">EN</span>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-trash-alt"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-play"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-cube"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-sync-alt"></i>
-                        </button>
-                    </div>
-                </a>
-                <a class="list-group-item list-group-item-action p-1 border-0  bg-blue-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
-                    <div class="float-left">
-                        <i class="fa fa-circle text-danger m-2"></i>
-                        {{$translation->l('Module1')}}
-                    </div>
-                    <div class="btn-group float-right">
-                        <button class="btn text-primary px-2">
-                            <span class="font-weight-bolder">EN</span>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-trash-alt"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-play"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-cube"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-sync-alt"></i>
-                        </button>
-                    </div>
-                </a>
-                <a class="list-group-item list-group-item-action p-1 border-0  bg-blue-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
-                    <div class="float-left">
-                        <i class="fa fa-circle text-danger m-2"></i>
-                        {{$translation->l('Module1')}}
-                    </div>
-                    <div class="btn-group float-right">
-                        <button class="btn text-primary px-2">
-                            <span class="font-weight-bolder">EN</span>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-trash-alt"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-play"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-cube"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-sync-alt"></i>
-                        </button>
+
                     </div>
                 </a>
             </div>
@@ -367,15 +235,7 @@
                         <button class="btn text-primary px-2">
                             <i class="fa fa-trash-alt"></i>
                         </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-play"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-cube"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-sync-alt"></i>
-                        </button>
+
                     </div>
                 </a>
                 <a class="list-group-item list-group-item-action p-1 border-0 bg-red-1" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
@@ -396,15 +256,7 @@
                         <button class="btn text-primary px-2">
                             <i class="fa fa-trash-alt"></i>
                         </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-play"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-cube"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-sync-alt"></i>
-                        </button>
+
                     </div>
                 </a>
                 <a class="list-group-item list-group-item-action p-1 border-0 bg-red-1" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
@@ -425,15 +277,7 @@
                         <button class="btn text-primary px-2">
                             <i class="fa fa-trash-alt"></i>
                         </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-play"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-cube"></i>
-                        </button>
-                        <button class="btn text-primary px-2">
-                            <i class="fa fa-sync-alt"></i>
-                        </button>
+
                     </div>
                 </a>
             </div>

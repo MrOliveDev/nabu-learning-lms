@@ -79,9 +79,6 @@
                             <a class="btn text-primary px-2 templateEditor" href="{{'#/template-generator/'.$template->alpha_id}}">
                                 <i class="fa fa-cube"></i>
                             </a>
-                            <a class="btn text-primary px-2" href="">
-                                <i class="fa fa-sync-alt"></i>
-                            </a>
                         </div>
                     </div>
                     @endforeach
@@ -157,9 +154,6 @@
                         </div>
                         <div class="btn-group float-right">
                             <button class="btn text-primary px-2">
-                                <span class="font-weight-bolder">EN</span>
-                            </button>
-                            <button class="btn text-primary px-2">
                                 <i class="fa fa-eye"></i>
                             </button>
                             <button class="btn text-primary px-2" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
@@ -167,15 +161,6 @@
                             </button>
                             <button class="btn text-primary px-2">
                                 <i class="fa fa-trash-alt"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-play"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-cube"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-sync-alt"></i>
                             </button>
                         </div>
                     </a>
@@ -186,9 +171,6 @@
                         </div>
                         <div class="btn-group float-right">
                             <button class="btn text-primary px-2">
-                                <span class="font-weight-bolder">EN</span>
-                            </button>
-                            <button class="btn text-primary px-2">
                                 <i class="fa fa-eye"></i>
                             </button>
                             <button class="btn text-primary px-2">
@@ -196,15 +178,6 @@
                             </button>
                             <button class="btn text-primary px-2">
                                 <i class="fa fa-trash-alt"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-play"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-cube"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-sync-alt"></i>
                             </button>
                         </div>
                     </a>
@@ -215,9 +188,6 @@
                         </div>
                         <div class="btn-group float-right">
                             <button class="btn text-primary px-2">
-                                <span class="font-weight-bolder">EN</span>
-                            </button>
-                            <button class="btn text-primary px-2">
                                 <i class="fa fa-eye"></i>
                             </button>
                             <button class="btn text-primary px-2">
@@ -225,15 +195,6 @@
                             </button>
                             <button class="btn text-primary px-2">
                                 <i class="fa fa-trash-alt"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-play"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-cube"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-sync-alt"></i>
                             </button>
                         </div>
                     </a>
