@@ -31,14 +31,13 @@
         background-color: #362f81 !important;
     }
 
-    .nav-link {
-        background-color: #c8c7c7 !important;
+    .nav-item .nav-link {
+        background-color: #e7eaf3 !important;
     }
 
-    .nav-link {
+    .nav-item[aria-selected='true'] .nav-link {
         background-color: #362f81 !important;
     }
-
     .card,
     .card-body,
     .form-group {
@@ -53,13 +52,27 @@
     #color-picker-select .active-item span {
         background-color: #aaa;
     }
+
     #color-picker-select label {
         width: 200px;
     }
 
-    .fas.fa-crosshairs{
-        font-size:26pt;
-        color:red;
+    .fas.fa-crosshairs {
+        font-size: 26pt;
+        color: red;
+    }
+
+    .dropdown-menu {
+        min-width: 0px;
+    }
+
+    .dropdown-toggle::after {
+        border:0px;
+    }
+
+    .input-group>.input-group-prepend>.input-group-text{
+        background-color: transparent;
+        border-color: transparent;
     }
 </style>
 @endsection
@@ -117,7 +130,7 @@
             };
         }));
         $('#color-picker-select').children('.active-item').removeClass('active-item');
-        $('#color-picker-select i').click(function(){
+        $('#color-picker-select i').click(function() {
             $('#color-picker-select').children('.active-item').removeClass('active-item');
         })
         $(".fas.fa-crosshairs").click(function(event) {
@@ -149,7 +162,7 @@
     });
 </script>
 <div id="tabs">
-    <ul class="nav nav-tabs border-0 mb-2">
+    <ul class="nav nav-tabs border-0 mb-2 px-4">
         <li class="nav-item">
             <a class="nav-link active m-1 bg-red-1 rounded-1 border-0" href="#clients">CLIENTS</a>
         </li>
@@ -235,12 +248,12 @@
                                                 <label for="" class="pr-2">
                                                     Menu Background
                                                 </label>
-                                                <div class="input-group-append float-right" >
+                                                <div class="input-group-append float-right">
                                                     <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                                        <i  style="width:38px; height:38px; ">
+                                                        <i style="width:38px; height:38px; ">
                                                         </i>
                                                     </span>
-                                                    <i  style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
+                                                    <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
                                                     </i>
                                                 </div>
                                             </div>
@@ -252,10 +265,10 @@
                                                 </label>
                                                 <div class="input-group-append float-right">
                                                     <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                                        <i  style="width:38px; height:38px; ">
+                                                        <i style="width:38px; height:38px; ">
                                                         </i>
                                                     </span>
-                                                    <i  style="width:38px; height:38px; "  class="pl-2 fas fa-crosshairs">
+                                                    <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
                                                     </i>
                                                 </div>
                                             </div>
@@ -267,10 +280,10 @@
                                                 </label>
                                                 <div class="input-group-append float-right">
                                                     <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                                        <i  style="width:38px; height:38px; ">
+                                                        <i style="width:38px; height:38px; ">
                                                         </i>
                                                     </span>
-                                                    <i  style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
+                                                    <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
                                                     </i>
                                                 </div>
                                             </div>
@@ -285,7 +298,7 @@
                                                         <i style="width:38px; height:38px; ">
                                                         </i>
                                                     </span>
-                                                    <i style="width:38px; height:38px; "  class="pl-2 fas fa-crosshairs">
+                                                    <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
                                                     </i>
                                                 </div>
                                             </div>
@@ -402,7 +415,7 @@
                                     <i class="fa fa-chevron-down float-right p-1"></i>
                                 </a>
 
-                                <div class="dropdown-menu show p-0" aria-labelledby="dropdownMenuLink1">
+                                <div class="dropdown-menu show p-0 w-100" aria-labelledby="dropdownMenuLink1">
                                     <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Action</a>
                                     <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Another</a>
                                     <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Something</a>
@@ -414,7 +427,7 @@
                                     <i class="fa fa-chevron-down float-right p-1"></i>
                                 </a>
 
-                                <div class="dropdown-menu show p-0" aria-labelledby="dropdownMenuLink1">
+                                <div class="dropdown-menu show p-0 w-100" aria-labelledby="dropdownMenuLink1">
                                     <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Action</a>
                                     <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Another</a>
                                     <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Something</a>
@@ -548,8 +561,37 @@
             </fieldset>
         </div>
 
-
     </div>
 </div>
 
+
+<div id="reports">
+
+    <div class="content2">
+        <fieldset id="LeftPanel2">
+            <div id="div_A" class="window top">
+
+            </div>
+            <div id="div_left" class="handler_horizontal text-center font-size-h3 text-white mb-4">
+                <i class="fas fa-grip-lines"></i>
+            </div>
+            <div id="div_B" class="window bottom">
+                <div id="div_A1" class="window top">
+
+                </div>
+                <div id="div_left1" class="handler_horizontal text-center font-size-h3 text-white mb-4">
+
+                </div>
+                <div id="div_B1" class="window bottom">
+
+                </div>
+            </div>
+        </fieldset>
+        <div id="div_vertical2" class="handler_vertical width-controller"></div>
+        <fieldset id="RightPanel2" class="m-4">
+
+        </fieldset>
+    </div>
+
+</div>
 @endsection
