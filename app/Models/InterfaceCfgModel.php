@@ -10,15 +10,16 @@ class InterfaceCfgModel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id', 'tag_name', 'color_schemar_hex', 'color_schemar_hex_hover', 'icon_font'
+        'id', 'admin_id', 'interface_color', 'interface_icon'
     ];
 
     protected $table = 'tb_interface_config';
 
     public $timestamps = false;
 
-    public function scopeGet_selected_data($query, $title) {
-        $data = $query->where('tag_name', $title)->first();
-        return $data;
+    public function scopeGet_interface_color_byuser($query, $user_id)
+    {
+        $data = $query->where('admin_id', $user_id)->first();
+        return json_decode($data->interface_color);
     }
 }

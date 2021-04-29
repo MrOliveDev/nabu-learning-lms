@@ -5,36 +5,36 @@
 <style>
     #companies .toolkit,
     #companies .list-group-item {
-        background-color: <?php echo "#" . $companiesCfg->color_schemar_hex; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Companies->c; ?> !important;
     }
 
     #companies .list-group-item.active {
-        background-color: <?php echo "#" . $companiesCfg->color_schemar_hex_hover; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Companies->c; ?> !important;
     }
 
     #trainingcourses .toolkit,
     #trainingcourses .list-group-item {
-        background-color: <?php echo "#" . $companiesCfg->color_schemar_hex; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->TrainingCourses->c; ?> !important;
     }
 
     #trainingcourses .list-group-item.active {
-        background-color: <?php echo "#" . $companiesCfg->color_schemar_hex_hover; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->TrainingCourses->c; ?> !important;
     }
 
     .nav-link#companies-tab {
-        background-color: <?php echo "#" . $companiesCfg->color_schemar_hex; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Companies->c; ?> !important;
     }
 
     .nav-link#companies-tab.active {
-        background-color: <?php echo "#" . $companiesCfg->color_schemar_hex_hover; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Companies->c; ?> !important;
     }
 
     .nav-link#trainingcourses-tab {
-        background-color: <?php echo "#" . $trainingcoursesCfg->color_schemar_hex; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->TrainingCourses->c; ?> !important;
     }
 
     .nav-link#trainingcourses-tab.active {
-        background-color: <?php echo "#" . $trainingcoursesCfg->color_schemar_hex_hover; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->TrainingCourses->c; ?> !important;
     }
 </style>
 

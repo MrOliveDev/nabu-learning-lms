@@ -8,8 +8,6 @@ class LessonController extends Controller
 {
     public function index()
     {
-        $lessonCfg = InterfaceCfgModel::get_selected_data('lessons');
-        $trainingcourseCfg = InterfaceCfgModel::get_selected_data('TRAINING COURSES');
-        return view('lesson', ['lessonCfg'=>$lessonCfg, 'trainingcourseCfg'=>$trainingcourseCfg]);
+        return view('lesson');
     }
 }

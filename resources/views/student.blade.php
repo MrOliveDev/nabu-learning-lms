@@ -5,87 +5,87 @@
 <style>
     #students .toolkit,
     #students .list-group-item {
-        background-color: <?php echo "#" . $studentsCfg->color_schemar_hex; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Students->c; ?> !important;
     }
 
     #students .list-group-item.active {
-        background-color: <?php echo "#" . $studentsCfg->color_schemar_hex_hover; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Students->h; ?> !important;
     }
 
     #groups .toolkit,
     #groups .list-group-item {
-        background-color: <?php echo "#" . $groupsCfg->color_schemar_hex; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Groups->c; ?> !important;
     }
 
     #groups .list-group-item.active {
-        background-color: <?php echo "#" . $groupsCfg->color_schemar_hex_hover; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Groups->h; ?> !important;
     }
 
     #teachers .toolkit,
     #teachers .list-group-item {
-        background-color: <?php echo "#" . $teachersCfg->color_schemar_hex; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Teachers->c; ?> !important;
     }
 
     #teachers .list-group-item.active {
-        background-color: <?php echo "#" . $teachersCfg->color_schemar_hex_hover; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Teachers->h; ?> !important;
     }
 
     #authors .toolkit,
     #authors .list-group-item {
-        background-color: <?php echo "#" . $authorsCfg->color_schemar_hex; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Authors->c; ?> !important;
     }
 
     #authors .list-group-item.active {
-        background-color: <?php echo "#" . $authorsCfg->color_schemar_hex_hover; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Authors->h; ?> !important;
     }
 
     #companies .toolkit,
     #companies .list-group-item {
-        background-color: <?php echo "#" . $companiesCfg->color_schemar_hex; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Companies->c; ?> !important;
     }
 
     #companies .list-group-item.active {
-        background-color: <?php echo "#" . $companiesCfg->color_schemar_hex_hover; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Companies->h; ?> !important;
     }
 
     .nav-link#students-tab {
-        background-color: <?php echo "#" . $studentsCfg->color_schemar_hex; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Students->c; ?> !important;
     }
 
     .nav-link#students-tab.active {
-        background-color: <?php echo "#" . $studentsCfg->color_schemar_hex_hover; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Students->h; ?> !important;
     }
 
     .nav-link#teachers-tab {
-        background-color: <?php echo "#" . $teachersCfg->color_schemar_hex; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Teachers->c; ?> !important;
     }
 
     .nav-link#teachers-tab.active {
-        background-color: <?php echo "#" . $teachersCfg->color_schemar_hex_hover; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Teachers->h; ?> !important;
     }
 
     .nav-link#authors-tab {
-        background-color: <?php echo "#" . $authorsCfg->color_schemar_hex; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Authors->c; ?> !important;
     }
 
     .nav-link#authors-tab.active {
-        background-color: <?php echo "#" . $authorsCfg->color_schemar_hex_hover; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Authors->h; ?> !important;
     }
 
     .nav-link#companies-tab {
-        background-color: <?php echo "#" . $companiesCfg->color_schemar_hex; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Companies->c; ?> !important;
     }
 
     .nav-link#companies-tab.active {
-        background-color: <?php echo "#" . $companiesCfg->color_schemar_hex_hover; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Companies->h; ?> !important;
     }
 
     .nav-link#groups-tab {
-        background-color: <?php echo "#" . $groupsCfg->color_schemar_hex; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Groups->c; ?> !important;
     }
 
     .nav-link#groups-tab.active {
-        background-color: <?php echo "#" . $groupsCfg->color_schemar_hex_hover; ?> !important;
+        background-color: <?php echo "#" . $interfaceCfg->Groups->h; ?> !important;
     }
 </style>
 
