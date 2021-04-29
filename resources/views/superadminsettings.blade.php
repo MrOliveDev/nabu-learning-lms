@@ -32,12 +32,13 @@
     }
 
     .nav-item .nav-link {
-        background-color: #e7eaf3 !important;
+        background-color: #c8c7c7 !important;
     }
 
     .nav-item[aria-selected='true'] .nav-link {
         background-color: #362f81 !important;
     }
+
     .card,
     .card-body,
     .form-group {
@@ -59,7 +60,7 @@
 
     .fas.fa-crosshairs {
         font-size: 26pt;
-        color: red;
+        color: green;
     }
 
     .dropdown-menu {
@@ -67,12 +68,57 @@
     }
 
     .dropdown-toggle::after {
-        border:0px;
+        border: 0px;
     }
 
-    .input-group>.input-group-prepend>.input-group-text{
+    .input-group>.input-group-prepend>.input-group-text {
         background-color: transparent;
         border-color: transparent;
+    }
+
+    .custom-control-label::before {
+        background-color: green;
+        border-color: green;
+    }
+
+    .custom-control-input:checked~.custom-control-label::before {
+        background-color: red;
+        border-color: red;
+    }
+
+    i.pl-2.fas.fa-crosshairs:hover {
+        padding: 5px;
+        font-size: 20pt;
+        transition: all .1s;
+    }
+
+    #color-picker-select .active-item i.pl-2.fas.fa-crosshairs {
+        color: red;
+    }
+
+    img#rainbow:hover {
+        cursor: url("{{('assets/media/part.png')}}") 4 12,
+        auto;
+    }
+
+    .card-body.p-3 span.input-group-text {
+        min-width: 200px;
+    }
+
+    main select.form-control {
+        background-color: #2d4272 !important;
+        color: white !important;
+    }
+
+    main select.form-control option {
+        background-color: #a7acd6;
+        color: white;
+        border: 4px transparent !important;
+        margin-top: 10px;
+    }
+
+    .form-group button:hover {
+        background-color: #d52f72 !important;
     }
 </style>
 @endsection
@@ -110,6 +156,7 @@
                 canvas.height = image.height;
                 canvas.getContext("2d").drawImage(image, 0, 0, image.width, image.height);
                 imageData = canvas.getContext("2d").getImageData(0, 0, image.width, image.height).data;
+                console.log(imageData);
                 this.click(function(event) {
                     var offset = $(this).offset(),
                         x, y, scrollLeft, scrollTop, start;
@@ -119,7 +166,6 @@
                     y = Math.round(event.clientY - offset.top + scrollTop);
                     start = (x + y * image.width) * 4;
 
-                    console.log(imageData);
                     callBack({
                         r: imageData[start],
                         g: imageData[start + 1],
@@ -164,13 +210,13 @@
 <div id="tabs">
     <ul class="nav nav-tabs border-0 mb-2 px-4">
         <li class="nav-item">
-            <a class="nav-link active m-1 bg-red-1 rounded-1 border-0" href="#clients">CLIENTS</a>
+            <a class="nav-link active mr-2 bg-red-1 rounded-1 border-0" href="#clients">CLIENTS</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link m-1 bg-red-0 rounded-1 border-0" href="#languages">LANGUAGES</a>
+            <a class="nav-link mr-2 bg-red-0 rounded-1 border-0" href="#languages">LANGUAGES</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link m-1 bg-red-0 rounded-1 border-0" href="#reports">REPORTS</a>
+            <a class="nav-link mr-2 bg-red-0 rounded-1 border-0" href="#reports">REPORTS</a>
         </li>
     </ul>
     <div id="clients">
@@ -223,7 +269,30 @@
                                 </button>
                             </div>
                         </a>
+                        <div><a class="text-white font-size-h1" href="#">+</a></div>
 
+                        <div class="mt-3 d-flex flex-column">
+                            <div class="clearfix mb-3">
+                                <label class="px-2 py-1 bg-blue-4 text-white" style="width:150px; font-size:18pt;">
+                                    Status
+                                </label>
+                                <div class="custom-control custom-switch custom-control-lg custom-control-inline pl-2">
+                                    <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg1" name="example-sw-custom-lg1" checked="">
+                                    <label class="custom-control-label" for="example-sw-custom-lg1"><i></i></label>
+                                </div>
+                            </div>
+                            <div class="clearfix mb-3">
+                                <label class="px-2 py-1 bg-blue-4 text-white" style="width:150px; font-size:18pt;">
+                                    PPT import
+                                </label>
+                                <div class="custom-control custom-switch custom-control-lg custom-control-inline pl-2">
+                                    <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg2" name="example-sw-custom-lg2" checked="">
+                                    <label class="custom-control-label" for="example-sw-custom-lg2"><i></i></label>
+                                </div>
+                            </div>
+
+
+                        </div>
                     </div>
                 </div>
             </fieldset>
@@ -232,216 +301,192 @@
             </div>
             <fieldset id="RightPanel">
 
-                <div class="mx-4">
-
-                    <div class="d-flex">
-                        <div class="card text-black mx-2 pt-3">
-                            <div class="d-flex  flex-wrap mx-auto" style="overflow:hidden;">
-                                <div style="width:350px !important; height:250px; position:relative">
-                                    <img id="rainbow" src="{{asset('assets/media/17.jpg')}}" width="350" height="250">
-                                    <i class="fa fa-cog float-right p-3 position-absolute ml-auto" style="right:0;"></i>
-                                </div>
-                                <div class="flex-grow-1 p-4">
-                                    <div id="color-picker-select">
-                                        <div class="form-group">
-                                            <div class="js-colorpicker input-group" data-format="hex">
-                                                <label for="" class="pr-2">
-                                                    Menu Background
-                                                </label>
-                                                <div class="input-group-append float-right">
-                                                    <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                                        <i style="width:38px; height:38px; ">
-                                                        </i>
-                                                    </span>
-                                                    <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
-                                                    </i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group active-item">
-                                            <div class="js-colorpicker input-group" data-format="hex">
-                                                <label for="" class="pr-2">
-                                                    Page Background
-                                                </label>
-                                                <div class="input-group-append float-right">
-                                                    <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                                        <i style="width:38px; height:38px; ">
-                                                        </i>
-                                                    </span>
-                                                    <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
-                                                    </i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="js-colorpicker input-group" data-format="hex">
-                                                <label for="" class="pr-2">
-                                                    Icon over color
-                                                </label>
-                                                <div class="input-group-append float-right">
-                                                    <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                                        <i style="width:38px; height:38px; ">
-                                                        </i>
-                                                    </span>
-                                                    <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
-                                                    </i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="js-colorpicker input-group" data-format="hex">
-                                                <label for="" class="pr-2">
-                                                    Icon default color
-                                                </label>
-                                                <div class="input-group-append float-right">
-                                                    <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                                        <i style="width:38px; height:38px; ">
-                                                        </i>
-                                                    </span>
-                                                    <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
-                                                    </i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <a class="float-right">
-                                        Restore Default
-                                    </a>
-                                </div>
+                <form class="mx-4" method="post" action="{{route('clientssetting')}}">
+                    @csrf
+                    <div class="card text-black mx-2 pt-3">
+                        <div class="d-flex  flex-wrap pl-3" style="overflow:hidden;">
+                            <div style="width:350px !important; height:250px; position:relative">
+                                <img id="rainbow" src="{{asset('assets/media/17.jpg')}}" width="350" height="250">
+                                <i class="fa fa-cog float-right p-3 position-absolute ml-auto" style="right:0;"></i>
                             </div>
-                            <div class="card-body  p-3">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                Login Administrator
-                                            </span>
+                            <div class="flex-grow-1 p-4">
+                                <div id="color-picker-select">
+                                    <div class="form-group">
+                                        <div class="js-colorpicker input-group" data-format="hex">
+                                            <label for="" class="pr-2">
+                                                Menu Background
+                                            </label>
+                                            <div class="input-group-append float-right">
+                                                <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
+                                                    <i style="width:38px; height:38px; ">
+                                                    </i>
+                                                </span>
+                                                <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
+                                                </i>
+                                            </div>
                                         </div>
-                                        <input type="text" class="form-control" id="administrator" name="">
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                Password
-                                            </span>
+                                    <div class="form-group active-item">
+                                        <div class="js-colorpicker input-group" data-format="hex">
+                                            <label for="" class="pr-2">
+                                                Page Background
+                                            </label>
+                                            <div class="input-group-append float-right">
+                                                <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
+                                                    <i style="width:38px; height:38px; ">
+                                                    </i>
+                                                </span>
+                                                <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
+                                                </i>
+                                            </div>
                                         </div>
-                                        <input type="password" class="form-control" id="password" name="">
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                Company
-                                            </span>
+                                    <div class="form-group">
+                                        <div class="js-colorpicker input-group" data-format="hex">
+                                            <label for="" class="pr-2">
+                                                Icon over color
+                                            </label>
+                                            <div class="input-group-append float-right">
+                                                <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
+                                                    <i style="width:38px; height:38px; ">
+                                                    </i>
+                                                </span>
+                                                <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
+                                                </i>
+                                            </div>
                                         </div>
-                                        <input type="text" class="form-control" id="company" name="">
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                Name
-                                            </span>
+                                    <div class="form-group">
+                                        <div class="js-colorpicker input-group" data-format="hex">
+                                            <label for="" class="pr-2">
+                                                Icon default color
+                                            </label>
+                                            <div class="input-group-append float-right">
+                                                <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
+                                                    <i style="width:38px; height:38px; ">
+                                                    </i>
+                                                </span>
+                                                <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
+                                                </i>
+                                            </div>
                                         </div>
-                                        <input type="text" class="form-control" id="name" name="">
                                     </div>
+
                                 </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                Surname
-                                            </span>
-                                        </div>
-                                        <input type="text" class="form-control" id="surname" name="">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                Complete Address
-                                            </span>
-                                        </div>
-                                        <input type="text" class="form-control" id="address" name="">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                Email
-                                            </span>
-                                        </div>
-                                        <input type="text" class="form-control" id="email" name="">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                Language of the Platform
-                                            </span>
-                                        </div>
-                                        <input type="text" class="form-control" id="languagePlatform" name="">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                Pack
-                                            </span>
-                                        </div>
-                                        <input type="text" class="form-control" id="pack" name="">
-                                    </div>
-                                </div>
-                                <div class="form-group clearfix">
-                                    <button type="submit" class="float-right bg-blue-0 text-white p-1 mx-2">SAVE</button>
-                                    <button type="reset" class="float-right bg-blue-0 text-white p-1">CANCEL</button>
-                                </div>
+                                <a class="float-right" href="#">
+                                    Restore Default
+                                </a>
                             </div>
                         </div>
-
-                        <div class="px-2 col-md-3">
-                            <div class="dropdown bg-primary show mb-8">
-                                <a class="btn btn-primary dropdown-toggle w-100" href="#" role="button" id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{$translation->l('Status')}}
-                                    <i class="fa fa-chevron-down float-right p-1"></i>
-                                </a>
-
-                                <div class="dropdown-menu show p-0 w-100" aria-labelledby="dropdownMenuLink1">
-                                    <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Action</a>
-                                    <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Another</a>
-                                    <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Something</a>
+                        <div class="card-body  p-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Login Administrator
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="administrator" name="">
                                 </div>
                             </div>
-                            <div class="dropdown bg-primary show mb-8">
-                                <a class="btn btn-primary dropdown-toggle w-100" href="#" role="button" id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{$translation->l('Status')}}
-                                    <i class="fa fa-chevron-down float-right p-1"></i>
-                                </a>
-
-                                <div class="dropdown-menu show p-0 w-100" aria-labelledby="dropdownMenuLink1">
-                                    <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Action</a>
-                                    <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Another</a>
-                                    <a class="dropdown-item p-1 bg-blue-2 text-white mb-0" href="#">Something</a>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Password
+                                        </span>
+                                    </div>
+                                    <input type="password" class="form-control" id="password" name="">
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Company
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="company" name="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Name
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="name" name="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Surname
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="surname" name="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Complete Address
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="address" name="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Email
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="email" name="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Language of the Platform
+                                        </span>
+                                    </div>
+                                    <select class="form-control" id="languagePlatform" name="example-select">
+                                        <option value="0">Please select</option>
+                                        <option value="1">Option #1</option>
+                                        <option value="2">Option #2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Pack
+                                        </span>
+                                    </div>
+                                    <select class="form-control" id="pack" name="example-select">
+                                        <option value="0">Please select</option>
+                                        <option value="1">Option #1</option>
+                                        <option value="2">Option #2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <button type="submit" class="float-right bg-blue-0 text-white p-1 mx-2">SAVE</button>
+                                <button type="reset" class="float-right bg-blue-0 text-white p-1">CANCEL</button>
                             </div>
                         </div>
-
                     </div>
-
+                </form>
             </fieldset>
         </div>
     </div>
-
-
 
     <div id="languages">
 
@@ -562,36 +607,36 @@
         </div>
 
     </div>
-</div>
+    <div id="reports">
 
-
-<div id="reports">
-
-    <div class="content2">
-        <fieldset id="LeftPanel2">
-            <div id="div_A" class="window top">
-
-            </div>
-            <div id="div_left" class="handler_horizontal text-center font-size-h3 text-white mb-4">
-                <i class="fas fa-grip-lines"></i>
-            </div>
-            <div id="div_B" class="window bottom">
-                <div id="div_A1" class="window top">
+        <div class="content2">
+            <fieldset id="LeftPanel2">
+                <div id="div_A" class="window top">
 
                 </div>
-                <div id="div_left1" class="handler_horizontal text-center font-size-h3 text-white mb-4">
-
+                <div id="div_left" class="handler_horizontal text-center font-size-h3 text-white mb-4">
+                    <i class="fas fa-grip-lines"></i>
                 </div>
-                <div id="div_B1" class="window bottom">
+                <div id="div_B" class="window bottom">
+                    <div id="div_A1" class="window top">
 
+                    </div>
+                    <div id="div_left1" class="handler_horizontal text-center font-size-h3 text-white mb-4">
+
+                    </div>
+                    <div id="div_B1" class="window bottom">
+
+                    </div>
                 </div>
-            </div>
-        </fieldset>
-        <div id="div_vertical2" class="handler_vertical width-controller"></div>
-        <fieldset id="RightPanel2" class="m-4">
+            </fieldset>
+            <div id="div_vertical2" class="handler_vertical width-controller"></div>
+            <fieldset id="RightPanel2" class="m-4">
 
-        </fieldset>
+            </fieldset>
+        </div>
+
     </div>
-
 </div>
+
+
 @endsection
