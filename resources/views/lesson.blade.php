@@ -4,16 +4,16 @@
 
 <style>
         #lesson .toolkit, #lesson .list-group-item{
-            background-color:<?php echo "#".$lessonCfg->color_schemar_hex; ?> !important;
+            background-color:<?php echo "#".$interfaceCfg->Lessons->c; ?> !important;
         }
         #lesson .list-group-item.active{
-            background-color:<?php echo "#".$lessonCfg->color_schemar_hex_hover; ?> !important;
+            background-color:<?php echo "#".$interfaceCfg->Lessons->h; ?> !important;
         }
         #training-course .toolkit, #training-course .list-group-item{
-            background-color:<?php echo "#".$trainingcourseCfg->color_schemar_hex; ?> !important;
+            background-color:<?php echo "#".$interfaceCfg->TrainingCourses->c; ?> !important;
         }
         #training-course .list-group-item.active{
-            background-color:<?php echo "#".$trainingcourseCfg->color_schemar_hex_hover; ?> !important;
+            background-color:<?php echo "#".$interfaceCfg->TrainingCourses->h; ?> !important;
         }
 
 </style>

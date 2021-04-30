@@ -1,5 +1,8 @@
 @extends('welcome')
 
+
+<?php
+$icon = asset('assets/media/part.png');?>
 @section('css_after')
 <link rel="stylesheet" href="assets/js/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
 <style>
@@ -96,9 +99,8 @@
         color: red;
     }
 
-    img#rainbow:hover {
-        cursor: url("{{('assets/media/part.png')}}") 4 12,
-        auto;
+    #rainbow {
+        cursor: url('{{$icon}}'), cell;
     }
 
     .card-body.p-3 span.input-group-text {
@@ -190,6 +192,7 @@
         $("#rainbow").broiler(function(color) {
             var hex = "#" + ((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1);
             $("#color-picker-select").find('.active-item i:first').css("background-color", hex);
+
         });
     });
 </script>
@@ -301,8 +304,6 @@
             </div>
             <fieldset id="RightPanel">
 
-                <form class="mx-4" method="post" action="{{route('clientssetting')}}">
-                    @csrf
                     <div class="card text-black mx-2 pt-3">
                         <div class="d-flex  flex-wrap pl-3" style="overflow:hidden;">
                             <div style="width:350px !important; height:250px; position:relative">
@@ -413,7 +414,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Name
+                                            First Name
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="name" name="">
@@ -423,7 +424,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Surname
+                                            Last Name
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="surname" name="">
@@ -483,7 +484,6 @@
                             </div>
                         </div>
                     </div>
-                </form>
             </fieldset>
         </div>
     </div>

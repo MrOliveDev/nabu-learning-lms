@@ -29,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
         view()->share('translation', $translation);
         $languageModel = LanguageModel::all();
         view()->share('language', $languageModel);
-
+        $interfaceCfg = InterfaceCfgModel::get_interface_color_byuser(1);
+        // var_dump($interfaceCfg);
+        view()->share('interfaceCfg', $interfaceCfg);
     }
 }
