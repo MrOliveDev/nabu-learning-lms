@@ -1485,11 +1485,9 @@ select.form-control:focus::-ms-value {
 }
 
 #sidebar {
-    /* background-color: #fff */
 }
 
 #side-overlay {
-    /* background-color: #fff */
 }
 
 #page-container.page-header-dark #page-header {
@@ -1511,7 +1509,6 @@ select.form-control:focus::-ms-value {
 
 #page-container.sidebar-dark #sidebar {
     color: #e7eaf3;
-    /* background-color: #2e3092 */
 }
 
 .block {

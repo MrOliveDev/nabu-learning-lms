@@ -167,18 +167,13 @@ main#main-container {
     display: none;
 }
 
-.simplebar-content:hover .nav-main-item .nav-main-link .nav-main-link-name {
-    display: inline-block;
-}
 
 #sidebar {
     transition: width .1s;
     width: 300px;
 }
 
-/* .simplebar-content:hover {
-    width: 300px;
-} */
+
 
 .simplebar-content {
     max-height: 200%;
@@ -188,18 +183,15 @@ main#main-container {
     transition: all .2s;
 }
 
-.simplebar-content:hover {
-    width:300px;
-}
 
-.nav-main-link.active {
+.nav-main-link:hover {
     border-radius: 5px;
     width: 253px;
     background-color: #2e3092 !important;
 }
 
-.nav-main-link.active .nav-main-link-name {
-    display: block;
+.nav-main-item:hover .nav-main-link-name {
+    display: block !important;
 }
 
 #page-header {
@@ -215,24 +207,18 @@ main#main-container {
     width: auto;
 }
 
-.simplebar-content:hover #sidebar-content-header {
-    /* margin-top: 50px; */
-    width:300px;
-    flex-direction: row;
-}
+
+
 .simplebar-content:hover .sidetitle
 {
    /* padding-left:70px; */
 }
 
-#page-container.side-scroll .simplebar-content:hover #sidebar-content-header {
-    transition: all .1s;
-    width: 30px;
-    /* margin-top: 50px; */
-}
+
 
 
 div#sidebar-content-header {
+    transition: all .1s;
     height: 12em;
 }
 
@@ -257,10 +243,9 @@ div#sidebar-content-header {
 #sidebar .simplebar-mask .content-header {
     justify-content: space-around;
 }
-
+/*
 .simplebar-content:not(:hover) .nav-main-cover-item {
-    margin-left: 26px;
-}
+} */
 
 .nav-main-item span.nav-main-link-name {
     font-size: 16pt;
@@ -276,11 +261,11 @@ div#sidebar-content-header {
     margin-right: auto;
 }
 
-.nav-main-item .nav-main-link.active i.nav-main-link-icon {
+.nav-main-item .nav-main-link.active i.nav-main-link-icon, .nav-main-link:hover .nav-main-link-name {
     color: #be0f2d !important;
 }
 
-.nav-main-item .nav-main-link:hover i.nav-main-link-icon {
+.nav-main-item .nav-main-link:hover i.nav-main-link-icon, .nav-main-link:hover .nav-main-link-name {
     color: #be0f2d !important;
 }
 
@@ -724,6 +709,7 @@ i.fa.fa-cog {
 }
 
 .nav-main-cover-item {
+    margin-left: 26px;
     width: 31px;
 }
 
