@@ -73,8 +73,8 @@
         });
 
         $(document).ready(function() {
-            $("#page-header").removeClass("page-header-trigger");
-            $("#page-container").removeClass("page-header-trigger");
+            $("#page-header").addClass("page-header-trigger");
+            $("#page-container").addClass("page-header-trigger");
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -82,24 +82,24 @@
             });
         })
 
-        $("#sidebar").hover(
-            function() {
-                $("#page-header, #page-container").addClass("page-header-trigger");
-                $("#RightPanel").css({
-                    "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() + "px"
-                    // "width": $("#RightPanel").width() - 150 + "px"
-                });
-            },
-            function() {
-                $("#page-header, #page-container").removeClass("page-header-trigger");
-                if ($('#content').width() > ($('#RightPanel').width() + $('#LeftPanel').width())) {
-                    $("#RightPanel").css({
-                        "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() + "px"
-                    });
-                }
+        // $("#sidebar").hover(
+        //     function() {
+        //         // $("#page-header, #page-container").addClass("page-header-trigger");
+        //         $("#RightPanel").css({
+        //             "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() + "px"
+        //             // "width": $("#RightPanel").width() - 150 + "px"
+        //         });
+        //     },
+        //     function() {
+        //         // $("#page-header, #page-container").removeClass("page-header-trigger");
+        //         if ($('#content').width() > ($('#RightPanel').width() + $('#LeftPanel').width())) {
+        //             $("#RightPanel").css({
+        //                 "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() + "px"
+        //             });
+        //         }
 
-            }
-        )
+        //     }
+        // )
         $(document).ready(function() {
             window.onresize = resize;
             resize();

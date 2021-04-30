@@ -425,4 +425,7 @@
         </div>
     </fieldset>
 </div>
+<script>
+    $('#utilisateurs').addClass('active');
+</script>
 @endsection

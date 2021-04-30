@@ -14,7 +14,7 @@
         </div>
         <div class="simplebar-mask">
             <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
-                <div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden;">
+                <div class="simplebar-content-wrapper" style="height: 100%;">
                     <div class="simplebar-content" style="padding: 0px;">
                         <!-- Side Header -->
                         <div class="bg-primary">
@@ -81,13 +81,15 @@
         </div>
         <div class="simplebar-mask">
             <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
-                <div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden;">
+                <div class="simplebar-content-wrapper" style="height: 100%;">
                     <div class="simplebar-content" style="padding: 0px;">
                         <!-- Side Header -->
-                        <div class="content-header">
-                            <a class="img-link d-inline-block" href="javascript:void(0)">
-                                <img class="img-avatar img-avatar96" src="{{asset('assets/media/light.png')}}" alt="">
-                            </a>
+                        <div class="content-header mx-auto w-100 mt-3" id="sidebar-content-header">
+                            <div class="">
+                                <a class="img-link d-inline-block" href="javascript:void(0)">
+                                    <img class="img-avatar img-avatar96" src="{{asset('assets/media/light.png')}}" alt="">
+                                </a>
+                            </div>
                             <div class="sidetitle">
                                 <img class="" src="{{asset('assets/media/letter.png')}}">
                             </div>
@@ -230,6 +232,9 @@
 <script>
     $(document).ready(
         function() {
+            // $('.simplebar-content-wrapper').scroll(
+            // $('.simplebar-content-wrapper').css({'overflow':'visible !important'})
+            // );
             $('#val-language').change(function(evt) {
                 $.get(
                     "{{route('changeLanguage')}}", {
@@ -253,68 +258,70 @@
             })
         }
     )
-  $( function() {
-    var availableTags = [
-      "ActionScript",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-      "C",
-      "C++",
-      "Clojure",
-      "COBOL",
-      "ColdFusion",
-      "Erlang",
-      "Fortran",
-      "Groovy",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Lisp",
-      "Perl",
-      "PHP",
-      "Python",
-      "Ruby",
-      "Scala",
-      "Scheme"
-    ];
-    function split( val ) {
-      return val.split( /,\s*/ );
-    }
-    function extractLast( term ) {
-      return split( term ).pop();
-    }
+    $(function() {
+        var availableTags = [
+            "ActionScript",
+            "AppleScript",
+            "Asp",
+            "BASIC",
+            "C",
+            "C++",
+            "Clojure",
+            "COBOL",
+            "ColdFusion",
+            "Erlang",
+            "Fortran",
+            "Groovy",
+            "Haskell",
+            "Java",
+            "JavaScript",
+            "Lisp",
+            "Perl",
+            "PHP",
+            "Python",
+            "Ruby",
+            "Scala",
+            "Scheme"
+        ];
 
-    $( "#search_word" )
-      // don't navigate away from the field on tab when selecting an item
-      .on( "keydown", function( event ) {
-        if ( event.keyCode === $.ui.keyCode.TAB &&
-            $( this ).autocomplete( "instance" ).menu.active ) {
-          event.preventDefault();
+        function split(val) {
+            return val.split(/,\s*/);
         }
-      })
-      .autocomplete({
-        minLength: 0,
-        source: function( request, response ) {
-          // delegate back to autocomplete, but extract the last term
-          response( $.ui.autocomplete.filter(
-            availableTags, extractLast( request.term ) ) );
-        },
-        focus: function() {
-          // prevent value inserted on focus
-          return false;
-        },
-        select: function( event, ui ) {
-          var terms = split( this.value );
-          // remove the current input
-          terms.pop();
-          // add the selected item
-          terms.push( ui.item.value );
-          // add placeholder to get the comma-and-space at the end
-          terms.push( "" );
-          this.value = terms.join( ", " );
-          return false;
+
+        function extractLast(term) {
+            return split(term).pop();
         }
-      });
-  } );
+
+        $("#search_word")
+            // don't navigate away from the field on tab when selecting an item
+            .on("keydown", function(event) {
+                if (event.keyCode === $.ui.keyCode.TAB &&
+                    $(this).autocomplete("instance").menu.active) {
+                    event.preventDefault();
+                }
+            })
+            .autocomplete({
+                minLength: 0,
+                source: function(request, response) {
+                    // delegate back to autocomplete, but extract the last term
+                    response($.ui.autocomplete.filter(
+                        availableTags, extractLast(request.term)));
+                },
+                focus: function() {
+                    // prevent value inserted on focus
+                    return false;
+                },
+                select: function(event, ui) {
+                    var terms = split(this.value);
+                    // remove the current input
+                    terms.pop();
+                    // add the selected item
+                    terms.push(ui.item.value);
+                    // add placeholder to get the comma-and-space at the end
+                    terms.push("");
+                    this.value = terms.join(", ");
+                    return false;
+                }
+            });
+    });
 </script>

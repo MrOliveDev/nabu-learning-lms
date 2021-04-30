@@ -2,7 +2,7 @@
 
 
 <?php
-$icon = asset('assets/media/part.png');?>
+$icon = asset('assets/media/part.png'); ?>
 @section('css_after')
 <link rel="stylesheet" href="assets/js/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
 <style>
@@ -41,6 +41,7 @@ $icon = asset('assets/media/part.png');?>
     .nav-item[aria-selected='true'] .nav-link {
         background-color: #362f81 !important;
     }
+
     .card,
     .card-body,
     .form-group {
@@ -95,7 +96,7 @@ $icon = asset('assets/media/part.png');?>
     }
 
     #color-picker-select .active-item i.pl-2.fas.fa-crosshairs {
-        color: red;
+        color: green;
     }
 
     #rainbow {
@@ -120,12 +121,20 @@ $icon = asset('assets/media/part.png');?>
 
     .form-group button:hover {
         background-color: #d52f72 !important;
-        border:0px;
+        border: 0px;
     }
 
-    .input-group>.input-group-prepend>.input-group-text{
+    .input-group>.input-group-prepend>.input-group-text {
         background-color: transparent;
         border-color: transparent;
+    }
+
+    .btn-hero-primary {
+        background-color: #2d4272;
+    }
+
+    .btn-hero-primary:hover {
+        background-color: #d52f72;
     }
 </style>
 @endsection
@@ -163,7 +172,7 @@ $icon = asset('assets/media/part.png');?>
                 canvas.height = image.height;
                 canvas.getContext("2d").drawImage(image, 0, 0, image.width, image.height);
                 imageData = canvas.getContext("2d").getImageData(0, 0, image.width, image.height).data;
-                console.log(imageData);
+                console.log(image.src);
                 this.click(function(event) {
                     var offset = $(this).offset(),
                         x, y, scrollLeft, scrollTop, start;
@@ -309,186 +318,186 @@ $icon = asset('assets/media/part.png');?>
             </div>
             <fieldset id="RightPanel">
 
-                    <div class="card text-black mx-2 pt-3">
-                        <div class="d-flex  flex-wrap pl-3" style="overflow:hidden;">
-                            <div style="width:350px !important; height:250px; position:relative">
-                                <img id="rainbow" src="{{asset('assets/media/17.jpg')}}" width="350" height="250">
-                                <i class="fa fa-cog float-right p-3 position-absolute ml-auto" style="right:0;"></i>
-                            </div>
-                            <div class="flex-grow-1 p-4">
-                                <div id="color-picker-select">
-                                    <div class="form-group">
-                                        <div class="js-colorpicker input-group" data-format="hex">
-                                            <label for="" class="pr-2">
-                                                Menu Background
-                                            </label>
-                                            <div class="input-group-append float-right">
-                                                <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                                    <i style="width:38px; height:38px; ">
-                                                    </i>
-                                                </span>
-                                                <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
-                                                </i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group active-item">
-                                        <div class="js-colorpicker input-group" data-format="hex">
-                                            <label for="" class="pr-2">
-                                                Page Background
-                                            </label>
-                                            <div class="input-group-append float-right">
-                                                <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                                    <i style="width:38px; height:38px; ">
-                                                    </i>
-                                                </span>
-                                                <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
-                                                </i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="js-colorpicker input-group" data-format="hex">
-                                            <label for="" class="pr-2">
-                                                Icon over color
-                                            </label>
-                                            <div class="input-group-append float-right">
-                                                <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                                    <i style="width:38px; height:38px; ">
-                                                    </i>
-                                                </span>
-                                                <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
-                                                </i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="js-colorpicker input-group" data-format="hex">
-                                            <label for="" class="pr-2">
-                                                Icon default color
-                                            </label>
-                                            <div class="input-group-append float-right">
-                                                <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                                    <i style="width:38px; height:38px; ">
-                                                    </i>
-                                                </span>
-                                                <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
-                                                </i>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <a class="float-right" href="#">
-                                    Restore Default
-                                </a>
-                            </div>
+                <div class="card text-black mx-2 pt-3">
+                    <div class="d-flex  flex-wrap pl-3" style="overflow:hidden;">
+                        <div style="width:350px !important; height:250px; position:relative">
+                            <img id="rainbow" src="{{asset('assets/media/17.jpg')}}" width="350" height="250">
+                            <i class="fa fa-cog float-right p-3 position-absolute ml-auto" style="right:0;"></i>
                         </div>
-                        <div class="card-body  p-3">
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            Login Administrator
-                                        </span>
+                        <div class="flex-grow-1 p-4">
+                            <div id="color-picker-select">
+                                <div class="form-group">
+                                    <div class="js-colorpicker input-group" data-format="hex">
+                                        <label for="" class="pr-2">
+                                            Menu Background
+                                        </label>
+                                        <div class="input-group-append float-right">
+                                            <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
+                                                <i style="width:38px; height:38px; ">
+                                                </i>
+                                            </span>
+                                            <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
+                                            </i>
+                                        </div>
                                     </div>
-                                    <input type="text" class="form-control" id="administrator" name="">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            Password
-                                        </span>
+                                <div class="form-group active-item">
+                                    <div class="js-colorpicker input-group" data-format="hex">
+                                        <label for="" class="pr-2">
+                                            Page Background
+                                        </label>
+                                        <div class="input-group-append float-right">
+                                            <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
+                                                <i style="width:38px; height:38px; ">
+                                                </i>
+                                            </span>
+                                            <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
+                                            </i>
+                                        </div>
                                     </div>
-                                    <input type="password" class="form-control" id="password" name="">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            Company
-                                        </span>
+                                <div class="form-group">
+                                    <div class="js-colorpicker input-group" data-format="hex">
+                                        <label for="" class="pr-2">
+                                            Icon over color
+                                        </label>
+                                        <div class="input-group-append float-right">
+                                            <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
+                                                <i style="width:38px; height:38px; ">
+                                                </i>
+                                            </span>
+                                            <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
+                                            </i>
+                                        </div>
                                     </div>
-                                    <input type="text" class="form-control" id="company" name="">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            First Name
-                                        </span>
+                                <div class="form-group">
+                                    <div class="js-colorpicker input-group" data-format="hex">
+                                        <label for="" class="pr-2">
+                                            Icon default color
+                                        </label>
+                                        <div class="input-group-append float-right">
+                                            <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
+                                                <i style="width:38px; height:38px; ">
+                                                </i>
+                                            </span>
+                                            <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
+                                            </i>
+                                        </div>
                                     </div>
-                                    <input type="text" class="form-control" id="name" name="">
                                 </div>
+
                             </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            Last Name
-                                        </span>
-                                    </div>
-                                    <input type="text" class="form-control" id="surname" name="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            Complete Address
-                                        </span>
-                                    </div>
-                                    <input type="text" class="form-control" id="address" name="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            Email
-                                        </span>
-                                    </div>
-                                    <input type="text" class="form-control" id="email" name="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            Language of the Platform
-                                        </span>
-                                    </div>
-                                    <select class="form-control" id="languagePlatform" name="example-select">
-                                        <option value="0">Please select</option>
-                                        <option value="1">Option #1</option>
-                                        <option value="2">Option #2</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            Pack
-                                        </span>
-                                    </div>
-                                    <select class="form-control" id="pack" name="example-select">
-                                        <option value="0">Please select</option>
-                                        <option value="1">Option #1</option>
-                                        <option value="2">Option #2</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group clearfix">
-                                <button type="submit" class="float-right bg-blue-0 text-white p-1 mx-2">SAVE</button>
-                                <button type="reset" class="float-right bg-blue-0 text-white p-1">CANCEL</button>
-                            </div>
+                            <a class="float-right" href="#">
+                                Restore Default
+                            </a>
                         </div>
                     </div>
+                    <div class="card-body  p-3">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        Login Administrator
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control" id="administrator" name="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        Password
+                                    </span>
+                                </div>
+                                <input type="password" class="form-control" id="password" name="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        Company
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control" id="company" name="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        First Name
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control" id="name" name="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        Last Name
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control" id="surname" name="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        Complete Address
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control" id="address" name="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        Email
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control" id="email" name="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        Language of the Platform
+                                    </span>
+                                </div>
+                                <select class="form-control" id="languagePlatform" name="example-select">
+                                    <option value="0">Please select</option>
+                                    <option value="1">Option #1</option>
+                                    <option value="2">Option #2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        Pack
+                                    </span>
+                                </div>
+                                <select class="form-control" id="pack" name="example-select">
+                                    <option value="0">Please select</option>
+                                    <option value="1">Option #1</option>
+                                    <option value="2">Option #2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <button type="button" class="btn btn-hero-primary float-right mx-1">SAVE</button>
+                            <button type="button" class="btn btn-hero-primary float-right mx-1">CANCEL</button>
+                        </div>
+                    </div>
+                </div>
             </fieldset>
         </div>
     </div>
@@ -602,8 +611,8 @@ $icon = asset('assets/media/part.png');?>
                             </div>
 
                             <div class="form-group">
-                                <button type="submit" class="float-right bg-blue-0 text-white p-1 mx-2">SAVE</button>
-                                <button type="reset" class="float-right bg-blue-0 text-white p-1">CANCEL</button>
+                                <button type="button" class="btn btn-hero-primary float-right mx-1">SAVE</button>
+                                <button type="button" class="btn btn-hero-primary float-right mx-1">CANCEL</button>
                             </div>
                         </div>
                     </div>
