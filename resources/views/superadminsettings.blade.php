@@ -41,7 +41,6 @@ $icon = asset('assets/media/part.png');?>
     .nav-item[aria-selected='true'] .nav-link {
         background-color: #362f81 !important;
     }
-
     .card,
     .card-body,
     .form-group {
@@ -63,7 +62,7 @@ $icon = asset('assets/media/part.png');?>
 
     .fas.fa-crosshairs {
         font-size: 26pt;
-        color: green;
+        color: red;
     }
 
     .dropdown-menu {
@@ -121,6 +120,12 @@ $icon = asset('assets/media/part.png');?>
 
     .form-group button:hover {
         background-color: #d52f72 !important;
+        border:0px;
+    }
+
+    .input-group>.input-group-prepend>.input-group-text{
+        background-color: transparent;
+        border-color: transparent;
     }
 </style>
 @endsection
