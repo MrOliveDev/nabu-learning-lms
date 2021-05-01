@@ -286,30 +286,31 @@ $icon = asset('assets/media/part.png'); ?>
                                 </button>
                             </div>
                         </a>
-                        <div><a class="text-white font-size-h1" href="#">+</a></div>
+                        <div  style="margin-bottom:-30px;"><a class="text-white font-size-h1" href="#">+</a></div>
+                    </div>
 
-                        <div class="mt-3 d-flex flex-column">
-                            <div class="clearfix mb-3">
-                                <label class="px-2 py-1 bg-blue-4 text-white" style="width:150px; font-size:18pt;">
-                                    Status
-                                </label>
-                                <div class="custom-control custom-switch custom-control-lg custom-control-inline pl-2">
-                                    <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg1" name="example-sw-custom-lg1" checked="">
-                                    <label class="custom-control-label" for="example-sw-custom-lg1"><i></i></label>
-                                </div>
+
+                    <div class="mt-3 d-flex flex-column">
+                        <div class="clearfix mb-3">
+                            <label class="px-2 py-1 bg-blue-4 text-white" style="width:150px; font-size:18pt;">
+                                Status
+                            </label>
+                            <div class="custom-control custom-switch custom-control-lg custom-control-inline pl-2">
+                                <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg1" name="example-sw-custom-lg1" checked="">
+                                <label class="custom-control-label" for="example-sw-custom-lg1"><i></i></label>
                             </div>
-                            <div class="clearfix mb-3">
-                                <label class="px-2 py-1 bg-blue-4 text-white" style="width:150px; font-size:18pt;">
-                                    PPT import
-                                </label>
-                                <div class="custom-control custom-switch custom-control-lg custom-control-inline pl-2">
-                                    <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg2" name="example-sw-custom-lg2" checked="">
-                                    <label class="custom-control-label" for="example-sw-custom-lg2"><i></i></label>
-                                </div>
-                            </div>
-
-
                         </div>
+                        <div class="clearfix mb-3">
+                            <label class="px-2 py-1 bg-blue-4 text-white" style="width:150px; font-size:18pt;">
+                                PPT import
+                            </label>
+                            <div class="custom-control custom-switch custom-control-lg custom-control-inline pl-2">
+                                <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg2" name="example-sw-custom-lg2" checked="">
+                                <label class="custom-control-label" for="example-sw-custom-lg2"><i></i></label>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </fieldset>
