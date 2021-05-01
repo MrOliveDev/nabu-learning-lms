@@ -168,7 +168,7 @@
                                         </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">
-                                            {{$translation->l('Training Courses')}}
+                                            {{$translation->l('Trainings')}}
                                         </span>
                                     </a>
                                 </li>
@@ -207,7 +207,7 @@
                                         </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">
-                                            {{$translation->l('Report and Certificates')}}
+                                            {{$translation->l('Reports')}}
                                         </span>
                                     </a>
                                 </li>
