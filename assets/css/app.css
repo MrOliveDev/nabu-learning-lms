@@ -167,48 +167,81 @@ main#main-container {
     display: none;
 }
 
-#sidebar:hover .nav-main-item .nav-main-link .nav-main-link-name {
+.simplebar-content:hover .nav-main-item .nav-main-link .nav-main-link-name {
     display: inline-block;
 }
 
 #sidebar {
     transition: width .1s;
-    width: 150px;
+    width: 300px;
 }
 
-#sidebar:hover {
+/* .simplebar-content:hover {
     width: 300px;
+} */
+
+.simplebar-content {
+    max-height: 200%;
+    min-height: 100%;
+    width:150px;
+    background-color: #2e3092;
+    transition: all .2s;
+}
+
+.simplebar-content:hover {
+    width:300px;
+}
+
+.nav-main-link.active {
+    border-radius: 5px;
+    width: 253px;
+    background-color: #2e3092 !important;
+}
+
+.nav-main-link.active .nav-main-link-name {
+    display: block;
 }
 
 #page-header {
     transition: width .1s;
 }
 
-#sidebar .content-header {
+#sidebar-content-header{
     transition: width .1s;
-    margin-top: 40px;
+
     justify-content: space-around;
+    /* flex-wrap: wrap; */
     flex-direction: column;
-    width: 150px;
+    width: auto;
 }
 
-#sidebar:hover .content-header {
-    margin-top: 0px;
+.simplebar-content:hover #sidebar-content-header {
+    /* margin-top: 50px; */
+    width:300px;
     flex-direction: row;
 }
+.simplebar-content:hover .sidetitle
+{
+   /* padding-left:70px; */
+}
 
-#page-container.side-scroll #sidebar:hover .content-header {
-    transition: width .1s;
+#page-container.side-scroll .simplebar-content:hover #sidebar-content-header {
+    transition: all .1s;
     width: 30px;
-    margin-top: 50px;
+    /* margin-top: 50px; */
+}
+
+
+div#sidebar-content-header {
+    height: 12em;
 }
 
 .content-side.content-side-full {
-    margin-top: 100px;
+    margin-top: 30px;
 }
 
-#page-container.side-scroll #sidebar:hover .content-side.content-side-full {
-    margin-top: 80px;
+#page-container.side-scroll .simplebar-content:hover .content-side.content-side-full {
+    /* margin-top: 80px; */
 }
 
 #page-container.page-header-fixed.sidebar-o .page-header-trigger,
@@ -218,14 +251,14 @@ main#main-container {
 
 .sidetitle img {
     height: 80px;
-    width: 120px;
+    /* width: 120px; */
 }
 
 #sidebar .simplebar-mask .content-header {
-    justify-content: flex-start;
+    justify-content: space-around;
 }
 
-#sidebar:not(:hover) .nav-main-cover-item {
+.simplebar-content:not(:hover) .nav-main-cover-item {
     margin-left: 26px;
 }
 

@@ -207,6 +207,8 @@
 </div>
 
 <script>
+    $('#templates').addClass('active');
+
     const VIEWMODE = 1,
         EDITMODE = 2,
         SAVEMODE = 3,
