@@ -102,7 +102,8 @@ class LoginController extends Controller
             $user->save();
 
             session(['user_id' => auth()->user()->id]);
-
+            //minimized sliderbar
+            session(['slider-control'=>true]);
 
             // var_dump(auth()->user()->type===1);die;
             return $this->sendLoginResponse($request);

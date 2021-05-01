@@ -2,7 +2,7 @@
     <div class="content-header">
         @if(auth()->user()->type===0)
         <div>
-            <button type="button" class="btn btn-rounded btn-dual mr-1" data-toggle="layout" data-action="sidebar_toggle">
+            <button type="button" class="btn btn-rounded btn-dual mr-1" id="sidebar-control">
                 <!-- <i class="fa fa-fw fa-bars"></i> -->
                 <i class="fa fa-fw fa-bars"></i>
             </button>
@@ -17,7 +17,7 @@
                 <button type="button" class="btn btn-dual btn-rounded" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <!-- <i class="fa fa-fw fa-user d-sm-none"></i> -->
                     <span class="d-none d-sm-inline-block">
-                    {{$translation->l('Admin')}}
+                        {{$translation->l('Admin')}}
                     </span>
                     <i class="fa fa-fw fa-user"></i>
                 </button>
@@ -165,4 +165,35 @@
         </div>
         @endif
     </div>
+    <script>
+        $('#sidebar-control').click(function(event) {
+            event.preventDefault();
+            console.log($(".simplebar-content").find(".nav-main-link-name").css('display'));
+            if ($(".simplebar-content").find(".nav-main-link-name").css('display')=="none") {
+                $(".simplebar-content").find(".nav-main-link-name").css({
+                    'display': 'inline-block'
+                });
+                $(".simplebar-content").css({
+                    'width': '300px'
+                });
+                $("#sidebar-content-header").css({
+                    'width': '300px',
+                    'flex-direction': 'row'
+                });
+
+            } else {
+                $(".simplebar-content").find(".nav-main-link-name").css({
+                    'display': 'none'
+                });
+                $(".simplebar-content").css({
+                    'width': '150px'
+                });
+                $("#sidebar-content-header").css({
+                    'width': '150px',
+                    'flex-direction': 'column'
+                });
+            }
+
+        })
+    </script>
 </header>
