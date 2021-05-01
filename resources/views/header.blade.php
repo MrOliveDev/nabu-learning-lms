@@ -168,8 +168,12 @@
     <script>
         $('#sidebar-control').click(function(event) {
             event.preventDefault();
+            event.stopPropagation();
             console.log($(".simplebar-content").find(".nav-main-link-name").css('display'));
-            if ($(".simplebar-content").find(".nav-main-link-name").css('display')=="none") {
+            if ($(".simplebar-content").find(".nav-main-link-name").css('display') == "none") {
+
+                $("#page-header, #page-container").addClass("page-header-trigger");
+
                 $(".simplebar-content").find(".nav-main-link-name").css({
                     'display': 'inline-block'
                 });
@@ -181,7 +185,10 @@
                     'flex-direction': 'row'
                 });
 
+
             } else {
+                $("#page-header, #page-container").removeClass("page-header-trigger");
+
                 $(".simplebar-content").find(".nav-main-link-name").css({
                     'display': 'none'
                 });
@@ -193,6 +200,11 @@
                     'flex-direction': 'column'
                 });
             }
+
+            $("#RightPanel").css({
+                "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() + "px"
+                // "width": $("#RightPanel").width() - 150 + "px"
+            });
 
         })
     </script>

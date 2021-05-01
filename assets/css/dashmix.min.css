@@ -13398,7 +13398,6 @@ a.badge-secondary:focus {
     transition: opacity .6s cubic-bezier(.215, .61, .355, 1)
 }
 
-
 #sidebar {
     position: fixed;
     top: 0;
@@ -13664,7 +13663,7 @@ a.badge-secondary:focus {
     top: 0;
     right: 0;
     left: 0;
-    z-index: 1030;
+    z-index: 20000;
     min-width: 320px;
     max-width: 100%;
     width: auto
@@ -13741,6 +13740,7 @@ a.badge-secondary:focus {
 
 #page-container.sidebar-dark #sidebar {
     color: #e6ebf4;
+    /* background-color: #343a40; */
     box-shadow: none
 }
 
