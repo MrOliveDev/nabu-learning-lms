@@ -169,7 +169,7 @@
                                                     <h4 class="panel-title mb-0 p-2">{{$translation->l('Rapports et certificats')}} <i class="fa fa-tint-slash float-right text-yellow-0"></i></h4>
                                                 </a>
                                             </div>
-                                            <div id="collapse1" class="panel-collapse in collapse show border-0 p-0 show" style="">
+                                            <div id="collapse1" class="panel-collapse in collapse show border-0 p-0 show" >
                                                 <div class="panel-body ml-5 p-0">
                                                     <div class="list-group p-0" id="list-tab" role="tablist">
                                                         <a class="list-group-item list-group-item-action active p-1 border-0  bg-green-0 text-black">
@@ -225,7 +225,7 @@
                                                         <h4 class="panel-title mb-0 p-2">{{$translation->l('Rapports et certificats')}} <i class="fa fa-tint-slash float-right text-yellow-0"></i></h4>
                                                     </a>
                                                 </div>
-                                                <div id="collapse1" class="panel-collapse in collapse show border-0 p-0 show" style="">
+                                                <div id="collapse1" class="panel-collapse in collapse show border-0 p-0 show">
                                                     <div class="panel-body ml-5 p-0">
                                                         <div class="list-group p-0" id="list-tab" role="tablist">
                                                             <a class="list-group-item list-group-item-action active p-1 border-0  bg-green-0 text-black">

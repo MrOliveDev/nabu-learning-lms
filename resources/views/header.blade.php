@@ -55,11 +55,11 @@
 
             <!-- Notification Drop Down -->
             <div class="dropdown d-inline-block">
-                <button type="button" class="btn btn-dual btn-rounded" id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+                <button type="button" class="btn btn-dual btn-rounded" id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                     <i class="fa fa-fw fa-bell"></i>
                     <span class="badge badge-secondary badge-pill">6</span>
                 </button>
-                <div class="dropdown-menu dropdown-menu-lg p-0" aria-labelledby="page-header-notifications-dropdown" style="">
+                <div class="dropdown-menu dropdown-menu-lg p-0" aria-labelledby="page-header-notifications-dropdown" >
                     <div class="bg-primary-darker rounded-top font-w600 text-white text-center p-3">
                         {{$translation->l('Notifications')}}
                     </div>
