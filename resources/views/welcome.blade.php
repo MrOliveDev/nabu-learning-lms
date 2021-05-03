@@ -165,8 +165,13 @@
 
         jQuery.resizable('div_vertical', "v");
         jQuery.resizable('div_vertical1', "v");
+        jQuery.resizable('div_vertical2', "v");
         jQuery.resizable('div_right', "h");
+        jQuery.resizable('div_right1', "h");
+        jQuery.resizable('div_right2', "h");
         jQuery.resizable('div_left', "h");
+        jQuery.resizable('div_left1', "h");
+        jQuery.resizable('div_left2', "h");
     </script>
 
 

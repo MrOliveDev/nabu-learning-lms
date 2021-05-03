@@ -44,4 +44,10 @@ class User extends Authenticatable
     ];
 
     protected $table = 'tb_users';
+
+    public function scopeGet_clients($query)
+    {
+        $clients = $query->where('type', 1)->get();
+        return $clients;
+    }
 }

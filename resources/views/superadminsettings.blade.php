@@ -2,9 +2,10 @@
 
 
 <?php
-$icon = asset('assets/media/part.png'); ?>
+$icon = asset("assets/media/part.png"); ?>
 @section('css_after')
-<link rel="stylesheet" href="assets/js/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+<link rel="stylesheet" href="{{asset('assets/js/plugins/summernote/summernote-bs4.css')}}">
+<link rel="stylesheet" href="{{asset('assets/js/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}">
 <style>
     #LeftPanel {
         width: 30%;
@@ -47,11 +48,6 @@ $icon = asset('assets/media/part.png'); ?>
     .form-group {
         background-color: #c8c7c7 !important;
     }
-
-    li.ui-tabs-active.ui-state-active {
-        /* back */
-    }
-
 
     #color-picker-select .active-item span {
         background-color: #aaa;
@@ -100,7 +96,8 @@ $icon = asset('assets/media/part.png'); ?>
     }
 
     #rainbow {
-        cursor: url('{{$icon}}'), cell;
+        cursor: url('{{$icon}}'),
+        cell;
     }
 
     .card-body.p-3 span.input-group-text {
@@ -136,15 +133,19 @@ $icon = asset('assets/media/part.png'); ?>
     .btn-hero-primary:hover {
         background-color: #d52f72;
     }
+
+    #reports .list-group-item {
+        background-color: transparent !important;
+    }
 </style>
 @endsection
 
 @section('js_after')
+<script src="{{asset('assets/js/plugins/summernote/summernote-bs4.min.js')}}"></script>
 <script src="{{asset('assets/js/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
-
 <script>
     jQuery(function() {
-        Dashmix.helpers(['colorpicker']);
+        Dashmix.helpers(['colorpicker', 'summernote']);
     });
     $(document).ready(function() {
         (function(factory) {
@@ -221,7 +222,7 @@ $icon = asset('assets/media/part.png'); ?>
 @section('con')
 <script>
     $(function() {
-        $("#tabs").tabs();
+        $("#tabs, #tab1").tabs();
     });
 </script>
 <div id="tabs">
@@ -237,270 +238,7 @@ $icon = asset('assets/media/part.png'); ?>
         </li>
     </ul>
     <div id="clients">
-        <div id="content">
-            <fieldset id="LeftPanel">
-                <div class="px-4">
-                    <div class="list-group m-0" id="list-tab" role="tablist">
-                        <a class="list-group-item list-group-item-action active  p-1 border-0" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
-                            <div class="float-left">
-                                <i class="fa fa-circle text-danger m-2"></i>
-                                Client1
-                            </div>
-                            <div class="btn-group float-right">
-
-                                <button class="btn text-white px-2" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
-                                    <i class="fa fa-edit"></i>
-                                </button>
-                                <button class="btn text-white px-2">
-                                    <i class="fa fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </a>
-                        <a class="list-group-item list-group-item-action  p-1 border-0" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
-                            <div class="float-left">
-                                <i class="fa fa-circle text-danger m-2"></i>
-                                Client2
-                            </div>
-                            <div class="btn-group float-right">
-
-                                <button class="btn text-white px-2">
-                                    <i class="fa fa-edit"></i>
-                                </button>
-                                <button class="btn text-white px-2">
-                                    <i class="fa fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </a>
-                        <a class="list-group-item list-group-item-action  p-1 border-0" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
-                            <div class="float-left">
-                                <i class="fa fa-circle text-danger m-2"></i>
-                                Client3
-                            </div>
-                            <div class="btn-group float-right">
-
-                                <button class="btn text-white px-2">
-                                    <i class="fa fa-edit"></i>
-                                </button>
-                                <button class="btn text-white px-2">
-                                    <i class="fa fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </a>
-                        <div  style="margin-bottom:-30px;"><a class="text-white font-size-h1" href="#">+</a></div>
-                    </div>
-
-
-                    <div class="mt-3 d-flex flex-column">
-                        <div class="clearfix mb-3">
-                            <label class="px-2 py-1 bg-blue-4 text-white" style="width:150px; font-size:18pt;">
-                                Status
-                            </label>
-                            <div class="custom-control custom-switch custom-control-lg custom-control-inline pl-2">
-                                <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg1" name="example-sw-custom-lg1" checked="">
-                                <label class="custom-control-label" for="example-sw-custom-lg1"><i></i></label>
-                            </div>
-                        </div>
-                        <div class="clearfix mb-3">
-                            <label class="px-2 py-1 bg-blue-4 text-white" style="width:150px; font-size:18pt;">
-                                PPT import
-                            </label>
-                            <div class="custom-control custom-switch custom-control-lg custom-control-inline pl-2">
-                                <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg2" name="example-sw-custom-lg2" checked="">
-                                <label class="custom-control-label" for="example-sw-custom-lg2"><i></i></label>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-            </fieldset>
-            <div id="div_vertical" class="handler_vertical width-controller">
-                <i class="fas fa-grip-lines-vertical text-white"></i>
-            </div>
-            <fieldset id="RightPanel">
-
-                <div class="card text-black mx-2 pt-3">
-                    <div class="d-flex  flex-wrap pl-3" style="overflow:hidden;">
-                        <div style="width:350px !important; height:250px; position:relative">
-                            <img id="rainbow" src="{{asset('assets/media/17.jpg')}}" width="350" height="250">
-                            <i class="fa fa-cog float-right p-3 position-absolute ml-auto" style="right:0;"></i>
-                        </div>
-                        <div class="flex-grow-1 p-4">
-                            <div id="color-picker-select">
-                                <div class="form-group">
-                                    <div class="js-colorpicker input-group" data-format="hex">
-                                        <label for="" class="pr-2">
-                                            Menu Background
-                                        </label>
-                                        <div class="input-group-append float-right">
-                                            <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                                <i style="width:38px; height:38px; ">
-                                                </i>
-                                            </span>
-                                            <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
-                                            </i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group active-item">
-                                    <div class="js-colorpicker input-group" data-format="hex">
-                                        <label for="" class="pr-2">
-                                            Page Background
-                                        </label>
-                                        <div class="input-group-append float-right">
-                                            <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                                <i style="width:38px; height:38px; ">
-                                                </i>
-                                            </span>
-                                            <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
-                                            </i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="js-colorpicker input-group" data-format="hex">
-                                        <label for="" class="pr-2">
-                                            Icon over color
-                                        </label>
-                                        <div class="input-group-append float-right">
-                                            <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                                <i style="width:38px; height:38px; ">
-                                                </i>
-                                            </span>
-                                            <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
-                                            </i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="js-colorpicker input-group" data-format="hex">
-                                        <label for="" class="pr-2">
-                                            Icon default color
-                                        </label>
-                                        <div class="input-group-append float-right">
-                                            <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                                <i style="width:38px; height:38px; ">
-                                                </i>
-                                            </span>
-                                            <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs">
-                                            </i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <a class="float-right" href="#">
-                                Restore Default
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card-body  p-3">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        Login Administrator
-                                    </span>
-                                </div>
-                                <input type="text" class="form-control" id="administrator" name="">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        Password
-                                    </span>
-                                </div>
-                                <input type="password" class="form-control" id="password" name="">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        Company
-                                    </span>
-                                </div>
-                                <input type="text" class="form-control" id="company" name="">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        First Name
-                                    </span>
-                                </div>
-                                <input type="text" class="form-control" id="name" name="">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        Last Name
-                                    </span>
-                                </div>
-                                <input type="text" class="form-control" id="surname" name="">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        Complete Address
-                                    </span>
-                                </div>
-                                <input type="text" class="form-control" id="address" name="">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        Email
-                                    </span>
-                                </div>
-                                <input type="text" class="form-control" id="email" name="">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        Language of the Platform
-                                    </span>
-                                </div>
-                                <select class="form-control" id="languagePlatform" name="example-select">
-                                    <option value="0">Please select</option>
-                                    <option value="1">Option #1</option>
-                                    <option value="2">Option #2</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        Pack
-                                    </span>
-                                </div>
-                                <select class="form-control" id="pack" name="example-select">
-                                    <option value="0">Please select</option>
-                                    <option value="1">Option #1</option>
-                                    <option value="2">Option #2</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <button type="button" class="btn btn-hero-primary float-right mx-1">SAVE</button>
-                            <button type="button" class="btn btn-hero-primary float-right mx-1">CANCEL</button>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-        </div>
+        @yield('client');
     </div>
 
     <div id="languages">
@@ -554,7 +292,7 @@ $icon = asset('assets/media/part.png'); ?>
                                 </button>
                             </div>
                         </a>
-
+                        <a class="text-white float-left" href="#" style="font-size:40px; line-height: 30px; font-weight: 900;">+</a>
                     </div>
                 </div>
             </fieldset>
@@ -624,29 +362,124 @@ $icon = asset('assets/media/part.png'); ?>
     </div>
     <div id="reports">
 
-        <div class="content2">
-            <fieldset id="LeftPanel2">
+        <div id="content">
+            <fieldset id="LeftPanel">
                 <div id="div_A" class="window top">
+                    <div class="px-4">
+                        <div class="list-group m-0" id="list-tab" role="tablist">
+                            <a class="list-group-item list-group-item-action active  p-1 border-0" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                                <div class="float-left">
+                                    <i class="fa fa-circle text-danger m-2"></i>
+                                    Client1
+                                </div>
+                                <div class="btn-group float-right">
 
+                                    <button class="btn text-white px-2" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button class="btn text-white px-2">
+                                        <i class="fa fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </a>
+                            <a class="list-group-item list-group-item-action  p-1 border-0" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
+                                <div class="float-left">
+                                    <i class="fa fa-circle text-danger m-2"></i>
+                                    Client2
+                                </div>
+                                <div class="btn-group float-right">
+
+                                    <button class="btn text-white px-2">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button class="btn text-white px-2">
+                                        <i class="fa fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </a>
+                            <a class="list-group-item list-group-item-action  p-1 border-0" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
+                                <div class="float-left">
+                                    <i class="fa fa-circle text-danger m-2"></i>
+                                    Client3
+                                </div>
+                                <div class="btn-group float-right">
+
+                                    <button class="btn text-white px-2">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button class="btn text-white px-2">
+                                        <i class="fa fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </a>
+                            <a class="text-white float-left" href="#" style="font-size:40px; line-height: 30px; font-weight: 900;">+</a>
+                        </div>
+                    </div>
                 </div>
-                <div id="div_left" class="handler_horizontal text-center font-size-h3 text-white mb-4">
+
+                <div id="div_left2" class="handler_horizontal text-center font-size-h3 text-white  mb-4">
                     <i class="fas fa-grip-lines"></i>
                 </div>
                 <div id="div_B" class="window bottom">
-                    <div id="div_A1" class="window top">
+                    <div class="px-4">
+                        <div id="tab1">
+                            <ul class="nav nav-tabs border-0 mb-2">
+                                <li class="nav-item">
+                                    <a class="nav-link active mr-2 bg-red-1 rounded-1 border-0" href="#variables">Variables</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link mr-2 bg-red-0 rounded-1 border-0" href="#contentbloc">Content bloc</a>
+                                </li>
+                            </ul>
+                            <div id="variables">
+                                <a class="list-group-item list-group-item-action active  p-1 border-0" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
 
-                    </div>
-                    <div id="div_left1" class="handler_horizontal text-center font-size-h3 text-white mb-4">
+                                    #First Name
+                                    <i class="fas fa-hourglass"></i>
+                                </a>
+                                <a class="list-group-item list-group-item-action active  p-1 border-0" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
 
-                    </div>
-                    <div id="div_B1" class="window bottom">
+                                    #First Name
+                                    <i class="fas fa-hourglass"></i>
+                                </a>
+                                <a class="list-group-item list-group-item-action active  p-1 border-0" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
 
+                                    #First Name
+                                    <i class="fas fa-hourglass"></i>
+                                </a>
+                            </div>
+                            <div id="contentbloc">
+                                <div class="list-group m-0" id="list-tab" role="tablist">
+                                    <a class="list-group-item list-group-item-action active  p-1 border-0" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+
+                                        #First Name
+                                        <i class="fas fa-cube"></i>
+                                    </a>
+                                    <a class="list-group-item list-group-item-action active  p-1 border-0" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+
+                                        #First Name
+                                        <i class="fas fa-cube"></i>
+                                    </a>
+                                    <a class="list-group-item list-group-item-action active  p-1 border-0" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+
+                                        #First Name
+                                        <i class="fas fa-cube"></i>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </fieldset>
-            <div id="div_vertical2" class="handler_vertical width-controller"></div>
-            <fieldset id="RightPanel2" class="m-4">
-
+            <div id="div_vertical2" class="handler_vertical width-controller">
+                <i class="fas fa-grip-lines-vertical text-white"></i>
+            </div>
+            <fieldset id="RightPanel">
+                <div class="block-content block-content-full">
+                    <!-- Summernote Container -->
+                    <div class="js-summernote">Hello Summernote!</div>
+                </div>
             </fieldset>
         </div>
 
