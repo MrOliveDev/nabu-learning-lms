@@ -13,7 +13,7 @@ class TemplateController extends Controller
     public function index()
     {
         $templates = TemplateModel::all();
-        return view('template', ['templates' => $templates]);
+        return view('template', compact('templates'));
 
     }
 

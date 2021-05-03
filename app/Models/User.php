@@ -18,10 +18,18 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'login'
+        "login",
+        "first_name",
+        "last_name",
+        "password",
+        "contact_info",
+        "company",
+        "email",
+        "lang",
+        "pack",
+        "state",
+        "function",
+        "type"
     ];
 
     /**
@@ -49,5 +57,17 @@ class User extends Authenticatable
     {
         $clients = $query->where('type', 1)->get();
         return $clients;
+    }
+
+    public function scopeGet_clientsInfo($query)
+    {
+        $clientlist = $query->select(
+            'tb_users.*',
+            'tb_interface_config.interface_color as interface_color',
+            'tb_interface_config.interface_icon as interface_icon'
+        )->leftjoin('tb_interface_config', 'tb_interface_config.admin_id', '=', 'tb_users.id')
+            ->where('type', '=', 1)->get();
+
+        return $clientlist;
     }
 }
