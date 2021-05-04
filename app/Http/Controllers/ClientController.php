@@ -183,6 +183,7 @@ class ClientController extends Controller
     public function destroy($id)
     {
         $client = User::find($id);
+        // print_r($client);exit;
         $client->delete();
         return redirect('/clients')->with('success', 'Client deleted successfully');
     }

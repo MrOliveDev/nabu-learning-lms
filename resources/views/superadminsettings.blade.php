@@ -95,7 +95,7 @@ $icon = asset("assets/media/part.png"); ?>
         color: green;
     }
 
-    #rainbow {
+    #preview {
         cursor: url('{{$icon}}'),
         cell;
     }
@@ -204,7 +204,7 @@ $icon = asset("assets/media/part.png"); ?>
 <script src="{{asset('assets/js/ga.js')}}"></script>
 <script>
     $(function() {
-        $("#rainbow").broiler(function(color) {
+        $("#preview").broiler(function(color) {
             var hex = "#" + ((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1);
             $("#color-picker-select").find('.active-item i:first').css("background-color", hex);
 

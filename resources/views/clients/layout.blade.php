@@ -3,8 +3,22 @@
 
 
 
-@section('client');
+@section('client')
+<style>
+    .uploadcare--jcrop-holder>div>div,
+    #preview {
+        border-radius: 50%;
+    }
 
+    .uploadcare--widget__button.uploadcare--widget__button_type_open {
+        display: none;
+    }
+
+    #uploadcare--widget__text {
+        display: none;
+
+    }
+</style>
 <div id="content">
     <fieldset id="LeftPanel">
         <div id="div_A" class="window top">
@@ -21,7 +35,7 @@
                             <button class="btn text-white px-2 edit-button" data-idx="{{$key}}">
                                 <i class="fa fa-edit"></i>
                             </button>
-                            <button class="btn text-white px-2 delete-button">
+                            <button class="btn text-white px-2 delete-button" onclick="clientDelete('{{$key}}')">
                                 <i class="fa fa-trash-alt"></i>
                             </button>
                         </div>
@@ -84,10 +98,17 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="card text-black mx-2 pt-3">
                 <div class="d-flex  flex-wrap pl-3" style="overflow:hidden;">
-                    <div style="width:350px !important; height:250px; position:relative">
-                        <img id="rainbow" src="{{asset('assets/media/17.jpg')}}" width="350" height="250">
+                    <div style="width:300px !important; position:relative">
                         <i class="fa fa-cog float-right p-3 position-absolute ml-auto" style="right:0;" id="upload_button">
-                            <input type="file" value="" hidden name="img"></i>
+                        </i>
+
+                        <input type="hidden" role="uploadcare-uploader" data-crop="1:1" data-images-only id="upload_tip">
+                        <div>
+                            <img src="" alt="" id="preview" width=300 height=300 name="preview" />
+                        </div>
+                        <!-- <img id="preview" src="{{asset('assets/media/17.jpg')}}" width="350" height="250" name="preview"> -->
+                        <!-- Your preview will be put here -->
+
                     </div>
                     <div class="flex-grow-1 p-4">
                         <div id="color-picker-select">
@@ -269,12 +290,51 @@
         </form>
     </fieldset>
 </div>
-
 <script>
+    UPLOADCARE_PUBLIC_KEY = "demopublickey";
+</script>
+<script src="{{asset('assets/js/upload.full.min.js')}}" charset="utf-8"></script>
+<script>
+    // Getting an instance of the widget.
+    const widget = uploadcare.Widget('[role=uploadcare-uploader]');
+    // Selecting an image to be replaced with the uploaded one.
+    const preview = document.getElementById('preview');
+    // "onUploadComplete" lets you get file info once it has been uploaded.
+    // "cdnUrl" holds a URL of the uploaded file: to replace a preview with.
+    widget.onUploadComplete(fileInfo => {
+        preview.src = fileInfo.cdnUrl;
+        // var reader = new FileReader();
+        // console.log(fileInfo);
+        // reader.readAsDataURL(fileInfo.cdnUrl);
+        // reader.onloadend = function(e) {
+        //     $("#preview").attr('src', reader.result);
+        //     img.css('display', 'block');
+    // }
+    })
+
+    $(document).ready(function() {
+        $("#preview").attr('src', "{{asset('assets/media/17.jpg')}}");
+        $("#preview").css('border-radius', "50%");
+    });
+
+    clientDelete = function(id) {
+        $.ajax({
+            "url": "{{ route('clients.destroy', '') }}/" + id,
+            "_token": "{{ csrf_token() }}",
+            "type": "DELETE",
+            success: function(result) {
+                alert(result);
+            }
+        });
+
+        $('this').parents('.list-group-item').remove();
+    }
+
     formclear = function() {
 
 
-        $("#rainbow").attr('src', "{{asset('assets/media/17.jpg')}}");
+        $("#preview").attr('src', "{{asset('assets/media/17.jpg')}}");
+        $("#preview").css('border-radius', "50%");
 
 
         $("#login").val('');
@@ -303,9 +363,9 @@
 
         console.log($('#hidden_interface_icon_' + id).val() == '');
         if ($('#hidden_interface_icon_' + id).val() != '') {
-            $("#rainbow").attr('src', $('#hidden_interface_icon_' + id).val());
+            $("#preview").attr('src', $('#hidden_interface_icon_' + id).val());
         } else {
-            $("#rainbow").attr('src', "{{asset('assets/media/17.jpg')}}");
+            $("#preview").attr('src', "{{asset('assets/media/17.jpg')}}");
         }
         var route_url = "{{route('clients.update', '')}}" + '/' + id;
         $("#client_form").attr('action', route_url);
@@ -333,8 +393,31 @@
     });
 
     $('#upload_button').click(function(evt) {
-        // evt.stopPropagation();
-        $(this).children("input").click();
-    })
+        evt.stopPropagation();
+        // $(this).children("input[type='file']")[0].click();
+        // if ($(".uploadcare--link.uploadcare--widget__file-name").length == 0) {
+        $(".uploadcare--link.uploadcare--widget__file-name").click();
+        $(".uploadcare--widget__button.uploadcare--widget__button_type_open").click();
+    });
+    // fileChange = function(e) {
+    //     var img = $("#preview");
+    //     if (window.FileReader) {
+    //         var file = e.target.files[0];
+    //         console.log(file);
+    //         var reader = new FileReader();
+    //         if (file && file.type.match('image.*')) {
+    //             reader.readAsDataURL(file);
+    //         }
+    //         reader.onloadend = function(e) {
+    //             img.attr('src', reader.result);
+    //             img.css('display', 'block');
+    //         }
+    //     }
+    // }
+
+    // $("#upload_button input[type='file']").change(function(event) {
+    //     // fileChange(event);
+    //     console.log(event.target.files[0]);
+    // });
 </script>
 @endsection
