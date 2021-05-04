@@ -15,8 +15,26 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients=User::get_clients();
-        return view('clients.layout', compact('clients'));
+        $clientsListArray = User::get_clientsInfo();
+        $clientsList = array();
+        foreach ($clientsListArray as $key => $client) {
+            $test = $client->toArray();
+            $clientsList[$client->id] = array();
+
+            foreach ($test as $key1 => $value) {
+                $clientsList[$client->id][$key1] = $value;
+            }
+            $clientsList[$client->id]['interface_color'] = json_decode($clientsList[$client->id]["interface_color"]);
+            // print_r($clientsList[$client->id]['interface_color']);
+            // exit;
+        }
+
+        // print_r($clientsList['6667']['interface_color']);
+        // $a = json_decode($clientsList['6667']['interface_color']);
+        // print_r($clientsList);
+        // exit;
+
+        return view('clients.layout', compact('clientsList'));
     }
 
     /**
@@ -27,6 +45,8 @@ class ClientController extends Controller
     public function create()
     {
         //
+        // return view('student.create');
+
     }
 
     /**
@@ -37,20 +57,34 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
+        print_r("Create!");
+        exit;
+        // print_r($request);
+        // exit;
         $request->validate([
-            'txtFirstName'=>'required',
-            'txtLastName'=> 'required',
-            'txtAddress' => 'required'
+            'login' => 'required',
+            'company' => 'required',
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'address' => 'required',
+            'email' => 'required',
+            'languagePlatform' => 'required',
+            'pack' => 'required'
         ]);
 
-        $student = new Student([
-            'first_name' => $request->get('txtFirstName'),
-            'last_name'=> $request->get('txtLastName'),
-            'address'=> $request->get('txtAddress')
+        $client = new User([
+            'login' => $request->get('login'),
+            'company' => $request->get('company'),
+            'firstName' => $request->get('firstName'),
+            'lastName' => $request->get('lastName'),
+            'address' => $request->get('address'),
+            'email' => $request->get('email'),
+            'languagePlatform' => $request->get('languagePlatform'),
+            'pack' => $request->get('pack')
         ]);
 
-        $student->save();
-        return redirect('/student')->with('success', 'Student has been added');
+        $client->save();
+        return redirect('/clients.layout')->with('success', 'Client has been added');
         //
     }
 
@@ -60,10 +94,11 @@ class ClientController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Request $request, $id)
     {
+
         //
-        return view('student.view',compact('student'));
+        // return view('student.view',compact('student'));
 
     }
 
@@ -73,9 +108,9 @@ class ClientController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        return view('student.edit',compact('student'));
+        // return view('student.edit',compact('student'));
 
         //
     }
@@ -87,25 +122,39 @@ class ClientController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
+        var_dump("sjf");
+        exit;
         //
+        // var_dump($request . $id);
 
         $request->validate([
-            'txtFirstName'=>'required',
-            'txtLastName'=> 'required',
-            'txtAddress' => 'required'
+            'login' => 'required',
+            'company' => 'required',
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'address' => 'required',
+            'email' => 'required',
+            'languagePlatform' => 'required',
+            'pack' => 'required'
         ]);
 
 
-        $student = Student::find($id);
-        $student->first_name = $request->get('txtFirstName');
-        $student->last_name = $request->get('txtLastName');
-        $student->address = $request->get('txtAddress');
+        $client = User::find($id);
+        print_r($client);exit;
+        $client->login = $request->get('login');
+        $client->company = $request->get('company');
+        $client->first_name = $request->get('firstname');
+        $client->last_name = $request->get('lastname');
+        $client->contact_info = $request->get('address');
+        $client->email = $request->get('email');
+        $client->lang = $request->get('languagePlatform');
+        $client->pack = $request->get('pack');
 
-        $student->update();
+        $client->update();
 
-        return redirect('/student')->with('success', 'Student updated successfully');
+        return redirect('/clients.layout')->with('success', 'Client updated successfully');
     }
 
     /**
@@ -114,10 +163,10 @@ class ClientController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        //
-        $student->delete();
-        return redirect('/student')->with('success', 'Student deleted successfully');
+        $client = User::find($id);
+        $client->delete();
+        return redirect('/clients.layout')->with('success', 'Client deleted successfully');
     }
 }
