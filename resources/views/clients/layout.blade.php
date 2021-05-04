@@ -27,11 +27,11 @@
                         </div>
                         <input type="hidden" name="login" id="hidden_login_{{$key}}" value="{{$client['login']}}">
                         <input type="hidden" name="company" id="hidden_company_{{$key}}" value="{{$client['company']}}">
-                        <input type="hidden" name="firstName" id="hidden_firstName_{{$key}}" value="{{$client['first_name']}}">
-                        <input type="hidden" name="lastName" id="hidden_lastName_{{$key}}" value="{{$client['last_name']}}">
-                        <input type="hidden" name="address" id="hidden_address_{{$key}}" value="{{$client['contact_info']}}">
+                        <input type="hidden" name="firstname" id="hidden_firstname_{{$key}}" value="{{$client['first_name']}}">
+                        <input type="hidden" name="lastname" id="hidden_lastname_{{$key}}" value="{{$client['last_name']}}">
+                        <input type="hidden" name="contact_info" id="hidden_contact_info_{{$key}}" value="{{$client['contact_info']}}">
                         <input type="hidden" name="email" id="hidden_email_{{$key}}" value="{{$client['email']}}">
-                        <input type="hidden" name="languagePlatform" id="hidden_languagePlatform_{{$key}}" value="{{$client['lang']}}">
+                        <input type="hidden" name="lang" id="hidden_lang_{{$key}}" value="{{$client['lang']}}">
                         <input type="hidden" name="pack" id="hidden_pack_{{$key}}" value="{{$client['pack']}}">
 
                         <input type="hidden" name="interface_icon" id="hidden_interface_icon_{{$key}}" value="{{$client['interface_icon']}}">
@@ -81,7 +81,7 @@
     </div>
     <fieldset id="RightPanel">
         <form method="post" id="client_form" class="form" action="" autocomplete="off">
-            <input name="_method" type="hidden" value="PUT" />
+            <input name="_method" type="hidden" value="PUT" id="method-select" />
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="card text-black mx-2 pt-3">
                 <div class="d-flex  flex-wrap pl-3" style="overflow:hidden;">
@@ -168,7 +168,7 @@
                                     Login Administrator
                                 </span>
                             </div>
-                            <input type="text" class="form-control" id="login" name="login">
+                            <input type="text" class="form-control" id="login" name="login" value="" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -178,7 +178,7 @@
                                     Password
                                 </span>
                             </div>
-                            <input type="password" class="form-control" id="password" name="password">
+                            <input type="password" class="form-control" id="password" name="password" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -188,7 +188,7 @@
                                     Company
                                 </span>
                             </div>
-                            <input type="text" class="form-control" id="company" name="company">
+                            <input type="text" class="form-control" id="company" name="company" value="" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -198,7 +198,7 @@
                                     First Name
                                 </span>
                             </div>
-                            <input type="text" class="form-control" id="firstName" name="firstname">
+                            <input type="text" class="form-control" id="firstname" name="firstname" value="" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -208,17 +208,17 @@
                                     Last Name
                                 </span>
                             </div>
-                            <input type="text" class="form-control" id="lastName" name="lastname">
+                            <input type="text" class="form-control" id="lastname" name="lastname" value="" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
-                                    Complete Address
+                                    Complete contact_info
                                 </span>
                             </div>
-                            <input type="text" class="form-control" id="address" name="contact_info">
+                            <input type="text" class="form-control" id="contact_info" name="contact_info" value="" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -228,7 +228,7 @@
                                     Email
                                 </span>
                             </div>
-                            <input type="text" class="form-control" id="email" name="email">
+                            <input type="email" class="form-control" id="email" name="email" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -238,7 +238,7 @@
                                     Language of the Platform
                                 </span>
                             </div>
-                            <select class="form-control" id="languagePlatform" name="lang">
+                            <select class="form-control" id="lang" name="lang" required>
                                 <option value="0">Please select</option>
                                 <option value="1">Option #1</option>
                                 <option value="2">Option #2</option>
@@ -252,7 +252,7 @@
                                     Pack
                                 </span>
                             </div>
-                            <select class="form-control" id="pack" name="pack">
+                            <select class="form-control" id="pack" name="pack" required>
                                 <option value="50">up to 50</option>
                                 <option value="100">up to 100</option>
                                 <option value="150">up to 150</option>
@@ -281,11 +281,11 @@
         $("#login").val('');
         $("#password").val('');
         $("#company").val('');
-        $("#firstName").val('');
-        $("#lastName").val('');
-        $("#address").val('');
+        $("#firstname").val('');
+        $("#lastname").val('');
+        $("#contact_info").val('');
         $("#email").val('');
-        $("#languagePlatform").val('1');
+        $("#lang").val('1');
         $("#pack").val('50');
     }
 
@@ -295,11 +295,11 @@
         var id = listItem.id.split('_')[1];
         $("#login").val($('#hidden_login_' + id).val());
         $("#company").val($('#hidden_company_' + id).val());
-        $("#firstName").val($('#hidden_firstName_' + id).val());
-        $("#lastName").val($('#hidden_lastName_' + id).val());
-        $("#address").val($('#hidden_address_' + id).val());
+        $("#firstname").val($('#hidden_firstname_' + id).val());
+        $("#lastname").val($('#hidden_lastname_' + id).val());
+        $("#contact_info").val($('#hidden_contact_info_' + id).val());
         $("#email").val($('#hidden_email_' + id).val());
-        $("#languagePlatform").val($('#hidden_languagePlatform_' + id).val());
+        $("#lang").val($('#hidden_lang_' + id).val());
         $("#pack").val($('#hidden_pack_' + id).val());
 
         console.log($('#hidden_interface_icon_' + id).val() == '');
@@ -310,10 +310,15 @@
         }
         var route_url = "{{route('clients.update', '')}}" + '/' + id;
         $("#client_form").attr('action', route_url);
-        $("#menu-background").attr('background', "#" + $('#hidden_menu-background_' + id).val()) + " !important";
-        $("#page-background").attr('background', "#" + $('#hidden_page-background_' + id).val()) + " !important";
-        $("#icon-over-color").attr('background', "#" + $('#hidden_icon-over-color_' + id).val()) + " !important";
-        $("#icon-default-color").attr('background', "#" + $('#hidden_icon-default-color_' + id).val()) + " !important";
+        if ($('#method-select').length == 0) {
+            $("#client_form").prepend("<input name='_method' type='hidden' value='PUT' id='method-select' />");
+        }
+
+        $("#menu-background").css('background', "#" + $('#hidden_menu-background_' + id).val()) + " !important";
+        $("#page-background").css('background', "#" + $('#hidden_page-background_' + id).val()) + " !important";
+        $("#icon-over-color").css('background', "#" + $('#hidden_icon-over-color_' + id).val()) + " !important";
+        $("#icon-default-color").css('background', "#" + $('#hidden_icon-default-color_' + id).val()) + " !important";
+
 
 
     });
@@ -322,6 +327,10 @@
         formclear();
         var route_url = "{{route('clients.store')}}";
         $("#client_form").attr('action', route_url);
+        // $("#client_form").attr('method', "post");
+        if ($('#method-select').length) {
+            $('#method-select').remove();
+        }
     });
 
     $('#upload_button').click(function(evt) {

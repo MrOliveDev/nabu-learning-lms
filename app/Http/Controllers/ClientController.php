@@ -57,18 +57,18 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        print_r("Create!");
-        exit;
+        // print_r("Create!");
+        // exit;
         // print_r($request);
         // exit;
         $request->validate([
             'login' => 'required',
             'company' => 'required',
-            'firstName' => 'required',
-            'lastName' => 'required',
-            'address' => 'required',
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'contact_info' => 'required',
             'email' => 'required',
-            'languagePlatform' => 'required',
+            'lang' => 'required',
             'pack' => 'required'
         ]);
 
@@ -84,7 +84,7 @@ class ClientController extends Controller
         ]);
 
         $client->save();
-        return redirect('/clients.layout')->with('success', 'Client has been added');
+        return redirect('/clients')->with('success', 'Client has been added');
         //
     }
 
@@ -124,37 +124,32 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        var_dump("sjf");
-        exit;
-        //
-        // var_dump($request . $id);
 
         $request->validate([
             'login' => 'required',
             'company' => 'required',
-            'firstName' => 'required',
-            'lastName' => 'required',
-            'address' => 'required',
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'contact_info' => 'required',
             'email' => 'required',
-            'languagePlatform' => 'required',
+            'lang' => 'required',
             'pack' => 'required'
         ]);
 
-
         $client = User::find($id);
-        print_r($client);exit;
+        // print_r($client); exit;
         $client->login = $request->get('login');
         $client->company = $request->get('company');
         $client->first_name = $request->get('firstname');
         $client->last_name = $request->get('lastname');
         $client->contact_info = $request->get('address');
         $client->email = $request->get('email');
-        $client->lang = $request->get('languagePlatform');
+        $client->lang = $request->get('lang');
         $client->pack = $request->get('pack');
 
         $client->update();
 
-        return redirect('/clients.layout')->with('success', 'Client updated successfully');
+        return redirect('/clients')->with('success', 'Client updated successfully');
     }
 
     /**
@@ -167,6 +162,6 @@ class ClientController extends Controller
     {
         $client = User::find($id);
         $client->delete();
-        return redirect('/clients.layout')->with('success', 'Client deleted successfully');
+        return redirect('/clients')->with('success', 'Client deleted successfully');
     }
 }
