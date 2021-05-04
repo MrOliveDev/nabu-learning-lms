@@ -81,7 +81,6 @@
     </div>
     <fieldset id="RightPanel">
         <form method="post" id="client_form" class="form" action="" autocomplete="off">
-            <input name="_method" type="hidden" value="PUT" id="method-select" />
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="card text-black mx-2 pt-3">
                 <div class="d-flex  flex-wrap pl-3" style="overflow:hidden;">
@@ -100,10 +99,10 @@
                                     </label>
                                     <div class="input-group-append float-right">
                                         <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                            <i style="width:38px; height:38px; ">
+                                            <i style="width:38px; height:38px; " id="menu-background">
                                             </i>
                                         </span>
-                                        <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs" id="menu-background" name="menu-background">
+                                        <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs" name="menu-background">
                                         </i>
                                     </div>
                                 </div>
@@ -115,10 +114,10 @@
                                     </label>
                                     <div class="input-group-append float-right">
                                         <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                            <i style="width:38px; height:38px; ">
+                                            <i style="width:38px; height:38px; " id='page-background'>
                                             </i>
                                         </span>
-                                        <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs" id='page-background' name='page-background'>
+                                        <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs" name='page-background'>
                                         </i>
                                     </div>
                                 </div>
@@ -130,10 +129,10 @@
                                     </label>
                                     <div class="input-group-append float-right">
                                         <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                            <i style="width:38px; height:38px; ">
+                                            <i style="width:38px; height:38px; " id="icon-over-color">
                                             </i>
                                         </span>
-                                        <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs" id="icon-over-color" name="icon-over-color">
+                                        <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs" name="icon-over-color">
                                         </i>
                                     </div>
                                 </div>
@@ -145,10 +144,10 @@
                                     </label>
                                     <div class="input-group-append float-right">
                                         <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
-                                            <i style="width:38px; height:38px; ">
+                                            <i style="width:38px; height:38px; " id='icon-default-color'>
                                             </i>
                                         </span>
-                                        <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs" id='icon-default-color' name='icon-default-color'>
+                                        <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs" name='icon-default-color'>
                                         </i>
                                     </div>
                                 </div>

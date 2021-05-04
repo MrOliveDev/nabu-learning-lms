@@ -57,12 +57,13 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        // print_r("Create!");
         // exit;
         // print_r($request);
         // exit;
+
         $request->validate([
             'login' => 'required',
+            'password' => 'required',
             'company' => 'required',
             'firstname' => 'required',
             'lastname' => 'required',
@@ -71,16 +72,28 @@ class ClientController extends Controller
             'lang' => 'required',
             'pack' => 'required'
         ]);
-
+        // print_r($request->input('login') . "\n" . 'login');
+        // print_r($request->input('company') . "\n" . 'company');
+        // print_r($request->input('password') . "\n" . 'password');
+        // print_r($request->input('firstname') . "\n" . 'firstname');
+        // print_r($request->input('lastname') . "\n" . 'lastname');
+        // print_r($request->input('address') . "\n" . 'address');
+        // print_r($request->input('email') . "\n" . 'email');
+        // print_r($request->input('lang') . "\n" . 'lang');
+        // print_r($request->input('pack') . "\n" . 'pack');
+        // exit;
         $client = new User([
-            'login' => $request->get('login'),
-            'company' => $request->get('company'),
-            'firstName' => $request->get('firstName'),
-            'lastName' => $request->get('lastName'),
-            'address' => $request->get('address'),
-            'email' => $request->get('email'),
-            'languagePlatform' => $request->get('languagePlatform'),
-            'pack' => $request->get('pack')
+            'login' => $request->input('login'),
+            'password' => $request->input('password'),
+            'company' => $request->input('company'),
+            'first_name' => $request->input('firstname'),
+            'last_name' => $request->input('lastname'),
+            'contact_info' => $request->input('contact_info'),
+            'email' => $request->input('email'),
+            'lang' => $request->input('lang'),
+            'pack' => $request->input('pack'),
+            'state' => 32,
+            'type' => 1
         ]);
 
         $client->save();
@@ -124,7 +137,6 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $request->validate([
             'login' => 'required',
             'company' => 'required',
@@ -136,16 +148,26 @@ class ClientController extends Controller
             'pack' => 'required'
         ]);
 
+        // print_r($request->input('login')."\n".'login');
+        // print_r($request->input('company')."\n".'company');
+        // print_r($request->input('password')."\n".'password');
+        // print_r($request->input('firstname')."\n".'firstname');
+        // print_r($request->input('lastname')."\n".'lastname');
+        // print_r($request->input('address')."\n".'address');
+        // print_r($request->input('email')."\n".'email');
+        // print_r($request->input('lang')."\n".'lang');
+        // print_r($request->input('pack')."\n".'pack');
+        //  exit;
         $client = User::find($id);
-        // print_r($client); exit;
-        $client->login = $request->get('login');
-        $client->company = $request->get('company');
-        $client->first_name = $request->get('firstname');
-        $client->last_name = $request->get('lastname');
-        $client->contact_info = $request->get('address');
-        $client->email = $request->get('email');
-        $client->lang = $request->get('lang');
-        $client->pack = $request->get('pack');
+        $client->login = $request->input('login');
+        $client->company = $request->input('company');
+        $client->password = $request->input('password');
+        $client->first_name = $request->input('firstname');
+        $client->last_name = $request->input('lastname');
+        $client->contact_info = $request->input('contact_info');
+        $client->email = $request->input('email');
+        $client->lang = $request->input('lang');
+        $client->pack = $request->input('pack');
 
         $client->update();
 
