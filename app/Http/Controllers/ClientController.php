@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ConfigModel;
 use App\Models\InterfaceCfgModel;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -63,13 +64,6 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        $interface_color = array(
-            'menuBackground' => $request->input('menuBackground'),
-            'pageBackground' => $request->input('pageBackground'),
-            'iconOverColor' => $request->input('iconOverColor'),
-            'iconDefaultColor' => $request->input('iconDefaultColor')
-        );
-
         $request->validate([
             'login' => 'required',
             'password' => 'required',
@@ -83,7 +77,7 @@ class ClientController extends Controller
         ]);
 
         $interfaceCfg = InterfaceCfgModel::create([
-            'interface_color' => json_encode($interface_color),
+            'interface_color' => $request->input('interface_color'),
             'interface_icon' => $request->input('base64_img_data'),
             'admin_id' => '1'
         ]);
@@ -144,9 +138,6 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // print_r($request->all());
-        // exit;
-
 
         $request->validate([
             'login' => 'required',
@@ -159,12 +150,6 @@ class ClientController extends Controller
             'pack' => 'required'
         ]);
 
-        $interface_color = array(
-            'menuBackground' => $request->input('menuBackground'),
-            'pageBackground' => $request->input('pageBackground'),
-            'iconOverColor' => $request->input('iconOverColor'),
-            'iconDefaultColor' => $request->input('iconDefaultColor')
-        );
         $contact_info = array(
             'address' => $request->input('contact_info'),
             'email' => $request->input('email')
@@ -183,18 +168,26 @@ class ClientController extends Controller
         $client = User::find($id);
 
         $interfaceCfg = InterfaceCfgModel::find($client->id_config);
-        $interfaceCfg->interface_color = json_encode($interface_color);
+        $interfaceCfg->interface_color = $request->input('interface_color');
         if ($request->input('base64_img_data') != null) {
             $interfaceCfg->interface_icon = $request->input('base64_img_data');
         }
 
         $interfaceCfg->update();
 
+        $config = ConfigModel::find($client->id_config);
+        $tempconfig = json_decode($config->config);
+        $tempconfig->PPTImport1= $request->input('pptimport');
+        $config->config=json_encode($tempconfig);
+
+        $config->update();
+
         $client->login = $request->input('login');
         $client->company = $request->input('company');
         $client->password = $request->input('password');
         $client->first_name = $request->input('firstname');
         $client->last_name = $request->input('lastname');
+        $client->status = $request->input('status');
         $client->contact_info = json_encode($contact_info);
         $client->lang = $request->input('lang');
         $client->pack = $request->input('pack');
@@ -213,12 +206,13 @@ class ClientController extends Controller
     public function destroy($id)
     {
         // print_r("dflsjldf"); exit();
-        InterfaceCfgModel::where('admin_id', $id)->delete();
-        $client = User::find($id);
         // print_r($client);exit;
-        var_dump($client->id);
-        exit;
-        User::drop_admin_table($client->id);
+        // var_dump($client->id);
+        // exit;
+        $client = User::find($id);
+        InterfaceCfgModel::where('id', $client->id_config)->delete();
+        ConfigModel::where('id', $client->id_config)->delete();
+        User::drop_admin_table($id);
         $client->delete();
         return response('Deleted Successfully', 200);
     }

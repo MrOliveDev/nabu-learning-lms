@@ -379,13 +379,13 @@
             $.fn.broiler = function(callBack) {
                 var canvas = $("<canvas/>")[0],
                     imageData;
-                image = this[0];
-                canvas.width = image.width;
-                canvas.height = image.height;
-                canvas.getContext("2d").drawImage(image, 0, 0, image.width, image.height);
-                imageData = canvas.getContext("2d").getImageData(0, 0, image.width, image.height).data;
-                console.log(image.src);
                 this.click(function(event) {
+                    image = $('#preview')[0];
+                    canvas.width = image.width;
+                    canvas.height = image.height;
+                    canvas.getContext("2d").drawImage(image, 0, 0, image.width, image.height);
+                    imageData = canvas.getContext("2d").getImageData(0, 0, image.width, image.height).data;
+                    // console.log(image.src);
                     var offset = $(this).offset(),
                         x, y, scrollLeft, scrollTop, start;
                     scrollLeft = $(window).scrollLeft();
@@ -715,7 +715,8 @@
     // });
 
 
-    $('#clients_form').submit(function() {
+    $('#client_form').submit(function() {
+        alert('asdfasdf');
         var interface_color = {
             'menuBackground': RGBToHex($('#menu-background').css('background-color')),
             'pageBackground': RGBToHex($('#page-background').css('background-color')),
@@ -728,9 +729,17 @@
             $('#base64_img_data').val() = "";
         }
 
-        $('#example-sw-custom-lg1').is(":checked") ? $('#status').val('1') : $('#status').val('0');
-        $('#example-sw-custom-lg2').is(":checked") ? $('#pptimport').val('1') : $('#pptimport').val('0');
-
+        if ($('#example-sw-custom-lg1').is(":checked") == true) {
+            $('#status').val('1')
+        } else {
+            $('#status').val('0');
+        }
+        if ($('#example-sw-custom-lg2').is(":checked") == true) {
+            $('#pptimport').val('1');
+        } else {
+            $('#pptimport').val('0');
+        }
+        return true;
     })
 </script>
 <script src="{{asset('assets/js/ga.js')}}"></script>
