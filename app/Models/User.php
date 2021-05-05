@@ -27,8 +27,8 @@ class User extends Authenticatable
         "email",
         "lang",
         "pack",
-        "state",
         "function",
+        "id_config",
         "type"
     ];
 
@@ -64,8 +64,9 @@ class User extends Authenticatable
         $clientlist = $query->select(
             'tb_users.*',
             'tb_interface_config.interface_color as interface_color',
-            'tb_interface_config.interface_icon as interface_icon'
-        )->leftjoin('tb_interface_config', 'tb_interface_config.admin_id', '=', 'tb_users.id')
+            'tb_interface_config.interface_icon as interface_icon',
+            'tb_interface_config.id as interface_id'
+        )->leftjoin('tb_interface_config', 'tb_interface_config.id', '=', 'tb_users.id_config')
             ->where('type', '=', 1)->get();
 
         return $clientlist;

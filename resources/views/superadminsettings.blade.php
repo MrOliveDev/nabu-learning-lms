@@ -205,9 +205,9 @@ $icon = asset("assets/media/part.png"); ?>
 <script>
     $(function() {
         $("#preview").broiler(function(color) {
-            var hex = "#" + ((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1);
+            var hex1 = ((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1);
+            var hex= "#" + hex1;
             $("#color-picker-select").find('.active-item i:first').css("background-color", hex);
-
         });
     });
 </script>

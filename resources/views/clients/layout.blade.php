@@ -4,6 +4,39 @@
 
 
 @section('client')
+<link rel="stylesheet" href="{{asset('assets/css/cropper.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/js/plugins/sweetalert2/sweetalert2.min.css')}}" />
+<style type="text/css">
+    .cropper-view-box {
+        border-radius: 50%;
+    }
+
+    img {
+        display: block;
+        max-width: 100%;
+    }
+
+    .preview {
+        overflow: hidden;
+        width: 160px;
+        height: 160px;
+        margin: 10px;
+        border: 1px solid red;
+    }
+
+    .modal-lg {
+        max-width: 1000px !important;
+    }
+
+    .swal2-container {
+        z-index: 3000;
+    }
+
+    .swal2-container .btn,
+    .modal .btn {
+        border-radius: 3px;
+    }
+</style>
 <style>
     .uploadcare--jcrop-holder>div>div,
     #preview {
@@ -29,13 +62,13 @@
                     <a class="list-group-item list-group-item-action  p-1 border-0" id="client_{{$key}}" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
-                            {{$client['login']}}
+                            {{$client['company']}}
                         </div>
                         <div class="btn-group float-right">
                             <button class="btn text-white px-2 edit-button" data-idx="{{$key}}">
                                 <i class="fa fa-edit"></i>
                             </button>
-                            <button class="btn text-white px-2 delete-button" onclick="clientDelete('{{$key}}')">
+                            <button class="btn text-white px-2 delete-button js-swal-confirm" onclick="clientDelete('{{$key}}')">
                                 <i class="fa fa-trash-alt"></i>
                             </button>
                         </div>
@@ -94,33 +127,31 @@
         <i class="fas fa-grip-lines-vertical text-white"></i>
     </div>
     <fieldset id="RightPanel">
-        <form method="post" id="client_form" class="form" action="" autocomplete="off">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <form method="post" id="client_form" enctype="multipart/form-data" class="form" action="" autocomplete="off">
+            @csrf
+            <!-- <input name='_method' type='hidden' value='PUT' id='method-select' /> -->
             <div class="card text-black mx-2 pt-3">
                 <div class="d-flex  flex-wrap pl-3" style="overflow:hidden;">
                     <div style="width:300px !important; position:relative">
                         <i class="fa fa-cog float-right p-3 position-absolute ml-auto" style="right:0;" id="upload_button">
+                            <input type="file" name="image" class="image" hidden>
+                            <input type="hidden" name="interface_color" value="" id="interface_color" />
                         </i>
-
-                        <input type="hidden" role="uploadcare-uploader" data-crop="1:1" data-images-only id="upload_tip">
-                        <div>
-                            <img src="" alt="" id="preview" width=300 height=300 name="preview" />
-                        </div>
-                        <!-- <img id="preview" src="{{asset('assets/media/17.jpg')}}" width="350" height="250" name="preview"> -->
-                        <!-- Your preview will be put here -->
-
+                        <img src="" alt="" id="preview" width=300 height=300 name="preview" />
+                        <input type="hidden" name="base64_img_data" id="base64_img_data">
                     </div>
                     <div class="flex-grow-1 p-4">
                         <div id="color-picker-select">
-
                             <div class="form-group">
                                 <div class="js-colorpicker input-group" data-format="hex">
                                     <label for="" class="pr-2">
                                         Menu Background
                                     </label>
+
                                     <div class="input-group-append float-right">
                                         <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
                                             <i style="width:38px; height:38px; " id="menu-background">
+                                                <input type="hidden" name="menuBackground" value=''>
                                             </i>
                                         </span>
                                         <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs" name="menu-background">
@@ -128,14 +159,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group active-item">
+                            <div class="form-group">
                                 <div class="js-colorpicker input-group" data-format="hex">
                                     <label for="" class="pr-2">
                                         Page Background
                                     </label>
+
                                     <div class="input-group-append float-right">
                                         <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
                                             <i style="width:38px; height:38px; " id='page-background'>
+                                                <input type="hidden" name="pageBackground" value=''>
                                             </i>
                                         </span>
                                         <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs" name='page-background'>
@@ -148,9 +181,11 @@
                                     <label for="" class="pr-2">
                                         Icon over color
                                     </label>
+
                                     <div class="input-group-append float-right">
                                         <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
                                             <i style="width:38px; height:38px; " id="icon-over-color">
+                                                <input type="hidden" name="iconOverColor" value=''>
                                             </i>
                                         </span>
                                         <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs" name="icon-over-color">
@@ -163,9 +198,11 @@
                                     <label for="" class="pr-2">
                                         Icon default color
                                     </label>
+
                                     <div class="input-group-append float-right">
                                         <span class="input-group-text colorpicker-input-addon p-0" style="width:38px; height:38px;">
                                             <i style="width:38px; height:38px; " id='icon-default-color'>
+                                                <input type="hidden" name="iconDefaultColor" value=''>
                                             </i>
                                         </span>
                                         <i style="width:38px; height:38px; " class="pl-2 fas fa-crosshairs" name='icon-default-color'>
@@ -173,7 +210,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <a class="float-right" href="#">
                             Restore Default
@@ -282,7 +318,7 @@
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <button type="submit" class="btn btn-hero-primary float-right mx-1">SAVE</button>
+                        <button type="submit" class="btn btn-hero-primary float-right mx-1" id="client_save_button" disabled>SAVE</button>
                         <button type="button" class="btn btn-hero-primary float-right mx-1">CANCEL</button>
                     </div>
                 </div>
@@ -290,49 +326,235 @@
         </form>
     </fieldset>
 </div>
+
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="img-container">
+
+                    <img id="image" src="https://avatars0.githubusercontent.com/u/3456749">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="crop">Crop</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{asset('assets/js/cropper.js')}}"></script>
+<script src="{{asset('assets/js/plugins/sweetalert2/sweetalert2.js')}}"></script>
 <script>
-    UPLOADCARE_PUBLIC_KEY = "demopublickey";
-</script>
-<script src="{{asset('assets/js/upload.full.min.js')}}" charset="utf-8"></script>
-<script>
-    // Getting an instance of the widget.
-    const widget = uploadcare.Widget('[role=uploadcare-uploader]');
-    // Selecting an image to be replaced with the uploaded one.
-    const preview = document.getElementById('preview');
-    // "onUploadComplete" lets you get file info once it has been uploaded.
-    // "cdnUrl" holds a URL of the uploaded file: to replace a preview with.
-    widget.onUploadComplete(fileInfo => {
-        preview.src = fileInfo.cdnUrl;
-        // var reader = new FileReader();
-        // console.log(fileInfo);
-        // reader.readAsDataURL(fileInfo.cdnUrl);
-        // reader.onloadend = function(e) {
-        //     $("#preview").attr('src', reader.result);
-        //     img.css('display', 'block');
-    // }
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////Javascript
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+
+
+    function RGBToHex(rgb) {
+        if (rgb != undefined) {
+
+            // Choose correct separator
+            let sep = rgb.indexOf(",") > -1 ? "," : " ";
+            // Turn "rgb(r,g,b)" into [r,g,b]
+            rgb = rgb.substr(4).split(")")[0].split(sep);
+
+            let r = (+rgb[0]).toString(16),
+                g = (+rgb[1]).toString(16),
+                b = (+rgb[2]).toString(16);
+
+            if (r.length == 1)
+                r = "0" + r;
+            if (g.length == 1)
+                g = "0" + g;
+            if (b.length == 1)
+                b = "0" + b;
+
+            return "#" + r + g + b;
+        } else {
+            return "#000000";
+        }
+    }
+
+    ///////////////////////
+    ///////////////////////
+    //////Style Event
+    ///////////////////////
+    ///////////////////////
+    // (function() {
+    //     var ev = new $.Event('style'),
+    //         orig = $.fn.css;
+    //     $.fn.css = function() {
+    //         $(this).trigger(ev);
+    //         return orig.apply(this, arguments);
+    //     }
+    // })();
+
+    // $('.colorpicker-input-addon i').bind('style', function(e) {
+    //     console.log($(this).css('background'));
+    //     // $(this).children("input[type='hidden']")[0].val($(this).css("background"));
+    // });
+
+
+    /////////////////////////////////
+    /////////////////////////////////
+    /////////////Image base64 upload
+    /////////////////////////////////
+    /////////////////////////////////
+
+    var $modal = $('#modal');
+    var image = document.getElementById('image');
+    var cropper;
+    $("body").on("change", ".image", function(e) {
+        var files = e.target.files;
+        var done = function(url) {
+            image.src = url;
+            $modal.modal('show');
+        };
+        var reader;
+        var file;
+        var url;
+        if (files && files.length > 0) {
+            file = files[0];
+            if (URL) {
+                done(URL.createObjectURL(file));
+            } else if (FileReader) {
+                reader = new FileReader();
+                reader.onload = function(e) {
+                    done(reader.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+    $modal.on('shown.bs.modal', function() {
+        cropper = new Cropper(image, {
+            aspectRatio: 1,
+            viewMode: 3,
+            preview: '#preview'
+        });
+    }).on('hidden.bs.modal', function() {
+        cropper.destroy();
+        cropper = null;
+    });
+    $("#crop").click(function() {
+        canvas = cropper.getCroppedCanvas({
+            width: 300,
+            height: 300,
+        });
+        canvas.toBlob(function(blob) {
+            url = URL.createObjectURL(blob);
+            var reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onloadend = function() {
+                var base64data = reader.result;
+                $("#preview").attr('src', base64data);
+                $modal.modal('hide');
+                $("input#base64_img_data").val(base64data);
+                console.log(base64data);
+            }
+        });
     })
+
+    ////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////
+    /////////////////////////////////////From operation
+    ////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////
+
+    var e = Swal.mixin({
+        buttonsStyling: !1,
+        customClass: {
+            confirmButton: 'btn btn-success m-1',
+            cancelButton: 'btn btn-danger m-1',
+            input: 'form-control'
+        }
+    });
+    // $('.js-swal-confirm').on('click', (function(n) {
+    //     e.fire({
+    //         title: 'Are you sure?',
+    //         text: 'You will not be able to recover this imaginary file!',
+    //         icon: 'warning',
+    //         showCancelButton: !0,
+    //         customClass: {
+    //             confirmButton: 'btn btn-danger m-1',
+    //             cancelButton: 'btn btn-secondary m-1'
+    //         },
+    //         confirmButtonText: 'Yes, delete it!',
+    //         html: !1,
+    //         preConfirm: function(e) {
+    //             return new Promise((function(e) {
+    //                 setTimeout((function() {
+    //                     e()
+    //                     console.log('sldjflsj');
+    //                 }), 50)
+    //             }))
+    //         }
+    //     }).then((function(n) {
+    //         if(n.value)
+    //         e.fire('Deleted!', 'Your imaginary file has been deleted.', 'success') ;
+    //         'cancel' === n.dismiss && e.fire('Cancelled', 'Your imaginary file is safe :)', 'error');
+    //     }))
+    // }));
+
+    clientDelete = function(event, id) {
+        // event.stopPropagation();
+        e.fire({
+            title: 'Are you sure?',
+            text: 'You will not be able to recover this imaginary file!',
+            icon: 'warning',
+            showCancelButton: !0,
+            customClass: {
+                confirmButton: 'btn btn-danger m-1',
+                cancelButton: 'btn btn-secondary m-1'
+            },
+            confirmButtonText: 'Yes, delete it!',
+            html: !1,
+            preConfirm: function(e) {
+                return new Promise((function(e) {
+                    setTimeout((function() {
+                        e()
+                        $.ajax({
+                            "url": "{{ route('clients.destroy', '') }}/" + id,
+                            "_token": "{{ csrf_token() }}",
+                            "type": "DELETE",
+                            success: function(result) {
+                                alert(result);
+                                $('#client_' + id).remove();
+                            }
+                        });
+                    }), 50)
+                }))
+            }
+        }).then((function(n) {
+            if (n.value)
+                e.fire('Deleted!', 'Your imaginary file has been deleted.', 'success');
+            'cancel' === n.dismiss && e.fire('Cancelled', 'Your imaginary file is safe :)', 'error');
+        }))
+
+
+    }
 
     $(document).ready(function() {
         $("#preview").attr('src', "{{asset('assets/media/17.jpg')}}");
         $("#preview").css('border-radius', "50%");
+
+        $('#login').prop('disabled', true);
+        $('#company').prop('disabled', true);
+        $('#password').prop('disabled', true);
+        $('#firstname').prop('disabled', true);
+        $('#lastname').prop('disabled', true);
+        $('#contact_info').prop('disabled', true);
+        $('#email').prop('disabled', true);
+        $('#lang').prop('disabled', true);
+        $('#pack').prop('disabled', true);
     });
 
-    clientDelete = function(id) {
-        $.ajax({
-            "url": "{{ route('clients.destroy', '') }}/" + id,
-            "_token": "{{ csrf_token() }}",
-            "type": "DELETE",
-            success: function(result) {
-                alert(result);
-            }
-        });
-
-        $('this').parents('.list-group-item').remove();
-    }
-
     formclear = function() {
-
-
         $("#preview").attr('src', "{{asset('assets/media/17.jpg')}}");
         $("#preview").css('border-radius', "50%");
 
@@ -352,6 +574,7 @@
         event.preventDefault();
         var listItem = $(this).parents('.list-group-item')[0];
         var id = listItem.id.split('_')[1];
+
         $("#login").val($('#hidden_login_' + id).val());
         $("#company").val($('#hidden_company_' + id).val());
         $("#firstname").val($('#hidden_firstname_' + id).val());
@@ -361,63 +584,93 @@
         $("#lang").val($('#hidden_lang_' + id).val());
         $("#pack").val($('#hidden_pack_' + id).val());
 
-        console.log($('#hidden_interface_icon_' + id).val() == '');
         if ($('#hidden_interface_icon_' + id).val() != '') {
             $("#preview").attr('src', $('#hidden_interface_icon_' + id).val());
         } else {
             $("#preview").attr('src', "{{asset('assets/media/17.jpg')}}");
         }
+
         var route_url = "{{route('clients.update', '')}}" + '/' + id;
         $("#client_form").attr('action', route_url);
+
         if ($('#method-select').length == 0) {
             $("#client_form").prepend("<input name='_method' type='hidden' value='PUT' id='method-select' />");
         }
+        $("#client_save_button").prop('disabled', false);
+        $('#login').prop('disabled', false);
+        $('#company').prop('disabled', false);
+        $('#password').prop('disabled', false);
+        $('#firstname').prop('disabled', false);
+        $('#lastname').prop('disabled', false);
+        $('#contact_info').prop('disabled', false);
+        $('#email').prop('disabled', false);
+        $('#lang').prop('disabled', false);
+        $('#pack').prop('disabled', false);
 
         $("#menu-background").css('background', "#" + $('#hidden_menu-background_' + id).val()) + " !important";
         $("#page-background").css('background', "#" + $('#hidden_page-background_' + id).val()) + " !important";
         $("#icon-over-color").css('background', "#" + $('#hidden_icon-over-color_' + id).val()) + " !important";
         $("#icon-default-color").css('background', "#" + $('#hidden_icon-default-color_' + id).val()) + " !important";
-
-
-
     });
 
     $('#client_add_button').click(function() {
         formclear();
         var route_url = "{{route('clients.store')}}";
         $("#client_form").attr('action', route_url);
-        // $("#client_form").attr('method', "post");
+        $("#client_form").attr('method', "post");
         if ($('#method-select').length) {
             $('#method-select').remove();
         }
+        $("#client_save_button").prop('disabled', false);
+        $('#login').prop('disabled', false);
+        $('#company').prop('disabled', false);
+        $('#password').prop('disabled', false);
+        $('#firstname').prop('disabled', false);
+        $('#lastname').prop('disabled', false);
+        $('#contact_info').prop('disabled', false);
+        $('#email').prop('disabled', false);
+        $('#lang').prop('disabled', false);
+        $('#pack').prop('disabled', false);
     });
+
+
+    ///////////////////////////////////
+    ///////////////////////////////////
+    //////////upload button combine
+    ///////////////////////////////////
+    ///////////////////////////////////
+
 
     $('#upload_button').click(function(evt) {
         evt.stopPropagation();
+        // alert($('#menuBackground').css('background-color'));
+        // var interface_color={
+        //     'menuBackground':RGBToHex($('#menu-background').css('background-color')),
+        //     'pageBackground':RGBToHex($('#page-background').css('background-color')),
+        //     'iconOverColor':RGBToHex($('#icon-over-color').css('background-color')),
+        //     'iconDefaultColor':RGBToHex($('#icon-default-color').css('background-color'))
+        // }
+        // $('#interface_color').val(JSON.stringify(interface_color));
+        // alert($('#interface_color').val());
         // $(this).children("input[type='file']")[0].click();
         // if ($(".uploadcare--link.uploadcare--widget__file-name").length == 0) {
-        $(".uploadcare--link.uploadcare--widget__file-name").click();
-        $(".uploadcare--widget__button.uploadcare--widget__button_type_open").click();
+        $("input.image")[0].click();
     });
-    // fileChange = function(e) {
-    //     var img = $("#preview");
-    //     if (window.FileReader) {
-    //         var file = e.target.files[0];
-    //         console.log(file);
-    //         var reader = new FileReader();
-    //         if (file && file.type.match('image.*')) {
-    //             reader.readAsDataURL(file);
-    //         }
-    //         reader.onloadend = function(e) {
-    //             img.attr('src', reader.result);
-    //             img.css('display', 'block');
-    //         }
-    //     }
-    // }
 
-    // $("#upload_button input[type='file']").change(function(event) {
+    // $("#upload_tip").change(function(event) {
     //     // fileChange(event);
     //     console.log(event.target.files[0]);
     // });
+
+
+    $('#clients_form').submit(function() {
+        var interface_color = {
+            'menuBackground': RGBToHex($('#menu-background').css('background-color')),
+            'pageBackground': RGBToHex($('#page-background').css('background-color')),
+            'iconOverColor': RGBToHex($('#icon-over-color').css('background-color')),
+            'iconDefaultColor': RGBToHex($('#icon-default-color').css('background-color'))
+        }
+        $('#interface_color').val(JSON.stringify(interface_color));
+    })
 </script>
 @endsection

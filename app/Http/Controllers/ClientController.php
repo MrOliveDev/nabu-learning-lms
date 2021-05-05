@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\InterfaceCfgModel;
 use App\Models\User;
 use Illuminate\Http\Request;
+use PhpParser\JsonDecoder;
 
 class ClientController extends Controller
 {
@@ -29,7 +30,7 @@ class ClientController extends Controller
             // exit;
         }
 
-        // print_r($clientsList['6667']['interface_color']);
+        // print_r($clientsList['6665']['interface_color']);
         // $a = json_decode($clientsList['6667']['interface_color']);
         // print_r($clientsList);
         // exit;
@@ -57,9 +58,12 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        // exit;
-        // print_r($request);
-        // exit;
+        $interface_color = array(
+            'menuBackground' => $request->input('menuBackground'),
+            'pageBackground' => $request->input('pageBackground'),
+            'iconOverColor' => $request->input('iconOverColor'),
+            'iconDefaultColor' => $request->input('iconDefaultColor')
+        );
 
         $request->validate([
             'login' => 'required',
@@ -72,17 +76,14 @@ class ClientController extends Controller
             'lang' => 'required',
             'pack' => 'required'
         ]);
-        // print_r($request->input('login') . "\n" . 'login');
-        // print_r($request->input('company') . "\n" . 'company');
-        // print_r($request->input('password') . "\n" . 'password');
-        // print_r($request->input('firstname') . "\n" . 'firstname');
-        // print_r($request->input('lastname') . "\n" . 'lastname');
-        // print_r($request->input('address') . "\n" . 'address');
-        // print_r($request->input('email') . "\n" . 'email');
-        // print_r($request->input('lang') . "\n" . 'lang');
-        // print_r($request->input('pack') . "\n" . 'pack');
-        // exit;
-        $client = new User([
+
+        $interfaceCfg = InterfaceCfgModel::create([
+            'interface_color' => json_encode($interface_color),
+            'interface_icon' => $request->input('base64_img_data'),
+            'admin_id' => '1'
+        ]);
+
+        $client = User::create([
             'login' => $request->input('login'),
             'password' => $request->input('password'),
             'company' => $request->input('company'),
@@ -92,13 +93,12 @@ class ClientController extends Controller
             'email' => $request->input('email'),
             'lang' => $request->input('lang'),
             'pack' => $request->input('pack'),
-            'state' => 32,
+            'id_config' => $interfaceCfg->id,
             'type' => 1
         ]);
-
         $client->save();
+
         return redirect('/clients')->with('success', 'Client has been added');
-        //
     }
 
     /**
@@ -137,6 +137,16 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // print_r($request->all());
+        // exit;
+
+        $interface_color = array(
+            'menuBackground' => $request->input('menuBackground'),
+            'pageBackground' => $request->input('pageBackground'),
+            'iconOverColor' => $request->input('iconOverColor'),
+            'iconDefaultColor' => $request->input('iconDefaultColor')
+        );
+
         $request->validate([
             'login' => 'required',
             'company' => 'required',
@@ -158,7 +168,17 @@ class ClientController extends Controller
         // print_r($request->input('lang')."\n".'lang');
         // print_r($request->input('pack')."\n".'pack');
         //  exit;
+
         $client = User::find($id);
+
+        $interfaceCfg = InterfaceCfgModel::find($client->id_config);
+        $interfaceCfg->interface_color = json_encode($interface_color);
+        if ($request->input('base64_img_data') != null) {
+            $interfaceCfg->interface_icon = $request->input('base64_img_data');
+        }
+
+        $interfaceCfg->update();
+
         $client->login = $request->input('login');
         $client->company = $request->input('company');
         $client->password = $request->input('password');
@@ -182,9 +202,11 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
+        print_r("dflsjldf"); exit();
+        InterfaceCfgModel::where('admin_id', $id)->delete();
         $client = User::find($id);
         // print_r($client);exit;
         $client->delete();
-        return redirect('/clients')->with('success', 'Client deleted successfully');
+        return response('Deleted Successfully', 200);
     }
 }
