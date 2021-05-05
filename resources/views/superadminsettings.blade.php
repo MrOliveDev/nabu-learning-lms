@@ -145,78 +145,12 @@ $icon = asset("assets/media/part.png"); ?>
 <script src="{{asset('assets/js/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
 <script>
     jQuery(function() {
+        // Dashmix.helpers(['colorpicker', 'summernote']);
         Dashmix.helpers(['colorpicker', 'summernote']);
     });
-    $(document).ready(function() {
-        (function(factory) {
-            "use strict";
-            if (typeof define === "function" && define.amd) {
 
-                // AMD
-                define(["jquery"], factory);
-            } else if (typeof exports === "object") {
-
-                // CommonJs
-                factory(require("jquery"));
-            } else {
-
-                // Browser globals
-                factory(jQuery);
-            }
-        }(function($) {
-            "use strict";
-            $.fn.broiler = function(callBack) {
-                var image = this[0],
-                    canvas = $("<canvas/>")[0],
-                    imageData;
-                canvas.width = image.width;
-                canvas.height = image.height;
-                canvas.getContext("2d").drawImage(image, 0, 0, image.width, image.height);
-                imageData = canvas.getContext("2d").getImageData(0, 0, image.width, image.height).data;
-                console.log(image.src);
-                this.click(function(event) {
-                    var offset = $(this).offset(),
-                        x, y, scrollLeft, scrollTop, start;
-                    scrollLeft = $(window).scrollLeft();
-                    scrollTop = $(window).scrollTop();
-                    x = Math.round(event.clientX - offset.left + scrollLeft);
-                    y = Math.round(event.clientY - offset.top + scrollTop);
-                    start = (x + y * image.width) * 4;
-
-                    callBack({
-                        r: imageData[start],
-                        g: imageData[start + 1],
-                        b: imageData[start + 2],
-                        a: imageData[start + 3]
-                    });
-                });
-            };
-        }));
-        $('#color-picker-select').children('.active-item').removeClass('active-item');
-        $('#color-picker-select i').click(function() {
-            $('#color-picker-select').children('.active-item').removeClass('active-item');
-        })
-        $(".fas.fa-crosshairs").click(function(event) {
-            $(this).parents('.form-group').addClass('active-item');
-        });
-    });
 </script>
-<script src="{{asset('assets/js/ga.js')}}"></script>
-<script>
-    $(function() {
-        $("#preview").broiler(function(color) {
-            var hex1 = ((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1);
-            var hex= "#" + hex1;
-            $("#color-picker-select").find('.active-item i:first').css("background-color", hex);
-        });
-    });
-</script>
-<script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-36251023-1']);
-    _gaq.push(['_setDomainName', 'jqueryscript.net']);
-    _gaq.push(['_trackPageview']);
-</script>
+
 @endsection
 
 @section('con')

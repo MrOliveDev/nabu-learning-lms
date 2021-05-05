@@ -26,6 +26,11 @@ class ClientController extends Controller
                 $clientsList[$client->id][$key1] = $value;
             }
             $clientsList[$client->id]['interface_color'] = json_decode($clientsList[$client->id]["interface_color"]);
+            // print_r(json_decode($clientsList[$client->id]["pptimport"])->PPTImport); exit;
+            $clientsList[$client->id]['email'] = json_decode($clientsList[$client->id]["contact_info"])->email;
+            $clientsList[$client->id]['contact_info'] = json_decode($clientsList[$client->id]["contact_info"])->address;
+            $clientsList[$client->id]['pptimport'] = json_decode($clientsList[$client->id]["config"])->PPTImport;
+            $clientsList[$client->id]['config'] = "";
             // print_r($clientsList[$client->id]['interface_color']);
             // exit;
         }
@@ -96,7 +101,9 @@ class ClientController extends Controller
             'id_config' => $interfaceCfg->id,
             'type' => 1
         ]);
-        $client->save();
+        var_dump($client->id);
+        exit;
+        User::create_admin_table($client->id);
 
         return redirect('/clients')->with('success', 'Client has been added');
     }
@@ -140,12 +147,6 @@ class ClientController extends Controller
         // print_r($request->all());
         // exit;
 
-        $interface_color = array(
-            'menuBackground' => $request->input('menuBackground'),
-            'pageBackground' => $request->input('pageBackground'),
-            'iconOverColor' => $request->input('iconOverColor'),
-            'iconDefaultColor' => $request->input('iconDefaultColor')
-        );
 
         $request->validate([
             'login' => 'required',
@@ -158,6 +159,16 @@ class ClientController extends Controller
             'pack' => 'required'
         ]);
 
+        $interface_color = array(
+            'menuBackground' => $request->input('menuBackground'),
+            'pageBackground' => $request->input('pageBackground'),
+            'iconOverColor' => $request->input('iconOverColor'),
+            'iconDefaultColor' => $request->input('iconDefaultColor')
+        );
+        $contact_info = array(
+            'address' => $request->input('contact_info'),
+            'email' => $request->input('email')
+        );
         // print_r($request->input('login')."\n".'login');
         // print_r($request->input('company')."\n".'company');
         // print_r($request->input('password')."\n".'password');
@@ -184,8 +195,7 @@ class ClientController extends Controller
         $client->password = $request->input('password');
         $client->first_name = $request->input('firstname');
         $client->last_name = $request->input('lastname');
-        $client->contact_info = $request->input('contact_info');
-        $client->email = $request->input('email');
+        $client->contact_info = json_encode($contact_info);
         $client->lang = $request->input('lang');
         $client->pack = $request->input('pack');
 
@@ -202,10 +212,13 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        print_r("dflsjldf"); exit();
+        // print_r("dflsjldf"); exit();
         InterfaceCfgModel::where('admin_id', $id)->delete();
         $client = User::find($id);
         // print_r($client);exit;
+        var_dump($client->id);
+        exit;
+        User::drop_admin_table($client->id);
         $client->delete();
         return response('Deleted Successfully', 200);
     }

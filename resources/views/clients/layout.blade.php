@@ -36,8 +36,7 @@
     .modal .btn {
         border-radius: 3px;
     }
-</style>
-<style>
+
     .uploadcare--jcrop-holder>div>div,
     #preview {
         border-radius: 50%;
@@ -68,7 +67,7 @@
                             <button class="btn text-white px-2 edit-button" data-idx="{{$key}}">
                                 <i class="fa fa-edit"></i>
                             </button>
-                            <button class="btn text-white px-2 delete-button js-swal-confirm" onclick="clientDelete('{{$key}}')">
+                            <button class="btn text-white px-2 delete-button js-swal-confirm" onclick="clientDelete(event, '{{$key}}')">
                                 <i class="fa fa-trash-alt"></i>
                             </button>
                         </div>
@@ -80,6 +79,9 @@
                         <input type="hidden" name="email" id="hidden_email_{{$key}}" value="{{$client['email']}}">
                         <input type="hidden" name="lang" id="hidden_lang_{{$key}}" value="{{$client['lang']}}">
                         <input type="hidden" name="pack" id="hidden_pack_{{$key}}" value="{{$client['pack']}}">
+
+                        <input type="hidden" name="status" id="hidden_status_{{$key}}" value="{{$client['status']}}">
+                        <input type="hidden" name="pptimport" id="hidden_pptimport_{{$key}}" value="{{$client['pptimport']}}">
 
                         <input type="hidden" name="interface_icon" id="hidden_interface_icon_{{$key}}" value="{{$client['interface_icon']}}">
                         @if($client['interface_color']!==null)
@@ -136,6 +138,8 @@
                         <i class="fa fa-cog float-right p-3 position-absolute ml-auto" style="right:0;" id="upload_button">
                             <input type="file" name="image" class="image" hidden>
                             <input type="hidden" name="interface_color" value="" id="interface_color" />
+                            <input type="hidden" name="status" value="" id="status" />
+                            <input type="hidden" name="pptimport" value="" id="pptimport" />
                         </i>
                         <img src="" alt="" id="preview" width=300 height=300 name="preview" />
                         <input type="hidden" name="base64_img_data" id="base64_img_data">
@@ -353,7 +357,73 @@
     ////////////////////////////Javascript
     ////////////////////////////////////////////
     ////////////////////////////////////////////
+    let image;
+    $(document).ready(function() {
+        (function(factory) {
+            "use strict";
+            if (typeof define === "function" && define.amd) {
 
+                // AMD
+                define(["jquery"], factory);
+            } else if (typeof exports === "object") {
+
+                // CommonJs
+                factory(require("jquery"));
+            } else {
+
+                // Browser globals
+                factory(jQuery);
+            }
+        }(function($) {
+            "use strict";
+            $.fn.broiler = function(callBack) {
+                var canvas = $("<canvas/>")[0],
+                    imageData;
+                image = this[0];
+                canvas.width = image.width;
+                canvas.height = image.height;
+                canvas.getContext("2d").drawImage(image, 0, 0, image.width, image.height);
+                imageData = canvas.getContext("2d").getImageData(0, 0, image.width, image.height).data;
+                console.log(image.src);
+                this.click(function(event) {
+                    var offset = $(this).offset(),
+                        x, y, scrollLeft, scrollTop, start;
+                    scrollLeft = $(window).scrollLeft();
+                    scrollTop = $(window).scrollTop();
+                    x = Math.round(event.clientX - offset.left + scrollLeft);
+                    y = Math.round(event.clientY - offset.top + scrollTop);
+                    start = (x + y * image.width) * 4;
+
+                    callBack({
+                        r: imageData[start],
+                        g: imageData[start + 1],
+                        b: imageData[start + 2],
+                        a: imageData[start + 3]
+                    });
+                });
+            };
+        }));
+        $('#color-picker-select').children('.active-item').removeClass('active-item');
+        $('#color-picker-select i').click(function() {
+            $('#color-picker-select').children('.active-item').removeClass('active-item');
+        })
+        $(".fas.fa-crosshairs").click(function(event) {
+            $(this).parents('.form-group').addClass('active-item');
+        });
+    });
+    $(function() {
+        $("#preview").broiler(function(color) {
+            var hex1 = ((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1);
+            var hex = "#" + hex1;
+            $("#color-picker-select").find('.active-item i:first').css("background-color", hex);
+        });
+    });
+
+    // ////////////////////////////////////////
+    // ////////////////////////////////////////
+    ///////////////RGB to hex
+    // ////////////////////////////////////////
+    // ////////////////////////////////////////
 
     function RGBToHex(rgb) {
         if (rgb != undefined) {
@@ -407,12 +477,12 @@
     /////////////////////////////////
 
     var $modal = $('#modal');
-    var image = document.getElementById('image');
+    var previewimg = document.getElementById('image');
     var cropper;
     $("body").on("change", ".image", function(e) {
         var files = e.target.files;
         var done = function(url) {
-            image.src = url;
+            previewimg.src = url;
             $modal.modal('show');
         };
         var reader;
@@ -432,7 +502,7 @@
         }
     });
     $modal.on('shown.bs.modal', function() {
-        cropper = new Cropper(image, {
+        cropper = new Cropper(previewimg, {
             aspectRatio: 1,
             viewMode: 3,
             preview: '#preview'
@@ -474,32 +544,6 @@
             input: 'form-control'
         }
     });
-    // $('.js-swal-confirm').on('click', (function(n) {
-    //     e.fire({
-    //         title: 'Are you sure?',
-    //         text: 'You will not be able to recover this imaginary file!',
-    //         icon: 'warning',
-    //         showCancelButton: !0,
-    //         customClass: {
-    //             confirmButton: 'btn btn-danger m-1',
-    //             cancelButton: 'btn btn-secondary m-1'
-    //         },
-    //         confirmButtonText: 'Yes, delete it!',
-    //         html: !1,
-    //         preConfirm: function(e) {
-    //             return new Promise((function(e) {
-    //                 setTimeout((function() {
-    //                     e()
-    //                     console.log('sldjflsj');
-    //                 }), 50)
-    //             }))
-    //         }
-    //     }).then((function(n) {
-    //         if(n.value)
-    //         e.fire('Deleted!', 'Your imaginary file has been deleted.', 'success') ;
-    //         'cancel' === n.dismiss && e.fire('Cancelled', 'Your imaginary file is safe :)', 'error');
-    //     }))
-    // }));
 
     clientDelete = function(event, id) {
         // event.stopPropagation();
@@ -520,20 +564,22 @@
                         e()
                         $.ajax({
                             "url": "{{ route('clients.destroy', '') }}/" + id,
-                            "_token": "{{ csrf_token() }}",
                             "type": "DELETE",
                             success: function(result) {
-                                alert(result);
-                                $('#client_' + id).remove();
+                                // alert(result);
                             }
                         });
                     }), 50)
                 }))
             }
         }).then((function(n) {
-            if (n.value)
+            if (n.value) {
                 e.fire('Deleted!', 'Your imaginary file has been deleted.', 'success');
-            'cancel' === n.dismiss && e.fire('Cancelled', 'Your imaginary file is safe :)', 'error');
+                console.log(id);
+                $('#client_' + id).remove();
+            } else {
+                'cancel' === n.dismiss && e.fire('Cancelled', 'Your imaginary file is safe :)', 'error');
+            }
         }))
 
 
@@ -568,13 +614,16 @@
         $("#email").val('');
         $("#lang").val('1');
         $("#pack").val('50');
+
+        $("#example-sw-custom-lg1").prop("checked", false);
+        $("#example-sw-custom-lg2").prop("checked", false);
     }
 
     $('.edit-button').click(function(event) {
         event.preventDefault();
         var listItem = $(this).parents('.list-group-item')[0];
         var id = listItem.id.split('_')[1];
-
+        console.log(id);
         $("#login").val($('#hidden_login_' + id).val());
         $("#company").val($('#hidden_company_' + id).val());
         $("#firstname").val($('#hidden_firstname_' + id).val());
@@ -583,6 +632,9 @@
         $("#email").val($('#hidden_email_' + id).val());
         $("#lang").val($('#hidden_lang_' + id).val());
         $("#pack").val($('#hidden_pack_' + id).val());
+
+        $("#example-sw-custom-lg1").prop("checked", $('#hidden_status_' + id).val() == 1);
+        $("#example-sw-custom-lg2").prop("checked", $('#hidden_pptimport_' + id).val() == 1);
 
         if ($('#hidden_interface_icon_' + id).val() != '') {
             $("#preview").attr('src', $('#hidden_interface_icon_' + id).val());
@@ -671,6 +723,21 @@
             'iconDefaultColor': RGBToHex($('#icon-default-color').css('background-color'))
         }
         $('#interface_color').val(JSON.stringify(interface_color));
+
+        if ($('#base64_img_data').val() == undefined) {
+            $('#base64_img_data').val() = "";
+        }
+
+        $('#example-sw-custom-lg1').is(":checked") ? $('#status').val('1') : $('#status').val('0');
+        $('#example-sw-custom-lg2').is(":checked") ? $('#pptimport').val('1') : $('#pptimport').val('0');
+
     })
+</script>
+<script src="{{asset('assets/js/ga.js')}}"></script>
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36251023-1']);
+    _gaq.push(['_setDomainName', 'jqueryscript.net']);
+    _gaq.push(['_trackPageview']);
 </script>
 @endsection
