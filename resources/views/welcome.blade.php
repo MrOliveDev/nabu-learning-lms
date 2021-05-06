@@ -119,23 +119,23 @@
             $("#div_vertical").css({
                 "height": h - divHight + "px"
             });
-            $("#LeftPanel").css({
-                "height": h - divHight + "px"
-            });
+            // $("#LeftPanel").css({
+            //     "height": h - divHight + "px"
+            // });
             $("#RightPanel").css({
-                "height": h - divHight + "px",
+                // "height": h - divHight + "px",
                 "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() + "px"
             });
             $("#RightPanel1").css({
-                "height": h - divHight + "px",
+                // "height": h - divHight + "px",
                 "width": $("#content1").width() - $("#LeftPanel1").width() - $("#div_vertical1").width() + "px"
             });
             $("#content1").css({
                 "min-height": h - divHight + "px"
             });
-            $("#LeftPanel1").css({
-                "height": h - divHight + "px"
-            });
+            // $("#LeftPanel1").css({
+            //     "height": h - divHight + "px"
+            // });
         }
 
         jQuery.resizable = function(resizerID, vOrH) {
@@ -152,7 +152,7 @@
                     if (vOrH == 'v') end = e.pageX;
                     if (vOrH == 'h') {
                         jQuery('#' + resizerID).prev().height(jQuery('#' + resizerID).prev().height() + (end - start));
-                        jQuery('#' + resizerID).next().height(jQuery('#' + resizerID).next().height() - (end - start));
+                        // jQuery('#' + resizerID).next().height(jQuery('#' + resizerID).next().height() - (end - start));
                     } else {
                         jQuery('#' + resizerID).prev().width(jQuery('#' + resizerID).prev().width() + (end - start));
                         jQuery('#' + resizerID).next().width(jQuery('#' + resizerID).parent().width()-jQuery('#' + resizerID).prev().width() - jQuery('#' + resizerID).width() );
