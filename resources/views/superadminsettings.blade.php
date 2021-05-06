@@ -130,10 +130,16 @@ $icon = asset("assets/media/part.png"); ?>
         background-color: #2d4272;
     }
 
-    .btn-hero-primary:hover {
+    .btn-hero-primary:hover #upload_button:hover {
         background-color: #d52f72;
     }
 
+    #upload_button{
+        color:#2d4272;
+    }
+    #upload_button:hover{
+        color:#d52f72;
+    }
     #reports .list-group-item {
         background-color: transparent !important;
     }

@@ -197,7 +197,9 @@ class ClientController extends Controller
 
         $client->login = $request->input('login');
         $client->company = $request->input('company');
-        $client->password = $request->input('password');
+        if ($request->input('password')!=null) {
+            $client->password = md5($request->input('password'));
+        }
         $client->first_name = $request->input('firstname');
         $client->last_name = $request->input('lastname');
         $client->status = $request->input('status');
