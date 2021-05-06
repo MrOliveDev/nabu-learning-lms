@@ -46,6 +46,18 @@
         display: none;
 
     }
+
+    /* ////////////////////////
+    ///////////dropzon
+    //////////////////////// */
+    #drop {
+        min-height: 150px;
+        min-width: 250px;
+        max-width: 100%;
+        border: 1px dashed blue;
+        margin: 10px;
+        padding: 10px;
+    }
 </style>
 <div id="content">
     <fieldset id="LeftPanel">
@@ -331,11 +343,13 @@
 <div class="modal myModal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
-            <div class="modal-body">
+            <div class="modal-body" id="drop">
+                <!-- <div id="drop">Drop files here.</div> -->
+                <!-- <div id="list"></div> -->
                 <div class="img-container" id="img-range-slider">
 
-                    <img id="image" src="https://avatars0.githubusercontent.com/u/3456749" style="max-width:500px;">
-                    <div class="form-group mb-5" id="zoom-rangeslider-group">
+                    <!-- <img id="image" src="https://avatars0.githubusercontent.com/u/3456749" style="max-width:500px;"> -->
+                    <div class="form-group" id="zoom-rangeslider-group" style="display:none;">
                         <input type="text" class="js-rangeslider" id="zoom-rangeslider" value="50">
                     </div>
                 </div>
@@ -484,11 +498,48 @@
     $("body").on("change", ".image", function(e) {
         var files = e.target.files;
         var done = function(url) {
+            var list = $('.img-container')[0];
+            var img = document.createElement("img");
+            // img.file = file;
+            img.src = url;
+            img.id = 'image';
+            list.prepend(img);
+
+            previewimg = document.getElementById('image');
             previewimg.src = url;
-            $modal.modal({
-                backdrop: 'static',
-                keyboard: false
+            cropper = new Cropper(previewimg, {
+                aspectRatio: 1,
+                "container": {
+                    "width": "100%",
+                    "height": 400
+                },
+                "viewport": {
+                    "width": 200,
+                    "height": 200,
+                    "type": "circle",
+                    "border": {
+                        "width": 2,
+                        "enable": true,
+                        "color": "#fff"
+                    }
+                },
+                "zoom": {
+                    "enable": true,
+                    "mouseWheel": true,
+                    "slider": true
+                },
+                "rotation": {
+                    "slider": true,
+                    "enable": true,
+                    "position": "left"
+                },
+                "transformOrigin": "viewport"
+
             });
+
+            $("#zoom-rangeslider-group").css('display', 'block');
+            let my_range = $(".js-rangeslider").data("ionRangeSlider");
+            my_range.reset();
         };
         var reader;
         var file;
@@ -505,76 +556,67 @@
                 reader.readAsDataURL(file);
             }
         }
-        console.log("modal opened");
     });
+
+    $('#drop').click(function() {
+        if (cropper == null) {
+            $("input.image")[0].click();
+        }
+    })
+
     $modal.on('shown.bs.modal', function() {
-        cropper = new Cropper(previewimg, {
-            aspectRatio: 1,
-            "container": {
-                "width": "100%",
-                "height": 400
-            },
-            "viewport": {
-                "width": 200,
-                "height": 200,
-                "type": "circle",
-                "border": {
-                    "width": 2,
-                    "enable": true,
-                    "color": "#fff"
-                }
-            },
-            "zoom": {
-                "enable": true,
-                "mouseWheel": true,
-                "slider": true
-            },
-            "rotation": {
-                "slider": true,
-                "enable": true,
-                "position": "left"
-            },
-            "transformOrigin": "viewport"
 
-        });
-
-        // var range_slider_template = '<div class="form-group mb-5" id="zoom-rangeslider-group">' +
-        //     '<input type="text" class="js-rangeslider" id="zoom-rangeslider" value="50"> </div>';
-
-        // //////////
-        // var temp = 1;
-        // $("#img-range-slider").append(range_slider_template);
-        let my_range = $(".js-rangeslider").data("ionRangeSlider");
-        my_range.reset();
+        $('.modal-body').prepend('<div class="text-center" id="drop-text">Drop your file here!</div>');
+        $('#image').remove();
+        $("#zoom-rangeslider-group").css('display', 'none');
+        if (cropper != null) {
+            cropper.destroy();
+            cropper = null;
+        }
 
     }).on('hidden.bs.modal', function() {
         // $("#zoom-rangeslider-group").remove();
+        $('#drop-text').remove();
+        $('#image').remove();
+        $("#zoom-rangeslider-group").css('display', 'none');
 
-        cropper.destroy();
-        cropper = null;
+        if (cropper != null) {
+            cropper.destroy();
+            cropper = null;
+        }
     });
     $("#crop").click(function() {
 
-        // var range_slider_template = '<div class="form-group mb-5" id="zoom-rangeslider-group">' +
-        //     '<input type="text" class="js-rangeslider" id="zoom-rangeslider" value="50"> </div>';
+        if (cropper != null) {
 
-        // $("#img-range-slider").append(range_slider_template);
-        canvas = cropper.getCroppedCanvas({
-            width: 300,
-            height: 300,
-        });
-        canvas.toBlob(function(blob) {
-            url = URL.createObjectURL(blob);
-            var reader = new FileReader();
-            reader.readAsDataURL(blob);
-            reader.onloadend = function() {
-                var base64data = reader.result;
-                $("#preview").attr('src', base64data);
-                $modal.modal('hide');
-                $("input#base64_img_data").val(base64data);
-                console.log(base64data);
-            }
-        });
+            // var range_slider_template = '<div class="form-group mb-5" id="zoom-rangeslider-group">' +
+            //     '<input type="text" class="js-rangeslider" id="zoom-rangeslider" value="50"> </div>';
+
+            // $("#img-range-slider").append(range_slider_template);
+            canvas = cropper.getCroppedCanvas({
+                width: 300,
+                height: 300,
+            });
+            canvas.toBlob(function(blob) {
+                url = URL.createObjectURL(blob);
+                var reader = new FileReader();
+                reader.readAsDataURL(blob);
+                reader.onloadend = function() {
+                    var base64data = reader.result;
+                    $("#preview").attr('src', base64data);
+                    $modal.modal('hide');
+                    $("input#base64_img_data").val(base64data);
+                    console.log(base64data);
+                }
+            });
+            $('#drop-text').remove();
+            $('#image').remove();
+            $("#zoom-rangeslider-group").css('display', 'none');
+            cropper.destroy();
+            cropper = null;
+        } else {
+            $modal.modal('hide');
+        }
     })
     $("#zoom-rangeslider").change(function() {
         // if (zoomscale < $(this).val()) {
@@ -582,8 +624,10 @@
         // } else if(zoomscale > $(this).val()) {
         //     cropper.zoom(-0.8);
         // }
-        zoomvalue = 1 - (50 - $(this).val()) * 0.02;
-        cropper.zoomTo(zoomvalue);
+        if (cropper != null) {
+            zoomvalue = 1 - (50 - $(this).val()) * 0.02;
+            cropper.zoomTo(zoomvalue);
+        }
         // zoomscale = $(this).val();
     })
     ////////////////////////////////////////////////////////
@@ -791,8 +835,11 @@
         // $(this).children("input[type='file']")[0].click();
         // if ($(".uploadcare--link.uploadcare--widget__file-name").length == 0) {
         $("#zoom-rangeslider").val(50);
-
-        $("input.image")[0].click();
+        $modal.modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+        // $("input.image")[0].click();
     });
 
     // $("#upload_tip").change(function(event) {
@@ -827,6 +874,133 @@
         }
         return true;
     })
+
+    ///////////////////////////////
+    ///////////////////////////////
+    ////////////Drag and drop
+    ///////////////////////////////
+    ///////////////////////////////
+
+    if (window.FileReader) {
+        var drop;
+        addEventHandler(window, 'load', function() {
+            drop = document.getElementById('drop');
+            var list = $('.img-container')[0];
+
+            function cancel(e) {
+                if (e.preventDefault) {
+                    e.preventDefault();
+                }
+                return false;
+            }
+
+            // Tells the browser that we *can* drop on this target
+            addEventHandler(drop, 'dragover', cancel);
+            addEventHandler(drop, 'dragenter', cancel);
+
+            addEventHandler(drop, 'drop', function(e) {
+                e = e || window.event; // get window.event if e argument missing (in IE)
+                if (e.preventDefault) {
+                    e.preventDefault();
+                } // stops the browser from redirecting off to the image.
+
+                var dt = e.dataTransfer;
+                var files = dt.files;
+                // for (var i = 0; i < files.length; i++) {
+                var file = files[0];
+                var reader = new FileReader();
+
+                //attach event handlers here...
+
+                reader.readAsDataURL(file);
+                addEventHandler(reader, 'loadend', function(e, file) {
+                    var bin = this.result;
+                    var img = document.createElement("img");
+                    img.file = file;
+                    img.src = bin;
+                    img.id = 'image';
+                    $('#image').remove();
+                    list.prepend(img);
+
+                    $('#drop-text').remove();
+
+                    if (cropper != null) {
+                        cropper.destroy();
+                        cropper = null;
+                    }
+                    previewimg = document.getElementById('image');
+                    cropper = new Cropper(previewimg, {
+                        aspectRatio: 1,
+                        "container": {
+                            "width": "100%",
+                            "height": 400
+                        },
+                        "viewport": {
+                            "width": 200,
+                            "height": 200,
+                            "type": "circle",
+                            "border": {
+                                "width": 2,
+                                "enable": true,
+                                "color": "#fff"
+                            }
+                        },
+                        "zoom": {
+                            "enable": true,
+                            "mouseWheel": true,
+                            "slider": true
+                        },
+                        "rotation": {
+                            "slider": true,
+                            "enable": true,
+                            "position": "left"
+                        },
+                        "transformOrigin": "viewport"
+
+                    });
+
+                    // var range_slider_template = '<div class="form-group mb-5" id="zoom-rangeslider-group">' +
+                    //     '<input type="text" class="js-rangeslider" id="zoom-rangeslider" value="50"> </div>';
+
+                    // //////////
+                    // var temp = 1;
+                    // $("#img-range-slider").append(range_slider_template);
+                    $("#zoom-rangeslider-group").css('display', 'block');
+                    let my_range = $(".js-rangeslider").data("ionRangeSlider");
+                    my_range.reset();
+
+                }.bindToEventHandler(file));
+                // }
+                return false;
+            });
+            Function.prototype.bindToEventHandler = function bindToEventHandler() {
+                var handler = this;
+                var boundParameters = Array.prototype.slice.call(arguments);
+                console.log(boundParameters);
+                //create closure
+                return function(e) {
+                    e = e || window.event; // get window.event if e argument missing (in IE)
+                    boundParameters.unshift(e);
+                    handler.apply(this, boundParameters);
+                }
+            };
+        });
+    } else {
+        console.log('Your browser does not support the HTML5 FileReader.');
+    }
+
+    function addEventHandler(obj, evt, handler) {
+        if (obj.addEventListener) {
+            // W3C method
+            obj.addEventListener(evt, handler, false);
+        } else if (obj.attachEvent) {
+            // IE method.
+            obj.attachEvent('on' + evt, handler);
+        } else {
+            // Old school method.
+            obj['on' + evt] = handler;
+        }
+    }
 </script>
 <script src="{{asset('assets/js/ga.js')}}"></script>
 <script type="text/javascript">
