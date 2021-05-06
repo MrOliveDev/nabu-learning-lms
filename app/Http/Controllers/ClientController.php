@@ -7,6 +7,7 @@ use App\Models\InterfaceCfgModel;
 use App\Models\AdminModel;
 use Illuminate\Http\Request;
 use PhpParser\JsonDecoder;
+use App\Models\LanguageModel;
 
 class ClientController extends Controller
 {
@@ -32,7 +33,7 @@ class ClientController extends Controller
             $clientsList[$client->id]['pptimport'] = json_decode($clientsList[$client->id]["config"])->PPTImport;
             $clientsList[$client->id]['config'] = "";
         }
-
+        $languages=LanguageModel::all();
         // print_r(json_decode($clientsList[$client->id]["pptimport"])->PPTImport); exit;
         // print_r($clientsList[$client->id]['interface_color']);
         // exit;
@@ -41,7 +42,7 @@ class ClientController extends Controller
         // print_r($clientsList);
         // exit;
 
-        return view('clients.layout', compact('clientsList'));
+        return view('clients.layout', compact('clientsList', 'languages'));
     }
 
     /**
@@ -64,6 +65,7 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
+        // var_dump($request->all());exit;
         $request->validate([
             'login' => 'required',
             'password' => 'required',
@@ -147,7 +149,7 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // print_r($request->all());
+        // print_r($request->all());exit;
         $request->validate([
             'login' => 'required',
             'company' => 'required',
