@@ -185,6 +185,7 @@
                     'flex-direction': 'row'
                 });
 
+                $('.sidetitle').removeClass('pb-4');
 
             } else {
                 $("#page-header, #page-container").removeClass("page-header-trigger");
@@ -199,6 +200,7 @@
                     'width': '150px',
                     'flex-direction': 'column'
                 });
+                $('.sidetitle').addClass('pb-4');
             }
 
             $("#RightPanel").css({

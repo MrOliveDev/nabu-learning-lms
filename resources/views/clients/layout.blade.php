@@ -10,10 +10,7 @@
         border-radius: 50%;
     }
 
-    img {
-        display: block;
-        max-width: 100%;
-    }
+
 
     .preview {
         overflow: hidden;
@@ -335,10 +332,10 @@
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <div class="img-container">
+                <div class="img-container" id="img-range-slider">
 
                     <img id="image" src="https://avatars0.githubusercontent.com/u/3456749" style="max-width:500px;">
-                    <div class="form-group mb-5">
+                    <div class="form-group mb-5" id="zoom-rangeslider-group">
                         <input type="text" class="js-rangeslider" id="zoom-rangeslider" value="50">
                     </div>
                 </div>
@@ -354,7 +351,6 @@
 
 <script src="{{asset('assets/js/cropper.js')}}"></script>
 <script src="{{asset('assets/js/plugins/sweetalert2/sweetalert2.js')}}"></script>
-<script src="{{asset('assets/js/plugins/ion-rangeslider/js/ion.rangeSlider.js')}}"></script>
 <script>
     ////////////////////////////////////////////
     ////////////////////////////////////////////
@@ -509,7 +505,7 @@
                 reader.readAsDataURL(file);
             }
         }
-        $("#zoom-rangeslider").val(50);
+        console.log("modal opened");
     });
     $modal.on('shown.bs.modal', function() {
         cropper = new Cropper(previewimg, {
@@ -541,11 +537,28 @@
             "transformOrigin": "viewport"
 
         });
+
+        // var range_slider_template = '<div class="form-group mb-5" id="zoom-rangeslider-group">' +
+        //     '<input type="text" class="js-rangeslider" id="zoom-rangeslider" value="50"> </div>';
+
+        // //////////
+        // var temp = 1;
+        // $("#img-range-slider").append(range_slider_template);
+        let my_range = $(".js-rangeslider").data("ionRangeSlider");
+        my_range.reset();
+
     }).on('hidden.bs.modal', function() {
+        // $("#zoom-rangeslider-group").remove();
+
         cropper.destroy();
         cropper = null;
     });
     $("#crop").click(function() {
+
+        // var range_slider_template = '<div class="form-group mb-5" id="zoom-rangeslider-group">' +
+        //     '<input type="text" class="js-rangeslider" id="zoom-rangeslider" value="50"> </div>';
+
+        // $("#img-range-slider").append(range_slider_template);
         canvas = cropper.getCroppedCanvas({
             width: 300,
             height: 300,
@@ -777,6 +790,8 @@
         // alert($('#interface_color').val());
         // $(this).children("input[type='file']")[0].click();
         // if ($(".uploadcare--link.uploadcare--widget__file-name").length == 0) {
+        $("#zoom-rangeslider").val(50);
+
         $("input.image")[0].click();
     });
 
@@ -820,4 +835,6 @@
     _gaq.push(['_setDomainName', 'jqueryscript.net']);
     _gaq.push(['_trackPageview']);
 </script>
+<script src="{{asset('assets/js/plugins/ion-rangeslider/js/ion.rangeSlider.js')}}"></script>
+
 @endsection

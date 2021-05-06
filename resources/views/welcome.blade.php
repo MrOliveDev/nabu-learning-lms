@@ -42,6 +42,7 @@
     <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/xwork.min.css"> -->
     <link rel="stylesheet" id="css-theme" href="{{ asset('assets/css/themes/xmodern.min.css') }}">
     <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/app.css') }}">
+    <link rel="stylesheet" href="{{asset('assets/js/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}">
 
     @yield('css_after')
     <!-- <script src="{{asset('assets/js/jquery.min.js')}}"></script> -->
