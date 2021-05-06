@@ -337,7 +337,7 @@
             <div class="modal-body">
                 <div class="img-container">
 
-                    <img id="image" src="https://avatars0.githubusercontent.com/u/3456749" style="max-width:500px; max-height:500px;">
+                    <img id="image" src="https://avatars0.githubusercontent.com/u/3456749">
 
                 </div>
             </div>
