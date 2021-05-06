@@ -49,6 +49,7 @@
         display: none;
 
     }
+
 </style>
 <div id="content">
     <fieldset id="LeftPanel">
@@ -476,6 +477,7 @@
     /////////////////////////////////
     /////////////////////////////////
 
+    // $('#modal').modal();
     var $modal = $('#modal');
     var previewimg = document.getElementById('image');
     var cropper;
@@ -483,7 +485,7 @@
         var files = e.target.files;
         var done = function(url) {
             previewimg.src = url;
-            $modal.modal('show');
+            $modal.modal({backdrop: 'static', keyboard: false});
         };
         var reader;
         var file;
