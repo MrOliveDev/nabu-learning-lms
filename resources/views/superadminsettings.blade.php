@@ -144,6 +144,8 @@ $icon = asset("assets/media/part.png"); ?>
     #reports .list-group-item {
         background-color: transparent !important;
     }
+
+
 </style>
 @endsection
 

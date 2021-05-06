@@ -337,9 +337,9 @@
             <div class="modal-body">
                 <div class="img-container">
 
-                    <img id="image" src="https://avatars0.githubusercontent.com/u/3456749" style="max-width:500px; max-height:500px;">
+                    <img id="image" src="https://avatars0.githubusercontent.com/u/3456749" style="max-width:500px;">
                     <div class="form-group mb-5">
-                        <input type="text" class="js-rangeslider" id="zoom-rangeslider" value="0">
+                        <input type="text" class="js-rangeslider" id="zoom-rangeslider" value="50">
                     </div>
                 </div>
             </div>
@@ -484,7 +484,7 @@
     var $modal = $('#modal');
     var previewimg = document.getElementById('image');
     var cropper;
-    var zoomscale=50;
+    var zoomscale = 50;
     $("body").on("change", ".image", function(e) {
         var files = e.target.files;
         var done = function(url) {
@@ -509,22 +509,38 @@
                 reader.readAsDataURL(file);
             }
         }
+        $("#zoom-rangeslider").val(50);
     });
     $modal.on('shown.bs.modal', function() {
         cropper = new Cropper(previewimg, {
-            viewMode: 1,
             aspectRatio: 1,
-            movable: true,
-            data: {
-                width: 500,
-                height: 500
+            "container": {
+                "width": "100%",
+                "height": 400
             },
-            ready: function() {
-                console.log('ready');
-                console.log(cropper.ready);
-            }
-        });
+            "viewport": {
+                "width": 200,
+                "height": 200,
+                "type": "circle",
+                "border": {
+                    "width": 2,
+                    "enable": true,
+                    "color": "#fff"
+                }
+            },
+            "zoom": {
+                "enable": true,
+                "mouseWheel": true,
+                "slider": true
+            },
+            "rotation": {
+                "slider": true,
+                "enable": true,
+                "position": "left"
+            },
+            "transformOrigin": "viewport"
 
+        });
     }).on('hidden.bs.modal', function() {
         cropper.destroy();
         cropper = null;
@@ -553,9 +569,9 @@
         // } else if(zoomscale > $(this).val()) {
         //     cropper.zoom(-0.8);
         // }
-cropper.zoom(0.1*($(this).val()-zoomscale));
-        zoomscale=$(this).val();
-        console.log($(this).val());
+        zoomvalue = 1 - (50 - $(this).val()) * 0.02;
+        cropper.zoomTo(zoomvalue);
+        // zoomscale = $(this).val();
     })
     ////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////
@@ -613,7 +629,7 @@ cropper.zoom(0.1*($(this).val()-zoomscale));
     }
 
     $(document).ready(function() {
-        $("#preview").attr('src', "{{asset('assets/media/defaultAvatar.jfif')}}");
+        $("#preview").attr('src', "{{asset('assets/media/defaultAvatar.jpg')}}");
         $("#preview").css('border-radius', "50%");
         $("#pack").attr('autocomplete', "off");
 
@@ -629,7 +645,7 @@ cropper.zoom(0.1*($(this).val()-zoomscale));
     });
 
     formclear = function() {
-        $("#preview").attr('src', "{{asset('assets/media/defaultAvatar.jfif')}}");
+        $("#preview").attr('src', "{{asset('assets/media/defaultAvatar.jpg')}}");
         $("#preview").css('border-radius', "50%");
 
 
@@ -647,7 +663,7 @@ cropper.zoom(0.1*($(this).val()-zoomscale));
         $("#example-sw-custom-lg1").prop("checked", false);
         $("#example-sw-custom-lg2").prop("checked", false);
 
-        $('#preview').attr("src", "{{asset('assets/media/defaultAvatar.jfif')}}");
+        $('#preview').attr("src", "{{asset('assets/media/defaultAvatar.jpg')}}");
         $('#menu-background').css("background", "#332422");
         $('#page-background').css("background", "#665778");
         $('#icon-over-color').css("background", "#ffef2f");
@@ -683,7 +699,7 @@ cropper.zoom(0.1*($(this).val()-zoomscale));
         if ($('#hidden_interface_icon_' + id).val() != '') {
             $("#preview").attr('src', $('#hidden_interface_icon_' + id).val());
         } else {
-            $("#preview").attr('src', "{{asset('assets/media/defaultAvatar.jfif')}}");
+            $("#preview").attr('src', "{{asset('assets/media/defaultAvatar.jpg')}}");
         }
 
         var route_url = "{{route('clients.update', '')}}" + '/' + id;
@@ -730,9 +746,9 @@ cropper.zoom(0.1*($(this).val()-zoomscale));
         $('.list-group-item').removeClass('active');
     });
 
-$("#client_cancel_button").click(function(){
-    $('.list-group-item').removeClass('active');
-})
+    $("#client_cancel_button").click(function() {
+        $('.list-group-item').removeClass('active');
+    })
 
     $('#restore_default').click(function(evt) {
         evt.preventDefault();
