@@ -215,7 +215,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="float-right" href="#">
+                        <a class="float-right" href="#" id="restore_default">
                             Restore Default
                         </a>
                     </div>
@@ -617,10 +617,18 @@
 
         $("#example-sw-custom-lg1").prop("checked", false);
         $("#example-sw-custom-lg2").prop("checked", false);
+
+        $('#preview').attr("src", "{{asset('assets/media/17.jpg')}}");
+        $('#menu-background').css("background", "#332422");
+        $('#page-background').css("background", "#665778");
+        $('#icon-over-color').css("background", "#ffef2f");
+        $('#icon-default-color').css("background", "#aaaaaa");
+        $('#base64_img_data').val('');
     }
 
     $('.edit-button').click(function(event) {
         event.preventDefault();
+        formclear();
         var listItem = $(this).parents('.list-group-item')[0];
         var id = listItem.id.split('_')[1];
         console.log(id);
@@ -659,10 +667,10 @@
         $('#lang').prop('disabled', false);
         $('#pack').prop('disabled', false);
 
-        $("#menu-background").css('background', "#" + $('#hidden_menu-background_' + id).val()) + " !important";
-        $("#page-background").css('background', "#" + $('#hidden_page-background_' + id).val()) + " !important";
-        $("#icon-over-color").css('background', "#" + $('#hidden_icon-over-color_' + id).val()) + " !important";
-        $("#icon-default-color").css('background', "#" + $('#hidden_icon-default-color_' + id).val()) + " !important";
+        $("#menu-background").css('background', $('#hidden_menu-background_' + id).val()) + " !important";
+        $("#page-background").css('background', $('#hidden_page-background_' + id).val()) + " !important";
+        $("#icon-over-color").css('background', $('#hidden_icon-over-color_' + id).val()) + " !important";
+        $("#icon-default-color").css('background', $('#hidden_icon-default-color_' + id).val()) + " !important";
     });
 
     $('#client_add_button').click(function() {
@@ -683,6 +691,12 @@
         $('#email').prop('disabled', false);
         $('#lang').prop('disabled', false);
         $('#pack').prop('disabled', false);
+    });
+
+    $('#restore_default').click(function(evt) {
+        evt.preventDefault();
+        formclear();
+
     });
 
 
