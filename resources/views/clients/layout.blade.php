@@ -323,7 +323,7 @@
                     </div>
                     <div class="form-group clearfix">
                         <button type="submit" class="btn btn-hero-primary float-right mx-1" id="client_save_button" disabled>SAVE</button>
-                        <button type="button" class="btn btn-hero-primary float-right mx-1">CANCEL</button>
+                        <button type="button" class="btn btn-hero-primary float-right mx-1" id="client_cancel_button">CANCEL</button>
                     </div>
                 </div>
             </div>
@@ -548,12 +548,12 @@
         });
     })
     $("#zoom-rangeslider").change(function() {
-        if (zoomscale < $(this).val()) {
-            cropper.zoom(0.1);
-        } else {
-            cropper.zoom(-0.1);
-        }
-
+        // if (zoomscale < $(this).val()) {
+        //     cropper.zoom(0.9);
+        // } else if(zoomscale > $(this).val()) {
+        //     cropper.zoom(-0.8);
+        // }
+cropper.zoom(0.1*($(this).val()-zoomscale));
         zoomscale=$(this).val();
         console.log($(this).val());
     })
@@ -726,7 +726,13 @@
         $('#email').prop('disabled', false);
         $('#lang').prop('disabled', false);
         $('#pack').prop('disabled', false);
+
+        $('.list-group-item').removeClass('active');
     });
+
+$("#client_cancel_button").click(function(){
+    $('.list-group-item').removeClass('active');
+})
 
     $('#restore_default').click(function(evt) {
         evt.preventDefault();
