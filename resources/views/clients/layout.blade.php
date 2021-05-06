@@ -332,7 +332,7 @@
 </div>
 
 <div class="modal myModal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="img-container">
@@ -505,13 +505,6 @@
         cropper = new Cropper(previewimg, {
             viewMode: 1,
             aspectRatio: 1,
-            minContainerWidth: 500,
-            minContainerHeight: 300,
-            maxContainerWidth: 500,
-            maxContainerHeight: 300,
-            maxCanvasWidth:500,
-            center:false,
-            background:false,
             movable: true,
             data:{
                 width:500,
