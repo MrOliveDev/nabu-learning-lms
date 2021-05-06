@@ -79,6 +79,7 @@
                         <input type="hidden" name="email" id="hidden_email_{{$key}}" value="{{$client['email']}}">
                         <input type="hidden" name="lang" id="hidden_lang_{{$key}}" value="{{$client['lang']}}">
                         <input type="hidden" name="pack" id="hidden_pack_{{$key}}" value="{{$client['pack']}}">
+                        <input type="hidden" name="change_pw" id="hidden_change_pw_{{$key}}" value="{{$client['change_pw']}}">
 
                         <input type="hidden" name="status" id="hidden_status_{{$key}}" value="{{$client['status']}}">
                         <input type="hidden" name="pptimport" id="hidden_pptimport_{{$key}}" value="{{$client['pptimport']}}">
@@ -337,7 +338,7 @@
             <div class="modal-body">
                 <div class="img-container">
 
-                    <img id="image" src="https://avatars0.githubusercontent.com/u/3456749">
+                    <img id="image" src="https://avatars0.githubusercontent.com/u/3456749" width="500px">
 
                 </div>
             </div>
@@ -588,6 +589,7 @@
     $(document).ready(function() {
         $("#preview").attr('src', "{{asset('assets/media/17.jpg')}}");
         $("#preview").css('border-radius', "50%");
+        $("#pack").attr('autocomplete', "off");
 
         $('#login').prop('disabled', true);
         $('#company').prop('disabled', true);
@@ -607,6 +609,7 @@
 
         $("#login").val('');
         $("#password").val('');
+        $('#password').attr('placeholder', '');
         $("#company").val('');
         $("#firstname").val('');
         $("#lastname").val('');
@@ -641,6 +644,12 @@
         $("#lang").val($('#hidden_lang_' + id).val());
         $("#pack").val($('#hidden_pack_' + id).val());
 
+        if($('#hidden_change_pw_' + id).val()==0){
+            $("#password").val('');
+            $("#password").attr("disabled", true);
+            $("#password").prop('placeholder', "Private password!");
+        }
+
         $("#example-sw-custom-lg1").prop("checked", $('#hidden_status_' + id).val() == 1);
         $("#example-sw-custom-lg2").prop("checked", $('#hidden_pptimport_' + id).val() == 1);
 
@@ -659,7 +668,6 @@
         $("#client_save_button").prop('disabled', false);
         $('#login').prop('disabled', false);
         $('#company').prop('disabled', false);
-        $('#password').prop('disabled', false);
         $('#firstname').prop('disabled', false);
         $('#lastname').prop('disabled', false);
         $('#contact_info').prop('disabled', false);
@@ -730,7 +738,7 @@
 
 
     $('#client_form').submit(function() {
-        alert('asdfasdf');
+        // alert('asdfasdf');
         var interface_color = {
             'menuBackground': RGBToHex($('#menu-background').css('background-color')),
             'pageBackground': RGBToHex($('#page-background').css('background-color')),

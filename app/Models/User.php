@@ -31,6 +31,7 @@ class User extends Authenticatable
         "pack",
         "function",
         "id_config",
+        "change_pw",
         "type"
     ];
 
