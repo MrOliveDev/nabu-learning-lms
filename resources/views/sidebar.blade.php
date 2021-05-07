@@ -90,7 +90,7 @@
                                     <img class="" src="{{asset('assets/media/light.png')}}" alt="">
                                 </a>
                             </div>
-                            <div class="sidetitle">
+                            <div class="sidetitle pb-4">
                                 <img class="" src="{{asset('assets/media/letter.png')}}">
                             </div>
                         </div>

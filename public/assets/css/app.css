@@ -240,12 +240,21 @@ div#sidebar-content-header {
     /* width: 120px; */
 }
 
+img {
+    display: block;
+    max-width: 100%;
+}
+
 #sidebar .simplebar-mask .content-header {
-    justify-content: space-around;
+    justify-content: flex-start;
 }
 /*
 .simplebar-content:not(:hover) .nav-main-cover-item {
 } */
+
+.simplebar-content {
+    z-index: 1032;
+}
 
 .nav-main-item span.nav-main-link-name {
     font-size: 16pt;
@@ -351,7 +360,7 @@ main.main-container {
     height: 100%;
     padding-top: 100px;
     padding-right: 20px;
-    z-index: 1200;
+    z-index: 1;
 }
 
 

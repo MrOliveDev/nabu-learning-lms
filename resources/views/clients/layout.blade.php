@@ -10,10 +10,7 @@
         border-radius: 50%;
     }
 
-    img {
-        display: block;
-        max-width: 100%;
-    }
+
 
     .preview {
         overflow: hidden;
