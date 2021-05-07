@@ -548,12 +548,12 @@
         });
     })
     $("#zoom-rangeslider").change(function() {
-        if (zoomscale < $(this).val()) {
-            cropper.zoom(0.1);
-        } else {
-            cropper.zoom(-0.1);
-        }
-
+        // if (zoomscale < $(this).val()) {
+        //     cropper.zoom(0.9);
+        // } else if(zoomscale > $(this).val()) {
+        //     cropper.zoom(-0.8);
+        // }
+cropper.zoom(0.1*($(this).val()-zoomscale));
         zoomscale=$(this).val();
         console.log($(this).val());
     })
