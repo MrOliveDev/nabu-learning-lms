@@ -87,7 +87,7 @@
                         <div class="content-header mx-auto w-100 mt-3" id="sidebar-content-header">
                             <div class="">
                                 <a class="img-link d-inline-block" href="javascript:void(0)">
-                                    <img class="img-avatar img-avatar96" src="{{asset('assets/media/light.png')}}" alt="">
+                                    <img class="" src="{{asset('assets/media/light.png')}}" alt="">
                                 </a>
                             </div>
                             <div class="sidetitle">
