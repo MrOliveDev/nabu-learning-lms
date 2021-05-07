@@ -146,7 +146,7 @@
         <i class="fas fa-grip-lines-vertical text-white"></i>
     </div>
     <fieldset id="RightPanel">
-        <form method="post" id="client_form" enctype="multipart/form-data" class="form" action="" autocomplete="off">
+        <form method="post" id="client_form" enctype="multipart/form-data" class="form" action="">
             @csrf
             <!-- <input name='_method' type='hidden' value='PUT' id='method-select' /> -->
             <div class="card text-black mx-2 pt-3">
