@@ -142,32 +142,6 @@ body {
 
 
 
-#div_A::-webkit-scrollbar,
-#div_B::-webkit-scrollbar,
-#div_C::-webkit-scrollbar,
-#div_D::-webkit-scrollbar {
-    width: 8px;
-}
-
-/* Track */
-
-
-/* Handle */
-#div_A::-webkit-scrollbar-thumb,
-#div_B::-webkit-scrollbar-thumb,
-#div_C::-webkit-scrollbar-thumb,
-#div_D::-webkit-scrollbar-thumb {
-    background: #2e3092;
-    border-radius: 8px;
-}
-
-/* Handle on hover */
-#div_A::-webkit-scrollbar-thumb:hover,
-#div_B::-webkit-scrollbar-thumb:hover,
-#div_C::-webkit-scrollbar-thumb:hover,
-#div_D::-webkit-scrollbar-thumb:hover {
-    background: #191b75;
-}
 
 
 
@@ -266,12 +240,21 @@ div#sidebar-content-header {
     /* width: 120px; */
 }
 
+img {
+    display: block;
+    max-width: 100%;
+}
+
 #sidebar .simplebar-mask .content-header {
-    justify-content: space-around;
+    justify-content: flex-start;
 }
 /*
 .simplebar-content:not(:hover) .nav-main-cover-item {
 } */
+
+.simplebar-content {
+    z-index: 1032;
+}
 
 .nav-main-item span.nav-main-link-name {
     font-size: 16pt;
@@ -310,6 +293,33 @@ body {
 
 nav.navbar.navbar-expand-md.navbar-light.bg-white.shadow-sm {
     background-color: #2e3092 !important;
+}
+
+#div_A::-webkit-scrollbar,
+#div_B::-webkit-scrollbar,
+#div_C::-webkit-scrollbar,
+#div_D::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+
+
+/* Handle */
+#div_A::-webkit-scrollbar-thumb,
+#div_B::-webkit-scrollbar-thumb,
+#div_C::-webkit-scrollbar-thumb,
+#div_D::-webkit-scrollbar-thumb {
+    background: #2e3092;
+    border-radius: 8px;
+}
+
+/* Handle on hover */
+#div_A::-webkit-scrollbar-thumb:hover,
+#div_B::-webkit-scrollbar-thumb:hover,
+#div_C::-webkit-scrollbar-thumb:hover,
+#div_D::-webkit-scrollbar-thumb:hover {
+    background: #191b75;
 }
 
 
