@@ -49,7 +49,6 @@
         display: none;
 
     }
-
 </style>
 <div id="content">
     <fieldset id="LeftPanel">
@@ -339,10 +338,13 @@
                 <div class="img-container">
 
                     <img id="image" src="https://avatars0.githubusercontent.com/u/3456749" style="max-width:500px; max-height:500px;">
-
+                    <div class="form-group mb-5">
+                        <input type="text" class="js-rangeslider" id="zoom-rangeslider" value="0">
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
+
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-primary" id="crop">Crop</button>
             </div>
@@ -352,6 +354,7 @@
 
 <script src="{{asset('assets/js/cropper.js')}}"></script>
 <script src="{{asset('assets/js/plugins/sweetalert2/sweetalert2.js')}}"></script>
+<script src="{{asset('assets/js/plugins/ion-rangeslider/js/ion.rangeSlider.js')}}"></script>
 <script>
     ////////////////////////////////////////////
     ////////////////////////////////////////////
@@ -481,11 +484,15 @@
     var $modal = $('#modal');
     var previewimg = document.getElementById('image');
     var cropper;
+    var zoomscale=50;
     $("body").on("change", ".image", function(e) {
         var files = e.target.files;
         var done = function(url) {
             previewimg.src = url;
-            $modal.modal({backdrop: 'static', keyboard: false});
+            $modal.modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         };
         var reader;
         var file;
@@ -508,15 +515,16 @@
             viewMode: 1,
             aspectRatio: 1,
             movable: true,
-            data:{
-                width:500,
-                height:500
+            data: {
+                width: 500,
+                height: 500
             },
             ready: function() {
                 console.log('ready');
                 console.log(cropper.ready);
             }
         });
+
     }).on('hidden.bs.modal', function() {
         cropper.destroy();
         cropper = null;
@@ -539,7 +547,16 @@
             }
         });
     })
+    $("#zoom-rangeslider").change(function() {
+        if (zoomscale < $(this).val()) {
+            cropper.zoom(0.1);
+        } else {
+            cropper.zoom(-0.1);
+        }
 
+        zoomscale=$(this).val();
+        console.log($(this).val());
+    })
     ////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////
     /////////////////////////////////////From operation
@@ -596,7 +613,7 @@
     }
 
     $(document).ready(function() {
-        $("#preview").attr('src', "{{asset('assets/media/17.jpg')}}");
+        $("#preview").attr('src', "{{asset('assets/media/defaultAvatar.jfif')}}");
         $("#preview").css('border-radius', "50%");
         $("#pack").attr('autocomplete', "off");
 
@@ -612,7 +629,7 @@
     });
 
     formclear = function() {
-        $("#preview").attr('src', "{{asset('assets/media/17.jpg')}}");
+        $("#preview").attr('src', "{{asset('assets/media/defaultAvatar.jfif')}}");
         $("#preview").css('border-radius', "50%");
 
 
@@ -630,7 +647,7 @@
         $("#example-sw-custom-lg1").prop("checked", false);
         $("#example-sw-custom-lg2").prop("checked", false);
 
-        $('#preview').attr("src", "{{asset('assets/media/17.jpg')}}");
+        $('#preview').attr("src", "{{asset('assets/media/defaultAvatar.jfif')}}");
         $('#menu-background').css("background", "#332422");
         $('#page-background').css("background", "#665778");
         $('#icon-over-color').css("background", "#ffef2f");
@@ -666,7 +683,7 @@
         if ($('#hidden_interface_icon_' + id).val() != '') {
             $("#preview").attr('src', $('#hidden_interface_icon_' + id).val());
         } else {
-            $("#preview").attr('src', "{{asset('assets/media/17.jpg')}}");
+            $("#preview").attr('src', "{{asset('assets/media/defaultAvatar.jfif')}}");
         }
 
         var route_url = "{{route('clients.update', '')}}" + '/' + id;

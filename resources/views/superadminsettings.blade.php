@@ -6,6 +6,7 @@ $icon = asset("assets/media/part.png"); ?>
 @section('css_after')
 <link rel="stylesheet" href="{{asset('assets/js/plugins/summernote/summernote-bs4.css')}}">
 <link rel="stylesheet" href="{{asset('assets/js/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}">
+<link rel="stylesheet" href="{{asset('assets/js/plugins/ion-rangeslider/css/ion.rangeSlider.css')}}">
 <style>
     #LeftPanel {
         width: 30%;
@@ -152,7 +153,7 @@ $icon = asset("assets/media/part.png"); ?>
 <script>
     jQuery(function() {
         // Dashmix.helpers(['colorpicker', 'summernote']);
-        Dashmix.helpers(['colorpicker', 'summernote']);
+        Dashmix.helpers(['colorpicker', 'summernote', 'rangeslider']);
     });
 
 </script>
