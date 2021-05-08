@@ -435,11 +435,11 @@
             $(this).parents('.form-group').addClass('active-item');
         });
         $('#drop').click(function(e) {
-            // if (cropper == null) {
+            if (cropper == null) {
             e.preventDefault();
             console.log('jaljdlf');
             $(".image")[0].click();
-            // }
+            }
         })
     });
     $(function() {
@@ -555,7 +555,8 @@
             });
 
             $("#zoom-rangeslider-group").css('display', 'block');
-            $('#drag-comment').remove()
+            $('#drag-comment').remove();
+            // $('#drop').unbind('click');
             let my_range = $(".js-rangeslider").data("ionRangeSlider");
             my_range.reset();
         };
