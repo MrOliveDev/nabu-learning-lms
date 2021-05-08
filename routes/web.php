@@ -140,9 +140,13 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('template/add', '\App\Http\Controllers\TemplateController@add')->name('template.add');
     Route::post('template/delete', '\App\Http\Controllers\TemplateController@delete')->name('template.delete');
     Route::get('superadminsettings', '\App\Http\Controllers\ClientController@index')->name('superadminsettings');
+    Route::resource('languageadmin', \App\Http\Controllers\LanguageManageController::class);
     Route::resource('clients', \App\Http\Controllers\ClientController::class);
 });
 
 
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
+
+

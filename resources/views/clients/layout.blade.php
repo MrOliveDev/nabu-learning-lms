@@ -58,6 +58,14 @@
         margin: 10px;
         padding: 10px;
     }
+
+    .dropover {
+        background-color: #2e6dea70;
+    }
+
+    .modal_dropover {
+        background-color: #a6c1f4;
+    }
 </style>
 <div id="content">
     <fieldset id="LeftPanel">
@@ -345,7 +353,7 @@
         <div class="modal-content">
             <div class="modal-body" id="drop">
                 <!-- <div id="drop">Drop files here.</div> -->
-                <!-- <div id="list"></div> -->
+
                 <div class="img-container" id="img-range-slider">
 
                     <!-- <img id="image" src="https://avatars0.githubusercontent.com/u/3456749" style="max-width:500px;"> -->
@@ -558,25 +566,29 @@
         }
     });
 
-    $('#drop').click(function() {
-        if (cropper == null) {
-            $("input.image")[0].click();
-        }
+    $('#browse-button').click(function() {
+        // if (cropper == null) {
+            console.log('jaljdlf');
+            $(".image")[0].click();
+        // }
     })
 
     $modal.on('shown.bs.modal', function() {
 
-        $('.modal-body').prepend('<div class="text-center" id="drop-text">Drop your file here!</div>');
+        $('.modal-body').prepend('<div class="row"  id="browse-btn"><button type="button" class="btn btn-hero-primary float-right mx-auto" id="browse-button">Browse</button></div>');
+        $('.modal-body').prepend('<div class="text-center my-1" id="drop-text1">or</div>');
+        $('.modal-body').prepend('<div class="text-center mt-3" id="drop-text">Drop your file here!</div>');
         $('#image').remove();
         $("#zoom-rangeslider-group").css('display', 'none');
         if (cropper != null) {
             cropper.destroy();
             cropper = null;
         }
-
     }).on('hidden.bs.modal', function() {
         // $("#zoom-rangeslider-group").remove();
-        $('#drop-text').remove();
+        $('#browse-btn').remove()
+        $('#drop-text1').remove()
+        $('#drop-text').remove()
         $('#image').remove();
         $("#zoom-rangeslider-group").css('display', 'none');
 
@@ -609,7 +621,9 @@
                     console.log(base64data);
                 }
             });
-            $('#drop-text').remove();
+            $('#browse-btn').remove()
+            $('#drop-text1').remove()
+            $('#drop-text').remove()
             $('#image').remove();
             $("#zoom-rangeslider-group").css('display', 'none');
             cropper.destroy();
@@ -892,12 +906,31 @@
                     e.preventDefault();
                 }
                 return false;
+                $('.modal').removeClass('dropover');
+                $('.modal-content').removeClass('modal_dropover');
             }
 
             // Tells the browser that we *can* drop on this target
-            addEventHandler(drop, 'dragover', cancel);
-            addEventHandler(drop, 'dragenter', cancel);
+            addEventHandler(drop, 'dragover', function(e) {
+                e = e || window.event; // get window.event if e argument missing (in IE)
+                if (e.preventDefault) {
+                    e.preventDefault();
+                }
+                $('.modal').addClass('dropover');
+                $('.modal-content').addClass('modal_dropover');
 
+                return false;
+            });
+            addEventHandler(drop, 'dragleave', function(e) {
+                e = e || window.event; // get window.event if e argument missing (in IE)
+                if (e.preventDefault) {
+                    e.preventDefault();
+                }
+                $('.modal').removeClass('dropover');
+                $('.modal-content').removeClass('modal_dropover');
+                return false;
+            });
+            addEventHandler(drop, 'dragenter', cancel);
             addEventHandler(drop, 'drop', function(e) {
                 e = e || window.event; // get window.event if e argument missing (in IE)
                 if (e.preventDefault) {
@@ -970,6 +1003,11 @@
                     my_range.reset();
 
                 }.bindToEventHandler(file));
+                $('.modal-content').removeClass('modal_dropover');
+                $('.modal').removeClass('dropover');
+                $('#browse-btn').remove()
+                $('#drop-text1').remove()
+                $('#drop-text').remove()
                 // }
                 return false;
             });
