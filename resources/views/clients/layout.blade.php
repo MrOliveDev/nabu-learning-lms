@@ -153,7 +153,7 @@
                 <div class="d-flex  flex-wrap pl-3" style="overflow:hidden;">
                     <div style="width:300px !important; position:relative">
                         <i class="fa fa-cog float-right p-3 position-absolute ml-auto" style="right:0;" id="upload_button">
-                            <input type="file" name="image" class="image" hidden>
+                            <input type="file" name="image" class="image" accept="image/*" hidden>
                             <input type="hidden" name="interface_color" value="" id="interface_color" />
                             <input type="hidden" name="status" value="" id="status" />
                             <input type="hidden" name="pptimport" value="" id="pptimport" />
@@ -555,6 +555,7 @@
             });
 
             $("#zoom-rangeslider-group").css('display', 'block');
+            $('#drag-comment').remove()
             let my_range = $(".js-rangeslider").data("ionRangeSlider");
             my_range.reset();
         };
@@ -576,10 +577,7 @@
     });
 
     $modal.on('shown.bs.modal', function() {
-
-        $('#image-crop-modal .modal-body').prepend('<div class="row"  id="browse-btn"><button type="button" class="btn btn-hero-primary float-right mx-auto" id="browse">Browse</button></div>');
-        $('#image-crop-modal .modal-body').prepend('<div class="text-center my-1" id="drop-text1">or</div>');
-        $('#image-crop-modal .modal-body').prepend('<div class="text-center mt-3" id="drop-text">Drop your file here!</div>');
+        $('#image-crop-modal .modal-body').prepend('<div id="drag-comment"><div class="text-center mt-3" id="drop-text">Drop your file here!</div><div class="text-center my-1" id="drop-text1">or</div><div class="row"  id="browse-btn"><button type="button" class="btn btn-hero-primary float-right mx-auto" id="browse">Browse</button></div></div>');
         $('#image').remove();
         $("#zoom-rangeslider-group").css('display', 'none');
         if (cropper != null) {
@@ -588,9 +586,7 @@
         }
     }).on('hidden.bs.modal', function() {
         // $("#zoom-rangeslider-group").remove();
-        $('#browse-btn').remove()
-        $('#drop-text1').remove()
-        $('#drop-text').remove()
+        $('#drag-comment').remove()
         $('#image').remove();
         $("#zoom-rangeslider-group").css('display', 'none');
 
@@ -623,9 +619,7 @@
                     console.log(base64data);
                 }
             });
-            $('#browse-btn').remove()
-            $('#drop-text1').remove()
-            $('#drop-text').remove()
+            $('#drag-comment').remove()
             $('#image').remove();
             $("#zoom-rangeslider-group").css('display', 'none');
             cropper.destroy();
@@ -646,6 +640,168 @@
         }
         // zoomscale = $(this).val();
     })
+    $('#upload_button').click(function(evt) {
+        evt.stopPropagation();
+        // alert($('#menuBackground').css('background-color'));
+        // var interface_color={
+        //     'menuBackground':RGBToHex($('#menu-background').css('background-color')),
+        //     'pageBackground':RGBToHex($('#page-background').css('background-color')),
+        //     'iconOverColor':RGBToHex($('#icon-over-color').css('background-color')),
+        //     'iconDefaultColor':RGBToHex($('#icon-default-color').css('background-color'))
+        // }
+        // $('#interface_color').val(JSON.stringify(interface_color));
+        // alert($('#interface_color').val());
+        // $(this).children("input[type='file']")[0].click();
+        // if ($(".uploadcare--link.uploadcare--widget__file-name").length == 0) {
+        $("#zoom-rangeslider").val(50);
+        $modal.modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+        // $("input.image")[0].click();
+    });
+    if (window.FileReader) {
+        var drop;
+        addEventHandler(window, 'load', function() {
+            drop = document.getElementById('drop');
+            var list = $('.img-container')[0];
+
+            function cancel(e) {
+                if (e.preventDefault) {
+                    e.preventDefault();
+                }
+                return false;
+                $('.modal').removeClass('dropover');
+                $('.modal-content').removeClass('modal_dropover');
+            }
+
+            // Tells the browser that we *can* drop on this target
+            addEventHandler(drop, 'dragover', function(e) {
+                e = e || window.event; // get window.event if e argument missing (in IE)
+                if (e.preventDefault) {
+                    e.preventDefault();
+                }
+                $('.modal').addClass('dropover');
+                $('.modal-content').addClass('modal_dropover');
+
+                return false;
+            });
+            addEventHandler(drop, 'dragleave', function(e) {
+                e = e || window.event; // get window.event if e argument missing (in IE)
+                if (e.preventDefault) {
+                    e.preventDefault();
+                }
+                $('.modal').removeClass('dropover');
+                $('.modal-content').removeClass('modal_dropover');
+                return false;
+            });
+            addEventHandler(drop, 'dragenter', cancel);
+            addEventHandler(drop, 'drop', function(e) {
+                $('.modal-content').removeClass('modal_dropover');
+                $('.modal').removeClass('dropover');
+                $('#drag-comment').remove()
+                e = e || window.event; // get window.event if e argument missing (in IE)
+                if (e.preventDefault) {
+                    e.preventDefault();
+                } // stops the browser from redirecting off to the image.
+
+                var dt = e.dataTransfer;
+                var files = dt.files;
+                // for (var i = 0; i < files.length; i++) {
+                var file = files[0];
+                var reader = new FileReader();
+
+                //attach event handlers here...
+
+                reader.readAsDataURL(file);
+                addEventHandler(reader, 'loadend', function(e, file) {
+                    var bin = this.result;
+                    var img = document.createElement("img");
+                    img.file = file;
+                    img.src = bin;
+                    img.id = 'image';
+                    $('#image').remove();
+                    list.prepend(img);
+
+                    $('#drop-text').remove();
+
+                    if (cropper != null) {
+                        cropper.destroy();
+                        cropper = null;
+                    }
+                    previewimg = document.getElementById('image');
+                    cropper = new Cropper(previewimg, {
+                        aspectRatio: 1,
+                        "container": {
+                            "width": "100%",
+                            "height": 400
+                        },
+                        "viewport": {
+                            "width": 200,
+                            "height": 200,
+                            "type": "circle",
+                            "border": {
+                                "width": 2,
+                                "enable": true,
+                                "color": "#fff"
+                            }
+                        },
+                        "zoom": {
+                            "enable": true,
+                            "mouseWheel": true,
+                            "slider": true
+                        },
+                        "rotation": {
+                            "slider": true,
+                            "enable": true,
+                            "position": "left"
+                        },
+                        "transformOrigin": "viewport"
+
+                    });
+
+                    // var range_slider_template = '<div class="form-group mb-5" id="zoom-rangeslider-group">' +
+                    //     '<input type="text" class="js-rangeslider" id="zoom-rangeslider" value="50"> </div>';
+
+                    // //////////
+                    // var temp = 1;
+                    // $("#img-range-slider").append(range_slider_template);
+                    $("#zoom-rangeslider-group").css('display', 'block');
+                    let my_range = $(".js-rangeslider").data("ionRangeSlider");
+                    my_range.reset();
+
+                }.bindToEventHandler(file));
+                // }
+                return false;
+            });
+            Function.prototype.bindToEventHandler = function bindToEventHandler() {
+                var handler = this;
+                var boundParameters = Array.prototype.slice.call(arguments);
+                console.log(boundParameters);
+                //create closure
+                return function(e) {
+                    e = e || window.event; // get window.event if e argument missing (in IE)
+                    boundParameters.unshift(e);
+                    handler.apply(this, boundParameters);
+                }
+            };
+        });
+    } else {
+        console.log('Your browser does not support the HTML5 FileReader.');
+    }
+
+    function addEventHandler(obj, evt, handler) {
+        if (obj.addEventListener) {
+            // W3C method
+            obj.addEventListener(evt, handler, false);
+        } else if (obj.attachEvent) {
+            // IE method.
+            obj.attachEvent('on' + evt, handler);
+        } else {
+            // Old school method.
+            obj['on' + evt] = handler;
+        }
+    }
     ////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////
     /////////////////////////////////////From operation
@@ -837,26 +993,7 @@
     ///////////////////////////////////
 
 
-    $('#upload_button').click(function(evt) {
-        evt.stopPropagation();
-        // alert($('#menuBackground').css('background-color'));
-        // var interface_color={
-        //     'menuBackground':RGBToHex($('#menu-background').css('background-color')),
-        //     'pageBackground':RGBToHex($('#page-background').css('background-color')),
-        //     'iconOverColor':RGBToHex($('#icon-over-color').css('background-color')),
-        //     'iconDefaultColor':RGBToHex($('#icon-default-color').css('background-color'))
-        // }
-        // $('#interface_color').val(JSON.stringify(interface_color));
-        // alert($('#interface_color').val());
-        // $(this).children("input[type='file']")[0].click();
-        // if ($(".uploadcare--link.uploadcare--widget__file-name").length == 0) {
-        $("#zoom-rangeslider").val(50);
-        $modal.modal({
-            backdrop: 'static',
-            keyboard: false
-        });
-        // $("input.image")[0].click();
-    });
+
 
     // $("#upload_tip").change(function(event) {
     //     // fileChange(event);
@@ -896,151 +1033,6 @@
     ////////////Drag and drop
     ///////////////////////////////
     ///////////////////////////////
-
-    if (window.FileReader) {
-        var drop;
-        addEventHandler(window, 'load', function() {
-            drop = document.getElementById('drop');
-            var list = $('.img-container')[0];
-
-            function cancel(e) {
-                if (e.preventDefault) {
-                    e.preventDefault();
-                }
-                return false;
-                $('.modal').removeClass('dropover');
-                $('.modal-content').removeClass('modal_dropover');
-            }
-
-            // Tells the browser that we *can* drop on this target
-            addEventHandler(drop, 'dragover', function(e) {
-                e = e || window.event; // get window.event if e argument missing (in IE)
-                if (e.preventDefault) {
-                    e.preventDefault();
-                }
-                $('.modal').addClass('dropover');
-                $('.modal-content').addClass('modal_dropover');
-
-                return false;
-            });
-            addEventHandler(drop, 'dragleave', function(e) {
-                e = e || window.event; // get window.event if e argument missing (in IE)
-                if (e.preventDefault) {
-                    e.preventDefault();
-                }
-                $('.modal').removeClass('dropover');
-                $('.modal-content').removeClass('modal_dropover');
-                return false;
-            });
-            addEventHandler(drop, 'dragenter', cancel);
-            addEventHandler(drop, 'drop', function(e) {
-                e = e || window.event; // get window.event if e argument missing (in IE)
-                if (e.preventDefault) {
-                    e.preventDefault();
-                } // stops the browser from redirecting off to the image.
-
-                var dt = e.dataTransfer;
-                var files = dt.files;
-                // for (var i = 0; i < files.length; i++) {
-                var file = files[0];
-                var reader = new FileReader();
-
-                //attach event handlers here...
-
-                reader.readAsDataURL(file);
-                addEventHandler(reader, 'loadend', function(e, file) {
-                    var bin = this.result;
-                    var img = document.createElement("img");
-                    img.file = file;
-                    img.src = bin;
-                    img.id = 'image';
-                    $('#image').remove();
-                    list.prepend(img);
-
-                    $('#drop-text').remove();
-
-                    if (cropper != null) {
-                        cropper.destroy();
-                        cropper = null;
-                    }
-                    previewimg = document.getElementById('image');
-                    cropper = new Cropper(previewimg, {
-                        aspectRatio: 1,
-                        "container": {
-                            "width": "100%",
-                            "height": 400
-                        },
-                        "viewport": {
-                            "width": 200,
-                            "height": 200,
-                            "type": "circle",
-                            "border": {
-                                "width": 2,
-                                "enable": true,
-                                "color": "#fff"
-                            }
-                        },
-                        "zoom": {
-                            "enable": true,
-                            "mouseWheel": true,
-                            "slider": true
-                        },
-                        "rotation": {
-                            "slider": true,
-                            "enable": true,
-                            "position": "left"
-                        },
-                        "transformOrigin": "viewport"
-
-                    });
-
-                    // var range_slider_template = '<div class="form-group mb-5" id="zoom-rangeslider-group">' +
-                    //     '<input type="text" class="js-rangeslider" id="zoom-rangeslider" value="50"> </div>';
-
-                    // //////////
-                    // var temp = 1;
-                    // $("#img-range-slider").append(range_slider_template);
-                    $("#zoom-rangeslider-group").css('display', 'block');
-                    let my_range = $(".js-rangeslider").data("ionRangeSlider");
-                    my_range.reset();
-
-                }.bindToEventHandler(file));
-                $('.modal-content').removeClass('modal_dropover');
-                $('.modal').removeClass('dropover');
-                $('#browse-btn').remove()
-                $('#drop-text1').remove()
-                $('#drop-text').remove()
-                // }
-                return false;
-            });
-            Function.prototype.bindToEventHandler = function bindToEventHandler() {
-                var handler = this;
-                var boundParameters = Array.prototype.slice.call(arguments);
-                console.log(boundParameters);
-                //create closure
-                return function(e) {
-                    e = e || window.event; // get window.event if e argument missing (in IE)
-                    boundParameters.unshift(e);
-                    handler.apply(this, boundParameters);
-                }
-            };
-        });
-    } else {
-        console.log('Your browser does not support the HTML5 FileReader.');
-    }
-
-    function addEventHandler(obj, evt, handler) {
-        if (obj.addEventListener) {
-            // W3C method
-            obj.addEventListener(evt, handler, false);
-        } else if (obj.attachEvent) {
-            // IE method.
-            obj.attachEvent('on' + evt, handler);
-        } else {
-            // Old school method.
-            obj['on' + evt] = handler;
-        }
-    }
 </script>
 <script src="{{asset('assets/js/ga.js')}}"></script>
 <script type="text/javascript">
