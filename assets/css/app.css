@@ -832,3 +832,15 @@ a.bg-yellow-2 button{
 a.bg-green-1 button{
     color: #044704 !important;
 }
+
+main select.form-control {
+    background-color: #2d4272 !important;
+    color: white !important;
+}
+
+main select.form-control option {
+    background-color: #a7acd6;
+    color: white;
+    border: 4px transparent !important;
+    margin-top: 10px;
+}

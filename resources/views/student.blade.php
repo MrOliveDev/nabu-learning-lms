@@ -89,6 +89,14 @@
     }
 </style>
 
+@section('js_after')
+<script>
+    $(function() {
+        $("#tabs, #tab1").tabs();
+    });
+</script>
+@endsection
+
 <div id="content">
     <fieldset id="LeftPanel">
         <div id="div_A" class="window top">
@@ -274,6 +282,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link m-1 rounded-1 border-0" id="companies-tab" href="#menu1">{{$translation->l('COMPANIES')}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link m-1 rounded-1 border-0" id="companies-tab" href="#menu1">{{$translation->l('FUNCTIONS')}}</a>
                 </li>
             </ul>
             <div id="groups">
