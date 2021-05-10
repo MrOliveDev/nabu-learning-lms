@@ -58,6 +58,9 @@ $icon = asset("assets/media/part.png"); ?>
         width: 200px;
     }
 
+    #color-picker-select .active-item i.pl-2.fas.fa-crosshairs {
+        color: green;
+    }
     .fas.fa-crosshairs {
         font-size: 26pt;
         color: red;
@@ -92,9 +95,6 @@ $icon = asset("assets/media/part.png"); ?>
         transition: all .1s;
     }
 
-    #color-picker-select .active-item i.pl-2.fas.fa-crosshairs {
-        color: green;
-    }
 
     #preview {
         cursor: url('{{$icon}}'),
@@ -105,17 +105,6 @@ $icon = asset("assets/media/part.png"); ?>
         min-width: 200px;
     }
 
-    main select.form-control {
-        background-color: #2d4272 !important;
-        color: white !important;
-    }
-
-    main select.form-control option {
-        background-color: #a7acd6;
-        color: white;
-        border: 4px transparent !important;
-        margin-top: 10px;
-    }
 
     .form-group button:hover {
         background-color: #d52f72 !important;

@@ -67,7 +67,7 @@
                             <span class="template_name">{{$template->name}}</span>
                         </div>
                         <div class="btn-group float-right">
-                            <a class="btn text-primary px-2 viewTemplateItem" href="">
+                            <a class="btn text-primary px-2 viewTemplateItem" href="" style="display:none;">
                                 <i class="fa fa-eye"></i>
                             </a>
                             <a class="btn text-primary px-2 editTemplateItem" href="">
@@ -78,6 +78,9 @@
                             </a>
                             <a class="btn text-primary px-2 templateEditor" href="{{'#/template-generator/'.$template->alpha_id}}">
                                 <i class="fa fa-cube"></i>
+                            </a>
+                            <a class="btn text-primary px-2 duplicate" href="">
+                            <i class="far fa-copy"></i>
                             </a>
                         </div>
                     </div>
@@ -255,26 +258,26 @@
                         function(data, status) {
                             tmpbtnmode = VIEWMODE;
                             $('#template-list-tab').append(
-                                "<div class='list-group-item list-group-item-action p-1 border-0 ' id='template_item_" + data.id + "' data-toggle='list' role='tab'>" +
+                                "<div class='list-group-item list-group-item-action p-1 border-0  bg-yellow-2' id='template_item_" + data.id + "' data-toggle='list' role='tab'>" +
                                 "<div class='float-left'>" +
                                 "<i class='fa fa-circle text-danger m-2'></i>" +
                                 "<span class='template_name'>" + data.name + "</span>" +
                                 "</div>" +
                                 "<div class='btn-group float-right'>" +
-                                "<a class='btn text-primary px-2' href='' onclick='viewTemplateItem()'>" +
-                                "<i class='fa fa-eye'></i>" +
-                                "</a>" +
+                                // "<a class='btn text-primary px-2' href='' onclick='viewTemplateItem()'>" +
+                                // "<i class='fa fa-eye'></i>" +
+                                // "</a>" +
                                 "<a class='btn text-primary px-2' href='' onclick='editTemplateItem()'>" +
                                 "<i class='fa fa-edit'></i>" +
                                 " </a>" +
-                                "<a class='btn text-primary px-2' href='' onclick='deleteTemplateItem('" + data.id + "')'>" +
+                                "<a class='btn text-primary px-2 deleteItem' href='' onclick='deleteTemplateItem('" + data.id + "')'>" +
                                 "<i class='fa fa-trash-alt'></i>" +
                                 "</a>" +
                                 "<a class='btn text-primary px-2' href='' onclick='toTemplateEditor('" + data.id + "')'>" +
                                 "<i class='fa fa-cube'></i>" +
                                 "</a>" +
-                                "<a class='btn text-primary px-2' href=''>" +
-                                "<i class='fa fa-sync-alt'></i>" +
+                                "<a class='btn text-primary px-2 duplicate' href=''>" +
+                                "<i class='far fa-copy'></i>" +
                                 "</a>" +
                                 "</div>" +
                                 "</div>"
