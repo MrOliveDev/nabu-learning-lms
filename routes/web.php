@@ -127,10 +127,10 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::get('student', '\App\Http\Controllers\StudentController@index')->name('student');
     Route::get('template', '\App\Http\Controllers\TemplateController@index')->name('template');
     Route::get('template_editor', '\App\Http\Controllers\TemplateEditorController@index')->name('template_editor');
-    Route::get('changeLanuguage', function(Request $request){
-        session(['language'=>$request->language]);
+    Route::get('changeLanuguage', function (Request $request) {
+        session(['language' => $request->language]);
     })->name('changeLanguage');
-    Route::post('searchfromdictionary', function(Request $request){
+    Route::post('searchfromdictionary', function (Request $request) {
         $request->keyword;
         // $users = DB::table('users')
         //     ->leftJoin('posts', 'users.id', '=', 'posts.user_id')
@@ -140,13 +140,34 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('template/add', '\App\Http\Controllers\TemplateController@add')->name('template.add');
     Route::post('template/delete', '\App\Http\Controllers\TemplateController@delete')->name('template.delete');
     Route::get('superadminsettings', '\App\Http\Controllers\ClientController@index')->name('superadminsettings');
+
+    Route::post('user/findgroup', '\App\Http\Controllers\StudentController@findGroup')->name('findgroup');
+    Route::post('user/findsession', '\App\Http\Controllers\StudentController@findSession')->name('findsession');
+    Route::post('user/findcompany', '\App\Http\Controllers\StudentController@findCompany')->name('findcompany');
+    Route::post('user/finduser', '\App\Http\Controllers\StudentController@findUser')->name('finduser');
+    Route::post('user/findfunction', '\App\Http\Controllers\StudentController@findFunction')->name('findfunction');
+    Route::post('user/getUserFromFunction', '\App\Http\Controllers\StudentController@getUserFromFunction')->name('getUserFromFunction');
+    Route::post('user/getUserFromCompany', '\App\Http\Controllers\StudentController@getUserFromCompany')->name('getUserFromCompany');
+    Route::post('user/getUserFromGroup', '\App\Http\Controllers\StudentController@getUserFromGroup')->name('getUserFromGroup');
+    Route::post('user/getGroupFromUser', '\App\Http\Controllers\StudentController@getGroupFromUser')->name('getGroupFromUser');
+    Route::post('user/editUser', '\App\Http\Controllers\StudentController@editUser')->name('editUser');
+    Route::post('user/addUser', '\App\Http\Controllers\StudentController@addUser')->name('addUser');
+    Route::post('user/deleteUser', '\App\Http\Controllers\StudentController@deleteUser')->name('deleteUser');
+    Route::post('user/editGroup', '\App\Http\Controllers\StudentController@editGroup')->name('editUser');
+    Route::post('user/addGroup', '\App\Http\Controllers\StudentController@addGroup')->name('addUser');
+    Route::post('user/deleteGroup', '\App\Http\Controllers\StudentController@deleteGroup')->name('deleteUser');
+    Route::post('user/editCompany', '\App\Http\Controllers\StudentController@editCompany')->name('editCompany');
+    Route::post('user/addCompany', '\App\Http\Controllers\StudentController@addCompany')->name('addCompany');
+    Route::post('user/deleteCompany', '\App\Http\Controllers\StudentController@deleteCompany')->name('deleteCompany');
+    Route::post('user/editFunction', '\App\Http\Controllers\StudentController@editFunction')->name('editFunction');
+    Route::post('user/addFunction', '\App\Http\Controllers\StudentController@addFunction')->name('addFunction');
+    Route::post('user/deleteFunction', '\App\Http\Controllers\StudentController@deleteFunction')->name('deleteFunction');
+
     Route::resource('languageadmin', \App\Http\Controllers\LanguageManageController::class);
     Route::resource('clients', \App\Http\Controllers\ClientController::class);
+    Route::resource('user', \App\Http\Controllers\StudentController::class);
 });
 
 
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
-
-
-
