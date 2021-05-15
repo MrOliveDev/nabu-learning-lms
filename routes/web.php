@@ -127,10 +127,10 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::get('student', '\App\Http\Controllers\StudentController@index')->name('student');
     Route::get('template', '\App\Http\Controllers\TemplateController@index')->name('template');
     Route::get('template_editor', '\App\Http\Controllers\TemplateEditorController@index')->name('template_editor');
-    Route::get('changeLanuguage', function(Request $request){
-        session(['language'=>$request->language]);
+    Route::get('changeLanuguage', function (Request $request) {
+        session(['language' => $request->language]);
     })->name('changeLanguage');
-    Route::post('searchfromdictionary', function(Request $request){
+    Route::post('searchfromdictionary', function (Request $request) {
         $request->keyword;
         // $users = DB::table('users')
         //     ->leftJoin('posts', 'users.id', '=', 'posts.user_id')
@@ -142,11 +142,33 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::get('superadminsettings', '\App\Http\Controllers\ClientController@index')->name('superadminsettings');
     Route::resource('languageadmin', \App\Http\Controllers\LanguageManageController::class);
     Route::resource('clients', \App\Http\Controllers\ClientController::class);
+    Route::resource('user', \App\Http\Controllers\StudentController::class);
+
+    Route::post('user/findgroup', '\App\Http\Controllers\useradmin\GroupController@findGroup')->name('findgroup');
+    Route::post('user/getuserfromgroup', '\App\Http\Controllers\useradmin\GroupController@getUserFromGroup')->name('getuserfromgroup');
+    Route::post('user/getgroupfromuser', '\App\Http\Controllers\useradmin\GroupController@getGroupFromUser')->name('getgroupfromuser');
+    Route::resource('group', \App\Http\Controllers\useradmin\GroupController::class);
+
+    Route::post('user/findsession', '\App\Http\Controllers\SessionController@findSession')->name('findsession');
+
+    Route::post('user/findcompany', '\App\Http\Controllers\useradmin\CompanyController@findCompany')->name('findcompany');
+    Route::post('user/getuserfromcompany', '\App\Http\Controllers\useradmin\CompanyController@getUserFromCompany')->name('getuserfromcompany');
+    Route::resource('company', \App\Http\Controllers\useradmin\CompanyController::class);
+
+    Route::post('user/finduser', '\App\Http\Controllers\StudentController@findUser')->name('finduser');
+    Route::post('user/getuserfromfunction', '\App\Http\Controllers\StudentController@getUserFromFunction')->name('getuserfromfunction');
+    Route::post('user/edituser', '\App\Http\Controllers\StudentController@editUser')->name('edituser');
+    Route::post('user/adduser', '\App\Http\Controllers\StudentController@addUser')->name('adduser');
+    Route::post('user/deleteuser', '\App\Http\Controllers\StudentController@deleteUser')->name('deleteuser');
+
+    Route::post('user/findfunction', '\App\Http\Controllers\useradmin\PositionController@findFunction')->name('findfunction');
+    Route::resource('function', \App\Http\Controllers\useradmin\PositionController::class);
+
+    Route::post('user/userjointogroup', '\App\Http\Controllers\StudentController@userJoinToGroup')->name('userjointogroup');
+    Route::post('user/userjointocompany', '\App\Http\Controllers\StudentController@deleteFunction')->name('userjointocompany');
+    Route::post('user/userjointoposition', '\App\Http\Controllers\StudentController@deleteFunction')->name('userjointoposition');
 });
 
 
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
-
-
-

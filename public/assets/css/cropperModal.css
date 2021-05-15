@@ -1,0 +1,88 @@
+.cropper-view-box {
+    border-radius: 50%;
+}
+
+.card-body.p-3 span.input-group-text {
+    min-width: 200px;
+}
+
+.input-group>.input-group-prepend>.input-group-text {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.cropper-view-box {
+    border-radius: 50%;
+}
+
+
+
+.preview {
+    overflow: hidden;
+    width: 160px;
+    height: 160px;
+    margin: 10px;
+    border: 1px solid red;
+}
+
+.modal-lg {
+    max-width: 1000px !important;
+}
+
+.swal2-container {
+    z-index: 3000;
+}
+
+.swal2-container .btn,
+.modal .btn {
+    border-radius: 3px;
+}
+
+.uploadcare--jcrop-holder>div>div,
+#preview {
+    border-radius: 50%;
+}
+
+.uploadcare--widget__button.uploadcare--widget__button_type_open {
+    display: none;
+}
+
+#uploadcare--widget__text {
+    display: none;
+
+}
+
+/* ////////////////////////
+///////////dropzon
+//////////////////////// */
+#drop {
+    min-height: 150px;
+    min-width: 250px;
+    max-width: 100%;
+    border: 1px dashed blue;
+    margin: 10px;
+    padding: 10px;
+}
+
+.dropover {
+    background-color: #2e6dea70;
+}
+
+.modal_dropover {
+    background-color: #a6c1f4;
+}
+
+#upload_button{
+    color:#2d4272;
+}
+#upload_button:hover{
+    color:#d52f72;
+}
+
+.btn-hero-primary:hover #upload_button:hover {
+    background-color: #d52f72;
+}
+
+.card{
+    background-color:white;
+}

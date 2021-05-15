@@ -52,7 +52,6 @@
     <script src="{{asset('assets/js/dashmix.app.min.js')}}"></script>
     <script src="{{asset('assets/js/app.js')}}"></script>
 
-    @yield('js_after')
     <!-- END Stylesheets -->
 </head>
 
@@ -180,6 +179,7 @@
 
     <script src="{{asset('assets/js/popper.min.js')}}"></script>
 
+    @yield('js_after')
 
 
 </body>
