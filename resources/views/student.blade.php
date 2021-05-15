@@ -509,14 +509,14 @@
 
                 <div class="list-group mx-4" id="list-tab" role="tablist">
                     @foreach($positions as $position)
-                    <a class="list-group-item list-group-item-action p-1 border-0 " id="position_{{$position->id}}">
+                    <a class="list-group-item list-group-item-action p-1 border-0 " id="function_{{$position->id}}">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
                             {{$position->name}}
                             <input type="hidden" name="item-name" value="{{$group->name}}">
                         </div>
                         <div class="btn-group float-right">
-                            <button class="btn  toggle1-btn  item-show">
+                            <button class="btn  toggle1-btn item-show">
                                 <i class="px-2 fa fa-eye"></i>
                             </button>
                             <button class="btn  toggle1-btn" id="list-home-list">
