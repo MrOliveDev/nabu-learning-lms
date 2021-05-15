@@ -161,12 +161,12 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('user/adduser', '\App\Http\Controllers\StudentController@addUser')->name('adduser');
     Route::post('user/deleteuser', '\App\Http\Controllers\StudentController@deleteUser')->name('deleteuser');
 
-    Route::post('user/findfunction', '\App\Http\Controllers\useradmin\PositionController@findFunction')->name('findfunction');
+    Route::post('user/findfunction', '\App\Http\Controllers\useradmin\PositionController@findPosition')->name('findfunction');
     Route::resource('function', \App\Http\Controllers\useradmin\PositionController::class);
 
     Route::post('user/userjointogroup', '\App\Http\Controllers\StudentController@userJoinToGroup')->name('userjointogroup');
-    Route::post('user/userjointocompany', '\App\Http\Controllers\StudentController@deleteFunction')->name('userjointocompany');
-    Route::post('user/userjointoposition', '\App\Http\Controllers\StudentController@deleteFunction')->name('userjointoposition');
+    Route::post('user/userjointocompany', '\App\Http\Controllers\StudentController@userJoinToCompany')->name('userjointocompany');
+    Route::post('user/userjointofunction', '\App\Http\Controllers\StudentController@userJoinToPosition')->name('userjointofunction');
 });
 
 
