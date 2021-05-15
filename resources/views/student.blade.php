@@ -10,20 +10,20 @@
 
 <style>
     :root {
-        --student-c: <?php echo "#" . $interfaceCfg->Students->c; ?>;
-        --student-h: <?php echo "#" . $interfaceCfg->Students->h; ?>;
-        --teacher-c: <?php echo "#" . $interfaceCfg->Teachers->c; ?>;
-        --teacher-h: <?php echo "#" . $interfaceCfg->Teachers->h; ?>;
-        --author-c: <?php echo "#" . $interfaceCfg->Authors->c; ?>;
-        --author-h: <?php echo "#" . $interfaceCfg->Authors->h; ?>;
-        --group-c: <?php echo "#" . $interfaceCfg->Groups->c; ?>;
-        --group-h: <?php echo "#" . $interfaceCfg->Groups->h; ?>;
-        --company-c: <?php echo "#" . $interfaceCfg->Companies->c; ?>;
-        --company-h: <?php echo "#" . $interfaceCfg->Companies->h; ?>;
-        --position-c: <?php echo "#" . $interfaceCfg->Positions->c; ?>;
-        --position-h: <?php echo "#" . $interfaceCfg->Positions->h; ?>;
-        --session-c: <?php echo "#" . $interfaceCfg->Sessions->c; ?>;
-        --session-h: <?php echo "#" . $interfaceCfg->Sessions->h; ?>;
+        --student-c: <?php echo "#" . $interfaceCfg->Students->h; ?>;
+        --student-h: <?php echo "#" . $interfaceCfg->Students->c; ?>;
+        --teacher-c: <?php echo "#" . $interfaceCfg->Teachers->h; ?>;
+        --teacher-h: <?php echo "#" . $interfaceCfg->Teachers->c; ?>;
+        --author-c: <?php echo "#" . $interfaceCfg->Authors->h; ?>;
+        --author-h: <?php echo "#" . $interfaceCfg->Authors->c; ?>;
+        --group-c: <?php echo "#" . $interfaceCfg->Groups->h; ?>;
+        --group-h: <?php echo "#" . $interfaceCfg->Groups->c; ?>;
+        --company-c: <?php echo "#" . $interfaceCfg->Companies->h; ?>;
+        --company-h: <?php echo "#" . $interfaceCfg->Companies->c; ?>;
+        --position-c: <?php echo "#" . $interfaceCfg->Positions->h; ?>;
+        --position-h: <?php echo "#" . $interfaceCfg->Positions->c; ?>;
+        --session-c: <?php echo "#" . $interfaceCfg->Sessions->h; ?>;
+        --session-h: <?php echo "#" . $interfaceCfg->Sessions->c; ?>;
     }
 </style>
 <link rel="stylesheet" href="{{asset('assets/css/userPage.css')}}">
@@ -102,7 +102,7 @@
 
                     <div class="list-group" id="list-tab" role="tablist">
                         @foreach($students as $student)
-                        <a class="list-group-item list-group-item-action  p-1 border-0" id="student_{{$student->id}}" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                        <a class="list-group-item list-group-item-action  p-1 border-0" id="student_{{$student->id}}">
                             <div class="float-left">
                                 @if($student->status==1)
                                 <i class="fa fa-circle text-success m-2"></i>
@@ -118,14 +118,14 @@
                                 <input type="hidden" name="item-function" value="{{$student->function}}">
                             </div>
                             <div class="btn-group float-right">
-                                <span class="text-white p-2 font-weight-bolder">EN</span>
-                                <button class="btn text-primary item-show">
+                                <span class=" p-2 font-weight-bolder">EN</span>
+                                <button class="btn  item-show">
                                     <i class="px-2 fa fa-eye"></i>
                                 </button>
-                                <button class="btn text-primary">
+                                <button class="btn ">
                                     <i class="px-2 fa fa-edit"></i>
                                 </button>
-                                <button class="btn text-primary">
+                                <button class="btn ">
                                     <i class="px-2 fa fa-trash-alt"></i>
                                 </button>
                             </div>
@@ -137,7 +137,7 @@
 
                     <div class="list-group" id="list-tab" role="tablist">
                         @foreach($teachers as $teacher)
-                        <a class="list-group-item list-group-item-action  p-1 border-0" id="teacher_{{$teacher->id}}" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                        <a class="list-group-item list-group-item-action  p-1 border-0" id="teacher_{{$teacher->id}}">
                             <div class="float-left">
                                 @if($teacher->status==1)
                                 <i class="fa fa-circle text-success m-2"></i>
@@ -153,15 +153,15 @@
                                 <input type="hidden" name="item-function" value="{{$teacher->function}}">
                             </div>
                             <div class="btn-group float-right">
-                                <span class="text-white p-2 font-weight-bolder">EN</span>
+                                <span class=" p-2 font-weight-bolder">EN</span>
 
-                                <button class="btn text-primary item-show">
+                                <button class="btn  item-show">
                                     <i class="px-2 fa fa-eye"></i>
                                 </button>
-                                <button class="btn text-primary">
+                                <button class="btn ">
                                     <i class="px-2 fa fa-edit"></i>
                                 </button>
-                                <button class="btn text-primary">
+                                <button class="btn ">
                                     <i class="px-2 fa fa-trash-alt"></i>
                                 </button>
                             </div>
@@ -173,7 +173,7 @@
 
                     <div class="list-group" id="list-tab" role="tablist">
                         @foreach($authors as $author)
-                        <a class="list-group-item list-group-item-action  p-1 border-0" id="author_{{$author->id}}" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                        <a class="list-group-item list-group-item-action  p-1 border-0" id="author_{{$author->id}}">
                             <div class="float-left">
                                 @if($author->status==1)
                                 <i class="fa fa-circle text-success m-2"></i>
@@ -189,15 +189,15 @@
                                 <input type="hidden" name="item-function" value="{{$author->function}}">
                             </div>
                             <div class="btn-group float-right">
-                                <span class="text-white p-2 font-weight-bolder">EN</span>
+                                <span class=" p-2 font-weight-bolder">EN</span>
 
-                                <button class="btn text-primary item-show">
+                                <button class="btn  item-show">
                                     <i class="px-2 fa fa-eye"></i>
                                 </button>
-                                <button class="btn text-primary" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                                <button class="btn " id="list-home-list">
                                     <i class="px-2 fa fa-edit"></i>
                                 </button>
-                                <button class="btn text-primary">
+                                <button class="btn ">
                                     <i class="px-2 fa fa-trash-alt"></i>
                                 </button>
                             </div>
@@ -319,22 +319,22 @@
 
                     <div id="table-groups">
                         <div class="list-group" id="list-tab" role="tablist">
-                            <a class="list-group-item list-group-item-action p-1 border-0 " id="" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                            <a class="list-group-item list-group-item-action p-1 border-0 " id="">
                                 <div class="float-left">
                                     <i class="fa fa-circle text-danger m-2"></i>
                                     askkd
                                 </div>
                                 <div class="btn-group float-right">
-                                    <button class="btn text-primary toggle1-btn">
+                                    <button class="btn  toggle1-btn">
                                         <i class="px-2 fa fa-eye"></i>
                                     </button>
-                                    <button class="btn text-primary toggle1-btn" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                                    <button class="btn  toggle1-btn" id="list-home-list">
                                         <i class="px-2 fa fa-edit"></i>
                                     </button>
-                                    <button class="btn text-primary toggle1-btn">
+                                    <button class="btn  toggle1-btn">
                                         <i class="px-2 fa fa-trash-alt"></i>
                                     </button>
-                                    <button class="btn text-primary toggle1-btn text-white">
+                                    <button class="btn  toggle1-btn text-white">
                                         <i class="px-2 fas fa-unlink"></i>
                                     </button>
                                 </div>
@@ -343,22 +343,22 @@
                     </div>
                     <div id="table-session">
                         <div class="list-group" id="list-tab" role="tablist">
-                            <a class="list-group-item list-group-item-action p-1 border-0 " id="" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                            <a class="list-group-item list-group-item-action p-1 border-0 " id="">
                                 <div class="float-left">
                                     <i class="fa fa-circle text-danger m-2"></i>
                                     askkd
                                 </div>
                                 <div class="btn-group float-right">
-                                    <button class="btn text-primary toggle1-btn">
+                                    <button class="btn  toggle1-btn">
                                         <i class="px-2 fa fa-eye"></i>
                                     </button>
-                                    <button class="btn text-primary toggle1-btn" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                                    <button class="btn  toggle1-btn" id="list-home-list">
                                         <i class="px-2 fa fa-edit"></i>
                                     </button>
-                                    <button class="btn text-primary toggle1-btn">
+                                    <button class="btn  toggle1-btn">
                                         <i class="px-2 fa fa-trash-alt"></i>
                                     </button>
-                                    <button class="btn text-primary toggle1-btn text-white">
+                                    <button class="btn  toggle1-btn text-white">
                                         <i class="px-2 fas fa-unlink"></i>
                                     </button>
                                 </div>
@@ -447,7 +447,7 @@
 
                 <div class="list-group mx-4" id="list-tab" role="tablist">
                     @foreach($groups as $group)
-                    <a class="list-group-item list-group-item-action p-1 border-0 " id="group_{{$group->id}}" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                    <a class="list-group-item list-group-item-action p-1 border-0 " id="group_{{$group->id}}">
                         <div class="float-left">
                             @if($group->status==1)
                             <i class="fa fa-circle text-success m-2"></i>
@@ -460,16 +460,16 @@
                             <input type="hidden" name="item-name" value="{{$group->name}}">
                         </div>
                         <div class="btn-group float-right">
-                            <button class="btn text-primary toggle1-btn  item-show">
+                            <button class="btn  toggle1-btn  item-show">
                                 <i class="px-2 fa fa-eye"></i>
                             </button>
-                            <button class="btn text-primary toggle1-btn" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                            <button class="btn  toggle1-btn" id="list-home-list">
                                 <i class="px-2 fa fa-edit"></i>
                             </button>
-                            <button class="btn text-primary toggle1-btn">
+                            <button class="btn  toggle1-btn">
                                 <i class="px-2 fa fa-trash-alt"></i>
                             </button>
-                            <button class="btn text-primary toggle2-btn text-white">
+                            <button class="btn  toggle2-btn text-white">
                                 <i class="px-2 fas fa-check-circle"></i>
                             </button>
                         </div>
@@ -481,23 +481,23 @@
 
                 <div class="list-group mx-4" id="list-tab" role="tablist">
                     @foreach($companies as $company)
-                    <a class="list-group-item list-group-item-action p-1 border-0 " id="company_{{$company->id}}" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                    <a class="list-group-item list-group-item-action p-1 border-0 " id="company_{{$company->id}}">
                         <div class="float-left">
                             {{$company->name}}
                             <input type="hidden" name="item-status" value="{{$group->status}}">
                             <input type="hidden" name="item-name" value="{{$group->name}}">
                         </div>
                         <div class="btn-group float-right">
-                            <button class="btn text-primary toggle1-btn  item-show">
+                            <button class="btn  toggle1-btn  item-show">
                                 <i class="px-2 fa fa-eye"></i>
                             </button>
-                            <button class="btn text-primary toggle1-btn" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                            <button class="btn  toggle1-btn" id="list-home-list">
                                 <i class="px-2 fa fa-edit"></i>
                             </button>
-                            <button class="btn text-primary toggle1-btn">
+                            <button class="btn  toggle1-btn">
                                 <i class="px-2 fa fa-trash-alt"></i>
                             </button>
-                            <button class="btn text-primary toggle2-btn text-white">
+                            <button class="btn  toggle2-btn text-white">
                                 <i class="px-2 fas fa-check-circle"></i>
                             </button>
                         </div>
@@ -509,23 +509,23 @@
 
                 <div class="list-group mx-4" id="list-tab" role="tablist">
                     @foreach($positions as $position)
-                    <a class="list-group-item list-group-item-action p-1 border-0 " id="position_{{$position->id}}" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                    <a class="list-group-item list-group-item-action p-1 border-0 " id="position_{{$position->id}}">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
                             {{$position->name}}
                             <input type="hidden" name="item-name" value="{{$group->name}}">
                         </div>
                         <div class="btn-group float-right">
-                            <button class="btn text-primary toggle1-btn  item-show">
+                            <button class="btn  toggle1-btn  item-show">
                                 <i class="px-2 fa fa-eye"></i>
                             </button>
-                            <button class="btn text-primary toggle1-btn" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                            <button class="btn  toggle1-btn" id="list-home-list">
                                 <i class="px-2 fa fa-edit"></i>
                             </button>
-                            <button class="btn text-primary toggle1-btn">
+                            <button class="btn  toggle1-btn">
                                 <i class="px-2 fa fa-trash-alt"></i>
                             </button>
-                            <button class="btn text-primary toggle2-btn text-white">
+                            <button class="btn  toggle2-btn text-white">
                                 <i class="px-2 fas fa-check-circle"></i>
                             </button>
                         </div>
@@ -604,7 +604,7 @@
                     </div>
                 </div>
                 <div class="list-group" id="list-tab" role="tablist">
-                    <a class="list-group-item list-group-item-action p-1 border-0 " id="" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                    <a class="list-group-item list-group-item-action p-1 border-0 " id="">
                         <div class="float-left">
                             <i class="fa fa-circle text-success m-2"></i>
                             <input type="hidden" name="item-status" class='status-notification' value="1">
@@ -612,16 +612,16 @@
 
                         </div>
                         <div class="btn-group float-right">
-                            <button class="btn text-primary toggle1-btn">
+                            <button class="btn  toggle1-btn">
                                 <i class="px-2 fa fa-eye"></i>
                             </button>
-                            <button class="btn text-primary toggle1-btn" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                            <button class="btn  toggle1-btn" id="list-home-list">
                                 <i class="px-2 fa fa-edit"></i>
                             </button>
-                            <button class="btn text-primary toggle1-btn">
+                            <button class="btn  toggle1-btn">
                                 <i class="px-2 fa fa-trash-alt"></i>
                             </button>
-                            <button class="btn text-primary toggle1-btn text-white">
+                            <button class="btn  toggle1-btn text-white">
                                 <i class="px-2 fas fa-unlink"></i>
                             </button>
                         </div>

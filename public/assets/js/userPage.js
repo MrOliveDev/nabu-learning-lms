@@ -2,37 +2,43 @@
 
 var baseURL = window.location.protocol + "//" + window.location.host;
 var filteritem = null;
+var grouptab = null;
 $(document).ready(function () {
-    $('#LeftPanel .toolkit>div').css('background-color', 'var(--student-c)');
-    $('#RightPanel .toolkit:first>div').css('background-color', 'var(--group-c)');
-    $('.second-table .toolkit').css('background-color', 'var(--student-c) !important');
+    $('#LeftPanel .toolkit>div').css('background-color', 'var(--student-h)');
+    $('#RightPanel .toolkit:first>div').css('background-color', 'var(--group-h)');
+    $('.second-table .toolkit').css('background-color', 'var(--student-h) !important');
 
     $('#students-tab').click(function () {
-        $('#LeftPanel .toolkit>div').css('background-color', 'var(--student-c)');
-        $('.second-table .toolkit').css('background-color', 'var(--group-c) !important');
+        $('#LeftPanel .toolkit>div').css('background-color', 'var(--student-h)');
+        $('.second-table .toolkit').css('background-color', 'var(--group-h) !important');
         toggleFormOrTable($('#div_B'), null, false);
-        $("#category-form-tags .list-group-item").css('background-color', 'var(--student-h)');
-        $("#category-form-tags .list-group-item.active").css('background-color', 'var(--student-c)');
+        $("#category-form-tags .list-group-item").css('background-color', 'var(--student-c)');
+        $("#category-form-tags .list-group-item.active").css('background-color', 'var(--student-h)');
+        // $("#table-groups").toggle(true);
+        grouptab.appendTo("#user-form-tags");
     });
     $('#teachers-tab').click(function () {
-        $('#LeftPanel .toolkit>div').css('background-color', 'var(--teacher-c)');
-        $('.second-table .toolkit').css('background-color', 'var(--teacher-c) !important');
+        $('#LeftPanel .toolkit>div').css('background-color', 'var(--teacher-h)');
+        $('.second-table .toolkit').css('background-color', 'var(--teacher-h) !important');
         toggleFormOrTable($('#div_B'), null, false);
-        $("#category-form-tags .list-group-item").css('background-color', 'var(--teacher-h)');
-        $("#category-form-tags .list-group-item.active").css('background-color', 'var(--teacher-c)');
-
+        $("#category-form-tags .list-group-item").css('background-color', 'var(--teacher-c)');
+        $("#category-form-tags .list-group-item.active").css('background-color', 'var(--teacher-h)');
+        // $("#table-groups").toggle(false);
+        grouptab = $("#table-groups").detach();
     });
     $('#authors-tab').click(function () {
-        $('#LeftPanel .toolkit>div').css('background-color', 'var(--author-c)');
-        $('.second-table .toolkit').css('background-color', 'var(--author-c) !important');
+        $('#LeftPanel .toolkit>div').css('background-color', 'var(--author-h)');
+        $('.second-table .toolkit').css('background-color', 'var(--author-h) !important');
         toggleFormOrTable($('#div_B'), null, false);
-        $("#category-form-tags .list-group-item").css('background-color', 'var(--author-h)');
-        $("#category-form-tags .list-group-item.active").css('background-color', 'var(--author-c)');
+        $("#category-form-tags .list-group-item").css('background-color', 'var(--author-c)');
+        $("#category-form-tags .list-group-item.active").css('background-color', 'var(--author-h)');
+        // $("#table-groups").toggle(false);
+        grouptab = $("#table-groups").detach();
     });
 
 
     $('#groups-tab').click(function () {
-        $('#RightPanel .toolkit:first>div').css('background-color', 'var(--group-c)');
+        $('#RightPanel .toolkit:first>div').css('background-color', 'var(--group-h)');
         $('#RightPanel').find('.list-group-item').each(function () {
             $(this).find('.toggle2-btn').toggle(false);
             $(this).find('.toggle1-btn').toggle(true);
@@ -41,7 +47,7 @@ $(document).ready(function () {
         toggleFormOrTable($('#div_D'), null, false);
     });
     $('#companies-tab').click(function () {
-        $('#RightPanel .toolkit:first>div').css('background-color', 'var(--company-c)');
+        $('#RightPanel .toolkit:first>div').css('background-color', 'var(--company-h)');
         $('#RightPanel').find('.list-group-item').each(function () {
             $(this).find('.toggle2-btn').toggle(false);
             $(this).find('.toggle1-btn').toggle(true);
@@ -50,15 +56,81 @@ $(document).ready(function () {
         toggleFormOrTable($('#div_D'), null, false);
     });
     $('#positions-tab').click(function () {
-        $('#RightPanel .toolkit:first>div').css('background-color', 'var(--position-c)');
+        $('#RightPanel .toolkit:first>div').css('background-color', 'var(--position-h)');
         $('#RightPanel').find('.list-group-item').each(function () {
             $(this).find('.toggle2-btn').toggle(false);
             $(this).find('.toggle1-btn').toggle(true);
             $(this).removeClass('select-active');
         });
         toggleFormOrTable($('#div_D'), null, false);
-    })
+    });
+
+    $("#LeftPanel .list-group-item").each(function (index, elem) {
+        elem.addEventListener('dragstart', dragStart);
+        $(elem).attr('drag', false);
+    });
+
+    $("#RightPanel .list-group-item").each(function (index, elem) {
+        $(elem).attr('draggable', false);
+        $(elem).droppable({
+            drop: linkDropEnd
+        });
+
+        elem.addEventListener('dragover', dragOver);
+        elem.addEventListener('dragleave', dragLeave);
+    });
+    $("#companies .list-group-item, #functions .list-group-item").each(function (index, elem) {
+        elem.addEventListener('dragstart', dragStart);
+        elem.addEventListener('dragend', dragEnd);
+    });
+
+    $(".fliter-company-btn").droppable({
+        drop: companyDropEnd
+    });
+    $(".fliter-function-btn").on('drop', functionDropEnd);
+
+    $(".fliter-company-btn").on('dragover', dragOver);
+    $(".fliter-company-btn").on('dragleave', dragLeave);
+
+    $(".fliter-function-btn").on('dragover', dragOver);
+    $(".fliter-function-btn").on('dragleave', dragLeave);
 });
+
+$(".list-group-item").dblclick(function () {
+    $(this).parents('.list-group').children(".list-group-item").each(function (i, e) {
+        if ($(e).hasClass("active")) {
+            $(e).removeClass("active");
+        }
+    });
+});
+
+$("#RightPanel .list-group-item").click(function (e) {
+    $(this).parents('.list-group').children(".list-group-item").each(function (i, e) {
+        e.removeClass("active");
+    });
+    $(this).addClass('active');
+});
+
+$("#LeftPanel .list-group-item").click(function (e) {
+    e.stopPropagation();
+    $(this).toggleClass("active");
+    $(this).attr('draggable', function (index, attr) {
+        return attr == "true" ? false : true;
+    });
+});
+
+$(".list-group-item button.btn").focus(function (e) {
+    e.stopPropagation();
+    $(this).addClass("active");
+});
+$(".list-group-item button.btn").focusout(function (e) {
+    e.stopPropagation();
+    if ($(this).hasClass("active")) {
+        $(this).removeClass("active");
+    }
+});
+
+
 
 clearTable = function (element) {
     element.find('.list-group-item').detach();
@@ -71,7 +143,6 @@ clearFrom = function (element) {
 
 //@param : div_b | div_d
 toggleFormOrTable = function (element, flag = null, flag1 = true) {
-
     var form = element.find('form');
     var table = element.find('.second-table');
     clearFrom(form);
@@ -182,7 +253,10 @@ secondShow1 = function (event) {
                 }
             });
         });
-    } else if($(this).parents('fieldset').attr('id') == "LeftPanel") {
+
+        grouptab.appendTo("#user-form-tags");
+
+    } else if ($(this).parents('fieldset').attr('id') == "LeftPanel") {
         var parent = $(this).parents('.list-group-item');
         var id = parent.attr('id').split('_')[1];
 
@@ -320,7 +394,9 @@ $('.fliter-function-btn').click(function () {
 
 $('.toggle2-btn').click(function () {
     $(this).parents('.list-group-item').toggleClass('select-active');
-    $(this).parents('.list-group-item').attr('draggable', true);
+    $(this).parents('.list-group-item').attr('draggable', function (index, attr) {
+        return attr == "true" ? false : true;
+    });
 })
 
 //filter
@@ -392,65 +468,82 @@ $('input[name=status], input.search-filter, button.fliter-company-btn, button.fl
 
 });
 
-//////////////////////////////////
-///////////////////////////////////
-//////////////////////////////////
-// $(".drag-zone").on('mousedown', "li", function (e) {
-//     if (!(e.ctrlKey || e.metaKey || e.shiftKey)) {
-//         $(".drag-zone > ul > li").each(function (idx, elem) {
-//             $(elem).removeClass("selected");
-//         });
-//         $(this).eq(0).addClass("selected");
-//     }
-
-// })
-
-// $(document).ready(function () {
-//     $(".drag-zone > ul > li").each(function (idx, elem) {
-//         elem.setAttribute('draggable', true);
-//         elem.addEventListener('dragstart', dragStart);
-//         elem.addEventListener('dragend', dragEnd);
-//     });
-//     $(".drop-zone").on('drop', dropEnd);
-//     $(".drop-zone").on('dragover', dragOver);
-// });
-
-
-// function dragStart(event) {}
-
-// function dragEnd(event) {}
-
-// function dropEnd(event) {
-//     $(event.target).removeClass("highlighted");
-//     var posX = event.originalEvent.offsetX - 75,
-//         posY = event.originalEvent.offsetY - 15;
-//     $(".drag-zone > ul > li.selected").each(function (idx, elem) {
-//         var clone = elem.cloneNode(true);
-
-//         $(clone).removeClass("selected");
-//         $(clone).addClass("cloned");
-//         clone.removeAttribute('draggable');
-
-//         $(clone).css({
-//             position: 'absolute',
-//             left: -(elem.offsetLeft) + "px",
-//             top: elem.offsetTop + "px"
-//         });
-//         $(clone).animate({
-//             top: posY + (idx * 20) + "px",
-//             left: posX + (idx * 10) + "px"
-//         }, "slow");
-//         $(event.target).append(clone);
-//         $(elem).removeClass("selected");
-//     });
-// }
-
-// function dragOver(event) {
-//     $(event.target).addClass("highlighted");
-//     event.preventDefault();
-// }
 
 $('#student fa.fa-edit,#teacher fa.fa-edit, #author fa.fa-edit').click(function (event) {
     var id = $(this).parents('.list-group-item').attr('id');
     $post(baseURL + "/user/findUser", id);
 });
+
+//////////////////////////////////
+///////////////////////////////////
+//////////////////////////////////
+
+var dragitem = null;
+
+function dragStart(event) {
+    console.log($(this).attr("id"));
+    dragitem = array();
+    $(this).parents(".list-group").children('.active').each(function(){
+        dragitem = $(this).attr("id");
+    });
+}
+
+function dragEnd(event) {
+    console.log(event);
+    dragitem = null;
+}
+
+
+
+function dragOver(event) {
+    $(event.target).css('opacity', '50%');
+    event.preventDefault();
+}
+
+function dragLeave(event) {
+    $(event.target).css('opacity', '100%');
+    event.preventDefault();
+}
+
+function dropEnd(event, item) {
+    // $(event.target).removeClass("highlighted");
+    // var posX = event.originalEvent.offsetX - 75,
+    //     posY = event.originalEvent.offsetY - 15;
+    // $(".drag-zone > ul > li.selected").each(function (idx, elem) {
+    //     var clone = elem.cloneNode(true);
+
+    //     $(clone).removeClass("selected");
+    //     $(clone).addClass("cloned");
+    //     clone.removeAttribute('draggable');
+
+    //     $(clone).css({
+    //         position: 'absolute',
+    //         left: -(elem.offsetLeft) + "px",
+    //         top: elem.offsetTop + "px"
+    //     });
+    //     $(clone).animate({
+    //         top: posY + (idx * 20) + "px",
+    //         left: posX + (idx * 10) + "px"
+    //     }, "slow");
+    //     $(event.target).append(clone);
+    //     $(elem).removeClass("selected");
+    // });
+    console.log(event);
+    console.log(item);
+}
+
+function linkDropEnd(event, item) {
+    console.log(event);
+    console.log(item);
+}
+
+function companyDropEnd(event, item) {
+    console.log(event);
+    console.log(item);
+
+}
+
+function functionDropEnd(event, item) {
+    console.log(event);
+    console.log(item);
+}

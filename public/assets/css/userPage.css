@@ -1,56 +1,55 @@
 .toolkit-filter {
-    display:none;
+    display: none;
 }
 
-#students .toolkit,
 #students .list-group-item,
-#category-form-tags .list-group-item,
-#category-form-tags .toolkit {
+#category-form-tags .list-group-item {
     background-color: var(--student-c) !important;
 }
 
 #students .list-group-item.active,
-#category-form-tags .list-group-item.active {
+#category-form-tags .list-group-item.active,
+#students .list-group-item:hover,
+#category-form-tags .list-group-item:hover {
     background-color: var(--student-h) !important;
 }
 
-#groups .toolkit,
 #groups .list-group-item,
-#table-groups .toolkit,
 #table-groups .list-group-item {
     background-color: var(--group-c) !important;
 }
 
 #groups .list-group-item.active,
-#table-groups .list-group-item.active {
+#table-groups .list-group-item.active,
+#groups .list-group-item:hover,
+#table-groups .list-group-item:hover {
     background-color: var(--group-h) !important;
 }
 
-#teachers .toolkit,
 #teachers .list-group-item {
     background-color: var(--teacher-c) !important;
 }
 
-#teachers .list-group-item.active {
+#teachers .list-group-item.active,
+#teachers .list-group-item:hover {
     background-color: var(--teacher-h) !important;
 }
 
-#authors .toolkit,
 #authors .list-group-item {
     background-color: var(--author-c) !important;
 }
 
-#authors .list-group-item.active {
+#authors .list-group-item:hover #authors .list-group-item.active {
     background-color: var(--author-h) !important;
 }
 
-#companies .toolkit,
 #companies .list-group-item,
 .fliter-company-btn {
     background-color: var(--company-c) !important;
 }
 
 #companies .list-group-item.active,
+#companies .list-group-item:hover,
 .fliter-company-btn:hover {
     background-color: var(--company-h) !important;
 }
@@ -62,16 +61,17 @@
 }
 
 #positions .list-group-item.active,
+#positions .list-group-item:hover,
 .fliter-function-btn:hover {
     background-color: var(--position-h) !important;
 }
 
-#table-session .toolkit,
 #table-session .list-group-item {
     background-color: var(--session-c) !important;
 }
 
-#table-session .list-group-item.active {
+#table-session .list-group-item.active,
+#table-session .list-group-item:hover {
     background-color: var(--session-h) !important;
 }
 
@@ -144,7 +144,7 @@
 /* ///////////////////////////////////////////////// */
 /* ////////this is for modification for cropper form */
 .toolkit {
-    padding-right:8px;
+    padding-right: 8px;
 }
 
 .second-table {
@@ -162,5 +162,25 @@ fieldset form {
 
 .list-group-item.select-active .toggle2-btn {
     /* display: none; */
-    color: white !important;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-group button.btn,
+.list-group-item-action,
+a.list-group-item:not([href]) {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-group button.btn:hover {
+    color: white;
+}
+
+.active .btn-group button.btn,
+.active .list-group-item-action,
+.active a.list-group-item:not([href]) {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.list-group-item.active .btn.active, .list-group-item .btn.active {
+    color: white;
 }
