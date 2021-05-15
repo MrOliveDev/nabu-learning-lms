@@ -334,7 +334,7 @@
                                     <button class="btn  toggle1-btn">
                                         <i class="px-2 fa fa-trash-alt"></i>
                                     </button>
-                                    <button class="btn  toggle1-btn text-white">
+                                    <button class="btn  toggle1-btn">
                                         <i class="px-2 fas fa-unlink"></i>
                                     </button>
                                 </div>
@@ -358,7 +358,7 @@
                                     <button class="btn  toggle1-btn">
                                         <i class="px-2 fa fa-trash-alt"></i>
                                     </button>
-                                    <button class="btn  toggle1-btn text-white">
+                                    <button class="btn  toggle1-btn">
                                         <i class="px-2 fas fa-unlink"></i>
                                     </button>
                                 </div>
@@ -469,7 +469,7 @@
                             <button class="btn  toggle1-btn">
                                 <i class="px-2 fa fa-trash-alt"></i>
                             </button>
-                            <button class="btn  toggle2-btn text-white">
+                            <button class="btn  toggle2-btn">
                                 <i class="px-2 fas fa-check-circle"></i>
                             </button>
                         </div>
@@ -497,7 +497,7 @@
                             <button class="btn  toggle1-btn">
                                 <i class="px-2 fa fa-trash-alt"></i>
                             </button>
-                            <button class="btn  toggle2-btn text-white">
+                            <button class="btn  toggle2-btn">
                                 <i class="px-2 fas fa-check-circle"></i>
                             </button>
                         </div>
@@ -525,7 +525,7 @@
                             <button class="btn  toggle1-btn">
                                 <i class="px-2 fa fa-trash-alt"></i>
                             </button>
-                            <button class="btn  toggle2-btn text-white">
+                            <button class="btn  toggle2-btn">
                                 <i class="px-2 fas fa-check-circle"></i>
                             </button>
                         </div>
@@ -621,7 +621,7 @@
                             <button class="btn  toggle1-btn">
                                 <i class="px-2 fa fa-trash-alt"></i>
                             </button>
-                            <button class="btn  toggle1-btn text-white">
+                            <button class="btn  toggle1-btn">
                                 <i class="px-2 fas fa-unlink"></i>
                             </button>
                         </div>
