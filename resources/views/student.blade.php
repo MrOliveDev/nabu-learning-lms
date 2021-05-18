@@ -281,7 +281,7 @@
                                             Company
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="company" name="company" value="" required>
+                                    <input type="text" class="form-control" id="company" name="company" value="" required readonly>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -291,7 +291,7 @@
                                             Position
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="position" name="function" value="" required>
+                                    <input type="text" class="form-control" id="position" name="function" value="" required readonly>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -533,18 +533,16 @@
                                     <input type="text" class="form-control" id="category_description" name="category_description" value="" required>
                                 </div>
                             </div>
-                            <div class="clearfix mb-3 float-left" style="display: none;" id="status_checkbox">
-                                <label class="px-2 py-1 text-black " style="width:150px; font-size:18pt;" for="cate-status">
-                                    Status
-                                </label>
-                                <div class="custom-control custom-switch custom-control-lg custom-control-inline pl-2">
-                                    <input type="checkbox" class="custom-control-input" id="cate-status" name="cate-status" checked="">
-                                    <label class="custom-control-label" for="example-sw-custom-lg2"><i></i></label>
+                            <div class="form-group">
+                                <div class="custom-control custom-switch custom-control-lg mb-2 ml-0 ">
+                                    <input type="checkbox" class="custom-control-input" id="cate-status-icon" name="cate-status-icon" checked="">
+                                    <label class="custom-control-label" for="cate-status-icon">Status</label>
                                 </div>
                             </div>
                             <div class="form-group clearfix">
                                 <button type="submit" class="btn btn-hero-primary float-right mx-1" id="category_save_button">SAVE</button>
                                 <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn" id="category_cancel_button">CANCEL</button>
+                                <input type="hidden" name="cate-status">
                             </div>
                         </div>
                     </div>
