@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\useradmin;
 
 use App\Http\Controllers\Controller;
-use App\Models\PositionModel;
 use Illuminate\Http\Request;
+use App\Models\PositionModel;
 
 class PositionController extends Controller
 {
@@ -19,16 +19,6 @@ class PositionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -36,51 +26,63 @@ class PositionController extends Controller
      */
     public function store(Request $request)
     {
+        $position = PositionModel::create([
+            'name'=>$request->input('category_name'),
+            'description'=>$request->input('category_description'),
+        ]);
+
+        return redirect('/student');
         //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\PositionModel  $positionModel
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(PositionModel $positionModel)
+    public function show($id)
     {
         //
-    }
+        $position = PositionModel::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\PositionModel  $positionModel
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(PositionModel $positionModel)
-    {
-        //
+        return response()->json($position);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\PositionModel  $positionModel
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PositionModel $positionModel)
+    public function update(Request $request, $id)
     {
+        $position = PositionModel::find($id);
+        // print_r($request->input());exit;
+        $position->name = $request->input('category_name');
+        $position->description = $request->input('category_description');
+
+        $position->update();
+
+        return redirect('/student');
         //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\PositionModel  $positionModel
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PositionModel $positionModel)
+    public function destroy($id)
     {
+        $position = PositionModel::find($id);
+
+
+        $position->delete();
+
+        return response('successfully deleted', 204);
         //
     }
 }

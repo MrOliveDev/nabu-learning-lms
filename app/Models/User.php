@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use App\Models\ConfigModel;
+use App\Models\InterfaceCfgModel;
 // use Illuminate\Contracts\Auth\CanResetPassword;
 
 class User extends Authenticatable
@@ -62,4 +63,37 @@ class User extends Authenticatable
         return $clients;
     }
 
+    public function scopeGetUserPageInfoFromId($query, $id)
+    {
+        $result = $query->select(
+            'tb_users.*',
+            'tb_interface_config.interface_color as interface_color',
+            'tb_interface_config.interface_icon as interface_icon',
+            'tb_interface_config.id as interface_id',
+            'tb_languages.language_iso as language_iso'
+        )
+            ->leftjoin('tb_interface_config', 'tb_interface_config.id', '=', 'tb_users.id_config')
+            ->leftjoin('tb_languages', 'tb_users.lang', 'tb_languages.language_id')
+            ->where('tb_users.id', $id)
+            ->first();
+        return $result;
+    }
+
+    public function scopeGetUserPageInfo($query, $type)
+    {
+        $result = $query->select(
+            'tb_users.*',
+            'tb_session.*',
+            'tb_interface_config.interface_color as interface_color',
+            'tb_interface_config.interface_icon as interface_icon',
+            'tb_interface_config.id as interface_id',
+            'tb_languages.language_iso as language_iso'
+        )
+            ->leftjoin('tb_interface_config', 'tb_interface_config.id', '=', 'tb_users.id_config')
+            ->leftjoin('tb_session', 'tb_session.session_id', '=', 'tb_users.id')
+            ->leftjoin('tb_languages', 'tb_users.lang', 'tb_languages.language_id')
+            ->where('tb_users.type', $type)
+            ->get();
+        return $result;
+    }
 }

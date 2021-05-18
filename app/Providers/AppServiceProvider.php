@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Http\core\Language;
 use App\Models\LanguageModel;
 use App\Models\InterfaceCfgModel;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -30,7 +31,6 @@ class AppServiceProvider extends ServiceProvider
         $languageModel = LanguageModel::all();
         view()->share('language', $languageModel);
         $interfaceCfg = InterfaceCfgModel::get_interface_color_byuser(1);
-        // var_dump($interfaceCfg);
         view()->share('interfaceCfg', $interfaceCfg);
     }
 }

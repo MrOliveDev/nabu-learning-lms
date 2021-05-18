@@ -10,6 +10,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Session\Session;
+use App\Http\core\Language;
+use App\Models\LanguageModel;
+use App\Models\InterfaceCfgModel;
 
 use Auth;
 
@@ -58,7 +61,7 @@ class LoginController extends Controller
 
 
         $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        $user = User::where($fieldType, '=', $input['username'])->first();
+        $user = User::where($fieldType, '=', $request->input['username'])->first();
 
         if ($user) {
             auth()->loginUsingId($user->id);
@@ -138,6 +141,8 @@ class LoginController extends Controller
             $this->redirectTo = 'dash';
         }
         session(['language'=>'en']);
+
+
 
         return $this->authenticated($request, $this->guard()->user())
             ?: redirect()->intended($this->redirectPath());

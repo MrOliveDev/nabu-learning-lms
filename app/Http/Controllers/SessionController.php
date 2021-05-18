@@ -16,4 +16,10 @@ class SessionController extends Controller
     {
         return view('session');
     }
+
+    // public function getSessionFromUser(Request $request, $id)
+    // {
+    //     print_r($request);exit;
+    //     return response('findSession', 200);
+    // }
 }

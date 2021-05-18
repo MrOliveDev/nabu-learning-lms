@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminModel;
 use Illuminate\Http\Request;
 use App\Models\InterfaceCfgModel;
 use App\Models\User;
 use App\Models\GroupModel;
 use App\Models\PositionModel;
 use App\Models\CompanyModel;
+use App\Models\SessionModel;
 
 class StudentController extends Controller
 {
     public function index()
     {
-        $authors = User::where('type', '2')->get();
-        $teachers = User::where('type', '3')->get();
-        $students = User::where('type', '4')->get();
+        $students = User::getUserPageInfo(4);
+        $authors = User::getUserPageInfo(2);
+        $teachers = User::getUserPageInfo(3);
         $groups = GroupModel::all();
         $positions = PositionModel::all();
         $companies = CompanyModel::all();
@@ -30,6 +32,10 @@ class StudentController extends Controller
      */
     public function create()
     {
+        return response()->json([
+            'name' => 'New User',
+            'password' => '123456',
+        ]);
         //
     }
 
@@ -41,7 +47,41 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'login' => 'required',
+            'company' => 'required',
+            'firstname' => 'required',
+            'lastname' => 'required'
+        ]);
+
+
+
+        $interfaceCfg = InterfaceCfgModel::create([
+            'interface_color' => '',
+            'interface_icon' => $request->post('base64_img_data'),
+            'admin_id' => '1'
+        ]);
+
+        $contact_info = array(
+            "address" => $request->post('contact_info')
+        );
+
+        // print_r($request->post('type')); exit;
+
+        $client = User::create([
+            'login' => $request->post('login'),
+            'password' => $request->post('password'),
+            'company' => $request->post('company'),
+            'first_name' => $request->post('firstname'),
+            'last_name' => $request->post('lastname'),
+            'contact_info' => json_encode($contact_info),
+            'id_config' => $interfaceCfg->id,
+            'type' => $request->post('type')
+            // 'lang' => $request->post('lang'),
+        ]);
+
+        return response()->json($client);
     }
 
     /**
@@ -52,6 +92,10 @@ class StudentController extends Controller
      */
     public function show($id)
     {
+        $user_info = User::getUserPageInfoFromId($id);
+        $session = SessionModel::select('session_name')->where('user_id',  $id)->get();
+
+        return response()->json(['user_info' => $user_info, 'session' => $session]);
         //
     }
 
@@ -63,7 +107,10 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user_info = User::getUserPageInfoFromId($id);
+        $session = SessionModel::select('session_name')->where('user_id',  $id)->get();
+
+        return response()->json(['user_info' => $user_info, 'session' => $session]);
     }
 
     /**
@@ -75,6 +122,33 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user = User::find($id);
+        $interface_cfg = null;
+        if ($user->id_config == null) {
+            $interface_cfg = InterfaceCfgModel::create([
+                'id' => $user->id_config,
+                "interface_icon" => $request->input("base64_img_data")
+            ]);
+        } else {
+            $interface_cfg = InterfaceCfgModel::find($user->id_config);
+            $interface_cfg->interface_icon = $request->input("base64_img_data");
+            $interface_cfg->update();
+        }
+        $user->first_name = $request->input('first_name');
+        $user->last_name = $request->input('last_name');
+        $user->login = $request->input('login');
+        $user->password = $request->input('password');
+        $user->company = $request->input('company');
+        $user->function = $request->input('function');
+        if ($user->contact_info != null) {
+            $address = json_decode($user->contact_info);
+            $address->address = $request->input('contact_info');
+            $user->contact_info = json_encode($address);
+        }
+
+        $user->update();
+
+        return redirect('/student');
         //
     }
 
@@ -86,124 +160,63 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
+        $user = User::find($id);
+
+        $user->status = 0;
+
+        $user->update();
+
+        return response('successfully deleted!', 200);
         //
     }
 
-    public function findGroup(Request $request)
+    public function userJoinToGroup(Request $request)
     {
-        print_r($request);exit;
-        return response('findGroup', 200);
+        // foreach ($variable as $key => $value) {
+        //     # code...
+        // }
+        // foreach ($request->post("data") as $key => $value) {
+        //     print_r(json_decode($value->id));
+        //     print_r(json_decode($value->));
+        // }
+        // print_r();
+        $data = json_decode($request->post('data'));
+        foreach ($data as $key => $value) {
+            $user = User::find($value->id);
+
+            $user->linked_groups = $value->target;
+
+            $user->update();
+            var_dump($value->id);
+            var_dump($value->target);
+        }
+        return response()->json($data);
     }
 
-    public function findSession(Request $request)
+    public function userJoinToCompany(Request $request)
     {
-        print_r($request);exit;
-        return response('findSession', 200);
+        $data = json_decode($request->post('data'));
+        foreach ($data as $key => $value) {
+            $user = User::find($value['id']);
+
+            $user->company = $value['target'];
+
+            $user->update();
+        }
+        return response()->json($data);
+
     }
 
-    public function findCompany(Request $request)
+    public function userJoinToPosition(Request $request)
     {
-        print_r($request);exit;
-        return response('findCompany', 200);
-    }
+        $data = json_decode($request->post('data'));
+        foreach ($data as $key => $value) {
+            $user = User::find($value['id']);
 
-    public function findUser(Request $request)
-    {
-        print_r($request);exit;
-        return response('findStudent', 200);
-    }
+            $user->funtion = $value['target'];
 
-    public function findPosition(Request $request)
-    {
-        print_r($request);exit;
-        return response('findStudent', 200);
+            $user->update();
+        }
+        return response()->json($data);
     }
-
-    public function getUserFromGroup(Request $request)
-    {
-        print_r($request);exit;
-        return response('getStudentFromGroup', 200);
-    }
-
-    public function getGroupFromUser(Request $request)
-    {
-        print_r($request);exit;
-        return response('getGroupFromStudent', 200);
-    }
-    public function getUserFromFunction(Request $request)
-    {
-        print_r($request);exit;
-        return response('getUserFromFunction', 200);
-    }
-    public function getUserFromCompany(Request $request)
-    {
-        print_r($request);exit;
-        return response('getUserFromCompany', 200);
-    }
-    public function getUser(Request $request)
-    {
-        print_r($request);exit;
-        return response('getUser', 200);
-    }
-    public function editUser(Request $request)
-    {
-        print_r($request);exit;
-        return response('editUser', 200);
-    }
-    public function addUser(Request $request)
-    {
-        print_r($request);exit;
-        return response('addUser', 200);
-    }
-    public function deleteUser(Request $request)
-    {
-        print_r($request);exit;
-        return response('deleteUser', 200);
-    }
-    public function editGroup(Request $request)
-    {
-        print_r($request);exit;
-        return response('editGroup', 200);
-    }
-    public function addGroup(Request $request)
-    {
-        print_r($request);exit;
-        return response('addGroup', 200);
-    }
-    public function deleteGroup(Request $request)
-    {
-        print_r($request);exit;
-        return response('deleteGroup', 200);
-    }
-    public function editCompany(Request $request)
-    {
-        print_r($request);exit;
-        return response('editCompany', 200);
-    }
-    public function addCompany(Request $request)
-    {
-        print_r($request);exit;
-        return response('addCompany', 200);
-    }
-    public function deleteCompany(Request $request)
-    {
-        print_r($request);exit;
-        return response('deleteCompany', 200);
-    }
-    public function editFunction(Request $request)
-    {
-        print_r($request);exit;
-        return response('editFunction', 200);
-    }
-    public function addFunction(Request $request)
-    {
-        print_r($request);exit;
-        return response('addFunction', 200);
-    }
-    public function deleteFunction(Request $request)
-    {
-        print_r($request);exit;
-        return response('deleteFunction', 200);
-    }
-
 }

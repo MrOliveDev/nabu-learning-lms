@@ -79,15 +79,6 @@ $icon = asset("assets/media/part.png"); ?>
         border-color: transparent;
     }
 
-    .custom-control-label::before {
-        background-color: green;
-        border-color: green;
-    }
-
-    .custom-control-input:checked~.custom-control-label::before {
-        background-color: red;
-        border-color: red;
-    }
 
     i.pl-2.fas.fa-crosshairs:hover {
         padding: 5px;
