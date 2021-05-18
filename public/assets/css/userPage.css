@@ -1,3 +1,9 @@
+#div_A,
+#div_B,
+#div_C,
+#div_D {
+    max-height: 400px;
+}
 
 .toolkit-filter {
     display: none;
@@ -182,6 +188,11 @@ a.list-group-item:not([href]) {
     color: rgba(255, 255, 255, 0.5);
 }
 
-.list-group-item.active .btn.active, .list-group-item .btn.active {
+.list-group-item.active .btn.active,
+.list-group-item .btn.active {
     color: white;
+}
+
+#category_save_button, #category_cancel_button {
+    z-index:6;
 }
