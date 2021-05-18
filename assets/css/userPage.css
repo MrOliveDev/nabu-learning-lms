@@ -1,5 +1,5 @@
 .toolkit-filter {
-    display:none;
+    display: none;
 }
 
 #students .list-group-item,
@@ -39,8 +39,7 @@
     background-color: var(--author-c) !important;
 }
 
-#authors .list-group-item:hover
-#authors .list-group-item.active {
+#authors .list-group-item:hover #authors .list-group-item.active {
     background-color: var(--author-h) !important;
 }
 
@@ -145,7 +144,7 @@
 /* ///////////////////////////////////////////////// */
 /* ////////this is for modification for cropper form */
 .toolkit {
-    padding-right:8px;
+    padding-right: 8px;
 }
 
 .second-table {
@@ -163,10 +162,25 @@ fieldset form {
 
 .list-group-item.select-active .toggle2-btn {
     /* display: none; */
-    color: white !important;
+    color: rgba(255, 255, 255, 0.5);
 }
 
-.btn-list button.btn {
-    opacity: 50%;
+.btn-group button.btn,
+.list-group-item-action,
+a.list-group-item:not([href]) {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-group button.btn:hover {
+    color: white;
+}
+
+.active .btn-group button.btn,
+.active .list-group-item-action,
+.active a.list-group-item:not([href]) {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.list-group-item.active .btn.active, .list-group-item .btn.active {
     color: white;
 }
