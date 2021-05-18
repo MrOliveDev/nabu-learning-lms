@@ -2,7 +2,7 @@
 
 // const { forEach } = require("lodash");
 
-var baseURL = window.location.protocol + "//" + window.location.host+"/newlms";
+var baseURL = window.location.protocol + "//" + window.location.host;
 var filteritem = null;
 var grouptab = null;
 
@@ -16,6 +16,20 @@ var notification = function (str) {
 // Dashmix.helpers('notify', {message: 'Your message!'});
 $(document).ready(function () {
 
+    //height controll
+    // $('fieldset').each(function (element){
+    //     element.
+    // });
+
+    var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document.body.clientHeight));
+
+    $("#content").css({
+        'max-height': h - $('#div-left').height() - $('.content-header').height() - $('.nav-tab').height()
+    });
+
+    if ($('#div_A, #div_C').css('height') > $('#content').css('height') * 0.7) {
+        $('#div_A, #div_C').css('height', $('#content').css('height') * 0.7);
+    }
 
     $('#LeftPanel .toolkit>div').css('background-color', 'var(--student-h)');
     $('#RightPanel .toolkit:first>div').css('background-color', 'var(--group-h)');
@@ -295,6 +309,8 @@ var secondShow1 = function (event) {
                     element.find('.btn-group').append(unlinkbtn);
                     element.find('.item-show').bind('click', secondShow);
                     element.find('.item-show').bind('click', secondShow1);
+                    element.find('.item-edit').bind('click', item_edit);
+                    element.find('.item-delete').bind('click', item_delete);
                     element.toggle(true);
                     element.attr('data-src', parent.attr('id'));
                     element.removeClass('active');
@@ -323,6 +339,8 @@ var secondShow1 = function (event) {
                     element.find('.btn-group').append(unlinkbtn);
                     element.find('.item-show').bind('click', secondShow);
                     element.find('.item-show').bind('click', secondShow1);
+                    element.find('.item-edit').bind('click', item_edit);
+                    element.find('.item-delete').bind('click', item_delete);
                     element.toggle(true);
                     element.attr('data-src', parent.attr('id'));
                     element.removeClass('active');
@@ -368,11 +386,7 @@ $('.toolkit-add-item').click(function (event) {
             case '#groups':
                 $("#category_form").attr('action', baseURL + '/group');
                 $('#status_checkbox').css('display', 'block');
-                if(data.status == 1){
-                    $('#category_status').attr("checked",  'checked');
-                } else {
-                    $('#category_status').removeAttr("checked");
-                }
+                $('#category_status').attr("checked", 'checked');
 
 
                 if ($('#category_form .method-select').length > 0) {
@@ -488,7 +502,8 @@ var item_edit = function (element) {
                     $('#category_name').val(data.name);
                     $('#category_description').val(data.description);
                     $('#status_checkbox').css('display', 'block');
-                    $('#cate-status').attr("checked", data.status == 1);
+                    $('#cate-status-icon').attr("checked", data.status == 1).change();
+                    $('#cate-status').val(data.status);
 
                     $("#category_form").attr('action', baseURL + '/group/' + id);
 
@@ -567,7 +582,17 @@ var item_show = function (element) {
     var id = parent.attr('id').split('_')[1];
     switch (element.attr('data-content')) {
         case 'student':
-            $.post('data')
+            // $.get({
+            //     url: baseURL + '/user/' + id,
+            //     success: function (data, state) {
+            //         data.session.foreach(sessionItem=>{
+
+            //         })
+            //     },
+            //     error:function(err){
+
+            //     }});
+
             break;
 
         case 'teacher':
@@ -690,6 +715,8 @@ var item_delete = function (element) {
 };
 
 var submitFunction = function (event) {
+    console.log($(this).attr('action'));
+    console.log($("#cate-status").attr("checked"));
     // var id = $(this).attr('id');
     // if (id == 'user_form') {
 
@@ -698,7 +725,7 @@ var submitFunction = function (event) {
 
     // }
 
-    return true;
+    return false;
 };
 
 $('#div_A .fa.fa-edit, #div_C .fa.fa-edit').click(function (event) {
@@ -735,6 +762,8 @@ $('#div_A .item-show').click(function (event) {
                 element.find('.btn-group').append(unlinkbtn);
                 element.find('.item-show').bind('click', secondShow);
                 element.find('.item-show').bind('click', secondShow1);
+                element.find('.item-edit').bind('click', item_edit);
+                element.find('.item-delete').bind('click', item_delete);
                 element.toggle(true);
                 element.attr('data-src', parent.attr('id'));
                 element.removeClass('active');
@@ -767,6 +796,8 @@ $('#div_C .item-show').click(function (event) {
                 element.find('.btn-group').append(unlinkbtn);
                 element.find('.item-show').bind('click', secondShow);
                 element.find('.item-show').bind('click', secondShow1);
+                element.find('.item-edit').bind('click', item_edit);
+                element.find('.item-delete').bind('click', item_delete);
                 element.toggle(true);
                 element.attr('data-src', parent.attr('id'));
                 element.removeClass('active');
@@ -794,6 +825,15 @@ var detachLinkTo = function (e) {
     } else {
         $("#" + showeditem).find('input[name="item-' + cate + '"]').val('');
     }
+
+    var result = $("#" + showeditem).find('input[name="item-' + cate + '"]').val();
+
+    detachCall(cate, {
+        id: showeditem,
+        target: result,
+        flag: flase
+    });
+
     if ($(this).parents('fieldset').attr('id') == 'RightPanel') {
         toggleFormOrTable($("#LeftPanel"), false, false);
     } else {
@@ -819,6 +859,16 @@ var detachLinkFrom = function (e) {
     } else {
         parent.find('input[name="item-' + cate + '"]').val('');
     }
+
+    var result = parent.find('input[name="item-' + cate + '"]').val();
+    var parent_id = parent.attr('id').split('_')[1];
+
+    detachCall(cate, {
+        id: parent_id,
+        target: result,
+        flag: flase
+    });
+
     if ($(this).parents('fieldset').attr('id') == 'RightPanel') {
         toggleFormOrTable($("#LeftPanel"), false, false);
     } else {
@@ -827,7 +877,27 @@ var detachLinkFrom = function (e) {
     parent.detach();
 }
 
+var detachCall = function (cate, connectiondata) {
+    $.post({
+        url: baseURL + '/userjointo' + cate,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {
+            'data': JSON.stringify(Array(connectiondata))
+        },
+        success: function (data) {
+            console.log(data);
 
+            requestData = [];
+        },
+        error: function (err) {
+            console.log(err);
+
+            requestData = [];
+        }
+    });
+}
 
 $('.cancel-btn').click(function (event) {
     var parent = $(this).parents('fieldset');
@@ -947,6 +1017,14 @@ $('#student fa.fa-edit,#teacher fa.fa-edit, #author fa.fa-edit').click(function 
     $post(baseURL + "/user/findUser", id);
 });
 
+$("#cate-status-icon").on('change', function (e) {
+    var el = $(this);
+    if (el.is(':checked')) {
+        $("#cate-status").val(1);
+    } else {
+        $("#cate-status").val(0);
+    }
+});
 //////////////////////////////////
 ///////////////////////////////////
 //////////////////////////////////
@@ -1019,7 +1097,9 @@ function dropEnd(event, item) {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            data:{ 'data':JSON.stringify(requestData)},
+            data: {
+                'data': JSON.stringify(requestData)
+            },
             success: function (data) {
                 console.log(data);
 

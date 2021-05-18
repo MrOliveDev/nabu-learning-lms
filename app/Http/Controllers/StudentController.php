@@ -181,14 +181,16 @@ class StudentController extends Controller
         // }
         // print_r();
         $data = json_decode($request->post('data'));
-        foreach ($data as $key => $value) {
-            $user = User::find($value->id);
+        if (count($data) != 0) {
+            foreach ($data as $value) {
+                $user = User::find($value->id);
 
-            $user->linked_groups = $value->target;
+                $user->linked_groups = $value->target;
 
-            $user->update();
-            var_dump($value->id);
-            var_dump($value->target);
+                $user->update();
+                var_dump($value->id);
+                var_dump($value->target);
+            }
         }
         return response()->json($data);
     }
@@ -204,7 +206,6 @@ class StudentController extends Controller
             $user->update();
         }
         return response()->json($data);
-
     }
 
     public function userJoinToPosition(Request $request)
