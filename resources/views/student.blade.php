@@ -30,12 +30,7 @@
 
 
 @section('js_after')
-<script>
-    $(function() {
-        $("#LeftPanel, #RightPanel").tabs();
-        $(".second-table").tabs();
-    });
-</script>
+
 <script src="{{asset('assets/js/cropper.js')}}"></script>
 <script src="{{asset('assets/js/plugins/sweetalert2/sweetalert2.js')}}"></script>
 <script src="{{asset('assets/js/plugins/ion-rangeslider/js/ion.rangeSlider.js')}}"></script>
@@ -44,12 +39,23 @@
 <script src="{{asset('assets/js/plugins/select2/js/select2.full.min.js')}}"></script>
 
 <script src="{{asset('assets/js/userPage.js')}}"></script>
+
+<script src="assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+
+<script>
+    $(function() {
+        $("#LeftPanel, #RightPanel").tabs();
+        $(".second-table").tabs();
+    });
+</script>
+
 <script>
     $('#utilisateurs').addClass('active');
     jQuery(function() {
-        Dashmix.helpers(['select2', 'rangeslider']);
+        Dashmix.helpers(['select2', 'rangeslider', 'notify']);
     });
 </script>
+
 @endsection
 
 <div id="content">
@@ -118,14 +124,14 @@
                                 <input type="hidden" name="item-function" value="{{$student->function}}">
                             </div>
                             <div class="btn-group float-right">
-                                <span class=" p-2 font-weight-bolder">EN</span>
-                                <button class="btn  item-show">
+                                <span class=" p-2 font-weight-bolder">{{strtoupper($student->language_iso)}}</span>
+                                <button class="btn  item-show" data-content='student'>
                                     <i class="px-2 fa fa-eye"></i>
                                 </button>
-                                <button class="btn ">
+                                <button class="btn item-edit" data-content='student'>
                                     <i class="px-2 fa fa-edit"></i>
                                 </button>
-                                <button class="btn ">
+                                <button class="btn item-delete" data-content='student'>
                                     <i class="px-2 fa fa-trash-alt"></i>
                                 </button>
                             </div>
@@ -153,15 +159,15 @@
                                 <input type="hidden" name="item-function" value="{{$teacher->function}}">
                             </div>
                             <div class="btn-group float-right">
-                                <span class=" p-2 font-weight-bolder">EN</span>
+                                <span class=" p-2 font-weight-bolder">{{strtoupper($teacher->language_iso)}}</span>
 
-                                <button class="btn  item-show">
+                                <button class="btn  item-show" data-content='teacher'>
                                     <i class="px-2 fa fa-eye"></i>
                                 </button>
-                                <button class="btn ">
+                                <button class="btn item-edit" data-content='teacher'>
                                     <i class="px-2 fa fa-edit"></i>
                                 </button>
-                                <button class="btn ">
+                                <button class="btn item-delete" data-content='teacher'>
                                     <i class="px-2 fa fa-trash-alt"></i>
                                 </button>
                             </div>
@@ -189,15 +195,15 @@
                                 <input type="hidden" name="item-function" value="{{$author->function}}">
                             </div>
                             <div class="btn-group float-right">
-                                <span class=" p-2 font-weight-bolder">EN</span>
+                                <span class=" p-2 font-weight-bolder">{{strtoupper($author->language_iso)}}</span>
 
-                                <button class="btn  item-show">
+                                <button class="btn  item-show" data-content='author'>
                                     <i class="px-2 fa fa-eye"></i>
                                 </button>
-                                <button class="btn " id="list-home-list">
+                                <button class="btn item-edit" data-content='author'>
                                     <i class="px-2 fa fa-edit"></i>
                                 </button>
-                                <button class="btn ">
+                                <button class="btn item-delete" data-content='author'>
                                     <i class="px-2 fa fa-trash-alt"></i>
                                 </button>
                             </div>
@@ -213,8 +219,9 @@
         <div id="div_B" class="window bottom">
 
             <div class="mx-4">
-                <form method="post" id="user_form" enctype="multipart/form-data" class="form" action="">
-                    @csrf
+                <form method="post" id="user_form" enctype="multipart/form-data" class="form" action="" autocomplete="off">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="type" id='user_type'>
                     <!-- <input name='_method' type='hidden' value='PUT' id='method-select' /> -->
                     <div class="card text-black mx-2 pt-3">
                         <div class="d-flex justify-content-center flex-wrap pl-3 pb-3" style="overflow:hidden;">
@@ -254,7 +261,7 @@
                                             First Name
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="firstname" name="firstname" value="" required>
+                                    <input type="text" class="form-control" id="firstname" name="first_name" value="" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -264,7 +271,7 @@
                                             Last Name
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="lastname" name="lastname" value="" required>
+                                    <input type="text" class="form-control" id="lastname" name="last_name" value="" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -284,7 +291,7 @@
                                             Position
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="position" name="position" value="" required>
+                                    <input type="text" class="form-control" id="position" name="function" value="" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -300,7 +307,7 @@
 
 
                             <div class="form-group clearfix">
-                                <button type="submit" class="btn btn-hero-primary float-right mx-1" id="user_save_button" disabled>SAVE</button>
+                                <button type="submit" class="btn btn-hero-primary float-right mx-1" id="user_save_button">SAVE</button>
                                 <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn" id="user_cancel_button">CANCEL</button>
                             </div>
                         </div>
@@ -319,50 +326,12 @@
 
                     <div id="table-groups">
                         <div class="list-group" id="list-tab" role="tablist">
-                            <a class="list-group-item list-group-item-action p-1 border-0 " id="">
-                                <div class="float-left">
-                                    <i class="fa fa-circle text-danger m-2"></i>
-                                    askkd
-                                </div>
-                                <div class="btn-group float-right">
-                                    <button class="btn  toggle1-btn">
-                                        <i class="px-2 fa fa-eye"></i>
-                                    </button>
-                                    <button class="btn  toggle1-btn" id="list-home-list">
-                                        <i class="px-2 fa fa-edit"></i>
-                                    </button>
-                                    <button class="btn  toggle1-btn">
-                                        <i class="px-2 fa fa-trash-alt"></i>
-                                    </button>
-                                    <button class="btn  toggle1-btn">
-                                        <i class="px-2 fas fa-unlink"></i>
-                                    </button>
-                                </div>
-                            </a>
+
                         </div>
                     </div>
                     <div id="table-session">
                         <div class="list-group" id="list-tab" role="tablist">
-                            <a class="list-group-item list-group-item-action p-1 border-0 " id="">
-                                <div class="float-left">
-                                    <i class="fa fa-circle text-danger m-2"></i>
-                                    askkd
-                                </div>
-                                <div class="btn-group float-right">
-                                    <button class="btn  toggle1-btn">
-                                        <i class="px-2 fa fa-eye"></i>
-                                    </button>
-                                    <button class="btn  toggle1-btn" id="list-home-list">
-                                        <i class="px-2 fa fa-edit"></i>
-                                    </button>
-                                    <button class="btn  toggle1-btn">
-                                        <i class="px-2 fa fa-trash-alt"></i>
-                                    </button>
-                                    <button class="btn  toggle1-btn">
-                                        <i class="px-2 fas fa-unlink"></i>
-                                    </button>
-                                </div>
-                            </a>
+
                         </div>
                     </div>
                 </div>
@@ -460,16 +429,16 @@
                             <input type="hidden" name="item-name" value="{{$group->name}}">
                         </div>
                         <div class="btn-group float-right">
-                            <button class="btn  toggle1-btn  item-show">
+                            <button class="btn  toggle1-btn  item-show" data-content='group'>
                                 <i class="px-2 fa fa-eye"></i>
                             </button>
-                            <button class="btn  toggle1-btn" id="list-home-list">
+                            <button class="btn item-edit toggle1-btn" data-content='group'>
                                 <i class="px-2 fa fa-edit"></i>
                             </button>
-                            <button class="btn  toggle1-btn">
+                            <button class="btn item-delete toggle1-btn" data-content='group'>
                                 <i class="px-2 fa fa-trash-alt"></i>
                             </button>
-                            <button class="btn  toggle2-btn">
+                            <button class="btn  toggle2-btn" data-content='group'>
                                 <i class="px-2 fas fa-check-circle"></i>
                             </button>
                         </div>
@@ -488,16 +457,16 @@
                             <input type="hidden" name="item-name" value="{{$group->name}}">
                         </div>
                         <div class="btn-group float-right">
-                            <button class="btn  toggle1-btn  item-show">
+                            <button class="btn  toggle1-btn  item-show" data-content='company'>
                                 <i class="px-2 fa fa-eye"></i>
                             </button>
-                            <button class="btn  toggle1-btn" id="list-home-list">
+                            <button class="btn item-edit toggle1-btn" data-content='company'>
                                 <i class="px-2 fa fa-edit"></i>
                             </button>
-                            <button class="btn  toggle1-btn">
+                            <button class="btn item-delete toggle1-btn" data-content='company'>
                                 <i class="px-2 fa fa-trash-alt"></i>
                             </button>
-                            <button class="btn  toggle2-btn">
+                            <button class="btn  toggle2-btn" data-content='company'>
                                 <i class="px-2 fas fa-check-circle"></i>
                             </button>
                         </div>
@@ -511,21 +480,21 @@
                     @foreach($positions as $position)
                     <a class="list-group-item list-group-item-action p-1 border-0 " id="function_{{$position->id}}">
                         <div class="float-left">
-                            <i class="fa fa-circle text-danger m-2"></i>
+                            <!-- <i class="fa fa-circle text-danger m-2"></i> -->
                             {{$position->name}}
                             <input type="hidden" name="item-name" value="{{$group->name}}">
                         </div>
                         <div class="btn-group float-right">
-                            <button class="btn  toggle1-btn item-show">
+                            <button class="btn  toggle1-btn item-show" data-content='position'>
                                 <i class="px-2 fa fa-eye"></i>
                             </button>
-                            <button class="btn  toggle1-btn" id="list-home-list">
+                            <button class="btn item-edit toggle1-btn" data-content='position'>
                                 <i class="px-2 fa fa-edit"></i>
                             </button>
-                            <button class="btn  toggle1-btn">
+                            <button class="btn item-delete toggle1-btn" data-content='position'>
                                 <i class="px-2 fa fa-trash-alt"></i>
                             </button>
-                            <button class="btn  toggle2-btn">
+                            <button class="btn  toggle2-btn" data-content='position'>
                                 <i class="px-2 fas fa-check-circle"></i>
                             </button>
                         </div>
@@ -541,6 +510,7 @@
 
             <div class="tab-content mx-4" id="nav-tabContent">
                 <form method="post" id="category_form" enctype="multipart/form-data" class="form" action="">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="card bg-white text-black mx-2">
                         <div class="card-body  p-3">
                             <div class="form-group">
@@ -550,7 +520,7 @@
                                             Name
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="category_name" name="company" value="" required>
+                                    <input type="text" class="form-control" id="category_name" name="category_name" value="" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -560,11 +530,20 @@
                                             Description
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="category_description" name="company" value="" required>
+                                    <input type="text" class="form-control" id="category_description" name="category_description" value="" required>
+                                </div>
+                            </div>
+                            <div class="clearfix mb-3 float-left" style="display: none;" id="status_checkbox">
+                                <label class="px-2 py-1 text-black " style="width:150px; font-size:18pt;" for="cate-status">
+                                    Status
+                                </label>
+                                <div class="custom-control custom-switch custom-control-lg custom-control-inline pl-2">
+                                    <input type="checkbox" class="custom-control-input" id="cate-status" name="cate-status" checked="">
+                                    <label class="custom-control-label" for="example-sw-custom-lg2"><i></i></label>
                                 </div>
                             </div>
                             <div class="form-group clearfix">
-                                <button type="submit" class="btn btn-hero-primary float-right mx-1" id="category_save_button" disabled>SAVE</button>
+                                <button type="submit" class="btn btn-hero-primary float-right mx-1" id="category_save_button">SAVE</button>
                                 <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn" id="category_cancel_button">CANCEL</button>
                             </div>
                         </div>
@@ -604,29 +583,11 @@
                     </div>
                 </div>
                 <div class="list-group" id="list-tab" role="tablist">
-                    <a class="list-group-item list-group-item-action p-1 border-0 " id="">
-                        <div class="float-left">
-                            <i class="fa fa-circle text-success m-2"></i>
-                            <input type="hidden" name="item-status" class='status-notification' value="1">
-                            askkd
 
-                        </div>
-                        <div class="btn-group float-right">
-                            <button class="btn  toggle1-btn">
-                                <i class="px-2 fa fa-eye"></i>
-                            </button>
-                            <button class="btn  toggle1-btn" id="list-home-list">
-                                <i class="px-2 fa fa-edit"></i>
-                            </button>
-                            <button class="btn  toggle1-btn">
-                                <i class="px-2 fa fa-trash-alt"></i>
-                            </button>
-                            <button class="btn  toggle1-btn">
-                                <i class="px-2 fas fa-unlink"></i>
-                            </button>
-                        </div>
-                    </a>
                 </div>
+                <button type="button" id="notificator" class="js-notify btn btn-secondary push" data-message="Your message!<br>" style="display:none">
+                    Top Right
+                </button>
             </div>
 
 

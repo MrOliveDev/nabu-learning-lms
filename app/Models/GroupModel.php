@@ -10,7 +10,7 @@ class GroupModel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id', 'name'
+        'id', 'name', 'status', 'description'
     ];
 
     protected $table = 'tb_groups';

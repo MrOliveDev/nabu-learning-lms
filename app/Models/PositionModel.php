@@ -11,7 +11,7 @@ class PositionModel extends Model
 
 
     protected $fillable = [
-        'id', 'name'
+        'id', 'name', 'description'
     ];
 
     protected $table = 'tb_position';

@@ -52,6 +52,9 @@
     <script src="{{asset('assets/js/dashmix.app.min.js')}}"></script>
     <script src="{{asset('assets/js/app.js')}}"></script>
 
+    <!-- Scripts -->
+    <script>window.Laravel = {!! json_encode(['csrfToken' => csrf_token(),]) !!};</script>
+
     <!-- END Stylesheets -->
 </head>
 

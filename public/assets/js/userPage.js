@@ -1,10 +1,22 @@
 // const { nodeName } = require("jquery");
 
+// const { forEach } = require("lodash");
+
 var baseURL = window.location.protocol + "//" + window.location.host;
 var filteritem = null;
 var grouptab = null;
 
+var notification = function (str) {
+    $('#notificator').prop({
+        'data-message': str
+    });
+    $('#notificator').click();
+};
+
+// Dashmix.helpers('notify', {message: 'Your message!'});
 $(document).ready(function () {
+
+
     $('#LeftPanel .toolkit>div').css('background-color', 'var(--student-h)');
     $('#RightPanel .toolkit:first>div').css('background-color', 'var(--group-h)');
     $('.second-table .toolkit').css('background-color', 'var(--student-h)');
@@ -164,17 +176,19 @@ $(".list-group-item button.btn").focusout(function (e) {
 
 
 
-clearTable = function (element) {
+var clearTable = function (element) {
     element.find('.list-group-item').detach();
 };
-clearFrom = function (element) {
+var clearFrom = function (element) {
     element.find('input').each(function () {
-        $(this).val('');
+        if ($(this).attr('name') != '_token') {
+            $(this).val('');
+        }
     });
 };
 
 //@param : div_b | div_d
-toggleFormOrTable = function (element, flag = null, flag1 = true) {
+var toggleFormOrTable = function (element, flag = null, flag1 = true) {
     var form = element.find('form');
     var table = element.find('.second-table');
     clearFrom(form);
@@ -217,11 +231,11 @@ toggleFormOrTable = function (element, flag = null, flag1 = true) {
 
 };
 
-goTab = function (name) {
+var goTab = function (name) {
     // console.log($('#' + name + '-tab')[0]);
     $('#' + name + '-tab').click();
 };
-contentFilter = function (element_id, str = '', comp = null, func = null, online = 0) {
+var contentFilter = function (element_id, str = '', comp = null, func = null, online = 0) {
     let reponseData = null;
     // console.log(str);
     // console.log(comp);
@@ -250,11 +264,9 @@ $(".toolkit-show-filter").click(function (event) {
     $(this).parents('.toolkit').children(".toolkit-filter").toggle();
 });
 
-$(".toolkit-add-item").click(function (event) {
-    toggleFormOrTable($(this).parents('fieldset'), true);
-});
 
-secondShow = function (event) {
+
+var secondShow = function (event) {
     event.stopPropagation();
     event.preventDefault();
     var parent = $(this).parents('fieldset');
@@ -265,7 +277,7 @@ secondShow = function (event) {
     }
 };
 
-secondShow1 = function (event) {
+var secondShow1 = function (event) {
     if ($(this).parents('fieldset').attr('id') == "RightPanel") {
         var parent = $(this).parents('.list-group-item');
         var id = parent.attr('id').split('_')[1];
@@ -330,9 +342,367 @@ $('#div_A .item-show, #div_C .item-show').click(function (event) {
     toggleFormOrTable(parent, false);
 });
 
+$('.item-edit').click(function (event) {
+    event.stopPropagation();
+    // event.preventDefault();
+    // $(this).attr('data-content')
+    item_edit($(this));
+});
+
+$('.item-delete').click(function (event) {
+    event.stopPropagation();
+    // event.preventDefault();
+    // $(this).attr('data-content')
+    item_delete($(this));
+});
+
+$('.toolkit-add-item').click(function (event) {
+    toggleFormOrTable($(this).parents('fieldset'), true);
+
+    var parent = $(this).parents('fieldset');
+    var parent_id = $(this).parents('fieldset').attr('id');
+    var activeTagName;
+    if (parent_id == 'RightPanel') {
+        activeTagName = $('#RightPanel').find('.ui-state-active:first a').attr('href');
+        switch (activeTagName) {
+            case '#groups':
+                $("#category_form").attr('action', baseURL + '/group');
+                $('#status_checkbox').css('display', 'block');
+                if(data.status == 1){
+                    $('#category_status').attr("checked",  'checked');
+                } else {
+                    $('#category_status').removeAttr("checked");
+                }
+
+
+                if ($('#category_form .method-select').length > 0) {
+                    $("#category_form .method-select").remove();
+                }
+                break;
+            case '#companies':
+                $("#category_form").attr('action', baseURL + '/company');
+                $('#status_checkbox').css('display', 'none');
+
+                if ($('#category_form .method-select').length > 0) {
+                    $("#category_form .method-select").remove();
+                }
+                break;
+            case '#positions':
+                $("#category_form").attr('action', baseURL + '/function');
+                $('#status_checkbox').css('display', 'none');
+
+                if ($('#category_form .method-select').length > 0) {
+                    $("#category_form .method-select").remove();
+                }
+                break;
+
+            default:
+                console.log('There is some error adding new component');
+                break;
+        }
+
+
+    } else {
+        activeTagName = $('#LeftPanel').find('.ui-state-active:first a').attr('href');
+        $('#user_form').attr('action', baseURL + '/user');
+        if ($('#user_form .method-select').length > 0) {
+            $("#user_form .method-select").remove();
+        }
+        switch (activeTagName) {
+            case '#students':
+                $('#user_type').val('4');
+                break;
+            case '#teachers':
+                $('#user_type').val('3');
+                break;
+            case '#authors':
+                $('#user_type').val('2');
+                break;
+
+            default:
+                break;
+        }
+        $.get({
+            url: baseURL + "/usercreate",
+            success: function (data) {
+                console.log(data);
+                $('#login').val(data.name);
+                $('#password').val(data.password);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+    }
+});
+
+$('form').submit(submitFunction);
+
+var item_edit = function (element) {
+    var parent = element.parents('.list-group-item');
+    var id = parent.attr('id').split('_')[1];
+    switch (element.attr('data-content')) {
+        case 'student':
+        case 'teacher':
+        case 'author':
+            $.get({
+                url: baseURL + '/user/' + id,
+                success: function (data, state) {
+                    console.log(data);
+                    console.log(state);
+                    toggleFormOrTable($('#LeftPanel'), true);
+                    $('#preview').attr('src', data.user_info.interface_icon);
+                    $('#base64_img_data').val(data.user_info.interface_icon);
+                    $('#login').val(data.user_info.login);
+                    $('#password').val(data.user_info.password);
+                    $('#firstname').val(data.user_info.first_name);
+                    $('#lastname').val(data.user_info.last_name);
+                    $('#company').val(data.user_info.company);
+                    $('#position').val(data.user_info.function);
+                    if (data.user_info.contact_info != null) {
+                        $('#contact_info').val(JSON.parse(data.user_info.contact_info).address);
+                    }
+
+                    $("#user_form").attr('action', baseURL + '/user/' + id);
+                    // $("#user_form").prop('method', "PUT");
+
+                    if ($('#user_form .method-select').length == 0) {
+                        $("#user_form").prepend("<input name='_method' type='hidden' value='PUT' class='method-select' />");
+                    }
+
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+
+            break;
+
+        case 'group':
+            $.get({
+                url: baseURL + '/group/' + id,
+                success: function (data, state) {
+                    console.log(data);
+                    console.log(state);
+                    toggleFormOrTable($('#RightPanel'), true);
+                    $('#category_name').val(data.name);
+                    $('#category_description').val(data.description);
+                    $('#status_checkbox').css('display', 'block');
+                    $('#cate-status').attr("checked", data.status == 1);
+
+                    $("#category_form").attr('action', baseURL + '/group/' + id);
+
+                    if ($('#category_form .method-select').length == 0) {
+                        $("#category_form").prepend("<input name='_method' type='hidden' value='PUT' class='method-select' />");
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+            break;
+
+        case 'company':
+            $.get({
+                url: baseURL + '/company/' + id,
+                success: function (data, state) {
+                    console.log(data);
+                    console.log(state);
+                    toggleFormOrTable($('#RightPanel'), true);
+                    $('#category_name').val(data.name);
+                    $('#category_description').val(data.description);
+                    $('#status_checkbox').css('display', 'none');
+
+                    $("#category_form").attr('action', baseURL + '/company/' + id);
+
+                    if ($('#category_form .method-select').length == 0) {
+                        $("#category_form").prepend("<input name='_method' type='hidden' value='PUT' class='method-select' />");
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+            break;
+
+        case 'position':
+            $.get({
+                url: baseURL + '/function/' + id,
+                success: function (data, state) {
+                    console.log(data);
+                    console.log(state);
+                    toggleFormOrTable($('#RightPanel'), true);
+                    $('#category_name').val(data.name);
+                    $('#category_description').val(data.description);
+                    $('#status_checkbox').css('display', 'none');
+
+                    $("#category_form").attr('action', baseURL + '/function/' + id);
+
+                    if ($('#category_form .method-select').length == 0) {
+                        $("#category_form").prepend("<input name='_method' type='hidden' value='PUT' class='method-select' />");
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+            break;
+
+        case 'session':
+            // $.get(baseURL + '/session/' + id, function (data, state) {
+            //     console.log(data);
+            //     console.log(state);
+            // })
+            // toggleFormOrTable($('#LeftPanel'), true);
+            break;
+
+        default:
+            console.log('how dare you can do this!');
+            break;
+    }
+};
+
+var item_show = function (element) {
+    var parent = element.parents('.list-group-item');
+    var id = parent.attr('id').split('_')[1];
+    switch (element.attr('data-content')) {
+        case 'student':
+            $.post('data')
+            break;
+
+        case 'teacher':
+
+            break;
+
+        case 'author':
+
+            break;
+
+        case 'group':
+
+            break;
+
+        case 'company':
+
+            break;
+
+        case 'position':
+
+            break;
+
+        case 'session':
+
+            break;
+
+        default:
+            break;
+    }
+};
+
+var item_delete = function (element) {
+    var parent = element.parents('.list-group-item');
+    var id = parent.attr('id').split('_')[1];
+    switch (element.attr('data-content')) {
+        case 'student':
+        case 'teacher':
+        case 'author':
+            $.ajax({
+                type: "DELETE",
+                url: baseURL + '/user/' + id,
+                // dataType: "json",
+                success: function (result) {
+                    console.log(result);
+                    parent.detach();
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+            break;
+
+        case 'group':
+            $.ajax({
+                type: "DELETE",
+                url: baseURL + '/group/' + id,
+
+                // dataType: "json",
+                success: function (result) {
+                    console.log(result);
+                    parent.detach();
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+            break;
+
+        case 'company':
+            $.ajax({
+                type: "DELETE",
+                url: baseURL + '/company/' + id,
+
+                // dataType: "json",
+                success: function (result) {
+                    console.log(result);
+                    parent.detach();
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+            break;
+
+        case 'position':
+            $.ajax({
+                type: "DELETE",
+                url: baseURL + '/function/' + id,
+
+                // dataType: "json",
+                success: function (result) {
+                    console.log(result);
+                    parent.detach();
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+            break;
+
+        case 'session':
+            $.ajax({
+                type: "DELETE",
+                url: baseURL + '/session/' + id,
+
+                // dataType: "json",
+                success: function (result) {
+                    console.log(result);
+                    parent.detach();
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+            break;
+
+        default:
+            break;
+    }
+};
+
+var submitFunction = function (event) {
+    // var id = $(this).attr('id');
+    // if (id == 'user_form') {
+
+    // }
+    // elseif(id == "category_form") {
+
+    // }
+
+    return true;
+};
 
 $('#div_A .fa.fa-edit, #div_C .fa.fa-edit').click(function (event) {
-    event.stopPropagation();
+    // event.stopPropagation();
     var parent = $(this).parents('fieldset');
     toggleFormOrTable(parent, true);
 });
@@ -340,7 +710,7 @@ $('#div_A .fa.fa-edit, #div_C .fa.fa-edit').click(function (event) {
 
 
 $('#div_B .fa.fa-edit, #div_D .fa.fa-edit').click(function (event) {
-    event.stopPropagation();
+    // event.stopPropagation();
     var parent = $(this).parents('fieldset');
     if (parent.attr('id') == "LeftPanel") {
         toggleFormOrTable($('#RightPanel'), true);
@@ -406,7 +776,7 @@ $('#div_C .item-show').click(function (event) {
     });
 });
 
-detachLinkTo = function (e) {
+var detachLinkTo = function (e) {
     var parent = $(this).parents('.list-group-item');
     var showeditem = parent.attr('data-src');
     var id = parent.attr('id').split('_')[1];
@@ -432,7 +802,7 @@ detachLinkTo = function (e) {
     parent.detach();
 }
 
-detachLinkFrom = function (e) {
+var detachLinkFrom = function (e) {
     var parent = $(this).parents('.list-group-item');
     var showeditem = parent.attr('data-src');
     var id = $("#" + showeditem).attr('id').split('_')[1];
@@ -474,6 +844,12 @@ $('.fliter-company-btn').click(function () {
     });
 });
 
+$('.fliter-company-btn').dblclick(function () {
+    $(this).val('');
+    $(this).html('company +');
+    $(this).change();
+});
+
 $('.fliter-function-btn').click(function () {
     $('#positions-tab').click();
     $("#positions").find('.toggle2-btn').each(function () {
@@ -482,6 +858,12 @@ $('.fliter-function-btn').click(function () {
     $("#positions").find('.toggle1-btn').each(function () {
         $(this).toggle();
     });
+});
+
+$('.fliter-function-btn').dblclick(function () {
+    $(this).val('');
+    $(this).html('function +');
+    $(this).change();
 });
 
 $('.toggle2-btn').click(function () {
@@ -493,7 +875,7 @@ $('.toggle2-btn').click(function () {
 
 //filter
 
-searchfilter = function (event) {
+var searchfilter = function (event) {
     var parent = $(this).parents('.toolkit');
     var items = null;
     var str = parent.find('input.search-filter').val();
@@ -524,11 +906,9 @@ searchfilter = function (event) {
 
                     switch (opt) {
                         case 'all':
-                            if (item_status == 1) {
-                                $(e).toggle(true);
-                            } else {
-                                $(e).toggle(true);
-                            }
+
+                            $(e).toggle(true);
+
                             break;
                         case 'on':
                             if (item_status == 1) {
@@ -599,32 +979,65 @@ function dragLeave(event) {
 
 function dropEnd(event, item) {
     $(event.target).css('opacity', '100%');
+
+    var requestData = Array();
+
     var cate_id = $(event.target).attr("id").split('_')[1];
     var cate = $(event.target).attr("id").split('_')[0];
+    var rowData = Array();
     if (dragitem != null) {
-        var category = dragitem[0].split('_')[0];
-        // console.log(category);
-        dragitem.forEach(item => {
-            // console.log(item.split('_')[1]);
+        // var category = dragitem[0].split('_')[0];
+        dragitem.forEach(droppeditem => {
+            // console.log(droppeditem.split('_')[1]);
             if (cate == "group") {
-                var cate_items = $("#" + item).find('input[name="item-group"]').val();
+                var cate_items = $("#" + droppeditem).find('input[name="item-group"]').val();
                 if (cate_items.indexOf(cate_id) == -1) {
                     cate_items += "_" + cate_id;
                 }
-                $("#" + item).find('input[name="item-group"]').val(cate_items);
+                $("#" + droppeditem).find('input[name="item-group"]').val(cate_items);
             } else {
-                var cate_item = $("#" + item).find('input[name="item-' + cate + '"]').val();
+                var cate_item = $("#" + droppeditem).find('input[name="item-' + cate + '"]').val();
                 if (cate_item != cate_id) {
-                    $("#" + item).find('input[name="item-' + cate + '"]').val(cate_id);
+                    $("#" + droppeditem).find('input[name="item-' + cate + '"]').val(cate_id);
                     // console.log($("#" + item).find('input[name="item-' + cate + '"]').val());
                 }
+            }
+            rowData = {};
+            rowData.id = droppeditem.split('_')[1];
+            rowData.target = $("#" + droppeditem).find('input[name="item-' + cate + '"]').val();
+            rowData.flag = true;
+
+            requestData.push(rowData);
+        });
+
+        // requestData.forEach(itemData => {
+        //     itemData =JSON.stringify(itemData)
+        // })
+
+        $.post({
+            url: baseURL + '/userjointo' + cate,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data:{ 'data':JSON.stringify(requestData)},
+            success: function (data) {
+                console.log(data);
+
+                requestData = [];
+            },
+            error: function (err) {
+                console.log(err);
+
+                requestData = [];
             }
         });
     }
     $("#LeftPanel").find('.list-group-item').each(function () {
-        $(this).removeClass('.active');
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+        }
     });
-    alert(cate + cate_id + dragitem.join('_'));
+    notification(cate + cate_id);
     dragitem = null;
 }
 
@@ -634,7 +1047,7 @@ function companyDropEnd(event, item) {
         $(this).val(dragitem[0].split('_')[1]);
         $(this).html(dragitem[0]);
     }
-    alert(dragitem[0]);
+    console.log(dragitem[0]);
     searchfilter(event);
     dragitem = null;
     $('.filter-company-btn').change();
@@ -646,7 +1059,7 @@ function functionDropEnd(event, item) {
         $(this).val(dragitem[0].split('_')[1]);
         $(this).html(dragitem[0]);
     }
-    alert(dragitem[0]);
+    console.log(dragitem[0]);
     dragitem = null;
     $('.filter-function-btn').change();
 }

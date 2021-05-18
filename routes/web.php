@@ -4,6 +4,11 @@ use App\Http\Controllers\ClientsSettingsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
+
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\useradmin\GroupController;
+use App\Http\Controllers\useradmin\CompanyController;
+use App\Http\Controllers\useradmin\PositionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -132,9 +137,6 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     })->name('changeLanguage');
     Route::post('searchfromdictionary', function (Request $request) {
         $request->keyword;
-        // $users = DB::table('users')
-        //     ->leftJoin('posts', 'users.id', '=', 'posts.user_id')
-        //     ->get();
     })->name('searchfromdictionary');
     Route::post('template/update', '\App\Http\Controllers\TemplateController@update')->name('template.update');
     Route::post('template/add', '\App\Http\Controllers\TemplateController@add')->name('template.add');
@@ -142,31 +144,19 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::get('superadminsettings', '\App\Http\Controllers\ClientController@index')->name('superadminsettings');
     Route::resource('languageadmin', \App\Http\Controllers\LanguageManageController::class);
     Route::resource('clients', \App\Http\Controllers\ClientController::class);
-    Route::resource('user', \App\Http\Controllers\StudentController::class);
 
-    Route::post('user/findgroup', '\App\Http\Controllers\useradmin\GroupController@findGroup')->name('findgroup');
-    Route::post('user/getuserfromgroup', '\App\Http\Controllers\useradmin\GroupController@getUserFromGroup')->name('getuserfromgroup');
-    Route::post('user/getgroupfromuser', '\App\Http\Controllers\useradmin\GroupController@getGroupFromUser')->name('getgroupfromuser');
-    Route::resource('group', \App\Http\Controllers\useradmin\GroupController::class);
+    Route::apiResources([
+        'user' => StudentController::class,
+        'group' => GroupController::class,
+        'company' => CompanyController::class,
+        'function' => PositionController::class
+    ]);
 
-    Route::post('user/findsession', '\App\Http\Controllers\SessionController@findSession')->name('findsession');
+    Route::get('usercreate', '\App\Http\Controllers\StudentController@create')->name('usercreate');
+    Route::post('userjointogroup', '\App\Http\Controllers\StudentController@userJoinToGroup')->name('userjointogroup');
+    Route::post('userjointocompany', '\App\Http\Controllers\StudentController@userJoinToCompany')->name('userjointocompany');
+    Route::post('userjointofunction', '\App\Http\Controllers\StudentController@userJoinToPosition')->name('userjointofunction');
 
-    Route::post('user/findcompany', '\App\Http\Controllers\useradmin\CompanyController@findCompany')->name('findcompany');
-    Route::post('user/getuserfromcompany', '\App\Http\Controllers\useradmin\CompanyController@getUserFromCompany')->name('getuserfromcompany');
-    Route::resource('company', \App\Http\Controllers\useradmin\CompanyController::class);
-
-    Route::post('user/finduser', '\App\Http\Controllers\StudentController@findUser')->name('finduser');
-    Route::post('user/getuserfromfunction', '\App\Http\Controllers\StudentController@getUserFromFunction')->name('getuserfromfunction');
-    Route::post('user/edituser', '\App\Http\Controllers\StudentController@editUser')->name('edituser');
-    Route::post('user/adduser', '\App\Http\Controllers\StudentController@addUser')->name('adduser');
-    Route::post('user/deleteuser', '\App\Http\Controllers\StudentController@deleteUser')->name('deleteuser');
-
-    Route::post('user/findfunction', '\App\Http\Controllers\useradmin\PositionController@findPosition')->name('findfunction');
-    Route::resource('function', \App\Http\Controllers\useradmin\PositionController::class);
-
-    Route::post('user/userjointogroup', '\App\Http\Controllers\StudentController@userJoinToGroup')->name('userjointogroup');
-    Route::post('user/userjointocompany', '\App\Http\Controllers\StudentController@userJoinToCompany')->name('userjointocompany');
-    Route::post('user/userjointofunction', '\App\Http\Controllers\StudentController@userJoinToPosition')->name('userjointofunction');
 });
 
 
