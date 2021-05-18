@@ -39,13 +39,11 @@
     <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/dashmix.min.css') }}">
 
     <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
-    <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/xwork.min.css"> -->
     <link rel="stylesheet" id="css-theme" href="{{ asset('assets/css/themes/xmodern.min.css') }}">
     <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/app.css') }}">
     <link rel="stylesheet" href="{{asset('assets/js/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}">
 
     @yield('css_after')
-    <!-- <script src="{{asset('assets/js/jquery.min.js')}}"></script> -->
 
     <script src="{{asset('assets/js/dashmix.core.min.js')}}"></script>
 
@@ -53,7 +51,6 @@
     <script src="{{asset('assets/js/app.js')}}"></script>
 
     <!-- Scripts -->
-    <script>window.Laravel = {!! json_encode(['csrfToken' => csrf_token(),]) !!};</script>
 
     <!-- END Stylesheets -->
 </head>
@@ -69,7 +66,7 @@
 
         </main>
     </div>
-    <script src="{{asset('assets/js/plugins/magnific-popup/jquery.magnific-popup.min.js')}}"></script>
+    < src="{{asset('assets/js/plugins/magnific-popup/jquery.magnific-popup.min.js')}}"></>
     <script>
         jQuery(function() {
             Dashmix.helpers(['highlightjs', 'magnific-popup']);
