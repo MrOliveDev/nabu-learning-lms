@@ -70,14 +70,14 @@ class User extends Authenticatable
             'tb_interface_config.interface_color as interface_color',
             'tb_interface_config.interface_icon as interface_icon',
             'tb_interface_config.id as interface_id',
-            'tb_languages.language_iso as language_iso',
-            'tb_position.name as position',
-            'tb_companies.name as companies'
+            'tb_languages.language_iso as language_iso'
+            // 'tb_position.name as position',
+            // 'tb_companies.name as companies'
         )
             ->leftjoin('tb_interface_config', 'tb_interface_config.id', '=', 'tb_users.id_config')
             ->leftjoin('tb_languages', 'tb_users.lang', '=', 'tb_languages.language_id')
-            ->leftjoin('tb_companies', 'tb_users.company', '=', 'tb_companies.id')
-            ->leftjoin('tb_position', 'tb_users.function', '=', 'tb_position.id')
+            // ->leftjoin('tb_companies', 'tb_users.company', '=', 'tb_companies.id')
+            // ->leftjoin('tb_position', 'tb_users.function', '=', 'tb_position.id')
             ->where('tb_users.id', $id)
             ->first();
         return $result;

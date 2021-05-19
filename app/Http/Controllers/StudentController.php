@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\GroupModel;
 use App\Models\PositionModel;
 use App\Models\CompanyModel;
+use App\Models\ConfigModel;
 use App\Models\SessionModel;
 
 class StudentController extends Controller
@@ -52,10 +53,10 @@ class StudentController extends Controller
             'login' => 'required',
             'company' => 'required',
             'firstname' => 'required',
-            'lastname' => 'required'
+            'lastname' => 'required',
+            'email' => 'required',
+            'contact_info' => 'required'
         ]);
-
-
 
         $interfaceCfg = InterfaceCfgModel::create([
             'interface_color' => '',
@@ -64,23 +65,35 @@ class StudentController extends Controller
         ]);
 
         $contact_info = array(
-            "address" => $request->post('contact_info')
+            "address" => $request->post('contact_info'),
+            'email' => $request->post('email')
         );
 
         // print_r($request->post('type')); exit;
-
-        $client = User::create([
-            'login' => $request->post('login'),
-            'password' => $request->post('password'),
-            'company' => $request->post('company'),
-            'first_name' => $request->post('firstname'),
-            'last_name' => $request->post('lastname'),
-            'contact_info' => json_encode($contact_info),
-            'id_config' => $interfaceCfg->id,
-            'type' => $request->post('type')
-            // 'lang' => $request->post('lang'),
-        ]);
-
+        if ($request->input('password') != null) {
+            $client = User::create([
+                'login' => $request->post('login'),
+                'password' => $request->post('password'),
+                'company' => $request->post('company'),
+                'first_name' => $request->post('firstname'),
+                'last_name' => $request->post('lastname'),
+                'contact_info' => json_encode($contact_info),
+                'id_config' => $interfaceCfg->id,
+                'type' => $request->post('type')
+                // 'lang' => $request->post('lang'),
+            ]);
+        } else {
+            $client = User::create([
+                'login' => $request->post('login'),
+                'company' => $request->post('company'),
+                'first_name' => $request->post('firstname'),
+                'last_name' => $request->post('lastname'),
+                'contact_info' => json_encode($contact_info),
+                'id_config' => $interfaceCfg->id,
+                'type' => $request->post('type')
+                // 'lang' => $request->post('lang'),
+            ]);
+        }
         return response()->json($client);
     }
 
@@ -122,12 +135,27 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        // $request->validate([
+        //     'login' => 'required',
+        //     'company' => 'required',
+        //     'firstname' => 'required',
+        //     'lastname' => 'required',
+        //     'email' => 'required',
+        //     'contact_info' => 'required'
+        // ]);
+
         $user = User::find($id);
         $interface_cfg = null;
         if ($user->id_config == null) {
             $interface_cfg = InterfaceCfgModel::create([
-                'id' => $user->id_config,
-                "interface_icon" => $request->input("base64_img_data")
+                "interface_icon" => $request->input("base64_img_data"),
+                'admin_id'=>1,
+                'interface_color'=>''
+            ]);
+            ConfigModel::create([
+                "id" => $interface_cfg->id,
+                "config" => ''
             ]);
         } else {
             $interface_cfg = InterfaceCfgModel::find($user->id_config);
@@ -137,13 +165,23 @@ class StudentController extends Controller
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
         $user->login = $request->input('login');
-        $user->password = $request->input('password');
         $user->company = $request->input('company');
         $user->function = $request->input('function');
+        $user->status = $request->input('user-status-icon')=='on'?1:0;
+        if ($request->input('password') != null) {
+            $user->password = $request->input('password');
+        }
         if ($user->contact_info != null) {
             $address = json_decode($user->contact_info);
             $address->address = $request->input('contact_info');
+            $address->email = $request->input('user-email');
             $user->contact_info = json_encode($address);
+        } else {
+            $contact_info = array(
+                "address" => $request->input('contact_info'),
+                "email" => $request->input('user-email')
+            );
+            $user->contact_info = json_encode($contact_info);
         }
 
         $user->update();
@@ -198,26 +236,32 @@ class StudentController extends Controller
     public function userJoinToCompany(Request $request)
     {
         $data = json_decode($request->post('data'));
-        foreach ($data as $key => $value) {
-            $user = User::find($value['id']);
+        if (count($data) != 0) {
+            foreach ($data as $key => $value) {
+                $user = User::find($value->id);
 
-            $user->company = $value['target'];
+                $user->company = $value->target;
 
-            $user->update();
+                $user->update();
+            }
         }
+
         return response()->json($data);
     }
 
     public function userJoinToPosition(Request $request)
     {
         $data = json_decode($request->post('data'));
-        foreach ($data as $key => $value) {
-            $user = User::find($value['id']);
+        if (count($data) != 0) {
+            foreach ($data as $key => $value) {
+                $user = User::find($value->id);
 
-            $user->funtion = $value['target'];
+                $user->company = $value->target;
 
-            $user->update();
+                $user->update();
+            }
         }
+
         return response()->json($data);
     }
 }

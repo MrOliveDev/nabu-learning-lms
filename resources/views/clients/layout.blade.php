@@ -9,9 +9,6 @@
     .cropper-view-box {
         border-radius: 50%;
     }
-
-
-
     .preview {
         overflow: hidden;
         width: 160px;

@@ -232,6 +232,12 @@
                                 <img src="" alt="" id="preview" width=300 height=300 name="preview" />
                                 <input type="hidden" name="base64_img_data" id="base64_img_data">
                             </div>
+                            <div class="form-group m-5 my-auto" id='status-form'>
+                                <div class="custom-control custom-switch custom-control-lg mb-2 ml-0 ">
+                                    <input type="checkbox" class="custom-control-input" id="user-status-icon" name="user-status-icon" checked="">
+                                    <label class="custom-control-label" for="user-status-icon">Status</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body  p-3">
                             <div class="form-group">
@@ -251,7 +257,7 @@
                                             Password
                                         </span>
                                     </div>
-                                    <input type="password" class="form-control" id="password" name="password" required>
+                                    <input type="password" class="form-control" id="password" name="password">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -274,7 +280,7 @@
                                     <input type="text" class="form-control" id="lastname" name="last_name" value="" required>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
@@ -293,15 +299,54 @@
                                     </div>
                                     <input type="text" class="form-control" id="position" name="function" value="" required readonly>
                                 </div>
+                            </div> -->
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Position
+                                        </span>
+                                    </div>
+                                    <select class="form-control" id="position" name="function" required>
+                                        @foreach($positions as $position)
+                                        <option value="{{$position->id}}">{{$position->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Complete contact info
+                                            Company
+                                        </span>
+                                    </div>
+                                    <select class="form-control" id="company" name="company" required>
+                                        @foreach($companies as $company)
+                                        <option value="{{$company->id}}">{{$company->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Address
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="contact_info" name="contact_info" value="" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            E-mail
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="user-email" name="user-email" value="" required>
                                 </div>
                             </div>
 
