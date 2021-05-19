@@ -178,7 +178,6 @@ $("#LeftPanel .list-group-item").click(function(e) {
     });
 });
 
-$(".list-group-item button.btn").click(btnClick);
 var btnClick = function(e) {
     e.stopPropagation();
     $(this).parents('fieldset').find('.list-group-item').each(function(i, highlighted) {
@@ -194,6 +193,7 @@ var btnClick = function(e) {
     $(this).addClass("active");
     $(this).parents('.list-group-item').addClass('highlight');
 }
+$(".list-group-item button.btn").click(btnClick);
 
 var clearTable = function(element) {
     element.find('.list-group-item').detach();
