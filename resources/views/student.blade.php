@@ -533,7 +533,7 @@
                                     <input type="text" class="form-control" id="category_description" name="category_description" value="" required>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id='status-form-group'>
                                 <div class="custom-control custom-switch custom-control-lg mb-2 ml-0 ">
                                     <input type="checkbox" class="custom-control-input" id="cate-status-icon" name="cate-status-icon" checked="">
                                     <label class="custom-control-label" for="cate-status-icon">Status</label>

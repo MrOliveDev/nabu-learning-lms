@@ -41,10 +41,10 @@ class GroupController extends Controller
         $group = GroupModel::create([
             'name'=>$request->input('category_name'),
             'description'=>$request->post('category_description'),
-            'status'=>$request->post('status')
+            'status'=>$request->input('cate-status-icon')=='on'?1:0
         ]);
 
-        return response('successfully created', 200)->json($group);
+        return redirect('/student')->with('group');
         //
     }
 
@@ -89,11 +89,11 @@ class GroupController extends Controller
         $group->name = $request->input('category_name');
         $group->description = $request->input('category_description');
         // print_r($request->input('cate-status'));exit;
-        $group->status = $request->input('cate_status');
+        $group->status = $request->input('cate-status-icon')=='on'?1:0;
 
         $group->update();
         //
-        return response()->json($group);
+        return redirect('/student')->with('group');
     }
 
     /**
