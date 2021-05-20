@@ -66,7 +66,7 @@
 
         </main>
     </div>
-    < src="{{asset('assets/js/plugins/magnific-popup/jquery.magnific-popup.min.js')}}"></>
+    <script src="{{asset('assets/js/plugins/magnific-popup/jquery.magnific-popup.min.js')}}"></script>
     <script>
         jQuery(function() {
             Dashmix.helpers(['highlightjs', 'magnific-popup']);
@@ -84,22 +84,22 @@
 
         $(".content-side.content-side-full").hover(
             function() {
-                if ($(".simplebar-content").css('width')=='150px') {
+                if ($(".simplebar-content").css('width') == '150px') {
 
                     $("#page-header, #page-container").addClass("page-header-trigger");
                     $("#RightPanel").css({
-                        "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() + "px"
+                        "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() - 10 + "px"
                         // "width": $("#RightPanel").width() - 150 + "px"
                     });
                 }
             },
             function() {
-                if ($(".simplebar-content").css('width')=='150px') {
+                if ($(".simplebar-content").css('width') == '150px') {
 
                     $("#page-header, #page-container").removeClass("page-header-trigger");
                     if ($('#content').width() > ($('#RightPanel').width() + $('#LeftPanel').width())) {
                         $("#RightPanel").css({
-                            "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() + "px"
+                            "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() - 10 + "px"
                         });
                     }
                 }
@@ -124,11 +124,11 @@
             // });
             $("#RightPanel").css({
                 // "height": h - divHight + "px",
-                "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() + "px"
+                "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() - 10 + "px"
             });
             $("#RightPanel1").css({
                 // "height": h - divHight + "px",
-                "width": $("#content1").width() - $("#LeftPanel1").width() - $("#div_vertical1").width() + "px"
+                "width": $("#content1").width() - $("#LeftPanel1").width() - $("#div_vertical1").width() - 10 + "px"
             });
             $("#content1").css({
                 "min-height": h - divHight + "px"
@@ -155,7 +155,7 @@
                         // jQuery('#' + resizerID).next().height(jQuery('#' + resizerID).next().height() - (end - start));
                     } else {
                         jQuery('#' + resizerID).prev().width(jQuery('#' + resizerID).prev().width() + (end - start));
-                        jQuery('#' + resizerID).next().width(jQuery('#' + resizerID).parent().width()-jQuery('#' + resizerID).prev().width() - jQuery('#' + resizerID).width() );
+                        jQuery('#' + resizerID).next().width(jQuery('#' + resizerID).parent().width() - jQuery('#' + resizerID).prev().width() - jQuery('#' + resizerID).width() - 10);
                     }
                     start = end;
                     console.log($("#content").width() + "  " + $("#LeftPanel").width() + "  " + $("#RightPanel").width());

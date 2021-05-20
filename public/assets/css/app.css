@@ -77,9 +77,11 @@ body {
 .bg-yellow-1 {
     background-color: #fbb140 !important;
 }
+
 .bg-yellow-2 {
-    background-color: #ffc61a  !important;
+    background-color: #ffc61a !important;
 }
+
 .bg-yellow-3 {
     background-color: #e6ac00 !important;
 }
@@ -146,9 +148,7 @@ body {
 
 
 
-#page-container {
-
-}
+#page-container {}
 
 
 main#main-container {
@@ -178,7 +178,7 @@ main#main-container {
 .simplebar-content {
     max-height: 200%;
     min-height: 100%;
-    width:150px;
+    width: 150px;
     background-color: #2e3092;
     transition: all .2s;
 }
@@ -198,7 +198,7 @@ main#main-container {
     transition: width .1s;
 }
 
-#sidebar-content-header{
+#sidebar-content-header {
     transition: width .1s;
 
     justify-content: space-around;
@@ -209,14 +209,14 @@ main#main-container {
 
 
 
-.simplebar-content:hover .sidetitle
-{
-   /* padding-left:70px; */
+.simplebar-content:hover .sidetitle {
+    /* padding-left:70px; */
 }
 
 #page-container.side-scroll .simplebar-content #sidebar-content-header {
     transition: all .1s;
 }
+
 div#sidebar-content-header {
     transition: all .1s;
     height: 12em;
@@ -248,6 +248,7 @@ img {
 #sidebar .simplebar-mask .content-header {
     justify-content: flex-start;
 }
+
 /*
 .simplebar-content:not(:hover) .nav-main-cover-item {
 } */
@@ -270,11 +271,13 @@ img {
     margin-right: auto;
 }
 
-.nav-main-item .nav-main-link.active i.nav-main-link-icon, .nav-main-link:hover .nav-main-link-name {
+.nav-main-item .nav-main-link.active i.nav-main-link-icon,
+.nav-main-link:hover .nav-main-link-name {
     color: #be0f2d !important;
 }
 
-.nav-main-item .nav-main-link:hover i.nav-main-link-icon, .nav-main-link:hover .nav-main-link-name {
+.nav-main-item .nav-main-link:hover i.nav-main-link-icon,
+.nav-main-link:hover .nav-main-link-name {
     color: #be0f2d !important;
 }
 
@@ -482,7 +485,7 @@ table.session-table th i {
     float: left;
 }
 
-.width-controller i{
+.width-controller i {
     bottom: 50%;
     position: absolute;
     transform: translate(-5px, 0px);
@@ -616,9 +619,7 @@ div.collespe-description {
     border-radius: 10px;
 }
 
-.collespe-card {
-
-}
+.collespe-card {}
 
 .collespe-header {
     padding: 10px;
@@ -758,10 +759,33 @@ body {
     position: relative;
     margin: 0px;
 }
-div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
+
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+fieldset,
+input,
+textarea,
+p,
+blockquote,
+th,
+td {
     margin: 0;
     padding: 0;
 }
+
 fieldset {
     border: 0 none;
 }
@@ -798,7 +822,8 @@ fieldset {
 
 .window::-webkit-scrollbar {
     width: 0px;
-    background: transparent; /* make scrollbar transparent */
+    background: transparent;
+    /* make scrollbar transparent */
 }
 
 .bg-blue-1.active {
@@ -813,23 +838,23 @@ fieldset {
     background-color: #bd1f2d !important;
 }
 
-.bg-yellow-2.active{
+.bg-yellow-2.active {
     background-color: #c29100 !important;
 }
 
-.bg-green-1.active{
+.bg-green-1.active {
     background-color: #24a724 !important;
 }
 
-a.bg-red-1 button{
+a.bg-red-1 button {
     color: #bd1f2d !important;
 }
 
-a.bg-yellow-2 button{
+a.bg-yellow-2 button {
     color: #503c00 !important;
 }
 
-a.bg-green-1 button{
+a.bg-green-1 button {
     color: #044704 !important;
 }
 
@@ -843,4 +868,26 @@ main select.form-control option {
     color: white;
     border: 4px transparent !important;
     margin-top: 10px;
+}
+
+#div_vertical {
+    transform: translate(8px, 0px);
+}
+
+.highlight {
+    animation: highlight 2s infinite;
+}
+
+@keyframes highlight {
+    0% {
+        opacity: 100%;
+    }
+
+    50% {
+        opacity: 20%;
+    }
+
+    100% {
+        opacity: 100%;
+    }
 }

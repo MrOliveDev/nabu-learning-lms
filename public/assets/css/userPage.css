@@ -1,7 +1,7 @@
-#div_A,
-#div_B,
-#div_C,
-#div_D {
+#div_A .list-group,
+#div_B .list-group,
+#div_C .list-group,
+#div_D .list-group{
     max-height: 400px;
 }
 
