@@ -232,7 +232,7 @@
                                 <img src="" alt="" id="preview" width=300 height=300 name="preview" />
                                 <input type="hidden" name="base64_img_data" id="base64_img_data">
                             </div>
-                            <div class="form-group m-5 my-auto" id='status-form-group'>
+                            <div class="form-group m-5 my-auto" id='status-form'>
                                 <div class="custom-control custom-switch custom-control-lg mb-2 ml-0 ">
                                     <input type="checkbox" class="custom-control-input" id="user-status-icon" name="user-status-icon" checked="">
                                     <label class="custom-control-label" for="user-status-icon">Status</label>

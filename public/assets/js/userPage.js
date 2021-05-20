@@ -178,7 +178,8 @@ $("#LeftPanel .list-group-item").click(function(e) {
     });
 });
 
-$(".list-group-item button.btn").click(function(e) {
+$(".list-group-item button.btn").click(btnClick);
+var btnClick = function(e) {
     e.stopPropagation();
     $(this).parents('fieldset').find('.list-group-item').each(function(i, highlighted) {
         if ($(highlighted).hasClass('active')) {
@@ -192,13 +193,13 @@ $(".list-group-item button.btn").click(function(e) {
     });
     $(this).addClass("active");
     $(this).parents('.list-group-item').addClass('highlight');
-});
+}
 
 var clearTable = function(element) {
     element.find('.list-group-item').detach();
 };
 var clearFrom = function(element) {
-    element.find('input').each(function(forminput) {
+    element.find('input, select').each(function(i, forminput) {
         if ($(forminput).attr('name') != '_token') {
             $(forminput).val('');
         }
@@ -328,6 +329,7 @@ var secondShow1 = function(event) {
                     }
                     // unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkFrom);
                     element.find('.btn-group').append(unlinkbtn);
+                    element.find('button.btn').click(btnClick);
                     element.find('.item-show').bind('click', secondShow);
                     element.find('.item-show').bind('click', secondShow1);
                     element.find('.item-edit').bind('click', function() {
@@ -373,6 +375,7 @@ var secondShow1 = function(event) {
                     if (element.hasClass('active')) {
                         element.removeClass('active');
                     }
+                    element.find('button.btn').click(btnClick);
                     element.find('.btn-group').append(unlinkbtn);
                     element.find('.item-show').bind('click', secondShow);
                     element.find('.item-show').bind('click', secondShow1);
@@ -525,6 +528,7 @@ $('#div_A .item-show').click(function(event) {
                 var element = $(e).clone(false);
                 unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
                 element.find('.btn-group').append(unlinkbtn);
+                element.find('button.btn').click(btnClick);
                 element.find('.item-show').bind('click', secondShow);
                 element.find('.item-show').bind('click', secondShow1);
                 element.find('.item-edit').bind('click', function() {
@@ -539,6 +543,8 @@ $('#div_A .item-show').click(function(event) {
                 if (element.hasClass('active')) {
                     element.removeClass('active');
                 }
+                element.find('button.btn').click(btnClick);
+
                 element.toggle(true);
                 element.attr('data-src', parent.attr('id'));
                 element.removeClass('active');
@@ -570,6 +576,7 @@ $('#div_C .item-show').click(function(event) {
                     var element = item.clone(false);
                     unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkFrom);
                     element.find('.btn-group').append(unlinkbtn);
+                    element.find('button.btn').click(btnClick);
                     element.find('.item-show').bind('click', secondShow);
                     element.find('.item-show').bind('click', secondShow1);
                     element.find('.item-edit').bind('click', function() {
@@ -597,6 +604,7 @@ $('#div_C .item-show').click(function(event) {
                 var element = item.clone(false);
                 unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkFrom);
                 element.find('.btn-group').append(unlinkbtn);
+                element.find('button.btn').click(btnClick);
                 element.find('.item-show').bind('click', secondShow);
                 element.find('.item-show').bind('click', secondShow1);
                 element.find('.item-edit').bind('click', function() {
@@ -660,14 +668,16 @@ var item_edit = function(element) {
                     $('#lastname').val(data.user_info.last_name);
                     $('#company').val(data.user_info.company);
                     $('#position').val(data.user_info.function);
+                    $("#user_form").attr('action', baseURL + '/user/' + id);
+                    $('#status-form-group').css('display', 'block !important');
+
                     if (data.user_info.contact_info != null && data.user_info.contact_info != "") {
                         $('#contact_info').val(JSON.parse(data.user_info.contact_info).address);
                         $('#user-email').val(JSON.parse(data.user_info.contact_info).email);
                     }
 
-                    $("#user_form").attr('action', baseURL + '/user/' + id);
+                    $('#user-status-icon').attr('checked', data.user_info.status == 1).change();
                     // $("#user_form").prop('method', "PUT");
-                    $('#status-form-group').css('display', 'block !important');
 
                     if ($('#user_form .method-select').length == 0) {
                         $("#user_form").prepend("<input name='_method' type='hidden' value='PUT' class='method-select' />");
