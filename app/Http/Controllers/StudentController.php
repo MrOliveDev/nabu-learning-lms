@@ -49,14 +49,14 @@ class StudentController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate([
-            'login' => 'required',
-            'company' => 'required',
-            'firstname' => 'required',
-            'lastname' => 'required',
-            'email' => 'required',
-            'contact_info' => 'required'
-        ]);
+        // $request->validate([
+        //     'login' => 'required',
+        //     'company' => 'required',
+        //     'firstname' => 'required',
+        //     'lastname' => 'required',
+        //     'email' => 'required',
+        //     'contact_info' => 'required'
+        // ]);
 
         $interfaceCfg = InterfaceCfgModel::create([
             'interface_color' => '',
@@ -75,10 +75,12 @@ class StudentController extends Controller
                 'login' => $request->post('login'),
                 'password' => $request->post('password'),
                 'company' => $request->post('company'),
+                'position' => $request->post('position'),
                 'first_name' => $request->post('firstname'),
                 'last_name' => $request->post('lastname'),
                 'contact_info' => json_encode($contact_info),
                 'id_config' => $interfaceCfg->id,
+                'status'=>$request->input('user-status-icon')=='on'?1:0,
                 'type' => $request->post('type')
                 // 'lang' => $request->post('lang'),
             ]);
@@ -89,12 +91,13 @@ class StudentController extends Controller
                 'first_name' => $request->post('firstname'),
                 'last_name' => $request->post('lastname'),
                 'contact_info' => json_encode($contact_info),
+                'status'=>$request->input('user-status-icon')=='on'?1:0,
                 'id_config' => $interfaceCfg->id,
                 'type' => $request->post('type')
                 // 'lang' => $request->post('lang'),
-            ]);
-        }
-        return response()->json($client);
+                ]);
+            }
+            return response()->json($client);
     }
 
     /**
