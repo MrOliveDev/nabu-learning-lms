@@ -1318,7 +1318,7 @@ $('.fliter-company-btn').click(function(event) {
             getFilterCategory(this, 'companies');
             break;
         case 'Select item':
-            toggleAndSearch(this, 'companies', event);
+            toggleAndSearch(this, 'companies', event, 'company +<i></i>');
             break;
         default:
             clearFilterCategory(this, 'companies', 'company +<i></i>');
@@ -1332,7 +1332,7 @@ $('.fliter-function-btn').click(function(event) {
             getFilterCategory(this, 'positions');
             break;
         case 'Select item':
-            toggleAndSearch(this, 'positions', event);
+            toggleAndSearch(this, 'positions', event, 'function +<i></i>');
             break;
         default:
             clearFilterCategory(this, 'positions', 'function +<i></i>');
@@ -1349,7 +1349,7 @@ var clearFilterCategory = function(element, category, defaultStr) {
     $('#' + category).find('.toggle2-btn').toggle(true);
 };
 
-var toggleAndSearch = function(element, category, event) {
+var toggleAndSearch = function(element, category, event, defaultStr) {
     if ($('#' + category).find('.list-group-item.active').length) {
         var items = [],
             itemVal = [];
@@ -1361,6 +1361,8 @@ var toggleAndSearch = function(element, category, event) {
         $(element).html(items.join(', ') + "&nbsp; X");
         searchfilter(event);
         $(element).change();
+    } else {
+        $(element).html(defaultStr);
     }
     $('#' + category).fadeOut(1);
     $(activedTab).fadeIn(1);
