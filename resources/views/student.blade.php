@@ -629,7 +629,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="list-group" id="list-tab" role="tablist" data-src=''>
+                <div class="list-group" id="table-user" role="tablist" data-src=''>
 
                 </div>
                 <button type="button" id="notificator" class="js-notify btn btn-secondary push" data-message="Your message!<br>" style="display:none">

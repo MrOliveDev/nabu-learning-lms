@@ -66,6 +66,7 @@ $(document).ready(function() {
         });
 
         $('#div_A').find('.list-group-item').each(clearClassName);
+        cancelFilterCategoryAll();
     });
     $('#teachers-tab').click(function() {
         $('#LeftPanel .toolkit>div').css('background-color', 'var(--teacher-h)');
@@ -93,6 +94,7 @@ $(document).ready(function() {
         }
 
         $('#div_A').find('.list-group-item').each(clearClassName);
+        cancelFilterCategoryAll();
     });
     $('#authors-tab').click(function() {
         $('#LeftPanel .toolkit>div').css('background-color', 'var(--author-h)');
@@ -116,6 +118,8 @@ $(document).ready(function() {
         });
 
         $('#div_A').find('.list-group-item').each(clearClassName);
+        cancelFilterCategoryAll();
+
     });
 
 
@@ -131,6 +135,8 @@ $(document).ready(function() {
 
         $('#div_C').find('.list-group-item').each(clearClassName);
         activedTab = '#groups';
+        cancelFilterCategoryAll();
+
     });
     $('#companies-tab').click(function() {
         $('#RightPanel .toolkit:first>div').css('background-color', 'var(--company-h)');
@@ -143,6 +149,8 @@ $(document).ready(function() {
 
         $('#div_C').find('.list-group-item').each(clearClassName);
         activedTab = '#companies';
+        cancelFilterCategoryAll();
+
     });
     $('#positions-tab').click(function() {
         $('#RightPanel .toolkit:first>div').css('background-color', 'var(--position-h)');
@@ -155,6 +163,8 @@ $(document).ready(function() {
 
         $('#div_C').find('.list-group-item').each(clearClassName);
         activedTab = '#positions';
+        cancelFilterCategoryAll();
+
     });
 
     $("#RightPanel .list-group-item").each(function(i, elem) {
@@ -165,22 +175,22 @@ $(document).ready(function() {
         elem.addEventListener('dragleave', dragLeave);
     });
 
-    $(".list-group-item").each(function(i, elem) {
+    $("LeftPanel .list-group-item").each(function(i, elem) {
         elem.addEventListener('dragstart', dragStart);
         $(elem).attr('drag', false);
     });
 
-    $(".fliter-company-btn").on('drop', companyDropEnd);
-    $(".fliter-function-btn").on('drop', functionDropEnd);
+    // $(".fliter-company-btn").on('drop', companyDropEnd);
+    // $(".fliter-function-btn").on('drop', functionDropEnd);
 
-    $(".fliter-function-btn").on('dragstart', dragStart);
-    $(".fliter-company-btn").on('dragstart', dragStart);
+    // $(".fliter-function-btn").on('dragstart', dragStart);
+    // $(".fliter-company-btn").on('dragstart', dragStart);
 
-    $(".fliter-company-btn").on('dragover', dragOver);
-    $(".fliter-company-btn").on('dragleave', dragLeave);
+    // $(".fliter-company-btn").on('dragover', dragOver);
+    // $(".fliter-company-btn").on('dragleave', dragLeave);
 
-    $(".fliter-function-btn").on('dragover', dragOver);
-    $(".fliter-function-btn").on('dragleave', dragLeave);
+    // $(".fliter-function-btn").on('dragover', dragOver);
+    // $(".fliter-function-btn").on('dragleave', dragLeave);
 
 
     $('input[name=status], input.search-filter, button.fliter-company-btn, button.fliter-function-btn').change(searchfilter);
@@ -215,8 +225,8 @@ $(".list-group-item").dblclick(function() {
     });
 });
 
-// $("#RightPanel .list-group-item").click(function (e) {
-//     $(this).parents('.list-group').children(".list-group-item").each(function (i, e) {
+// $("#RightPanel .list-group-item").click(function(e) {
+//     $(this).parents('.list-group').children(".list-group-item").each(function(i, e) {
 //         if ($(e).hasClass("active")) {
 //             $(e).removeClass("active");
 //         }
@@ -224,7 +234,7 @@ $(".list-group-item").dblclick(function() {
 //     $(this).addClass('active');
 // });
 
-$(".list-group-item").click(function(e) {
+$("LeftPanel .list-group-item").click(function(e) {
     // e.stopPropagation();
     $(this).toggleClass("active");
     $(this).attr('draggable', function(index, attr) {
@@ -238,6 +248,14 @@ var btnClick = function(e) {
         $(this).parents('.window').find('.list-group-item').each(clearClassName);
         $(this).addClass("active");
         $(this).parents('.list-group-item').addClass('highlight');
+    } else {
+        $(this).parents('.window').find('.list-group-item').each(clearClassName);
+        $(this).addClass("active");
+        $(this).parents('.list-group').children(".list-group-item").each(function(i, e) {
+            if ($(e).hasClass("active")) {
+                $(e).removeClass("active");
+            }
+        });
     }
 };
 
@@ -334,7 +352,14 @@ var contentFilter = function(element_id, str = '', comp = null, func = null, onl
 };
 
 $(".toolkit-show-filter").click(function(event) {
-    $(this).parents('.toolkit').children(".toolkit-filter").toggle();
+    var parent = $(this).parents('.toolkit');
+    parent.children(".toolkit-filter").toggle();
+    parent.children('.toolkit-filter input').each(function(i, e) {
+        $(e).attr('checked', false);
+    });
+    parent.children('.search-filter').val('');
+    parent.children('.fliter-company-btn').html('company +<i></i>');
+    parent.children('.fliter-function-btn').html('function +<i></i>');
 });
 
 var secondLevelShow = function(event) {
@@ -1290,84 +1315,88 @@ $('.fliter-company-btn').click(function(event) {
     // var activedTab = $('#RightPanel').find('.ui-state-active a').attr('href');
     switch ($(this).html()) {
         case 'company +<i></i>':
-            $(activedTab).fadeOut(1);
-            $('#companies').fadeIn(1);
-            $(this).html('Validate');
-            $("#companies").find('.toggle2-btn').each(function() {
-                $(this).toggle();
-            });
-            $("#companies").find('.toggle1-btn').each(function() {
-                $(this).toggle();
-            });
-            $('#companies').find('.list-group-item').each(clearClassName);
+            getFilterCategory(this, 'companies');
             break;
-        case 'Validate':
-            if ($('#companies').find('.list-group-item.active').length) {
-                var items = [],
-                    itemVal = [];
-                $('#companies').find('.list-group-item.active').each(function(i, el) {
-                    items.push($(el).find('.item-name').html());
-                    itemVal.push($(el).attr('id').split('_')[1]);
-                });
-                $(this).val(itemVal.join('_'));
-                $(this).html(items.join(', ') + "&nbsp <i>X</i>");
-                searchfilter(event);
-                $(this).change();
-            }
-            $('#companies').fadeOut(1);
-            $(activedTab).fadeIn(1);
+        case 'Select item':
+            toggleAndSearch(this, 'companies', event);
             break;
         default:
-            $(this).val('');
-            $(this).html('company +<i></i>');
-            $(this).change();
-            $('#companies').find('.list-group-item').each(clearClassName);
-            $('#companies').find('.toggle1-btn').toggle(false);
-            $('#companies').find('.toggle2-btn').toggle(true);
+            clearFilterCategory(this, 'companies', 'company +<i></i>');
             break;
     }
 });
 
-$('.fliter-function-btn').click(function() {
+$('.fliter-function-btn').click(function(event) {
     switch ($(this).html()) {
         case 'function +<i></i>':
-            $(activedTab).fadeOut(1);
-            $('#positions').fadeIn(1);
-            $(this).html('Validate');
-            $("#positions").find('.toggle2-btn').each(function() {
-                $(this).toggle();
-            });
-            $("#positions").find('.toggle1-btn').each(function() {
-                $(this).toggle();
-            });
-            $('#positions').find('.list-group-item').each(clearClassName);
+            getFilterCategory(this, 'positions');
             break;
-        case 'Validate':
-            if ($('#positions').find('.list-group-item.active').length) {
-                var items = [],
-                    itemVal = [];
-                $('#positions').find('.list-group-item.active').each(function(i, el) {
-                    items.push($(el).find('.item-name').html());
-                    itemVal.push($(el).attr('id').split('_')[1]);
-                });
-                $(this).val(itemVal.join('_'));
-                $(this).html(items.join(', '));
-                searchfilter(event);
-                $(this).change();
-            }
-            $('#positions').fadeOut(1);
-            $(activedTab).fadeIn(1);
+        case 'Select item':
+            toggleAndSearch(this, 'positions', event);
             break;
         default:
-            $(this).val('');
-            $(this).html('function +<i></i>');
-            $(this).change();
-            $('#positions').find('.list-group-item').each(clearClassName);
-            $('#positions').find('.toggle1-btn').toggle(false);
-            $('#positions').find('.toggle2-btn').toggle(true);
+            clearFilterCategory(this, 'positions', 'function +<i></i>');
             break;
     }
 });
+
+var clearFilterCategory = function(element, category, defaultStr) {
+    $(element).val('');
+    $(element).html(defaultStr);
+    $(element).change();
+    $('#' + category).find('.list-group-item').each(clearClassName);
+    $('#' + category).find('.toggle1-btn').toggle(false);
+    $('#' + category).find('.toggle2-btn').toggle(true);
+};
+
+var toggleAndSearch = function(element, category, event) {
+    if ($('#' + category).find('.list-group-item.active').length) {
+        var items = [],
+            itemVal = [];
+        $('#' + category).find('.list-group-item.active').each(function(i, el) {
+            items.push($(el).find('.item-name').html());
+            itemVal.push($(el).attr('id').split('_')[1]);
+        });
+        $(element).val(itemVal.join('_'));
+        $(element).html(items.join(', ') + "&nbsp; X");
+        searchfilter(event);
+        $(element).change();
+    }
+    $('#' + category).fadeOut(1);
+    $(activedTab).fadeIn(1);
+};
+
+var getFilterCategory = function(element, category) {
+    $(activedTab).fadeOut(1);
+    $('#' + category).fadeIn(1);
+    $(element).html('Select item');
+    $("#" + category).find('.toggle2-btn').each(function(i, e) {
+        $(e).toggle();
+    });
+    $("#" + category).find('.toggle1-btn').each(function(i, e) {
+        $(e).toggle();
+    });
+    $('#' + category).find('.list-group-item').each(clearClassName);
+};
+
+var cancelFilterCategoryAll = function() {
+    $('.fliter-function-btn').each(function(i, e) {
+        if ($(e).html() != 'function +<i></i>') {
+            $(e).html('function +<i></i>');
+            $(e).val('');
+            $('#positions').fadeOut(1);
+            $(activedTab).fadeIn(1);
+        }
+    });
+    $('.fliter-company-btn').each(function(i, e) {
+        if ($(e).html() != 'company +<i></i>') {
+            $(e).html('company +<i></i>');
+            $(e).val('');
+            $('#companies').fadeOut(1);
+            $(activedTab).fadeIn(1);
+        }
+    });
+}
 
 $('.toggle2-btn').click(function(evt) {
     // evt.stopPropagation();
@@ -1375,7 +1404,7 @@ $('.toggle2-btn').click(function(evt) {
     $(this).parents('.list-group-item').attr('draggable', function(index, attr) {
         return attr == "true" ? false : true;
     });
-})
+});
 
 //filter
 

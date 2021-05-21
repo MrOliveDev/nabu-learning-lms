@@ -202,18 +202,116 @@ a.list-group-item:not([href]) {
     z-index: 6;
 }
 
-.highlight {
-    animation: highlight 2s infinite;
+#students .highlight,
+#table-user .highlight {
+    animation: studenthighlight 2s infinite;
 }
 
-@keyframes highlight {
+@keyframes studenthighlight {
     0% {
-        background-color: #b4b401;
+        background-color: var(--student-h);
     }
     50% {
-        background-color: yellow;
+        background-color: var(--student-c);
     }
     100% {
-        background-color: #b4b401;
+        background-color: var(--student-h);
+    }
+}
+
+#teachers .highlight {
+    animation: teacherhighlight 2s infinite;
+}
+
+@keyframes teacherhighlight {
+    0% {
+        background-color: var(--teacher-h);
+    }
+    50% {
+        background-color: var(--teacher-c);
+    }
+    100% {
+        background-color: var(--teacher-h);
+    }
+}
+
+#teachers .highlight {
+    animation: teacherhighlight 2s infinite;
+}
+
+@keyframes teacherhighlight {
+    0% {
+        background-color: var(--teacher-h);
+    }
+    50% {
+        background-color: var(--teacher-c);
+    }
+    100% {
+        background-color: var(--teacher-h);
+    }
+}
+
+#authors .highlight {
+    animation: authorhighlight 2s infinite;
+}
+
+@keyframes authorhighlight {
+    0% {
+        background-color: var(--author-h);
+    }
+    50% {
+        background-color: var(--author-c);
+    }
+    100% {
+        background-color: var(--author-h);
+    }
+}
+
+#groups .highlight,
+#table_groups .highlight {
+    animation: grouphighlight 2s infinite;
+}
+
+@keyframes grouphighlight {
+    0% {
+        background-color: var(--group-h);
+    }
+    50% {
+        background-color: var(--group-c);
+    }
+    100% {
+        background-color: var(--group-h);
+    }
+}
+
+#companies .highlight {
+    animation: companyhighlight 2s infinite;
+}
+
+@keyframes companyhighlight {
+    0% {
+        background-color: var(--company-h);
+    }
+    50% {
+        background-color: var(--company-c);
+    }
+    100% {
+        background-color: var(--company-h);
+    }
+}
+
+#positions .highlight {
+    animation: positionhighlight 2s infinite;
+}
+
+@keyframes positionhighlight {
+    0% {
+        background-color: var(--position-h);
+    }
+    50% {
+        background-color: var(--position-c);
+    }
+    100% {
+        background-color: var(--position-h);
     }
 }
