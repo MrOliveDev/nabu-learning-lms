@@ -66,7 +66,7 @@ class StudentController extends Controller
 
         $contact_info = array(
             "address" => $request->post('contact_info'),
-            'email' => $request->post('email')
+            'email' => $request->post('user-email')
         );
 
         // print_r($request->post('type')); exit;
@@ -80,7 +80,7 @@ class StudentController extends Controller
                 'last_name' => $request->post('last_name'),
                 'contact_info' => json_encode($contact_info),
                 'id_config' => $interfaceCfg->id,
-                'status'=>$request->input('user-status-icon')=='on'?1:0,
+                'status' => $request->input('user-status-icon'),
                 'type' => $request->post('type')
                 // 'lang' => $request->post('lang'),
             ]);
@@ -91,13 +91,13 @@ class StudentController extends Controller
                 'first_name' => $request->post('first_name'),
                 'last_name' => $request->post('last_name'),
                 'contact_info' => json_encode($contact_info),
-                'status'=>$request->input('user-status-icon')=='on'?1:0,
+                'status' => $request->input('user-status-icon'),
                 'id_config' => $interfaceCfg->id,
                 'type' => $request->post('type')
                 // 'lang' => $request->post('lang'),
-                ]);
-            }
-            return response()->json($client);
+            ]);
+        }
+        return response()->json($client);
     }
 
     /**
@@ -153,8 +153,8 @@ class StudentController extends Controller
         if ($user->id_config == null) {
             $interface_cfg = InterfaceCfgModel::create([
                 "interface_icon" => $request->input("base64_img_data"),
-                'admin_id'=>1,
-                'interface_color'=>''
+                'admin_id' => 1,
+                'interface_color' => ''
             ]);
             ConfigModel::create([
                 "id" => $interface_cfg->id,
@@ -170,7 +170,7 @@ class StudentController extends Controller
         $user->login = $request->input('login');
         $user->company = $request->input('company');
         $user->function = $request->input('function');
-        $user->status = $request->input('user-status-icon')=='on'?1:0;
+        $user->status = $request->input('user-status-icon');
         if ($request->input('password') != null) {
             $user->password = $request->input('password');
         }
@@ -189,7 +189,7 @@ class StudentController extends Controller
 
         $user->update();
 
-        return redirect('/student');
+        return response()->json($user);
         //
     }
 
@@ -203,9 +203,7 @@ class StudentController extends Controller
     {
         $user = User::find($id);
 
-        $user->status = 0;
-
-        $user->update();
+        $user->delete();
 
         return response('successfully deleted!', 200);
         //
@@ -221,6 +219,7 @@ class StudentController extends Controller
         //     print_r(json_decode($value->));
         // }
         // print_r();
+        $responseData = [];
         $data = json_decode($request->post('data'));
         if (count($data) != 0) {
             foreach ($data as $value) {
@@ -229,11 +228,11 @@ class StudentController extends Controller
                 $user->linked_groups = $value->target;
 
                 $user->update();
-                var_dump($value->id);
-                var_dump($value->target);
+
+                array_push($responseData, $user);
             }
         }
-        return response()->json($data);
+        return response()->json($responseData);
     }
 
     public function userJoinToCompany(Request $request)
@@ -249,7 +248,7 @@ class StudentController extends Controller
             }
         }
 
-        return response()->json($data);
+        return response()->json($user);
     }
 
     public function userJoinToPosition(Request $request)
@@ -259,12 +258,12 @@ class StudentController extends Controller
             foreach ($data as $key => $value) {
                 $user = User::find($value->id);
 
-                $user->company = $value->target;
+                $user->function = $value->target;
 
                 $user->update();
             }
         }
 
-        return response()->json($data);
+        return response()->json($user);
     }
 }

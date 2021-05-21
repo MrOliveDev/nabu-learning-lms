@@ -31,7 +31,7 @@ class PositionController extends Controller
             'description'=>$request->input('category_description'),
         ]);
 
-        return redirect('/student');
+        return response()->json($position);
         //
     }
 
@@ -65,7 +65,7 @@ class PositionController extends Controller
 
         $position->update();
 
-        return redirect('/student');
+        return response()->json($position);
         //
     }
 

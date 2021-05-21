@@ -44,7 +44,7 @@ class GroupController extends Controller
             'status'=>$request->input('cate-status-icon')=='on'?1:0
         ]);
 
-        return redirect('/student')->with('group');
+        return response()->json($group);
         //
     }
 
@@ -56,7 +56,7 @@ class GroupController extends Controller
      */
     public function show($id)
     {
-        //
+        //TODO:DB::show
         $group = GroupModel::find($id);
 
         return response()->json($group);
@@ -89,11 +89,11 @@ class GroupController extends Controller
         $group->name = $request->input('category_name');
         $group->description = $request->input('category_description');
         // print_r($request->input('cate-status'));exit;
-        $group->status = $request->input('cate-status-icon')=='on'?1:0;
+        $group->status = $request->input('cate-status-icon');
 
         $group->update();
         //
-        return redirect('/student')->with('group');
+        return response()->json($group);
     }
 
     /**
@@ -108,7 +108,7 @@ class GroupController extends Controller
 
         $group->status = 0;
 
-        $group->update();
+        $group->delete();
 
         return response('successfully deleted!', 200);
         //

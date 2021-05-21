@@ -45,7 +45,7 @@ class CompanyController extends Controller
             'status' => 1
         ]);
 
-        return redirect('/student');
+        return response()->json($company);
         //
     }
 
@@ -91,7 +91,7 @@ class CompanyController extends Controller
 
         $company->update();
 
-        return redirect('/student');
+        return response()->json($company);
         //
     }
 

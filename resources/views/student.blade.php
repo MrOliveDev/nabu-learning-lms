@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="{{asset('assets/css/cropper.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/css/cropperModal.css')}}">
 <link rel="stylesheet" href="{{asset('assets/js/plugins/ion-rangeslider/css/ion.rangeSlider.css')}}">
+<link rel="stylesheet" href="{{asset('assets/js/plugins/sweetalert2/sweetalert2.min.css')}}" />
+
 
 
 
@@ -38,6 +40,7 @@
 
 <script src="{{asset('assets/js/plugins/select2/js/select2.full.min.js')}}"></script>
 
+<script src="{{asset('assets/js/plugins/sweetalert2/sweetalert2.js')}}"></script>
 <script src="{{asset('assets/js/userPage.js')}}"></script>
 
 <script src="assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
@@ -52,7 +55,7 @@
 <script>
     $('#utilisateurs').addClass('active');
     jQuery(function() {
-        Dashmix.helpers(['select2', 'rangeslider', 'notify']);
+        Dashmix.helpers(['select2', 'rangeslider', 'notify', 'summernote']);
     });
 </script>
 
@@ -96,8 +99,8 @@
                     <span>all&nbsp;</span>
                 </div>
                 <div class="float-right">
-                    <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company +</button>&nbsp;
-                    <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function +</button>
+                    <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company +<i></i></button>&nbsp;
+                    <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function +<i></i></button>
                 </div>
             </div>
         </div>
@@ -106,18 +109,18 @@
                 <div id="students">
 
 
-                    <div class="list-group" id="list-tab" role="tablist">
+                    <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach($students as $student)
                         <a class="list-group-item list-group-item-action  p-1 border-0" id="student_{{$student->id}}">
                             <div class="float-left">
                                 @if($student->status==1)
-                                <i class="fa fa-circle text-success m-2"></i>
+                                <i class="fa fa-circle  m-2" style="color:green;"></i>
                                 <input type="hidden" name="item-status" class='status-notification' value="1">
                                 @else
-                                <i class="fa fa-circle text-danger m-2"></i>
+                                <i class="fa fa-circle m-2"  style="color:red;"></i>
                                 <input type="hidden" name="item-status" class='status-notification' value="0">
                                 @endif
-                                {{$student->first_name}}&nbsp;{{$student->last_name}}
+                                <span class="item-name">{{$student->first_name}}&nbsp;{{$student->last_name}}</span>
                                 <input type="hidden" name="item-name" value="{{$student->first_name}}{{$student->last_name}}">
                                 <input type="hidden" name="item-group" value="{{$student->linked_groups}}">
                                 <input type="hidden" name="item-company" value="{{$student->company}}">
@@ -141,18 +144,18 @@
                 </div>
                 <div id="teachers">
 
-                    <div class="list-group" id="list-tab" role="tablist">
+                    <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach($teachers as $teacher)
                         <a class="list-group-item list-group-item-action  p-1 border-0" id="teacher_{{$teacher->id}}">
                             <div class="float-left">
                                 @if($teacher->status==1)
-                                <i class="fa fa-circle text-success m-2"></i>
+                                <i class="fa fa-circle  m-2" style="color:green;"></i>
                                 <input type="hidden" name="item-status" class='status-notification' value="1">
                                 @else
-                                <i class="fa fa-circle text-danger m-2"></i>
+                                <i class="fa fa-circle m-2"  style="color:red;"></i>
                                 <input type="hidden" name="item-status" class='status-notification' value="0">
                                 @endif
-                                {{$teacher->first_name}}&nbsp;{{$teacher->last_name}}
+                                <span class="item-name">{{$teacher->first_name}}&nbsp;{{$teacher->last_name}}</span>
                                 <input type="hidden" name="item-name" value="{{$teacher->first_name}}{{$teacher->last_name}}">
                                 <input type="hidden" name="item-group" value="{{$teacher->linked_groups}}">
                                 <input type="hidden" name="item-company" value="{{$teacher->company}}">
@@ -177,18 +180,18 @@
                 </div>
                 <div id="authors">
 
-                    <div class="list-group" id="list-tab" role="tablist">
+                    <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach($authors as $author)
                         <a class="list-group-item list-group-item-action  p-1 border-0" id="author_{{$author->id}}">
                             <div class="float-left">
                                 @if($author->status==1)
-                                <i class="fa fa-circle text-success m-2"></i>
+                                <i class="fa fa-circle  m-2" style="color:green;"></i>
                                 <input type="hidden" name="item-status" class='status-notification' value="1">
                                 @else
-                                <i class="fa fa-circle text-danger m-2"></i>
+                                <i class="fa fa-circle m-2"  style="color:red;"></i>
                                 <input type="hidden" name="item-status" class='status-notification' value="0">
                                 @endif
-                                {{$author->first_name}}&nbsp;{{$author->last_name}}
+                                <span class="item-name">{{$author->first_name}}&nbsp;{{$author->last_name}}</span>
                                 <input type="hidden" name="item-name" value="{{$author->first_name}}{{$author->last_name}}">
                                 <input type="hidden" name="item-group" value="{{$author->linked_groups}}">
                                 <input type="hidden" name="item-company" value="{{$author->company}}">
@@ -219,10 +222,10 @@
         <div id="div_B" class="window bottom">
 
             <div class="mx-4">
-                <form method="post" id="user_form" enctype="multipart/form-data" class="form" action="" autocomplete="off">
+                <form method="post" id="user_form" enctype="multipart/form-data" class="form" action="" autocomplete="off" data-cate="" data-item="">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="type" id='user_type'>
-                    <!-- <input name='_method' type='hidden' value='PUT' id='method-select' /> -->
+                    <input name='_method' type='hidden' value='PUT' class='method-select' />
                     <div class="card text-black mx-2 pt-3">
                         <div class="d-flex justify-content-center flex-wrap pl-3 pb-3" style="overflow:hidden;">
                             <div style="width:300px !important; position:relative">
@@ -243,8 +246,8 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            Login Administrator
+                                        <span class="input-group-text" id="login-label">
+                                            Login
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="login" name="login" value="" required>
@@ -346,13 +349,13 @@
                                             E-mail
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="user-email" name="user-email" value="" required>
+                                    <input type="email" class="form-control" id="user-email" name="user-email" value="" required>
                                 </div>
                             </div>
 
 
                             <div class="form-group clearfix">
-                                <button type="submit" class="btn btn-hero-primary float-right mx-1" id="user_save_button">SAVE</button>
+                                <button type="submit" class="btn btn-hero-primary float-right mx-1 submit-btn" id="user_save_button" data-form="user_form">SAVE</button>
                                 <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn" id="user_cancel_button">CANCEL</button>
                             </div>
                         </div>
@@ -370,12 +373,12 @@
                     </ul>
 
                     <div id="table-groups">
-                        <div class="list-group" id="list-tab" role="tablist">
+                        <div class="list-group" id="list-tab" role="tablist" data-src=''>
 
                         </div>
                     </div>
                     <div id="table-session">
-                        <div class="list-group" id="list-tab" role="tablist">
+                        <div class="list-group" id="list-tab" role="tablist" data-src=''>
 
                         </div>
                     </div>
@@ -450,8 +453,8 @@
                     <span>all&nbsp;</span>
                 </div>
                 <div class="float-right d-none">
-                    <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company +</button>&nbsp;
-                    <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function +</button>
+                    <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company +<i></i></button>&nbsp;
+                    <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function +<i></i></button>
                 </div>
             </div>
         </div>
@@ -459,31 +462,31 @@
             <div id="groups">
 
 
-                <div class="list-group mx-4" id="list-tab" role="tablist">
+                <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
                     @foreach($groups as $group)
                     <a class="list-group-item list-group-item-action p-1 border-0 " id="group_{{$group->id}}">
                         <div class="float-left">
                             @if($group->status==1)
-                            <i class="fa fa-circle text-success m-2"></i>
-                            <input type="hidden" name="item-status" class='status-notification' value="1">
+                            <i class="fa fa-circle  m-2" style="color:green;"></i>
+                            <input type="hidden" name="item-status" class="status-notification" value="1">
                             @else
-                            <i class="fa fa-circle text-danger m-2"></i>
-                            <input type="hidden" name="item-status" class='status-notification' value="0">
+                            <i class="fa fa-circle m-2"  style="color:red;"></i>
+                            <input type="hidden" name="item-status" class="status-notification" value="0">
                             @endif
-                            {{$group->name}}
+                            <span class="item-name">{{$group->name}}</span>
                             <input type="hidden" name="item-name" value="{{$group->name}}">
                         </div>
                         <div class="btn-group float-right">
-                            <button class="btn  toggle1-btn  item-show" data-content='group'>
+                            <button class="btn  toggle1-btn  item-show" data-content="group">
                                 <i class="px-2 fa fa-eye"></i>
                             </button>
-                            <button class="btn item-edit toggle1-btn" data-content='group'>
+                            <button class="btn item-edit toggle1-btn" data-content="group">
                                 <i class="px-2 fa fa-edit"></i>
                             </button>
-                            <button class="btn item-delete toggle1-btn" data-content='group'>
+                            <button class="btn item-delete toggle1-btn" data-content="group">
                                 <i class="px-2 fa fa-trash-alt"></i>
                             </button>
-                            <button class="btn  toggle2-btn" data-content='group'>
+                            <button class="btn  toggle2-btn" data-content="group">
                                 <i class="px-2 fas fa-check-circle"></i>
                             </button>
                         </div>
@@ -493,11 +496,11 @@
             </div>
             <div id="companies">
 
-                <div class="list-group mx-4" id="list-tab" role="tablist">
+                <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
                     @foreach($companies as $company)
                     <a class="list-group-item list-group-item-action p-1 border-0 " id="company_{{$company->id}}">
                         <div class="float-left">
-                            {{$company->name}}
+                            <span class="item-name">{{$company->name}}</span>
                             <input type="hidden" name="item-status" value="{{$group->status}}">
                             <input type="hidden" name="item-name" value="{{$group->name}}">
                         </div>
@@ -521,12 +524,12 @@
             </div>
             <div id="positions">
 
-                <div class="list-group mx-4" id="list-tab" role="tablist">
+                <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
                     @foreach($positions as $position)
                     <a class="list-group-item list-group-item-action p-1 border-0 " id="function_{{$position->id}}">
                         <div class="float-left">
                             <!-- <i class="fa fa-circle text-danger m-2"></i> -->
-                            {{$position->name}}
+                            <span class="item-name">{{$position->name}}</span>
                             <input type="hidden" name="item-name" value="{{$group->name}}">
                         </div>
                         <div class="btn-group float-right">
@@ -556,6 +559,7 @@
             <div class="tab-content mx-4" id="nav-tabContent">
                 <form method="post" id="category_form" enctype="multipart/form-data" class="form" action="">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input name='_method' type='hidden' value='PUT' class='method-select' />
                     <div class="card bg-white text-black mx-2">
                         <div class="card-body  p-3">
                             <div class="form-group">
@@ -585,7 +589,7 @@
                                 </div>
                             </div>
                             <div class="form-group clearfix">
-                                <button type="submit" class="btn btn-hero-primary float-right mx-1" id="category_save_button">SAVE</button>
+                                <button type="submit" class="btn btn-hero-primary float-right mx-1 submit-btn" id="category_save_button" data-form="category_form">SAVE</button>
                                 <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn" id="category_cancel_button">CANCEL</button>
                                 <input type="hidden" name="cate-status">
                             </div>
@@ -620,12 +624,12 @@
                             <span>all&nbsp;</span>
                         </div>
                         <div class="float-right">
-                            <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company +</button>&nbsp;
-                            <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function +</button>
+                            <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company +<i></i></button>&nbsp;
+                            <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function +<i></i></button>
                         </div>
                     </div>
                 </div>
-                <div class="list-group" id="list-tab" role="tablist">
+                <div class="list-group" id="list-tab" role="tablist" data-src=''>
 
                 </div>
                 <button type="button" id="notificator" class="js-notify btn btn-secondary push" data-message="Your message!<br>" style="display:none">
