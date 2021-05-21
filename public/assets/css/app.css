@@ -98,11 +98,9 @@ body {
     color: #a7acd6 !important;
 }
 
-
 .text-blue-3 {
     color: #6099aa !important;
 }
-
 
 .text-red-0 {
     color: #bd1f2d !important;
@@ -132,8 +130,6 @@ body {
     color: #fa921f !important;
 }
 
-
-
 .rounded {
     border-radius: 10px !important;
 }
@@ -142,14 +138,7 @@ body {
     border-radius: 3px !important;
 }
 
-
-
-
-
-
-
 #page-container {}
-
 
 main#main-container {
     background-color: #7e3e98;
@@ -167,13 +156,10 @@ main#main-container {
     display: none;
 }
 
-
 #sidebar {
     transition: width .1s;
     width: 300px;
 }
-
-
 
 .simplebar-content {
     max-height: 200%;
@@ -182,7 +168,6 @@ main#main-container {
     background-color: #2e3092;
     transition: all .2s;
 }
-
 
 .nav-main-link:hover {
     border-radius: 5px;
@@ -200,14 +185,11 @@ main#main-container {
 
 #sidebar-content-header {
     transition: width .1s;
-
     justify-content: space-around;
     /* flex-wrap: wrap; */
     flex-direction: column;
     width: auto;
 }
-
-
 
 .simplebar-content:hover .sidetitle {
     /* padding-left:70px; */
@@ -248,6 +230,7 @@ img {
 #sidebar .simplebar-mask .content-header {
     justify-content: flex-start;
 }
+
 
 /*
 .simplebar-content:not(:hover) .nav-main-cover-item {
@@ -305,10 +288,12 @@ nav.navbar.navbar-expand-md.navbar-light.bg-white.shadow-sm {
     width: 8px;
 }
 
+
 /* Track */
 
 
 /* Handle */
+
 #div_A::-webkit-scrollbar-thumb,
 #div_B::-webkit-scrollbar-thumb,
 #div_C::-webkit-scrollbar-thumb,
@@ -317,14 +302,15 @@ nav.navbar.navbar-expand-md.navbar-light.bg-white.shadow-sm {
     border-radius: 8px;
 }
 
+
 /* Handle on hover */
+
 #div_A::-webkit-scrollbar-thumb:hover,
 #div_B::-webkit-scrollbar-thumb:hover,
 #div_C::-webkit-scrollbar-thumb:hover,
 #div_D::-webkit-scrollbar-thumb:hover {
     background: #191b75;
 }
-
 
 a.navbar-brand {
     color: white !important;
@@ -366,11 +352,9 @@ main.main-container {
     z-index: 1;
 }
 
-
 .page-header-trigger {
     padding-left: 310px !important;
 }
-
 
 .tab-avatar {
     background-color: #912891;
@@ -434,8 +418,6 @@ span.tab-description {
     padding-left: 10px;
 }
 
-
-
 table.session-table {
     width: 100%;
     margin-left: 10px;
@@ -472,7 +454,6 @@ table.session-table th i {
 .session-table tr:nth-child(even) div {
     background-color: #c3aaca;
 }
-
 
 
 /* //////////////////dashboard////////////// */
@@ -611,7 +592,6 @@ div.collespe-description {
     border-radius: 0 0 10px 10px;
 }
 
-
 .dash-table td[colspan="2"] {
     background: white;
     color: black;
@@ -625,7 +605,6 @@ div.collespe-description {
     padding: 10px;
     border-radius: 10px 10px 0px 0px;
 }
-
 
 img.collespe-body {
     height: auto;
@@ -651,7 +630,6 @@ span.dash-avatar-title {
     justify-content: space-between;
 }
 
-
 .dash-item div {
     display: inline-block;
     width: 194px;
@@ -662,11 +640,9 @@ span.dash-avatar-title {
     padding: 20px;
 }
 
-
 .height-controller {
     text-align: center;
 }
-
 
 span.dash-panel-title {
     font-size: 30px;
@@ -681,6 +657,7 @@ span.dash-panel-bottom-title {
     font-weight: 100;
     font-size: 30px;
 }
+
 
 /* Segoe UI
  */
@@ -751,7 +728,9 @@ i.fa.fa-cog {
     width: 31px;
 }
 
+
 /* ?????????????? */
+
 
 /* ////////////////////////////////////////////////////////// */
 
@@ -813,7 +792,6 @@ fieldset {
     float: left;
 }
 
-
 .window {
     overflow-y: scroll;
     width: 100%;
@@ -872,22 +850,4 @@ main select.form-control option {
 
 #div_vertical {
     transform: translate(8px, 0px);
-}
-
-.highlight {
-    animation: highlight 2s infinite;
-}
-
-@keyframes highlight {
-    0% {
-        opacity: 100%;
-    }
-
-    50% {
-        opacity: 20%;
-    }
-
-    100% {
-        opacity: 100%;
-    }
 }

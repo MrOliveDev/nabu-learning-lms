@@ -80,7 +80,7 @@ class StudentController extends Controller
                 'last_name' => $request->post('last_name'),
                 'contact_info' => json_encode($contact_info),
                 'id_config' => $interfaceCfg->id,
-                'status'=>$request->input('user-status-icon')=='on'?1:0,
+                'status' => $request->input('user-status-icon') == 'on' ? 1 : 0,
                 'type' => $request->post('type')
                 // 'lang' => $request->post('lang'),
             ]);
@@ -91,13 +91,13 @@ class StudentController extends Controller
                 'first_name' => $request->post('first_name'),
                 'last_name' => $request->post('last_name'),
                 'contact_info' => json_encode($contact_info),
-                'status'=>$request->input('user-status-icon')=='on'?1:0,
+                'status' => $request->input('user-status-icon') == 'on' ? 1 : 0,
                 'id_config' => $interfaceCfg->id,
                 'type' => $request->post('type')
                 // 'lang' => $request->post('lang'),
-                ]);
-            }
-            return response()->json($client);
+            ]);
+        }
+        return response()->json($client);
     }
 
     /**
@@ -153,8 +153,8 @@ class StudentController extends Controller
         if ($user->id_config == null) {
             $interface_cfg = InterfaceCfgModel::create([
                 "interface_icon" => $request->input("base64_img_data"),
-                'admin_id'=>1,
-                'interface_color'=>''
+                'admin_id' => 1,
+                'interface_color' => ''
             ]);
             ConfigModel::create([
                 "id" => $interface_cfg->id,
@@ -170,7 +170,7 @@ class StudentController extends Controller
         $user->login = $request->input('login');
         $user->company = $request->input('company');
         $user->function = $request->input('function');
-        $user->status = $request->input('user-status-icon')=='on'?1:0;
+        $user->status = $request->input('user-status-icon') == 'on' ? 1 : 0;
         if ($request->input('password') != null) {
             $user->password = $request->input('password');
         }
@@ -189,7 +189,7 @@ class StudentController extends Controller
 
         $user->update();
 
-        return redirect('/student');
+        return response()->json($user);
         //
     }
 
@@ -203,9 +203,7 @@ class StudentController extends Controller
     {
         $user = User::find($id);
 
-        $user->status = 0;
-
-        $user->update();
+        $user->delete();
 
         return response('successfully deleted!', 200);
         //

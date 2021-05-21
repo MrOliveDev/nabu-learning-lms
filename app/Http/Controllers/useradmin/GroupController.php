@@ -44,7 +44,7 @@ class GroupController extends Controller
             'status'=>$request->input('cate-status-icon')=='on'?1:0
         ]);
 
-        return redirect('/student')->with('group');
+        return response()->json($group);
         //
     }
 
@@ -56,7 +56,7 @@ class GroupController extends Controller
      */
     public function show($id)
     {
-        //
+        //TODO:DB::show
         $group = GroupModel::find($id);
 
         return response()->json($group);

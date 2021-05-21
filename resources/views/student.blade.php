@@ -219,7 +219,7 @@
         <div id="div_B" class="window bottom">
 
             <div class="mx-4">
-                <form method="post" id="user_form" enctype="multipart/form-data" class="form" action="" autocomplete="off">
+                <form method="post" id="user_form" enctype="multipart/form-data" class="form" action="" autocomplete="off" data-cate="" data-item="">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="type" id='user_type'>
                     <!-- <input name='_method' type='hidden' value='PUT' id='method-select' /> -->
@@ -243,8 +243,8 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            Login Administrator
+                                        <span class="input-group-text" id="login-label">
+                                            Login
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="login" name="login" value="" required>
@@ -352,7 +352,7 @@
 
 
                             <div class="form-group clearfix">
-                                <button type="submit" class="btn btn-hero-primary float-right mx-1" id="user_save_button">SAVE</button>
+                                <button type="button" class="btn btn-hero-primary float-right mx-1 submit-btn" id="user_save_button" data-form="user_form">SAVE</button>
                                 <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn" id="user_cancel_button">CANCEL</button>
                             </div>
                         </div>
@@ -585,7 +585,7 @@
                                 </div>
                             </div>
                             <div class="form-group clearfix">
-                                <button type="submit" class="btn btn-hero-primary float-right mx-1" id="category_save_button">SAVE</button>
+                                <button type="button" class="btn btn-hero-primary float-right mx-1 submit-btn" id="category_save_button" data-form="category_form">SAVE</button>
                                 <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn" id="category_cancel_button">CANCEL</button>
                                 <input type="hidden" name="cate-status">
                             </div>

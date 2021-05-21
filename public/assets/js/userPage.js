@@ -2,7 +2,8 @@
 
 // const { forEach } = require("lodash");
 
-var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
+var baseURL = window.location.protocol + "//" + window.location.host;
+// var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
 var filteritem = null;
 var grouptab = null,
     detailtags = null;
@@ -524,12 +525,23 @@ $('.toolkit-add-item').click(function(event) {
     var activeTagName;
     if (parent_id == 'RightPanel') {
         activeTagName = $('#RightPanel').find('.ui-state-active:first a').attr('href');
+        $('#div_B').find('.list-group-item').each(function(i, highlighted) {
+            if ($(highlighted).hasClass('active')) {
+                $(highlighted).find(".btn").each(function(index, btnelement) {
+                    $(btnelement).removeClass("active");
+                });
+            }
+            if ($(highlighted).hasClass('highlight')) {
+                $(highlighted).removeClass('highlight');
+            }
+        });
         switch (activeTagName) {
             case '#groups':
                 $("#category_form").attr('action', baseURL + '/group');
                 $('#status_checkbox').css('display', 'block');
                 $('#category_status').attr("checked", 'checked');
 
+                $('#category_form').attr('data-item', '');
 
                 if ($('#category_form .method-select').length > 0) {
                     $("#category_form .method-select").remove();
@@ -539,6 +551,8 @@ $('.toolkit-add-item').click(function(event) {
                 $("#category_form").attr('action', baseURL + '/company');
                 $('#status_checkbox').css('display', 'none');
 
+                $('#category_form').attr('data-item', '');
+
                 if ($('#category_form .method-select').length > 0) {
                     $("#category_form .method-select").remove();
                 }
@@ -546,6 +560,8 @@ $('.toolkit-add-item').click(function(event) {
             case '#positions':
                 $("#category_form").attr('action', baseURL + '/function');
                 $('#status_checkbox').css('display', 'none');
+
+                $('#category_form').attr('data-item', '');
 
                 if ($('#category_form .method-select').length > 0) {
                     $("#category_form .method-select").remove();
@@ -560,8 +576,19 @@ $('.toolkit-add-item').click(function(event) {
 
     } else {
         activeTagName = $('#LeftPanel').find('.ui-state-active:first a').attr('href');
+        $('#div_A').find('.list-group-item').each(function(i, highlighted) {
+            if ($(highlighted).hasClass('active')) {
+                $(highlighted).find(".btn").each(function(index, btnelement) {
+                    $(btnelement).removeClass("active");
+                });
+            }
+            if ($(highlighted).hasClass('highlight')) {
+                $(highlighted).removeClass('highlight');
+            }
+        });
         $('#user_form').attr('action', baseURL + '/user');
 
+        $('#user_form').attr('data-item', '');
 
         if ($('#user_form .method-select').length > 0) {
             $("#user_form .method-select").remove();
@@ -569,12 +596,15 @@ $('.toolkit-add-item').click(function(event) {
         switch (activeTagName) {
             case '#students':
                 $('#user_type').val('4');
+                $('#login-label').html('Login Student');
                 break;
             case '#teachers':
                 $('#user_type').val('3');
+                $('#login-label').html('Login Teacher');
                 break;
             case '#authors':
                 $('#user_type').val('2');
+                $('#login-label').html('Login Author');
                 break;
 
             default:
@@ -657,8 +687,6 @@ $('#div_A .item-show').click(function(event) {
 });
 
 $('#div_C .item-show').click(function(event) {
-
-
     var parent = $(this).parents('.list-group-item');
     var id = parent.attr('id').split('_')[1];
     var cate = parent.attr('id').split('_')[0];
@@ -760,6 +788,8 @@ var item_edit = function(element) {
                         $('#preview').attr('src', data.user_info.interface_icon);
                         $('#base64_img_data').val(data.user_info.interface_icon);
                     }
+                    $('#user_form').attr('data-item', parent.attr('id'));
+
                     $('#login').val(data.user_info.login);
                     $('#password').val(data.user_info.password);
                     $('#firstname').val(data.user_info.first_name);
@@ -768,6 +798,20 @@ var item_edit = function(element) {
                     $('#position').val(data.user_info.function);
                     $("#user_form").attr('action', baseURL + '/user/' + id);
                     $('#status-form-group').css('display', 'block !important');
+                    switch (data.user_info.type) {
+                        case 2:
+                            $('#login-label').html('Login Author');
+                            break;
+                        case 4:
+                            $('#login-label').html('Login Student');
+                            break;
+                        case 3:
+                            $('#login-label').html('Login Teacher');
+                            break;
+
+                        default:
+                            break;
+                    }
 
                     if (data.user_info.contact_info != null && data.user_info.contact_info != "") {
                         $('#contact_info').val(JSON.parse(data.user_info.contact_info).address);
@@ -803,6 +847,8 @@ var item_edit = function(element) {
                     $('#cate-status-icon').attr("checked", data.status == 1).change();
                     $('#cate-status').val(data.status);
 
+                    $('#category_form').attr('data-item', parent.attr('id'));
+
                     $("#category_form").attr('action', baseURL + '/group/' + id);
 
                     if ($('#category_form .method-select').length == 0) {
@@ -827,6 +873,7 @@ var item_edit = function(element) {
                     $('#category_description').val(data.description);
                     $('#status_checkbox').css('display', 'none');
 
+                    $('#category_form').attr('data-item', parent.attr('id'));
                     $("#category_form").attr('action', baseURL + '/company/' + id);
 
                     if ($('#category_form .method-select').length == 0) {
@@ -852,6 +899,7 @@ var item_edit = function(element) {
                     $('#category_description').val(data.description);
                     $('#status_checkbox').css('display', 'none');
 
+                    $('#category_form').attr('data-item', parent.attr('id'));
                     $("#category_form").attr('action', baseURL + '/function/' + id);
 
                     if ($('#category_form .method-select').length == 0) {
@@ -1109,12 +1157,38 @@ var detachCall = function(cate, connectiondata) {
             requestData = [];
         }
     });
-}
+};
+
+$('.submit-btn').click(function(event) {
+    var formname = $(this).attr('data-form');
+    var submit_data = Array();
+
+    $('#' + formname).find('input, switch').each(function(i, e) {
+        submit_data[$(e).attr('name')] = $(e).val();
+    });
+
+    $.ajax({
+        url: $('user_form').attr('action'),
+        method: $('user_form').attr('method'),
+        data: submit_data,
+        success: function(data) {
+            if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
+                data;
+            }
+        },
+        error: function(err) {
+            console.log(err);
+        }
+    });
+
+    submit_data = null;
+
+});
 
 $('.cancel-btn').click(function(event) {
     var parent = $(this).parents('fieldset');
     toggleFormOrTable(parent, null, false);
-})
+});
 
 $('.fliter-company-btn').click(function() {
     $('#companies-tab').click();

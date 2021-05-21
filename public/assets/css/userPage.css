@@ -1,7 +1,7 @@
 #div_A .list-group,
 #div_B .list-group,
 #div_C .list-group,
-#div_D .list-group{
+#div_D .list-group {
     max-height: 400px;
 }
 
@@ -11,30 +11,30 @@
 
 #students .list-group-item,
 #category-form-tags .list-group-item {
-    background-color: var(--student-c) !important;
+    background-color: var(--student-c);
 }
 
 #students .list-group-item.active,
 #category-form-tags .list-group-item.active,
 #students .list-group-item:hover,
 #category-form-tags .list-group-item:hover {
-    background-color: var(--student-h) !important;
+    background-color: var(--student-h);
 }
 
 #groups .list-group-item,
 #table-groups .list-group-item {
-    background-color: var(--group-c) !important;
+    background-color: var(--group-c);
 }
 
 #groups .list-group-item.active,
 #table-groups .list-group-item.active,
 #groups .list-group-item:hover,
 #table-groups .list-group-item:hover {
-    background-color: var(--group-h) !important;
+    background-color: var(--group-h);
 }
 
 #teachers .list-group-item {
-    background-color: var(--teacher-c) !important;
+    background-color: var(--teacher-c);
 }
 
 #teachers .list-group-item.active,
@@ -43,84 +43,84 @@
 }
 
 #authors .list-group-item {
-    background-color: var(--author-c) !important;
+    background-color: var(--author-c);
 }
 
 #authors .list-group-item:hover #authors .list-group-item.active {
-    background-color: var(--author-h) !important;
+    background-color: var(--author-h);
 }
 
 #companies .list-group-item,
 .fliter-company-btn {
-    background-color: var(--company-c) !important;
+    background-color: var(--company-c);
 }
 
 #companies .list-group-item.active,
 #companies .list-group-item:hover,
 .fliter-company-btn:hover {
-    background-color: var(--company-h) !important;
+    background-color: var(--company-h);
 }
 
 #positions .toolkit,
 #positions .list-group-item,
 .fliter-function-btn {
-    background-color: var(--position-c) !important;
+    background-color: var(--position-c);
 }
 
 #positions .list-group-item.active,
 #positions .list-group-item:hover,
 .fliter-function-btn:hover {
-    background-color: var(--position-h) !important;
+    background-color: var(--position-h);
 }
 
 #table-session .list-group-item {
-    background-color: var(--session-c) !important;
+    background-color: var(--session-c);
 }
 
 #table-session .list-group-item.active,
 #table-session .list-group-item:hover {
-    background-color: var(--session-h) !important;
+    background-color: var(--session-h);
 }
 
 .nav-link#students-tab {
-    background-color: var(--student-c) !important;
+    background-color: var(--student-c);
 }
 
 .nav-item.ui-state-hover .nav-link#students-tab,
 .nav-item.ui-state-active .nav-link#students-tab {
-    background-color: var(--student-h) !important;
+    background-color: var(--student-h);
 }
 
 .nav-link#teachers-tab {
-    background-color: var(--teacher-c) !important;
+    background-color: var(--teacher-c);
 }
 
 .nav-item.ui-state-hover .nav-link#teachers-tab,
 .nav-item.ui-state-active .nav-link#teachers-tab {
-    background-color: var(--teacher-h) !important;
+    background-color: var(--teacher-h);
 }
 
 .nav-link#authors-tab {
-    background-color: var(--author-c) !important;
+    background-color: var(--author-c);
 }
 
 .nav-item.ui-state-hover .nav-link#authors-tab,
 .nav-item.ui-state-active .nav-link#authors-tab {
-    background-color: var(--author-h) !important;
+    background-color: var(--author-h);
 }
 
 .nav-link#companies-tab {
-    background-color: var(--company-c) !important;
+    background-color: var(--company-c);
 }
 
 .nav-item.ui-state-hover .nav-link#companies-tab,
 .nav-item.ui-state-active .nav-link#companies-tab {
-    background-color: var(--company-h) !important;
+    background-color: var(--company-h);
 }
 
 .nav-link#groups-tab,
 .nav-link#table-groups-tab {
-    background-color: var(--group-c) !important;
+    background-color: var(--group-c);
 }
 
 .nav-item.ui-state-hover .nav-link#groups-tab,
@@ -148,8 +148,12 @@
     background-color: var(--session-h) !important;
 }
 
+
 /* ///////////////////////////////////////////////// */
+
+
 /* ////////this is for modification for cropper form */
+
 .toolkit {
     padding-right: 8px;
 }
@@ -193,6 +197,23 @@ a.list-group-item:not([href]) {
     color: white;
 }
 
-#category_save_button, #category_cancel_button {
-    z-index:6;
+#category_save_button,
+#category_cancel_button {
+    z-index: 6;
+}
+
+.highlight {
+    animation: highlight 2s infinite;
+}
+
+@keyframes highlight {
+    0% {
+        background-color: #b4b401;
+    }
+    50% {
+        background-color: yellow;
+    }
+    100% {
+        background-color: #b4b401;
+    }
 }
