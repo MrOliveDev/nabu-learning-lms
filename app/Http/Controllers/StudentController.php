@@ -219,6 +219,7 @@ class StudentController extends Controller
         //     print_r(json_decode($value->));
         // }
         // print_r();
+        $responseData = [];
         $data = json_decode($request->post('data'));
         if (count($data) != 0) {
             foreach ($data as $value) {
@@ -227,11 +228,11 @@ class StudentController extends Controller
                 $user->linked_groups = $value->target;
 
                 $user->update();
-                var_dump($value->id);
-                var_dump($value->target);
+
+                array_push($responseData, $user);
             }
         }
-        return response()->json($data);
+        return response()->json($responseData);
     }
 
     public function userJoinToCompany(Request $request)
@@ -247,7 +248,7 @@ class StudentController extends Controller
             }
         }
 
-        return response()->json($data);
+        return response()->json($user);
     }
 
     public function userJoinToPosition(Request $request)
@@ -257,12 +258,12 @@ class StudentController extends Controller
             foreach ($data as $key => $value) {
                 $user = User::find($value->id);
 
-                $user->company = $value->target;
+                $user->function = $value->target;
 
                 $user->update();
             }
         }
 
-        return response()->json($data);
+        return response()->json($user);
     }
 }

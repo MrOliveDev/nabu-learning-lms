@@ -108,7 +108,7 @@ class GroupController extends Controller
 
         $group->status = 0;
 
-        $group->update();
+        $group->delete();
 
         return response('successfully deleted!', 200);
         //

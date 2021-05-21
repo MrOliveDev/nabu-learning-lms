@@ -151,22 +151,19 @@ $(document).ready(function() {
         $('#div_C').find('.list-group-item').each(clearClassName);
     });
 
-
-    $("#LeftPanel .list-group-item").each(function(index, elem) {
-        elem.addEventListener('dragstart', dragStart);
-        $(elem).attr('drag', false);
-    });
-
-    $("#RightPanel .list-group-item").each(function(index, elem) {
+    $("#RightPanel .list-group-item").each(function(i, elem) {
         $(elem).attr('draggable', false);
         $(elem).on('drop', dropEnd);
 
         elem.addEventListener('dragover', dragOver);
         elem.addEventListener('dragleave', dragLeave);
     });
-    $("#companies .list-group-item, #positions .list-group-item").each(function(index, elem) {
+
+    $(".list-group-item").each(function(i, elem) {
         elem.addEventListener('dragstart', dragStart);
+        $(elem).attr('drag', false);
     });
+
     $(".fliter-company-btn").on('drop', companyDropEnd);
     $(".fliter-function-btn").on('drop', functionDropEnd);
 
@@ -221,7 +218,7 @@ $(".list-group-item").dblclick(function() {
 //     $(this).addClass('active');
 // });
 
-$("#LeftPanel .list-group-item").click(function(e) {
+$(".list-group-item").click(function(e) {
     // e.stopPropagation();
     $(this).toggleClass("active");
     $(this).attr('draggable', function(index, attr) {
@@ -319,7 +316,12 @@ var contentFilter = function(element_id, str = '', comp = null, func = null, onl
         .done(function(responseData) {
             console.log("Data Loaded: " + responseData);
             return responseData;
-        });
+        })
+        .fail(function(err) {
+            console.log(err);
+        }).always(function(data) {
+            console.log(data);
+        });;
 
 };
 
@@ -374,10 +376,11 @@ var secondShow1 = function(event) {
                         item_edit($(this));
                     });
                     element.find('.item-delete').bind('click', function() {
-                        item_delete($(this));
+                        itemDelete($(this), cate);
                     });
                     element.toggle(true);
                     element.attr('data-src', parent.attr('id'));
+                    element.parents('.list-group').attr('data-src', parent.attr('id'));
                     element.removeClass('active');
                     $("#table-groups .list-group").append(element);
                 }
@@ -419,10 +422,11 @@ var secondShow1 = function(event) {
                         item_edit($(this));
                     });
                     element.find('.item-delete').bind('click', function() {
-                        item_delete($(this));
+                        itemDelete($(this), cate);
                     });
                     element.toggle(true);
                     element.attr('data-src', parent.attr('id'));
+                    element.parents('.list-group').attr('data-src', parent.attr('id'));
                     element.removeClass('active');
                     $("#category-form-tags .list-group").append(element);
                 }
@@ -443,7 +447,7 @@ $('.item-edit').click(function(event) {
 });
 
 $('.item-delete').click(function(event) {
-    item_delete($(this));
+    itemDelete($(this), $(this).attr('data-content'));
 });
 
 $('.toolkit-add-item').click(function(event) {
@@ -463,9 +467,7 @@ $('.toolkit-add-item').click(function(event) {
 
                 $('#category_form').attr('data-item', '');
 
-                if ($('#category_form .method-select').length > 0) {
-                    $("#category_form .method-select").remove();
-                }
+                $("#category_form .method-select").val('POST');
                 break;
             case '#companies':
                 $("#category_form").attr('action', baseURL + '/company');
@@ -473,9 +475,7 @@ $('.toolkit-add-item').click(function(event) {
 
                 $('#category_form').attr('data-item', '');
 
-                if ($('#category_form .method-select').length > 0) {
-                    $("#category_form .method-select").remove();
-                }
+                $("#category_form .method-select").val('POST');
                 break;
             case '#positions':
                 $("#category_form").attr('action', baseURL + '/function');
@@ -483,9 +483,7 @@ $('.toolkit-add-item').click(function(event) {
 
                 $('#category_form').attr('data-item', '');
 
-                if ($('#category_form .method-select').length > 0) {
-                    $("#category_form .method-select").remove();
-                }
+                $("#category_form .method-select").val('POST');
                 break;
 
             default:
@@ -501,9 +499,7 @@ $('.toolkit-add-item').click(function(event) {
 
         $('#user_form').attr('data-item', '');
 
-        if ($('#user_form .method-select').length > 0) {
-            $("#user_form .method-select").remove();
-        }
+        $("#user_form .method-select").val('POST');
         switch (activeTagName) {
             case '#students':
                 $('#user_type').val('4');
@@ -572,7 +568,7 @@ $('#div_A .item-show').click(function(event) {
                     item_edit($(this));
                 });
                 element.find('.item-delete').bind('click', function() {
-                    item_delete($(this));
+                    itemDelete($(this), cate);
                 });
                 if (element.hasClass('highlight')) {
                     element.removeClass('highlight');
@@ -584,15 +580,12 @@ $('#div_A .item-show').click(function(event) {
 
                 element.toggle(true);
                 element.attr('data-src', parent.attr('id'));
+                element.parents('.list-group').attr('data-src', parent.attr('id'));
                 element.removeClass('active');
                 $("#table-groups .list-group").append(element);
             }
         });
     });
-
-    // $post(baseURL+"/user/findsession", id, function(){
-    //     console.log()
-    // })
 });
 
 $('#div_C .item-show').click(function(event) {
@@ -617,8 +610,8 @@ $('#div_C .item-show').click(function(event) {
                     element.find('.item-edit').bind('click', function() {
                         item_edit($(this));
                     });
-                    element.find('.item-delete').bind('click', function() {
-                        item_delete($(this));
+                    element.find('.item-delete').bind('click', function(ev) {
+                        itemDelete($(this), cate);
                     });
                     if (element.hasClass('highlight')) {
                         element.removeClass('highlight');
@@ -628,6 +621,7 @@ $('#div_C .item-show').click(function(event) {
                     }
                     element.toggle(true);
                     element.attr('data-src', parent.attr('id'));
+                    element.parents('.list-group').attr('data-src', parent.attr('id'));
                     element.removeClass('active');
                     $("#category-form-tags .list-group").append(element);
                 }
@@ -646,7 +640,7 @@ $('#div_C .item-show').click(function(event) {
                     item_edit($(this));
                 });
                 element.find('.item-delete').bind('click', function() {
-                    item_delete($(this));
+                    itemDelete($(this), cate);
                 });
                 if (element.hasClass('highlight')) {
                     element.removeClass('highlight');
@@ -656,6 +650,7 @@ $('#div_C .item-show').click(function(event) {
                 }
                 element.toggle(true);
                 element.attr('data-src', parent.attr('id'));
+                element.parents('.list-group').attr('data-src', parent.attr('id'));
                 element.removeClass('active');
                 $("#category-form-tags .list-group").append(element);
             }
@@ -682,6 +677,7 @@ var item_edit = function(element) {
         case 'student':
         case 'teacher':
         case 'author':
+            $('#user_form .method-select').val('PUT');
             $.get({
                 url: baseURL + '/user/' + id,
                 success: function(data, state) {
@@ -725,12 +721,8 @@ var item_edit = function(element) {
                         $('#user-email').val(JSON.parse(data.user_info.contact_info).email);
                     }
 
-                    $('#user-status-icon').attr('checked', data.user_info.status == 1).change();
+                    $('#user-status-icon').prop('checked', data.user_info.status == 1).change();
                     // $("#user_form").prop('method', "PUT");
-
-                    if ($('#user_form .method-select').length == 0) {
-                        $("#user_form").prepend("<input name='_method' type='hidden' value='PUT' class='method-select' />");
-                    }
 
                 },
                 error: function(err) {
@@ -751,16 +743,14 @@ var item_edit = function(element) {
                     $('#category_name').val(data.name);
                     $('#category_description').val(data.description);
                     $('#status_checkbox').css('display', 'block');
-                    $('#cate-status-icon').attr("checked", data.status == 1).change();
+                    $('#cate-status-icon').prop("checked", data.status == 1).change();
                     $('#cate-status').val(data.status);
 
                     $('#category_form').attr('data-item', parent.attr('id'));
 
                     $("#category_form").attr('action', baseURL + '/group/' + id);
 
-                    if ($('#category_form .method-select').length == 0) {
-                        $("#category_form").prepend("<input name='_method' type='hidden' value='PUT' class='method-select' />");
-                    }
+                    $('#category_form .method-select').val('PUT');
                 },
                 error: function(err) {
                     console.log(err);
@@ -783,9 +773,8 @@ var item_edit = function(element) {
                     $('#category_form').attr('data-item', parent.attr('id'));
                     $("#category_form").attr('action', baseURL + '/company/' + id);
 
-                    if ($('#category_form .method-select').length == 0) {
-                        $("#category_form").prepend("<input name='_method' type='hidden' value='PUT' class='method-select' />");
-                    }
+                    $('#category_form .method-select').val('PUT');
+
                 },
                 error: function(err) {
                     console.log(err);
@@ -809,9 +798,8 @@ var item_edit = function(element) {
                     $('#category_form').attr('data-item', parent.attr('id'));
                     $("#category_form").attr('action', baseURL + '/function/' + id);
 
-                    if ($('#category_form .method-select').length == 0) {
-                        $("#category_form").prepend("<input name='_method' type='hidden' value='PUT' class='method-select' />");
-                    }
+                    $('#category_form .method-select').val('PUT');
+
                 },
                 error: function(err) {
                     console.log(err);
@@ -1039,7 +1027,7 @@ var combine = function(value) {
         }
     });
     return combineArray;
-}
+};
 
 var detachCall = function(cate, connectiondata) {
     $.post({
@@ -1049,54 +1037,57 @@ var detachCall = function(cate, connectiondata) {
         },
         data: {
             'data': JSON.stringify(Array(connectiondata))
-        },
-        success: function(data) {
-            console.log(data);
-
-        },
-        error: function(err) {
-            console.log(err);
-
         }
+    }).then(function(data) {
+        console.log(data);
+    }).fail(function(err) {
+        console.log(err);
+    }).always(function(data) {
+        console.log(data);
     });
 };
 
 $('.submit-btn').click(function(event) {
     var formname = $(this).attr('data-form');
-    var submit_data = Array();
+    var validate = document.getElementById(formname).checkValidity();
+    if (validate) {
+        event.preventDefault(); // stops the "normal" <form> request, so we can post using ajax instead, below
+        var submit_data = Array();
 
-    $('#' + formname).find('input, switch').each(function(i, e) {
-        submit_data[$(e).attr('name')] = $(e).val();
-    });
+        $('#' + formname).find('input, switch').each(function(i, e) {
+            submit_data[$(e).attr('name')] = $(e).val();
+        });
 
-    $.ajax({
-        url: $('user_form').attr('action'),
-        method: $('user_form').attr('method'),
-        data: submit_data,
-        success: function(data) {
-            if ($("#" + formname).attr('data-cate') != '' && $('#' + formname).attr('data-cate') != null) {
-                switch (key) {
-                    case value:
+        console.log($('#' + formname).serializeArray());
+        $.ajax({
+            url: $('#' + formname).attr('action'),
+            method: $('#' + formname).find('.method-select').val(),
+            data: $('#' + formname).serialize(),
+            success: function(data) {
+                console.log(data);
+                if ($("#" + formname).attr('data-cate') != '' && $('#' + formname).attr('data-cate') != null) {
+                    switch (key) {
+                        case value:
 
-                        break;
+                            break;
 
-                    default:
-                        break;
+                        default:
+                            break;
+                    }
                 }
+                if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
+
+                } else {
+
+                }
+            },
+            error: function(err) {
+                console.log(err);
             }
-            if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
+        });
 
-            } else {
-
-            }
-        },
-        error: function(err) {
-            console.log(err);
-        }
-    });
-
-    submit_data = null;
-
+        submit_data = null;
+    }
 });
 
 $('.cancel-btn').click(function(event) {
@@ -1220,12 +1211,6 @@ var searchfilter = function(event) {
 
 };
 
-
-$('#student fa.fa-edit,#teacher fa.fa-edit, #author fa.fa-edit').click(function(event) {
-    var id = $(this).parents('.list-group-item').attr('id');
-    $post(baseURL + "/user/findUser", id);
-});
-
 $("#cate-status-icon").on('change', function(e) {
     var el = $(this);
     if (el.is(':checked')) {
@@ -1268,7 +1253,7 @@ function dropEnd(event, item) {
     var rowData = Array();
     if (dragitem != null) {
         // var category = dragitem[0].split('_')[0];
-        dragitem.each(function(i, droppeditem) {
+        dragitem.map(function(droppeditem) {
             // console.log(droppeditem.split('_')[1]);
             if (cate == "group") {
                 var cate_items = $("#" + droppeditem).find('input[name="item-group"]').val();
@@ -1302,17 +1287,17 @@ function dropEnd(event, item) {
             },
             data: {
                 'data': JSON.stringify(requestData)
-            },
-            success: function(data) {
-                console.log(data);
-
-                requestData = [];
-            },
-            error: function(err) {
-                console.log(err);
-
-                requestData = [];
             }
+        }).done(function(data) {
+            console.log(data);
+
+            requestData = [];
+        }).fail(function(err) {
+            console.log(err);
+
+            requestData = [];
+        }).always(function(data) {
+            console.log(data);
         });
     }
     $("#LeftPanel").find('.list-group-item').each(function() {
@@ -1345,4 +1330,45 @@ function functionDropEnd(event, item) {
     console.log(dragitem[0]);
     dragitem = null;
     $('.filter-function-btn').change();
+}
+
+var itemDelete = function(event, cate) {
+    var e = Swal.mixin({
+        buttonsStyling: !1,
+        customClass: {
+            confirmButton: 'btn btn-success m-1',
+            cancelButton: 'btn btn-danger m-1',
+            input: 'form-control'
+        }
+    });
+    e.fire({
+        title: 'Are you sure you want to delete this item ?',
+        text: cate == 'student' ? ' This user and all his historic and reports will be permanently deleted' : '',
+        icon: 'warning',
+        showCancelButton: !0,
+        customClass: {
+            confirmButton: 'btn btn-danger m-1',
+            cancelButton: 'btn btn-secondary m-1'
+        },
+        confirmButtonText: 'Yes, delete it!',
+        html: !1,
+        preConfirm: function(e) {
+            return new Promise((function(e) {
+                setTimeout((function() {
+                    e();
+                    item_delete($(event.target));
+                }), 50);
+            }));
+        }
+    }).then((function(n) {
+        if (n.value) {
+            e.fire('Deleted!', 'Your ' + cate + ' has been deleted.', 'success');
+            console.log(id);
+            $('#client_' + id).remove();
+        } else {
+            'cancel' === n.dismiss && e.fire('Cancelled', 'Your data is safe :)', 'error');
+        }
+    }));
+
+
 }

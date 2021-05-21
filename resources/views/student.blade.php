@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="{{asset('assets/css/cropper.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/css/cropperModal.css')}}">
 <link rel="stylesheet" href="{{asset('assets/js/plugins/ion-rangeslider/css/ion.rangeSlider.css')}}">
+<link rel="stylesheet" href="{{asset('assets/js/plugins/sweetalert2/sweetalert2.min.css')}}" />
+
 
 
 
@@ -38,6 +40,7 @@
 
 <script src="{{asset('assets/js/plugins/select2/js/select2.full.min.js')}}"></script>
 
+<script src="{{asset('assets/js/plugins/sweetalert2/sweetalert2.js')}}"></script>
 <script src="{{asset('assets/js/userPage.js')}}"></script>
 
 <script src="assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
@@ -52,7 +55,7 @@
 <script>
     $('#utilisateurs').addClass('active');
     jQuery(function() {
-        Dashmix.helpers(['select2', 'rangeslider', 'notify']);
+        Dashmix.helpers(['select2', 'rangeslider', 'notify', 'summernote']);
     });
 </script>
 
@@ -106,7 +109,7 @@
                 <div id="students">
 
 
-                    <div class="list-group" id="list-tab" role="tablist">
+                    <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach($students as $student)
                         <a class="list-group-item list-group-item-action  p-1 border-0" id="student_{{$student->id}}">
                             <div class="float-left">
@@ -141,7 +144,7 @@
                 </div>
                 <div id="teachers">
 
-                    <div class="list-group" id="list-tab" role="tablist">
+                    <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach($teachers as $teacher)
                         <a class="list-group-item list-group-item-action  p-1 border-0" id="teacher_{{$teacher->id}}">
                             <div class="float-left">
@@ -177,7 +180,7 @@
                 </div>
                 <div id="authors">
 
-                    <div class="list-group" id="list-tab" role="tablist">
+                    <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach($authors as $author)
                         <a class="list-group-item list-group-item-action  p-1 border-0" id="author_{{$author->id}}">
                             <div class="float-left">
@@ -222,7 +225,7 @@
                 <form method="post" id="user_form" enctype="multipart/form-data" class="form" action="" autocomplete="off" data-cate="" data-item="">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="type" id='user_type'>
-                    <!-- <input name='_method' type='hidden' value='PUT' id='method-select' /> -->
+                    <input name='_method' type='hidden' value='PUT' class='method-select' />
                     <div class="card text-black mx-2 pt-3">
                         <div class="d-flex justify-content-center flex-wrap pl-3 pb-3" style="overflow:hidden;">
                             <div style="width:300px !important; position:relative">
@@ -352,7 +355,7 @@
 
 
                             <div class="form-group clearfix">
-                                <button type="button" class="btn btn-hero-primary float-right mx-1 submit-btn" id="user_save_button" data-form="user_form">SAVE</button>
+                                <button type="submit" class="btn btn-hero-primary float-right mx-1 submit-btn" id="user_save_button" data-form="user_form">SAVE</button>
                                 <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn" id="user_cancel_button">CANCEL</button>
                             </div>
                         </div>
@@ -370,12 +373,12 @@
                     </ul>
 
                     <div id="table-groups">
-                        <div class="list-group" id="list-tab" role="tablist">
+                        <div class="list-group" id="list-tab" role="tablist" data-src=''>
 
                         </div>
                     </div>
                     <div id="table-session">
-                        <div class="list-group" id="list-tab" role="tablist">
+                        <div class="list-group" id="list-tab" role="tablist" data-src=''>
 
                         </div>
                     </div>
@@ -459,7 +462,7 @@
             <div id="groups">
 
 
-                <div class="list-group mx-4" id="list-tab" role="tablist">
+                <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
                     @foreach($groups as $group)
                     <a class="list-group-item list-group-item-action p-1 border-0 " id="group_{{$group->id}}">
                         <div class="float-left">
@@ -493,7 +496,7 @@
             </div>
             <div id="companies">
 
-                <div class="list-group mx-4" id="list-tab" role="tablist">
+                <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
                     @foreach($companies as $company)
                     <a class="list-group-item list-group-item-action p-1 border-0 " id="company_{{$company->id}}">
                         <div class="float-left">
@@ -521,7 +524,7 @@
             </div>
             <div id="positions">
 
-                <div class="list-group mx-4" id="list-tab" role="tablist">
+                <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
                     @foreach($positions as $position)
                     <a class="list-group-item list-group-item-action p-1 border-0 " id="function_{{$position->id}}">
                         <div class="float-left">
@@ -556,6 +559,7 @@
             <div class="tab-content mx-4" id="nav-tabContent">
                 <form method="post" id="category_form" enctype="multipart/form-data" class="form" action="">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input name='_method' type='hidden' value='PUT' class='method-select' />
                     <div class="card bg-white text-black mx-2">
                         <div class="card-body  p-3">
                             <div class="form-group">
@@ -585,7 +589,7 @@
                                 </div>
                             </div>
                             <div class="form-group clearfix">
-                                <button type="button" class="btn btn-hero-primary float-right mx-1 submit-btn" id="category_save_button" data-form="category_form">SAVE</button>
+                                <button type="submit" class="btn btn-hero-primary float-right mx-1 submit-btn" id="category_save_button" data-form="category_form">SAVE</button>
                                 <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn" id="category_cancel_button">CANCEL</button>
                                 <input type="hidden" name="cate-status">
                             </div>
@@ -625,7 +629,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="list-group" id="list-tab" role="tablist">
+                <div class="list-group" id="list-tab" role="tablist" data-src=''>
 
                 </div>
                 <button type="button" id="notificator" class="js-notify btn btn-secondary push" data-message="Your message!<br>" style="display:none">
