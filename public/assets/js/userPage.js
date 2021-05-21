@@ -1415,7 +1415,7 @@ var cancelFilterCategoryAll = function() {
 $('.toggle2-btn').click(function(evt) {
     // evt.stopPropagation();
     var tooltipid = $(this).parents('.list-group').attr('data-filter');
-    $(this).parents('.list-group-item').toggleClass('active');
+    $(this).parents('.list-group-item').addClass('active');
     // $(this).parents('.list-group-item').attr('draggable', function(index, attr) {
     //     return attr == "true" ? false : true;
     // });
@@ -1424,6 +1424,7 @@ $('.toggle2-btn').click(function(evt) {
     } else {
         toggleAndSearch($('#' + tooltipid).find('.fliter-company-btn'), 'companies', 'company +<i></i>');
     }
+    $(this).parents('.list-group-item').removeClass('active');
 });
 
 //filter
