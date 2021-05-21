@@ -74,7 +74,7 @@
                 <a class="nav-link m-1 rounded-1 border-0" id="authors-tab" href="#authors">{{$translation->l('AUTHORS')}}</a>
             </li>
         </ul>
-        <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4">
+        <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4" id="user-toolkit">
             <div class="w-100 p-2">
                 <div class="input-container">
                     <a href="#" class="toolkit-add-item">
@@ -428,7 +428,7 @@
                 <a class="nav-link m-1 rounded-1 border-0" id="positions-tab" href="#positions">{{$translation->l('positions')}}</a>
             </li>
         </ul>
-        <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4">
+        <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4" id="cate-toolkit">
             <div class="w-100 p-2">
                 <div class="input-container">
                     <a href="#" class="toolkit-add-item">
@@ -599,7 +599,7 @@
             </div>
 
             <div id="category-form-tags" class="second-table mx-4">
-                <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column ">
+                <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column " id="show-toolkit">
                     <div class="w-100 p-2">
                         <div class="input-container">
                             <a href="#" class="toolkit-add-item">

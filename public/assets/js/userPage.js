@@ -234,29 +234,32 @@ $(".list-group-item").dblclick(function() {
 //     $(this).addClass('active');
 // });
 
-$("LeftPanel .list-group-item").click(function(e) {
+$("#LeftPanel .list-group-item").click(function(e) {
     // e.stopPropagation();
-    $(this).toggleClass("active");
-    $(this).attr('draggable', function(index, attr) {
-        return attr == "true" ? false : true;
-    });
+    if (!$(this).hasClass("active")) {
+        $(this).addClass("active");
+        $(this).attr('draggable', true);
+    } else {
+        $(this).removeClass("active");
+        $(this).attr('draggable', false);
+    }
+
 });
 
 var btnClick = function(e) {
     if (!$(this).hasClass('toggle2-btn')) {
         e.stopPropagation();
         $(this).parents('.window').find('.list-group-item').each(clearClassName);
-        $(this).addClass("active");
         $(this).parents('.list-group-item').addClass('highlight');
     } else {
         $(this).parents('.window').find('.list-group-item').each(clearClassName);
-        $(this).addClass("active");
         $(this).parents('.list-group').children(".list-group-item").each(function(i, e) {
             if ($(e).hasClass("active")) {
                 $(e).removeClass("active");
             }
         });
     }
+    $(this).addClass("active");
 };
 
 $(".list-group-item button.btn").click(btnClick);
@@ -360,6 +363,16 @@ $(".toolkit-show-filter").click(function(event) {
     parent.children('.search-filter').val('');
     parent.children('.fliter-company-btn').html('company +<i></i>');
     parent.children('.fliter-function-btn').html('function +<i></i>');
+
+    parent.find('.search-filter').val('')
+    parent.find('input[name=status]').each(function(i, e) {
+        $(e).prop('checked', false);
+    })
+    parent.find('.fliter-company-btn').val('');
+    parent.find('.fliter-company-btn').html('company +<i></i>');
+    parent.find('.fliter-function-btn').val('');
+    parent.find('.fliter-function-btn').html('company +<i></i>');
+
 });
 
 var secondLevelShow = function(event) {
@@ -1315,10 +1328,9 @@ $('.fliter-company-btn').click(function(event) {
     // var activedTab = $('#RightPanel').find('.ui-state-active a').attr('href');
     switch ($(this).html()) {
         case 'company +<i></i>':
-            getFilterCategory(this, 'companies');
-            break;
-        case 'Select item':
-            toggleAndSearch(this, 'companies', event, 'company +<i></i>');
+            if ($(this).parents('.toolkit').find('.fliter-function-btn').html() != 'Select item') {
+                getFilterCategory(this, 'companies');
+            }
             break;
         default:
             clearFilterCategory(this, 'companies', 'company +<i></i>');
@@ -1329,10 +1341,9 @@ $('.fliter-company-btn').click(function(event) {
 $('.fliter-function-btn').click(function(event) {
     switch ($(this).html()) {
         case 'function +<i></i>':
-            getFilterCategory(this, 'positions');
-            break;
-        case 'Select item':
-            toggleAndSearch(this, 'positions', event, 'function +<i></i>');
+            if ($(this).parents('.toolkit').find('.fliter-company-btn').html() != 'Select item') {
+                getFilterCategory(this, 'positions');
+            }
             break;
         default:
             clearFilterCategory(this, 'positions', 'function +<i></i>');
@@ -1349,7 +1360,7 @@ var clearFilterCategory = function(element, category, defaultStr) {
     $('#' + category).find('.toggle2-btn').toggle(true);
 };
 
-var toggleAndSearch = function(element, category, event, defaultStr) {
+var toggleAndSearch = function(element, category, defaultStr) {
     if ($('#' + category).find('.list-group-item.active').length) {
         var items = [],
             itemVal = [];
@@ -1359,7 +1370,7 @@ var toggleAndSearch = function(element, category, event, defaultStr) {
         });
         $(element).val(itemVal.join('_'));
         $(element).html(items.join(', ') + "&nbsp; X");
-        searchfilter(event);
+        // searchfilter(event);
         $(element).change();
     } else {
         $(element).html(defaultStr);
@@ -1371,6 +1382,7 @@ var toggleAndSearch = function(element, category, event, defaultStr) {
 var getFilterCategory = function(element, category) {
     $(activedTab).fadeOut(1);
     $('#' + category).fadeIn(1);
+    $('#' + category + " .list-group").attr('data-filter', $(element).parents('.toolkit').attr('id'));
     $(element).html('Select item');
     $("#" + category).find('.toggle2-btn').each(function(i, e) {
         $(e).toggle(true);
@@ -1402,10 +1414,16 @@ var cancelFilterCategoryAll = function() {
 
 $('.toggle2-btn').click(function(evt) {
     // evt.stopPropagation();
+    var tooltipid = $(this).parents('.list-group').attr('data-filter');
     $(this).parents('.list-group-item').toggleClass('active');
-    $(this).parents('.list-group-item').attr('draggable', function(index, attr) {
-        return attr == "true" ? false : true;
-    });
+    // $(this).parents('.list-group-item').attr('draggable', function(index, attr) {
+    //     return attr == "true" ? false : true;
+    // });
+    if ($('#' + tooltipid).find('.fliter-function-btn').html() == 'Select item') {
+        toggleAndSearch($('#' + tooltipid).find('.fliter-function-btn'), 'positions', 'function +<i></i>');
+    } else {
+        toggleAndSearch($('#' + tooltipid).find('.fliter-company-btn'), 'companies', 'company +<i></i>');
+    }
 });
 
 //filter
