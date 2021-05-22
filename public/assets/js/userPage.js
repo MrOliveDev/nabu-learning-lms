@@ -15,11 +15,28 @@ var window_level = 1;
 
 var input_group_position = null;
 
-var notification = function(str) {
-    $('#notificator').prop({
-        'data-message': 'Link Success!'
-    });
-    $('#notificator').click();
+var notification = function(str, type) {
+    switch (type) {
+        case 1:
+            Dashmix.helpers('notify', {
+                type: 'info',
+                icon: 'fa fa-info-circle mr-1',
+                message: str
+            });
+            break;
+
+        case 2:
+            Dashmix.helpers('notify', {
+                type: 'danger',
+                icon: 'fa fa-times mr-1',
+                message: str
+            });
+            break;
+
+        default:
+            break;
+    }
+
 };
 
 // Dashmix.helpers('notify', {message: 'Your message!'});
@@ -424,11 +441,11 @@ var contentFilter = function(element_id, str = '', comp = null, func = null, onl
     };
     $.post(baseURL + "/userFind" + category + "/" + id, data)
         .done(function(responseData) {
-            console.log("Data Loaded: " + responseData);
+            notification("Data Loaded!", 1);
             return responseData;
         })
         .fail(function(err) {
-            console.log(err);
+            notification('Sorry, You have an error!', 2);
         }).always(function(data) {
             console.log(data);
         });;
@@ -661,13 +678,13 @@ $('.toolkit-add-item').click(function(event) {
         $.get({
             url: baseURL + "/usercreate",
             success: function(data) {
-                console.log(data);
+                notification('Success!', 1);
                 $('#login').val(data.name);
                 $('#preview').attr('src', baseURL + '/assets/media/default.png');
                 $('#password').val(data.password);
             },
             error: function(err) {
-                console.log(err);
+                notification("Sorry, You have an error!", 2);
             }
         })
     }
@@ -831,7 +848,7 @@ var item_edit = function(element) {
             $.get({
                 url: baseURL + '/user/' + id,
                 success: function(data, state) {
-                    console.log(data);
+                    notification('Success!', 1);
                     console.log(state);
                     toggleFormOrTable($('#LeftPanel'), true);
                     clearFrom($('LeftPanel'));
@@ -876,7 +893,7 @@ var item_edit = function(element) {
 
                 },
                 error: function(err) {
-                    console.log(err);
+                    notification("Sorry, You have an error!", 2);
                 }
             });
 
@@ -886,7 +903,7 @@ var item_edit = function(element) {
             $.get({
                 url: baseURL + '/group/' + id,
                 success: function(data, state) {
-                    console.log(data);
+                    notification('Success!', 1);
                     console.log(state);
                     toggleFormOrTable($('#RightPanel'), true);
                     clearFrom($('RightPanel'));
@@ -903,7 +920,7 @@ var item_edit = function(element) {
                     $('#category_form .method-select').val('PUT');
                 },
                 error: function(err) {
-                    console.log(err);
+                    notification("Sorry, You have an error!", 2);
                 }
             });
             break;
@@ -912,7 +929,7 @@ var item_edit = function(element) {
             $.get({
                 url: baseURL + '/company/' + id,
                 success: function(data, state) {
-                    console.log(data);
+                    notification('Success!', 1);
                     console.log(state);
                     toggleFormOrTable($('#RightPanel'), true);
                     clearFrom($('RightPanel'));
@@ -927,7 +944,7 @@ var item_edit = function(element) {
 
                 },
                 error: function(err) {
-                    console.log(err);
+                    notification("Sorry, You have an error!", 2);
                 }
             });
             break;
@@ -936,7 +953,7 @@ var item_edit = function(element) {
             $.get({
                 url: baseURL + '/function/' + id,
                 success: function(data, state) {
-                    console.log(data);
+                    notification('Success!', 1);
                     console.log(state);
                     toggleFormOrTable($('#RightPanel'), true);
                     clearFrom($('RightPanel'));
@@ -952,17 +969,17 @@ var item_edit = function(element) {
 
                 },
                 error: function(err) {
-                    console.log(err);
+                    notification("Sorry, You have an error!", 2);
                 }
             });
             break;
 
         case 'session':
-            console.log('There is no session for this user');
+            notification('There is no session for this user', 1);
             break;
 
         default:
-            console.log('how dare you can do this!');
+            notification('How dare you can do this!<br>Please contact me about this error :)');
             break;
     }
 };
@@ -1032,9 +1049,11 @@ var item_delete = function(element) {
                 success: function(result) {
                     console.log(result);
                     parent.detach();
+                    notification('Success!', 1);
                 },
                 error: function(err) {
                     console.log(err);
+                    notification("Sorry, You have an error!", 2);
                 }
             });
             break;
@@ -1048,9 +1067,11 @@ var item_delete = function(element) {
                 success: function(result) {
                     console.log(result);
                     parent.detach();
+                    notification('Success!', 1);
                 },
                 error: function(err) {
                     console.log(err);
+                    notification("Sorry, You have an error!", 2);
                 }
             });
             break;
@@ -1064,9 +1085,11 @@ var item_delete = function(element) {
                 success: function(result) {
                     console.log(result);
                     parent.detach();
+                    notification('Success!', 1);
                 },
                 error: function(err) {
                     console.log(err);
+                    notification("Sorry, You have an error!", 2);
                 }
             });
             break;
@@ -1080,9 +1103,11 @@ var item_delete = function(element) {
                 success: function(result) {
                     console.log(result);
                     parent.detach();
+                    notification('Success!', 1);
                 },
                 error: function(err) {
                     console.log(err);
+                    notification("Sorry, You have an error!", 2);
                 }
             });
             break;
@@ -1096,9 +1121,11 @@ var item_delete = function(element) {
                 success: function(result) {
                     console.log(result);
                     parent.detach();
+                    notification('Success!', 1);
                 },
                 error: function(err) {
                     console.log(err);
+                    notification("Sorry, You have an error!", 2);
                 }
             });
             break;
@@ -1130,18 +1157,19 @@ var detachLinkTo = function(e) {
 
     var result = $("#" + showeditem).find('input[name="item-' + cate + '"]').val();
 
-    detachCall(cate, {
-        id: showeditem.split('_')[1],
-        target: result,
-        flag: false
-    });
+    if (detachCall(cate, {
+            id: showeditem.split('_')[1],
+            target: result,
+            flag: false
+        })) {
 
-    if ($(this).parents('fieldset').attr('id') == 'RightPanel') {
-        toggleFormOrTable($("#LeftPanel"), false, false);
-    } else {
-        toggleFormOrTable($("#RightPanel"), false, false);
+        if ($(this).parents('fieldset').attr('id') == 'RightPanel') {
+            toggleFormOrTable($("#LeftPanel"), false, false);
+        } else {
+            toggleFormOrTable($("#RightPanel"), false, false);
+        }
+        parent.detach();
     }
-    parent.detach();
 };
 
 var detachLinkFrom = function(e) {
@@ -1159,18 +1187,19 @@ var detachLinkFrom = function(e) {
     var result = parent.find('input[name="item-' + cate + '"]').val();
     var parent_id = parent.attr('id').split('_')[1];
 
-    detachCall(cate, {
-        id: parent_id,
-        target: result,
-        flag: false
-    });
+    if (detachCall(cate, {
+            id: parent_id,
+            target: result,
+            flag: false
+        })) {
 
-    if ($(this).parents('fieldset').attr('id') == 'RightPanel') {
-        toggleFormOrTable($("#LeftPanel"), false, false);
-    } else {
-        toggleFormOrTable($("#RightPanel"), false, false);
+        if ($(this).parents('fieldset').attr('id') == 'RightPanel') {
+            toggleFormOrTable($("#LeftPanel"), false, false);
+        } else {
+            toggleFormOrTable($("#RightPanel"), false, false);
+        }
+        parent.detach();
     }
-    parent.detach();
 };
 
 var combine = function(value, id) {
@@ -1192,9 +1221,11 @@ var detachCall = function(cate, connectiondata) {
             'data': JSON.stringify(Array(connectiondata))
         }
     }).then(function(data) {
-        console.log(data);
+        notification('Success!', 1);
+        return true;
     }).fail(function(err) {
-        console.log(err);
+        notification("Sorry, You have an error!", 2);
+        return false;
     }).always(function(data) {
         console.log(data);
     });
@@ -1241,7 +1272,7 @@ $('.submit-btn').click(function(event) {
             method: $('#' + formname).find('.method-select').val(),
             data: serialval,
             success: function(data) {
-                console.log(data);
+                notification('User added successfully!', 1);
                 if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
                     var arr_url = $('#' + formname).attr('action').split('/');
                     var groupName = arr_url[arr_url.length - 1];
@@ -1302,7 +1333,7 @@ $('.submit-btn').click(function(event) {
                 }
             },
             error: function(err) {
-                console.log(err);
+                notification("Sorry, You have an error!", 2);
             }
         });
 
@@ -1684,11 +1715,11 @@ function dropEnd(event, item) {
                 'data': JSON.stringify(requestData)
             }
         }).done(function(data) {
-            console.log(data);
+            notification(dragitem.length + ' ' + dragitem[0].split('_')[0] + 's linked to ' + $(event.target).find('.item-name').html() + '!', 1);
 
             requestData = [];
         }).fail(function(err) {
-            console.log(err);
+            notification("Sorry, You have an error!", 2);
 
             requestData = [];
         }).always(function(data) {
@@ -1700,7 +1731,6 @@ function dropEnd(event, item) {
             $(this).removeClass('active');
         }
     });
-    notification(cate + cate_id);
     dragitem = null;
 }
 
