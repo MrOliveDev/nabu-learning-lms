@@ -6,7 +6,7 @@
 
 // var baseURL = window.location.protocol + "//" + window.location.host;
 
-var baseURL = window.location.protocol + "//" + window.location.host;
+var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
 var filteritem = null;
 var grouptab = null,
     detailtags = null;
