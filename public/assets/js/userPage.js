@@ -1371,10 +1371,10 @@ var getFilterCategory = function(element, category) {
     $('#' + category).fadeIn(1);
     $(element).html('Select item');
     $("#" + category).find('.toggle2-btn').each(function(i, e) {
-        $(e).toggle();
+        $(e).toggle(true);
     });
     $("#" + category).find('.toggle1-btn').each(function(i, e) {
-        $(e).toggle();
+        $(e).toggle(false);
     });
     $('#' + category).find('.list-group-item').each(clearClassName);
 };
