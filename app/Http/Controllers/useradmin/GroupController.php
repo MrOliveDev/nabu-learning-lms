@@ -89,11 +89,11 @@ class GroupController extends Controller
         $group->name = $request->input('category_name');
         $group->description = $request->input('category_description');
         // print_r($request->input('cate-status'));exit;
-        $group->status = $request->input('cate-status-icon')=='on'?1:0;
+        $group->status = $request->input('cate-status-icon');
 
         $group->update();
         //
-        return redirect('/student')->with('group');
+        return response()->json($group);
     }
 
     /**

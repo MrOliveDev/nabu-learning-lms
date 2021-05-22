@@ -99,8 +99,8 @@
                     <span>all&nbsp;</span>
                 </div>
                 <div class="float-right">
-                    <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company +</button>&nbsp;
-                    <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function +</button>
+                    <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company +<i></i></button>&nbsp;
+                    <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function +<i></i></button>
                 </div>
             </div>
         </div>
@@ -114,13 +114,13 @@
                         <a class="list-group-item list-group-item-action  p-1 border-0" id="student_{{$student->id}}">
                             <div class="float-left">
                                 @if($student->status==1)
-                                <i class="fa fa-circle text-success m-2"></i>
+                                <i class="fa fa-circle  m-2" style="color:green;"></i>
                                 <input type="hidden" name="item-status" class='status-notification' value="1">
                                 @else
-                                <i class="fa fa-circle text-danger m-2"></i>
+                                <i class="fa fa-circle m-2"  style="color:red;"></i>
                                 <input type="hidden" name="item-status" class='status-notification' value="0">
                                 @endif
-                                {{$student->first_name}}&nbsp;{{$student->last_name}}
+                                <span class="item-name">{{$student->first_name}}&nbsp;{{$student->last_name}}</span>
                                 <input type="hidden" name="item-name" value="{{$student->first_name}}{{$student->last_name}}">
                                 <input type="hidden" name="item-group" value="{{$student->linked_groups}}">
                                 <input type="hidden" name="item-company" value="{{$student->company}}">
@@ -149,13 +149,13 @@
                         <a class="list-group-item list-group-item-action  p-1 border-0" id="teacher_{{$teacher->id}}">
                             <div class="float-left">
                                 @if($teacher->status==1)
-                                <i class="fa fa-circle text-success m-2"></i>
+                                <i class="fa fa-circle  m-2" style="color:green;"></i>
                                 <input type="hidden" name="item-status" class='status-notification' value="1">
                                 @else
-                                <i class="fa fa-circle text-danger m-2"></i>
+                                <i class="fa fa-circle m-2"  style="color:red;"></i>
                                 <input type="hidden" name="item-status" class='status-notification' value="0">
                                 @endif
-                                {{$teacher->first_name}}&nbsp;{{$teacher->last_name}}
+                                <span class="item-name">{{$teacher->first_name}}&nbsp;{{$teacher->last_name}}</span>
                                 <input type="hidden" name="item-name" value="{{$teacher->first_name}}{{$teacher->last_name}}">
                                 <input type="hidden" name="item-group" value="{{$teacher->linked_groups}}">
                                 <input type="hidden" name="item-company" value="{{$teacher->company}}">
@@ -185,13 +185,13 @@
                         <a class="list-group-item list-group-item-action  p-1 border-0" id="author_{{$author->id}}">
                             <div class="float-left">
                                 @if($author->status==1)
-                                <i class="fa fa-circle text-success m-2"></i>
+                                <i class="fa fa-circle  m-2" style="color:green;"></i>
                                 <input type="hidden" name="item-status" class='status-notification' value="1">
                                 @else
-                                <i class="fa fa-circle text-danger m-2"></i>
+                                <i class="fa fa-circle m-2"  style="color:red;"></i>
                                 <input type="hidden" name="item-status" class='status-notification' value="0">
                                 @endif
-                                {{$author->first_name}}&nbsp;{{$author->last_name}}
+                                <span class="item-name">{{$author->first_name}}&nbsp;{{$author->last_name}}</span>
                                 <input type="hidden" name="item-name" value="{{$author->first_name}}{{$author->last_name}}">
                                 <input type="hidden" name="item-group" value="{{$author->linked_groups}}">
                                 <input type="hidden" name="item-company" value="{{$author->company}}">
@@ -349,7 +349,7 @@
                                             E-mail
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="user-email" name="user-email" value="" required>
+                                    <input type="email" class="form-control" id="user-email" name="user-email" value="" required>
                                 </div>
                             </div>
 
@@ -453,8 +453,8 @@
                     <span>all&nbsp;</span>
                 </div>
                 <div class="float-right d-none">
-                    <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company +</button>&nbsp;
-                    <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function +</button>
+                    <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company +<i></i></button>&nbsp;
+                    <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function +<i></i></button>
                 </div>
             </div>
         </div>
@@ -467,26 +467,26 @@
                     <a class="list-group-item list-group-item-action p-1 border-0 " id="group_{{$group->id}}">
                         <div class="float-left">
                             @if($group->status==1)
-                            <i class="fa fa-circle text-success m-2"></i>
-                            <input type="hidden" name="item-status" class='status-notification' value="1">
+                            <i class="fa fa-circle  m-2" style="color:green;"></i>
+                            <input type="hidden" name="item-status" class="status-notification" value="1">
                             @else
-                            <i class="fa fa-circle text-danger m-2"></i>
-                            <input type="hidden" name="item-status" class='status-notification' value="0">
+                            <i class="fa fa-circle m-2"  style="color:red;"></i>
+                            <input type="hidden" name="item-status" class="status-notification" value="0">
                             @endif
-                            {{$group->name}}
+                            <span class="item-name">{{$group->name}}</span>
                             <input type="hidden" name="item-name" value="{{$group->name}}">
                         </div>
                         <div class="btn-group float-right">
-                            <button class="btn  toggle1-btn  item-show" data-content='group'>
+                            <button class="btn  toggle1-btn  item-show" data-content="group">
                                 <i class="px-2 fa fa-eye"></i>
                             </button>
-                            <button class="btn item-edit toggle1-btn" data-content='group'>
+                            <button class="btn item-edit toggle1-btn" data-content="group">
                                 <i class="px-2 fa fa-edit"></i>
                             </button>
-                            <button class="btn item-delete toggle1-btn" data-content='group'>
+                            <button class="btn item-delete toggle1-btn" data-content="group">
                                 <i class="px-2 fa fa-trash-alt"></i>
                             </button>
-                            <button class="btn  toggle2-btn" data-content='group'>
+                            <button class="btn  toggle2-btn" data-content="group">
                                 <i class="px-2 fas fa-check-circle"></i>
                             </button>
                         </div>
@@ -500,7 +500,7 @@
                     @foreach($companies as $company)
                     <a class="list-group-item list-group-item-action p-1 border-0 " id="company_{{$company->id}}">
                         <div class="float-left">
-                            {{$company->name}}
+                            <span class="item-name">{{$company->name}}</span>
                             <input type="hidden" name="item-status" value="{{$group->status}}">
                             <input type="hidden" name="item-name" value="{{$group->name}}">
                         </div>
@@ -529,7 +529,7 @@
                     <a class="list-group-item list-group-item-action p-1 border-0 " id="function_{{$position->id}}">
                         <div class="float-left">
                             <!-- <i class="fa fa-circle text-danger m-2"></i> -->
-                            {{$position->name}}
+                            <span class="item-name">{{$position->name}}</span>
                             <input type="hidden" name="item-name" value="{{$group->name}}">
                         </div>
                         <div class="btn-group float-right">
@@ -624,8 +624,8 @@
                             <span>all&nbsp;</span>
                         </div>
                         <div class="float-right">
-                            <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company +</button>&nbsp;
-                            <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function +</button>
+                            <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company +<i></i></button>&nbsp;
+                            <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function +<i></i></button>
                         </div>
                     </div>
                 </div>

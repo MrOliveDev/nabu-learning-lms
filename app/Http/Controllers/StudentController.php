@@ -66,7 +66,7 @@ class StudentController extends Controller
 
         $contact_info = array(
             "address" => $request->post('contact_info'),
-            'email' => $request->post('email')
+            'email' => $request->post('user-email')
         );
 
         // print_r($request->post('type')); exit;
@@ -80,7 +80,7 @@ class StudentController extends Controller
                 'last_name' => $request->post('last_name'),
                 'contact_info' => json_encode($contact_info),
                 'id_config' => $interfaceCfg->id,
-                'status' => $request->input('user-status-icon') == 'on' ? 1 : 0,
+                'status' => $request->input('user-status-icon'),
                 'type' => $request->post('type')
                 // 'lang' => $request->post('lang'),
             ]);
@@ -91,7 +91,7 @@ class StudentController extends Controller
                 'first_name' => $request->post('first_name'),
                 'last_name' => $request->post('last_name'),
                 'contact_info' => json_encode($contact_info),
-                'status' => $request->input('user-status-icon') == 'on' ? 1 : 0,
+                'status' => $request->input('user-status-icon'),
                 'id_config' => $interfaceCfg->id,
                 'type' => $request->post('type')
                 // 'lang' => $request->post('lang'),
@@ -170,7 +170,7 @@ class StudentController extends Controller
         $user->login = $request->input('login');
         $user->company = $request->input('company');
         $user->function = $request->input('function');
-        $user->status = $request->input('user-status-icon') == 'on' ? 1 : 0;
+        $user->status = $request->input('user-status-icon');
         if ($request->input('password') != null) {
             $user->password = $request->input('password');
         }

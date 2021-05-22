@@ -227,10 +227,12 @@ $(".list-group-item").click(function(e) {
 });
 
 var btnClick = function(e) {
-    e.stopPropagation();
-    $(this).parents('.window').find('.list-group-item').each(clearClassName);
-    $(this).addClass("active");
-    $(this).parents('.list-group-item').addClass('highlight');
+    if (!$(this).hasClass('toggle2-btn')) {
+        e.stopPropagation();
+        $(this).parents('.window').find('.list-group-item').each(clearClassName);
+        $(this).addClass("active");
+        $(this).parents('.list-group-item').addClass('highlight');
+    }
 };
 
 $(".list-group-item button.btn").click(btnClick);
@@ -240,7 +242,7 @@ var clearTable = function(element) {
 };
 var clearFrom = function(element) {
     element.find('input, select').each(function(i, forminput) {
-        if ($(forminput).attr('name') != '_token') {
+        if ($(forminput).attr('name') != '_token' && $(forminput).attr('name') != '_method') {
             $(forminput).val('');
         }
     });
@@ -452,7 +454,15 @@ $('.item-delete').click(function(event) {
 
 $('.toolkit-add-item').click(function(event) {
     toggleFormOrTable($(this).parents('fieldset'), true);
-
+    if ($('#groups-tab').parents('li').hasClass('ui-state-active')) {
+        $('#status-form-group').css('display', 'block');
+        $('#cate-status-icon').val('true');
+        $('#cate-status-icon').prop('checked', true);
+    } else {
+        $('#status-form-group').css('display', 'none');
+        $('#user-status-icon').val('true');
+        $('#user-status-icon').prop('checked', true);
+    }
     var parent = $(this).parents('fieldset');
     var parent_id = parent.attr('id');
     var activeTagName;
@@ -668,7 +678,7 @@ var item_edit = function(element) {
     var parent = element.parents('.list-group-item');
     var id = parent.attr('id').split('_')[1];
 
-    if ($('li[aria-controls="groups"]').hasClass('ui-state-active')) {
+    if ($('#groups-tab').parents('li').hasClass('ui-state-active')) {
         $('#status-form-group').css('display', 'block');
     } else {
         $('#status-form-group').css('display', 'none');
@@ -817,6 +827,10 @@ var item_edit = function(element) {
     }
 };
 
+
+$('#user-status-icon, #cate-status-icon').change(function(e) {
+    $(this).val($(this).prop('checked'));
+});
 // var item_show = function(element) {
 //     var parent = element.parents('.list-group-item');
 //     var id = parent.attr('id').split('_')[1];
@@ -1059,26 +1073,93 @@ $('.submit-btn').click(function(event) {
         });
 
         console.log($('#' + formname).serializeArray());
+        var serialval = $('#' + formname).serializeArray().map(function(item) {
+            var arr = {};
+            if (item.name == 'user-status-icon') {
+                item.value = $('#user-status-icon').val() == 'true' ? 1 : 0;
+            } else if (item.name == 'cate-status-icon') {
+                item.value = $('#cate-status-icon').val() == 'true' ? 1 : 0;
+            }
+            return item;
+        });
+        if ($("#" + formname).find('input[type=checkbox]').val() == 'false') {
+            if (formname == 'user_form') {
+                serialval.push({
+                    name: 'user-status-icon',
+                    value: 0
+                });
+            } else {
+                serialval.push({
+                    name: 'cate-status-icon',
+                    value: 0
+                });
+            }
+        }
+        console.log(serialval);
+        console.log($('#' + formname).serializeArray());
         $.ajax({
             url: $('#' + formname).attr('action'),
             method: $('#' + formname).find('.method-select').val(),
-            data: $('#' + formname).serialize(),
+            data: serialval,
             success: function(data) {
                 console.log(data);
-                if ($("#" + formname).attr('data-cate') != '' && $('#' + formname).attr('data-cate') != null) {
-                    switch (key) {
-                        case value:
+                if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
+                    var arr_url = $('#' + formname).attr('action').split('/');
+                    var groupName = arr_url[arr_url.length - 1];
+                    switch (groupName) {
+                        case 'user':
 
+                            switch ($("#user_type")) {
+                                case '4':
+                                    $('#students').append(makeUserData(data, 'student'));
+                                    break;
+
+                                case '3':
+                                    $('#teachers').append(makeUserData(data, 'teacher'));
+                                    break;
+
+                                case '2':
+                                    $('#authors').append(makeUserData(data, 'author'));
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                            break;
+                        case 'group':
+                            $('#groups').append(makeGroupData(data, 'group'));
+                            break;
+                        case 'company':
+                            $('#companies').append(makeCategoryData(data, 'company'));
+                            break;
+                        case 'function':
+                            $('#positions').append(makeCategoryData(data, 'function'));
                             break;
 
                         default:
                             break;
                     }
-                }
-                if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
-
                 } else {
+                    var target = $("#" + formname).attr('data-item');
+                    switch (target.split('_')[0]) {
+                        case 'student':
+                        case 'teacher':
+                        case 'author':
+                            updateUserData(data, target);
+                            break;
+                        case 'group':
+                            updateGroupData(data, target);
+                            break;
+                        case 'company':
+                            updateCategoryData(data, target);
+                            break;
+                        case 'function':
+                            updateCategoryData(data, target);
+                            break;
 
+                        default:
+                            break;
+                    }
                 }
             },
             error: function(err) {
@@ -1089,6 +1170,110 @@ $('.submit-btn').click(function(event) {
         submit_data = null;
     }
 });
+
+var makeUserData = function(data, category) {
+
+    var status_temp = data.status == '1' ?
+        '<i class="fa fa-circle text-success m-2"></i>' +
+        '<input type="hidden" name="item-status" class="status-notification" value="1">' :
+        '<i class="fa fa-circle text-danger m-2"></i>' +
+        '<input type="hidden" name="item-status" class="status-notification" value="0">';
+    return '<a class="list-group-item list-group-item-action  p-1 border-0" id="' + category + '_' + data.id + '">' +
+        '<div class="float-left">' +
+        status_temp +
+        '<span class="item-name">' + data.first_name + '&nbsp;' + data.last_name + '</span>' +
+        '<input type="hidden" name="item-name" value="' + data.first_name + data.last_name + '">' +
+        '<input type="hidden" name="item-group" value="' + data.linked_groups + '">' +
+        '<input type="hidden" name="item-company" value="' + data.company + '">' +
+        '<input type="hidden" name="item-function" value="' + data.function+'">' +
+        '</div>' +
+        '<div class="btn-group float-right">' +
+        '<span class=" p-2 font-weight-bolder">EN</span>' +
+        '<button class="btn  item-show" data-content="' + category + '">' +
+        '<i class="px-2 fa fa-eye"></i>' +
+        '</button>' +
+        '<button class="btn item-edit" data-content="' + category + '">' +
+        '<i class="px-2 fa fa-edit"></i>' +
+        '</button>' +
+        '<button class="btn item-delete" data-content="' + category + '">' +
+        '<i class="px-2 fa fa-trash-alt"></i>' +
+        '</button>' +
+        '</div>' +
+        '</a>';
+};
+
+var makeGroupData = function(data, category) {
+    var status_temp = data.status == '1' ?
+        '<i class="fa fa-circle text-success m-2"></i>' +
+        '<input type="hidden" name="item-status" class="status-notification" value="1">' :
+        '<i class="fa fa-circle text-danger m-2"></i>' +
+        '<input type="hidden" name="item-status" class="status-notification" value="0">';
+    return '<a class="list-group-item list-group-item-action p-1 border-0 " id="' + category + '_' + data.id + '">' +
+        '<div class="float-left">' +
+        status_temp +
+        '<span class="item-name">' + data.name + '</span>' +
+        '<input type="hidden" name="item-name" value="' + data.name + '">' +
+        '</div>' +
+        '<div class="btn-group float-right">' +
+        '<button class="btn  toggle1-btn  item-show" data-content="' + category + '">' +
+        '<i class="px-2 fa fa-eye"></i>' +
+        '</button>' +
+        '<button class="btn item-edit toggle1-btn" data-content="' + category + '">' +
+        '<i class="px-2 fa fa-edit"></i>' +
+        '</button>' +
+        '<button class="btn item-delete toggle1-btn" data-content="' + category + '">' +
+        '<i class="px-2 fa fa-trash-alt"></i>' +
+        '</button>' +
+        '<button class="btn  toggle2-btn" data-content="' + category + '">' +
+        '<i class="px-2 fas fa-check-circle"></i>' +
+        '</button>' +
+        '</div>' +
+        '</a>';
+};
+var makeCategoryData = function(data, category) {
+    return ' <a class="list-group-item list-group-item-action p-1 border-0 " id="' + category + '_' + data.name + '">' +
+        ' <div class="float-left">' +
+        '<span class="item-name">' + data.name + '</span>' +
+        '<input type="hidden" name="item-status" value="">' +
+        '<input type="hidden" name="item-name" value="' + data.name + '">' +
+        ' </div>' +
+        ' <div class="btn-group float-right">' +
+        '<button class="btn  toggle1-btn  item-show" data-content="' + category + '">' +
+        '<i class="px-2 fa fa-eye"></i>' +
+        '</button>' +
+        '<button class="btn item-edit toggle1-btn" data-content="' + category + '">' +
+        '<i class="px-2 fa fa-edit"></i>' +
+        '</button>' +
+        '<button class="btn item-delete toggle1-btn" data-content="' + category + '">' +
+        '<i class="px-2 fa fa-trash-alt"></i>' +
+        '</button>' +
+        '<button class="btn  toggle2-btn" data-content="' + category + '">' +
+        '<i class="px-2 fas fa-check-circle"></i>' +
+        '</button>' +
+        ' </div>' +
+        '</a>';
+};
+
+var updateUserData = function(data, target) {
+    $('#' + target + ' .item-name').html(data.first_name + "&nbsp;" + data.last_name);
+    $('#' + target + ' .status-notification').val(data.status);
+    $('#' + target + ' .status-notification').prev().css('color', data.status == '1' ? 'green' : 'red');
+    $('#' + target + ' input[name="item-name"]').val(data.name);
+    $('#' + target + ' input[name="item-group]').val(data.linked_groups);
+    $('#' + target + ' input[name="item-company]').val(data.company);
+    $('#' + target + ' input[name="item-function]').val(data.function);
+
+};
+var updateGroupData = function(data, target) {
+    $('#' + target + ' .item-name').html(data.name);
+    $('#' + target + ' input[name="item-name"]').html(data.name);
+    $('#' + target + ' .status-notification').val(data.status);
+    $('#' + target + ' .status-notification').prev().css('color', data.status == '1' ? 'green' : 'red');
+};
+var updatCategoryData = function(data, target) {
+    $('#' + target + ' .item-name').html(data.name);
+    $('#' + target + ' input[name="item-name"]').val(data.name);
+};
 
 $('.cancel-btn').click(function(event) {
     var parent = $(this).parents('fieldset');
@@ -1108,7 +1293,7 @@ $('.fliter-company-btn').click(function() {
 
 $('.fliter-company-btn').dblclick(function() {
     $(this).val('');
-    $(this).html('company +');
+    $(this).html('company +<i></i>');
     $(this).change();
     $('#companies').find('.list-group-item').each(clearClassName);
     $('#companies').find('.toggle1-btn').toggle(false);
@@ -1171,8 +1356,12 @@ var searchfilter = function(event) {
         // console.log(item_name);
 
         if (item_name.toLowerCase().indexOf(str) >= 0) {
-            if (ctgc == '' || item_company == ctgc) {
-                if (ctgf == '' || item_function == ctgf) {
+            if (ctgc == '' || ctgc.split("_").filter(function(iem, i, d) {
+                    return iem == item_company;
+                }).length) {
+                if (ctgf == '' || ctgf.split("_").filter(function(iem, i, d) {
+                        return iem == item_function;
+                    }).length) {
 
                     switch (opt) {
                         case 'all':
@@ -1312,11 +1501,16 @@ function dropEnd(event, item) {
 function companyDropEnd(event, item) {
     $(event.target).css('opacity', '100%');
     if (dragitem != null && dragitem[0].split('_')[0] == 'company') {
-        $(this).val(dragitem[0].split('_')[1]);
-        $(this).html(dragitem[0]);
+        $(this).html(dragitem.map(function(om, t, rr) {
+            return $('#' + om + " .item-name").html();
+        }).join(', ') + "&nbsp <i>X</i>");
+        var companyName = dragitem.map(function(e, i, r) {
+            return e.split('_')[1];
+        });
+        $(this).val(companyName.join('_'));
+        console.log(dragitem[0]);
+        searchfilter(event);
     }
-    console.log(dragitem[0]);
-    searchfilter(event);
     dragitem = null;
     $('.filter-company-btn').change();
 }
@@ -1371,4 +1565,6 @@ var itemDelete = function(event, cate) {
     }));
 
 
-}
+};
+
+//
