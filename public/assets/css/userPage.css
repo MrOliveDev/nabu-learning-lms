@@ -268,7 +268,7 @@ a.list-group-item:not([href]) {
 }
 
 #groups .highlight,
-#table_groups .highlight {
+#table-groups .highlight {
     animation: grouphighlight 2s infinite;
 }
 
