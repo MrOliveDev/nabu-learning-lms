@@ -1310,7 +1310,7 @@ $('.fliter-company-btn').click(function(event) {
                     itemVal.push($(el).attr('id').split('_')[1]);
                 });
                 $(this).val(itemVal.join('_'));
-                $(this).html(items.join(', '));
+                $(this).html(items.join(', ') + "&nbsp <i>X</i>");
                 searchfilter(event);
                 $(this).change();
             }
@@ -1587,7 +1587,7 @@ function functionDropEnd(event, item) {
     $('.filter-function-btn').change();
 }
 
-var itemDelete = function(event, cate) {
+var itemDelete = function(elem, cate) {
     var e = Swal.mixin({
         buttonsStyling: !1,
         customClass: {
@@ -1611,15 +1611,15 @@ var itemDelete = function(event, cate) {
             return new Promise((function(e) {
                 setTimeout((function() {
                     e();
-                    item_delete($(event.target));
+                    item_delete(elem);
                 }), 50);
             }));
         }
     }).then((function(n) {
         if (n.value) {
             e.fire('Deleted!', 'Your ' + cate + ' has been deleted.', 'success');
-            console.log(id);
-            $('#client_' + id).remove();
+            console.log();
+            $(elem).parents('.list-group-item').remove();
         } else {
             'cancel' === n.dismiss && e.fire('Cancelled', 'Your data is safe :)', 'error');
         }
