@@ -234,29 +234,32 @@ $(".list-group-item").dblclick(function() {
 //     $(this).addClass('active');
 // });
 
-$("LeftPanel .list-group-item").click(function(e) {
+$("#LeftPanel .list-group-item").click(function(e) {
     // e.stopPropagation();
-    $(this).toggleClass("active");
-    $(this).attr('draggable', function(index, attr) {
-        return attr == "true" ? false : true;
-    });
+    if (!$(this).hasClass("active")) {
+        $(this).addClass("active");
+        $(this).attr('draggable', true);
+    } else {
+        $(this).removeClass("active");
+        $(this).attr('draggable', false);
+    }
+
 });
 
 var btnClick = function(e) {
     if (!$(this).hasClass('toggle2-btn')) {
         e.stopPropagation();
         $(this).parents('.window').find('.list-group-item').each(clearClassName);
-        $(this).addClass("active");
         $(this).parents('.list-group-item').addClass('highlight');
     } else {
         $(this).parents('.window').find('.list-group-item').each(clearClassName);
-        $(this).addClass("active");
         $(this).parents('.list-group').children(".list-group-item").each(function(i, e) {
             if ($(e).hasClass("active")) {
                 $(e).removeClass("active");
             }
         });
     }
+    $(this).addClass("active");
 };
 
 $(".list-group-item button.btn").click(btnClick);
@@ -360,6 +363,16 @@ $(".toolkit-show-filter").click(function(event) {
     parent.children('.search-filter').val('');
     parent.children('.fliter-company-btn').html('company +<i></i>');
     parent.children('.fliter-function-btn').html('function +<i></i>');
+
+    parent.find('.search-filter').val('')
+    parent.find('input[name=status]').each(function(i, e) {
+        $(e).prop('checked', false);
+    })
+    parent.find('.fliter-company-btn').val('');
+    parent.find('.fliter-company-btn').html('company +<i></i>');
+    parent.find('.fliter-function-btn').val('');
+    parent.find('.fliter-function-btn').html('company +<i></i>');
+
 });
 
 var secondLevelShow = function(event) {
