@@ -1,10 +1,12 @@
 // const { nodeName } = require("jquery");
 
+// const { parseHTML } = require("jquery");
+
 // const { forEach } = require("lodash");
 
 // var baseURL = window.location.protocol + "//" + window.location.host;
 
-var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
+var baseURL = window.location.protocol + "//" + window.location.host;
 var filteritem = null;
 var grouptab = null,
     detailtags = null;
@@ -14,6 +16,11 @@ var activedTab = '#groups';
 var window_level = 1;
 
 var input_group_position = null;
+
+
+
+// Dashmix.helpers('notify', {message: 'Your message!'});
+
 
 var notification = function(str, type) {
     switch (type) {
@@ -39,223 +46,6 @@ var notification = function(str, type) {
 
 };
 
-// Dashmix.helpers('notify', {message: 'Your message!'});
-$(document).ready(function() {
-
-    //height controll
-    // $('fieldset').each(function (element){
-    //     element.
-    // });
-
-    var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document.body.clientHeight));
-
-    $("#content").css({
-        'max-height': h - $('#div-left').height() - $('.content-header').height() - $('.nav-tab').height()
-    });
-
-    if ($('#div_A, #div_C').css('height') > $('#content').css('height') * 0.7) {
-        $('#div_A, #div_C').css('height', $('#content').css('height') * 0.7);
-    }
-
-    $('#LeftPanel .toolkit>div').css('background-color', 'var(--student-h)');
-    $('#RightPanel .toolkit:first>div').css('background-color', 'var(--group-h)');
-    $('.second-table .toolkit').css('background-color', 'var(--student-h)');
-
-    $('#students-tab').click(function() {
-        $('#LeftPanel .toolkit>div').css('background-color', 'var(--student-h)');
-        $('.second-table .toolkit').css('background-color', 'var(--student-h)');
-        toggleFormOrTable($('#div_B'), null, false);
-        $("#category-form-tags .list-group-item").css('background-color', 'var(--student-c)');
-        $("#category-form-tags .list-group-item.active").css('background-color', 'var(--student-h)');
-        // $("#table-groups").toggle(true);
-        if ($("#table-groups").length == 0) {
-            grouptab.appendTo("#user-form-tags");
-        }
-
-        if ($('#user-form-tags ul').length == 0) {
-            $('#user-form-tags').prepend(detailtags);
-        }
-
-        if ($('#table-groups-tab').length == 0) {
-            $('#user-form-tags li:first').prepend(detailtag1);
-        }
-
-        if ($('#user_form #input_group_position').length == 0) {
-            $('#user_form #form_group_position').append(input_group_position);
-        }
-
-        if ($('#table-user').length == 0) {
-            $('#category-form-tags').append(tableuser);
-        }
-
-        $("#LeftPanel").find(".list-group-item").each(function() {
-            $(this).removeClass("active");
-        });
-
-        $('#div_A').find('.list-group-item').each(clearClassName);
-        cancelFilterCategoryAll();
-    });
-    $('#teachers-tab').click(function() {
-        $('#LeftPanel .toolkit>div').css('background-color', 'var(--teacher-h)');
-        $('.second-table .toolkit').css('background-color', 'var(--teacher-h)');
-        toggleFormOrTable($('#div_B'), null, false);
-        $("#category-form-tags .list-group-item").css('background-color', 'var(--teacher-c)');
-        $("#category-form-tags .list-group-item.active").css('background-color', 'var(--teacher-h)');
-        // $("#table-groups").toggle(false);
-        if ($("#table-groups").length != 0) {
-            grouptab = $("#table-groups");
-            $("#table-groups").detach();
-        }
-        if ($('#user-form-tags ul').length == 0) {
-            $('#user-form-tags').prepend(detailtags);
-        }
-
-        if ($('#table-groups-tab').length != 0) {
-            detailtag1 = $('#table-groups-tab');
-            $('#table-groups-tab').detach();
-        }
-
-        $("#LeftPanel").find(".list-group-item").each(function() {
-            $(this).removeClass("active");
-        });
-
-        if ($('#user_form #input_group_position').length != 0) {
-            input_group_position = $("#user_form #input_group_position");
-            $("#user_form #input_group_position").detach();
-        }
-
-        if (activedTab == '#groups') {
-            if ($('#table-user').length != 0) {
-                tableuser = $('#table-user');
-                $('#table-user').detach();
-            }
-        } else {
-            if ($('#table-user').length == 0) {
-                $('#category-form-tags').append(tableuser);
-            }
-        }
-
-        $('#div_A').find('.list-group-item').each(clearClassName);
-        cancelFilterCategoryAll();
-    });
-    $('#authors-tab').click(function() {
-        $('#LeftPanel .toolkit>div').css('background-color', 'var(--author-h)');
-        $('.second-table .toolkit').css('background-color', 'var(--author-h)');
-        toggleFormOrTable($('#div_B'), null, false);
-        $("#category-form-tags .list-group-item").css('background-color', 'var(--author-c)');
-        $("#category-form-tags .list-group-item.active").css('background-color', 'var(--author-h)');
-        // $("#table-groups").toggle(false);
-        if ($("#table-groups").length != 0) {
-            grouptab = $("#table-groups");
-            $("#table-groups").detach();
-        }
-
-        if ($('#user-form-tags ul').length != 0) {
-            detailtags = $('#user-form-tags ul');
-            $('#user-form-tags ul').detach();
-        }
-
-        if ($('#user_form #input_group_position').length != 0) {
-            input_group_position = $("#user_form #input_group_position");
-            $("#user_form #input_group_position").detach();
-        }
-
-        $("#LeftPanel").find(".list-group-item").each(function() {
-            $(this).removeClass("active");
-        });
-
-        $('#div_A').find('.list-group-item').each(clearClassName);
-        cancelFilterCategoryAll();
-
-        if (activedTab == '#groups' || activedTab == '#positions') {
-            if ($('#table-user').length != 0) {
-                tableuser = $('#table-user');
-                $('#table-user').detach();
-            }
-        } else {
-            if ($('#table-user').length == 0) {
-                $('#category-form-tags').append(tableuser);
-            }
-        }
-    });
-
-
-    $('#groups-tab').click(function() {
-        $('#RightPanel .toolkit:first>div').css('background-color', 'var(--group-h)');
-        $('#RightPanel').find('.list-group-item').each(toggleBtnChange);
-        toggleFormOrTable($('#div_D'), null, false);
-
-
-        $("#RightPanel").find(".list-group-item").each(function() {
-            $(this).removeClass("active");
-        });
-
-        $('#div_C').find('.list-group-item').each(clearClassName);
-        activedTab = '#groups';
-        cancelFilterCategoryAll();
-
-    });
-    $('#companies-tab').click(function() {
-        $('#RightPanel .toolkit:first>div').css('background-color', 'var(--company-h)');
-        $('#RightPanel').find('.list-group-item').each(toggleBtnChange);
-        toggleFormOrTable($('#div_D'), null, false);
-
-        $("#RightPanel").find(".list-group-item").each(function() {
-            $(this).removeClass("active");
-        });
-
-        $('#div_C').find('.list-group-item').each(clearClassName);
-        activedTab = '#companies';
-        cancelFilterCategoryAll();
-
-    });
-    $('#positions-tab').click(function() {
-        $('#RightPanel .toolkit:first>div').css('background-color', 'var(--position-h)');
-        $('#RightPanel').find('.list-group-item').each(toggleBtnChange);
-        toggleFormOrTable($('#div_D'), null, false);
-
-        $("#RightPanel").find(".list-group-item").each(function() {
-            $(this).removeClass("active");
-        });
-
-        $('#div_C').find('.list-group-item').each(clearClassName);
-        activedTab = '#positions';
-        cancelFilterCategoryAll();
-
-    });
-
-    $("#RightPanel .list-group-item").each(function(i, elem) {
-        $(elem).attr('draggable', false);
-        $(elem).on('drop', dropEnd);
-
-        elem.addEventListener('dragover', dragOver);
-        elem.addEventListener('dragleave', dragLeave);
-    });
-
-    $("#LeftPanel .list-group-item").each(function(i, elem) {
-        elem.addEventListener('dragstart', dragStart);
-        $(elem).attr('drag', false);
-    });
-
-    // $(".fliter-company-btn").on('drop', companyDropEnd);
-    // $(".fliter-function-btn").on('drop', functionDropEnd);
-
-    // $(".fliter-function-btn").on('dragstart', dragStart);
-    // $(".fliter-company-btn").on('dragstart', dragStart);
-
-    // $(".fliter-company-btn").on('dragover', dragOver);
-    // $(".fliter-company-btn").on('dragleave', dragLeave);
-
-    // $(".fliter-function-btn").on('dragover', dragOver);
-    // $(".fliter-function-btn").on('dragleave', dragLeave);
-
-
-    $('input[name=status], input.search-filter, button.fliter-company-btn, button.fliter-function-btn').change(searchfilter);
-    $('input.search-filter').keypress(searchfilter);
-    $("button.fliter-company-btn, button.fliter-function-btn").on('drop', searchfilter);
-});
-
-
 var clearClassName = function(i, highlighted) {
     $(highlighted).find(".btn").each(function(index, btnelement) {
         $(btnelement).removeClass("active");
@@ -271,14 +61,13 @@ var toggleBtnChange = function() {
     $(this).removeClass('select-active');
 };
 
-
-$(".list-group-item").dblclick(function() {
+var itemDBClick = function() {
     $(this).parents('.list-group').children(".list-group-item").each(function(i, e) {
         if ($(e).hasClass("active")) {
             $(e).removeClass("active");
         }
     });
-});
+};
 
 // $("#RightPanel .list-group-item").click(function(e) {
 //     $(this).parents('.list-group').children(".list-group-item").each(function(i, e) {
@@ -289,7 +78,7 @@ $(".list-group-item").dblclick(function() {
 //     $(this).addClass('active');
 // });
 
-$("#LeftPanel .list-group-item").click(function(e) {
+var leftItemClick = function(e) {
     // e.stopPropagation();
     if (!$(this).hasClass("active")) {
         $(this).addClass("active");
@@ -299,7 +88,7 @@ $("#LeftPanel .list-group-item").click(function(e) {
         $(this).attr('draggable', false);
     }
 
-});
+};
 
 var btnClick = function(e) {
     if (!$(this).hasClass('toggle2-btn')) {
@@ -360,11 +149,10 @@ var btnClick = function(e) {
     $(this).addClass("active");
 };
 
-$(".list-group-item button.btn").click(btnClick);
-
 var clearTable = function(element) {
     element.find('.list-group-item').detach();
 };
+
 var clearFrom = function(element) {
     element.find('input, select').each(function(i, forminput) {
         if ($(forminput).attr('name') != '_token' && $(forminput).attr('name') != '_method') {
@@ -428,33 +216,42 @@ var goTab = function(name) {
     $('#' + name + '-tab').click();
 };
 
-var contentFilter = function(element_id, str = '', comp = null, func = null, online = 0) {
+// var contentFilter = function(element_id, str = '', comp = null, func = null, online = 0) {
 
-    var category = element_id.split('_')[0].split('-')[0];
-    var id = element_id.split('_')[1];
-    var data = {
-        'id': id,
-        'str': str,
-        'comp': comp,
-        'func': func,
-        'online': online
-    };
-    $.post(baseURL + "/userFind" + category + "/" + id, data)
-        .done(function(responseData) {
-            notification("Data Loaded!", 1);
-            return responseData;
-        })
-        .fail(function(err) {
-            notification('Sorry, You have an error!', 2);
-        }).always(function(data) {
-            console.log(data);
-        });;
+//     var category = element_id.split('_')[0].split('-')[0];
+//     var id = element_id.split('_')[1];
+//     var data = {
+//         'id': id,
+//         'str': str,
+//         'comp': comp,
+//         'func': func,
+//         'online': online
+//     };
+//     $.post(baseURL + "/userFind" + category + "/" + id, data)
+//         .done(function(responseData) {
+//             notification("Data Loaded!", 1);
+//             return responseData;
+//         })
+//         .fail(function(err) {
+//             notification('Sorry, You have an error!', 2);
+//         }).always(function(data) {
+//             console.log(data);
+//         });;
 
-};
-
-$(".toolkit-show-filter").click(function(event) {
+// };
+var toolkitToggleShowFilter = function(event) {
     var parent = $(this).parents('.toolkit');
     parent.children(".toolkit-filter").toggle();
+    if (parent.attr('id') == 'user-toolkit') {
+        var leftActiveTab = $('#LeftPanel .ui-state-active a').attr('href').split('#')[1];
+        if (leftActiveTab == 'teachers' || leftActiveTab == 'authors') {
+            parent.find('.fliter-function-btn').toggle(false);
+        } else {
+            parent.find('.fliter-function-btn').toggle(true);
+        }
+
+    }
+
     parent.children('.toolkit-filter input').each(function(i, e) {
         $(e).attr('checked', false);
     });
@@ -471,16 +268,6 @@ $(".toolkit-show-filter").click(function(event) {
     parent.find('.fliter-function-btn').val('');
     parent.find('.fliter-function-btn').html('function +<i></i>');
     searchfilter(event);
-});
-
-var secondLevelShow = function(event) {
-    event.preventDefault();
-    var parent = $(this).parents('fieldset');
-    if (parent.attr('id') == "LeftPanel") {
-        toggleFormOrTable($('#RightPanel'), false);
-    } else {
-        toggleFormOrTable($('#LeftPanel'), false);
-    }
 };
 
 var secondShow1 = function(event) {
@@ -517,14 +304,13 @@ var secondShow1 = function(event) {
                     // unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkFrom);
                     element.find('.btn-group').append(unlinkbtn);
                     element.find('button.btn').click(btnClick);
-                    element.find('.item-show').bind('click', secondLevelShow);
+                    element.find('.item-show').bind('click', divBDshow);
                     element.find('.item-show').bind('click', secondShow1);
                     element.find('.item-edit').bind('click', function() {
                         item_edit($(this));
                     });
-                    element.find('.item-delete').bind('click', function() {
-                        itemDelete($(this), cate);
-                    });
+                    element.find('.item-delete').click(itemDelete);
+
                     element.toggle(true);
                     element.attr('data-src', parent.attr('id'));
                     element.parents('.list-group').attr('data-src', parent.attr('id'));
@@ -566,14 +352,13 @@ var secondShow1 = function(event) {
                     }
                     element.find('button.btn').click(btnClick);
                     element.find('.btn-group').append(unlinkbtn);
-                    element.find('.item-show').bind('click', secondLevelShow);
+                    element.find('.item-show').bind('click', divBDshow);
                     element.find('.item-show').bind('click', secondShow1);
                     element.find('.item-edit').bind('click', function() {
                         item_edit($(this));
                     });
-                    element.find('.item-delete').bind('click', function() {
-                        itemDelete($(this), cate);
-                    });
+                    element.find('.item-delete').click(itemDelete);
+
                     element.toggle(true);
                     element.attr('data-src', parent.attr('id'));
                     element.parents('.list-group').attr('data-src', parent.attr('id'));
@@ -585,22 +370,24 @@ var secondShow1 = function(event) {
     }
 };
 
-$('#div_B .item-show, #div_D .item-show').click(secondLevelShow);
+var divBDshow = function(event) {
+    event.preventDefault();
+    var parent = $(this).parents('fieldset');
+    if (parent.attr('id') == "LeftPanel") {
+        toggleFormOrTable($('#RightPanel'), false);
+        $('.second-table .toolkit').css('background-color', 'var(--student-h)');
+        $("#category-form-tags .list-group-item").css('background-color', 'var(--student-c)');
+        $("#category-form-tags .list-group-item.active").css('background-color', 'var(--student-h)');
+    } else {
+        toggleFormOrTable($('#LeftPanel'), false);
+    }
+};
 
-$('#div_A .item-show, #div_C .item-show').click(function(event) {
+var divACshow = function(event) {
     var parent = $(this).parents('fieldset');
     toggleFormOrTable(parent, false);
-});
-
-$('.item-edit').click(function(event) {
-    item_edit($(this));
-});
-
-$('.item-delete').click(function(event) {
-    itemDelete($(this), $(this).attr('data-content'));
-});
-
-$('.toolkit-add-item').click(function(event) {
+};
+var toolkitAddItem = function(event) {
     toggleFormOrTable($(this).parents('fieldset'), true);
     if ($('#groups-tab').parents('li').hasClass('ui-state-active')) {
         $('#status-form-group').css('display', 'block');
@@ -678,24 +465,25 @@ $('.toolkit-add-item').click(function(event) {
         $.get({
             url: baseURL + "/usercreate",
             success: function(data) {
-                notification('Success!', 1);
+                notification('Initialized success!', 1);
                 $('#login').val(data.name);
                 $('#preview').attr('src', baseURL + '/assets/media/default.png');
                 $('#password').val(data.password);
             },
             error: function(err) {
-                notification("Sorry, You have an error!", 2);
+                notification("Sorry, You can't init the form!", 2);
             }
         })
     }
-});
-$('#div_A .fa.fa-edit, #div_C .fa.fa-edit').click(function(event) {
+};
+
+var divACedit = function(event) {
     // event.stopPropagation();
     var parent = $(this).parents('fieldset');
     toggleFormOrTable(parent, true);
-});
+};
 
-$('#div_B .fa.fa-edit, #div_D .fa.fa-edit').click(function(event) {
+var divBDedit = function(event) {
     // event.stopPropagation();
     var parent = $(this).parents('fieldset');
     if (parent.attr('id') == "LeftPanel") {
@@ -703,9 +491,9 @@ $('#div_B .fa.fa-edit, #div_D .fa.fa-edit').click(function(event) {
     } else {
         toggleFormOrTable($('#LeftPanel'), true);
     }
-});
+}
 
-$('#div_A .item-show').click(function(event) {
+var divAshow = function(event) {
     var parent = $(this).parents('.list-group-item');
     // var id = parent.attr('id').split('_')[1];
 
@@ -715,19 +503,16 @@ $('#div_A .item-show').click(function(event) {
     arr_group.map(function(group) {
         // console.log(group);
         $('#groups').find('.list-group-item').each(function(i, e) {
-            if (group == $(this).attr('id').split('_')[1]) {
+            if (group == $(e).attr('id').split('_')[1]) {
                 var element = $(e).clone(false);
                 var unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
                 element.find('.btn-group').append(unlinkbtn);
                 element.find('button.btn').click(btnClick);
-                element.find('.item-show').bind('click', secondLevelShow);
+                element.find('.item-show').bind('click', divBDshow);
                 element.find('.item-show').bind('click', secondShow1);
-                element.find('.item-edit').bind('click', function() {
-                    item_edit($(this));
-                });
-                element.find('.item-delete').bind('click', function() {
-                    itemDelete($(this), cate);
-                });
+                element.find('.item-edit').bind('click', itemEdit);
+                element.find('.item-delete').click(itemDelete);
+
                 if (element.hasClass('highlight')) {
                     element.removeClass('highlight');
                     element.find('.btn.active').each(function(i, e) {
@@ -747,9 +532,9 @@ $('#div_A .item-show').click(function(event) {
             }
         });
     });
-});
+}
 
-$('#div_C .item-show').click(function(event) {
+var divCshow = function(event) {
     var parent = $(this).parents('.list-group-item');
     var id = parent.attr('id').split('_')[1];
     var cate = parent.attr('id').split('_')[0];
@@ -766,14 +551,10 @@ $('#div_C .item-show').click(function(event) {
                     unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkFrom);
                     element.find('.btn-group').append(unlinkbtn);
                     element.find('button.btn').click(btnClick);
-                    element.find('.item-show').bind('click', secondLevelShow);
+                    element.find('.item-show').bind('click', divBDshow);
                     element.find('.item-show').bind('click', secondShow1);
-                    element.find('.item-edit').bind('click', function() {
-                        item_edit($(this));
-                    });
-                    element.find('.item-delete').bind('click', function(ev) {
-                        itemDelete($(this), cate);
-                    });
+                    element.find('.item-edit').bind('click', itemEdit);
+                    element.find('.item-delete').click(itemDelete);
                     if (element.hasClass('highlight')) {
                         element.removeClass('highlight');
                         element.find('.btn.active').each(function(i, e) {
@@ -798,14 +579,10 @@ $('#div_C .item-show').click(function(event) {
                 unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkFrom);
                 element.find('.btn-group').append(unlinkbtn);
                 element.find('button.btn').click(btnClick);
-                element.find('.item-show').bind('click', secondLevelShow);
+                element.find('.item-show').bind('click', divBDshow);
                 element.find('.item-show').bind('click', secondShow1);
-                element.find('.item-edit').bind('click', function() {
-                    item_edit($(this));
-                });
-                element.find('.item-delete').bind('click', function() {
-                    itemDelete($(this), cate);
-                });
+                element.find('.item-edit').bind('click', itemEdit);
+                element.find('.item-delete').click(itemDelete);
                 if (element.hasClass('highlight')) {
                     element.removeClass('highlight');
                     element.find('.btn.active').each(function(i, e) {
@@ -823,13 +600,36 @@ $('#div_C .item-show').click(function(event) {
             }
         }
     });
-});
 
-$('form input, form select').change(function(event) {
+    //TODO:
+    switch ($('#LeftPanel .ui-state-active a').attr('href')) {
+        case '#students':
+            $('.second-table .toolkit').css('background-color', 'var(--student-h)');
+            $("#category-form-tags .list-group-item").css('background-color', 'var(--student-c)');
+            $("#category-form-tags .list-group-item.active").css('background-color', 'var(--student-h)');
+            $('#show-toolkit .fliter-function-btn').toggle(true);
+            break;
+        case '#teachers':
+            $('.second-table .toolkit').css('background-color', 'var(--teacher-h)');
+            $("#category-form-tags .list-group-item").css('background-color', 'var(--teacher-c)');
+            $("#category-form-tags .list-group-item.active").css('background-color', 'var(--teacher-h)');
+            $('#show-toolkit .fliter-function-btn').toggle(false);
+            break;
+        case '#authors':
+            $('.second-table .toolkit').css('background-color', 'var(--author-h)');
+            $("#category-form-tags .list-group-item").css('background-color', 'var(--author-c)');
+            $("#category-form-tags .list-group-item.active").css('background-color', 'var(--author-h)');
+            break;
+            $('#show-toolkit .fliter-function-btn').toggle(false);
+        default:
+            break;
+    }
+
+};
+
+var formInputChange = function(event) {
     console.log($(event.target).val());
-})
-
-$('form').submit(submitFunction);
+};
 
 var item_edit = function(element) {
     var parent = element.parents('.list-group-item');
@@ -848,7 +648,7 @@ var item_edit = function(element) {
             $.get({
                 url: baseURL + '/user/' + id,
                 success: function(data, state) {
-                    notification('Success!', 1);
+                    notification('We got user data successfully!', 1);
                     console.log(state);
                     toggleFormOrTable($('#LeftPanel'), true);
                     clearFrom($('LeftPanel'));
@@ -893,7 +693,7 @@ var item_edit = function(element) {
 
                 },
                 error: function(err) {
-                    notification("Sorry, You have an error!", 2);
+                    notification("Sorry, You can't get user data!", 2);
                 }
             });
 
@@ -903,7 +703,7 @@ var item_edit = function(element) {
             $.get({
                 url: baseURL + '/group/' + id,
                 success: function(data, state) {
-                    notification('Success!', 1);
+                    notification('We got group data successfully!', 1);
                     console.log(state);
                     toggleFormOrTable($('#RightPanel'), true);
                     clearFrom($('RightPanel'));
@@ -920,7 +720,7 @@ var item_edit = function(element) {
                     $('#category_form .method-select').val('PUT');
                 },
                 error: function(err) {
-                    notification("Sorry, You have an error!", 2);
+                    notification("Sorry, You can't get group data!", 2);
                 }
             });
             break;
@@ -929,7 +729,7 @@ var item_edit = function(element) {
             $.get({
                 url: baseURL + '/company/' + id,
                 success: function(data, state) {
-                    notification('Success!', 1);
+                    notification('We got company data successfully!', 1);
                     console.log(state);
                     toggleFormOrTable($('#RightPanel'), true);
                     clearFrom($('RightPanel'));
@@ -944,7 +744,7 @@ var item_edit = function(element) {
 
                 },
                 error: function(err) {
-                    notification("Sorry, You have an error!", 2);
+                    notification("Sorry, You can't get company data!", 2);
                 }
             });
             break;
@@ -953,7 +753,7 @@ var item_edit = function(element) {
             $.get({
                 url: baseURL + '/function/' + id,
                 success: function(data, state) {
-                    notification('Success!', 1);
+                    notification('We got position data successfully!', 1);
                     console.log(state);
                     toggleFormOrTable($('#RightPanel'), true);
                     clearFrom($('RightPanel'));
@@ -969,7 +769,7 @@ var item_edit = function(element) {
 
                 },
                 error: function(err) {
-                    notification("Sorry, You have an error!", 2);
+                    notification("Sorry, You can't get position data!", 2);
                 }
             });
             break;
@@ -984,56 +784,13 @@ var item_edit = function(element) {
     }
 };
 
+var itemEdit = function(event) {
+    item_edit($(this));
+};
 
-$('#user-status-icon, #cate-status-icon').change(function(e) {
+var formStatusChange = function(e) {
     $(this).val($(this).prop('checked'));
-});
-// var item_show = function(element) {
-//     var parent = element.parents('.list-group-item');
-//     var id = parent.attr('id').split('_')[1];
-//     switch (element.attr('data-content')) {
-//         case 'student':
-//             // $.get({
-//             //     url: baseURL + '/user/' + id,
-//             //     success: function (data, state) {
-//             //         data.session.foreach(sessionItem=>{
-
-//             //         })
-//             //     },
-//             //     error:function(err){
-
-//             //     }});
-
-//             break;
-
-//         case 'teacher':
-
-//             break;
-
-//         case 'author':
-
-//             break;
-
-//         case 'group':
-
-//             break;
-
-//         case 'company':
-
-//             break;
-
-//         case 'position':
-
-//             break;
-
-//         case 'session':
-
-//             break;
-
-//         default:
-//             break;
-//     }
-// };
+};
 
 var item_delete = function(element) {
     var parent = element.parents('.list-group-item');
@@ -1049,11 +806,11 @@ var item_delete = function(element) {
                 success: function(result) {
                     console.log(result);
                     parent.detach();
-                    notification('Success!', 1);
+                    notification('Successfully deleted!', 1);
                 },
                 error: function(err) {
                     console.log(err);
-                    notification("Sorry, You have an error!", 2);
+                    notification("Sorry, You can't delete!", 2);
                 }
             });
             break;
@@ -1067,11 +824,11 @@ var item_delete = function(element) {
                 success: function(result) {
                     console.log(result);
                     parent.detach();
-                    notification('Success!', 1);
+                    notification('Successfully deleted!', 1);
                 },
                 error: function(err) {
                     console.log(err);
-                    notification("Sorry, You have an error!", 2);
+                    notification("Sorry, You can't delete!", 2);
                 }
             });
             break;
@@ -1085,11 +842,11 @@ var item_delete = function(element) {
                 success: function(result) {
                     console.log(result);
                     parent.detach();
-                    notification('Success!', 1);
+                    notification('Successfully deleted!', 1);
                 },
                 error: function(err) {
                     console.log(err);
-                    notification("Sorry, You have an error!", 2);
+                    notification("Sorry, You can't delete!", 2);
                 }
             });
             break;
@@ -1103,11 +860,11 @@ var item_delete = function(element) {
                 success: function(result) {
                     console.log(result);
                     parent.detach();
-                    notification('Success!', 1);
+                    notification('Successfully deleted!', 1);
                 },
                 error: function(err) {
                     console.log(err);
-                    notification("Sorry, You have an error!", 2);
+                    notification("Sorry, You can't delete!", 2);
                 }
             });
             break;
@@ -1121,11 +878,11 @@ var item_delete = function(element) {
                 success: function(result) {
                     console.log(result);
                     parent.detach();
-                    notification('Success!', 1);
+                    notification('Successfully deleted!', 1);
                 },
                 error: function(err) {
                     console.log(err);
-                    notification("Sorry, You have an error!", 2);
+                    notification("Sorry, You can't delete!", 2);
                 }
             });
             break;
@@ -1133,6 +890,49 @@ var item_delete = function(element) {
         default:
             break;
     }
+};
+
+var itemDelete = function(event) {
+    elem = $(this);
+    cate = $(this).attr('data-content');
+    var e = Swal.mixin({
+        buttonsStyling: !1,
+        customClass: {
+            confirmButton: 'btn btn-success m-1',
+            cancelButton: 'btn btn-danger m-1',
+            input: 'form-control'
+        }
+    });
+    e.fire({
+        title: 'Are you sure you want to delete this item ?',
+        text: cate == 'student' ? ' This user and all his historic and reports will be permanently deleted' : '',
+        icon: 'warning',
+        showCancelButton: !0,
+        customClass: {
+            confirmButton: 'btn btn-danger m-1',
+            cancelButton: 'btn btn-secondary m-1'
+        },
+        confirmButtonText: 'Yes, delete it!',
+        html: !1,
+        preConfirm: function(e) {
+            return new Promise((function(e) {
+                setTimeout((function() {
+                    e();
+                    item_delete(elem);
+                }), 50);
+            }));
+        }
+    }).then((function(n) {
+        if (n.value) {
+            e.fire('Deleted!', 'Your ' + cate + ' has been deleted.', 'success');
+            console.log();
+            $(elem).parents('.list-group-item').remove();
+        } else {
+            'cancel' === n.dismiss && e.fire('Cancelled', 'Your data is safe :)', 'error');
+        }
+    }));
+
+
 };
 
 var submitFunction = function(event) {
@@ -1221,17 +1021,17 @@ var detachCall = function(cate, connectiondata) {
             'data': JSON.stringify(Array(connectiondata))
         }
     }).then(function(data) {
-        notification('Success!', 1);
+        notification('Successfully unliked!', 1);
         return true;
     }).fail(function(err) {
-        notification("Sorry, You have an error!", 2);
+        notification("Sorry, Your action brocken!", 2);
         return false;
     }).always(function(data) {
         console.log(data);
     });
 };
 
-$('.submit-btn').click(function(event) {
+var submitBtn = function(event) {
     var formname = $(this).attr('data-form');
     var validate = document.getElementById(formname).checkValidity();
     if (validate) {
@@ -1252,7 +1052,7 @@ $('.submit-btn').click(function(event) {
             }
             return item;
         });
-        if ($("#" + formname).find('input[type=checkbox]').val() == 'false') {
+        if (!$("#" + formname).find('input[type=checkbox]').prop('checked')) {
             if (formname == 'user_form') {
                 serialval.push({
                     name: 'user-status-icon',
@@ -1272,24 +1072,24 @@ $('.submit-btn').click(function(event) {
             method: $('#' + formname).find('.method-select').val(),
             data: serialval,
             success: function(data) {
-                notification('User added successfully!', 1);
                 if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
                     var arr_url = $('#' + formname).attr('action').split('/');
                     var groupName = arr_url[arr_url.length - 1];
                     switch (groupName) {
                         case 'user':
 
-                            switch ($("#user_type")) {
+                            notification('User added successfully!', 1);
+                            switch ($("#user_type").val()) {
                                 case '4':
-                                    $('#students .list-group').append(makeUserData(data, 'student'));
+                                    $('#students .list-group').append(createUserData(data, 'student'));
                                     break;
 
                                 case '3':
-                                    $('#teachers .list-group').append(makeUserData(data, 'teacher'));
+                                    $('#teachers .list-group').append(createUserData(data, 'teacher'));
                                     break;
 
                                 case '2':
-                                    $('#authors .list-group').append(makeUserData(data, 'author'));
+                                    $('#authors .list-group').append(createUserData(data, 'author'));
                                     break;
 
                                 default:
@@ -1297,13 +1097,16 @@ $('.submit-btn').click(function(event) {
                             }
                             break;
                         case 'group':
-                            $('#groups .list-group').append(makeGroupData(data, 'group'));
+                            notification('The group has been saved sucessfully!', 1);
+                            $('#groups .list-group').append(createGroupData(data, 'group'));
                             break;
                         case 'company':
-                            $('#companies .list-group').append(makeCategoryData(data, 'company'));
+                            notification('The company has been saved sucessfully!', 1);
+                            $('#companies .list-group').append(createCategoryData(data, 'company'));
                             break;
                         case 'function':
-                            $('#positions .list-group').append(makeCategoryData(data, 'function'));
+                            notification('The position has been saved sucessfully!', 1);
+                            $('#positions .list-group').append(createCategoryData(data, 'function'));
                             break;
 
                         default:
@@ -1338,17 +1141,18 @@ $('.submit-btn').click(function(event) {
         });
 
         submit_data = null;
+        toggleFormOrTable($(this).parents('fieldset'), true, false);
     }
-});
+};
 
-var makeUserData = function(data, category) {
+var createUserData = function(data, category) {
 
     var status_temp = data.status == '1' ?
         '<i class="fa fa-circle text-success m-2"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle text-danger m-2"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    return '<a class="list-group-item list-group-item-action  p-1 border-0" id="' + category + '_' + data.id + '">' +
+    var userItem = $('<a class="list-group-item list-group-item-action  p-1 border-0" id="' + category + '_' + data.id + '">' +
         '<div class="float-left">' +
         status_temp +
         '<span class="item-name">' + data.first_name + '&nbsp;' + data.last_name + '</span>' +
@@ -1359,26 +1163,45 @@ var makeUserData = function(data, category) {
         '</div>' +
         '<div class="btn-group float-right">' +
         '<span class=" p-2 font-weight-bolder">EN</span>' +
-        '<button class="btn  item-show" data-content="' + category + '">' +
-        '<i class="px-2 fa fa-eye"></i>' +
-        '</button>' +
-        '<button class="btn item-edit" data-content="' + category + '">' +
-        '<i class="px-2 fa fa-edit"></i>' +
-        '</button>' +
-        '<button class="btn item-delete" data-content="' + category + '">' +
-        '<i class="px-2 fa fa-trash-alt"></i>' +
-        '</button>' +
         '</div>' +
-        '</a>';
+        '</a>');
+    var showbtn = $('<button class="btn  item-show" data-content="' + category + '">' +
+        '<i class="px-2 fa fa-eye"></i>' +
+        '</button>');
+
+    var editbtn = $('<button class="btn item-edit" data-content="' + category + '">' +
+        '<i class="px-2 fa fa-edit"></i>' +
+        '</button>');
+
+    var deletebtn = $('<button class="btn item-delete" data-content="' + category + '">' +
+        '<i class="px-2 fa fa-trash-alt"></i>' +
+        '</button>');
+
+    showbtn.click(btnClick);
+    showbtn.click(divACshow);
+    showbtn.click(divAshow);
+
+    editbtn.click(btnClick);
+    editbtn.click(divACedit);
+    editbtn.click(itemEdit);
+
+    deletebtn.click(btnClick);
+    deletebtn.click(itemDelete);
+
+    userItem.find('.btn-group').append(showbtn).append(editbtn).append(deletebtn).click(leftItemClick);
+    userItem.dblclick(itemDBClick);
+
+    return userItem;
+
 };
 
-var makeGroupData = function(data, category) {
+var createGroupData = function(data, category) {
     var status_temp = data.status == '1' ?
         '<i class="fa fa-circle text-success m-2"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle text-danger m-2"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    return '<a class="list-group-item list-group-item-action p-1 border-0 " id="' + category + '_' + data.id + '">' +
+    var groupItem = $('<a class="list-group-item list-group-item-action p-1 border-0 " id="' + category + '_' + data.id + '">' +
         '<div class="float-left">' +
         status_temp +
         '<span class="item-name">' + data.name + '</span>' +
@@ -1398,10 +1221,19 @@ var makeGroupData = function(data, category) {
         '<i class="px-2 fas fa-check-circle"></i>' +
         '</button>' +
         '</div>' +
-        '</a>';
+        '</a>');
+
+    groupItem.find('button.btn').click(btnClick);
+    groupItem.find('.item-edit').click(itemEdit);
+    groupItem.find('.item-edit').click(divBDedit);
+    groupItem.find('.item-delete').click(itemDelete);
+    groupItem.find('.item-show').click(divBDshow);
+
+    return groupItem;
 };
-var makeCategoryData = function(data, category) {
-    return ' <a class="list-group-item list-group-item-action p-1 border-0 " id="' + category + '_' + data.name + '">' +
+
+var createCategoryData = function(data, category) {
+    var cateItem = $(' <a class="list-group-item list-group-item-action p-1 border-0 " id="' + category + '_' + data.name + '">' +
         ' <div class="float-left">' +
         '<span class="item-name">' + data.name + '</span>' +
         '<input type="hidden" name="item-status" value="">' +
@@ -1421,7 +1253,15 @@ var makeCategoryData = function(data, category) {
         '<i class="px-2 fas fa-check-circle"></i>' +
         '</button>' +
         ' </div>' +
-        '</a>';
+        '</a>');
+
+    cateItem.find('button.btn').click(btnClick);
+    cateItem.find('.item-edit').click(itemEdit);
+    cateItem.find('.item-edit').click(divBDedit);
+    cateItem.find('.item-delete').click(itemDelete);
+    cateItem.find('.item-show').click(divBDshow);
+
+    return cateItem;
 };
 
 var updateUserData = function(data, target) {
@@ -1434,23 +1274,25 @@ var updateUserData = function(data, target) {
     $('#' + target + ' input[name="item-function]').val(data.function);
 
 };
+
 var updateGroupData = function(data, target) {
     $('#' + target + ' .item-name').html(data.name);
     $('#' + target + ' input[name="item-name"]').html(data.name);
     $('#' + target + ' .status-notification').val(data.status);
     $('#' + target + ' .status-notification').prev().css('color', data.status == '1' ? 'green' : 'red');
 };
+
 var updatCategoryData = function(data, target) {
     $('#' + target + ' .item-name').html(data.name);
     $('#' + target + ' input[name="item-name"]').val(data.name);
 };
 
-$('.cancel-btn').click(function(event) {
+var cancelBtn = function(event) {
     var parent = $(this).parents('fieldset');
     toggleFormOrTable(parent, null, false);
-});
+};
 
-$('.fliter-company-btn').click(function(event) {
+var filterCompanyBtn = function(event) {
     // var activedTab = $('#RightPanel').find('.ui-state-active a').attr('href');
     switch ($(this).html()) {
         case 'company +<i></i>':
@@ -1468,9 +1310,9 @@ $('.fliter-company-btn').click(function(event) {
             clearFilterCategory(this, 'companies', 'company +<i></i>');
             break;
     }
-});
+};
 
-$('.fliter-function-btn').click(function(event) {
+var filterFunctionBtn = function(event) {
     switch ($(this).html()) {
         case 'function +<i></i>':
             if ($(this).parents('.toolkit').find('.fliter-company-btn').html() != 'Cancel') {
@@ -1486,7 +1328,7 @@ $('.fliter-function-btn').click(function(event) {
             clearFilterCategory(this, 'positions', 'function +<i></i>');
             break;
     }
-});
+};
 
 var clearFilterCategory = function(element, category, defaultStr) {
     $(element).val('');
@@ -1547,9 +1389,9 @@ var cancelFilterCategoryAll = function() {
             $(activedTab).fadeIn(1);
         }
     });
-}
-
-$('.toggle2-btn').click(function(evt) {
+};
+//filter
+var toggle2Btn = function(evt) {
     // evt.stopPropagation();
     var tooltipid = $(this).parents('.list-group').attr('data-filter');
     $(this).parents('.list-group-item').addClass('active');
@@ -1563,9 +1405,7 @@ $('.toggle2-btn').click(function(evt) {
     }
     $(this).parents('.list-group-item').removeClass('active');
     $(this).parents('.list-group-item').find('.btn.active').removeClass('active');
-});
-
-//filter
+};
 
 var searchfilter = function(event) {
     var parent = $(event.target).parents('.toolkit');
@@ -1637,14 +1477,14 @@ var searchfilter = function(event) {
 
 };
 
-$("#cate-status-icon").on('change', function(e) {
+var cateStateIcon = function(e) {
     var el = $(this);
     if (el.is(':checked')) {
         $("#cate-status").val(1);
     } else {
         $("#cate-status").val(0);
     }
-});
+};
 //////////////////////////////////
 ///////////////////////////////////
 //////////////////////////////////
@@ -1716,14 +1556,13 @@ function dropEnd(event, item) {
             }
         }).done(function(data) {
             notification(dragitem.length + ' ' + dragitem[0].split('_')[0] + 's linked to ' + $(event.target).find('.item-name').html() + '!', 1);
-
             requestData = [];
         }).fail(function(err) {
             notification("Sorry, You have an error!", 2);
-
             requestData = [];
         }).always(function(data) {
             console.log(data);
+            dragitem = null;
         });
     }
     $("#LeftPanel").find('.list-group-item').each(function() {
@@ -1731,7 +1570,6 @@ function dropEnd(event, item) {
             $(this).removeClass('active');
         }
     });
-    dragitem = null;
 }
 
 function companyDropEnd(event, item) {
@@ -1774,45 +1612,233 @@ function functionDropEnd(event, item) {
     $('.filter-function-btn').change();
 }
 
-var itemDelete = function(elem, cate) {
-    var e = Swal.mixin({
-        buttonsStyling: !1,
-        customClass: {
-            confirmButton: 'btn btn-success m-1',
-            cancelButton: 'btn btn-danger m-1',
-            input: 'form-control'
-        }
+$('#students-tab').click(function() {
+    $('#LeftPanel .toolkit>div').css('background-color', 'var(--student-h)');
+    toggleFormOrTable($('#div_B'), null, false);
+    // $("#table-groups").toggle(true);
+    if ($("#table-groups").length == 0) {
+        grouptab.appendTo("#user-form-tags");
+    }
+
+    if ($('#user-form-tags ul').length == 0) {
+        $('#user-form-tags').prepend(detailtags);
+    }
+
+    if ($('#table-groups-tab').length == 0) {
+        $('#user-form-tags li:first').prepend(detailtag1);
+    }
+
+    if ($('#user_form #input_group_position').length == 0) {
+        $('#user_form #form_group_position').append(input_group_position);
+    }
+
+    if ($('#table-user').length == 0) {
+        $('#category-form-tags').append(tableuser);
+    }
+
+    $("#LeftPanel").find(".list-group-item").each(function() {
+        $(this).removeClass("active");
     });
-    e.fire({
-        title: 'Are you sure you want to delete this item ?',
-        text: cate == 'student' ? ' This user and all his historic and reports will be permanently deleted' : '',
-        icon: 'warning',
-        showCancelButton: !0,
-        customClass: {
-            confirmButton: 'btn btn-danger m-1',
-            cancelButton: 'btn btn-secondary m-1'
-        },
-        confirmButtonText: 'Yes, delete it!',
-        html: !1,
-        preConfirm: function(e) {
-            return new Promise((function(e) {
-                setTimeout((function() {
-                    e();
-                    item_delete(elem);
-                }), 50);
-            }));
+    $('#user-toolkit .fliter-function-btn').toggle(true);
+    $('#div_A').find('.list-group-item').each(clearClassName);
+    cancelFilterCategoryAll();
+});
+$('#teachers-tab').click(function() {
+    $('#LeftPanel .toolkit>div').css('background-color', 'var(--teacher-h)');
+    toggleFormOrTable($('#div_B'), null, false);
+    // $("#table-groups").toggle(false);
+    if ($("#table-groups").length != 0) {
+        grouptab = $("#table-groups");
+        $("#table-groups").detach();
+    }
+    if ($('#user-form-tags ul').length == 0) {
+        $('#user-form-tags').prepend(detailtags);
+    }
+
+    if ($('#table-groups-tab').length != 0) {
+        detailtag1 = $('#table-groups-tab');
+        $('#table-groups-tab').detach();
+    }
+
+    $("#LeftPanel").find(".list-group-item").each(function() {
+        $(this).removeClass("active");
+    });
+
+    if ($('#user_form #input_group_position').length != 0) {
+        input_group_position = $("#user_form #input_group_position");
+        $("#user_form #input_group_position").detach();
+    }
+
+    if (activedTab == '#groups') {
+        if ($('#table-user').length != 0) {
+            tableuser = $('#table-user');
+            $('#table-user').detach();
         }
-    }).then((function(n) {
-        if (n.value) {
-            e.fire('Deleted!', 'Your ' + cate + ' has been deleted.', 'success');
-            console.log();
-            $(elem).parents('.list-group-item').remove();
-        } else {
-            'cancel' === n.dismiss && e.fire('Cancelled', 'Your data is safe :)', 'error');
+    } else {
+        if ($('#table-user').length == 0) {
+            $('#category-form-tags').append(tableuser);
         }
-    }));
+    }
+    $('#user-toolkit .fliter-function-btn').toggle(false);
+    $('#div_A').find('.list-group-item').each(clearClassName);
+    cancelFilterCategoryAll();
+});
+$('#authors-tab').click(function() {
+    $('#LeftPanel .toolkit>div').css('background-color', 'var(--author-h)');
+    toggleFormOrTable($('#div_B'), null, false);
+    // $("#table-groups").toggle(false);
+    if ($("#table-groups").length != 0) {
+        grouptab = $("#table-groups");
+        $("#table-groups").detach();
+    }
+
+    if ($('#user-form-tags ul').length != 0) {
+        detailtags = $('#user-form-tags ul');
+        $('#user-form-tags ul').detach();
+    }
+
+    if ($('#user_form #input_group_position').length != 0) {
+        input_group_position = $("#user_form #input_group_position");
+        $("#user_form #input_group_position").detach();
+    }
+
+    $("#LeftPanel").find(".list-group-item").each(function() {
+        $(this).removeClass("active");
+    });
+
+    $('#div_A').find('.list-group-item').each(clearClassName);
+    cancelFilterCategoryAll();
+    $('#user-toolkit .fliter-function-btn').toggle(false);
+    if (activedTab == '#groups' || activedTab == '#positions') {
+        if ($('#table-user').length != 0) {
+            tableuser = $('#table-user');
+            $('#table-user').detach();
+        }
+    } else {
+        if ($('#table-user').length == 0) {
+            $('#category-form-tags').append(tableuser);
+        }
+    }
+});
 
 
-};
+$('#groups-tab').click(function() {
+    $('#RightPanel .toolkit:first>div').css('background-color', 'var(--group-h)');
+    $('#RightPanel').find('.list-group-item').each(toggleBtnChange);
+    toggleFormOrTable($('#div_D'), null, false);
 
-//
+
+    $("#RightPanel").find(".list-group-item").each(function() {
+        $(this).removeClass("active");
+    });
+
+    $('#div_C').find('.list-group-item').each(clearClassName);
+    activedTab = '#groups';
+    cancelFilterCategoryAll();
+
+});
+$('#companies-tab').click(function() {
+    $('#RightPanel .toolkit:first>div').css('background-color', 'var(--company-h)');
+    $('#RightPanel').find('.list-group-item').each(toggleBtnChange);
+    toggleFormOrTable($('#div_D'), null, false);
+
+    $("#RightPanel").find(".list-group-item").each(function() {
+        $(this).removeClass("active");
+    });
+
+    $('#div_C').find('.list-group-item').each(clearClassName);
+    activedTab = '#companies';
+    cancelFilterCategoryAll();
+
+});
+$('#positions-tab').click(function() {
+    $('#RightPanel .toolkit:first>div').css('background-color', 'var(--position-h)');
+    $('#RightPanel').find('.list-group-item').each(toggleBtnChange);
+    toggleFormOrTable($('#div_D'), null, false);
+
+    $("#RightPanel").find(".list-group-item").each(function() {
+        $(this).removeClass("active");
+    });
+
+    $('#div_C').find('.list-group-item').each(clearClassName);
+    activedTab = '#positions';
+    cancelFilterCategoryAll();
+
+});
+////
+
+$(document).ready(function() {
+
+    var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document.body.clientHeight));
+
+    $("#content").css({
+        'max-height': h - $('#div-left').height() - $('.content-header').height() - $('.nav-tab').height()
+    });
+
+    if ($('#div_A, #div_C').css('height') > $('#content').css('height') * 0.7) {
+        $('#div_A, #div_C').css('height', $('#content').css('height') * 0.7);
+    }
+
+    $('#LeftPanel .toolkit>div').css('background-color', 'var(--student-h)');
+    $('#RightPanel .toolkit:first>div').css('background-color', 'var(--group-h)');
+    $('.second-table .toolkit').css('background-color', 'var(--student-h)');
+
+
+
+    $("#RightPanel .list-group-item").each(function(i, elem) {
+        $(elem).attr('draggable', false);
+        $(elem).on('drop', dropEnd);
+
+        elem.addEventListener('dragover', dragOver);
+        elem.addEventListener('dragleave', dragLeave);
+    });
+
+    $("#LeftPanel .list-group-item").each(function(i, elem) {
+        elem.addEventListener('dragstart', dragStart);
+        $(elem).attr('drag', false);
+    });
+
+    // $(".fliter-company-btn").on('drop', companyDropEnd);
+    // $(".fliter-function-btn").on('drop', functionDropEnd);
+
+    // $(".fliter-function-btn").on('dragstart', dragStart);
+    // $(".fliter-company-btn").on('dragstart', dragStart);
+
+    // $(".fliter-company-btn").on('dragover', dragOver);
+    // $(".fliter-company-btn").on('dragleave', dragLeave);
+
+    // $(".fliter-function-btn").on('dragover', dragOver);
+    // $(".fliter-function-btn").on('dragleave', dragLeave);
+});
+$('input[name=status], input.search-filter, button.fliter-company-btn, button.fliter-function-btn').change(searchfilter);
+$('input.search-filter').keypress(searchfilter);
+$("button.fliter-company-btn, button.fliter-function-btn").on('drop', searchfilter);
+
+$(".list-group-item").dblclick(itemDBClick);
+$("#LeftPanel .list-group-item").click(leftItemClick);
+
+$(".list-group-item button.btn").click(btnClick);
+
+$('.item-delete').click(itemDelete);
+
+$('.item-edit').click(itemEdit);
+$('#div_A .fa.fa-edit, #div_C .fa.fa-edit').click(divACedit);
+$('#div_B .fa.fa-edit, #div_D .fa.fa-edit').click(divBDedit);
+
+$('#div_A .item-show, #div_C .item-show').click(divACshow);
+$('#div_B .item-show, #div_D .item-show').click(divBDshow);
+$('#div_A .item-show').click(divAshow);
+$('#div_C .item-show').click(divCshow);
+
+$('.toolkit-add-item').click(toolkitAddItem);
+$('form').submit(submitFunction);
+$('form input, form select').change(formInputChange);
+$('#user-status-icon, #cate-status-icon').change(formStatusChange);
+$('.submit-btn').click(submitBtn);
+$('.cancel-btn').click(cancelBtn);
+
+$(".toolkit-show-filter").click(toolkitToggleShowFilter);
+$('.fliter-company-btn').click(filterCompanyBtn);
+$('.fliter-function-btn').click(filterFunctionBtn);
+$("#cate-status-icon").change(cateStateIcon);
+$('.toggle2-btn').click(toggle2Btn);

@@ -393,6 +393,7 @@
                                         </span>
                                     </div>
                                     <select class="form-control" id="position" name="function" required>
+                                        <option value="" disabled selected>Select Position</option>
                                         @foreach ($positions as $position)
                                             <option value="{{ $position->id }}">{{ $position->name }}</option>
                                         @endforeach
@@ -407,6 +408,7 @@
                                         </span>
                                     </div>
                                     <select class="form-control" id="company" name="company" required>
+                                        <option value="" disabled selected>Select Company</option>
                                         @foreach ($companies as $company)
                                             <option value="{{ $company->id }}">{{ $company->name }}</option>
                                         @endforeach
