@@ -1281,15 +1281,15 @@ $('.submit-btn').click(function(event) {
 
                             switch ($("#user_type")) {
                                 case '4':
-                                    $('#students').append(makeUserData(data, 'student'));
+                                    $('#students .list-group').append(makeUserData(data, 'student'));
                                     break;
 
                                 case '3':
-                                    $('#teachers').append(makeUserData(data, 'teacher'));
+                                    $('#teachers .list-group').append(makeUserData(data, 'teacher'));
                                     break;
 
                                 case '2':
-                                    $('#authors').append(makeUserData(data, 'author'));
+                                    $('#authors .list-group').append(makeUserData(data, 'author'));
                                     break;
 
                                 default:
@@ -1297,13 +1297,13 @@ $('.submit-btn').click(function(event) {
                             }
                             break;
                         case 'group':
-                            $('#groups').append(makeGroupData(data, 'group'));
+                            $('#groups .list-group').append(makeGroupData(data, 'group'));
                             break;
                         case 'company':
-                            $('#companies').append(makeCategoryData(data, 'company'));
+                            $('#companies .list-group').append(makeCategoryData(data, 'company'));
                             break;
                         case 'function':
-                            $('#positions').append(makeCategoryData(data, 'function'));
+                            $('#positions .list-group').append(makeCategoryData(data, 'function'));
                             break;
 
                         default:
