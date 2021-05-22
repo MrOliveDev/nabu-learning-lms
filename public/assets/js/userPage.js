@@ -215,7 +215,7 @@ $(document).ready(function() {
         elem.addEventListener('dragleave', dragLeave);
     });
 
-    $("LeftPanel .list-group-item").each(function(i, elem) {
+    $("#LeftPanel .list-group-item").each(function(i, elem) {
         elem.addEventListener('dragstart', dragStart);
         $(elem).attr('drag', false);
     });
