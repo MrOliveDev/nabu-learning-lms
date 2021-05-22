@@ -1,63 +1,122 @@
 @extends('welcome')
 
 @section('con')
-<link rel="stylesheet" href="{{asset('assets/js/plugins/select2/css/select2.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/css/cropper.css')}}" />
-<link rel="stylesheet" href="{{asset('assets/css/cropperModal.css')}}">
-<link rel="stylesheet" href="{{asset('assets/js/plugins/ion-rangeslider/css/ion.rangeSlider.css')}}">
-<link rel="stylesheet" href="{{asset('assets/js/plugins/sweetalert2/sweetalert2.min.css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/cropper.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/cropperModal.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/ion-rangeslider/css/ion.rangeSlider.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.min.css') }}" />
 
 
 
 
-<style>
-    :root {
-        --student-c: <?php echo "#" . $interfaceCfg->Students->h; ?>;
-        --student-h: <?php echo "#" . $interfaceCfg->Students->c; ?>;
-        --teacher-c: <?php echo "#" . $interfaceCfg->Teachers->h; ?>;
-        --teacher-h: <?php echo "#" . $interfaceCfg->Teachers->c; ?>;
-        --author-c: <?php echo "#" . $interfaceCfg->Authors->h; ?>;
-        --author-h: <?php echo "#" . $interfaceCfg->Authors->c; ?>;
-        --group-c: <?php echo "#" . $interfaceCfg->Groups->h; ?>;
-        --group-h: <?php echo "#" . $interfaceCfg->Groups->c; ?>;
-        --company-c: <?php echo "#" . $interfaceCfg->Companies->h; ?>;
-        --company-h: <?php echo "#" . $interfaceCfg->Companies->c; ?>;
-        --position-c: <?php echo "#" . $interfaceCfg->Positions->h; ?>;
-        --position-h: <?php echo "#" . $interfaceCfg->Positions->c; ?>;
-        --session-c: <?php echo "#" . $interfaceCfg->Sessions->h; ?>;
-        --session-h: <?php echo "#" . $interfaceCfg->Sessions->c; ?>;
-    }
-</style>
-<link rel="stylesheet" href="{{asset('assets/css/userPage.css')}}">
+    <style>
+        :root {
+            --student-c:
+                <?php
+                echo '#'. $interfaceCfg->Students->h;
+            ?>
+            ;
+            --student-h:
+                <?php
+                echo '#'. $interfaceCfg->Students->c;
+            ?>
+            ;
+            --teacher-c:
+                <?php
+                echo '#'. $interfaceCfg->Teachers->h;
+            ?>
+            ;
+            --teacher-h:
+                <?php
+                echo '#'. $interfaceCfg->Teachers->c;
+            ?>
+            ;
+            --author-c:
+                <?php
+                echo '#'. $interfaceCfg->Authors->h;
+            ?>
+            ;
+            --author-h:
+                <?php
+                echo '#'. $interfaceCfg->Authors->c;
+            ?>
+            ;
+            --group-c:
+                <?php
+                echo '#'. $interfaceCfg->Groups->h;
+            ?>
+            ;
+            --group-h:
+                <?php
+                echo '#'. $interfaceCfg->Groups->c;
+            ?>
+            ;
+            --company-c:
+                <?php
+                echo '#'. $interfaceCfg->Companies->h;
+            ?>
+            ;
+            --company-h:
+                <?php
+                echo '#'. $interfaceCfg->Companies->c;
+            ?>
+            ;
+            --position-c:
+                <?php
+                echo '#'. $interfaceCfg->Positions->h;
+            ?>
+            ;
+            --position-h:
+                <?php
+                echo '#'. $interfaceCfg->Positions->c;
+            ?>
+            ;
+            --session-c:
+                <?php
+                echo '#'. $interfaceCfg->Sessions->h;
+            ?>
+            ;
+            --session-h:
+                <?php
+                echo '#'. $interfaceCfg->Sessions->c;
+            ?>
+            ;
+        }
+
+    </style>
+    <link rel="stylesheet" href="{{ asset('assets/css/userPage.css') }}">
 
 
 @section('js_after')
 
-<script src="{{asset('assets/js/cropper.js')}}"></script>
-<script src="{{asset('assets/js/plugins/sweetalert2/sweetalert2.js')}}"></script>
-<script src="{{asset('assets/js/plugins/ion-rangeslider/js/ion.rangeSlider.js')}}"></script>
-<script src="{{asset('assets/js/cropperModal.js')}}"></script>
+    <script src="{{ asset('assets/js/cropper.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/ion-rangeslider/js/ion.rangeSlider.js') }}"></script>
+    <script src="{{ asset('assets/js/cropperModal.js') }}"></script>
 
-<script src="{{asset('assets/js/plugins/select2/js/select2.full.min.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins/select2/js/select2.full.min.js') }}"></script>
 
-<script src="{{asset('assets/js/plugins/sweetalert2/sweetalert2.js')}}"></script>
-<script src="{{asset('assets/js/userPage.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/js/userPage.js') }}"></script>
 
-<script src="assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <script src="assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
 
-<script>
-    $(function() {
-        $("#LeftPanel, #RightPanel").tabs();
-        $(".second-table").tabs();
-    });
-</script>
+    <script>
+        $(function() {
+            $("#LeftPanel, #RightPanel").tabs();
+            $(".second-table").tabs();
+        });
 
-<script>
-    $('#utilisateurs').addClass('active');
-    jQuery(function() {
-        Dashmix.helpers(['select2', 'rangeslider', 'notify', 'summernote']);
-    });
-</script>
+    </script>
+
+    <script>
+        $('#utilisateurs').addClass('active');
+        jQuery(function() {
+            Dashmix.helpers(['select2', 'rangeslider', 'notify', 'summernote']);
+        });
+
+    </script>
 
 @endsection
 
@@ -65,16 +124,20 @@
     <fieldset id="LeftPanel">
         <ul class="nav nav-tabs border-0 mb-2 mx-4">
             <li class="nav-item">
-                <a class="nav-link active m-1 rounded-1 border-0" id="students-tab" href="#students">{{$translation->l('STUDENTS')}}</a>
+                <a class="nav-link active m-1 rounded-1 border-0" id="students-tab"
+                    href="#students">{{ $translation->l('STUDENTS') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link m-1 rounded-1 border-0" id="teachers-tab" href="#teachers"> {{$translation->l('TEACHERS')}}</a>
+                <a class="nav-link m-1 rounded-1 border-0" id="teachers-tab" href="#teachers">
+                    {{ $translation->l('TEACHERS') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link m-1 rounded-1 border-0" id="authors-tab" href="#authors">{{$translation->l('AUTHORS')}}</a>
+                <a class="nav-link m-1 rounded-1 border-0" id="authors-tab"
+                    href="#authors">{{ $translation->l('AUTHORS') }}</a>
             </li>
         </ul>
-        <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4" id="user-toolkit">
+        <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4"
+            id="user-toolkit">
             <div class="w-100 p-2">
                 <div class="input-container">
                     <a href="#" class="toolkit-add-item">
@@ -99,8 +162,10 @@
                     <span>all&nbsp;</span>
                 </div>
                 <div class="float-right">
-                    <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company +<i></i></button>&nbsp;
-                    <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function +<i></i></button>
+                    <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company
+                        +<i></i></button>&nbsp;
+                    <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function
+                        +<i></i></button>
                 </div>
             </div>
         </div>
@@ -110,107 +175,119 @@
 
 
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
-                        @foreach($students as $student)
-                        <a class="list-group-item list-group-item-action  p-1 border-0" id="student_{{$student->id}}">
-                            <div class="float-left">
-                                @if($student->status==1)
-                                <i class="fa fa-circle  m-2" style="color:green;"></i>
-                                <input type="hidden" name="item-status" class='status-notification' value="1">
-                                @else
-                                <i class="fa fa-circle m-2"  style="color:red;"></i>
-                                <input type="hidden" name="item-status" class='status-notification' value="0">
-                                @endif
-                                <span class="item-name">{{$student->first_name}}&nbsp;{{$student->last_name}}</span>
-                                <input type="hidden" name="item-name" value="{{$student->first_name}}{{$student->last_name}}">
-                                <input type="hidden" name="item-group" value="{{$student->linked_groups}}">
-                                <input type="hidden" name="item-company" value="{{$student->company}}">
-                                <input type="hidden" name="item-function" value="{{$student->function}}">
-                            </div>
-                            <div class="btn-group float-right">
-                                <span class=" p-2 font-weight-bolder">{{strtoupper($student->language_iso)}}</span>
-                                <button class="btn  item-show" data-content='student'>
-                                    <i class="px-2 fa fa-eye"></i>
-                                </button>
-                                <button class="btn item-edit" data-content='student'>
-                                    <i class="px-2 fa fa-edit"></i>
-                                </button>
-                                <button class="btn item-delete" data-content='student'>
-                                    <i class="px-2 fa fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </a>
+                        @foreach ($students as $student)
+                            <a class="list-group-item list-group-item-action  p-1 border-0"
+                                id="student_{{ $student->id }}">
+                                <div class="float-left">
+                                    @if ($student->status == 1)
+                                        <i class="fa fa-circle  m-2" style="color:green;"></i>
+                                        <input type="hidden" name="item-status" class='status-notification' value="1">
+                                    @else
+                                        <i class="fa fa-circle m-2" style="color:red;"></i>
+                                        <input type="hidden" name="item-status" class='status-notification' value="0">
+                                    @endif
+                                    <span
+                                        class="item-name">{{ $student->first_name }}&nbsp;{{ $student->last_name }}</span>
+                                    <input type="hidden" name="item-name"
+                                        value="{{ $student->first_name }}{{ $student->last_name }}">
+                                    <input type="hidden" name="item-group" value="{{ $student->linked_groups }}">
+                                    <input type="hidden" name="item-company" value="{{ $student->company }}">
+                                    <input type="hidden" name="item-function" value="{{ $student->function }}">
+                                </div>
+                                <div class="btn-group float-right">
+                                    <span
+                                        class=" p-2 font-weight-bolder">{{ strtoupper($student->language_iso) }}</span>
+                                    <button class="btn  item-show" data-content='student'>
+                                        <i class="px-2 fa fa-eye"></i>
+                                    </button>
+                                    <button class="btn item-edit" data-content='student'>
+                                        <i class="px-2 fa fa-edit"></i>
+                                    </button>
+                                    <button class="btn item-delete" data-content='student'>
+                                        <i class="px-2 fa fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </a>
                         @endforeach
                     </div>
                 </div>
                 <div id="teachers">
 
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
-                        @foreach($teachers as $teacher)
-                        <a class="list-group-item list-group-item-action  p-1 border-0" id="teacher_{{$teacher->id}}">
-                            <div class="float-left">
-                                @if($teacher->status==1)
-                                <i class="fa fa-circle  m-2" style="color:green;"></i>
-                                <input type="hidden" name="item-status" class='status-notification' value="1">
-                                @else
-                                <i class="fa fa-circle m-2"  style="color:red;"></i>
-                                <input type="hidden" name="item-status" class='status-notification' value="0">
-                                @endif
-                                <span class="item-name">{{$teacher->first_name}}&nbsp;{{$teacher->last_name}}</span>
-                                <input type="hidden" name="item-name" value="{{$teacher->first_name}}{{$teacher->last_name}}">
-                                <input type="hidden" name="item-group" value="{{$teacher->linked_groups}}">
-                                <input type="hidden" name="item-company" value="{{$teacher->company}}">
-                                <input type="hidden" name="item-function" value="{{$teacher->function}}">
-                            </div>
-                            <div class="btn-group float-right">
-                                <span class=" p-2 font-weight-bolder">{{strtoupper($teacher->language_iso)}}</span>
+                        @foreach ($teachers as $teacher)
+                            <a class="list-group-item list-group-item-action  p-1 border-0"
+                                id="teacher_{{ $teacher->id }}">
+                                <div class="float-left">
+                                    @if ($teacher->status == 1)
+                                        <i class="fa fa-circle  m-2" style="color:green;"></i>
+                                        <input type="hidden" name="item-status" class='status-notification' value="1">
+                                    @else
+                                        <i class="fa fa-circle m-2" style="color:red;"></i>
+                                        <input type="hidden" name="item-status" class='status-notification' value="0">
+                                    @endif
+                                    <span
+                                        class="item-name">{{ $teacher->first_name }}&nbsp;{{ $teacher->last_name }}</span>
+                                    <input type="hidden" name="item-name"
+                                        value="{{ $teacher->first_name }}{{ $teacher->last_name }}">
+                                    <input type="hidden" name="item-group" value="{{ $teacher->linked_groups }}">
+                                    <input type="hidden" name="item-company" value="{{ $teacher->company }}">
+                                    <input type="hidden" name="item-function" value="{{ $teacher->function }}">
+                                </div>
+                                <div class="btn-group float-right">
+                                    <span
+                                        class=" p-2 font-weight-bolder">{{ strtoupper($teacher->language_iso) }}</span>
 
-                                <button class="btn  item-show" data-content='teacher'>
-                                    <i class="px-2 fa fa-eye"></i>
-                                </button>
-                                <button class="btn item-edit" data-content='teacher'>
-                                    <i class="px-2 fa fa-edit"></i>
-                                </button>
-                                <button class="btn item-delete" data-content='teacher'>
-                                    <i class="px-2 fa fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </a>
+                                    <button class="btn  item-show" data-content='teacher'>
+                                        <i class="px-2 fa fa-eye"></i>
+                                    </button>
+                                    <button class="btn item-edit" data-content='teacher'>
+                                        <i class="px-2 fa fa-edit"></i>
+                                    </button>
+                                    <button class="btn item-delete" data-content='teacher'>
+                                        <i class="px-2 fa fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </a>
                         @endforeach
                     </div>
                 </div>
                 <div id="authors">
 
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
-                        @foreach($authors as $author)
-                        <a class="list-group-item list-group-item-action  p-1 border-0" id="author_{{$author->id}}">
-                            <div class="float-left">
-                                @if($author->status==1)
-                                <i class="fa fa-circle  m-2" style="color:green;"></i>
-                                <input type="hidden" name="item-status" class='status-notification' value="1">
-                                @else
-                                <i class="fa fa-circle m-2"  style="color:red;"></i>
-                                <input type="hidden" name="item-status" class='status-notification' value="0">
-                                @endif
-                                <span class="item-name">{{$author->first_name}}&nbsp;{{$author->last_name}}</span>
-                                <input type="hidden" name="item-name" value="{{$author->first_name}}{{$author->last_name}}">
-                                <input type="hidden" name="item-group" value="{{$author->linked_groups}}">
-                                <input type="hidden" name="item-company" value="{{$author->company}}">
-                                <input type="hidden" name="item-function" value="{{$author->function}}">
-                            </div>
-                            <div class="btn-group float-right">
-                                <span class=" p-2 font-weight-bolder">{{strtoupper($author->language_iso)}}</span>
+                        @foreach ($authors as $author)
+                            <a class="list-group-item list-group-item-action  p-1 border-0"
+                                id="author_{{ $author->id }}">
+                                <div class="float-left">
+                                    @if ($author->status == 1)
+                                        <i class="fa fa-circle  m-2" style="color:green;"></i>
+                                        <input type="hidden" name="item-status" class='status-notification' value="1">
+                                    @else
+                                        <i class="fa fa-circle m-2" style="color:red;"></i>
+                                        <input type="hidden" name="item-status" class='status-notification' value="0">
+                                    @endif
+                                    <span
+                                        class="item-name">{{ $author->first_name }}&nbsp;{{ $author->last_name }}</span>
+                                    <input type="hidden" name="item-name"
+                                        value="{{ $author->first_name }}{{ $author->last_name }}">
+                                    <input type="hidden" name="item-group" value="{{ $author->linked_groups }}">
+                                    <input type="hidden" name="item-company" value="{{ $author->company }}">
+                                    <input type="hidden" name="item-function" value="{{ $author->function }}">
+                                </div>
+                                <div class="btn-group float-right">
+                                    <span
+                                        class=" p-2 font-weight-bolder">{{ strtoupper($author->language_iso) }}</span>
 
-                                <button class="btn  item-show" data-content='author'>
-                                    <i class="px-2 fa fa-eye"></i>
-                                </button>
-                                <button class="btn item-edit" data-content='author'>
-                                    <i class="px-2 fa fa-edit"></i>
-                                </button>
-                                <button class="btn item-delete" data-content='author'>
-                                    <i class="px-2 fa fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </a>
+                                    <button class="btn  item-show" data-content='author'>
+                                        <i class="px-2 fa fa-eye"></i>
+                                    </button>
+                                    <button class="btn item-edit" data-content='author'>
+                                        <i class="px-2 fa fa-edit"></i>
+                                    </button>
+                                    <button class="btn item-delete" data-content='author'>
+                                        <i class="px-2 fa fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </a>
                         @endforeach
                     </div>
                 </div>
@@ -222,14 +299,16 @@
         <div id="div_B" class="window bottom">
 
             <div class="mx-4">
-                <form method="post" id="user_form" enctype="multipart/form-data" class="form" action="" autocomplete="off" data-cate="" data-item="">
+                <form method="post" id="user_form" enctype="multipart/form-data" class="form" action=""
+                    autocomplete="off" data-cate="" data-item="">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="type" id='user_type'>
                     <input name='_method' type='hidden' value='PUT' class='method-select' />
                     <div class="card text-black mx-2 pt-3">
                         <div class="d-flex justify-content-center flex-wrap pl-3 pb-3" style="overflow:hidden;">
                             <div style="width:300px !important; position:relative">
-                                <i class="fa fa-cog float-right p-3 position-absolute ml-auto" style="right:0;" id="upload_button">
+                                <i class="fa fa-cog float-right p-3 position-absolute ml-auto" style="right:0;"
+                                    id="upload_button">
                                     <input type="file" name="image" class="image" accept="image/*" hidden>
                                 </i>
                                 <img src="" alt="" id="preview" width=300 height=300 name="preview" />
@@ -237,7 +316,8 @@
                             </div>
                             <div class="form-group m-5 my-auto" id='status-form'>
                                 <div class="custom-control custom-switch custom-control-lg mb-2 ml-0 ">
-                                    <input type="checkbox" class="custom-control-input" id="user-status-icon" name="user-status-icon" checked="">
+                                    <input type="checkbox" class="custom-control-input" id="user-status-icon"
+                                        name="user-status-icon" checked="">
                                     <label class="custom-control-label" for="user-status-icon">Status</label>
                                 </div>
                             </div>
@@ -270,7 +350,8 @@
                                             First Name
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="firstname" name="first_name" value="" required>
+                                    <input type="text" class="form-control" id="firstname" name="first_name" value=""
+                                        required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -280,7 +361,8 @@
                                             Last Name
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="lastname" name="last_name" value="" required>
+                                    <input type="text" class="form-control" id="lastname" name="last_name" value=""
+                                        required>
                                 </div>
                             </div>
                             <!-- <div class="form-group">
@@ -303,16 +385,16 @@
                                     <input type="text" class="form-control" id="position" name="function" value="" required readonly>
                                 </div>
                             </div> -->
-                            <div class="form-group">
-                                <div class="input-group">
+                            <div class="form-group" id="form_group_position">
+                                <div class="input-group" id="input_group_position">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
                                             Position
                                         </span>
                                     </div>
                                     <select class="form-control" id="position" name="function" required>
-                                        @foreach($positions as $position)
-                                        <option value="{{$position->id}}">{{$position->name}}</option>
+                                        @foreach ($positions as $position)
+                                            <option value="{{ $position->id }}">{{ $position->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -325,8 +407,8 @@
                                         </span>
                                     </div>
                                     <select class="form-control" id="company" name="company" required>
-                                        @foreach($companies as $company)
-                                        <option value="{{$company->id}}">{{$company->name}}</option>
+                                        @foreach ($companies as $company)
+                                            <option value="{{ $company->id }}">{{ $company->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -338,7 +420,8 @@
                                             Address
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="contact_info" name="contact_info" value="" required>
+                                    <input type="text" class="form-control" id="contact_info" name="contact_info"
+                                        value="" required>
                                 </div>
                             </div>
 
@@ -349,7 +432,8 @@
                                             E-mail
                                         </span>
                                     </div>
-                                    <input type="email" class="form-control" id="user-email" name="user-email" value="" required>
+                                    <input type="email" class="form-control" id="user-email" name="user-email" value=""
+                                        required>
                                 </div>
                             </div>
 
@@ -365,10 +449,12 @@
                 <div id="user-form-tags" class="second-table">
                     <ul class="nav nav-tabs border-0 mb-2">
                         <li class="nav-item">
-                            <a class="nav-link active m-1 rounded-1 border-0" id="table-groups-tab" href="#table-groups">{{$translation->l('GROUPS')}}</a>
+                            <a class="nav-link active m-1 rounded-1 border-0" id="table-groups-tab"
+                                href="#table-groups">{{ $translation->l('GROUPS') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link m-1 rounded-1 border-0" id="table-session-tab" href="#table-session"> {{$translation->l('SESSIONS')}}</a>
+                            <a class="nav-link m-1 rounded-1 border-0" id="table-session-tab" href="#table-session">
+                                {{ $translation->l('SESSIONS') }}</a>
                         </li>
                     </ul>
 
@@ -384,7 +470,8 @@
                     </div>
                 </div>
 
-                <div class="modal myModal fade mt-lg-5" id="image-crop-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal myModal fade mt-lg-5" id="image-crop-modal" tabindex="-1" role="dialog"
+                    aria-labelledby="modalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-md" role="document">
                         <div class="modal-content">
                             <div class="modal-body" id="drop">
@@ -419,16 +506,20 @@
 
         <ul class="nav nav-tabs border-0 mb-2 mx-4">
             <li class="nav-item">
-                <a class="nav-link active m-1 rounded-1 border-0" id="groups-tab" href="#groups">{{$translation->l('GROUPS')}}</a>
+                <a class="nav-link active m-1 rounded-1 border-0" id="groups-tab"
+                    href="#groups">{{ $translation->l('GROUPS') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link m-1 rounded-1 border-0" id="companies-tab" href="#companies">{{$translation->l('COMPANIES')}}</a>
+                <a class="nav-link m-1 rounded-1 border-0" id="companies-tab"
+                    href="#companies">{{ $translation->l('COMPANIES') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link m-1 rounded-1 border-0" id="positions-tab" href="#positions">{{$translation->l('positions')}}</a>
+                <a class="nav-link m-1 rounded-1 border-0" id="positions-tab"
+                    href="#positions">{{ $translation->l('positions') }}</a>
             </li>
         </ul>
-        <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4" id="cate-toolkit">
+        <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4"
+            id="cate-toolkit">
             <div class="w-100 p-2">
                 <div class="input-container">
                     <a href="#" class="toolkit-add-item">
@@ -453,8 +544,10 @@
                     <span>all&nbsp;</span>
                 </div>
                 <div class="float-right d-none">
-                    <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company +<i></i></button>&nbsp;
-                    <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function +<i></i></button>
+                    <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company
+                        +<i></i></button>&nbsp;
+                    <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function
+                        +<i></i></button>
                 </div>
             </div>
         </div>
@@ -463,90 +556,92 @@
 
 
                 <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
-                    @foreach($groups as $group)
-                    <a class="list-group-item list-group-item-action p-1 border-0 " id="group_{{$group->id}}">
-                        <div class="float-left">
-                            @if($group->status==1)
-                            <i class="fa fa-circle  m-2" style="color:green;"></i>
-                            <input type="hidden" name="item-status" class="status-notification" value="1">
-                            @else
-                            <i class="fa fa-circle m-2"  style="color:red;"></i>
-                            <input type="hidden" name="item-status" class="status-notification" value="0">
-                            @endif
-                            <span class="item-name">{{$group->name}}</span>
-                            <input type="hidden" name="item-name" value="{{$group->name}}">
-                        </div>
-                        <div class="btn-group float-right">
-                            <button class="btn  toggle1-btn  item-show" data-content="group">
-                                <i class="px-2 fa fa-eye"></i>
-                            </button>
-                            <button class="btn item-edit toggle1-btn" data-content="group">
-                                <i class="px-2 fa fa-edit"></i>
-                            </button>
-                            <button class="btn item-delete toggle1-btn" data-content="group">
-                                <i class="px-2 fa fa-trash-alt"></i>
-                            </button>
-                            <button class="btn  toggle2-btn" data-content="group">
-                                <i class="px-2 fas fa-check-circle"></i>
-                            </button>
-                        </div>
-                    </a>
+                    @foreach ($groups as $group)
+                        <a class="list-group-item list-group-item-action p-1 border-0 " id="group_{{ $group->id }}">
+                            <div class="float-left">
+                                @if ($group->status == 1)
+                                    <i class="fa fa-circle  m-2" style="color:green;"></i>
+                                    <input type="hidden" name="item-status" class="status-notification" value="1">
+                                @else
+                                    <i class="fa fa-circle m-2" style="color:red;"></i>
+                                    <input type="hidden" name="item-status" class="status-notification" value="0">
+                                @endif
+                                <span class="item-name">{{ $group->name }}</span>
+                                <input type="hidden" name="item-name" value="{{ $group->name }}">
+                            </div>
+                            <div class="btn-group float-right">
+                                <button class="btn  toggle1-btn  item-show" data-content="group">
+                                    <i class="px-2 fa fa-eye"></i>
+                                </button>
+                                <button class="btn item-edit toggle1-btn" data-content="group">
+                                    <i class="px-2 fa fa-edit"></i>
+                                </button>
+                                <button class="btn item-delete toggle1-btn" data-content="group">
+                                    <i class="px-2 fa fa-trash-alt"></i>
+                                </button>
+                                <button class="btn  toggle2-btn" data-content="group">
+                                    <i class="px-2 fas fa-check-circle"></i>
+                                </button>
+                            </div>
+                        </a>
                     @endforeach
                 </div>
             </div>
             <div id="companies">
 
                 <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
-                    @foreach($companies as $company)
-                    <a class="list-group-item list-group-item-action p-1 border-0 " id="company_{{$company->id}}">
-                        <div class="float-left">
-                            <span class="item-name">{{$company->name}}</span>
-                            <input type="hidden" name="item-status" value="{{$group->status}}">
-                            <input type="hidden" name="item-name" value="{{$group->name}}">
-                        </div>
-                        <div class="btn-group float-right">
-                            <button class="btn  toggle1-btn  item-show" data-content='company'>
-                                <i class="px-2 fa fa-eye"></i>
-                            </button>
-                            <button class="btn item-edit toggle1-btn" data-content='company'>
-                                <i class="px-2 fa fa-edit"></i>
-                            </button>
-                            <button class="btn item-delete toggle1-btn" data-content='company'>
-                                <i class="px-2 fa fa-trash-alt"></i>
-                            </button>
-                            <button class="btn  toggle2-btn" data-content='company'>
-                                <i class="px-2 fas fa-check-circle"></i>
-                            </button>
-                        </div>
-                    </a>
+                    @foreach ($companies as $company)
+                        <a class="list-group-item list-group-item-action p-1 border-0 "
+                            id="company_{{ $company->id }}">
+                            <div class="float-left">
+                                <span class="item-name">{{ $company->name }}</span>
+                                <input type="hidden" name="item-status" value="{{ $group->status }}">
+                                <input type="hidden" name="item-name" value="{{ $group->name }}">
+                            </div>
+                            <div class="btn-group float-right">
+                                <button class="btn  toggle1-btn  item-show" data-content='company'>
+                                    <i class="px-2 fa fa-eye"></i>
+                                </button>
+                                <button class="btn item-edit toggle1-btn" data-content='company'>
+                                    <i class="px-2 fa fa-edit"></i>
+                                </button>
+                                <button class="btn item-delete toggle1-btn" data-content='company'>
+                                    <i class="px-2 fa fa-trash-alt"></i>
+                                </button>
+                                <button class="btn  toggle2-btn" data-content='company'>
+                                    <i class="px-2 fas fa-check-circle"></i>
+                                </button>
+                            </div>
+                        </a>
                     @endforeach
                 </div>
             </div>
             <div id="positions">
 
                 <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
-                    @foreach($positions as $position)
-                    <a class="list-group-item list-group-item-action p-1 border-0 " id="function_{{$position->id}}">
-                        <div class="float-left">
-                            <!-- <i class="fa fa-circle text-danger m-2"></i> -->
-                            <span class="item-name">{{$position->name}}</span>
-                            <input type="hidden" name="item-name" value="{{$group->name}}">
-                        </div>
-                        <div class="btn-group float-right">
-                            <button class="btn  toggle1-btn item-show" data-content='position'>
-                                <i class="px-2 fa fa-eye"></i>
-                            </button>
-                            <button class="btn item-edit toggle1-btn" data-content='position'>
-                                <i class="px-2 fa fa-edit"></i>
-                            </button>
-                            <button class="btn item-delete toggle1-btn" data-content='position'>
-                                <i class="px-2 fa fa-trash-alt"></i>
-                            </button>
-                            <button class="btn  toggle2-btn" data-content='position'>
-                                <i class="px-2 fas fa-check-circle"></i>
-                            </button>
-                        </div>
-                    </a>
+                    @foreach ($positions as $position)
+                        <a class="list-group-item list-group-item-action p-1 border-0 "
+                            id="function_{{ $position->id }}">
+                            <div class="float-left">
+                                <!-- <i class="fa fa-circle text-danger m-2"></i> -->
+                                <span class="item-name">{{ $position->name }}</span>
+                                <input type="hidden" name="item-name" value="{{ $group->name }}">
+                            </div>
+                            <div class="btn-group float-right">
+                                <button class="btn  toggle1-btn item-show" data-content='position'>
+                                    <i class="px-2 fa fa-eye"></i>
+                                </button>
+                                <button class="btn item-edit toggle1-btn" data-content='position'>
+                                    <i class="px-2 fa fa-edit"></i>
+                                </button>
+                                <button class="btn item-delete toggle1-btn" data-content='position'>
+                                    <i class="px-2 fa fa-trash-alt"></i>
+                                </button>
+                                <button class="btn  toggle2-btn" data-content='position'>
+                                    <i class="px-2 fas fa-check-circle"></i>
+                                </button>
+                            </div>
+                        </a>
                     @endforeach
                 </div>
             </div>
@@ -569,7 +664,8 @@
                                             Name
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="category_name" name="category_name" value="" required>
+                                    <input type="text" class="form-control" id="category_name" name="category_name"
+                                        value="" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -579,18 +675,22 @@
                                             Description
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="category_description" name="category_description" value="" required>
+                                    <input type="text" class="form-control" id="category_description"
+                                        name="category_description" value="" required>
                                 </div>
                             </div>
                             <div class="form-group" id='status-form-group'>
                                 <div class="custom-control custom-switch custom-control-lg mb-2 ml-0 ">
-                                    <input type="checkbox" class="custom-control-input" id="cate-status-icon" name="cate-status-icon" checked="">
+                                    <input type="checkbox" class="custom-control-input" id="cate-status-icon"
+                                        name="cate-status-icon" checked="">
                                     <label class="custom-control-label" for="cate-status-icon">Status</label>
                                 </div>
                             </div>
                             <div class="form-group clearfix">
-                                <button type="submit" class="btn btn-hero-primary float-right mx-1 submit-btn" id="category_save_button" data-form="category_form">SAVE</button>
-                                <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn" id="category_cancel_button">CANCEL</button>
+                                <button type="submit" class="btn btn-hero-primary float-right mx-1 submit-btn"
+                                    id="category_save_button" data-form="category_form">SAVE</button>
+                                <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn"
+                                    id="category_cancel_button">CANCEL</button>
                                 <input type="hidden" name="cate-status">
                             </div>
                         </div>
@@ -599,14 +699,16 @@
             </div>
 
             <div id="category-form-tags" class="second-table mx-4">
-                <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column " id="show-toolkit">
+                <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column "
+                    id="show-toolkit">
                     <div class="w-100 p-2">
                         <div class="input-container">
                             <a href="#" class="toolkit-add-item">
                                 <i class="fa fa-plus icon p-2 text-white"></i>
                             </a>
                             <span class="bg-white text-black p-2 rounded">
-                                <input class="input-field border-0 mw-100 search-filter" type="text" name="search-filter">
+                                <input class="input-field border-0 mw-100 search-filter" type="text"
+                                    name="search-filter">
                                 <i class="fa fa-search icon p-2"></i>
                             </span>
                             <a href="#" class="toolkit-show-filter float-right">
@@ -624,15 +726,19 @@
                             <span>all&nbsp;</span>
                         </div>
                         <div class="float-right">
-                            <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company +<i></i></button>&nbsp;
-                            <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function +<i></i></button>
+                            <button type="button" value=""
+                                class="rounded text-white fliter-company-btn px-1 border-0">company
+                                +<i></i></button>&nbsp;
+                            <button type="button" value=""
+                                class="rounded text-white fliter-function-btn px-1 border-0">function +<i></i></button>
                         </div>
                     </div>
                 </div>
                 <div class="list-group" id="table-user" role="tablist" data-src=''>
 
                 </div>
-                <button type="button" id="notificator" class="js-notify btn btn-secondary push" data-message="Your message!<br>" style="display:none">
+                <button type="button" id="notificator" class="js-notify btn btn-secondary push"
+                    data-message="Your message!<br>" style="display:none">
                     Top Right
                 </button>
             </div>
