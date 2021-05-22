@@ -315,3 +315,16 @@ a.list-group-item:not([href]) {
         background-color: var(--position-h);
     }
 }
+
+input:focus,
+textarea:focus,
+button:focus,
+select:focus {
+    outline: none;
+}
+
+button.btn {
+    padding: 0;
+    border: none;
+    background: none;
+}
