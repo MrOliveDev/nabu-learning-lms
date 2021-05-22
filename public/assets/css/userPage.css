@@ -327,3 +327,8 @@ select:focus {
 .btn-group button.btn:focus {
     outline: none;
 }
+
+#teachers .item-show,
+#authors .item-show {
+    display: none;
+}
