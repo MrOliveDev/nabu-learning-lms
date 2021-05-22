@@ -46,7 +46,8 @@
     background-color: var(--author-c);
 }
 
-#authors .list-group-item:hover #authors .list-group-item.active {
+#authors .list-group-item:hover,
+#authors .list-group-item.active {
     background-color: var(--author-h);
 }
 
@@ -318,14 +319,11 @@ a.list-group-item:not([href]) {
 
 input:focus,
 textarea:focus,
-button:focus,
 select:focus {
     outline: none;
 }
 
-button.btn {
-    padding: 0;
-    border: none;
-    background: none;
+.btn-group button.btn:active,
+.btn-group button.btn:focus {
     outline: none;
 }
