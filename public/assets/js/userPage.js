@@ -15,6 +15,14 @@ var window_level = 1;
 
 var input_group_position = null;
 
+$(document)
+    .ajaxStart(function() {
+        Dashmix.layout('header_loader_on');
+    })
+    .ajaxStop(function() {
+        Dashmix.layout('header_loader_off');
+    });
+
 var notification = function(str, type) {
     switch (type) {
         case 1:
