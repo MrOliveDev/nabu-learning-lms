@@ -4,7 +4,7 @@
 
 // var baseURL = window.location.protocol + "//" + window.location.host;
 
-var baseURL = window.location.protocol + "//" + window.location.host;
+var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
 var filteritem = null;
 var grouptab = null,
     detailtags = null;
@@ -448,12 +448,12 @@ $(".toolkit-show-filter").click(function(event) {
     parent.find('.search-filter').val('')
     parent.find('input[name=status]').each(function(i, e) {
         $(e).prop('checked', false);
-    })
+    });
     parent.find('.fliter-company-btn').val('');
     parent.find('.fliter-company-btn').html('company +<i></i>');
     parent.find('.fliter-function-btn').val('');
     parent.find('.fliter-function-btn').html('function +<i></i>');
-
+    searchfilter(event);
 });
 
 var secondLevelShow = function(event) {
@@ -563,10 +563,10 @@ var secondShow1 = function(event) {
                     element.removeClass('active');
                     $("#category-form-tags .list-group").append(element);
                 }
-            })
+            });
         });
     }
-}
+};
 
 $('#div_B .item-show, #div_D .item-show').click(secondLevelShow);
 
