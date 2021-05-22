@@ -1119,11 +1119,11 @@ var submitFunction = function(event) {
 var detachLinkTo = function(e) {
     var parent = $(this).parents('.list-group-item');
     var showeditem = parent.attr('data-src');
-    // var id = parent.attr('id').split('_')[1];
+    var id = parent.attr('id').split('_')[1];
     var cate = parent.attr('id').split('_')[0];
     var value = $("#" + showeditem).find('input[name="item-' + cate + '"]').val();
     if (cate == 'group') {
-        $("#" + showeditem).find('input[name="item-' + cate + '"]').val(combine(value).join('_'));
+        $("#" + showeditem).find('input[name="item-' + cate + '"]').val(combine(value, id).join('_'));
     } else {
         $("#" + showeditem).find('input[name="item-' + cate + '"]').val('');
     }
@@ -1147,11 +1147,11 @@ var detachLinkTo = function(e) {
 var detachLinkFrom = function(e) {
     var parent = $(this).parents('.list-group-item');
     var showeditem = parent.attr('data-src');
-    // var id = $("#" + showeditem).attr('id').split('_')[1];
+    var id = $("#" + showeditem).attr('id').split('_')[1];
     var cate = $("#" + showeditem).attr('id').split('_')[0];
     var value = parent.find('input[name="item-' + cate + '"]').val();
     if (cate == 'group') {
-        parent.find('input[name="item-' + cate + '"]').val(combine(value).join('_'));
+        parent.find('input[name="item-' + cate + '"]').val(combine(value, id).join('_'));
     } else {
         parent.find('input[name="item-' + cate + '"]').val('');
     }
@@ -1173,11 +1173,10 @@ var detachLinkFrom = function(e) {
     parent.detach();
 };
 
-var combine = function(value) {
-    var combineArray = null;
-    value.split('_').each(function(i, item) {
+var combine = function(value, id) {
+    var combineArray = value.split('_').map(function(item, i, d) {
         if (item != id) {
-            combineArray.push(item);
+            return item;
         }
     });
     return combineArray;
