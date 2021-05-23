@@ -49,15 +49,6 @@ class StudentController extends Controller
     public function store(Request $request)
     {
 
-        // $request->validate([
-        //     'login' => 'required',
-        //     'company' => 'required',
-        //     'firstname' => 'required',
-        //     'lastname' => 'required',
-        //     'email' => 'required',
-        //     'contact_info' => 'required'
-        // ]);
-
         $interfaceCfg = InterfaceCfgModel::create([
             'interface_color' => '',
             'interface_icon' => $request->post('base64_img_data'),
@@ -68,13 +59,12 @@ class StudentController extends Controller
             "address" => $request->post('contact_info'),
             'email' => $request->post('user-email')
         );
-        if (null!==$request->post('position')) {
+        if (null !== $request->post('position')) {
             $position = $request->post('position');
         } else {
             $position = '1';
         }
 
-        // print_r($request->post('type')); exit;
         if ($request->input('password') != null) {
             $client = User::create([
                 'login' => $request->post('login'),
@@ -145,26 +135,26 @@ class StudentController extends Controller
     public function update(Request $request, $id)
     {
 
-        // $request->validate([
-        //     'login' => 'required',
-        //     'company' => 'required',
-        //     'firstname' => 'required',
-        //     'lastname' => 'required',
-        //     'email' => 'required',
-        //     'contact_info' => 'required'
-        // ]);
-
         $user = User::find($id);
         $interface_cfg = null;
-        if ($user->id_config == null) {
+        if ($user->id_config == null || $user->id_config == '0') {
             $interface_cfg = InterfaceCfgModel::create([
                 "interface_icon" => $request->input("base64_img_data"),
                 'admin_id' => 1,
                 'interface_color' => ''
             ]);
-            ConfigModel::create([
-                "id" => $interface_cfg->id,
-                "config" => ''
+            if (InterfaceCfgModel::find($user->id_config) == null) {
+                ConfigModel::create([
+                    "id" => $interface_cfg->id,
+                    "config" => ''
+                ]);
+            }
+        } else if (InterfaceCfgModel::find($user->id_config) == null) {
+            InterfaceCfgModel::create([
+                'id' => $user->id_config,
+                "interface_icon" => $request->input("base64_img_data"),
+                'admin_id' => 1,
+                'interface_color' => ''
             ]);
         } else {
             $interface_cfg = InterfaceCfgModel::find($user->id_config);
@@ -175,7 +165,7 @@ class StudentController extends Controller
         $user->last_name = $request->input('last_name');
         $user->login = $request->input('login');
         $user->company = $request->input('company');
-        if(null!==$request->post('position')){
+        if (null !== $request->post('position')) {
             $user->function = $request->input('function');
         }
         $user->status = $request->input('user-status-icon');
