@@ -41,7 +41,7 @@ class GroupController extends Controller
         $group = GroupModel::create([
             'name'=>$request->input('category_name'),
             'description'=>$request->post('category_description'),
-            'status'=>$request->input('cate-status-icon')=='on'?1:0
+            'status'=>$request->input('cate-status-icon')
         ]);
 
         return response()->json($group);

@@ -388,6 +388,8 @@ var divACshow = function(event) {
     toggleFormOrTable(parent, false);
 };
 var toolkitAddItem = function(event) {
+    event.preventDefault();
+    event.stopPropagation();
     toggleFormOrTable($(this).parents('fieldset'), true);
     if ($('#groups-tab').parents('li').hasClass('ui-state-active')) {
         $('#status-form-group').css('display', 'block');
@@ -532,7 +534,7 @@ var divAshow = function(event) {
             }
         });
     });
-}
+};
 
 var divCshow = function(event) {
     var parent = $(this).parents('.list-group-item');
@@ -950,68 +952,55 @@ var detachLinkTo = function(e) {
     var cate = parent.attr('id').split('_')[0];
     var value = $("#" + showeditem).find('input[name="item-' + cate + '"]').val();
     if (cate == 'group') {
-        $("#" + showeditem).find('input[name="item-' + cate + '"]').val(combine(value, id).join('_'));
+        $("#div_A #" + showeditem).find('input[name="item-' + cate + '"]').val(combine(value, id).join('_'));
     } else {
-        $("#" + showeditem).find('input[name="item-' + cate + '"]').val('');
+        $("#div_A #" + showeditem).find('input[name="item-' + cate + '"]').val('');
     }
 
     var result = $("#" + showeditem).find('input[name="item-' + cate + '"]').val();
 
-    if (detachCall(cate, {
-            id: showeditem.split('_')[1],
-            target: result,
-            flag: false
-        })) {
+    detachCall(cate, {
+        id: showeditem.split('_')[1],
+        target: result,
+        flag: false
+    }, $(this));
 
-        if ($(this).parents('fieldset').attr('id') == 'RightPanel') {
-            toggleFormOrTable($("#LeftPanel"), false, false);
-        } else {
-            toggleFormOrTable($("#RightPanel"), false, false);
-        }
-        parent.detach();
-    }
+
+
 };
 
 var detachLinkFrom = function(e) {
     var parent = $(this).parents('.list-group-item');
+    var divAitem = $("#div_A #" + parent.attr('id'));
     var showeditem = parent.attr('data-src');
     var id = $("#" + showeditem).attr('id').split('_')[1];
     var cate = $("#" + showeditem).attr('id').split('_')[0];
-    var value = parent.find('input[name="item-' + cate + '"]').val();
+    var value = divAitem.find('input[name="item-' + cate + '"]').val();
     if (cate == 'group') {
-        parent.find('input[name="item-' + cate + '"]').val(combine(value, id).join('_'));
+        divAitem.find('input[name="item-' + cate + '"]').val(combine(value, id).join('_'));
     } else {
-        parent.find('input[name="item-' + cate + '"]').val('');
+        divAitem.find('input[name="item-' + cate + '"]').val('');
     }
 
     var result = parent.find('input[name="item-' + cate + '"]').val();
     var parent_id = parent.attr('id').split('_')[1];
 
-    if (detachCall(cate, {
-            id: parent_id,
-            target: result,
-            flag: false
-        })) {
-
-        if ($(this).parents('fieldset').attr('id') == 'RightPanel') {
-            toggleFormOrTable($("#LeftPanel"), false, false);
-        } else {
-            toggleFormOrTable($("#RightPanel"), false, false);
-        }
-        parent.detach();
-    }
+    detachCall(cate, {
+        id: parent_id,
+        target: result,
+        flag: false
+    }, $(this));
 };
 
 var combine = function(value, id) {
-    var combineArray = value.split('_').map(function(item, i, d) {
-        if (item != id) {
-            return item;
-        }
+    var combineArray = value.split('_').filter(function(item, i, d) {
+        return item != id && item != null;
     });
+    console.log(combineArray);
     return combineArray;
 };
 
-var detachCall = function(cate, connectiondata) {
+var detachCall = function(cate, connectiondata, element) {
     $.post({
         url: baseURL + '/userjointo' + cate,
         headers: {
@@ -1022,6 +1011,12 @@ var detachCall = function(cate, connectiondata) {
         }
     }).then(function(data) {
         notification('Successfully unliked!', 1);
+        if (element.parents('fieldset').attr('id') == 'RightPanel') {
+            toggleFormOrTable($("#LeftPanel"), false, false);
+        } else {
+            toggleFormOrTable($("#RightPanel"), false, false);
+        }
+        element.parents('.list-group-item').detach();
         return true;
     }).fail(function(err) {
         notification("Sorry, Your action brocken!", 2);
@@ -1046,12 +1041,27 @@ var submitBtn = function(event) {
         var serialval = $('#' + formname).serializeArray().map(function(item) {
             var arr = {};
             if (item.name == 'user-status-icon') {
-                item.value = $('#user-status-icon').val() == 'true' ? 1 : 0;
+                item.value = $('#user-status-icon').prop('checked') == true ? 1 : 0;
             } else if (item.name == 'cate-status-icon') {
-                item.value = $('#cate-status-icon').val() == 'true' ? 1 : 0;
+                item.value = $('#cate-status-icon').prop("checked") == true ? 1 : 0;
             }
             return item;
         });
+        if (!serialval.filter(function(em, t, arr) {
+                return em.name == 'user-status-icon' || em.name == 'cate-status-icon';
+            }).length) {
+            if (formname == 'user_form') {
+                serialval.push({
+                    name: 'user-status-icon',
+                    value: $('#user-status-icon').prop('checked') == true ? 1 : 0
+                });
+            } else {
+                serialval.push({
+                    name: 'cate-status-icon',
+                    value: $('#cate-status-icon').prop('checked') == true ? 1 : 0
+                });
+            }
+        }
         if (!$("#" + formname).find('input[type=checkbox]').prop('checked')) {
             if (formname == 'user_form') {
                 serialval.push({
@@ -1066,7 +1076,6 @@ var submitBtn = function(event) {
             }
         }
         console.log(serialval);
-        console.log($('#' + formname).serializeArray());
         $.ajax({
             url: $('#' + formname).attr('action'),
             method: $('#' + formname).find('.method-select').val(),
@@ -1139,9 +1148,10 @@ var submitBtn = function(event) {
                 notification("Sorry, You have an error!", 2);
             }
         });
-
+        var type = $('#user_type').val();
         submit_data = null;
         toggleFormOrTable($(this).parents('fieldset'), true, false);
+        $('#user_type').val(type);
     }
 };
 
@@ -1182,8 +1192,8 @@ var createUserData = function(data, category) {
     showbtn.click(divAshow);
 
     editbtn.click(btnClick);
-    editbtn.click(divACedit);
     editbtn.click(itemEdit);
+    editbtn.click(divACedit);
 
     deletebtn.click(btnClick);
     deletebtn.click(itemDelete);
@@ -1225,15 +1235,16 @@ var createGroupData = function(data, category) {
 
     groupItem.find('button.btn').click(btnClick);
     groupItem.find('.item-edit').click(itemEdit);
-    groupItem.find('.item-edit').click(divBDedit);
+    groupItem.find('.item-edit').click(divACedit);
     groupItem.find('.item-delete').click(itemDelete);
-    groupItem.find('.item-show').click(divBDshow);
+    groupItem.find('.item-show').click(divACshow);
+    groupItem.find('.item-show').click(divCshow);
 
     return groupItem;
 };
 
 var createCategoryData = function(data, category) {
-    var cateItem = $(' <a class="list-group-item list-group-item-action p-1 border-0 " id="' + category + '_' + data.name + '">' +
+    var cateItem = $(' <a class="list-group-item list-group-item-action p-1 border-0 " id="' + category + '_' + data.id + '">' +
         ' <div class="float-left">' +
         '<span class="item-name">' + data.name + '</span>' +
         '<input type="hidden" name="item-status" value="">' +
@@ -1257,9 +1268,10 @@ var createCategoryData = function(data, category) {
 
     cateItem.find('button.btn').click(btnClick);
     cateItem.find('.item-edit').click(itemEdit);
-    cateItem.find('.item-edit').click(divBDedit);
+    cateItem.find('.item-edit').click(divACedit);
     cateItem.find('.item-delete').click(itemDelete);
-    cateItem.find('.item-show').click(divBDshow);
+    cateItem.find('.item-show').click(divACshow);
+    cateItem.find('.item-show').click(divCshow);
 
     return cateItem;
 };

@@ -61,38 +61,30 @@ class StudentController extends Controller
         );
         if (null !== $request->post('position')) {
             $position = $request->post('position');
-        } else {
-            $position = '1';
         }
 
-        if ($request->input('password') != null) {
-            $client = User::create([
-                'login' => $request->post('login'),
-                'password' => $request->post('password'),
-                'company' => $request->post('company'),
-                'function' => $position,
-                'first_name' => $request->post('first_name'),
-                'last_name' => $request->post('last_name'),
-                'contact_info' => json_encode($contact_info),
-                'id_config' => $interfaceCfg->id,
-                'status' => $request->input('user-status-icon'),
-                'type' => $request->post('type')
-                // 'lang' => $request->post('lang'),
-            ]);
-        } else {
-            $client = User::create([
-                'login' => $request->post('login'),
-                'company' => $request->post('company'),
-                'first_name' => $request->post('first_name'),
-                'function' =>  $position,
-                'last_name' => $request->post('last_name'),
-                'contact_info' => json_encode($contact_info),
-                'status' => $request->input('user-status-icon'),
-                'id_config' => $interfaceCfg->id,
-                'type' => $request->post('type')
-                // 'lang' => $request->post('lang'),
-            ]);
+        $client = User::create([
+            'login' => $request->post('login'),
+            'password' => $request->post('password'),
+            'first_name' => $request->post('first_name'),
+            'last_name' => $request->post('last_name'),
+            'contact_info' => json_encode($contact_info),
+            'id_config' => $interfaceCfg->id,
+            'status' => $request->input('user-status-icon'),
+            'type' => $request->post('type')
+            // 'lang' => $request->post('lang'),
+        ]);
+
+        if ($request->post('company') != null) {
+            $client->company = $request->post('company');
         }
+        if ($request->post('function') != null) {
+            $client->function = $request->post('function');
+        }
+        if ($request->post('password') != null) {
+            $client->password = $request->post('password');
+        }
+        $client->update();
         return response()->json($client);
     }
 
@@ -164,9 +156,11 @@ class StudentController extends Controller
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
         $user->login = $request->input('login');
-        $user->company = $request->input('company');
         if (null !== $request->post('position')) {
             $user->function = $request->input('function');
+        }
+        if ($request->post('company')) {
+            $user->company = $request->post('company');
         }
         $user->status = $request->input('user-status-icon');
         if ($request->input('password') != null) {
