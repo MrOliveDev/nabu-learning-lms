@@ -1236,6 +1236,11 @@ var createGroupData = function(data, category) {
         '</div>' +
         '</a>');
 
+    groupItem.attr('draggable', false);
+    groupItem.on('drop', dropEnd);
+    groupItem.on('dragover', dragOver);
+    groupItem.on('dragleave', dragLeave);
+
     groupItem.find('button.btn').click(btnClick);
     groupItem.find('.item-edit').click(itemEdit);
     groupItem.find('.item-edit').click(divACedit);
@@ -1268,6 +1273,11 @@ var createCategoryData = function(data, category) {
         '</button>' +
         ' </div>' +
         '</a>');
+
+    cateItem.attr('draggable', false);
+    cateItem.on('drop', dropEnd);
+    cateItem.on('dragover', dragOver);
+    cateItem.on('dragleave', dragLeave);
 
     cateItem.find('button.btn').click(btnClick);
     cateItem.find('.item-edit').click(itemEdit);
@@ -1447,7 +1457,7 @@ var searchfilter = function(event) {
 
         // console.log(item_name);
 
-        if (item_name.toLowerCase().indexOf(str) >= 0) {
+        if (item_name.toLowerCase().indexOf(str.replace(/\s+/g, '')) >= 0) {
             if (ctgc == '' || ctgc.split("_").filter(function(iem, i, d) {
                     return iem == item_company;
                 }).length) {
@@ -1813,8 +1823,8 @@ $(document).ready(function() {
         $(elem).attr('drag', false);
     });
 
-    // $(".fliter-company-btn").on('drop', companyDropEnd);
-    // $(".fliter-function-btn").on('drop', functionDropEnd);
+    $(".fliter-company-btn").on('drop', companyDropEnd);
+    $(".fliter-function-btn").on('drop', functionDropEnd);
 
     // $(".fliter-function-btn").on('dragstart', dragStart);
     // $(".fliter-company-btn").on('dragstart', dragStart);
@@ -1857,3 +1867,4 @@ $('.fliter-company-btn').click(filterCompanyBtn);
 $('.fliter-function-btn').click(filterFunctionBtn);
 $("#cate-status-icon").change(cateStateIcon);
 $('.toggle2-btn').click(toggle2Btn);
+
