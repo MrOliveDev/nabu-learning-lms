@@ -4,9 +4,9 @@
 
 // const { forEach } = require("lodash");
 
-// var baseURL = window.location.protocol + "//" + window.location.host;
+var baseURL = window.location.protocol + "//" + window.location.host;
 
-var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
+// var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
 var filteritem = null;
 var grouptab = null,
     detailtags = null;
@@ -1236,6 +1236,11 @@ var createGroupData = function(data, category) {
         '</div>' +
         '</a>');
 
+    groupItem.attr('draggable', false);
+    groupItem.on('drop', dropEnd);
+    groupItem.on('dragover', dragOver);
+    groupItem.on('dragleave', dragLeave);
+
     groupItem.find('button.btn').click(btnClick);
     groupItem.find('.item-edit').click(itemEdit);
     groupItem.find('.item-edit').click(divACedit);
@@ -1268,6 +1273,11 @@ var createCategoryData = function(data, category) {
         '</button>' +
         ' </div>' +
         '</a>');
+
+    cateItem.attr('draggable', false);
+    cateItem.on('drop', dropEnd);
+    cateItem.on('dragover', dragOver);
+    cateItem.on('dragleave', dragLeave);
 
     cateItem.find('button.btn').click(btnClick);
     cateItem.find('.item-edit').click(itemEdit);
@@ -1813,8 +1823,8 @@ $(document).ready(function() {
         $(elem).attr('drag', false);
     });
 
-    // $(".fliter-company-btn").on('drop', companyDropEnd);
-    // $(".fliter-function-btn").on('drop', functionDropEnd);
+    $(".fliter-company-btn").on('drop', companyDropEnd);
+    $(".fliter-function-btn").on('drop', functionDropEnd);
 
     // $(".fliter-function-btn").on('dragstart', dragStart);
     // $(".fliter-company-btn").on('dragstart', dragStart);
