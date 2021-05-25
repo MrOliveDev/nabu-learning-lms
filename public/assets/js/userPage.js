@@ -1158,9 +1158,9 @@ var submitBtn = function(event) {
 var createUserData = function(data, category) {
 
     var status_temp = data.status == '1' ?
-        '<i class="fa fa-circle text-success m-2"></i>' +
+        '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
-        '<i class="fa fa-circle text-danger m-2"></i>' +
+        '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
     var userItem = $('<a class="list-group-item list-group-item-action  p-1 border-0" id="' + category + '_' + data.id + '">' +
         '<div class="float-left">' +
@@ -1186,6 +1186,8 @@ var createUserData = function(data, category) {
     var deletebtn = $('<button class="btn item-delete" data-content="' + category + '">' +
         '<i class="px-2 fa fa-trash-alt"></i>' +
         '</button>');
+    showbtn.on('dragstart', dragStart);
+    showbtn.attr('drag', false);
 
     showbtn.click(btnClick);
     showbtn.click(divACshow);
@@ -1198,8 +1200,9 @@ var createUserData = function(data, category) {
     deletebtn.click(btnClick);
     deletebtn.click(itemDelete);
 
-    userItem.find('.btn-group').append(showbtn).append(editbtn).append(deletebtn).click(leftItemClick);
     userItem.dblclick(itemDBClick);
+    userItem.find('.btn-group').append(showbtn).append(editbtn).append(deletebtn);
+    userItem.click(leftItemClick);
 
     return userItem;
 
@@ -1207,9 +1210,9 @@ var createUserData = function(data, category) {
 
 var createGroupData = function(data, category) {
     var status_temp = data.status == '1' ?
-        '<i class="fa fa-circle text-success m-2"></i>' +
+        '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
-        '<i class="fa fa-circle text-danger m-2"></i>' +
+        '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
     var groupItem = $('<a class="list-group-item list-group-item-action p-1 border-0 " id="' + category + '_' + data.id + '">' +
         '<div class="float-left">' +
