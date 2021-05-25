@@ -102,16 +102,11 @@
 
     <script src="{{ asset('assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js') }}""></script>
 
-    <script>
-        $(function() {
-            $("#LeftPanel, #RightPanel").tabs();
-            $(".second-table").tabs();
-        });
-
-    </script>
-
-    <script>
-        $('#utilisateurs').addClass('active');
+            <script>
+                $(function() {
+                    $(" #LeftPanel, #RightPanel").tabs(); $(".second-table").tabs(); }); </script>
+        < script >
+            $('#utilisateurs').addClass('active');
         jQuery(function() {
             Dashmix.helpers(['select2', 'rangeslider', 'notify', 'summernote']);
         });
@@ -392,7 +387,7 @@
                                             Position
                                         </span>
                                     </div>
-                                    <select class="form-control" id="position" name="function" required>
+                                    <select class="form-control" id="position" name="function">
                                         <option value="" disabled selected>Select Position</option>
                                         @foreach ($positions as $position)
                                             <option value="{{ $position->id }}">{{ $position->name }}</option>
@@ -407,7 +402,7 @@
                                             Company
                                         </span>
                                     </div>
-                                    <select class="form-control" id="company" name="company" required>
+                                    <select class="form-control" id="company" name="company">
                                         <option value="" disabled selected>Select Company</option>
                                         @foreach ($companies as $company)
                                             <option value="{{ $company->id }}">{{ $company->name }}</option>
@@ -441,8 +436,10 @@
 
 
                             <div class="form-group clearfix">
-                                <button type="submit" class="btn btn-hero-primary float-right mx-1 submit-btn" id="user_save_button" data-form="user_form">SAVE</button>
-                                <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn" id="user_cancel_button">CANCEL</button>
+                                <button type="submit" class="btn btn-hero-primary float-right mx-1 submit-btn"
+                                    id="user_save_button" data-form="user_form">SAVE</button>
+                                <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn"
+                                    id="user_cancel_button">CANCEL</button>
                             </div>
                         </div>
                     </div>
@@ -739,14 +736,14 @@
                 <div class="list-group" id="table-user" role="tablist" data-src=''>
 
                 </div>
-                <button type="button" id="notificator" class="js-notify btn btn-secondary push"
-                    data-message="Your message!<br>" style="display:none">
-                    Top Right
-                </button>
+
             </div>
 
 
     </fieldset>
 </div>
-
+<button type="button" id="notificator" class="js-notify btn btn-secondary push" data-message="Your message!<br>"
+    style="display:none">
+    Top Right
+</button>
 @endsection
