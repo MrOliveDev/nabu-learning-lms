@@ -4,9 +4,9 @@
 
 // const { forEach } = require("lodash");
 
-var baseURL = window.location.protocol + "//" + window.location.host;
+// var baseURL = window.location.protocol + "//" + window.location.host;
 
-// var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
+var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
 var filteritem = null;
 var grouptab = null,
     detailtags = null;
@@ -1457,7 +1457,7 @@ var searchfilter = function(event) {
 
         // console.log(item_name);
 
-        if (item_name.toLowerCase().indexOf(str) >= 0) {
+        if (item_name.toLowerCase().indexOf(str.replace(/\s+/g, '')) >= 0) {
             if (ctgc == '' || ctgc.split("_").filter(function(iem, i, d) {
                     return iem == item_company;
                 }).length) {
@@ -1867,3 +1867,4 @@ $('.fliter-company-btn').click(filterCompanyBtn);
 $('.fliter-function-btn').click(filterFunctionBtn);
 $("#cate-status-icon").change(cateStateIcon);
 $('.toggle2-btn').click(toggle2Btn);
+
