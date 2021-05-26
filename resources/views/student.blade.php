@@ -322,7 +322,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="login-label">
-                                            Login
+                                            Login<span class="text-danger">*</span>
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="login" name="login" value="" required>
@@ -342,7 +342,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            First Name
+                                            First Name<span class="text-danger">*</span>
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="firstname" name="first_name" value=""
@@ -353,7 +353,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Last Name
+                                            Last Name<span class="text-danger">*</span>
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="lastname" name="last_name" value=""
@@ -388,7 +388,7 @@
                                         </span>
                                     </div>
                                     <select class="form-control" id="position" name="function">
-                                        <option value="" disabled selected>Select Position</option>
+                                        <option value="" disabled>No Position</option>
                                         @foreach ($positions as $position)
                                             <option value="{{ $position->id }}">{{ $position->name }}</option>
                                         @endforeach
@@ -403,7 +403,7 @@
                                         </span>
                                     </div>
                                     <select class="form-control" id="company" name="company">
-                                        <option value="" disabled selected>Select Company</option>
+                                        <option value="" disabled>No Company</option>
                                         @foreach ($companies as $company)
                                             <option value="{{ $company->id }}">{{ $company->name }}</option>
                                         @endforeach
@@ -414,7 +414,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Address
+                                            Address<span class="text-danger">*</span>
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="contact_info" name="contact_info"
@@ -426,7 +426,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            E-mail
+                                            E-mail<span class="text-danger">*</span>
                                         </span>
                                     </div>
                                     <input type="email" class="form-control" id="user-email" name="user-email" value=""
@@ -660,7 +660,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Name
+                                            Name<span class="text-danger">*</span>
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="category_name" name="category_name"
@@ -671,7 +671,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Description
+                                            Description<span class="text-danger">*</span>
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="category_description"

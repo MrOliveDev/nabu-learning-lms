@@ -141,27 +141,10 @@
                                         </span>
                                     </a>
                                 </li>
-                                <!-- <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('dash')}}" id="groupes">
-                                        <div class="nav-main-cover-item">
-                                            <i class="nav-main-link-icon fas fa-users"></i>
-                                            </div>
-                                        <span class="nav-main-link-name">Groupes</span>
-                                    </a>
-                                </li> -->
-                                <!--                                <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('lesson')}}" id="societes">
-                                        <div class="nav-main-cover-item">
-                                            <i class="nav-main-link-icon fas fa-th"></i>
-                                            </div>
-                                        <span class="nav-main-link-name">Companies</span>
-                                    </a>
-                                </li>
- -->
                                 <hr>
 
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('lesson')}}" id="parcours">
+                                    <a class="nav-main-link" href="{{route('training')}}" id="parcours">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-cubes"></i>

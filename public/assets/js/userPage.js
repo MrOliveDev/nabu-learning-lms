@@ -1440,6 +1440,11 @@ var searchfilter = function(event) {
     var ctgc = parent.find('button.fliter-company-btn').val();
     var ctgf = parent.find('button.fliter-function-btn').val();
 
+    if ($(event.target).eq('input.search-filter')) {
+        str = event.target.value;
+        console.log(str);
+    }
+
     if (parent.prev().is('.nav')) {
         var selector = parent.prev().find('.ui-state-active a').attr('href').split('#')[1];
         // console.log(selector);
@@ -1836,7 +1841,7 @@ $(document).ready(function() {
     // $(".fliter-function-btn").on('dragleave', dragLeave);
 });
 $('input[name=status], input.search-filter, button.fliter-company-btn, button.fliter-function-btn').change(searchfilter);
-$('input.search-filter').keypress(searchfilter);
+$('input.search-filter').on('keydown change keyup', searchfilter);
 $("button.fliter-company-btn, button.fliter-function-btn").on('drop', searchfilter);
 
 $(".list-group-item").dblclick(itemDBClick);
@@ -1867,4 +1872,3 @@ $('.fliter-company-btn').click(filterCompanyBtn);
 $('.fliter-function-btn').click(filterFunctionBtn);
 $("#cate-status-icon").change(cateStateIcon);
 $('.toggle2-btn').click(toggle2Btn);
-
