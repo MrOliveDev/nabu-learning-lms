@@ -100,13 +100,17 @@
     <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
     <script src="{{ asset('assets/js/userPage.js') }}"></script>
 
-    <script src="{{ asset('assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js') }}""></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
 
-            <script>
-                $(function() {
-                    $(" #LeftPanel, #RightPanel").tabs(); $(".second-table").tabs(); }); </script>
-        < script >
-            $('#utilisateurs').addClass('active');
+    <script>
+        $(function() {
+            $(" #LeftPanel, #RightPanel").tabs();
+            $(".second-table").tabs();
+        });
+
+    </script>
+    <script>
+        $('#utilisateurs').addClass('active');
         jQuery(function() {
             Dashmix.helpers(['select2', 'rangeslider', 'notify', 'summernote']);
         });
@@ -143,23 +147,31 @@
                         <i class="fa fa-search icon p-2"></i>
                     </span>
                     <a href="#" class="toolkit-show-filter float-right">
-                        <i class="fa fa-bars icon p-2  text-white"></i>
+                        <i class="fas fa-sliders-h icon p-2  text-white"></i>
                     </a>
                 </div>
             </div>
-            <div class="fliter p-2 toolkit-filter">
+            <div class="filter p-2 toolkit-filter">
                 <div class="float-left">
-                    <input type="radio" id="filter-state-on" name="status" value="on">
-                    <span>on&nbsp;</span>
-                    <input type="radio" id="filter-state-off" name="status" value="off">
-                    <span>off&nbsp;</span>
-                    <input type="radio" id="filter-state-all" name="status" value="all">
-                    <span>all&nbsp;</span>
+                    <div class="status-switch">
+                        <input type="radio" id="filter-state-on" name="status" value="on">
+                        <span>on&nbsp;</span>
+                        <input type="radio" id="filter-state-off" name="status" value="off">
+                        <span>off&nbsp;</span>
+                        <input type="radio" id="filter-state-all" name="status" value="all">
+                        <span>all&nbsp;</span>
+                    </div>
+                    <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
+                        <i class="fas fa-sort-numeric-down"></i>
+                    </button>
+                    <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
+                        <i class="fas fa-sort-numeric-down"></i>
+                    </button>
                 </div>
                 <div class="float-right">
-                    <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company
+                    <button type="button" value="" class="rounded text-white filter-company-btn px-1 border-0">company
                         +<i></i></button>&nbsp;
-                    <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function
+                    <button type="button" value="" class="rounded text-white filter-function-btn px-1 border-0">function
                         +<i></i></button>
                 </div>
             </div>
@@ -172,7 +184,7 @@
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach ($students as $student)
                             <a class="list-group-item list-group-item-action  p-1 border-0"
-                                id="student_{{ $student->id }}">
+                                id="student_{{ $student->id }}" data-date="{{ $student->creation_date }}">
                                 <div class="float-left">
                                     @if ($student->status == 1)
                                         <i class="fa fa-circle  m-2" style="color:green;"></i>
@@ -211,7 +223,7 @@
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach ($teachers as $teacher)
                             <a class="list-group-item list-group-item-action  p-1 border-0"
-                                id="teacher_{{ $teacher->id }}">
+                                id="teacher_{{ $teacher->id }}" data-date="{{ $teacher->creation_date }}">
                                 <div class="float-left">
                                     @if ($teacher->status == 1)
                                         <i class="fa fa-circle  m-2" style="color:green;"></i>
@@ -251,7 +263,7 @@
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach ($authors as $author)
                             <a class="list-group-item list-group-item-action  p-1 border-0"
-                                id="author_{{ $author->id }}">
+                                id="author_{{ $author->id }}" data-date="{{ $author->creation_date }}">
                                 <div class="float-left">
                                     @if ($author->status == 1)
                                         <i class="fa fa-circle  m-2" style="color:green;"></i>
@@ -321,8 +333,8 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="login-label">
-                                            Login
+                                        <span class="input-group-text">
+                                            <span id="login-label">Login</span><span class="text-danger">*</span>
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="login" name="login" value="" required>
@@ -342,7 +354,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            First Name
+                                            First Name<span class="text-danger">*</span>
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="firstname" name="first_name" value=""
@@ -353,7 +365,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Last Name
+                                            Last Name<span class="text-danger">*</span>
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="lastname" name="last_name" value=""
@@ -388,7 +400,7 @@
                                         </span>
                                     </div>
                                     <select class="form-control" id="position" name="function">
-                                        <option value="" disabled selected>Select Position</option>
+                                        <option value="" disabled>No Position</option>
                                         @foreach ($positions as $position)
                                             <option value="{{ $position->id }}">{{ $position->name }}</option>
                                         @endforeach
@@ -403,7 +415,7 @@
                                         </span>
                                     </div>
                                     <select class="form-control" id="company" name="company">
-                                        <option value="" disabled selected>Select Company</option>
+                                        <option value="" disabled>No Company</option>
                                         @foreach ($companies as $company)
                                             <option value="{{ $company->id }}">{{ $company->name }}</option>
                                         @endforeach
@@ -414,7 +426,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Address
+                                            Address<span class="text-danger">*</span>
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="contact_info" name="contact_info"
@@ -426,7 +438,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            E-mail
+                                            E-mail<span class="text-danger">*</span>
                                         </span>
                                     </div>
                                     <input type="email" class="form-control" id="user-email" name="user-email" value=""
@@ -529,23 +541,29 @@
                         <i class="fa fa-search icon p-2"></i>
                     </span>
                     <a href="#" class="toolkit-show-filter float-right">
-                        <i class="fa fa-bars icon p-2  text-white"></i>
+                        <i class="fas fa-sliders-h icon p-2  text-white"></i>
                     </a>
                 </div>
             </div>
-            <div class="fliter p-2 toolkit-filter">
+            <div class="filter p-2 toolkit-filter">
                 <div class="float-left">
-                    <input type="radio" id="filter-state-on" name="status" value="on">
-                    <span>on&nbsp;</span>
-                    <input type="radio" id="filter-state-off" name="status" value="off">
-                    <span>off&nbsp;</span>
-                    <input type="radio" id="filter-state-all" name="status" value="all">
-                    <span>all&nbsp;</span>
+                    <div class="status-switch">
+                        <input type="radio" id="filter-state-on" name="status" value="on">
+                        <span>on&nbsp;</span>
+                        <input type="radio" id="filter-state-off" name="status" value="off">
+                        <span>off&nbsp;</span>
+                        <input type="radio" id="filter-state-all" name="status" value="all">
+                        <span>all&nbsp;</span>
+                    </div>
+                    <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
+                        <i class="fas fa-sort-numeric-down"></i></button>
+                    <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
+                        <i class="fas fa-sort-numeric-down"></i></button>
                 </div>
                 <div class="float-right d-none">
-                    <button type="button" value="" class="rounded text-white fliter-company-btn px-1 border-0">company
+                    <button type="button" value="" class="rounded text-white filter-company-btn px-1 border-0">company
                         +<i></i></button>&nbsp;
-                    <button type="button" value="" class="rounded text-white fliter-function-btn px-1 border-0">function
+                    <button type="button" value="" class="rounded text-white filter-function-btn px-1 border-0">function
                         +<i></i></button>
                 </div>
             </div>
@@ -556,7 +574,8 @@
 
                 <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
                     @foreach ($groups as $group)
-                        <a class="list-group-item list-group-item-action p-1 border-0 " id="group_{{ $group->id }}">
+                        <a class="list-group-item list-group-item-action p-1 border-0 " id="group_{{ $group->id }}"
+                            data-date="{{ $group->creation_date }}">
                             <div class="float-left">
                                 @if ($group->status == 1)
                                     <i class="fa fa-circle  m-2" style="color:green;"></i>
@@ -591,11 +610,10 @@
                 <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
                     @foreach ($companies as $company)
                         <a class="list-group-item list-group-item-action p-1 border-0 "
-                            id="company_{{ $company->id }}">
+                            id="company_{{ $company->id }}" data-date="{{ $company->creation_date }}">
                             <div class="float-left">
                                 <span class="item-name">{{ $company->name }}</span>
-                                <input type="hidden" name="item-status" value="{{ $group->status }}">
-                                <input type="hidden" name="item-name" value="{{ $group->name }}">
+                                <input type="hidden" name="item-name" value="{{ $company->name }}">
                             </div>
                             <div class="btn-group float-right">
                                 <button class="btn  toggle1-btn  item-show" data-content='company'>
@@ -624,7 +642,7 @@
                             <div class="float-left">
                                 <!-- <i class="fa fa-circle text-danger m-2"></i> -->
                                 <span class="item-name">{{ $position->name }}</span>
-                                <input type="hidden" name="item-name" value="{{ $group->name }}">
+                                <input type="hidden" name="item-name" value="{{ $position->name }}">
                             </div>
                             <div class="btn-group float-right">
                                 <button class="btn  toggle1-btn item-show" data-content='position'>
@@ -660,7 +678,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Name
+                                            Name<span class="text-danger">*</span>
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="category_name" name="category_name"
@@ -671,7 +689,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Description
+                                            Description<span class="text-danger">*</span>
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="category_description"
@@ -702,34 +720,38 @@
                     id="show-toolkit">
                     <div class="w-100 p-2">
                         <div class="input-container">
-                            <a href="#" class="toolkit-add-item">
-                                <i class="fa fa-plus icon p-2 text-white"></i>
-                            </a>
+                            <span id='member-count' class="pl-2 pr-4"></span>
                             <span class="bg-white text-black p-2 rounded">
                                 <input class="input-field border-0 mw-100 search-filter" type="text"
                                     name="search-filter">
                                 <i class="fa fa-search icon p-2"></i>
                             </span>
                             <a href="#" class="toolkit-show-filter float-right">
-                                <i class="fa fa-bars icon p-2  text-white"></i>
+                                <i class="fas fa-sliders-h icon p-2  text-white"></i>
                             </a>
                         </div>
                     </div>
-                    <div class="fliter p-2 toolkit-filter">
+                    <div class="filter p-2 toolkit-filter">
                         <div class="float-left">
-                            <input type="radio" id="filter-state-on" name="status" value="on">
-                            <span>on&nbsp;</span>
-                            <input type="radio" id="filter-state-off" name="status" value="off">
-                            <span>off&nbsp;</span>
-                            <input type="radio" id="filter-state-all" name="status" value="all">
-                            <span>all&nbsp;</span>
+                            <div class="status-switch">
+                                <input type="radio" id="filter-state-on" name="status" value="on">
+                                <span>on&nbsp;</span>
+                                <input type="radio" id="filter-state-off" name="status" value="off">
+                                <span>off&nbsp;</span>
+                                <input type="radio" id="filter-state-all" name="status" value="all">
+                                <span>all&nbsp;</span>
+                            </div>
+                            <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
+                                <i class="fas fa-sort-numeric-down"></i></button>
+                            <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
+                                <i class="fas fa-sort-numeric-down"></i></button>
                         </div>
                         <div class="float-right">
                             <button type="button" value=""
-                                class="rounded text-white fliter-company-btn px-1 border-0">company
+                                class="rounded text-white filter-company-btn px-1 border-0">company
                                 +<i></i></button>&nbsp;
                             <button type="button" value=""
-                                class="rounded text-white fliter-function-btn px-1 border-0">function +<i></i></button>
+                                class="rounded text-white filter-function-btn px-1 border-0">function +<i></i></button>
                         </div>
                     </div>
                 </div>

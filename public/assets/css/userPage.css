@@ -52,25 +52,41 @@
 }
 
 #companies .list-group-item,
-.fliter-company-btn {
+.filter-company-btn {
     background-color: var(--company-c);
+}
+
+.filter-date-btn:hover {
+    background-color: blue !important;
+}
+
+.filter-date-btn {
+    background-color: rgb(97, 97, 248) !important;
+}
+
+.filter-name-btn:hover {
+    background-color: green !important;
+}
+
+.filter-name-btn {
+    background-color: rgb(0, 184, 0) !important;
 }
 
 #companies .list-group-item.active,
 #companies .list-group-item:hover,
-.fliter-company-btn:hover {
+.filter-company-btn:hover {
     background-color: var(--company-h);
 }
 
 #positions .toolkit,
 #positions .list-group-item,
-.fliter-function-btn {
+.filter-function-btn {
     background-color: var(--position-c);
 }
 
 #positions .list-group-item.active,
 #positions .list-group-item:hover,
-.fliter-function-btn:hover {
+.filter-function-btn:hover {
     background-color: var(--position-h);
 }
 
