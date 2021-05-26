@@ -1,0 +1,21 @@
+#LeftPanel .toolkit,
+#div_D .list-group-item,
+#div_A .list-group-item {
+    background-color: var(--lesson-c);
+}
+
+#div_D .list-group-item.active,
+#div_A .list-group-item.active {
+    background-color: var(--lesson-h);
+}
+
+#RightPanel .toolkit,
+#div_B .list-group-item,
+#div_C .list-group-item {
+    background-color: var(--training-c);
+}
+
+#div_B .list-group-item.active,
+#div_C .list-group-item.active {
+    background-color: var(--training-h);
+}

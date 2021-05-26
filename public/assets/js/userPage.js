@@ -44,7 +44,7 @@ var notification = function(str, type) {
 };
 
 var countDisplayUser = function(event) {
-    $('#member-count').html($(this).find('.list-group-item').length + " users");
+    $('#member-count').html($(this).find('.list-group-item').length + " members");
 };
 
 var clearClassName = function(i, highlighted) {
@@ -1954,4 +1954,3 @@ $('.toggle2-btn').click(toggle2Btn);
 $('#table-user').on('DOMSubtreeModified', countDisplayUser);
 $('.nav-link').click(tabClick);
 $('.nav-link').click(tabClick);
-

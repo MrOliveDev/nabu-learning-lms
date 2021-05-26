@@ -37,7 +37,6 @@ class GroupController extends Controller
     public function store(Request $request)
     {
 
-        // print_r($request->post());exit;
         $group = GroupModel::create([
             'name'=>$request->input('category_name'),
             'description'=>$request->post('category_description'),

@@ -10,11 +10,10 @@ class GroupModel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id', 'name', 'status', 'description'
+        'id', 'name', 'status', 'description', 'creation_date'
     ];
 
     protected $table = 'tb_groups';
-
-    // public $timestamps = false;
+    public $timestamps = false;
 
 }
