@@ -16,6 +16,6 @@ class CompanyModel extends Model
 
     protected $table = 'tb_companies';
 
-    public $timestamps = false;
+    // public $timestamps = false;
 
 }

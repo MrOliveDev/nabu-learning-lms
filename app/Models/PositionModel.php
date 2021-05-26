@@ -16,6 +16,6 @@ class PositionModel extends Model
 
     protected $table = 'tb_position';
 
-    public $timestamps = false;
+    // public $timestamps = false;
 
 }
