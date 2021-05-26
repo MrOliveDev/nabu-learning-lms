@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LessonsModel;
 use Illuminate\Http\Request;
 use App\Models\TrainingsModel;
 
@@ -14,8 +15,13 @@ class TrainingController extends Controller
      */
     public function index()
     {
-        //
-        return view('training');
+        $trainings = TrainingsModel::all();
+        $lessons = LessonsModel::all();
+
+        print_r($trainings);
+        print_r($lessons);
+        exit;
+        return view('training')->with(compact('trainings', 'lessons'));
     }
 
     /**

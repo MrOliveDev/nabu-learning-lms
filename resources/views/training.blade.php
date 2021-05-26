@@ -75,9 +75,9 @@
             <div id="div_A" class="window top">
                 <div class="clear-fix mx-4">
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
-                        @foreach ($authors as $author)
-                            <a class="list-group-item list-group-item-action  p-1 border-0" id="author_{{ $author->id }}"
-                                data-date="{{ $author->creation_date }}">
+                        @foreach ($lessons as $lesson)
+                            <a class="list-group-item list-group-item-action  p-1 border-0" id="author_{{ $lesson->id }}"
+                                data-date="{{ $lesson->creation_date }}">
                                 <div class="float-left">
                                     @if ($author->status == 1)
                                         <i class="fa fa-circle  m-2" style="color:green;"></i>
@@ -87,15 +87,15 @@
                                         <input type="hidden" name="item-status" class='status-notification' value="0">
                                     @endif
                                     <span
-                                        class="item-name">{{ $author->first_name }}&nbsp;{{ $author->last_name }}</span>
+                                        class="item-name">{{ $lesson->first_name }}&nbsp;{{ $lesson->last_name }}</span>
                                     <input type="hidden" name="item-name"
-                                        value="{{ $author->first_name }}{{ $author->last_name }}">
-                                    <input type="hidden" name="item-group" value="{{ $author->linked_groups }}">
-                                    <input type="hidden" name="item-company" value="{{ $author->company }}">
-                                    <input type="hidden" name="item-function" value="{{ $author->function }}">
+                                        value="{{ $author->first_name }}{{ $lesson->last_name }}">
+                                    <input type="hidden" name="item-group" value="{{ $lesson->linked_groups }}">
+                                    <input type="hidden" name="item-company" value="{{ $lesson->company }}">
+                                    <input type="hidden" name="item-function" value="{{ $lesson->function }}">
                                 </div>
                                 <div class="btn-group float-right">
-                                    <span class=" p-2 font-weight-bolder">{{ strtoupper($author->language_iso) }}</span>
+                                    <span class=" p-2 font-weight-bolder">{{ strtoupper($lesson->language_iso) }}</span>
 
                                     <button class="btn  item-show" data-content='author'>
                                         <i class="px-2 fa fa-eye"></i>
