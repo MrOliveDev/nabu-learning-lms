@@ -1595,8 +1595,6 @@ var tabClick = function(event) {
     if ($(this).parents('fieldset').attr('id') == 'LeftPanel') {
 
         toggleFormOrTable($('#div_B'), null, false);
-        toggleFormOrTable($('#div_B'), null, false);
-        toggleFormOrTable($('#div_B'), null, false);
 
         switch ($(this).attr('id')) {
             case 'students-tab':
@@ -1713,6 +1711,7 @@ var tabClick = function(event) {
         $('#div_A').find('.list-group-item').each(clearClassName);
         cancelFilterCategoryAll();
         $('#user-toolkit .search-filter').val('');
+        $('#user-toolkit .search-filter').change();
     } else if ($(this).parents('fieldset').attr('id') == 'RightPanel') {
         switch ($(this).attr('id')) {
             case 'groups-tab':
@@ -1743,6 +1742,7 @@ var tabClick = function(event) {
         });
         $('#div_C').find('.list-group-item').each(clearClassName);
         $('#cate-toolkit .search-filter').val('');
+        $('#cate-toolkit .search-filter').change();
     }
 };
 //////////////////////////////////
@@ -1954,3 +1954,4 @@ $('.toggle2-btn').click(toggle2Btn);
 $('#table-user').on('DOMSubtreeModified', countDisplayUser);
 $('.nav-link').click(tabClick);
 $('.nav-link').click(tabClick);
+
