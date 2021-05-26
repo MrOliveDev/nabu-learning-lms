@@ -158,6 +158,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('userjointocompany', '\App\Http\Controllers\StudentController@userJoinToCompany')->name('userjointocompany');
     Route::post('userjointofunction', '\App\Http\Controllers\StudentController@userJoinToPosition')->name('userjointofunction');
 
+    Route::get('training', '\App\Http\Controllers\TrainingController@index')->name('training');
 });
 
 
