@@ -94,8 +94,8 @@
 
 
 @section('js_after')
-    <script src="assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-    <script src="assets/js/plugins/flatpickr/flatpickr.min.js"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/flatpickr/flatpickr.min.js') }}"></script>
 
     <script src="{{ asset('assets/js/cropper.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
