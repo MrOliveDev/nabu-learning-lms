@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LessonsModel;
 use Illuminate\Http\Request;
 use App\Models\TrainingsModel;
+use App\Models\LanguageModel;
 
 class TrainingController extends Controller
 {
@@ -17,11 +18,8 @@ class TrainingController extends Controller
     {
         $trainings = TrainingsModel::all();
         $lessons = LessonsModel::all();
-
-        print_r($trainings);
-        print_r($lessons);
-        exit;
-        return view('training')->with(compact('trainings', 'lessons'));
+        $languages = LanguageModel::all();
+        return view('training')->with(compact('trainings', 'lessons', 'languages'));
     }
 
     /**

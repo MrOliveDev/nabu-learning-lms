@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Password Requirements Plugin Example</title>
+    <meta name="author" content="FrontendScript" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/minty/bootstrap.min.css">
+    <!-- Password Requirements CSS -->
+    <link rel="stylesheet" href="css/jquery.passwordRequirements.css" />
+    <!--Only for demo purpose - no need to add.-->
+    <link rel="stylesheet" href="demo.css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/jquery.passwordRequirements.min.js"></script>
+    <script>
+        /* trigger when page is ready */
+        $(document).ready(function() {
+            $(".pr-password").passwordRequirements({
+
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+    <div class="ScriptTop">
+        <div class="rt-container">
+            <div class="col-rt-4" id="float-right">
+
+                <!-- Ad Here -->
+
+            </div>
+            <div class="col-rt-2">
+                <ul>
+                    <li><a href="https://frontendscript.com/jquery-password-validation-while-typing" title="Back to tutorial page">Back to Tutorial</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <header class="ScriptHeader">
+        <div class="rt-container">
+            <div class="col-rt-12">
+                <div class="rt-heading">
+                    <h1>jQuery Password Requirements Plugin Example</h1>
+                    <p>A password validation plugin that show password complexity while typing.</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <div class="rt-container">
+            <div class="col-rt-12">
+                <div class="Scriptcontent">
+
+                    <!-- Password Validation Form -->
+                    <div class="container">
+                        <form class="demo-form">
+
+                            <label for="user">Username:</label>
+                            <input type="text" class="form-control">
+                            <label for="password">Enter Password:</label>
+                            <input type="password" class="pr-password form-control">
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Analytics -->
+
+</body>
+
+</html>

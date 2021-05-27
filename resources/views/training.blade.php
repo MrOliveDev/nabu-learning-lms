@@ -1,7 +1,14 @@
 @extends('welcome')
 
 @section('con')
+@extends('welcome')
 
+@section('con')
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/cropper.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/cropperModal.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/ion-rangeslider/css/ion.rangeSlider.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.min.css') }}" />
     <style>
         :root {
             --lesson-c:
@@ -27,6 +34,33 @@
         }
 
     </style>
+    <link rel="stylesheet" href="{{ asset('assets/css/trainingPage.css') }}">
+
+
+@section('js_after')
+
+    <script src="{{ asset('assets/js/cropper.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/ion-rangeslider/js/ion.rangeSlider.js') }}"></script>
+    <script src="{{ asset('assets/js/cropperModal.js') }}"></script>
+
+    <script src="{{ asset('assets/js/plugins/select2/js/select2.full.min.js') }}"></script>
+
+    <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/js/trainingPage.js') }}"></script>
+    
+    <script src="{{ asset('assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
+
+    <script>
+        $('#utilisateurs').addClass('active');
+        jQuery(function() {
+            Dashmix.helpers(['select2', 'rangeslider', 'notify', 'summernote']);
+        });
+
+    </script>
+
+@endsection
+
 
 
     <div id="content">
@@ -76,10 +110,10 @@
                 <div class="clear-fix mx-4">
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach ($lessons as $lesson)
-                            <a class="list-group-item list-group-item-action  p-1 border-0" id="author_{{ $lesson->id }}"
+                            <a class="list-group-item list-group-item-action  p-1 border-0" id="lesson_{{ $lesson->id }}"
                                 data-date="{{ $lesson->creation_date }}">
                                 <div class="float-left">
-                                    @if ($author->status == 1)
+                                    @if ($lesson->status != 0)
                                         <i class="fa fa-circle  m-2" style="color:green;"></i>
                                         <input type="hidden" name="item-status" class='status-notification' value="1">
                                     @else
@@ -87,32 +121,27 @@
                                         <input type="hidden" name="item-status" class='status-notification' value="0">
                                     @endif
                                     <span
-                                        class="item-name">{{ $lesson->first_name }}&nbsp;{{ $lesson->last_name }}</span>
-                                    <input type="hidden" name="item-name"
-                                        value="{{ $author->first_name }}{{ $lesson->last_name }}">
-                                    <input type="hidden" name="item-group" value="{{ $lesson->linked_groups }}">
-                                    <input type="hidden" name="item-company" value="{{ $lesson->company }}">
-                                    <input type="hidden" name="item-function" value="{{ $lesson->function }}">
+                                        class="item-name">{{ $lesson->name }}</span>
+
                                 </div>
                                 <div class="btn-group float-right">
-                                    <span class=" p-2 font-weight-bolder">{{ strtoupper($lesson->language_iso) }}</span>
-
-                                    <button class="btn  item-show" data-content='author'>
+                                    <span class=" p-2 font-weight-bolder">EN</span>
+                                    <button class="btn  item-show" data-content='lesson'>
                                         <i class="px-2 fa fa-eye"></i>
                                     </button>
-                                    <button class="btn item-edit" data-content='author'>
+                                    <button class="btn item-edit" data-content='lesson'>
                                         <i class="px-2 fa fa-edit"></i>
                                     </button>
-                                    <button class="btn item-delete" data-content='author'>
+                                    <button class="btn item-delete" data-content='lesson'>
                                         <i class="px-2 fa fa-trash-alt"></i>
                                     </button>
-                                    <button class="btn item-play px-2">
+                                    <button class="btn item-play px-2" data-content='lesson'>
                                         <i class="fa fa-play"></i>
                                     </button>
-                                    <button class="btn item-template px-2">
+                                    <button class="btn item-template px-2" data-content='lesson'>
                                         <i class="fa fa-cube"></i>
                                     </button>
-                                    <button class="btn item-refresh px-2">
+                                    <button class="btn item-refresh px-2" data-content='lesson'>
                                         <i class="fa fa-sync-alt"></i>
                                     </button>
                                 </div>
@@ -260,11 +289,11 @@
             <div id="div_C" class="window top">
                 <div class="clear-fix mx-4">
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
-                        @foreach ($authors as $author)
-                            <a class="list-group-item list-group-item-action  p-1 border-0" id="author_{{ $author->id }}"
-                                data-date="{{ $author->creation_date }}">
+                        @foreach ($trainings as $training)
+                            <a class="list-group-item list-group-item-action  p-1 border-0" id="training_{{ $training->id }}"
+                                data-date="{{ $training->creation_date }}">
                                 <div class="float-left">
-                                    @if ($author->status == 1)
+                                    @if ($training->status != 0)
                                         <i class="fa fa-circle  m-2" style="color:green;"></i>
                                         <input type="hidden" name="item-status" class='status-notification' value="1">
                                     @else
@@ -272,23 +301,20 @@
                                         <input type="hidden" name="item-status" class='status-notification' value="0">
                                     @endif
                                     <span
-                                        class="item-name">{{ $author->first_name }}&nbsp;{{ $author->last_name }}</span>
+                                        class="item-name">{{ $training->name }}</span>
                                     <input type="hidden" name="item-name"
-                                        value="{{ $author->first_name }}{{ $author->last_name }}">
-                                    <input type="hidden" name="item-group" value="{{ $author->linked_groups }}">
-                                    <input type="hidden" name="item-company" value="{{ $author->company }}">
-                                    <input type="hidden" name="item-function" value="{{ $author->function }}">
+                                        value="{{ $training->name }}">
                                 </div>
                                 <div class="btn-group float-right">
-                                    <span class=" p-2 font-weight-bolder">{{ strtoupper($author->language_iso) }}</span>
+                                    <span class=" p-2 font-weight-bolder">EN</span>
 
-                                    <button class="btn  item-show" data-content='author'>
+                                    <button class="btn  item-show" data-content='training'>
                                         <i class="px-2 fa fa-eye"></i>
                                     </button>
-                                    <button class="btn item-edit" data-content='author'>
+                                    <button class="btn item-edit" data-content='training'>
                                         <i class="px-2 fa fa-edit"></i>
                                     </button>
-                                    <button class="btn item-delete" data-content='author'>
+                                    <button class="btn item-delete" data-content='training'>
                                         <i class="px-2 fa fa-trash-alt"></i>
                                     </button>
                                 </div>
@@ -379,7 +405,29 @@
                     <div class="tab-pane fade " id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
                         {{ $translation->l('Settings') }}</div>
                 </div>
+                <div class="modal myModal fade mt-lg-5" id="image-crop-modal" tabindex="-1" role="dialog"
+                    aria-labelledby="modalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-md" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body" id="drop">
+                                <!-- <div id="drop">Drop files here.</div> -->
 
+                                <div class="img-container" id="img-range-slider">
+
+                                    <!-- <img id="image" src="https://avatars0.githubusercontent.com/u/3456749" style="max-width:500px;"> -->
+                                    <div class="form-group" id="zoom-rangeslider-group">
+                                        <input type="text" class="js-rangeslider" id="zoom-rangeslider" value="50">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" id="crop">Crop</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </fieldset>
     </div>

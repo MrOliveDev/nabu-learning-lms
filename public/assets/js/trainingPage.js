@@ -6,11 +6,11 @@ $(document).ready(function() {
 });
 
 var loadLessons = function() {
-    $.get(baseURL + '/lesson').then(function(data) {
-        console.log(data);
-    }).error(function(err) {
-        console.log(err);
-    }).always(function(data) {
-        console.log();
-    });
+    // $.ajax(baseURL + '/lesson').done(function(data) {
+    //     console.log(data);
+    // }).error(function(err) {
+    //     console.log(err);
+    // }).always(function(data) {
+    //     console.log();
+    // });
 }
