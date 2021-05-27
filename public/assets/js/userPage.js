@@ -1680,7 +1680,7 @@ var sortfilter = function(event) {
 
                     if (cateNameSort) {
                         nameIcon.toggleClass('fa-sort-alpha-down', true);
-                        dateIcon.toggleClass('fa-sort-alpha-up', false);
+                        nameIcon.toggleClass('fa-sort-alpha-up', false);
                         if (an > bn) {
                             return 1;
                         }
@@ -1818,6 +1818,12 @@ var tabClick = function(event) {
     if ($(this).parents('fieldset').attr('id') == 'LeftPanel') {
 
         toggleFormOrTable($('#div_B'), null, false);
+        var nameIcon = $('user-toolkit').find('.filter-name-btn i');
+        var dateIcon = $('user-toolkit').find('.filter-date-btn i');
+        nameIcon.toggleClass('fa-sort-alpha-down', false);
+        nameIcon.toggleClass('fa-sort-alpha-up', false);
+        dateIcon.toggleClass('fa-sort-numeric-down', false);
+        dateIcon.toggleClass('fa-sort-numeric-up', false);
 
         switch ($(this).attr('id')) {
             case 'students-tab':
@@ -1966,6 +1972,12 @@ var tabClick = function(event) {
         $('#div_C').find('.list-group-item').each(clearClassName);
         $('#cate-toolkit .search-filter').val('');
         $('#cate-toolkit .search-filter').change();
+        var nameIcon = $('user-toolkit').find('.filter-name-btn i');
+        var dateIcon = $('user-toolkit').find('.filter-date-btn i');
+        nameIcon.toggleClass('fa-sort-alpha-down', false);
+        nameIcon.toggleClass('fa-sort-alpha-up', false);
+        dateIcon.toggleClass('fa-sort-numeric-down', false);
+        dateIcon.toggleClass('fa-sort-numeric-up', false);
     }
 };
 
