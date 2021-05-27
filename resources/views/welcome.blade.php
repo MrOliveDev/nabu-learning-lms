@@ -56,6 +56,7 @@
     <script src="{{ asset('assets/js/dashmix.app.min.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
 
+    @yield('js_before')
     <!-- Scripts -->
 
     <!-- END Stylesheets -->
@@ -82,13 +83,22 @@
                     effect: 'bounce',
                     text: 'Lodading...',
                     bg: 'rgba(255, 255, 255, 0.7)',
-                    // fontSize:'50px',
                     color: '#000'
                 });
             })
             .ajaxStop(function() {
                 $('main').waitMe("hide");
             });
+        // $(document).load(function() {
+        //     $('body').waitMe({
+        //         effect: 'bounce',
+        //         text: 'Lodading...',
+        //         bg: 'rgba(255, 255, 255, 0.7)',
+        //         color: '#000'
+        //     });
+        // }).ready(function() {
+        //     $('body').waitMe("hide");
+        // });
         jQuery(function() {
             Dashmix.helpers(['highlightjs', 'magnific-popup']);
         });
