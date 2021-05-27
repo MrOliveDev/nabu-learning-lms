@@ -79,7 +79,7 @@
     <script>
         $(document)
             .ajaxStart(function() {
-                $('main').waitMe({
+                $('body').waitMe({
                     effect: 'bounce',
                     text: 'Lodading...',
                     bg: 'rgba(255, 255, 255, 0.7)',
@@ -87,7 +87,7 @@
                 });
             })
             .ajaxStop(function() {
-                $('main').waitMe("hide");
+                $('body').waitMe("hide");
             });
         // $(document).load(function() {
         //     $('body').waitMe({

@@ -43,9 +43,8 @@ class StudentController extends Controller
 
         $randName = substr(str_shuffle($rand), 0, 10);
 
-        $password = $generator->generatePassword();
         $generator
-            ->setLength(6)
+            ->setLength(8)
             ->setOptionValue(RequirementPasswordGenerator::OPTION_UPPER_CASE, true)
             ->setOptionValue(RequirementPasswordGenerator::OPTION_LOWER_CASE, true)
             ->setOptionValue(RequirementPasswordGenerator::OPTION_NUMBERS, true)
@@ -53,7 +52,12 @@ class StudentController extends Controller
             ->setMinimumCount(RequirementPasswordGenerator::OPTION_UPPER_CASE, 1)
             ->setMinimumCount(RequirementPasswordGenerator::OPTION_LOWER_CASE, 1)
             ->setMinimumCount(RequirementPasswordGenerator::OPTION_NUMBERS, 1)
-            ->setMinimumCount(RequirementPasswordGenerator::OPTION_SYMBOLS, 1);
+            ->setMinimumCount(RequirementPasswordGenerator::OPTION_SYMBOLS, 1)
+            ->setMaximumCount(RequirementPasswordGenerator::OPTION_UPPER_CASE, 3)
+            ->setMaximumCount(RequirementPasswordGenerator::OPTION_LOWER_CASE, 3)
+            ->setMaximumCount(RequirementPasswordGenerator::OPTION_NUMBERS, 3)
+            ->setMaximumCount(RequirementPasswordGenerator::OPTION_SYMBOLS, 3);
+        $password = $generator->generatePassword();
         return response()->json([
             'name' => $randName,
             'password' => $password
@@ -103,9 +107,9 @@ class StudentController extends Controller
         if ($request->post('function') != null) {
             $client->function = $request->post('function');
         }
-        if ($request->post('password') != null) {
-            $client->password = $request->post('password');
-        }
+        // if ($request->post('password') != null) {
+        //     $client->password = $request->post('password');
+        // }
         $client->update();
         return response()->json($client);
     }
