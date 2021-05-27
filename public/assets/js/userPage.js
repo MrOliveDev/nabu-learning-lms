@@ -15,7 +15,15 @@ var activedTab = '#groups';
 
 var window_level = 1;
 
-var input_group_position = null;
+var input_group_position = null,
+    expired_date = $('#expired_date_input .input-group');
+
+var userDateSort = false,
+    userNameSort = false,
+    cateDateSort = false,
+    cateNameSort = false,
+    showDateSort = false,
+    showNameSort = false;
 
 // Dashmix.helpers('notify', {message: 'Your message!'});
 
@@ -466,19 +474,34 @@ var toolkitAddItem = function(event) {
         $("#user_form .method-select").val('POST');
 
         $('#password').attr('placeholder', '');
+        $('#generateassword').prop('checked', false);
 
         switch (activeTagName) {
             case '#students':
                 $('#user_type').val('4');
                 $('#login-label').html('Login Student');
+
+                if ($('#expired_date_input .input-group').length == 0) {
+                    expired_date.appendTo($('#expired_date_input'));
+                }
                 break;
             case '#teachers':
                 $('#user_type').val('3');
                 $('#login-label').html('Login Teacher');
+
+                if ($('#expired_date_input .input-group').length == 0) {
+                    expired_date.appendTo($('#expired_date_input'));
+                }
                 break;
             case '#authors':
                 $('#user_type').val('2');
                 $('#login-label').html('Login Author');
+
+                if ($('#expired_date_input .input-group').length != 0) {
+                    expired_date = $('#expired_date_input .input-group');
+                    expired_date.appendTo($('#expired_date_input'));
+                }
+
                 break;
 
             default:
@@ -491,6 +514,7 @@ var toolkitAddItem = function(event) {
                 $('#login').val(data.name);
                 $('#preview').attr('src', baseURL + '/assets/media/default.png');
                 $('#password').val(data.password);
+                $('#password').attr('data-password', data.password);
             },
             error: function(err) {
                 notification("Sorry, You can't init the form!", 2);
@@ -683,7 +707,9 @@ var item_edit = function(element) {
                     $('#user_form').attr('data-item', parent.attr('id'));
 
                     $('#login').val(data.user_info.login);
+                    $('#expired_date').val(data.user_info.expired_date);
                     $('#password').attr('placeholder', "Private password");
+                    $('#generatepassword').prop('checked', false);
                     $('#firstname').val(data.user_info.first_name);
                     $('#lastname').val(data.user_info.last_name);
                     $('#company').val(data.user_info.company);
@@ -693,12 +719,23 @@ var item_edit = function(element) {
                     switch (data.user_info.type) {
                         case 2:
                             $('#login-label').html('Login Author');
+                            if ($('#expired_date_input .input-group').length != 0) {
+                                expired_date = $('#expired_date_input .input-group');
+                                $('#expired_date_input .input-group').detach();
+                            }
                             break;
                         case 4:
                             $('#login-label').html('Login Student');
+                            if ($('#expired_date_input .input-group').length == 0) {
+                                expired_date.appendTo($('#expired_date_input'));
+                            }
                             break;
                         case 3:
                             $('#login-label').html('Login Teacher');
+
+                            if ($('#expired_date_input .input-group').length == 0) {
+                                expired_date.appendTo($('#expired_date_input'));
+                            }
                             break;
 
                         default:
@@ -1048,7 +1085,16 @@ var detachCall = function(cate, connectiondata, element) {
 
 var submitBtn = function(event) {
     var formname = $(this).attr('data-form');
+    var inputpassword = document.getElementById('password');
     var validate = document.getElementById(formname).checkValidity();
+    var regularExpression = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+    var password = $('#password').val();
+    if (!regularExpression.test(password) && $('#password').attr('placeholder') == '') {
+        validate = false;
+        inputpassword.setCustomValidity('bad password');
+        inputpassword.reportValidity();
+    }
+
     if (validate) {
         event.preventDefault(); // stops the "normal" <form> request, so we can post using ajax instead, below
         var submit_data = Array();
@@ -1403,8 +1449,16 @@ var toggleAndSearch = function(element, category, defaultStr) {
     } else {
         $(element).html(defaultStr);
     }
-    $('#' + category).fadeOut(1);
-    $(activedTab).fadeIn(1);
+    if ('#' + category != activedTab) {
+        $('#' + category).fadeOut(1);
+        $(activedTab).fadeIn(1);
+    } else {
+        $(activedTab).find('.toggle2-btn').each(function(i, e) {
+            $(e).toggle(false);
+            $(e).siblings('.toggle1-btn').toggle(true);
+            $(e).parents('.list-group-item').toggleClass('active', false);
+        });
+    }
 };
 
 var getFilterCategory = function(element, category) {
@@ -1464,7 +1518,7 @@ var searchfilter = function(event) {
     var ctgc = parent.find('button.filter-company-btn').val();
     var ctgf = parent.find('button.filter-function-btn').val();
 
-    if ($(event.target).eq('input.search-filter')) {
+    if ($(event.target).is('input.search-filter')) {
         str = event.target.value;
         console.log(str);
     }
@@ -1535,6 +1589,8 @@ var sortfilter = function(event) {
     var parent = $(event.target).parents('.toolkit');
     var $items = null,
         $itemgroup;
+    var nameIcon = $(event.target).parents('.toolkit').find('.filter-name-btn i');
+    var dateIcon = $(event.target).parents('.toolkit').find('.filter-date-btn i');
 
     if (parent.prev().is('.nav')) {
         var selector = parent.prev().find('.ui-state-active a').attr('href').split('#')[1];
@@ -1545,37 +1601,198 @@ var sortfilter = function(event) {
         $itemgroup = parent.next('.list-group');
     }
     $items = $itemgroup.children('.list-group-item');
-    if ($(this).is('.filter-name-btn')) {
-        $items.sort(function(a, b) {
-            var an = $(a).find('span.item-name').html().split('&nbsp;').join('').toLowerCase(),
-                bn = $(b).find('span.item-name').html().split('&nbsp;').join('').toLowerCase();
+    switch ($(this).parents('.toolkit').attr('id')) {
+        case 'user-toolkit':
+            if ($(this).is('.filter-name-btn')) {
+                userNameSort = !userNameSort;
+                $items.sort(function(a, b) {
+                    var an = $(a).find('span.item-name').html().split('&nbsp;').join('').toLowerCase(),
+                        bn = $(b).find('span.item-name').html().split('&nbsp;').join('').toLowerCase();
 
-            if (an > bn) {
-                return 1;
+                    if (userNameSort) {
+                        nameIcon.toggleClass('fa-sort-alpha-down', true);
+                        nameIcon.toggleClass('fa-sort-alpha-up', false);
+                        if (an > bn) {
+                            return 1;
+                        }
+                        if (an < bn) {
+                            return -1;
+                        }
+                        return 0;
+
+                    } else {
+                        nameIcon.toggleClass('fa-sort-alpha-down', false);
+                        nameIcon.toggleClass('fa-sort-alpha-up', true);
+                        if (an < bn) {
+                            return 1;
+                        }
+                        if (an > bn) {
+                            return -1;
+                        }
+                        return 0;
+                    }
+                });
+                $items.detach().appendTo($itemgroup);
+
+            } else {
+                userDateSort = !userDateSort;
+                $items.sort(function(a, b) {
+                    var an = new Date(a.dataset.date),
+                        bn = new Date(b.dataset.date);
+                    if (userDateSort) {
+                        dateIcon.toggleClass('fa-sort-numeric-down', true);
+                        dateIcon.toggleClass('fa-sort-numeric-up', false);
+                        if (an > bn) {
+                            return 1;
+                        }
+                        if (an < bn) {
+                            return -1;
+                        }
+                        return 0;
+                    } else {
+                        dateIcon.toggleClass('fa-sort-numeric-down', false);
+                        dateIcon.toggleClass('fa-sort-numeric-up', true);
+                        if (an < bn) {
+                            return 1;
+                        }
+                        if (an > bn) {
+                            return -1;
+                        }
+                        return 0;
+                    }
+                });
+
+                $items.detach().appendTo($itemgroup);
             }
-            if (an < bn) {
-                return -1;
+            break;
+        case 'cate-toolkit':
+            if ($(this).is('.filter-name-btn')) {
+                cateNameSort = !cateNameSort;
+                $items.sort(function(a, b) {
+                    var an = $(a).find('span.item-name').html().split('&nbsp;').join('').toLowerCase(),
+                        bn = $(b).find('span.item-name').html().split('&nbsp;').join('').toLowerCase();
+
+                    if (cateNameSort) {
+                        nameIcon.toggleClass('fa-sort-alpha-down', true);
+                        dateIcon.toggleClass('fa-sort-alpha-up', false);
+                        if (an > bn) {
+                            return 1;
+                        }
+                        if (an < bn) {
+                            return -1;
+                        }
+                        return 0;
+                    } else {
+                        nameIcon.toggleClass('fa-sort-alpha-down', false);
+                        nameIcon.toggleClass('fa-sort-alpha-up', true);
+                        if (an < bn) {
+                            return 1;
+                        }
+                        if (an > bn) {
+                            return -1;
+                        }
+                        return 0;
+                    }
+                });
+
+                $items.detach().appendTo($itemgroup);
+
+            } else {
+                cateDateSort = !cateDateSort;
+                $items.sort(function(a, b) {
+                    var an = new Date(a.dataset.date),
+                        bn = new Date(b.dataset.date);
+                    if (cateDateSort) {
+                        dateIcon.toggleClass('fa-sort-numeric-down', true);
+                        dateIcon.toggleClass('fa-sort-numeric-up', false);
+                        if (an > bn) {
+                            return 1;
+                        }
+                        if (an < bn) {
+                            return -1;
+                        }
+                        return 0;
+                    } else {
+                        dateIcon.toggleClass('fa-sort-numeric-down', false);
+                        dateIcon.toggleClass('fa-sort-numeric-up', true);
+                        if (an < bn) {
+                            return 1;
+                        }
+                        if (an > bn) {
+                            return -1;
+                        }
+                        return 0;
+                    }
+                });
+
+                $items.detach().appendTo($itemgroup);
             }
-            return 0;
-        });
+            break;
+        case 'show-toolkit':
+            if ($(this).is('.filter-name-btn')) {
+                showNameSort = !showNameSort;
+                $items.sort(function(a, b) {
+                    var an = $(a).find('span.item-name').html().split('&nbsp;').join('').toLowerCase(),
+                        bn = $(b).find('span.item-name').html().split('&nbsp;').join('').toLowerCase();
 
-        $items.detach().appendTo($itemgroup);
+                    if (showNameSort) {
+                        nameIcon.toggleClass('fa-sort-alpha-down', true);
+                        nameIcon.toggleClass('fa-sort-alpha-up', false);
 
-    } else {
-        $items.sort(function(a, b) {
-            var an = new Date(a.dataset.date),
-                bn = new Date(b.dataset.date);
+                        if (an > bn) {
+                            return 1;
+                        }
+                        if (an < bn) {
+                            return -1;
+                        }
+                        return 0;
+                    } else {
+                        nameIcon.toggleClass('fa-sort-alpha-down', false);
+                        nameIcon.toggleClass('fa-sort-alpha-up', true);
+                        if (an < bn) {
+                            return 1;
+                        }
+                        if (an > bn) {
+                            return -1;
+                        }
+                        return 0;
+                    }
+                });
 
-            if (an > bn) {
-                return 1;
+                $items.detach().appendTo($itemgroup);
+            } else {
+                showDateSort = !showDateSort;
+                $items.sort(function(a, b) {
+                    var an = new Date(a.dataset.date),
+                        bn = new Date(b.dataset.date);
+                    if (showDateSort) {
+                        dateIcon.toggleClass('fa-sort-numeric-down', true);
+                        dateIcon.toggleClass('fa-sort-numeric-up', false);
+                        if (an > bn) {
+                            return 1;
+                        }
+                        if (an < bn) {
+                            return -1;
+                        }
+                        return 0;
+                    } else {
+                        dateIcon.toggleClass('fa-sort-numeric-down', false);
+                        dateIcon.toggleClass('fa-sort-numeric-up', true);
+                        if (an < bn) {
+                            return 1;
+                        }
+                        if (an > bn) {
+                            return -1;
+                        }
+                        return 0;
+                    }
+                });
+                $items.detach().appendTo($itemgroup);
+
             }
-            if (an < bn) {
-                return -1;
-            }
-            return 0;
-        });
-
-        $items.detach().appendTo($itemgroup);
+            break;
+        default:
+            break;
     }
 
     $(this).addClass('active');
@@ -1745,6 +1962,10 @@ var tabClick = function(event) {
         $('#cate-toolkit .search-filter').change();
     }
 };
+
+var handlerDBClick = function(event) {
+    $(this).siblings('.window').find('.list-group').toggleClass('nolimit');
+};
 //////////////////////////////////
 ///////////////////////////////////
 //////////////////////////////////
@@ -1871,19 +2092,24 @@ function functionDropEnd(event, item) {
     dragitem = null;
     $('.filter-function-btn').change();
 }
+
+
 ////
 
 $(document).ready(function() {
 
-    var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document.body.clientHeight));
-
-    $("#content").css({
-        'max-height': h - $('#div-left').height() - $('.content-header').height() - $('.nav-tab').height()
+    $(".pr-password").passwordRequirements({
+        numCharacters: 8,
     });
 
-    if ($('#div_A, #div_C').css('height') > $('#content').css('height') * 0.7) {
-        $('#div_A, #div_C').css('height', $('#content').css('height') * 0.7);
-    }
+    // var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document.body.clientHeight));
+    // $("#content").css({
+    //     'max-height': h - $('#div-left').height() - $('.content-header').height() - $('.nav-tab').height()
+    // });
+
+    // if ($('#div_A, #div_C').css('height') > $('#content').css('height') * 0.7) {
+    //     $('#div_A, #div_C').css('height', $('#content').css('height') * 0.7);
+    // }
 
     $('#LeftPanel .toolkit>div').css('background-color', 'var(--student-h)');
     $('#RightPanel .toolkit:first>div').css('background-color', 'var(--group-h)');
@@ -1915,6 +2141,7 @@ $(document).ready(function() {
 
     // $(".filter-function-btn").on('dragover', dragOver);
     // $(".filter-function-btn").on('dragleave', dragLeave);
+
 });
 $('input[name=status], input.search-filter, button.filter-company-btn, button.filter-function-btn').change(searchfilter);
 $('input.search-filter').on('keydown change keyup', searchfilter);
@@ -1955,3 +2182,27 @@ $('#table-user').on('DOMSubtreeModified', countDisplayUser);
 $('.nav-link').click(tabClick);
 $('.nav-link').click(tabClick);
 
+$('.handler_horizontal').dblclick(handlerDBClick);
+
+$('#generatepassword').change(function(event) {
+    if ($(this).prop('checked') == true) {
+        if ($('#password').attr('data-password') != '') {
+            $('#password').val($('#password').attr('data-password'));
+        } else {
+            $.get({
+                url: baseURL + "/usercreate",
+                success: function(data) {
+                    notification('Initializing auto password success!', 1);
+                    $('#password').val(data.password);
+                    $('#password').attr('data-password', data.password);
+                },
+                error: function(err) {
+                    notification('You have a problem getting new password!');
+                }
+            });
+        }
+        $('#password').attr('disabled', true);
+    } else {
+        $('#password').attr('disabled', false);
+    }
+});

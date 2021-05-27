@@ -1,7 +1,25 @@
+
+#div_A,
+#div_B,
+#div_C,
+#div_D {
+    max-height: 400px;
+}
+
+#div_A.nolimit,
+#div_B.nolimit,
+#div_C.nolimit,
+#div_D.nolimit {
+    max-height: none;
+}
+
+.toolkit-filter {
+    display: none;
+}
 #LeftPanel .toolkit,
 #div_D .list-group-item,
 #div_A .list-group-item {
-    background-color: var(--lesson-c);
+    background-color: var(--lesson-c) !important;
 }
 
 #div_D .list-group-item.active,
@@ -18,4 +36,102 @@
 #div_B .list-group-item.active,
 #div_C .list-group-item.active {
     background-color: var(--training-h);
+}
+
+.toolkit {
+    padding-right: 8px;
+}
+
+.second-table {
+    display: none;
+}
+
+fieldset form {
+    display: none;
+}
+
+.toggle2-btn {
+    display: none;
+    /* color:white !important; */
+}
+
+.list-group-item.select-active .toggle2-btn {
+    /* display: none; */
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-group button.btn,
+.list-group-item-action,
+a.list-group-item:not([href]) {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-group button.btn:hover {
+    color: white;
+}
+
+.active .btn-group button.btn,
+.active .list-group-item-action,
+.active a.list-group-item:not([href]) {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.list-group-item.active .btn.active,
+.list-group-item .btn.active {
+    color: white;
+}
+
+#training_save_button,
+#training_cancel_button {
+    z-index: 6;
+}
+
+#div_A .highlight,
+#div_D .highlight {
+    animation: lessonhightlight 2s infinite;
+}
+
+@keyframes lessonhightlight {
+    0% {
+        background-color: var(--lesson-h);
+    }
+    50% {
+        background-color: var(--lesson-c);
+    }
+    100% {
+        background-color: var(--lesson-h);
+    }
+}
+
+#div_B .highlight,
+#div_C .highlight {
+    animation: traininghightlight 2s infinite;
+}
+
+@keyframes traininghightlight {
+    0% {
+        background-color: var(--training-h);
+    }
+    50% {
+        background-color: var(--training-c);
+    }
+    100% {
+        background-color: var(--training-h);
+    }
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+}
+
+.btn-group button.btn:active,
+.btn-group button.btn:focus {
+    outline: none;
+}
+
+#teachers .item-show,
+#authors .item-show {
+    display: none;
 }

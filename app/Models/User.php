@@ -33,7 +33,8 @@ class User extends Authenticatable
         "function",
         "id_config",
         "change_pw",
-        "type"
+        "type",
+        'expired_date'
     ];
 
     /**

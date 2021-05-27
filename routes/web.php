@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
 
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TrainingController;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\useradmin\GroupController;
 use App\Http\Controllers\useradmin\CompanyController;
 use App\Http\Controllers\useradmin\PositionController;

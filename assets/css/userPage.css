@@ -4,6 +4,12 @@
 #div_D {
     max-height: 400px;
 }
+#div_A.nolimit,
+#div_B.nolimit,
+#div_C.nolimit,
+#div_D.nolimit {
+    max-height: none;
+}
 
 .toolkit-filter {
     display: none;

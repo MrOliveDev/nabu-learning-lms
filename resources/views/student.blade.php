@@ -1,13 +1,18 @@
 @extends('welcome')
 
 @section('con')
+
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/flatpickr/flatpickr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/js/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/cropper.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/cropperModal.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/js/plugins/ion-rangeslider/css/ion.rangeSlider.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.min.css') }}" />
 
-
+    <link rel="stylesheet"
+        href="{{ asset('assets/js/plugins/jquery-password-validation-while-typing/css/jquery.passwordRequirements.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/jquery-password-validation-while-typing/demo.css') }}" />
 
 
     <style>
@@ -89,6 +94,8 @@
 
 
 @section('js_after')
+    <script src="assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="assets/js/plugins/flatpickr/flatpickr.min.js"></script>
 
     <script src="{{ asset('assets/js/cropper.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
@@ -98,6 +105,9 @@
     <script src="{{ asset('assets/js/plugins/select2/js/select2.full.min.js') }}"></script>
 
     <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
+    <script
+        src="{{ asset('assets/js/plugins/jquery-password-validation-while-typing/js/jquery.passwordRequirements.min.js') }}">
+    </script>
     <script src="{{ asset('assets/js/userPage.js') }}"></script>
 
     <script src="{{ asset('assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
@@ -112,11 +122,10 @@
     <script>
         $('#utilisateurs').addClass('active');
         jQuery(function() {
-            Dashmix.helpers(['select2', 'rangeslider', 'notify', 'summernote']);
+            Dashmix.helpers(['select2', 'rangeslider', 'notify', 'summernote', 'flatpickr', 'datepicker']);
         });
 
     </script>
-
 @endsection
 
 <div id="content">
@@ -161,14 +170,17 @@
                         <input type="radio" id="filter-state-all" name="status" value="all">
                         <span>all&nbsp;</span>
                     </div>
-                    <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
-                        <i class="fas fa-sort-numeric-down"></i>
-                    </button>
-                    <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
-                        <i class="fas fa-sort-numeric-down"></i>
-                    </button>
+
                 </div>
                 <div class="float-right">
+                    <span>
+                        <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
+                            <i class="fas"></i>
+                        </button>
+                        <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
+                            <i class="fas"></i>
+                        </button>
+                    </span>
                     <button type="button" value="" class="rounded text-white filter-company-btn px-1 border-0">company
                         +<i></i></button>&nbsp;
                     <button type="button" value="" class="rounded text-white filter-function-btn px-1 border-0">function
@@ -330,6 +342,11 @@
                             </div>
                         </div>
                         <div class="card-body  p-3">
+                            <div class="form-check float-right">
+                                <input class="form-check-input" type="checkbox" value="" id="generatepassword"
+                                    name="generatepassword">
+                                <label class="form-check-label" for="generatepassword">Auto generate password</label>
+                            </div>
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -344,10 +361,11 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Password
+                                            Password<span class="text-danger">*</span>
                                         </span>
                                     </div>
-                                    <input type="password" class="form-control" id="password" name="password">
+                                    <input type="password" class="form-control pr-password" id="password"
+                                        name="password" data-password="">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -372,26 +390,6 @@
                                         required>
                                 </div>
                             </div>
-                            <!-- <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            Company
-                                        </span>
-                                    </div>
-                                    <input type="text" class="form-control" id="company" name="company" value="" required readonly>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            Position
-                                        </span>
-                                    </div>
-                                    <input type="text" class="form-control" id="position" name="function" value="" required readonly>
-                                </div>
-                            </div> -->
                             <div class="form-group" id="form_group_position">
                                 <div class="input-group" id="input_group_position">
                                     <div class="input-group-prepend">
@@ -443,6 +441,19 @@
                                     </div>
                                     <input type="email" class="form-control" id="user-email" name="user-email" value=""
                                         required>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="expired_date_input">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            User's subscription end date<span class="text-danger">*</span>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="js-flatpickr form-control bg-white" id="expired_date"
+                                        name="expired_date" placeholder="Y-m-d" data-date-format="Y-m-d" required>
+
                                 </div>
                             </div>
 
@@ -555,17 +566,22 @@
                         <input type="radio" id="filter-state-all" name="status" value="all">
                         <span>all&nbsp;</span>
                     </div>
-                    <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
-                        <i class="fas fa-sort-numeric-down"></i></button>
-                    <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
-                        <i class="fas fa-sort-numeric-down"></i></button>
+
                 </div>
                 <div class="float-right d-none">
+
                     <button type="button" value="" class="rounded text-white filter-company-btn px-1 border-0">company
                         +<i></i></button>&nbsp;
                     <button type="button" value="" class="rounded text-white filter-function-btn px-1 border-0">function
                         +<i></i></button>
+                    </span>
                 </div>
+                <span class='float-right'>
+                    <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
+                        <i class="fas"></i></button>
+                    <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
+                        <i class="fas"></i></button>
+                </span>
             </div>
         </div>
         <div id="div_C" class="window top">
@@ -741,17 +757,21 @@
                                 <input type="radio" id="filter-state-all" name="status" value="all">
                                 <span>all&nbsp;</span>
                             </div>
-                            <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
-                                <i class="fas fa-sort-numeric-down"></i></button>
-                            <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
-                                <i class="fas fa-sort-numeric-down"></i></button>
+
                         </div>
                         <div class="float-right">
+                            <span>
+                                <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
+                                    <i class="fas"></i></button>
+                                <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
+                                    <i class="fas"></i></button>
+                            </span>
                             <button type="button" value=""
                                 class="rounded text-white filter-company-btn px-1 border-0">company
                                 +<i></i></button>&nbsp;
                             <button type="button" value=""
-                                class="rounded text-white filter-function-btn px-1 border-0">function +<i></i></button>
+                                class="rounded text-white filter-function-btn px-1 border-0">function
+                                +<i></i></button>
                         </div>
                     </div>
                 </div>

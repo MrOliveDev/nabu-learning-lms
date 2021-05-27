@@ -12,6 +12,10 @@ use App\Models\CompanyModel;
 use App\Models\ConfigModel;
 use App\Models\SessionModel;
 
+use Hackzilla\PasswordGenerator\Generator\RequirementPasswordGenerator;
+
+
+
 class StudentController extends Controller
 {
     public function index()
@@ -33,9 +37,24 @@ class StudentController extends Controller
      */
     public function create()
     {
+        $generator = new RequirementPasswordGenerator();
+
+
+
+        $password = $generator->generatePassword();
+        $generator
+            ->setLength(6)
+            ->setOptionValue(RequirementPasswordGenerator::OPTION_UPPER_CASE, true)
+            ->setOptionValue(RequirementPasswordGenerator::OPTION_LOWER_CASE, true)
+            ->setOptionValue(RequirementPasswordGenerator::OPTION_NUMBERS, true)
+            ->setOptionValue(RequirementPasswordGenerator::OPTION_SYMBOLS, true)
+            ->setMinimumCount(RequirementPasswordGenerator::OPTION_UPPER_CASE, 1)
+            ->setMinimumCount(RequirementPasswordGenerator::OPTION_LOWER_CASE, 1)
+            ->setMinimumCount(RequirementPasswordGenerator::OPTION_NUMBERS, 1)
+            ->setMinimumCount(RequirementPasswordGenerator::OPTION_SYMBOLS, 1);
         return response()->json([
             'name' => 'New User',
-            'password' => '123456',
+            'password' => $password
         ]);
         //
     }
@@ -71,7 +90,8 @@ class StudentController extends Controller
             'contact_info' => json_encode($contact_info),
             'id_config' => $interfaceCfg->id,
             'status' => $request->input('user-status-icon'),
-            'type' => $request->post('type')
+            'type' => $request->post('type'),
+            'expired_date'=>$request->post('expired_date')
             // 'lang' => $request->post('lang'),
         ]);
 
@@ -178,6 +198,7 @@ class StudentController extends Controller
             );
             $user->contact_info = json_encode($contact_info);
         }
+        $user->expired_date=$request->post('expired_date');
 
         $user->update();
 
