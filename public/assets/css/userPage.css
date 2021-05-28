@@ -1,4 +1,3 @@
-
 #div_A .list-group,
 #div_B .list-group,
 #div_C .list-group,
@@ -9,11 +8,18 @@
 #div_A .list-group.nolimit,
 #div_B .list-group.nolimit,
 #div_C .list-group.nolimit,
-#div_D .list-group.nolimit  {
+#div_D .list-group.nolimit {
     max-height: none;
 }
 
 .toolkit-filter {
+    display: none;
+}
+
+#teachers,
+#authors,
+#companies,
+#positions {
     display: none;
 }
 
