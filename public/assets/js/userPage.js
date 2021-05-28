@@ -1095,6 +1095,12 @@ var submitBtn = function(event) {
         inputpassword.reportValidity();
     }
 
+    if ($('#expired_date').val() == '' || $('#expired_date').val() == null) {
+        validate = false;
+        $('#expired_date').setCustomValidity('You have to insert date');
+        $('#expired_date').reportValidity();
+    }
+
     if (validate) {
         event.preventDefault(); // stops the "normal" <form> request, so we can post using ajax instead, below
         var submit_data = Array();
