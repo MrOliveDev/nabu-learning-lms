@@ -345,7 +345,7 @@
                             <div class="form-check float-right">
                                 <input class="form-check-input" type="checkbox" value="" id="generatepassword"
                                     name="generatepassword">
-                                <label class="form-check-label" for="generatepassword">Auto generate password</label>
+                                <label class="form-check-label" for="generatepassword">Auto generate Logo and Password</label>
                             </div>
                             <div class="form-group">
                                 <div class="input-group">
