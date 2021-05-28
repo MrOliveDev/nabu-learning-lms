@@ -1818,8 +1818,8 @@ var tabClick = function(event) {
     if ($(this).parents('fieldset').attr('id') == 'LeftPanel') {
 
         toggleFormOrTable($('#div_B'), null, false);
-        var nameIcon = $('user-toolkit').find('.filter-name-btn i');
-        var dateIcon = $('user-toolkit').find('.filter-date-btn i');
+        var nameIcon = $('#user-toolkit').find('.filter-name-btn i');
+        var dateIcon = $('#user-toolkit').find('.filter-date-btn i');
         nameIcon.toggleClass('fa-sort-alpha-down', false);
         nameIcon.toggleClass('fa-sort-alpha-up', false);
         dateIcon.toggleClass('fa-sort-numeric-down', false);
@@ -1972,8 +1972,8 @@ var tabClick = function(event) {
         $('#div_C').find('.list-group-item').each(clearClassName);
         $('#cate-toolkit .search-filter').val('');
         $('#cate-toolkit .search-filter').change();
-        var nameIcon = $('user-toolkit').find('.filter-name-btn i');
-        var dateIcon = $('user-toolkit').find('.filter-date-btn i');
+        var nameIcon = $('#cate-toolkit').find('.filter-name-btn i');
+        var dateIcon = $('#cate-toolkit').find('.filter-date-btn i');
         nameIcon.toggleClass('fa-sort-alpha-down', false);
         nameIcon.toggleClass('fa-sort-alpha-up', false);
         dateIcon.toggleClass('fa-sort-numeric-down', false);
