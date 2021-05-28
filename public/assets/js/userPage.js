@@ -1189,14 +1189,17 @@ var submitBtn = function(event) {
                             notification('User added successfully!', 1);
                             switch ($("#user_type").val()) {
                                 case '4':
+                                    notification('A student has been registered sucessfully!', 1);
                                     $('#students .list-group').append(createUserData(data, 'student'));
                                     break;
 
                                 case '3':
+                                    notification('A teacher has been registered sucessfully!', 1);
                                     $('#teachers .list-group').append(createUserData(data, 'teacher'));
                                     break;
 
                                 case '2':
+                                    notification('An author has been registered sucessfully!', 1);
                                     $('#authors .list-group').append(createUserData(data, 'author'));
                                     break;
 
