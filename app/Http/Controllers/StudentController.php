@@ -39,7 +39,9 @@ class StudentController extends Controller
     {
         $generator = new RequirementPasswordGenerator();
 
+        $rand = "abcdefghijklmnopqrstuvwxyzAbCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+        $randName = substr(str_shuffle($rand), 0, 10);
 
         $password = $generator->generatePassword();
         $generator
@@ -53,7 +55,7 @@ class StudentController extends Controller
             ->setMinimumCount(RequirementPasswordGenerator::OPTION_NUMBERS, 1)
             ->setMinimumCount(RequirementPasswordGenerator::OPTION_SYMBOLS, 1);
         return response()->json([
-            'name' => 'New User',
+            'name' => $randName,
             'password' => $password
         ]);
         //

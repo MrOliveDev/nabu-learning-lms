@@ -2186,21 +2186,18 @@ $('.handler_horizontal').dblclick(handlerDBClick);
 
 $('#generatepassword').change(function(event) {
     if ($(this).prop('checked') == true) {
-        if ($('#password').attr('data-password') != '') {
-            $('#password').val($('#password').attr('data-password'));
-        } else {
-            $.get({
-                url: baseURL + "/usercreate",
-                success: function(data) {
-                    notification('Initializing auto password success!', 1);
-                    $('#password').val(data.password);
-                    $('#password').attr('data-password', data.password);
-                },
-                error: function(err) {
-                    notification('You have a problem getting new password!');
-                }
-            });
-        }
+        $.get({
+            url: baseURL + "/usercreate",
+            success: function(data) {
+                notification('Initializing login and password success!', 1);
+                $('#password').val(data.password);
+                $('#password').attr('data-password', data.password);
+                $('#login').val(data.name);
+            },
+            error: function(err) {
+                notification('You have a problem getting new password!');
+            }
+        });
         $('#password').attr('disabled', true);
     } else {
         $('#password').attr('disabled', false);
