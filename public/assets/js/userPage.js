@@ -695,19 +695,39 @@ var item_edit = function(element) {
     } else {
         $('#status-form-group').css('display', 'none');
     }
+
+
+
     switch (element.attr('data-content')) {
         case 'student':
         case 'teacher':
         case 'author':
             $('#user_form .method-select').val('PUT');
             // $('#password').attr('disabled', false);
+            toggleFormOrTable($('#LeftPanel'), true);
+            clearFrom($('LeftPanel'));
+            switch (element.attr('data-content')) {
+                case 'student':
+                case 'teacher':
+                    if ($('#expired_date_input .input-group').length == 0) {
+                        expired_date.appendTo($('#expired_date_input'));
+                    }
+                    break;
+                case 'author':
+                    if ($('#expired_date_input .input-group').length != 0) {
+                        expired_date = $('#expired_date_input .input-group');
+                        $('#expired_date_input .input-group').detach();
+                    }
+                    break;
+
+                default:
+                    break;
+            }
             $.get({
                 url: baseURL + '/user/' + id,
                 success: function(data, state) {
                     notification('We got user data successfully!', 1);
                     console.log(state);
-                    toggleFormOrTable($('#LeftPanel'), true);
-                    clearFrom($('LeftPanel'));
                     if (data.user_info.interface_icon == null || data.user_info.interface_icon == "") {
                         $('#preview').attr('src', baseURL + '/assets/media/default.png');
                     } else {
@@ -729,23 +749,12 @@ var item_edit = function(element) {
                     switch (data.user_info.type) {
                         case 2:
                             $('#login-label').html('Login Author');
-                            if ($('#expired_date_input .input-group').length != 0) {
-                                expired_date = $('#expired_date_input .input-group');
-                                $('#expired_date_input .input-group').detach();
-                            }
                             break;
                         case 4:
                             $('#login-label').html('Login Student');
-                            if ($('#expired_date_input .input-group').length == 0) {
-                                expired_date.appendTo($('#expired_date_input'));
-                            }
                             break;
                         case 3:
                             $('#login-label').html('Login Teacher');
-
-                            if ($('#expired_date_input .input-group').length == 0) {
-                                expired_date.appendTo($('#expired_date_input'));
-                            }
                             break;
 
                         default:
@@ -769,13 +778,13 @@ var item_edit = function(element) {
             break;
 
         case 'group':
+            toggleFormOrTable($('#RightPanel'), true);
+            clearFrom($('RightPanel'));
             $.get({
                 url: baseURL + '/group/' + id,
                 success: function(data, state) {
                     notification('We got group data successfully!', 1);
                     console.log(state);
-                    toggleFormOrTable($('#RightPanel'), true);
-                    clearFrom($('RightPanel'));
                     $('#category_name').val(data.name);
                     $('#category_description').val(data.description);
                     $('#status_checkbox').css('display', 'block');
@@ -1102,7 +1111,6 @@ var submitBtn = function(event) {
     var regularExpression = new RegExp("^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[!%&@#$^*?_~+={}().,\/<>-]).*$");
     var password = $('#password').val();
     if (formname == 'user_form') {
-        validate = validate && $("#expired_date")[0].checkValidity();
         validate = validate && $("#login")[0].checkValidity();
         validate = validate && $("#contact_info")[0].checkValidity();
         validate = validate && $("#user-email")[0].checkValidity();
@@ -1123,8 +1131,9 @@ var submitBtn = function(event) {
         }
 
 
-        if ($('#expired_date').val() == '' || $('#expired_date').val() == null) {
+        if ($('#expired_date').val() == '' || $('#expired_date').val() == null || $('#expired_date_input .input-group').length != 0) {
             validate = false;
+            validate = validate && $("#expired_date")[0].checkValidity();
             // document.getElementById('expired_date').setCustomValidity('You have to insert date');
             // document.getElementById('expired_date').reportValidity();
             notification('You have to insert date', 2);
