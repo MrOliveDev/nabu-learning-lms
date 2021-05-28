@@ -195,7 +195,7 @@
 
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach ($students as $student)
-                            <a class="list-group-item list-group-item-action  p-1 border-0"
+                            <a class="list-group-item list-group-item-action  p-1 border-0 student_{{ $student->id }}"
                                 id="student_{{ $student->id }}" data-date="{{ $student->creation_date }}">
                                 <div class="float-left">
                                     @if ($student->status == 1)
@@ -234,7 +234,7 @@
 
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach ($teachers as $teacher)
-                            <a class="list-group-item list-group-item-action  p-1 border-0"
+                            <a class="list-group-item list-group-item-action  p-1 border-0 teacher_{{ $teacher->id }}"
                                 id="teacher_{{ $teacher->id }}" data-date="{{ $teacher->creation_date }}">
                                 <div class="float-left">
                                     @if ($teacher->status == 1)
@@ -274,7 +274,7 @@
 
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach ($authors as $author)
-                            <a class="list-group-item list-group-item-action  p-1 border-0"
+                            <a class="list-group-item list-group-item-action  p-1 border-0 author_{{ $author->id }}"
                                 id="author_{{ $author->id }}" data-date="{{ $author->creation_date }}">
                                 <div class="float-left">
                                     @if ($author->status == 1)
@@ -588,9 +588,9 @@
             <div id="groups">
 
 
-                <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
+                <div class="list-group mx-4 " id="list-tab" role="tablist" data-src=''>
                     @foreach ($groups as $group)
-                        <a class="list-group-item list-group-item-action p-1 border-0 " id="group_{{ $group->id }}"
+                        <a class="list-group-item list-group-item-action p-1 border-0 group_{{ $group->id }}" id="group_{{ $group->id }}"
                             data-date="{{ $group->creation_date }}">
                             <div class="float-left">
                                 @if ($group->status == 1)
@@ -625,7 +625,7 @@
 
                 <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
                     @foreach ($companies as $company)
-                        <a class="list-group-item list-group-item-action p-1 border-0 "
+                        <a class="list-group-item list-group-item-action p-1 border-0 company_{{ $company->id }}"
                             id="company_{{ $company->id }}" data-date="{{ $company->creation_date }}">
                             <div class="float-left">
                                 <span class="item-name">{{ $company->name }}</span>
@@ -653,7 +653,7 @@
 
                 <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
                     @foreach ($positions as $position)
-                        <a class="list-group-item list-group-item-action p-1 border-0 "
+                        <a class="list-group-item list-group-item-action p-1 border-0 function_{{ $position->id }}"
                             id="function_{{ $position->id }}">
                             <div class="float-left">
                                 <!-- <i class="fa fa-circle text-danger m-2"></i> -->

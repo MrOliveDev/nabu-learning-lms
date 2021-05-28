@@ -1299,7 +1299,7 @@ var createUserData = function(data, category) {
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var userItem = $('<a class="list-group-item list-group-item-action  p-1 border-0" id="' + category + '_' + data.id + '">' +
+    var userItem = $('<a class="list-group-item list-group-item-action  p-1 border-0 ' + category + '_' + data.id + '" id="' + category + '_' + data.id + '">' +
         '<div class="float-left">' +
         status_temp +
         '<span class="item-name">' + data.first_name + '&nbsp;' + data.last_name + '</span>' +
@@ -1353,7 +1353,7 @@ var createGroupData = function(data, category) {
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var groupItem = $('<a class="list-group-item list-group-item-action p-1 border-0 " id="' + category + '_' + data.id + '">' +
+    var groupItem = $('<a class="list-group-item list-group-item-action p-1 border-0 ' + category + '_' + data.id + '" id="' + category + '_' + data.id + '">' +
         '<div class="float-left">' +
         status_temp +
         '<span class="item-name">' + data.name + '</span>' +
@@ -1391,7 +1391,7 @@ var createGroupData = function(data, category) {
 };
 
 var createCategoryData = function(data, category) {
-    var cateItem = $(' <a class="list-group-item list-group-item-action p-1 border-0 " id="' + category + '_' + data.id + '">' +
+    var cateItem = $(' <a class="list-group-item list-group-item-action p-1 border-0 ' + category + '_' + data.id + '" id="' + category + '_' + data.id + '">' +
         ' <div class="float-left">' +
         '<span class="item-name">' + data.name + '</span>' +
         '<input type="hidden" name="item-status" value="">' +
@@ -1429,26 +1429,49 @@ var createCategoryData = function(data, category) {
 };
 
 var updateUserData = function(data, target) {
-    $('#' + target + ' .item-name').html(data.first_name + "&nbsp;" + data.last_name);
-    $('#' + target + ' .status-notification').val(data.status);
-    $('#' + target + ' .status-notification').prev().css('color', data.status == '1' ? 'green' : 'red');
-    $('#' + target + ' input[name="item-name"]').val(data.name);
-    $('#' + target + ' input[name="item-group]').val(data.linked_groups);
-    $('#' + target + ' input[name="item-company]').val(data.company);
-    $('#' + target + ' input[name="item-function]').val(data.function);
+    $('.' + target).each(function(i, im) {
+        $(im).find('.item-name').html(data.first_name + "&nbsp;" + data.last_name);
+        $(im).find('.status-notification').val(data.status);
+        $(im).find('.status-notification').prev().css('color', data.status == '1' ? 'green' : 'red');
+        $(im).find('input[name="item-name"]').val(data.name);
+        $(im).find('input[name="item-group]').val(data.linked_groups);
+        $(im).find('input[name="item-company]').val(data.company);
+        $(im).find('input[name="item-function]').val(data.function);
+        if ($(im).attr('data-src')) {
+            switch ($(im).attr('data-src').split('_')[0]) {
+                case 'company':
+                    if ($(im).attr('data-src').split('_')[1] != data.company) {
+                        $(im).detach();
+                    }
+                    break;
+                case 'function':
+                    if ($(im).attr('data-src').split('_')[1] != data.function) {
+                        $(im).detach();
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    });
 
 };
 
 var updateGroupData = function(data, target) {
-    $('#' + target + ' .item-name').html(data.name);
-    $('#' + target + ' input[name="item-name"]').html(data.name);
-    $('#' + target + ' .status-notification').val(data.status);
-    $('#' + target + ' .status-notification').prev().css('color', data.status == '1' ? 'green' : 'red');
+    $('.' + target).each(function(i, im) {
+        $(im).find('.item-name').html(data.name);
+        $(im).find('input[name="item-name"]').html(data.name);
+        $(im).find('.status-notification').val(data.status);
+        $(im).find('.status-notification').prev().css('color', data.status == '1' ? 'green' : 'red');
+    });
 };
 
 var updatCategoryData = function(data, target) {
-    $('#' + target + ' .item-name').html(data.name);
-    $('#' + target + ' input[name="item-name"]').val(data.name);
+    $('.' + target).each(function(i, im) {
+        $(im).find('.item-name').html(data.name);
+        $(im).find('input[name="item-name"]').val(data.name);
+    });
 };
 
 var cancelBtn = function(event) {
@@ -2076,6 +2099,13 @@ function dragLeave(event) {
 function dropEnd(event, item) {
     $(event.target).css('opacity', '100%');
 
+    var parent = $(event.target);
+    var showCate = null,
+        showItem = null;
+    if (parent.hasClass('highlight')) {
+        showCate = parent.attr('id');
+    }
+
     var requestData = Array();
 
     var cate_id = $(event.target).attr("id").split('_')[1];
@@ -2084,6 +2114,7 @@ function dropEnd(event, item) {
     if (dragitem != null) {
         // var category = dragitem[0].split('_')[0];
         dragitem.map(function(droppeditem) {
+
             // console.log(droppeditem.split('_')[1]);
             if (cate == "group") {
                 var cate_items = $("#" + droppeditem).find('input[name="item-group"]').val();
@@ -2104,6 +2135,9 @@ function dropEnd(event, item) {
             rowData.flag = true;
 
             requestData.push(rowData);
+            if ($('#' + droppeditem).hasClass('highlight')) {
+                showItem = droppeditem;
+            }
         });
 
         // requestData.forEach(itemData => {
@@ -2119,7 +2153,16 @@ function dropEnd(event, item) {
                 'data': JSON.stringify(requestData)
             }
         }).done(function(data) {
-            notification(dragitem.length + ' ' + dragitem[0].split('_')[0] + 's linked to ' + $(event.target).find('.item-name').html() + '!', 1);
+
+            if (showCate) {
+                $('#div_C #' + showCate + " .item-show").click();
+            }
+            if (showItem) {
+                $('#div_A #' + showItem + " .item-show").click();
+            }
+            if (dragitem[0]) {
+                notification(dragitem.length + ' ' + dragitem[0].split('_')[0] + 's linked to ' + $(event.target).find('.item-name').html() + '!', 1);
+            }
             requestData = [];
         }).fail(function(err) {
             notification("Sorry, You have an error!", 2);
