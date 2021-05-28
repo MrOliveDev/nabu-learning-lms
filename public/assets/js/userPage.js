@@ -4,9 +4,9 @@
 
 // const { forEach } = require("lodash");
 
-// var baseURL = window.location.protocol + "//" + window.location.host;
+var baseURL = window.location.protocol + "//" + window.location.host;
 
-var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
+// var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
 var filteritem = null;
 var grouptab = null,
     detailtags = null;
@@ -473,8 +473,10 @@ var toolkitAddItem = function(event) {
 
         $("#user_form .method-select").val('POST');
 
+        // $('#password').attr('disabled', false);
         $('#password').attr('placeholder', '');
-        $('#generateassword').prop('checked', false);
+        $('#preview').attr('src', baseURL + '/assets/media/default.png');
+        $('#generatepassword').prop('checked', false);
 
         switch (activeTagName) {
             case '#students':
@@ -507,19 +509,19 @@ var toolkitAddItem = function(event) {
             default:
                 break;
         }
-        $.get({
-            url: baseURL + "/usercreate",
-            success: function(data) {
-                notification('Initialized success!', 1);
-                $('#login').val(data.name);
-                $('#preview').attr('src', baseURL + '/assets/media/default.png');
-                $('#password').val(data.password);
-                $('#password').attr('data-password', data.password);
-            },
-            error: function(err) {
-                notification("Sorry, You can't init the form!", 2);
-            }
-        })
+        // $.get({
+        //     url: baseURL + "/usercreate",
+        //     success: function(data) {
+        //         notification('Initialized success!', 1);
+        //         $('#login').val(data.name);
+        //         $('#preview').attr('src', baseURL + '/assets/media/default.png');
+        //         $('#password').val(data.password);
+        //         $('#password').attr('data-password', data.password);
+        //     },
+        //     error: function(err) {
+        //         notification("Sorry, You can't init the form!", 2);
+        //     }
+        // })
     }
 };
 
@@ -691,6 +693,7 @@ var item_edit = function(element) {
         case 'teacher':
         case 'author':
             $('#user_form .method-select').val('PUT');
+            // $('#password').attr('disabled', false);
             $.get({
                 url: baseURL + '/user/' + id,
                 success: function(data, state) {
@@ -1086,19 +1089,42 @@ var detachCall = function(cate, connectiondata, element) {
 var submitBtn = function(event) {
     var formname = $(this).attr('data-form');
     var inputpassword = document.getElementById('password');
-    var validate = document.getElementById(formname).checkValidity();
-    var regularExpression = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-    var password = $('#password').val();
-    if (!regularExpression.test(password) && $('#password').attr('placeholder') == '') {
-        validate = false;
-        inputpassword.setCustomValidity('bad password');
-        inputpassword.reportValidity();
-    }
+    var validate = true;
+    document.getElementById(formname).checkValidity();
+    var regularExpression = new RegExp("^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[!%&@#$^*?_~+={}().,\/<>-]).*$");
 
-    if ($('#expired_date').val() == '' || $('#expired_date').val() == null) {
-        validate = false;
-        $('#expired_date').setCustomValidity('You have to insert date');
-        $('#expired_date').reportValidity();
+    var password = $('#password').val();
+    if (formname == 'user_form') {
+        validate = validate && $("#expired_date")[0].checkValidity();
+        validate = validate && $("#login")[0].checkValidity();
+        validate = validate && $("#contact_info")[0].checkValidity();
+        validate = validate && $("#user-email")[0].checkValidity();
+        validate = validate && $("#lastname")[0].checkValidity();
+        validate = validate && $("#firstname")[0].checkValidity();
+        if (password == '' || password == null) {
+            if ($('#password').attr('placeholder') == '') {
+                validate = false;
+                inputpassword.setCustomValidity('bad password');
+                inputpassword.reportValidity();
+            }
+        } else {
+            if (!regularExpression.test(password)) {
+                validate = false;
+                inputpassword.setCustomValidity('bad password');
+                inputpassword.reportValidity();
+            }
+        }
+
+
+        if ($('#expired_date').val() == '' || $('#expired_date').val() == null) {
+            validate = false;
+            // document.getElementById('expired_date').setCustomValidity('You have to insert date');
+            // document.getElementById('expired_date').reportValidity();
+            notification('You have to insert date', 2);
+        }
+    } else if (formname == 'cate_form') {
+        validate = validate && $("#category_description")[0].checkValidity();
+        validate = validate && $("#category_name")[0].checkValidity();
     }
 
     if (validate) {
@@ -1153,6 +1179,7 @@ var submitBtn = function(event) {
             method: $('#' + formname).find('.method-select').val(),
             data: serialval,
             success: function(data) {
+                console.log(data);
                 if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
                     var arr_url = $('#' + formname).attr('action').split('/');
                     var groupName = arr_url[arr_url.length - 1];
@@ -1227,6 +1254,18 @@ var submitBtn = function(event) {
         toggleFormOrTable($(this).parents('fieldset'), true, false);
         $('#user_type').val(type);
     }
+    if ($("#" + formname).attr('data-item') != '' && $("#" + formname).attr('data-item') != null) {
+        var targetName = $("#" + formname).attr('data-item').split('_')[0],
+            sourceId;
+        if (targetName == 'student' || targetName == 'author' || targetName == 'teacher') {
+            sourceId = $("#user_form").attr('data-item');
+        } else {
+            sourceId = $("#cate_form").attr('data-item');
+        }
+        $('#' + sourceId).toggleClass('highlight', false);
+        $('#' + sourceId + ' .item-edit').toggleClass('active', false);
+    }
+
 };
 
 var createUserData = function(data, category) {
@@ -2216,8 +2255,9 @@ $('#generatepassword').change(function(event) {
                 notification('You have a problem getting new password!');
             }
         });
-        $('#password').attr('disabled', true);
+        // $('#password').attr('disabled', true);
     } else {
-        $('#password').attr('disabled', false);
+        // $('#password').attr('disabled', false);
     }
 });
+
