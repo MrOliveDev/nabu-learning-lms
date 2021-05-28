@@ -240,13 +240,13 @@ a.list-group-item:not([href]) {
 
 @keyframes studenthighlight {
     0% {
-        background-color: var(--student-h);
+        border-color: var(--student-h);
     }
     50% {
-        background-color: var(--student-c);
+        border-color: var(--student-c);
     }
     100% {
-        background-color: var(--student-h);
+        border-color: var(--student-h);
     }
 }
 
@@ -256,13 +256,13 @@ a.list-group-item:not([href]) {
 
 @keyframes teacherhighlight {
     0% {
-        background-color: var(--teacher-h);
+        border-color: var(--teacher-h);
     }
     50% {
-        background-color: var(--teacher-c);
+        border-color: var(--teacher-c);
     }
     100% {
-        background-color: var(--teacher-h);
+        border-color: var(--teacher-h);
     }
 }
 
@@ -272,13 +272,13 @@ a.list-group-item:not([href]) {
 
 @keyframes teacherhighlight {
     0% {
-        background-color: var(--teacher-h);
+        border-color: var(--teacher-h);
     }
     50% {
-        background-color: var(--teacher-c);
+        border-color: var(--teacher-c);
     }
     100% {
-        background-color: var(--teacher-h);
+        border-color: var(--teacher-h);
     }
 }
 
@@ -288,13 +288,13 @@ a.list-group-item:not([href]) {
 
 @keyframes authorhighlight {
     0% {
-        background-color: var(--author-h);
+        border-color: var(--author-h);
     }
     50% {
-        background-color: var(--author-c);
+        border-color: var(--author-c);
     }
     100% {
-        background-color: var(--author-h);
+        border-color: var(--author-h);
     }
 }
 
@@ -305,13 +305,13 @@ a.list-group-item:not([href]) {
 
 @keyframes grouphighlight {
     0% {
-        background-color: var(--group-h);
+        border-color: var(--group-h);
     }
     50% {
-        background-color: var(--group-c);
+        border-color: var(--group-c);
     }
     100% {
-        background-color: var(--group-h);
+        border-color: var(--group-h);
     }
 }
 
@@ -321,13 +321,13 @@ a.list-group-item:not([href]) {
 
 @keyframes companyhighlight {
     0% {
-        background-color: var(--company-h);
+        border-color: var(--company-h);
     }
     50% {
-        background-color: var(--company-c);
+        border-color: var(--company-c);
     }
     100% {
-        background-color: var(--company-h);
+        border-color: var(--company-h);
     }
 }
 
@@ -337,13 +337,13 @@ a.list-group-item:not([href]) {
 
 @keyframes positionhighlight {
     0% {
-        background-color: var(--position-h);
+        border-color: var(--position-h);
     }
     50% {
-        background-color: var(--position-c);
+        border-color: var(--position-c);
     }
     100% {
-        background-color: var(--position-h);
+        border-color: var(--position-h);
     }
 }
 
@@ -361,4 +361,8 @@ select:focus {
 #teachers .item-show,
 #authors .item-show {
     display: none;
+}
+
+.list-group-item.border-transparent {
+    border-color: transparent;
 }

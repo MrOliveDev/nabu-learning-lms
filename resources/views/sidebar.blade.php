@@ -3,8 +3,8 @@
 <div id="page-overlay"></div>
 <!-- Side Overlay-->
 
-<!-- <link rel='stylesheet' href="{{asset('assets/css/jquery-ui.css')}}"></link> -->
-<script src="{{asset('assets/js/jquery-ui.js')}}"></script>
+<!-- <link rel='stylesheet' href="{{ asset('assets/css/jquery-ui.css') }}"></link> -->
+<script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
 
 <aside id="side-overlay" data-simplebar="init">
 
@@ -25,7 +25,8 @@
 
                                 <!-- Close Side Overlay -->
                                 <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                                <a class="ml-auto text-white" href="javascript:void(0)" data-toggle="layout" data-action="side_overlay_close">
+                                <a class="ml-auto text-white" href="javascript:void(0)" data-toggle="layout"
+                                    data-action="side_overlay_close">
                                     <i class="fa fa-times-circle"></i>
                                 </a>
                                 <!-- END Close Side Overlay -->
@@ -38,17 +39,19 @@
                             <form class="push" action="db_social.html" method="POST" onsubmit="return false;">
                                 <div class="input-group">
                                     <select class="form-control" id="val-language" name="val-language">
-                                        <option value="">{{$translation->l('Select your language')}}</option>
-                                        @isset($language)
-                                        @foreach($language as $languageItem)
-                                        <option value="{{$languageItem->language_iso}}">{{$languageItem->language_name}}</option>
-                                        @endforeach
-                                        @endisset
+                                        <option value="">{{ $translation->l('Select your language') }}</option>
+                                        {{-- @isset($language)
+                                            @foreach ($language as $languageItem)
+                                                <option value="{{ $languageItem->language_iso }}">
+                                                    {{ $languageItem->language_name }}</option>
+                                            @endforeach
+                                        @endisset --}}
                                     </select>
                                 </div>
                                 <br>
                                 <div class="input-group ui-widget">
-                                    <input class="form-control form-control-alt" placeholder="Search Dictionary..." id="search_word">
+                                    <input class="form-control form-control-alt" placeholder="Search Dictionary..."
+                                        id="search_word">
                                     <div class="input-group-append">
                                         <span class="input-group-text input-group-text-alt">
                                             <i class="fa fa-fw fa-search"></i>
@@ -87,11 +90,11 @@
                         <div class="content-header mx-auto w-100 mt-3" id="sidebar-content-header">
                             <div class="">
                                 <a class="img-link d-inline-block" href="javascript:void(0)">
-                                    <img class="" src="{{asset('assets/media/light.png')}}" alt="">
+                                    <img class="" src="{{ asset('assets/media/light.png') }}" alt="">
                                 </a>
                             </div>
                             <div class="sidetitle pb-4">
-                                <img class="" src="{{asset('assets/media/letter.png')}}">
+                                <img class="" src="{{ asset('assets/media/letter.png') }}">
                             </div>
                         </div>
                         <!-- END Side Header -->
@@ -106,64 +109,64 @@
                         <div class="content-side content-side-full">
                             <ul class="nav-main">
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('admin.dash')}}" id="tableau">
+                                    <a class="nav-main-link" href="{{ route('admin.dash') }}" id="tableau">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-tachometer-alt"></i>
                                         </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">
-                                            {{$translation->l('Dashboard')}}
+                                            {{ $translation->l('Dashboard') }}
                                         </span>
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('session')}}" id="sessions">
+                                    <a class="nav-main-link" href="{{ route('session') }}" id="sessions">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-cogs"></i>
                                         </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">
-                                            {{$translation->l('Sessions')}}
+                                            {{ $translation->l('Sessions') }}
                                         </span>
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('student')}}" id="utilisateurs">
+                                    <a class="nav-main-link" href="{{ route('student') }}" id="utilisateurs">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-user"></i>
                                         </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">
-                                            {{$translation->l('Users')}}
+                                            {{ $translation->l('Users') }}
                                         </span>
                                     </a>
                                 </li>
                                 <hr>
 
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('training')}}" id="parcours">
+                                    <a class="nav-main-link" href="{{ route('training') }}" id="parcours">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-cubes"></i>
                                         </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">
-                                            {{$translation->l('Trainings')}}
+                                            {{ $translation->l('Trainings') }}
                                         </span>
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{ route('template')}}" id="templates">
+                                    <a class="nav-main-link" href="{{ route('template') }}" id="templates">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-newspaper"></i>
                                         </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">
-                                            {{$translation->l('Templates')}}
+                                            {{ $translation->l('Templates') }}
                                         </span>
                                     </a>
                                 </li>
@@ -171,14 +174,14 @@
                                 <hr>
 
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{route('dash')}}" id="outil">
+                                    <a class="nav-main-link" href="{{ route('dash') }}" id="outil">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon far fa-envelope"></i>
                                         </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">
-                                            {{$translation->l('Mail')}}
+                                            {{ $translation->l('Mail') }}
                                         </span>
                                     </a>
                                 </li>
@@ -190,7 +193,7 @@
                                         </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">
-                                            {{$translation->l('Reports')}}
+                                            {{ $translation->l('Reports') }}
                                         </span>
                                     </a>
                                 </li>
@@ -220,7 +223,7 @@
             // );
             $('#val-language').change(function(evt) {
                 $.get(
-                    "{{route('changeLanguage')}}", {
+                    "{{ route('changeLanguage') }}", {
                         language: evt.target.value
                     },
                     function(data, statues) {
@@ -231,7 +234,7 @@
             });
             $('#search_word').change(function(evt) {
                 $.post(
-                    "{{route('searchfromdictionary')}}", {
+                    "{{ route('searchfromdictionary') }}", {
                         'keyword': evt.target.value
                     },
                     function(data, statues) {
@@ -307,4 +310,5 @@
                 }
             });
     });
+
 </script>

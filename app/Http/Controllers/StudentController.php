@@ -10,6 +10,7 @@ use App\Models\GroupModel;
 use App\Models\PositionModel;
 use App\Models\CompanyModel;
 use App\Models\ConfigModel;
+use App\Models\LanguageModel;
 use App\Models\SessionModel;
 
 use Hackzilla\PasswordGenerator\Generator\RequirementPasswordGenerator;
@@ -26,8 +27,9 @@ class StudentController extends Controller
         $groups = GroupModel::all();
         $positions = PositionModel::all();
         $companies = CompanyModel::all();
+        $languages = LanguageModel::all();
 
-        return view('student', compact(['authors', 'teachers', 'students', 'groups', 'positions', 'companies']));
+        return view('student', compact(['authors', 'teachers', 'students', 'groups', 'positions', 'companies', 'languages']));
     }
 
     /**
@@ -88,7 +90,7 @@ class StudentController extends Controller
             $position = $request->post('position');
         }
 
-        $client = User::create([
+        $user = User::create([
             'login' => $request->post('login'),
             'password' => $request->post('password'),
             'first_name' => $request->post('first_name'),
@@ -98,20 +100,26 @@ class StudentController extends Controller
             'status' => $request->input('user-status-icon'),
             'type' => $request->post('type'),
             'expired_date'=>$request->post('expired_date')
-            // 'lang' => $request->post('lang'),
         ]);
 
         if ($request->post('company') != null) {
-            $client->company = $request->post('company');
+            $user->company = $request->post('company');
+        }
+        if ($request->post('language') != null) {
+            $user->lang = $request->post('language');
+        }else {
+            $user->lang = 1;
         }
         if ($request->post('function') != null) {
-            $client->function = $request->post('function');
+            $user->function = $request->post('function');
         }
-        // if ($request->post('password') != null) {
-        //     $client->password = $request->post('password');
-        // }
-        $client->update();
-        return response()->json($client);
+        if ($request->post('generatepassword') != null) {
+            $user->auto_generate = $request->post('generatepassword');
+        }
+        $user->update();
+
+        $lang= LanguageModel::where('language_id', $user->lang)->first();
+        return response()->json(['user'=>$user, 'lang'=>$lang->language_iso]);
     }
 
     /**
@@ -188,6 +196,12 @@ class StudentController extends Controller
         if ($request->post('company')) {
             $user->company = $request->post('company');
         }
+        if ($request->post('language')) {
+            $user->lang = $request->post('language');
+        }
+        if ($request->post('generatepassword')) {
+            $user->auto_generate = $request->post('generatepassword');
+        }
         $user->status = $request->input('user-status-icon');
         if ($request->input('password') != null) {
             $user->password = $request->input('password');
@@ -207,8 +221,8 @@ class StudentController extends Controller
         $user->expired_date=$request->post('expired_date');
 
         $user->update();
-
-        return response()->json($user);
+        $lang= LanguageModel::where('language_id', $user->lang)->first();
+        return response()->json(['user'=>$user, 'lang'=>$lang->language_iso]);
         //
     }
 
