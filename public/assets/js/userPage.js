@@ -1131,7 +1131,7 @@ var submitBtn = function(event) {
         }
 
 
-        if ($('#expired_date').val() == '' || $('#expired_date').val() == null || $('#expired_date_input .input-group').length != 0) {
+        if (($('#expired_date').val() == '' || $('#expired_date').val() == null) && $('#expired_date_input .input-group').length != 0) {
             validate = false;
             validate = validate && $("#expired_date")[0].checkValidity();
             // document.getElementById('expired_date').setCustomValidity('You have to insert date');
