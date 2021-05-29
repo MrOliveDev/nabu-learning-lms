@@ -2263,7 +2263,6 @@ $("#cate-status-icon").change(cateStateIcon);
 $('.toggle2-btn').click(toggle2Btn);
 $('#table-user').on('DOMSubtreeModified', countDisplayUser);
 $('.nav-link').click(tabClick);
-$('.nav-link').click(tabClick);
 
 $('.handler_horizontal').dblclick(handlerDBClick);
 
