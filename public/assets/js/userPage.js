@@ -536,6 +536,11 @@ var divBDedit = function(event) {
     var parent = $(this).parents('fieldset');
     if (parent.attr('id') == "LeftPanel") {
         toggleFormOrTable($('#RightPanel'), true);
+        // if ($(this).attr('data-content') == 'group') {
+        //     $('#cate-status-icon').toggle(true);
+        // } else {
+        //     $('#cate-status-icon').toggle(false);
+        // }
     } else {
         toggleFormOrTable($('#LeftPanel'), true);
     }
@@ -674,8 +679,8 @@ var divCshow = function(event) {
             $('.second-table .toolkit').css('background-color', 'var(--author-h)');
             $("#category-form-tags .list-group-item").css('background-color', 'var(--author-c)');
             $("#category-form-tags .list-group-item.active").css('background-color', 'var(--author-h)');
-            break;
             $('#show-toolkit .filter-function-btn').toggle(false);
+            break;
         default:
             break;
     }
@@ -690,7 +695,7 @@ var item_edit = function(element) {
     var parent = element.parents('.list-group-item');
     var id = parent.attr('id').split('_')[1];
 
-    if ($('#groups-tab').parents('li').hasClass('ui-state-active')) {
+    if (parent.find('.item-edit').attr('data-content') == 'group') {
         $('#status-form-group').css('display', 'block');
     } else {
         $('#status-form-group').css('display', 'none');
