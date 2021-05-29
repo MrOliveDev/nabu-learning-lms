@@ -1102,7 +1102,6 @@ var submitBtn = function(event) {
     var regularExpression = new RegExp("^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[!%&@#$^*?_~+={}().,\/<>-]).*$");
     var password = $('#password').val();
     if (formname == 'user_form') {
-        validate = validate && $("#expired_date")[0].checkValidity();
         validate = validate && $("#login")[0].checkValidity();
         validate = validate && $("#contact_info")[0].checkValidity();
         validate = validate && $("#user-email")[0].checkValidity();
@@ -1123,8 +1122,9 @@ var submitBtn = function(event) {
         }
 
 
-        if ($('#expired_date').val() == '' || $('#expired_date').val() == null) {
+        if ($('#expired_date').val() == '' || $('#expired_date').val() == null || $('#expired_date').length != 0) {
             validate = false;
+            validate = validate && $("#expired_date")[0].checkValidity();
             // document.getElementById('expired_date').setCustomValidity('You have to insert date');
             // document.getElementById('expired_date').reportValidity();
             notification('You have to insert date', 2);
