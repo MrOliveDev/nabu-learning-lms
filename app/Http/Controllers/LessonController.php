@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\LessonsModel;
+
 class LessonController extends Controller
 {
     /**
@@ -27,6 +28,15 @@ class LessonController extends Controller
      */
     public function store(Request $request)
     {
+        $lesson = LessonsModel::create([
+            'name' => $request->post('name'),
+            'description' => $request->post('description'),
+            'date_begin' => $request->post('date_begin'),
+            'date_end' => $request->post('date_end'),
+            'template' => $request->post('template')
+        ]);
+
+        return response()->json($lesson);
         //
     }
 
@@ -38,7 +48,9 @@ class LessonController extends Controller
      */
     public function show($id)
     {
-        //
+        $lesson = LessonsModel::find($id);
+
+        return response()->json($lesson);
     }
 
     /**
@@ -50,6 +62,14 @@ class LessonController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $lesson = LessonsModel::find($id);
+
+        $lesson->name = $request->post('name');
+        $lesson->description = $request->post('description');
+        $lesson->date_begin = $request->post('date_begin');
+        $lesson->date_end = $request->post('date_end');
+        $lesson->template_player_id = $request->post('template_player_id');
+        $lesson->status = $request->post('status');
         //
     }
 
@@ -61,6 +81,11 @@ class LessonController extends Controller
      */
     public function destroy($id)
     {
+        $lesson = LessonsModel::find($id);
+
+        $lesson->delete();
+
+        return response()->json($id);
         //
     }
 }

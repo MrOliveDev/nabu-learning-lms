@@ -4,9 +4,9 @@
 
 // const { forEach } = require("lodash");
 
-// var baseURL = window.location.protocol + "//" + window.location.host;
+var baseURL = window.location.protocol + "//" + window.location.host;
 
-var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
+// var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
 var filteritem = null;
 var grouptab = null,
     detailtags = null;
@@ -248,12 +248,12 @@ var goTab = function(name) {
 //         });;
 
 // };
-var toolkitToggleShowFilter = function(event) {
+var filterToggleShow = function(event) {
     var parent = $(this).parents('.toolkit');
     parent.children(".toolkit-filter").toggle();
     if (parent.attr('id') == 'user-toolkit') {
         var leftActiveTab = $('#LeftPanel .ui-state-active a').attr('href').split('#')[1];
-        if (leftActiveTab == 'teachers' || leftActiveTab == 'authors') {
+        if ( /* leftActiveTab == 'teachers' ||  */ leftActiveTab == 'authors') {
             parent.find('.filter-function-btn').toggle(false);
         } else {
             parent.find('.filter-function-btn').toggle(true);
@@ -588,6 +588,13 @@ var divCshow = function(event) {
     var cate = parent.attr('id').split('_')[0];
     var activetab = $("#LeftPanel").find(".ui-state-active:first a").attr('href').split('#')[1];
     var items = $('#' + activetab).find('.list-group-item input[name="item-' + cate + '"]');
+    $('#show-toolkit input[name="status"]:checked').prop('checked', false);
+    var nameIcon = $('show-toolkit').find('.filter-name-btn i');
+    var dateIcon = $('show-toolkit').find('.filter-date-btn i');
+    nameIcon.toggleClass('fa-sort-alpha-down', false);
+    nameIcon.toggleClass('fa-sort-alpha-up', false);
+    dateIcon.toggleClass('fa-sort-numeric-down', false);
+    dateIcon.toggleClass('fa-sort-numeric-up', false);
     items.map(function(i, e) {
         var item = $(e).parents('.list-group-item');
         if (cate == 'group') {
@@ -661,7 +668,7 @@ var divCshow = function(event) {
             $('.second-table .toolkit').css('background-color', 'var(--teacher-h)');
             $("#category-form-tags .list-group-item").css('background-color', 'var(--teacher-c)');
             $("#category-form-tags .list-group-item.active").css('background-color', 'var(--teacher-h)');
-            $('#show-toolkit .filter-function-btn').toggle(false);
+            $('#show-toolkit .filter-function-btn').toggle(true);
             break;
         case '#authors':
             $('.second-table .toolkit').css('background-color', 'var(--author-h)');
@@ -1091,8 +1098,8 @@ var submitBtn = function(event) {
     var inputpassword = document.getElementById('password');
     var validate = true;
     document.getElementById(formname).checkValidity();
+    //TODO: We have to check this function again after a while;
     var regularExpression = new RegExp("^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[!%&@#$^*?_~+={}().,\/<>-]).*$");
-
     var password = $('#password').val();
     if (formname == 'user_form') {
         validate = validate && $("#expired_date")[0].checkValidity();
@@ -1936,7 +1943,7 @@ var tabClick = function(event) {
                     $('#companies-tab').click();
                 }
 
-                $('#user-toolkit .filter-function-btn').toggle(false);
+                $('#user-toolkit .filter-function-btn').toggle(true);
                 break;
             case 'authors-tab':
                 $('#LeftPanel .toolkit>div').css('background-color', 'var(--author-h)');
@@ -1983,6 +1990,7 @@ var tabClick = function(event) {
         cancelFilterCategoryAll();
         $('#user-toolkit .search-filter').val('');
         $('#user-toolkit .search-filter').change();
+        $('#user-toolkit input[name="status"]:checked').prop('checked', false);
     } else if ($(this).parents('fieldset').attr('id') == 'RightPanel') {
         switch ($(this).attr('id')) {
             case 'groups-tab':
@@ -2020,6 +2028,7 @@ var tabClick = function(event) {
         nameIcon.toggleClass('fa-sort-alpha-up', false);
         dateIcon.toggleClass('fa-sort-numeric-down', false);
         dateIcon.toggleClass('fa-sort-numeric-up', false);
+        $('#cate-toolkit input[name="status"]:checked').prop('checked', false)
     }
 };
 
@@ -2230,14 +2239,14 @@ $('#user-status-icon, #cate-status-icon').change(formStatusChange);
 $('.submit-btn').click(submitBtn);
 $('.cancel-btn').click(cancelBtn);
 
-$(".toolkit-show-filter").click(toolkitToggleShowFilter);
+$(".toolkit-show-filter").click(filterToggleShow);
 $('.filter-company-btn').click(filterCompanyBtn);
 $('.filter-function-btn').click(filterFunctionBtn);
 $('.filter-name-btn').click(sortfilter);
 $('.filter-date-btn').click(sortfilter);
 $("#cate-status-icon").change(cateStateIcon);
-$('.toggle2-btn').click(toggle2Btn);
 
+$('.toggle2-btn').click(toggle2Btn);
 $('#table-user').on('DOMSubtreeModified', countDisplayUser);
 $('.nav-link').click(tabClick);
 $('.nav-link').click(tabClick);

@@ -669,6 +669,7 @@ var item_edit = function(element) {
                 },
                 error: function(err) {
                     console.log(err);
+                    notification('You got an error')
                 }
             });
             break;
@@ -683,52 +684,52 @@ var item_edit = function(element) {
     }
 };
 
-var item_show = function(element) {
-    var parent = element.parents('.list-group-item');
-    var id = parent.attr('id').split('_')[1];
-    switch (element.attr('data-content')) {
-        case 'student':
-            // $.get({
-            //     url: baseURL + '/user/' + id,
-            //     success: function (data, state) {
-            //         data.session.foreach(sessionItem=>{
+// var item_show = function(element) {
+//     var parent = element.parents('.list-group-item');
+//     var id = parent.attr('id').split('_')[1];
+//     switch (element.attr('data-content')) {
+//         case 'student':
+//             // $.get({
+//             //     url: baseURL + '/user/' + id,
+//             //     success: function (data, state) {
+//             //         data.session.foreach(sessionItem=>{
 
-            //         })
-            //     },
-            //     error:function(err){
+//             //         })
+//             //     },
+//             //     error:function(err){
 
-            //     }});
+//             //     }});
 
-            break;
+//             break;
 
-        case 'teacher':
+//         case 'teacher':
 
-            break;
+//             break;
 
-        case 'author':
+//         case 'author':
 
-            break;
+//             break;
 
-        case 'group':
+//         case 'group':
 
-            break;
+//             break;
 
-        case 'company':
+//         case 'company':
 
-            break;
+//             break;
 
-        case 'position':
+//         case 'position':
 
-            break;
+//             break;
 
-        case 'session':
+//         case 'session':
 
-            break;
+//             break;
 
-        default:
-            break;
-    }
-};
+//         default:
+//             break;
+//     }
+// };
 
 var item_delete = function(element) {
     var parent = element.parents('.list-group-item');
@@ -1164,3 +1165,4 @@ function functionDropEnd(event, item) {
     dragitem = null;
     $('.filter-function-btn').change();
 }
+
