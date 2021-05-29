@@ -704,7 +704,8 @@ var item_edit = function(element) {
         case 'author':
             $('#user_form .method-select').val('PUT');
             // $('#password').attr('disabled', false);
-
+            toggleFormOrTable($('#LeftPanel'), true);
+            clearFrom($('LeftPanel'));
             switch (element.attr('data-content')) {
                 case 'student':
                 case 'teacher':
@@ -727,8 +728,6 @@ var item_edit = function(element) {
                 success: function(data, state) {
                     notification('We got user data successfully!', 1);
                     console.log(state);
-                    toggleFormOrTable($('#LeftPanel'), true);
-                    clearFrom($('LeftPanel'));
                     if (data.user_info.interface_icon == null || data.user_info.interface_icon == "") {
                         $('#preview').attr('src', baseURL + '/assets/media/default.png');
                     } else {
@@ -779,13 +778,13 @@ var item_edit = function(element) {
             break;
 
         case 'group':
+            toggleFormOrTable($('#RightPanel'), true);
+            clearFrom($('RightPanel'));
             $.get({
                 url: baseURL + '/group/' + id,
                 success: function(data, state) {
                     notification('We got group data successfully!', 1);
                     console.log(state);
-                    toggleFormOrTable($('#RightPanel'), true);
-                    clearFrom($('RightPanel'));
                     $('#category_name').val(data.name);
                     $('#category_description').val(data.description);
                     $('#status_checkbox').css('display', 'block');
