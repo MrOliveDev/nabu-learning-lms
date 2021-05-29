@@ -120,7 +120,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => 'html5
 });
 
 
-Route::get('', '\App\Http\Controllers\HomeController@index');
+Route::get('/', '\App\Http\Controllers\HomeController@index');
 
 Auth::routes();
 

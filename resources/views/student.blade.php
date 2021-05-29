@@ -358,6 +358,9 @@
                                     <input type="text" class="form-control" id="login" name="login" value="" required>
                                 </div>
                             </div>
+                            <div class="form-group float-right pl-3">
+                                6 characters minimum, at least 1 number, 1 lowercase, 1 uppercase, 1 special character (@ # $% ^ + = ._)
+                            </div>
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
