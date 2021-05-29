@@ -195,7 +195,7 @@
 
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach ($students as $student)
-                            <a class="list-group-item list-group-item-action  p-1 border-0 student_{{ $student->id }}"
+                            <a class="list-group-item list-group-item-action p-0 border-transparent border-5x student_{{ $student->id }}"
                                 id="student_{{ $student->id }}" data-date="{{ $student->creation_date }}">
                                 <div class="float-left">
                                     @if ($student->status == 1)
@@ -215,7 +215,7 @@
                                 </div>
                                 <div class="btn-group float-right">
                                     <span
-                                        class=" p-2 font-weight-bolder">{{ strtoupper($student->language_iso) }}</span>
+                                        class=" p-2 font-weight-bolder item-lang">{{ strtoupper($student->language_iso) }}</span>
                                     <button class="btn  item-show" data-content='student'>
                                         <i class="px-2 fa fa-eye"></i>
                                     </button>
@@ -234,7 +234,7 @@
 
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach ($teachers as $teacher)
-                            <a class="list-group-item list-group-item-action  p-1 border-0 teacher_{{ $teacher->id }}"
+                            <a class="list-group-item list-group-item-action p-0 border-transparent border-5x teacher_{{ $teacher->id }}"
                                 id="teacher_{{ $teacher->id }}" data-date="{{ $teacher->creation_date }}">
                                 <div class="float-left">
                                     @if ($teacher->status == 1)
@@ -254,7 +254,7 @@
                                 </div>
                                 <div class="btn-group float-right">
                                     <span
-                                        class=" p-2 font-weight-bolder">{{ strtoupper($teacher->language_iso) }}</span>
+                                        class=" p-2 font-weight-bolder item-lang">{{ strtoupper($teacher->language_iso) }}</span>
 
                                     <button class="btn  item-show" data-content='teacher'>
                                         <i class="px-2 fa fa-eye"></i>
@@ -274,7 +274,7 @@
 
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach ($authors as $author)
-                            <a class="list-group-item list-group-item-action  p-1 border-0 author_{{ $author->id }}"
+                            <a class="list-group-item list-group-item-action p-0 border-transparent border-5x author_{{ $author->id }}"
                                 id="author_{{ $author->id }}" data-date="{{ $author->creation_date }}">
                                 <div class="float-left">
                                     @if ($author->status == 1)
@@ -294,7 +294,7 @@
                                 </div>
                                 <div class="btn-group float-right">
                                     <span
-                                        class=" p-2 font-weight-bolder">{{ strtoupper($author->language_iso) }}</span>
+                                        class=" p-2 font-weight-bolder item-lang">{{ strtoupper($author->language_iso) }}</span>
 
                                     <button class="btn  item-show" data-content='author'>
                                         <i class="px-2 fa fa-eye"></i>
@@ -345,7 +345,8 @@
                             <div class="form-check float-right">
                                 <input class="form-check-input" type="checkbox" value="" id="generatepassword"
                                     name="generatepassword">
-                                <label class="form-check-label" for="generatepassword">Auto generate Login and Password</label>
+                                <label class="form-check-label" for="generatepassword">Auto generate Login and
+                                    Password</label>
                             </div>
                             <div class="form-group">
                                 <div class="input-group">
@@ -398,7 +399,7 @@
                                         </span>
                                     </div>
                                     <select class="form-control" id="position" name="function">
-                                        <option value="" disabled>No Position</option>
+                                        <option value="">No Position</option>
                                         @foreach ($positions as $position)
                                             <option value="{{ $position->id }}">{{ $position->name }}</option>
                                         @endforeach
@@ -413,9 +414,24 @@
                                         </span>
                                     </div>
                                     <select class="form-control" id="company" name="company">
-                                        <option value="" disabled>No Company</option>
+                                        <option value="">No Company</option>
                                         @foreach ($companies as $company)
                                             <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Language
+                                        </span>
+                                    </div>
+                                    <select class="form-control" id="language" name="language">
+                                        <option value="" disabled>No Langauge</option>
+                                        @foreach ($languages as $language)
+                                            <option value="{{ $language->language_id }}">{{ $language->language_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -452,7 +468,8 @@
                                         </span>
                                     </div>
                                     <input type="text" class="js-flatpickr form-control bg-white" id="expired_date"
-                                        name="expired_date" placeholder="Y-m-d" data-date-format="Y-m-d" required title="You need a correct date" >
+                                        name="expired_date" placeholder="Y-m-d" data-date-format="Y-m-d" required
+                                        title="You need a correct date">
 
                                 </div>
                             </div>
@@ -590,8 +607,8 @@
 
                 <div class="list-group mx-4 " id="list-tab" role="tablist" data-src=''>
                     @foreach ($groups as $group)
-                        <a class="list-group-item list-group-item-action p-1 border-0 group_{{ $group->id }}" id="group_{{ $group->id }}"
-                            data-date="{{ $group->creation_date }}">
+                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x group_{{ $group->id }}"
+                            id="group_{{ $group->id }}" data-date="{{ $group->creation_date }}">
                             <div class="float-left">
                                 @if ($group->status == 1)
                                     <i class="fa fa-circle  m-2" style="color:green;"></i>
@@ -625,7 +642,7 @@
 
                 <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
                     @foreach ($companies as $company)
-                        <a class="list-group-item list-group-item-action p-1 border-0 company_{{ $company->id }}"
+                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x company_{{ $company->id }}"
                             id="company_{{ $company->id }}" data-date="{{ $company->creation_date }}">
                             <div class="float-left">
                                 <span class="item-name">{{ $company->name }}</span>
@@ -653,7 +670,7 @@
 
                 <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
                     @foreach ($positions as $position)
-                        <a class="list-group-item list-group-item-action p-1 border-0 function_{{ $position->id }}"
+                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x function_{{ $position->id }}"
                             id="function_{{ $position->id }}">
                             <div class="float-left">
                                 <!-- <i class="fa fa-circle text-danger m-2"></i> -->
@@ -681,6 +698,50 @@
         </div>
         <div id="div_right" class="handler_horizontal  text-center  font-size-h3 text-white mb-4">
             <i class="fas fa-grip-lines"></i>
+        </div>
+        <div class="second-table mx-4">
+            <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column"
+                id="show-toolkit">
+                <div class="w-100 p-2">
+                    <div class="input-container">
+                        <span id='member-count' class="pl-2 pr-4"></span>
+                        <span class="bg-white text-black p-2 rounded">
+                            <input class="input-field border-0 mw-100 search-filter" type="text" name="search-filter">
+                            <i class="fa fa-search icon p-2"></i>
+                        </span>
+                        <a href="#" class="toolkit-show-filter float-right">
+                            <i class="fas fa-sliders-h icon p-2  text-white"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="filter p-2 toolkit-filter">
+                    <div class="float-left">
+                        <div class="status-switch">
+                            <input type="radio" id="filter-state-on" name="status" value="on">
+                            <span>on&nbsp;</span>
+                            <input type="radio" id="filter-state-off" name="status" value="off">
+                            <span>off&nbsp;</span>
+                            <input type="radio" id="filter-state-all" name="status" value="all">
+                            <span>all&nbsp;</span>
+                        </div>
+
+                    </div>
+                    <div class="float-right">
+                        <span>
+                            <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
+                                <i class="fas"></i></button>
+                            <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
+                                <i class="fas"></i></button>
+                        </span>
+                        <button type="button" value=""
+                            class="rounded text-white filter-company-btn px-1 border-0">company
+                            +<i></i></button>&nbsp;
+                        <button type="button" value=""
+                            class="rounded text-white filter-function-btn px-1 border-0">function
+                            +<i></i></button>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="div_D" class="window bottom">
 
@@ -732,49 +793,6 @@
             </div>
 
             <div id="category-form-tags" class="second-table mx-4">
-                <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column "
-                    id="show-toolkit">
-                    <div class="w-100 p-2">
-                        <div class="input-container">
-                            <span id='member-count' class="pl-2 pr-4"></span>
-                            <span class="bg-white text-black p-2 rounded">
-                                <input class="input-field border-0 mw-100 search-filter" type="text"
-                                    name="search-filter">
-                                <i class="fa fa-search icon p-2"></i>
-                            </span>
-                            <a href="#" class="toolkit-show-filter float-right">
-                                <i class="fas fa-sliders-h icon p-2  text-white"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="filter p-2 toolkit-filter">
-                        <div class="float-left">
-                            <div class="status-switch">
-                                <input type="radio" id="filter-state-on" name="status" value="on">
-                                <span>on&nbsp;</span>
-                                <input type="radio" id="filter-state-off" name="status" value="off">
-                                <span>off&nbsp;</span>
-                                <input type="radio" id="filter-state-all" name="status" value="all">
-                                <span>all&nbsp;</span>
-                            </div>
-
-                        </div>
-                        <div class="float-right">
-                            <span>
-                                <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
-                                    <i class="fas"></i></button>
-                                <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
-                                    <i class="fas"></i></button>
-                            </span>
-                            <button type="button" value=""
-                                class="rounded text-white filter-company-btn px-1 border-0">company
-                                +<i></i></button>&nbsp;
-                            <button type="button" value=""
-                                class="rounded text-white filter-function-btn px-1 border-0">function
-                                +<i></i></button>
-                        </div>
-                    </div>
-                </div>
                 <div class="list-group" id="table-user" role="tablist" data-src=''>
 
                 </div>

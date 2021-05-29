@@ -4,9 +4,9 @@
 
 // const { forEach } = require("lodash");
 
-// var baseURL = window.location.protocol + "//" + window.location.host;
+var baseURL = window.location.protocol + "//" + window.location.host;
 
-var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
+// var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
 var filteritem = null;
 var grouptab = null,
     detailtags = null;
@@ -159,7 +159,11 @@ var btnClick = function(e) {
 };
 
 var clearTable = function(element) {
-    element.find('.list-group-item').detach();
+    element.each(function(i, em) {
+        if ($(em).find('.list-group-item').length != 0) {
+            $(em).find('.list-group-item').detach();
+        }
+    });
 };
 
 var clearFrom = function(element) {
@@ -185,27 +189,33 @@ var toggleFormOrTable = function(element, flag = null, flag1 = true) {
             if (form.css('display') == "none") {
 
                 form.css('display', 'block');
-                table.css('display', 'none');
-
+                table.each(function(i, em) {
+                    $(em).css('display', 'none');
+                });
                 return form;
             }
         } else if (!flag) {
             if (table.css('display') == "none") {
                 form.css('display', 'none');
-                table.css('display', 'block');
-
+                table.each(function(i, em) {
+                    $(em).css('display', 'block');
+                });
                 return table;
             }
         } else if (flag == null) {
-            if (table.css('display') == "block") {
-                table.css('display', 'none');
+            if ($(table[0]).css('display') == "block") {
+                table.each(function(i, em) {
+                    $(em).css('display', 'none');
+                });
                 form.css('display', 'block');
 
                 return form;
             } else {
                 if (form.css('display') == "block") {
                     form.css('display', 'none');
-                    table.css('display', 'block');
+                    table.each(function(i, em) {
+                        $(em).css('display', 'block');
+                    });
 
                     return table;
                 }
@@ -213,8 +223,9 @@ var toggleFormOrTable = function(element, flag = null, flag1 = true) {
         }
     } else {
         form.toggle(false);
-        table.toggle(false);
-
+        table.each(function(i, em) {
+            $(em).toggle(false);
+        });
         return null;
     }
 
@@ -399,7 +410,7 @@ var divBDshow = function(event) {
     var parent = $(this).parents('fieldset');
     if (parent.attr('id') == "LeftPanel") {
         toggleFormOrTable($('#RightPanel'), false);
-        $('.second-table .toolkit').css('background-color', 'var(--student-h)');
+        $('.second-table .toolkit>div').css('background-color', 'var(--student-h)');
         $("#category-form-tags .list-group-item").css('background-color', 'var(--student-c)');
         $("#category-form-tags .list-group-item.active").css('background-color', 'var(--student-h)');
     } else {
@@ -664,19 +675,19 @@ var divCshow = function(event) {
     //TODO:
     switch ($('#LeftPanel .ui-state-active a').attr('href')) {
         case '#students':
-            $('.second-table .toolkit').css('background-color', 'var(--student-h)');
+            $('.second-table .toolkit>div').css('background-color', 'var(--student-h)');
             $("#category-form-tags .list-group-item").css('background-color', 'var(--student-c)');
             $("#category-form-tags .list-group-item.active").css('background-color', 'var(--student-h)');
             $('#show-toolkit .filter-function-btn').toggle(true);
             break;
         case '#teachers':
-            $('.second-table .toolkit').css('background-color', 'var(--teacher-h)');
+            $('.second-table .toolkit>div').css('background-color', 'var(--teacher-h)');
             $("#category-form-tags .list-group-item").css('background-color', 'var(--teacher-c)');
             $("#category-form-tags .list-group-item.active").css('background-color', 'var(--teacher-h)');
             $('#show-toolkit .filter-function-btn').toggle(true);
             break;
         case '#authors':
-            $('.second-table .toolkit').css('background-color', 'var(--author-h)');
+            $('.second-table .toolkit>div').css('background-color', 'var(--author-h)');
             $("#category-form-tags .list-group-item").css('background-color', 'var(--author-c)');
             $("#category-form-tags .list-group-item.active").css('background-color', 'var(--author-h)');
             $('#show-toolkit .filter-function-btn').toggle(false);
@@ -747,10 +758,14 @@ var item_edit = function(element) {
                     $('#generatepassword').prop('checked', false);
                     $('#firstname').val(data.user_info.first_name);
                     $('#lastname').val(data.user_info.last_name);
+                    $('#language').val(data.user_info.lang);
                     $('#company').val(data.user_info.company);
                     $('#position').val(data.user_info.function);
                     $("#user_form").attr('action', baseURL + '/user/' + id);
                     $('#status-form-group').css('display', 'block !important');
+                    if (data.user_info.auto_generate) {
+                        $('#generatepassword').prop('checked', true);
+                    }
                     switch (data.user_info.type) {
                         case 2:
                             $('#login-label').html('Login Author');
@@ -1110,6 +1125,12 @@ var detachCall = function(cate, connectiondata, element) {
 var submitBtn = function(event) {
     var formname = $(this).attr('data-form');
     var inputpassword = document.getElementById('password');
+    if ($("#" + formname).attr('data-item')) {
+        $("#" + $(this).parents('form').attr('data-item')).toggleClass('highlight', false);
+        $("#" + $(this).parents('form').attr('data-item') + " .btn").each(function(i, em) {
+            $(em).toggleClass('active', false);
+        });
+    }
     var validate = true;
     document.getElementById(formname).checkValidity();
     //TODO: We have to check this function again after a while;
@@ -1134,7 +1155,6 @@ var submitBtn = function(event) {
                 inputpassword.reportValidity();
             }
         }
-
 
         if (($('#expired_date').val() == '' || $('#expired_date').val() == null) && $('#expired_date_input .input-group').length != 0) {
             validate = false;
@@ -1163,6 +1183,8 @@ var submitBtn = function(event) {
                 item.value = $('#user-status-icon').prop('checked') == true ? 1 : 0;
             } else if (item.name == 'cate-status-icon') {
                 item.value = $('#cate-status-icon').prop("checked") == true ? 1 : 0;
+            } else if (item.name == 'generatepassword') {
+                item.value = $('#generatepassword').prop("checked") == true ? 1 : 0;
             }
             return item;
         });
@@ -1174,7 +1196,11 @@ var submitBtn = function(event) {
                     name: 'user-status-icon',
                     value: $('#user-status-icon').prop('checked') == true ? 1 : 0
                 });
-            } else {
+                serialval.push({
+                    name: 'generatepassword',
+                    value: $('#generatepassword').prop('checked') == true ? 1 : 0
+                });
+            } else if (formname == 'cate_form') {
                 serialval.push({
                     name: 'cate-status-icon',
                     value: $('#cate-status-icon').prop('checked') == true ? 1 : 0
@@ -1187,7 +1213,13 @@ var submitBtn = function(event) {
                     name: 'user-status-icon',
                     value: 0
                 });
-            } else {
+                if ($('#generatepassword').prop('checked') == false) {
+                    serialval.push({
+                        name: 'generatepassword',
+                        value: 0
+                    });
+                }
+            } else if (formname == 'cate_form') {
                 serialval.push({
                     name: 'cate-status-icon',
                     value: 0
@@ -1294,22 +1326,22 @@ var submitBtn = function(event) {
 
 var createUserData = function(data, category) {
 
-    var status_temp = data.status == '1' ?
+    var status_temp = data.user.status == '1' ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var userItem = $('<a class="list-group-item list-group-item-action  p-1 border-0 ' + category + '_' + data.id + '" id="' + category + '_' + data.id + '">' +
+    var userItem = $('<a class="list-group-item list-group-item-action  p-1 border-0 ' + category + '_' + data.user.id + '" id="' + category + '_' + data.user.id + '" data-date="' + data.user.creation_date + '">' +
         '<div class="float-left">' +
         status_temp +
-        '<span class="item-name">' + data.first_name + '&nbsp;' + data.last_name + '</span>' +
-        '<input type="hidden" name="item-name" value="' + data.first_name + data.last_name + '">' +
-        '<input type="hidden" name="item-group" value="' + data.linked_groups + '">' +
-        '<input type="hidden" name="item-company" value="' + data.company + '">' +
-        '<input type="hidden" name="item-function" value="' + data.function+'">' +
+        '<span class="item-name">' + data.user.first_name + '&nbsp;' + data.user.last_name + '</span>' +
+        '<input type="hidden" name="item-name" value="' + data.user.first_name + data.user.last_name + '">' +
+        '<input type="hidden" name="item-group" value="' + data.user.linked_groups + '">' +
+        '<input type="hidden" name="item-company" value="' + data.user.company + '">' +
+        '<input type="hidden" name="item-function" value="' + data.user.function+'">' +
         '</div>' +
         '<div class="btn-group float-right">' +
-        '<span class=" p-2 font-weight-bolder">EN</span>' +
+        '<span class=" p-2 font-weight-bolder item-lang">' + data.lang.toUpperCase() + '</span>' +
         '</div>' +
         '</a>');
     var showbtn = $('<button class="btn  item-show" data-content="' + category + '">' +
@@ -1340,7 +1372,7 @@ var createUserData = function(data, category) {
     userItem.find('.btn-group').append(showbtn).append(editbtn).append(deletebtn);
     userItem.click(leftItemClick);
 
-    userItem.find('.item-name').val(data.first_name + data.last_name);
+    userItem.find('.item-name').val(data.user.first_name + data.user.last_name);
     userItem.bind('dragstart', dragStart);
 
     return userItem;
@@ -1353,7 +1385,7 @@ var createGroupData = function(data, category) {
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var groupItem = $('<a class="list-group-item list-group-item-action p-1 border-0 ' + category + '_' + data.id + '" id="' + category + '_' + data.id + '">' +
+    var groupItem = $('<a class="list-group-item list-group-item-action p-1 border-0 ' + category + '_' + data.id + '" id="' + category + '_' + data.id + '" data-date="' + data.creation_date + '">' +
         '<div class="float-left">' +
         status_temp +
         '<span class="item-name">' + data.name + '</span>' +
@@ -1391,7 +1423,7 @@ var createGroupData = function(data, category) {
 };
 
 var createCategoryData = function(data, category) {
-    var cateItem = $(' <a class="list-group-item list-group-item-action p-1 border-0 ' + category + '_' + data.id + '" id="' + category + '_' + data.id + '">' +
+    var cateItem = $(' <a class="list-group-item list-group-item-action p-1 border-0 ' + category + '_' + data.id + '" id="' + category + '_' + data.id + '" data-date="' + data.creation_date + '">' +
         ' <div class="float-left">' +
         '<span class="item-name">' + data.name + '</span>' +
         '<input type="hidden" name="item-status" value="">' +
@@ -1430,22 +1462,24 @@ var createCategoryData = function(data, category) {
 
 var updateUserData = function(data, target) {
     $('.' + target).each(function(i, im) {
-        $(im).find('.item-name').html(data.first_name + "&nbsp;" + data.last_name);
-        $(im).find('.status-notification').val(data.status);
-        $(im).find('.status-notification').prev().css('color', data.status == '1' ? 'green' : 'red');
-        $(im).find('input[name="item-name"]').val(data.name);
-        $(im).find('input[name="item-group]').val(data.linked_groups);
-        $(im).find('input[name="item-company]').val(data.company);
-        $(im).find('input[name="item-function]').val(data.function);
+        $(im).find('.item-name').html(data.user.first_name + "&nbsp;" + data.user.last_name);
+        $(im).find('.status-notification').val(data.user.status);
+        $(im).find('.status-notification').prev().css('color', data.user.status == '1' ? 'green' : 'red');
+        $(im).find('input[name="item-name"]').val(data.user.name);
+        $(im).find('input[name="item-group]').val(data.user.linked_groups);
+        $(im).find('input[name="item-company]').val(data.user.company);
+        $(im).find('input[name="item-function]').val(data.user.function);
+        $(im).find('input[name="item-function]').val(data.user.function);
+        $(im).find('.item-lang').html(data.lang.toUpperCase());
         if ($(im).attr('data-src')) {
             switch ($(im).attr('data-src').split('_')[0]) {
                 case 'company':
-                    if ($(im).attr('data-src').split('_')[1] != data.company) {
+                    if ($(im).attr('data-src').split('_')[1] != data.user.company) {
                         $(im).detach();
                     }
                     break;
                 case 'function':
-                    if ($(im).attr('data-src').split('_')[1] != data.function) {
+                    if ($(im).attr('data-src').split('_')[1] != data.user.function) {
                         $(im).detach();
                     }
                     break;
@@ -1467,7 +1501,7 @@ var updateGroupData = function(data, target) {
     });
 };
 
-var updatCategoryData = function(data, target) {
+var updateCategoryData = function(data, target) {
     $('.' + target).each(function(i, im) {
         $(im).find('.item-name').html(data.name);
         $(im).find('input[name="item-name"]').val(data.name);
@@ -1476,6 +1510,10 @@ var updatCategoryData = function(data, target) {
 
 var cancelBtn = function(event) {
     var parent = $(this).parents('fieldset');
+    $("#" + $(this).parents('form').attr('data-item')).toggleClass('highlight');
+    $("#" + $(this).parents('form').attr('data-item') + " .btn").each(function(i, em) {
+        $(em).toggleClass('active', false);
+    });
     toggleFormOrTable(parent, null, false);
 };
 
@@ -1615,12 +1653,12 @@ var searchfilter = function(event) {
         console.log(str);
     }
 
-    if (parent.prev().is('.nav')) {
+    if (parent.attr('id') == 'user-toolkit' || parent.attr('id') == 'cate-toolkit') {
         var selector = parent.prev().find('.ui-state-active a').attr('href').split('#')[1];
         // console.log(selector);
         items = $("#" + selector).find('.list-group .list-group-item');
     } else {
-        items = parent.next('.list-group').find('.list-group-item');
+        items = $('#div_D .list-group').find('.list-group-item');
     }
     // console.log(items);
 
@@ -1903,7 +1941,6 @@ var cateStateIcon = function(e) {
 var tabClick = function(event) {
     if ($(this).parents('fieldset').attr('id') == 'LeftPanel') {
 
-        toggleFormOrTable($('#div_B'), null, false);
         var nameIcon = $('#user-toolkit').find('.filter-name-btn i');
         var dateIcon = $('#user-toolkit').find('.filter-date-btn i');
         nameIcon.toggleClass('fa-sort-alpha-down', false);
@@ -1939,6 +1976,7 @@ var tabClick = function(event) {
                 $('#positions-tab').toggle(true);
 
                 $('#user-toolkit .filter-function-btn').toggle(true);
+                toggleFormOrTable($('#div_B'), null, false);
                 break;
             case 'teachers-tab':
                 $('#LeftPanel .toolkit>div').css('background-color', 'var(--teacher-h)');
@@ -1981,6 +2019,7 @@ var tabClick = function(event) {
                 }
 
                 $('#user-toolkit .filter-function-btn').toggle(true);
+                toggleFormOrTable($('#div_B'), null, false);
                 break;
             case 'authors-tab':
                 $('#LeftPanel .toolkit>div').css('background-color', 'var(--author-h)');
@@ -2016,7 +2055,7 @@ var tabClick = function(event) {
                 if (activedTab != '#companies') {
                     $('#companies-tab').click();
                 }
-
+                toggleFormOrTable($('#div_B'), null, false);
                 break;
 
             default:
@@ -2068,6 +2107,8 @@ var tabClick = function(event) {
         dateIcon.toggleClass('fa-sort-numeric-down', false);
         dateIcon.toggleClass('fa-sort-numeric-up', false);
         $('#cate-toolkit input[name="status"]:checked').prop('checked', false)
+    } else {
+
     }
 };
 
@@ -2241,7 +2282,7 @@ $(document).ready(function() {
 
     $('#LeftPanel .toolkit>div').css('background-color', 'var(--student-h)');
     $('#RightPanel .toolkit:first>div').css('background-color', 'var(--group-h)');
-    $('.second-table .toolkit').css('background-color', 'var(--student-h)');
+    $('.second-table .toolkit>div').css('background-color', 'var(--student-h)');
 
 
 
