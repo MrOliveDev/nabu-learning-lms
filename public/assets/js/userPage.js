@@ -695,12 +695,33 @@ var item_edit = function(element) {
     } else {
         $('#status-form-group').css('display', 'none');
     }
+
+
+
     switch (element.attr('data-content')) {
         case 'student':
         case 'teacher':
         case 'author':
             $('#user_form .method-select').val('PUT');
             // $('#password').attr('disabled', false);
+
+            switch (element.attr('data-content')) {
+                case 'student':
+                case 'teacher':
+                    if ($('#expired_date_input .input-group').length == 0) {
+                        expired_date.appendTo($('#expired_date_input'));
+                    }
+                    break;
+                case 'author':
+                    if ($('#expired_date_input .input-group').length != 0) {
+                        expired_date = $('#expired_date_input .input-group');
+                        $('#expired_date_input .input-group').detach();
+                    }
+                    break;
+
+                default:
+                    break;
+            }
             $.get({
                 url: baseURL + '/user/' + id,
                 success: function(data, state) {
@@ -729,23 +750,12 @@ var item_edit = function(element) {
                     switch (data.user_info.type) {
                         case 2:
                             $('#login-label').html('Login Author');
-                            if ($('#expired_date_input .input-group').length != 0) {
-                                expired_date = $('#expired_date_input .input-group');
-                                $('#expired_date_input .input-group').detach();
-                            }
                             break;
                         case 4:
                             $('#login-label').html('Login Student');
-                            if ($('#expired_date_input .input-group').length == 0) {
-                                expired_date.appendTo($('#expired_date_input'));
-                            }
                             break;
                         case 3:
                             $('#login-label').html('Login Teacher');
-
-                            if ($('#expired_date_input .input-group').length == 0) {
-                                expired_date.appendTo($('#expired_date_input'));
-                            }
                             break;
 
                         default:
@@ -1122,7 +1132,7 @@ var submitBtn = function(event) {
         }
 
 
-        if ($('#expired_date').val() == '' || $('#expired_date').val() == null || $('#expired_date').length != 0) {
+        if ($('#expired_date').val() == '' || $('#expired_date').val() == null || $('#expired_date_input .input-group').length != 0) {
             validate = false;
             validate = validate && $("#expired_date")[0].checkValidity();
             // document.getElementById('expired_date').setCustomValidity('You have to insert date');
