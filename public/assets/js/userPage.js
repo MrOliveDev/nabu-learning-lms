@@ -1976,7 +1976,7 @@ var tabClick = function(event) {
                 $('#groups-tab').toggle(false);
                 $('#positions-tab').toggle(true);
 
-                if (activedTab != '#positions') {
+                if (activedTab != '#positions' || activedTab != '#companies') {
                     $('#companies-tab').click();
                 }
 
@@ -2013,7 +2013,9 @@ var tabClick = function(event) {
 
                 $('#groups-tab').toggle(false);
                 $('#positions-tab').toggle(false);
-                $('#companies-tab').click();
+                if (activedTab != '#companies') {
+                    $('#companies-tab').click();
+                }
 
                 break;
 
