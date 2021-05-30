@@ -149,8 +149,8 @@
             var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document
                 .body
                 .clientHeight));
-            var divHight = 20 + $("#div_left").height() + $('.content-header')
-                .height(); //20=body padding:10px
+            var divHight = 20 + parseInt($("#div_left").height()) + parseInt($('.content-header')
+        .height()); //20=body padding:10px
             $("#content").css({
                 "min-height": h - divHight + "px"
             });

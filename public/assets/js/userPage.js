@@ -4,8 +4,11 @@
 
 // const { forEach } = require("lodash");
 
-// var baseURL = window.location.protocol + "//" + window.location.host;
+var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document
+    .body
+    .clientHeight));
 
+// var baseURL = window.location.protocol + "//" + window.location.host;
 var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
 var filteritem = null;
 var grouptab = null,
@@ -17,6 +20,9 @@ var window_level = 1;
 
 var input_group_position = null,
     expired_date = $('#expired_date_input .input-group');
+
+var heightToggleLeft = false;
+var heightToggleRight = false;
 
 var userDateSort = false,
     userNameSort = false,
@@ -91,10 +97,10 @@ var leftItemClick = function(e) {
     // e.stopPropagation();
     if (!$(this).hasClass("active")) {
         $(this).addClass("active");
-        $(this).attr('draggable', true);
+        // $(this).attr('draggable', true);
     } else {
         $(this).removeClass("active");
-        $(this).attr('draggable', false);
+        // $(this).attr('draggable', false);
     }
 
 };
@@ -303,6 +309,11 @@ var filterToggleShow = function(event) {
         default:
             break;
     }
+
+    parent.find('.filter-name-btn i').toggleClass('fa-sort-alpha-down', false);
+    parent.find('.filter-name-btn i').toggleClass('fa-sort-alpha-up', false);
+    parent.find('.filter-date-btn i').toggleClass('fa-sort-numeric-up', false);
+    parent.find('.filter-date-btn i').toggleClass('fa-sort-numeric-down', false);
 };
 
 var secondShow1 = function(event) {
@@ -558,6 +569,8 @@ var divBDedit = function(event) {
 };
 
 var divAshow = function(event) {
+    heightToggleLeft = true;
+    $('#div_left').dblclick();
     var parent = $(this).parents('.list-group-item');
     // var id = parent.attr('id').split('_')[1];
 
@@ -599,6 +612,9 @@ var divAshow = function(event) {
 };
 
 var divCshow = function(event) {
+    heightToggleRight = true;
+    $('#member-count').html("0 members");
+    $('#div_right').dblclick();
     var parent = $(this).parents('.list-group-item');
     var id = parent.attr('id').split('_')[1];
     var cate = parent.attr('id').split('_')[0];
@@ -1374,6 +1390,8 @@ var createUserData = function(data, category) {
 
     userItem.find('.item-name').val(data.user.first_name + data.user.last_name);
     userItem.bind('dragstart', dragStart);
+    userItem.bind('dragend', dragEnd);
+    userItem.attr('draggable', true);
 
     return userItem;
 
@@ -1560,8 +1578,8 @@ var clearFilterCategory = function(element, category, defaultStr) {
     $(element).html(defaultStr);
     $(element).change();
     $('#' + category).find('.list-group-item').each(clearClassName);
-    $('#' + category).find('.toggle1-btn').toggle(false);
-    $('#' + category).find('.toggle2-btn').toggle(true);
+    $('#' + category).find('.toggle1-btn').toggle(true);
+    $('#' + category).find('.toggle2-btn').toggle(false);
 };
 
 var toggleAndSearch = function(element, category, defaultStr) {
@@ -1721,6 +1739,23 @@ var sortfilter = function(event) {
         $itemgroup;
     var nameIcon = $(event.target).parents('.toolkit').find('.filter-name-btn i');
     var dateIcon = $(event.target).parents('.toolkit').find('.filter-date-btn i');
+
+
+    if ($(this).siblings('button').find('i').hasClass('fa-sort-numeric-down')) {
+        $(this).siblings('button').find('i').removeClass('fa-sort-numeric-down');
+    }
+
+    if ($(this).siblings('button').find('i').hasClass('fa-sort-numeric-up')) {
+        $(this).siblings('button').find('i').removeClass('fa-sort-numeric-up');
+    }
+
+    if ($(this).siblings('button').find('i').hasClass('fa-sort-alpha-down')) {
+        $(this).siblings('button').find('i').removeClass('fa-sort-alpha-down');
+    }
+
+    if ($(this).siblings('button').find('i').hasClass('fa-sort-alpha-up')) {
+        $(this).siblings('button').find('i').removeClass('fa-sort-alpha-up');
+    }
 
     if (parent.prev().is('.nav')) {
         var selector = parent.prev().find('.ui-state-active a').attr('href').split('#')[1];
@@ -1976,7 +2011,8 @@ var tabClick = function(event) {
                 $('#positions-tab').toggle(true);
 
                 $('#user-toolkit .filter-function-btn').toggle(true);
-                toggleFormOrTable($('#div_B'), null, false);
+                $('#div_A').find('.list-group-item').each(clearClassName);
+                toggleFormOrTable($('#LeftPanel'), null, false);
                 break;
             case 'teachers-tab':
                 $('#LeftPanel .toolkit>div').css('background-color', 'var(--teacher-h)');
@@ -2019,7 +2055,9 @@ var tabClick = function(event) {
                 }
 
                 $('#user-toolkit .filter-function-btn').toggle(true);
-                toggleFormOrTable($('#div_B'), null, false);
+                toggleFormOrTable($('#LeftPanel'), null, false);
+                $('#div_A').find('.list-group-item').each(clearClassName);
+
                 break;
             case 'authors-tab':
                 $('#LeftPanel .toolkit>div').css('background-color', 'var(--author-h)');
@@ -2055,7 +2093,9 @@ var tabClick = function(event) {
                 if (activedTab != '#companies') {
                     $('#companies-tab').click();
                 }
-                toggleFormOrTable($('#div_B'), null, false);
+                toggleFormOrTable($('#LeftPanel'), null, false);
+                $('#div_A').find('.list-group-item').each(clearClassName);
+
                 break;
 
             default:
@@ -2064,7 +2104,6 @@ var tabClick = function(event) {
         $("#LeftPanel").find(".list-group-item").each(function() {
             $(this).removeClass("active");
         });
-        $('#div_A').find('.list-group-item').each(clearClassName);
         cancelFilterCategoryAll();
         $('#user-toolkit .search-filter').val('');
         $('#user-toolkit .search-filter').change();
@@ -2092,7 +2131,7 @@ var tabClick = function(event) {
         }
         $('#RightPanel').find('.list-group-item').each(toggleBtnChange);
 
-        toggleFormOrTable($('#div_D'), null, false);
+        toggleFormOrTable($('#RightPanel'), null, false);
         cancelFilterCategoryAll();
         $("#RightPanel").find(".list-group-item").each(function() {
             $(this).removeClass("active");
@@ -2107,13 +2146,30 @@ var tabClick = function(event) {
         dateIcon.toggleClass('fa-sort-numeric-down', false);
         dateIcon.toggleClass('fa-sort-numeric-up', false);
         $('#cate-toolkit input[name="status"]:checked').prop('checked', false)
-    } else {
-
     }
 };
 
 var handlerDBClick = function(event) {
-    $(this).siblings('.window').find('.list-group').toggleClass('nolimit');
+    var heightToggle;
+    if ($(this).parents('fieldset').attr('id') == 'LeftPanel') {
+        heightToggleLeft = !heightToggleLeft;
+        heightToggle = heightToggleLeft;
+    } else if ($(this).parents('fieldset').attr('id') == 'RightPanel') {
+        heightToggleRight = !heightToggleRight;
+        heightToggle = heightToggleRight;
+    }
+    var divHight = 20 + parseInt($("#div_left").height()) + parseInt($('.content-header').height());
+    if (heightToggle) {
+        $(this).prev().css('height', (h - parseInt($('.toolkit').css('height')) - divHight) - 90 + 'px');
+    } else {
+        var newHeight = (h - parseInt($('.toolkit').css('height')) - divHight) / 2 - 90;
+        var activeTabHeight = parseInt($($(this).parents('fieldset').find('.ui-state-active a').first().attr('href')).find('.list-group').css('height'));
+        if (newHeight > activeTabHeight) {
+            $(this).prev().css('height', activeTabHeight + "px");
+        } else {
+            $(this).prev().css('height', newHeight + "px");
+        }
+    }
 };
 //////////////////////////////////
 ///////////////////////////////////
@@ -2126,6 +2182,10 @@ function dragStart(event) {
     $(this).parents(".list-group").children('.active.list-group-item').each(function(i, dragelem) {
         dragitem.push($(dragelem).attr("id"));
     });
+    if (dragitem.indexOf($(this).attr('id')) == -1) {
+        dragitem.push($(this).attr('id'));
+    }
+    console.log($(this).css('cursor'));
     // console.log(dragitem);
 }
 
@@ -2139,9 +2199,13 @@ function dragLeave(event) {
     event.preventDefault();
 }
 
+function dragEnd(event) {
+    $('main').css('cursor', 'default');
+}
+
 function dropEnd(event, item) {
     $(event.target).css('opacity', '100%');
-
+    $('main').css('cursor', 'default');
     var parent = $(event.target);
     var showCate = null,
         showItem = null;
@@ -2267,10 +2331,6 @@ function functionDropEnd(event, item) {
 
 $(document).ready(function() {
 
-    $(".pr-password").passwordRequirements({
-        numCharacters: 8,
-    });
-
     // var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document.body.clientHeight));
     // $("#content").css({
     //     'max-height': h - $('#div-left').height() - $('.content-header').height() - $('.nav-tab').height()
@@ -2296,12 +2356,15 @@ $(document).ready(function() {
 
     $("#LeftPanel .list-group-item").each(function(i, elem) {
         elem.addEventListener('dragstart', dragStart);
-        $(elem).attr('drag', false);
+        elem.addEventListener('dragend', dragEnd);
+        $(elem).attr('draggable', true);
     });
 
     $(".filter-company-btn").on('drop', companyDropEnd);
     $(".filter-function-btn").on('drop', functionDropEnd);
-
+    // var divHight = 20 + parseInt($("#div_left").height()) + parseInt($('.content-header').height());
+    // $('#div_D').prev().css('height', (h - parseInt($('.toolkit').css('height')) - divHight) / 2 - 90 + 'px');
+    // $('#div_B').prev().css('height', (h - parseInt($('.toolkit').css('height')) - divHight) / 2 - 90 + 'px');
     // $(".filter-function-btn").on('dragstart', dragStart);
     // $(".filter-company-btn").on('dragstart', dragStart);
 
