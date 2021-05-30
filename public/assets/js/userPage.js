@@ -2159,18 +2159,16 @@ var handlerDBClick = function(event) {
         heightToggle = heightToggleRight;
     }
     var divHight = 20 + parseInt($("#div_left").height()) + parseInt($('.content-header').height());
-    var activeTabHeight = parseInt($($(this).parents('fieldset').find('.ui-state-active a').first().attr('href')).find('.list-group').css('height'));
-    var newHeight;
     if (heightToggle) {
-        newHeight = (h - parseInt($('.toolkit').css('height')) - divHight) - 90;
-
+        $(this).prev().css('height', (h - parseInt($('.toolkit').css('height')) - divHight) - 90 + 'px');
     } else {
-        newHeight = (h - parseInt($('.toolkit').css('height')) - divHight) / 2 - 90;
-    }
-    if (newHeight > activeTabHeight) {
-        $(this).prev().css('height', activeTabHeight + "px");
-    } else {
-        $(this).prev().css('height', newHeight + "px");
+        var activeTabHeight = parseInt($($(this).parents('fieldset').find('.ui-state-active a').first().attr('href')).find('.list-group').css('height'));
+        var newHeight = (h - parseInt($('.toolkit').css('height')) - divHight) / 2 - 90;
+        if (newHeight > activeTabHeight) {
+            $(this).prev().css('height', activeTabHeight + "px");
+        } else {
+            $(this).prev().css('height', newHeight + "px");
+        }
     }
 };
 //////////////////////////////////
