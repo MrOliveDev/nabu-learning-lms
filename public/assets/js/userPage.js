@@ -1730,7 +1730,13 @@ var searchfilter = function(event) {
             $(e).toggle(false);
         }
     });
-
+    if($(this).parents('fieldset').attr('id')=="LeftPanel"){
+        heightToggleLeft=true;
+        $('#div_left').dblclick();
+    } else if($(this).parents('fieldset').attr('id')=="RightPanel") {
+         heightToggleRight=true;
+        $('#div_right').dblclick();
+    }
 };
 
 var sortfilter = function(event) {
