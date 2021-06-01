@@ -362,7 +362,7 @@
                             <div class="custom-control custom-switch custom-control-lg mb-2 ml-0 ">
                                 <input type="checkbox" class="custom-control-input" id="user-status-icon"
                                     name="user-status-icon" checked="">
-                                <label class="custom-control-label" for="user-status-icon">Status</label>
+                                <label class="custom-control-label" for="user-status-icon">Online/Offline</label>
                             </div>
                         </div>
                         <div class="card-body  p-3">
@@ -433,6 +433,20 @@
                                             <option value="{{ $language->language_id }}">
                                                 {{ $language->language_name }}</option>
                                         @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Type
+                                        </span>
+                                    </div>
+                                    <select class="form-control" id="language" name="language">
+                                        <option value="" selected>No Type</option>
+                                        <option value="1">Step by step</option>
+                                        <option value="2">Free</option>
                                     </select>
                                 </div>
                             </div>

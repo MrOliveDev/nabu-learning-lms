@@ -98,4 +98,11 @@ class TrainingController extends Controller
         return response()->json($id);
         //
     }
+
+    public function trainingLinkFromLesson(Request $request)
+    {
+        $training = TrainingsModel::find($request->post(''));
+        
+        $training->lesson_content = $request->post('');
+    }
 }
