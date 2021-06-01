@@ -81,7 +81,7 @@
             .ajaxStart(function() {
                 $('body').waitMe({
                     effect: 'bounce',
-                    text: 'Lodading...',
+                    text: 'Loading...',
                     bg: 'rgba(255, 255, 255, 0.7)',
                     color: '#000'
                 });
