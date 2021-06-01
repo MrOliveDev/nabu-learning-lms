@@ -1,8 +1,7 @@
-
-#div_A,
-#div_B,
-#div_C,
-#div_D {
+#div_A .list-group,
+#div_B .list-group,
+#div_C .list-group,
+#div_D .list-group {
     max-height: 400px;
 }
 
@@ -16,26 +15,27 @@
 .toolkit-filter {
     display: none;
 }
-#LeftPanel .toolkit,
+
 #div_D .list-group-item,
 #div_A .list-group-item {
-    background-color: var(--lesson-c) !important;
+    background-color: var(--lesson-h) !important;
 }
 
+#LeftPanel .toolkit,
 #div_D .list-group-item.active,
 #div_A .list-group-item.active {
-    background-color: var(--lesson-h);
+    background-color: var(--lesson-c);
+}
+
+#div_B .list-group-item,
+#div_C .list-group-item {
+    background-color: var(--training-h);
 }
 
 #RightPanel .toolkit,
-#div_B .list-group-item,
-#div_C .list-group-item {
-    background-color: var(--training-c);
-}
-
 #div_B .list-group-item.active,
 #div_C .list-group-item.active {
-    background-color: var(--training-h);
+    background-color: var(--training-c);
 }
 
 .toolkit {
@@ -93,13 +93,13 @@ a.list-group-item:not([href]) {
 
 @keyframes lessonhightlight {
     0% {
-        background-color: var(--lesson-h);
+        border-color: var(--lesson-h);
     }
     50% {
-        background-color: var(--lesson-c);
+        border-color: var(--lesson-c);
     }
     100% {
-        background-color: var(--lesson-h);
+        border-color: var(--lesson-h);
     }
 }
 
@@ -110,13 +110,13 @@ a.list-group-item:not([href]) {
 
 @keyframes traininghightlight {
     0% {
-        background-color: var(--training-h);
+        border-color: var(--training-h);
     }
     50% {
-        background-color: var(--training-c);
+        border-color: var(--training-c);
     }
     100% {
-        background-color: var(--training-h);
+        border-color: var(--training-h);
     }
 }
 
@@ -134,4 +134,32 @@ select:focus {
 #teachers .item-show,
 #authors .item-show {
     display: none;
+}
+
+.filter-date-btn:hover {
+    background-color: blue !important;
+}
+
+.filter-date-btn {
+    background-color: rgb(97, 97, 248) !important;
+}
+
+.filter-name-btn:hover {
+    background-color: green !important;
+}
+
+.filter-name-btn {
+    background-color: rgb(0, 184, 0) !important;
+}
+
+.list-group-item.border-transparent {
+    border-color: transparent;
+}
+
+.wheel-btn {
+    color: #c31c2d;
+}
+
+.wheel-btn:hover {
+    color: #2d4272;
 }
