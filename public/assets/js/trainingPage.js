@@ -4,9 +4,7 @@
 
 // const { forEach } = require("lodash");
 
-var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document
-    .body
-    .clientHeight));
+var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document.body.clientHeight));
 
 var baseURL = window.location.protocol + "//" + window.location.host;
 // var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
@@ -1284,10 +1282,12 @@ var updateGroupData = function(data, target) {
 };
 var cancelBtn = function(event) {
     var parent = $(this).parents('fieldset');
-    $("#" + $(this).parents('form').attr('data-item')).toggleClass('highlight');
-    $("#" + $(this).parents('form').attr('data-item') + " .btn").each(function(i, em) {
-        $(em).toggleClass('active', false);
-    });
+    if ($(this).parents('form').attr('data-item')) {
+        $("#" + $(this).parents('form').attr('data-item')).toggleClass('highlight');
+        $("#" + $(this).parents('form').attr('data-item') + " .btn").each(function(i, em) {
+            $(em).toggleClass('active', false);
+        });
+    }
     toggleFormOrTable(parent, null, false);
 };
 
@@ -1433,11 +1433,11 @@ var searchfilter = function(event) {
             $(e).toggle(false);
         }
     });
-    if($(this).parents('fieldset').attr('id')=="LeftPanel"){
-        heightToggleLeft=true;
+    if ($(this).parents('fieldset').attr('id') == "LeftPanel") {
+        heightToggleLeft = true;
         $('#div_left').dblclick();
-    } else if($(this).parents('fieldset').attr('id')=="RightPanel") {
-         heightToggleRight=true;
+    } else if ($(this).parents('fieldset').attr('id') == "RightPanel") {
+        heightToggleRight = true;
         $('#div_right').dblclick();
     }
 };
