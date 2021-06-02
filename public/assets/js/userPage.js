@@ -755,6 +755,7 @@ var item_edit = function(element) {
                 default:
                     break;
             }
+            $('#user_form').attr('data-item', parent.attr('id'));
             $.get({
                 url: baseURL + '/user/' + id,
                 success: function(data, state) {
@@ -766,7 +767,6 @@ var item_edit = function(element) {
                         $('#preview').attr('src', data.user_info.interface_icon);
                         $('#base64_img_data').val(data.user_info.interface_icon);
                     }
-                    $('#user_form').attr('data-item', parent.attr('id'));
 
                     $('#login').val(data.user_info.login);
                     $('#expired_date').val(data.user_info.expired_date);
@@ -816,6 +816,7 @@ var item_edit = function(element) {
         case 'group':
             toggleFormOrTable($('#RightPanel'), true);
             clearFrom($('RightPanel'));
+            $('#category_form').attr('data-item', parent.attr('id'));
             $.get({
                 url: baseURL + '/group/' + id,
                 success: function(data, state) {
@@ -827,7 +828,6 @@ var item_edit = function(element) {
                     $('#cate-status-icon').prop("checked", data.status == 1).change();
                     $('#cate-status').val(data.status);
 
-                    $('#category_form').attr('data-item', parent.attr('id'));
 
                     $("#category_form").attr('action', baseURL + '/group/' + id);
 
@@ -840,6 +840,7 @@ var item_edit = function(element) {
             break;
 
         case 'company':
+            $('#category_form').attr('data-item', parent.attr('id'));
             $.get({
                 url: baseURL + '/company/' + id,
                 success: function(data, state) {
@@ -851,7 +852,6 @@ var item_edit = function(element) {
                     $('#category_description').val(data.description);
                     $('#status_checkbox').css('display', 'none');
 
-                    $('#category_form').attr('data-item', parent.attr('id'));
                     $("#category_form").attr('action', baseURL + '/company/' + id);
 
                     $('#category_form .method-select').val('PUT');
@@ -864,6 +864,7 @@ var item_edit = function(element) {
             break;
 
         case 'position':
+            $('#category_form').attr('data-item', parent.attr('id'));
             $.get({
                 url: baseURL + '/function/' + id,
                 success: function(data, state) {
@@ -876,7 +877,6 @@ var item_edit = function(element) {
                     $('#category_description').val(data.description);
                     $('#status_checkbox').css('display', 'none');
 
-                    $('#category_form').attr('data-item', parent.attr('id'));
                     $("#category_form").attr('action', baseURL + '/function/' + id);
 
                     $('#category_form .method-select').val('PUT');
@@ -1528,10 +1528,12 @@ var updateCategoryData = function(data, target) {
 
 var cancelBtn = function(event) {
     var parent = $(this).parents('fieldset');
+    if($(this).parents('form').attr('data-item')){
     $("#" + $(this).parents('form').attr('data-item')).toggleClass('highlight');
     $("#" + $(this).parents('form').attr('data-item') + " .btn").each(function(i, em) {
         $(em).toggleClass('active', false);
     });
+}
     toggleFormOrTable(parent, null, false);
 };
 

@@ -18,7 +18,9 @@ class TrainingsModel extends Model
         'date_end',
         'status',
         'creation_date',
-        'templateformation'
+        'templateformation',
+        'lesson_content',
+        'type'
     ];
 
     protected $table = 'tb_trainings';
