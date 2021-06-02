@@ -402,7 +402,7 @@
                                         </span>
                                     </div>
                                     <select class="form-control" id="position" name="function">
-                                        <option value="">No Position</option>
+                                        <option value="" selected>No Position</option>
                                         @foreach ($positions as $position)
                                             <option value="{{ $position->id }}">{{ $position->name }}</option>
                                         @endforeach
@@ -417,7 +417,7 @@
                                         </span>
                                     </div>
                                     <select class="form-control" id="company" name="company">
-                                        <option value="">No Company</option>
+                                        <option value="" selected>No Company</option>
                                         @foreach ($companies as $company)
                                             <option value="{{ $company->id }}">{{ $company->name }}</option>
                                         @endforeach
@@ -432,7 +432,7 @@
                                         </span>
                                     </div>
                                     <select class="form-control" id="language" name="language">
-                                        <option value="" disabled>No Langauge</option>
+                                        <option value="" selected>No Langauge</option>
                                         @foreach ($languages as $language)
                                             <option value="{{ $language->language_id }}">{{ $language->language_name }}</option>
                                         @endforeach
