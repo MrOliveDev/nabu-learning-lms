@@ -55,10 +55,6 @@ var notification = function(str, type) {
 
 };
 
-var countDisplayUser = function(event) {
-    $('#member-count').html($(this).find('.list-group-item').length + " members");
-};
-
 var clearClassName = function(i, highlighted) {
     $(highlighted).find(".btn").each(function(index, btnelement) {
         $(btnelement).removeClass("active");
@@ -68,25 +64,21 @@ var clearClassName = function(i, highlighted) {
     }
 };
 
-// $("#RightPanel .list-group-item").click(function(e) {
-//     $(this).parents('.list-group').children(".list-group-item").each(function(i, e) {
-//         if ($(e).hasClass("active")) {
-//             $(e).removeClass("active");
-//         }
-//     });
-//     $(this).addClass('active');
-// });
-
 var leftItemClick = function(e) {
-    // e.stopPropagation();
     if (!$(this).hasClass("active")) {
         $(this).addClass("active");
-        // $(this).attr('draggable', true);
     } else {
         $(this).removeClass("active");
-        // $(this).attr('draggable', false);
     }
 
+};
+
+var itemDBlClick = function() {
+    $(this).parents('.list-group').children(".list-group-item").each(function(i, e) {
+        if ($(e).hasClass("active")) {
+            $(e).removeClass("active");
+        }
+    });
 };
 
 var btnClick = function(e) {
@@ -162,8 +154,8 @@ var clearFrom = function(element) {
             $(forminput).val('');
         }
     });
-    if (element.has('#preview').length != 0) {
-        element.find('#preview').attr('src', '');
+    if (element.has('#preview-rect').length != 0) {
+        element.find('#preview-rect').attr('src', '');
     }
 
 };
@@ -221,78 +213,21 @@ var toggleFormOrTable = function(element, flag = null, flag1 = true) {
 
 };
 
-var goTab = function(name) {
-    // console.log($('#' + name + '-tab')[0]);
-    $('#' + name + '-tab').click();
-};
-
-// var contentFilter = function(element_id, str = '', comp = null, func = null, online = 0) {
-
-//     var category = element_id.split('_')[0].split('-')[0];
-//     var id = element_id.split('_')[1];
-//     var data = {
-//         'id': id,
-//         'str': str,
-//         'comp': comp,
-//         'func': func,
-//         'online': online
-//     };
-//     $.post(baseURL + "/userFind" + category + "/" + id, data)
-//         .done(function(responseData) {
-//             notification("Data Loaded!", 1);
-//             return responseData;
-//         })
-//         .fail(function(err) {
-//             notification('Sorry, You have an error!', 2);
-//         }).always(function(data) {
-//             console.log(data);
-//         });;
-
-// };
 var filterToggleShow = function(event) {
     var parent = $(this).parents('.toolkit');
     parent.children(".toolkit-filter").toggle();
-    if (parent.attr('id') == 'user-toolkit') {
-        var leftActiveTab = $('#LeftPanel .ui-state-active a').attr('href').split('#')[1];
-        if ( /* leftActiveTab == 'teachers' ||  */ leftActiveTab == 'authors') {
-            parent.find('.filter-function-btn').toggle(false);
-        } else {
-            parent.find('.filter-function-btn').toggle(true);
-        }
-
-    }
 
     parent.children('.toolkit-filter input').each(function(i, e) {
         $(e).attr('checked', false);
     });
     parent.children('.search-filter').val('');
-    parent.children('.filter-company-btn').html('company +<i></i>');
-    parent.children('.filter-function-btn').html('function +<i></i>');
 
-    parent.find('.search-filter').val('')
+
+    parent.find('.search-filter').val('');
     parent.find('input[name=status]').each(function(i, e) {
         $(e).prop('checked', false);
     });
-    parent.find('.filter-company-btn').val('');
-    parent.find('.filter-company-btn').html('company +<i></i>');
-    parent.find('.filter-function-btn').val('');
-    parent.find('.filter-function-btn').html('function +<i></i>');
     searchfilter(event);
-
-    switch (activedTab) {
-        case '#groups':
-            $('#cate-toolkit .status-switch').toggle(true);
-            break;
-        case '#companies':
-            $('#cate-toolkit .status-switch').toggle(false);
-            break;
-        case '#positions':
-            $('#cate-toolkit .status-switch').toggle(false);
-            break;
-
-        default:
-            break;
-    }
 
     parent.find('.filter-name-btn i').toggleClass('fa-sort-alpha-down', false);
     parent.find('.filter-name-btn i').toggleClass('fa-sort-alpha-up', false);
@@ -404,113 +339,20 @@ var toolkitAddItem = function(event) {
     event.preventDefault();
     event.stopPropagation();
     toggleFormOrTable($(this).parents('fieldset'), true);
-    if ($('#groups-tab').parents('li').hasClass('ui-state-active')) {
-        $('#status-form-group').css('display', 'block');
-        $('#cate-status-icon').val('true');
-        $('#cate-status-icon').prop('checked', true);
-    } else {
-        $('#status-form-group').css('display', 'none');
-        $('#user-status-icon').val('true');
-        $('#user-status-icon').prop('checked', true);
-    }
     var parent = $(this).parents('fieldset');
     var parent_id = parent.attr('id');
-    var activeTagName;
     if (parent_id == 'RightPanel') {
-        activeTagName = $('#RightPanel').find('.ui-state-active:first a').attr('href');
+        $('#training-status-icon').val('true');
+        $('#training-status-icon').prop('checked', true);
         $('#div_B').find('.list-group-item').each(clearClassName);
-        switch (activeTagName) {
-            case '#groups':
-                $("#category_form").attr('action', baseURL + '/group');
-                $('#status_checkbox').css('display', 'block');
-                $('#category_status').attr("checked", 'checked');
-
-                $('#category_form').attr('data-item', '');
-
-                $("#category_form .method-select").val('POST');
-                break;
-            case '#companies':
-                $("#category_form").attr('action', baseURL + '/company');
-                $('#status_checkbox').css('display', 'none');
-
-                $('#category_form').attr('data-item', '');
-
-                $("#category_form .method-select").val('POST');
-                break;
-            case '#positions':
-                $("#category_form").attr('action', baseURL + '/function');
-                $('#status_checkbox').css('display', 'none');
-
-                $('#category_form').attr('data-item', '');
-
-                $("#category_form .method-select").val('POST');
-                break;
-
-            default:
-                console.log('There is some error adding new component');
-                break;
-        }
-
-
-    } else {
-        activeTagName = $('#LeftPanel').find('.ui-state-active:first a').attr('href');
+        $("#training_form").attr('action', baseURL + '/training');
+        $('#preview-rect').attr('src', baseURL + '/assets/media/default.png');
+    } else if (parent_id == "LeftPanel") {
         $('#div_A').find('.list-group-item').each(clearClassName);
-        $('#user_form').attr('action', baseURL + '/user');
-
-        $('#user_form').attr('data-item', '');
-
-        $("#user_form .method-select").val('POST');
-
-        // $('#password').attr('disabled', false);
-        $('#password').attr('placeholder', '');
-        $('#preview').attr('src', baseURL + '/assets/media/default.png');
-        $('#generatepassword').prop('checked', false);
-
-        switch (activeTagName) {
-            case '#students':
-                $('#user_type').val('4');
-                $('#login-label').html('Login Student');
-
-                if ($('#expired_date_input .input-group').length == 0) {
-                    expired_date.appendTo($('#expired_date_input'));
-                }
-                break;
-            case '#teachers':
-                $('#user_type').val('3');
-                $('#login-label').html('Login Teacher');
-
-                if ($('#expired_date_input .input-group').length == 0) {
-                    expired_date.appendTo($('#expired_date_input'));
-                }
-                break;
-            case '#authors':
-                $('#user_type').val('2');
-                $('#login-label').html('Login Author');
-
-                if ($('#expired_date_input .input-group').length != 0) {
-                    expired_date = $('#expired_date_input .input-group');
-                    expired_date.appendTo($('#expired_date_input'));
-                }
-
-                break;
-
-            default:
-                break;
-        }
-        // $.get({
-        //     url: baseURL + "/usercreate",
-        //     success: function(data) {
-        //         notification('Initialized success!', 1);
-        //         $('#login').val(data.name);
-        //         $('#preview').attr('src', baseURL + '/assets/media/default.png');
-        //         $('#password').val(data.password);
-        //         $('#password').attr('data-password', data.password);
-        //     },
-        //     error: function(err) {
-        //         notification("Sorry, You can't init the form!", 2);
-        //     }
-        // })
+        $('#lesson_form').attr('action', baseURL + '/lesson');
     }
+    parent.find(".method-select").val('POST');
+    parent.attr('data-item', '');
 };
 
 
@@ -522,174 +364,55 @@ var item_edit = function(element) {
     var parent = element.parents('.list-group-item');
     var id = parent.attr('id').split('_')[1];
 
-    if (parent.find('.item-edit').attr('data-content') == 'group') {
-        $('#status-form-group').css('display', 'block');
-    } else {
-        $('#status-form-group').css('display', 'none');
-    }
-
-
 
     switch (element.attr('data-content')) {
-        case 'student':
-        case 'teacher':
-        case 'author':
-            $('#user_form .method-select').val('PUT');
-            // $('#password').attr('disabled', false);
+        case 'lesson':
             toggleFormOrTable($('#LeftPanel'), true);
             clearFrom($('LeftPanel'));
-            switch (element.attr('data-content')) {
-                case 'student':
-                case 'teacher':
-                    if ($('#expired_date_input .input-group').length == 0) {
-                        expired_date.appendTo($('#expired_date_input'));
-                    }
-                    break;
-                case 'author':
-                    if ($('#expired_date_input .input-group').length != 0) {
-                        expired_date = $('#expired_date_input .input-group');
-                        $('#expired_date_input .input-group').detach();
-                    }
-                    break;
-
-                default:
-                    break;
-            }
+            $("#lesson_form").attr('action', baseURL + '/lesson/' + id);
+            $('#lesson_form').attr('data-item', parent.attr('id'));
+            $('#lesson_form .method-select').val('PUT');
             $.get({
-                url: baseURL + '/user/' + id,
+                url: baseURL + '/lesson/' + id,
                 success: function(data, state) {
-                    notification('We got user data successfully!', 1);
-                    console.log(state);
-                    if (data.user_info.interface_icon == null || data.user_info.interface_icon == "") {
-                        $('#preview').attr('src', baseURL + '/assets/media/default.png');
-                    } else {
-                        $('#preview').attr('src', data.user_info.interface_icon);
-                        $('#base64_img_data').val(data.user_info.interface_icon);
-                    }
-                    $('#user_form').attr('data-item', parent.attr('id'));
-
-                    $('#login').val(data.user_info.login);
-                    $('#expired_date').val(data.user_info.expired_date);
-                    $('#password').attr('placeholder', "Private password");
-                    $('#generatepassword').prop('checked', false);
-                    $('#firstname').val(data.user_info.first_name);
-                    $('#lastname').val(data.user_info.last_name);
-                    $('#language').val(data.user_info.lang);
-                    $('#company').val(data.user_info.company);
-                    $('#position').val(data.user_info.function);
-                    $("#user_form").attr('action', baseURL + '/user/' + id);
-                    $('#status-form-group').css('display', 'block !important');
-                    if (data.user_info.auto_generate) {
-                        $('#generatepassword').prop('checked', true);
-                    }
-                    switch (data.user_info.type) {
-                        case 2:
-                            $('#login-label').html('Login Author');
-                            break;
-                        case 4:
-                            $('#login-label').html('Login Student');
-                            break;
-                        case 3:
-                            $('#login-label').html('Login Teacher');
-                            break;
-
-                        default:
-                            break;
-                    }
-
-                    if (data.user_info.contact_info != null && data.user_info.contact_info != "") {
-                        $('#contact_info').val(JSON.parse(data.user_info.contact_info).address);
-                        $('#user-email').val(JSON.parse(data.user_info.contact_info).email);
-                    }
-
-                    $('#user-status-icon').prop('checked', data.user_info.status == 1).change();
-                    // $("#user_form").prop('method', "PUT");
-
+                    notification('We got lesson data successfully!', 1);
+                    $("#lesson_name").val(data.name);
+                    $("#lesson_duration").val("");
+                    $("#lesson_target").val(data.publicAudio);
+                    $("#lesson_status").val(data.status);
+                    $("#lesson_language").val(data.lang);
+                    $("#lesson-description").html(data.description);
                 },
                 error: function(err) {
-                    notification("Sorry, You can't get user data!", 2);
+                    notification("Sorry, You can't get lesson data!", 2);
                 }
             });
 
             break;
 
-        case 'group':
+        case 'training':
             toggleFormOrTable($('#RightPanel'), true);
             clearFrom($('RightPanel'));
+            $("#training_form").attr('action', baseURL + '/training/' + id);
+            $('#training_form').attr('data-item', parent.attr('id'));
+            $('#training_form .method-select').val('PUT');
             $.get({
-                url: baseURL + '/group/' + id,
+                url: baseURL + '/training/' + id,
                 success: function(data, state) {
-                    notification('We got group data successfully!', 1);
-                    console.log(state);
-                    $('#category_name').val(data.name);
-                    $('#category_description').val(data.description);
-                    $('#status_checkbox').css('display', 'block');
-                    $('#cate-status-icon').prop("checked", data.status == 1).change();
-                    $('#cate-status').val(data.status);
-
-                    $('#category_form').attr('data-item', parent.attr('id'));
-
-                    $("#category_form").attr('action', baseURL + '/group/' + id);
-
-                    $('#category_form .method-select').val('PUT');
+                    notification('We got train data successfully!', 1);
+                    $("#preview-rect").attr("src", data.training_icon);
+                    $("#base64_img_data").val(data.training_icon);
+                    $("#training-status-icon").prop('checked', data.status == 1 ? true : false);
+                    $("#training_name").val(data.name);
+                    $("#training_duration").val("");
+                    $("#training_language").val(data.lang);
+                    $("#training_type").val(data.type);
+                    $("#training-description").html(data.description);
                 },
                 error: function(err) {
-                    notification("Sorry, You can't get group data!", 2);
+                    notification("Sorry, You can't get training data!", 2);
                 }
             });
-            break;
-
-        case 'company':
-            $.get({
-                url: baseURL + '/company/' + id,
-                success: function(data, state) {
-                    notification('We got company data successfully!', 1);
-                    console.log(state);
-                    toggleFormOrTable($('#RightPanel'), true);
-                    clearFrom($('RightPanel'));
-                    $('#category_name').val(data.name);
-                    $('#category_description').val(data.description);
-                    $('#status_checkbox').css('display', 'none');
-
-                    $('#category_form').attr('data-item', parent.attr('id'));
-                    $("#category_form").attr('action', baseURL + '/company/' + id);
-
-                    $('#category_form .method-select').val('PUT');
-
-                },
-                error: function(err) {
-                    notification("Sorry, You can't get company data!", 2);
-                }
-            });
-            break;
-
-        case 'position':
-            $.get({
-                url: baseURL + '/function/' + id,
-                success: function(data, state) {
-                    notification('We got position data successfully!', 1);
-                    console.log(state);
-                    toggleFormOrTable($('#RightPanel'), true);
-                    clearFrom($('RightPanel'));
-
-                    $('#category_name').val(data.name);
-                    $('#category_description').val(data.description);
-                    $('#status_checkbox').css('display', 'none');
-
-                    $('#category_form').attr('data-item', parent.attr('id'));
-                    $("#category_form").attr('action', baseURL + '/function/' + id);
-
-                    $('#category_form .method-select').val('PUT');
-
-                },
-                error: function(err) {
-                    notification("Sorry, You can't get position data!", 2);
-                }
-            });
-            break;
-
-        case 'session':
-            notification('There is no session for this user', 1);
             break;
 
         default:
@@ -710,13 +433,10 @@ var item_delete = function(element) {
     var parent = element.parents('.list-group-item');
     var id = parent.attr('id').split('_')[1];
     switch (element.attr('data-content')) {
-        case 'student':
-        case 'teacher':
-        case 'author':
+        case 'lesson':
             $.ajax({
                 type: "DELETE",
-                url: baseURL + '/user/' + id,
-                // dataType: "json",
+                url: baseURL + '/lesson/' + id,
                 success: function(result) {
                     console.log(result);
                     parent.detach();
@@ -729,66 +449,10 @@ var item_delete = function(element) {
             });
             break;
 
-        case 'group':
+        case 'training':
             $.ajax({
                 type: "DELETE",
-                url: baseURL + '/group/' + id,
-
-                // dataType: "json",
-                success: function(result) {
-                    console.log(result);
-                    parent.detach();
-                    notification('Successfully deleted!', 1);
-                },
-                error: function(err) {
-                    console.log(err);
-                    notification("Sorry, You can't delete!", 2);
-                }
-            });
-            break;
-
-        case 'company':
-            $.ajax({
-                type: "DELETE",
-                url: baseURL + '/company/' + id,
-
-                // dataType: "json",
-                success: function(result) {
-                    console.log(result);
-                    parent.detach();
-                    notification('Successfully deleted!', 1);
-                },
-                error: function(err) {
-                    console.log(err);
-                    notification("Sorry, You can't delete!", 2);
-                }
-            });
-            break;
-
-        case 'position':
-            $.ajax({
-                type: "DELETE",
-                url: baseURL + '/function/' + id,
-
-                // dataType: "json",
-                success: function(result) {
-                    console.log(result);
-                    parent.detach();
-                    notification('Successfully deleted!', 1);
-                },
-                error: function(err) {
-                    console.log(err);
-                    notification("Sorry, You can't delete!", 2);
-                }
-            });
-            break;
-
-        case 'session':
-            $.ajax({
-                type: "DELETE",
-                url: baseURL + '/session/' + id,
-
-                // dataType: "json",
+                url: baseURL + '/traning/' + id,
                 success: function(result) {
                     console.log(result);
                     parent.detach();
@@ -849,6 +513,69 @@ var itemDelete = function(event) {
 
 };
 
+var itemShow = function(event) {
+    if ($(this).parents('.window').attr('id') == "div_A" || $(this).parents('.window').attr('id') == "div_D") {
+        toggleFormOrTable($("#LeftPanel"), false);
+    } else {
+        toggleFormOrTable($("#RightPanel"), false);
+    }
+    var parent = $(this).parents('.list-group-item');
+    var id = $(this).attr('data-item-id');
+    var cate = $(this).attr('data-content');
+    $.post({
+            url: baseURL + "/" + cate + "show/" + id,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+        }).done(function(data) {
+            console.log(data);
+            if (data) {
+                var detachIcon, addedbutton;
+                if (cate == "lesson") {
+                    JSON.parse(data).data.forEach(e => {
+                        detachIcon = $('<button class="btn toggle1-btn" data-content="training"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLink);
+                        addedbutton = createTrainingData(e);
+                        addedbutton.find(".btn-group").append(detachIcon).attr('data-src', parent.attr('id'));
+                        $("#div_B .list-group").append(addedbutton);
+                    });
+
+                } else if (cate == "training") {
+                    JSON.parse(data).data.forEach(e => {
+                        detachIcon = $('<button class="btn toggle1-btn" data-content="lesson"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLink);
+                        addedbutton = createLessonData(e);
+                        addedbutton.find(".btn-group").append(detachIcon).attr('data-src', parent.attr('id'));
+                        $("#div_D .list-group").append(addedbutton);
+                    });
+                }
+            }
+        })
+        .fail(function(err) {
+            console.log(err);
+            notification('You have an error getting data');
+        });
+};
+var itemPlay = function(event) {
+    var parent = $(this).parents('.list-group-item');
+};
+var itemTemplate = function(event) {
+    var parent = $(this).parents('.list-group-item');
+};
+var itemRefresh = function(event) {
+    var parent = $(this).parents('.list-group-item');
+};
+var itemType = function(event) {
+    var parent = $(this).parents('.list-group-item');
+    if ($(this).attr('data-type') == "1") {
+        $(this).attr('data-type', "2");
+        $(this).find('i').toggleClass('fa-wave-square', false);
+        $(this).find('i').toggleClass('fa-sort-amount-down-alt', true);
+    } else {
+        $(this).attr('data-type', "1");
+        $(this).find('i').toggleClass('fa-wave-square', true);
+        $(this).find('i').toggleClass('fa-sort-amount-down-alt', false);
+    }
+};
+
 var submitFunction = function(event) {
     console.log($(this).attr('action'));
     console.log($("#cate-status").attr("checked"));
@@ -856,52 +583,47 @@ var submitFunction = function(event) {
     return false;
 };
 
-
-var detachLinkTo = function(e) {
+//TODO: make function for detach
+var detachLink = function(e) {
     var parent = $(this).parents('.list-group-item');
     var showeditem = parent.attr('data-src');
+    var show_id = showeditem.splite("_")[1];
     var id = parent.attr('id').split('_')[1];
     var cate = parent.attr('id').split('_')[0];
-    var value = $("#" + showeditem).find('input[name="item-' + cate + '"]').val();
-    if (cate == 'group') {
-        $("#div_A #" + showeditem).find('input[name="item-' + cate + '"]').val(combine(value, id).join('_'));
-    } else {
-        $("#div_A #" + showeditem).find('input[name="item-' + cate + '"]').val('');
+    var value, result;
+    if (cate == 'lesson') {
+        value = $(this).attr('data-training');
+        if (value || value.indexOf(show_id) != -1) {
+            $(this).attr('data-training', value.splite('_').slice(show_id).join('_'));
+        }
+        result = $(this).attr('data-training');
+        var srcValue = $("#" + showeditem).attr('data-lesson');
+        var jsonValue = JSON.parse(srcValue);
+        $("#" + showeditem).attr('data-lesson', JSON.stringify(jsonRemove(jsonValue, show_id)));
+
+    } else if (cate == 'training') {
+        value = $(this).attr('data-lesson');
+        var jsonValue = JSON.parse(value);
+        $(this).attr('data-lesson', JSON.stringify(jsonRemove(jsonValue, show_id)));
+        $("#" + showeditem).attr('data-training', value.splite('_').slice(id).join('_'));
+        result = $(this).attr('data-lesson');
     }
-
-    var result = $("#" + showeditem).find('input[name="item-' + cate + '"]').val();
-
     detachCall(cate, {
         id: showeditem.split('_')[1],
         target: result,
         flag: false
     }, $(this));
-
-
-
 };
 
-var detachLinkFrom = function(e) {
-    var parent = $(this).parents('.list-group-item');
-    var divAitem = $("#div_A #" + parent.attr('id'));
-    var showeditem = parent.attr('data-src');
-    var id = $("#" + showeditem).attr('id').split('_')[1];
-    var cate = $("#" + showeditem).attr('id').split('_')[0];
-    var value = divAitem.find('input[name="item-' + cate + '"]').val();
-    if (cate == 'group') {
-        divAitem.find('input[name="item-' + cate + '"]').val(combine(value, id).join('_'));
-    } else {
-        divAitem.find('input[name="item-' + cate + '"]').val('');
+var jsonRemove = function(obj, item) {
+
+    var detachedList;
+    if (obj) {
+        detachedList = obj.filter(function(e, i, t) {
+            return (e.item != item)
+        });
     }
-
-    var result = parent.find('input[name="item-' + cate + '"]').val();
-    var parent_id = parent.attr('id').split('_')[1];
-
-    detachCall(cate, {
-        id: parent_id,
-        target: result,
-        flag: false
-    }, $(this));
+    return detachedList;
 };
 
 var combine = function(value, id) {
@@ -914,14 +636,14 @@ var combine = function(value, id) {
 
 var detachCall = function(cate, connectiondata, element) {
     $.post({
-        url: baseURL + '/userjointo' + cate,
+        url: baseURL + '/traininglinkfromlesson',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         data: {
             'data': JSON.stringify(Array(connectiondata))
         }
-    }).then(function(data) {
+    }).done(function(data) {
         notification('Successfully unliked!', 1);
         if (element.parents('fieldset').attr('id') == 'RightPanel') {
             toggleFormOrTable($("#LeftPanel"), false, false);
@@ -940,7 +662,6 @@ var detachCall = function(cate, connectiondata, element) {
 
 var submitBtn = function(event) {
     var formname = $(this).attr('data-form');
-    var inputpassword = document.getElementById('password');
     if ($("#" + formname).attr('data-item')) {
         $("#" + $(this).parents('form').attr('data-item')).toggleClass('highlight', false);
         $("#" + $(this).parents('form').attr('data-item') + " .btn").each(function(i, em) {
@@ -948,41 +669,8 @@ var submitBtn = function(event) {
         });
     }
     var validate = true;
-    document.getElementById(formname).checkValidity();
     //TODO: We have to check this function again after a while;
-    var regularExpression = new RegExp("^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[!%&@#$^*?_~+={}().,\/<>-]).*$");
-    var password = $('#password').val();
-    if (formname == 'user_form') {
-        validate = validate && $("#login")[0].checkValidity();
-        validate = validate && $("#contact_info")[0].checkValidity();
-        validate = validate && $("#user-email")[0].checkValidity();
-        validate = validate && $("#lastname")[0].checkValidity();
-        validate = validate && $("#firstname")[0].checkValidity();
-        if (password == '' || password == null) {
-            if ($('#password').attr('placeholder') == '') {
-                validate = false;
-                inputpassword.setCustomValidity('bad password');
-                inputpassword.reportValidity();
-            }
-        } else {
-            if (!regularExpression.test(password)) {
-                validate = false;
-                inputpassword.setCustomValidity('bad password');
-                inputpassword.reportValidity();
-            }
-        }
 
-        if (($('#expired_date').val() == '' || $('#expired_date').val() == null) && $('#expired_date_input .input-group').length != 0) {
-            validate = false;
-            validate = validate && $("#expired_date")[0].checkValidity();
-            // document.getElementById('expired_date').setCustomValidity('You have to insert date');
-            // document.getElementById('expired_date').reportValidity();
-            notification('You have to insert date', 2);
-        }
-    } else if (formname == 'cate_form') {
-        validate = validate && $("#category_description")[0].checkValidity();
-        validate = validate && $("#category_name")[0].checkValidity();
-    }
 
     if (validate) {
         event.preventDefault(); // stops the "normal" <form> request, so we can post using ajax instead, below
@@ -994,50 +682,25 @@ var submitBtn = function(event) {
 
         console.log($('#' + formname).serializeArray());
         var serialval = $('#' + formname).serializeArray().map(function(item) {
-            var arr = {};
-            if (item.name == 'user-status-icon') {
+            if (item.name == 'training-status-icon') {
                 item.value = $('#user-status-icon').prop('checked') == true ? 1 : 0;
-            } else if (item.name == 'cate-status-icon') {
-                item.value = $('#cate-status-icon').prop("checked") == true ? 1 : 0;
-            } else if (item.name == 'generatepassword') {
-                item.value = $('#generatepassword').prop("checked") == true ? 1 : 0;
             }
             return item;
         });
         if (!serialval.filter(function(em, t, arr) {
-                return em.name == 'user-status-icon' || em.name == 'cate-status-icon';
+                return em.name == 'training-status-icon';
             }).length) {
-            if (formname == 'user_form') {
+            if (formname == 'traininig_form') {
                 serialval.push({
-                    name: 'user-status-icon',
-                    value: $('#user-status-icon').prop('checked') == true ? 1 : 0
-                });
-                serialval.push({
-                    name: 'generatepassword',
-                    value: $('#generatepassword').prop('checked') == true ? 1 : 0
-                });
-            } else if (formname == 'cate_form') {
-                serialval.push({
-                    name: 'cate-status-icon',
-                    value: $('#cate-status-icon').prop('checked') == true ? 1 : 0
+                    name: 'traininig-status-icon',
+                    value: $('#training-status-icon').prop('checked') == true ? 1 : 0
                 });
             }
         }
         if (!$("#" + formname).find('input[type=checkbox]').prop('checked')) {
-            if (formname == 'user_form') {
+            if (formname == 'training_form') {
                 serialval.push({
-                    name: 'user-status-icon',
-                    value: 0
-                });
-                if ($('#generatepassword').prop('checked') == false) {
-                    serialval.push({
-                        name: 'generatepassword',
-                        value: 0
-                    });
-                }
-            } else if (formname == 'cate_form') {
-                serialval.push({
-                    name: 'cate-status-icon',
+                    name: 'training-status-icon',
                     value: 0
                 });
             }
@@ -1052,68 +715,21 @@ var submitBtn = function(event) {
                 if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
                     var arr_url = $('#' + formname).attr('action').split('/');
                     var groupName = arr_url[arr_url.length - 1];
-                    switch (groupName) {
-                        case 'user':
-
-                            notification('User added successfully!', 1);
-                            switch ($("#user_type").val()) {
-                                case '4':
-                                    notification('A student has been registered sucessfully!', 1);
-                                    $('#students .list-group').append(createUserData(data, 'student'));
-                                    break;
-
-                                case '3':
-                                    notification('A teacher has been registered sucessfully!', 1);
-                                    $('#teachers .list-group').append(createUserData(data, 'teacher'));
-                                    break;
-
-                                case '2':
-                                    notification('An author has been registered sucessfully!', 1);
-                                    $('#authors .list-group').append(createUserData(data, 'author'));
-                                    break;
-
-                                default:
-                                    break;
-                            }
-                            break;
-                        case 'group':
-                            notification('The group has been saved sucessfully!', 1);
-                            $('#groups .list-group').append(createGroupData(data, 'group'));
-                            break;
-                        case 'company':
-                            notification('The company has been saved sucessfully!', 1);
-                            $('#companies .list-group').append(createCategoryData(data, 'company'));
-                            $('#company').append('<option value="' + data.id + '">' + data.name + '</option>');
-                            break;
-                        case 'function':
-                            notification('The position has been saved sucessfully!', 1);
-                            $('#positions .list-group').append(createCategoryData(data, 'function'));
-                            $('#position').append('<option value="' + data.id + '">' + data.name + '</option>');
-                            break;
-
-                        default:
-                            break;
+                    if (formname == "lesson_form") {
+                        notification('The lesson has been saved sucessfully!', 1);
+                        $('#groups .list-group').append(createLessonData(data));
+                    } else if (formname == "training_form") {
+                        notification('The training has been saved sucessfully!', 1);
+                        $('#groups .list-group').append(createTrainingData(data));
                     }
                 } else {
                     var target = $("#" + formname).attr('data-item');
-                    switch (target.split('_')[0]) {
-                        case 'student':
-                        case 'teacher':
-                        case 'author':
-                            updateUserData(data, target);
-                            break;
-                        case 'group':
-                            updateGroupData(data, target);
-                            break;
-                        case 'company':
-                            updateCategoryData(data, target);
-                            break;
-                        case 'function':
-                            updateCategoryData(data, target);
-                            break;
-
-                        default:
-                            break;
+                    if (formname == "lesson_form") {
+                        notification('The lesson has been saved sucessfully!', 1);
+                        updateLessonData(data, target);
+                    } else if (formname == "training_form") {
+                        notification('The training has been saved sucessfully!', 1);
+                        updateTrainingData(data, target);
                     }
                 }
             },
@@ -1129,10 +745,10 @@ var submitBtn = function(event) {
     if ($("#" + formname).attr('data-item') != '' && $("#" + formname).attr('data-item') != null) {
         var targetName = $("#" + formname).attr('data-item').split('_')[0],
             sourceId;
-        if (targetName == 'student' || targetName == 'author' || targetName == 'teacher') {
-            sourceId = $("#user_form").attr('data-item');
+        if (targetName == 'lesson') {
+            sourceId = $("#lesson_form").attr('data-item');
         } else {
-            sourceId = $("#cate_form").attr('data-item');
+            sourceId = $("#training_form").attr('data-item');
         }
         $('#' + sourceId).toggleClass('highlight', false);
         $('#' + sourceId + ' .item-edit').toggleClass('active', false);
@@ -1140,146 +756,168 @@ var submitBtn = function(event) {
 
 };
 
-var createUserData = function(data, category) {
+var createLessonData = function(data) {
 
-    // var status_temp = data.user.status == '1' ?
-    //     '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
-    //     '<input type="hidden" name="item-status" class="status-notification" value="1">' :
-    //     '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
-    //     '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    // var userItem = $('<a class="list-group-item list-group-item-action  p-1 border-0 ' + category + '_' + data.user.id + '" id="' + category + '_' + data.user.id + '" data-date="' + data.user.creation_date + '">' +
-    //     '<div class="float-left">' +
-    //     status_temp +
-    //     '<span class="item-name">' + data.user.first_name + '&nbsp;' + data.user.last_name + '</span>' +
-    //     '<input type="hidden" name="item-name" value="' + data.user.first_name + data.user.last_name + '">' +
-    //     '<input type="hidden" name="item-group" value="' + data.user.linked_groups + '">' +
-    //     '<input type="hidden" name="item-company" value="' + data.user.company + '">' +
-    //     '<input type="hidden" name="item-function" value="' + data.user.function+'">' +
-    //     '</div>' +
-    //     '<div class="btn-group float-right">' +
-    //     '<span class=" p-2 font-weight-bolder item-lang">' + data.lang.toUpperCase() + '</span>' +
-    //     '</div>' +
-    //     '</a>');
-    // var showbtn = $('<button class="btn  item-show" data-content="' + category + '">' +
-    //     '<i class="px-2 fa fa-eye"></i>' +
-    //     '</button>');
+    var status_temp;
+    switch (data['status']) {
+        case 1:
+            status_temp = '<i class="fa fa-circle  m-2" style="color:green;"></i>' +
+                '<input type="hidden" name="item-status" class="status-notification" value="1">';
+            break;
+        case 2:
+            status_temp = '<i class="fa fa-circle  m-2" style="color:green;"></i>' +
+                '<input type="hidden" name="item-status" class="status-notification" value="2">';
+            break;
+        case 3:
+            status_temp = '<i class="fa fa-circle  m-2" style="color:green;"></i>' +
+                '<input type="hidden" name="item-status" class="status-notification" value="3">';
+            break;
+        case 4:
+            status_temp = '<i class="fa fa-circle  m-2" style="color:green;"></i>' +
+                '<input type="hidden" name="item-status" class="status-notification" value="4">';
+            break;
+        case 5:
+            status_temp = '<i class="fa fa-circle  m-2" style="color:green;"></i>' +
+                '<input type="hidden" name="item-status" class="status-notification" value="5">';
+            break;
+        default:
+            break;
+    }
+    var lessonItem = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x lesson_' + data['id'] + '"' +
+        'data-date="' + data['creation_date'] + '" data-training = "' + data['training'].join('_') + '" id="lesson_' + data['id'] + '">' +
+        '<div class="float-left">' +
+        status_temp +
+        '<span class="item-name">' + data['name'] + '</span>' +
+        '</div>' +
+        '<div class="btn-group float-right">' +
+        '<span class=" p-2 font-weight-bolder item-lang">' + data['lang'] + '</span>' +
+        '</div>' +
+        '</a>');
+    var btnShow = $('<button class="btn  item-show" data-content="lesson" data-item-id="' + data['id'] + '">' +
+        '<i class="px-2 fa fa-eye"></i>' +
+        '</button>');
+    var btnEdit = $('<button class="btn item-edit" data-content="lesson" data-item-id="' + data['id'] + '">' +
+        '<i class="px-2 fa fa-edit"></i>' +
+        '</button>');
+    var btnDelete = $('<button class="btn item-delete" data-content="lesson" data-item-id="' + data['id'] + '">' +
+        '<i class="px-2 fa fa-trash-alt"></i>' +
+        '</button>');
+    var btnPlay = $('<button class="btn item-play" data-content="lesson" data-fabrica ="' + data['idFabrica'] + '">' +
+        '<i class="px-2 fa fa-play"></i>' +
+        '</button>');
+    var btnTemplate = $('<button class="btn item-template" data-content="lesson" data-template = "' + data['template_player_id'] + '">' +
+        '<i class="px-2 fa fa-cube"></i>' +
+        '</button>');
+    var btnRefresh = $('<button class="btn item-refresh" data-content="lesson" data-item-id = "' + data['id'] + '">' +
+        '<i class="px-2 fa fa-sync-alt"></i>' +
+        '</button>');
 
-    // var editbtn = $('<button class="btn item-edit" data-content="' + category + '">' +
-    //     '<i class="px-2 fa fa-edit"></i>' +
-    //     '</button>');
 
-    // var deletebtn = $('<button class="btn item-delete" data-content="' + category + '">' +
-    //     '<i class="px-2 fa fa-trash-alt"></i>' +
-    //     '</button>');
-    // showbtn.attr('drag', false);
+    btnShow.click(btnClick).click(itemShow);
 
-    // showbtn.click(btnClick);
-    // showbtn.click(divACshow);
-    // showbtn.click(divAshow);
+    btnEdit.click(btnClick).click(itemEdit);
 
-    // editbtn.click(btnClick);
-    // editbtn.click(itemEdit);
-    // editbtn.click(divACedit);
+    btnDelete.click(btnClick).click(itemDelete);
 
-    // deletebtn.click(btnClick);
-    // deletebtn.click(itemDelete);
+    btnPlay.click(btnClick).click(itemPlay);
 
-    // userItem.dblclick(itemDBClick);
-    // userItem.find('.btn-group').append(showbtn).append(editbtn).append(deletebtn);
-    // userItem.click(leftItemClick);
+    btnTemplate.click(btnClick).click(itemTemplate);
 
-    // userItem.find('.item-name').val(data.user.first_name + data.user.last_name);
-    // userItem.bind('dragstart', dragStart);
-    // userItem.bind('dragend', dragEnd);
-    // userItem.attr('draggable', true);
+    btnRefresh.click(btnClick).click(itemRefresh);
 
-    return userItem;
-
+    lessonItem.find('.btn-group')
+        .append(btnShow)
+        .append(btnEdit)
+        .append(btnDelete)
+        .append(btnPlay)
+        .append(btnTemplate)
+        .append(btnRefresh)
+        .dblclick(itemDBlClick)
+        .click(leftItemClick)
+        .bind('dragstart', dragStart)
+        .bind('dragend', dragEnd)
+        .attr('draggable', true);
+    return lessonItem;
 };
 
-var createGroupData = function(data, category) {
-    // var status_temp = data.status == '1' ?
-    //     '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
-    //     '<input type="hidden" name="item-status" class="status-notification" value="1">' :
-    //     '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
-    //     '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    // var groupItem = $('<a class="list-group-item list-group-item-action p-1 border-0 ' + category + '_' + data.id + '" id="' + category + '_' + data.id + '" data-date="' + data.creation_date + '">' +
-    //     '<div class="float-left">' +
-    //     status_temp +
-    //     '<span class="item-name">' + data.name + '</span>' +
-    //     '<input type="hidden" name="item-name" value="' + data.name + '">' +
-    //     '</div>' +
-    //     '<div class="btn-group float-right">' +
-    //     '<button class="btn  toggle1-btn  item-show" data-content="' + category + '">' +
-    //     '<i class="px-2 fa fa-eye"></i>' +
-    //     '</button>' +
-    //     '<button class="btn item-edit toggle1-btn" data-content="' + category + '">' +
-    //     '<i class="px-2 fa fa-edit"></i>' +
-    //     '</button>' +
-    //     '<button class="btn item-delete toggle1-btn" data-content="' + category + '">' +
-    //     '<i class="px-2 fa fa-trash-alt"></i>' +
-    //     '</button>' +
-    //     '<button class="btn  toggle2-btn" data-content="' + category + '">' +
-    //     '<i class="px-2 fas fa-check-circle"></i>' +
-    //     '</button>' +
-    //     '</div>' +
-    //     '</a>');
+var createTrainingData = function(data) {
+    var status_temp;
+    switch (data['status']) {
+        case 0:
+            status_temp = '<i class="fa fa-circle  m-2" style="color:red;"></i>' +
+                '<input type="hidden" name="item-status" class="status-notification" value="0">';
+            break;
+        case 1:
+            status_temp = '<i class="fa fa-circle  m-2" style="color:green;"></i>' +
+                '<input type="hidden" name="item-status" class="status-notification" value="1">';
+            break;
+        default:
+            break;
+    }
+    var trainingItem = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_' + data['id'] + '"' +
+        'data-date="' + data['creation_date'] + '" data-lesson = "' + data.lesson_content + '" id="training_' + data['id'] + '">' +
+        '<div class="float-left">' +
+        status_temp +
+        '<span class="item-name">' + data['name'] + '</span>' +
+        '</div>' +
+        '<div class="btn-group float-right">' +
+        '<span class=" p-2 font-weight-bolder item-lang">' + data['lang'] + '</span>' +
+        '</div>' +
+        '</a>');
 
-    // groupItem.attr('draggable', false);
-    // groupItem.on('drop', dropEnd);
-    // groupItem.on('dragover', dragOver);
-    // groupItem.on('dragleave', dragLeave);
+    var btnType = data.type == 1 ? $('<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
+            '+<i class="px-2 fas fa-wave-square"></i></button>') :
+        $('<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
+            '<i class="px-2 fas fa-sort-amount-down-alt"></i></button>');
 
-    // groupItem.find('button.btn').click(btnClick);
-    // groupItem.find('.item-edit').click(itemEdit);
-    // groupItem.find('.item-edit').click(divACedit);
-    // groupItem.find('.item-delete').click(itemDelete);
-    // groupItem.find('.item-show').click(divACshow);
-    // groupItem.find('.item-show').click(divCshow);
+    var btnShow = $('<button class="btn  item-show" data-content="lesson" data-item-id="' + data['id'] + '">' +
+        '<i class="px-2 fa fa-eye"></i>' +
+        '</button>');
+    var btnEdit = $('<button class="btn item-edit" data-content="lesson" data-item-id="' + data['id'] + '">' +
+        '<i class="px-2 fa fa-edit"></i>' +
+        '</button>');
+    var btnDelete = $('<button class="btn item-delete" data-content="lesson" data-item-id="' + data['id'] + '">' +
+        '<i class="px-2 fa fa-trash-alt"></i>' +
+        '</button>');
 
-    return groupItem;
+    btnType.click(btnClick).click(itemType);
+
+    btnShow.click(btnClick).click(itemShow);
+
+    btnEdit.click(btnClick).click(itemEdit);
+
+    btnDelete.click(btnClick).click(itemDelete);
+
+    trainingItem.find('.btn-group')
+        .append(btnType)
+        .append(btnShow)
+        .append(btnEdit)
+        .append(btnDelete)
+        .on('drop', dropEnd);
+    return trainingItem;
 };
 
-var updateUserData = function(data, target) {
+var updateLessonData = function(data, target) {
     $('.' + target).each(function(i, im) {
-        // $(im).find('.item-name').html(data.user.first_name + "&nbsp;" + data.user.last_name);
-        // $(im).find('.status-notification').val(data.user.status);
-        // $(im).find('.status-notification').prev().css('color', data.user.status == '1' ? 'green' : 'red');
-        // $(im).find('input[name="item-name"]').val(data.user.name);
-        // $(im).find('input[name="item-group]').val(data.user.linked_groups);
-        // $(im).find('input[name="item-company]').val(data.user.company);
-        // $(im).find('input[name="item-function]').val(data.user.function);
-        // $(im).find('input[name="item-function]').val(data.user.function);
-        // $(im).find('.item-lang').html(data.lang.toUpperCase());
-        // if ($(im).attr('data-src')) {
-        //     switch ($(im).attr('data-src').split('_')[0]) {
-        //         case 'company':
-        //             if ($(im).attr('data-src').split('_')[1] != data.user.company) {
-        //                 $(im).detach();
-        //             }
-        //             break;
-        //         case 'function':
-        //             if ($(im).attr('data-src').split('_')[1] != data.user.function) {
-        //                 $(im).detach();
-        //             }
-        //             break;
-
-        //         default:
-        //             break;
-        //     }
-        // }
+        $(im).find('.item-name').html(data.name);
+        $(im).find('input[name="item-name"]').val(data.name);
+        $(im).find('.item-lang').val(data.lesson_language);
+        $(im).find('.status-notification').val(data.status);
+        $(im).find('.status-notification').prev().css('color', data.status == '1' ? 'green' : data.status == '2' ? 'blue' : data.status == '3' ? 'yellow' : data.status == '4' ? 'orange' : 'white');
     });
 
 };
 
-var updateGroupData = function(data, target) {
+var updateTrainingData = function(data, target) {
     $('.' + target).each(function(i, im) {
-        // $(im).find('.item-name').html(data.name);
-        // $(im).find('input[name="item-name"]').html(data.name);
-        // $(im).find('.status-notification').val(data.status);
-        // $(im).find('.status-notification').prev().css('color', data.status == '1' ? 'green' : 'red');
+        $(im).find('.item-name').html(data.name);
+        $(im).find('input[name="item-name"]').html(data.name);
+        $(im).find('.item-lang').val(data.lesson_language);
+        $(im).find('.status-notification').val(data.status);
+        $(im).find('.status-notification').prev().css('color', data.status == '1' ? 'green' : 'red');
     });
 };
+
 var cancelBtn = function(event) {
     var parent = $(this).parents('fieldset');
     if ($(this).parents('form').attr('data-item')) {
@@ -1374,64 +1012,85 @@ var searchfilter = function(event) {
         console.log(str);
     }
 
-    if (parent.attr('id') == 'user-toolkit' || parent.attr('id') == 'cate-toolkit') {
-        var selector = parent.prev().find('.ui-state-active a').attr('href').split('#')[1];
-        // console.log(selector);
-        items = $("#" + selector).find('.list-group .list-group-item');
-    } else {
-        items = $('#div_D .list-group').find('.list-group-item');
+    if (parent.attr('id') == 'lesson-toolkit') {
+        items = $("#div_A").find('.list-group .list-group-item');
+    } else if (parent.attr('id') == 'training-toolkit') {
+        items = $("#div_C").find('.list-group .list-group-item');
+
     }
     // console.log(items);
 
     items.map(function(i, e) {
         var item_name = $(e).find('input[name="item-name"]').val();
         var item_status = $(e).find('input[name="item-status"]').val();
-        var item_company = $(e).find('input[name="item-company"]').val();
-        var item_function = $(e).find('input[name="item-function"]').val();
 
         // console.log(item_name);
 
         if (str == null || str == '' || item_name.toLowerCase().indexOf(str.replace(/\s+/g, '')) >= 0) {
-            if (ctgc == '' || ctgc.split("_").filter(function(iem, i, d) {
-                    return iem == item_company;
-                }).length) {
-                if (ctgf == '' || ctgf.split("_").filter(function(iem, i, d) {
-                        return iem == item_function;
-                    }).length) {
 
-                    switch (opt) {
-                        case 'all':
-
-                            $(e).toggle(true);
-
-                            break;
-                        case 'on':
-                            if (item_status == 1) {
-                                $(e).toggle(true);
-                            } else {
-                                $(e).toggle(false);
-                            }
-                            break;
-                        case 'off':
-                            if (item_status == 1) {
-                                $(e).toggle(false);
-                            } else {
-                                $(e).toggle(true);
-                            }
-                            break;
-                        default:
-                            $(e).toggle(true);
-                            break;
+            switch (opt) {
+                case 'on':
+                case '1':
+                    if (item_status == 1) {
+                        $(e).toggle(true);
+                    } else {
+                        $(e).toggle(false);
                     }
-                } else {
-                    $(e).toggle(false);
-                }
-            } else {
-                $(e).toggle(false);
+                    break;
+                case 'all':
+                    $(e).toggle(true);
+                    break;
+
+                case 'off':
+                    if (item_status == 1) {
+                        $(e).toggle(false);
+                    } else {
+                        $(e).toggle(true);
+                    }
+                    break;
+                case '2':
+                    if (item_status == 2) {
+                        $(e).toggle(false);
+                    } else {
+                        $(e).toggle(true);
+                    }
+                    break;
+                case '3':
+                    if (item_status == 3) {
+                        $(e).toggle(false);
+                    } else {
+                        $(e).toggle(true);
+                    }
+                    break;
+                case '4':
+                    if (item_status == 4) {
+                        $(e).toggle(false);
+                    } else {
+                        $(e).toggle(true);
+                    }
+                    break;
+                case '5':
+                    if (item_status == 5) {
+                        $(e).toggle(false);
+                    } else {
+                        $(e).toggle(true);
+                    }
+                    break;
+                case 'orphans':
+                    if ($(e).attr('data-training')) {
+                        $(e).toggle(false);
+                    } else {
+                        $(e).toggle(true);
+                    }
+                    break;
+                default:
+                    $(e).toggle(true);
+                    break;
             }
         } else {
             $(e).toggle(false);
         }
+
     });
     if ($(this).parents('fieldset').attr('id') == "LeftPanel") {
         heightToggleLeft = true;
@@ -1476,7 +1135,7 @@ var sortfilter = function(event) {
     }
     $items = $itemgroup.children('.list-group-item');
     switch ($(this).parents('.toolkit').attr('id')) {
-        case 'user-toolkit':
+        case 'lesson-toolkit':
             if ($(this).is('.filter-name-btn')) {
                 userNameSort = !userNameSort;
                 $items.sort(function(a, b) {
@@ -1539,7 +1198,7 @@ var sortfilter = function(event) {
                 $items.detach().appendTo($itemgroup);
             }
             break;
-        case 'cate-toolkit':
+        case 'training-toolkit':
             if ($(this).is('.filter-name-btn')) {
                 cateNameSort = !cateNameSort;
                 $items.sort(function(a, b) {
@@ -1602,69 +1261,7 @@ var sortfilter = function(event) {
                 $items.detach().appendTo($itemgroup);
             }
             break;
-        case 'show-toolkit':
-            if ($(this).is('.filter-name-btn')) {
-                showNameSort = !showNameSort;
-                $items.sort(function(a, b) {
-                    var an = $(a).find('span.item-name').html().split('&nbsp;').join('').toLowerCase(),
-                        bn = $(b).find('span.item-name').html().split('&nbsp;').join('').toLowerCase();
 
-                    if (showNameSort) {
-                        nameIcon.toggleClass('fa-sort-alpha-down', true);
-                        nameIcon.toggleClass('fa-sort-alpha-up', false);
-
-                        if (an > bn) {
-                            return 1;
-                        }
-                        if (an < bn) {
-                            return -1;
-                        }
-                        return 0;
-                    } else {
-                        nameIcon.toggleClass('fa-sort-alpha-down', false);
-                        nameIcon.toggleClass('fa-sort-alpha-up', true);
-                        if (an < bn) {
-                            return 1;
-                        }
-                        if (an > bn) {
-                            return -1;
-                        }
-                        return 0;
-                    }
-                });
-
-                $items.detach().appendTo($itemgroup);
-            } else {
-                showDateSort = !showDateSort;
-                $items.sort(function(a, b) {
-                    var an = new Date(a.dataset.date),
-                        bn = new Date(b.dataset.date);
-                    if (showDateSort) {
-                        dateIcon.toggleClass('fa-sort-numeric-down', true);
-                        dateIcon.toggleClass('fa-sort-numeric-up', false);
-                        if (an > bn) {
-                            return 1;
-                        }
-                        if (an < bn) {
-                            return -1;
-                        }
-                        return 0;
-                    } else {
-                        dateIcon.toggleClass('fa-sort-numeric-down', false);
-                        dateIcon.toggleClass('fa-sort-numeric-up', true);
-                        if (an < bn) {
-                            return 1;
-                        }
-                        if (an > bn) {
-                            return -1;
-                        }
-                        return 0;
-                    }
-                });
-                $items.detach().appendTo($itemgroup);
-
-            }
-            break;
         default:
             break;
     }
@@ -1746,42 +1343,33 @@ function dropEnd(event, item) {
     if (dragitem != null) {
         // var category = dragitem[0].split('_')[0];
         dragitem.map(function(droppeditem) {
+            var original = $(this).attr('data-lesson');
 
+            rowData = $("#" + droppeditem).attr('id');
+            JSON.parse(original).map(function(e) {
+                if (e != rowData) {
+                    requestData.push({
+                        "item": rowData
+                    });
+                }
+            });
             // console.log(droppeditem.split('_')[1]);
-            if (cate == "group") {
-                var cate_items = $("#" + droppeditem).find('input[name="item-group"]').val();
-                if (cate_items.indexOf(cate_id) == -1) {
-                    cate_items += "_" + cate_id;
-                }
-                $("#" + droppeditem).find('input[name="item-group"]').val(cate_items);
-            } else {
-                var cate_item = $("#" + droppeditem).find('input[name="item-' + cate + '"]').val();
-                if (cate_item != cate_id) {
-                    $("#" + droppeditem).find('input[name="item-' + cate + '"]').val(cate_id);
-                    // console.log($("#" + item).find('input[name="item-' + cate + '"]').val());
-                }
-            }
-            rowData = {};
-            rowData.id = droppeditem.split('_')[1];
-            rowData.target = $("#" + droppeditem).find('input[name="item-' + cate + '"]').val();
-            rowData.flag = true;
 
-            requestData.push(rowData);
             if ($('#' + droppeditem).hasClass('highlight')) {
                 showItem = droppeditem;
             }
         });
-
         // requestData.forEach(itemData => {
         //     itemData =JSON.stringify(itemData)
         // })
 
         $.post({
-            url: baseURL + '/userjointo' + cate,
+            url: baseURL + '/traininglinkfromlesson' + cate,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             data: {
+                'id': cate_id,
                 'data': JSON.stringify(requestData)
             }
         }).done(function(data) {
@@ -1793,8 +1381,14 @@ function dropEnd(event, item) {
                 $('#div_A #' + showItem + " .item-show").click();
             }
             if (dragitem[0]) {
-                notification(dragitem.length + ' ' + dragitem[0].split('_')[0] + 's linked to ' + $(event.target).find('.item-name').html() + '!', 1);
+                notification(dragitem.length + ' ' + lessons + 's linked to ' + $(event.target).find('.item-name').html() + '!', 1);
             }
+            $(this).attr('data-lesson', JSON.stringify(requestData));
+            dragitem.map(function(droppeditem) {
+                if ($("#" + droppeditem).attr('data-training').split('_').indexOf(cate_id) == -1) {
+                    $("#" + droppeditem).attr('data-training').split('_').push(cate_id).join('_');
+                }
+            });
             requestData = [];
         }).fail(function(err) {
             notification("Sorry, You have an error!", 2);
@@ -1827,21 +1421,29 @@ $(document).ready(function() {
         $(elem).attr('draggable', true);
     });
 
+    document.getElementById('preview-rect').addEventListener('resize', function(event) {
+        $(this).height(($(this).width() * 9 / 16) + "px");
+    });
+
+    $("#div_D .list-group").sortable();
+    $("#div_D .list-group").disableSelection();
 });
 $('input[name=status], input.search-filter, button.filter-company-btn, button.filter-function-btn').change(searchfilter);
 $('input.search-filter').on('keydown change keyup', searchfilter);
 $("button.filter-company-btn, button.filter-function-btn").on('drop', searchfilter);
 
 $("#LeftPanel .list-group-item").click(leftItemClick);
-
+$("#LeftPanel .list-group-item").dblclick(itemDBlClick);
 $(".list-group-item button.btn").click(btnClick);
-
 $('.item-delete').click(itemDelete);
-
 $('.item-edit').click(itemEdit);
+$('.item-show').click(itemShow);
+$('.item-play').click(itemPlay);
+$('.item-template').click(itemTemplate);
+$('.item-refresh').click(itemRefresh);
+$('.item-type').click(itemType);
 
 $('.toolkit-add-item').click(toolkitAddItem);
-$('form').submit(submitFunction);
 $('form input, form select').change(formInputChange);
 $('.submit-btn').click(submitBtn);
 $('.cancel-btn').click(cancelBtn);

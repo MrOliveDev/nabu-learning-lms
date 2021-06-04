@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\LessonsModel;
+use App\Models\TrainingsModel;
 
 class LessonController extends Controller
 {
@@ -87,5 +88,28 @@ class LessonController extends Controller
 
         return response()->json($id);
         //
+    }
+
+    public function getTrainingFromLesson($id)
+    {
+        $templesson = LessonsModel::getLessonContainedTraining($id);
+        if(isset($templesson['training'])){
+            $trainingList = [];
+            foreach($templesson['training'] as $trainingId){
+                if(TrainingsModel::find($trainingId)){
+                    array_push($trainingList, TrainingsModel::find($trainingId));
+                }
+            }
+
+            $response = json_encode ( [
+                'isSuccess' => true,
+                'data'  => $trainingList
+            ] );
+
+            return $response;
+            // return response()->json($trainingList);
+        } else {
+            return response()->json([]);
+        }
     }
 }

@@ -16,8 +16,8 @@ class TrainingController extends Controller
      */
     public function index()
     {
-        $trainings = TrainingsModel::all();
-        $lessons = LessonsModel::all();
+        $trainings = TrainingsModel::getAllTrainings();
+        $lessons = LessonsModel::getLessonsContainedTraining();
         $languages = LanguageModel::all();
         return view('training')->with(compact('trainings', 'lessons', 'languages'));
     }
@@ -31,15 +31,13 @@ class TrainingController extends Controller
     public function store(Request $request)
     {
         $training = TrainingsModel::create([
-            'name'=>$request->post('name'),
-            'description'=>$request->post('description'),
-            'date_begin'=>$request->post('date_begin'),
-            'date_end'=>$request->post('date_end'),
-            'template'=>$request->post('template'),
-            'lesson_content'=>$request->post('lesson_content'),
-            'status'=>$request->post('status')
+            'name' => $request->post('training_name'),
+            'description' => $request->post('training_description'),
+            'date_begin' => $request->post('training_enddate'),
+            'status' => $request->post('training'),
         ]);
-
+        $training->lang = $request->post('training_language');
+        $training->update();
         return response()->json($training);
         //
     }
@@ -69,13 +67,13 @@ class TrainingController extends Controller
     {
         $training = TrainingsModel::find($id);
 
-        $training->name = $request->post('name');
-        $training->description = $request->post('description');
-        $training->date_begin = $request->post('date_begin');
-        $training->date_end = $request->post('date_end');
-        $training->template = $request->post('template');
-        $training->status = $request->post('status');
+        $training->name = $request->post('training_name');
+        $training->description = $request->post('training_description');
+        $training->date_begin = $request->post('training_enddate');
+        $training->lang = $request->post('training_language');
+        $training->status = $request->post('training_status');
         $training->lesson_content = $request->post('lesson_content');
+        $training->type = $request->post('training_type');
 
         $training->update();
 
@@ -101,8 +99,29 @@ class TrainingController extends Controller
 
     public function trainingLinkFromLesson(Request $request)
     {
-        $training = TrainingsModel::find($request->post(''));
-        
-        $training->lesson_content = $request->post('');
+        $training = TrainingsModel::find($request->post('lesson_content'));
+
+        $training->lesson_content = $request->post('lesson_content');
     }
+
+    public function getLessonFromTraining($id)
+    {
+        $training = TrainingsModel::find($id);
+        $lessons = [];
+        if ($training->lesson_content) {
+            $lessonList = json_decode($training->lesson_content, true);
+            foreach ($lessonList as $value) {
+                if (LessonsModel::find($value['item'])) {
+                    array_push($lessons, LessonsModel::getLessonContainedTraining($value['item']));
+                }
+            }
+        }
+
+        return json_encode ( [
+            'isSuccess' => true,
+            'data'  => $lessons
+        ] );
+    }
+
+
 }
