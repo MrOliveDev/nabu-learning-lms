@@ -191,6 +191,4 @@ class TemplateModel extends Model
     	    return FALSE;
     }
     /******* DORIAN *******/
-
-
 }
