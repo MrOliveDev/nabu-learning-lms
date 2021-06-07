@@ -39,11 +39,11 @@ class TrainingsModel extends Model
     public function scopeGetTrainingForTrainingpage($query, $id)
     {
         $result = $query->select(
-            'tb_training.*',
+            'tb_trainings.*',
             'tb_languages.language_iso as language_iso'
         )
-            ->leftjoin('tb_languages', 'tb_training.lang', '=', 'tb_languages.language_id')
-            ->where('tb_training.id', $id)
+            ->leftjoin('tb_languages', 'tb_trainings.lang', '=', 'tb_languages.language_id')
+            ->where('tb_trainings.id', $id)
             ->first();
         return $result;
     }

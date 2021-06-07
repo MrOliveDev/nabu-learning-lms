@@ -42,12 +42,16 @@ class LessonsModel extends Model
         foreach ($lessons as $key => $lesson) {
             foreach ($trainings as $training) {
                 $lessonList = json_decode($training->lesson_content, true);
-                foreach ($lessonList as $lessonItem) {
-                    if ($lessonItem['item'] == $lesson->id) {
-                        array_push($test[$key]['training'], $training->id);
+                // var_dump($training->lesson_content."<br>");
+                if ($lessonList != NULL) {
+                    foreach ($lessonList as $lessonItem) {
+                        if ($lessonItem['item'] == $lesson->id) {
+                            array_push($test[$key]['training'], $training->id);
+                        }
                     }
                 }
             }
+            // exit();
         }
         return $test;
     }
@@ -66,12 +70,26 @@ class LessonsModel extends Model
         $test['training'] = array();
         foreach ($trainings as $training) {
             $lessonList = json_decode($training->lesson_content, true);
-            foreach ($lessonList as $lessonItem) {
-                if ($lessonItem['item'] == $lesson->id) {
-                    array_push($test['training'], $training->id);
+            if ($lessonList != NULL) {
+                foreach ($lessonList as $lessonItem) {
+                    if ($lessonItem['item'] == $lesson->id) {
+                        array_push($test['training'], $training->id);
+                    }
                 }
             }
         }
         return $test;
+    }
+
+    public function scopeGetLessonForTrainingpage($query, $id)
+    {
+        $result = $query->select(
+            'tb_lesson.*',
+            'tb_languages.language_iso as language_iso'
+        )
+            ->leftjoin('tb_languages', 'tb_lesson.lang', '=', 'tb_languages.language_id')
+            ->where('tb_lesson.id', $id)
+            ->first();
+        return $result;
     }
 }

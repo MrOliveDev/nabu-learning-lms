@@ -30,14 +30,18 @@ class TrainingController extends Controller
      */
     public function store(Request $request)
     {
-        $training = TrainingsModel::create([
-            'name' => $request->post('training_name'),
-            'description' => $request->post('training_description'),
-            'date_begin' => $request->post('training_enddate'),
-            'status' => $request->post('training'),
-        ]);
+        $training = new TrainingsModel();
+
+        $training->name = $request->post('training_name') ? $request->post('training_name') : $training->name;
+        $training->description = $request->post('training_description') ? $request->post('training_description') : $training->description;
+        $training->date_end = $request->post('training_enddate') ? $request->post('training_enddate') : $training->date_end;
+        $training->lang = $request->post('training_language') ? $request->post('training_language') : $training->lang;
+        $training->status = $request->post('training_status') ? $request->post('training_status') : $training->status;
+        $training->lesson_content = $request->post('lesson_content') ? $request->post('lesson_content') : $training->lesson_content;
+        $training->type = $request->post('training_type') ? $request->post('training_type') : $training->type;
         $training->lang = $request->post('training_language');
-        $training->update();
+        $training->save();
+
         return response()->json($training);
         //
     }
@@ -67,13 +71,13 @@ class TrainingController extends Controller
     {
         $training = TrainingsModel::find($id);
 
-        $training->name = $request->post('training_name');
-        $training->description = $request->post('training_description');
-        $training->date_begin = $request->post('training_enddate');
-        $training->lang = $request->post('training_language');
-        $training->status = $request->post('training_status');
-        $training->lesson_content = $request->post('lesson_content');
-        $training->type = $request->post('training_type');
+        $training->name = $request->post('training_name') ? $request->post('training_name') : $training->name;
+        $training->description = $request->post('training_description') ? $request->post('training_description') : $training->description;
+        $training->date_end = $request->post('training_enddate') ? $request->post('training_enddate') : $training->date_end;
+        $training->lang = $request->post('training_language') ? $request->post('training_language') : $training->lang;
+        $training->status = $request->post('training_status') ? $request->post('training_status') : $training->status;
+        $training->lesson_content = $request->post('lesson_content') ? $request->post('lesson_content') : $training->lesson_content;
+        $training->type = $request->post('training_type') ? $request->post('training_type') : $training->type;
 
         $training->update();
 
@@ -99,29 +103,30 @@ class TrainingController extends Controller
 
     public function trainingLinkFromLesson(Request $request)
     {
-        $training = TrainingsModel::find($request->post('lesson_content'));
+        $training = TrainingsModel::find($request->post('id'));
 
         $training->lesson_content = $request->post('lesson_content');
     }
 
     public function getLessonFromTraining($id)
     {
-        $training = TrainingsModel::find($id);
+        $training = TrainingsModel::getTrainingForTrainingpage($id);
+
         $lessons = [];
         if ($training->lesson_content) {
             $lessonList = json_decode($training->lesson_content, true);
-            foreach ($lessonList as $value) {
-                if (LessonsModel::find($value['item'])) {
-                    array_push($lessons, LessonsModel::getLessonContainedTraining($value['item']));
+            if ($lessonList != NULL) {
+                foreach ($lessonList as $value) {
+                    if (LessonsModel::find($value['item'])) {
+                        array_push($lessons, LessonsModel::getLessonContainedTraining($value['item']));
+                    }
                 }
             }
         }
 
-        return json_encode ( [
+        return json_encode([
             'isSuccess' => true,
             'data'  => $lessons
-        ] );
+        ]);
     }
-
-
 }
