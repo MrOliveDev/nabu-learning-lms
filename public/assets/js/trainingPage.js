@@ -22,10 +22,10 @@ var input_group_position = null,
 var heightToggleLeft = false;
 var heightToggleRight = false;
 
-var userDateSort = false,
-    userNameSort = false,
-    cateDateSort = false,
-    cateNameSort = false,
+var lessonDateSort = false,
+    lessonNameSort = false,
+    trainingDateSort = false,
+    trainingNameSort = false,
     showDateSort = false,
     showNameSort = false;
 
@@ -532,20 +532,25 @@ var itemShow = function(event) {
             if (data) {
                 var detachIcon, addedbutton;
                 if (cate == "lesson") {
-                    JSON.parse(data).data.forEach(e => {
-                        detachIcon = $('<button class="btn toggle1-btn" data-content="training"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLink);
-                        addedbutton = createTrainingData(e);
-                        addedbutton.find(".btn-group").append(detachIcon).attr('data-src', parent.attr('id'));
-                        $("#div_B .list-group").append(addedbutton);
-                    });
-
+                    if (JSON.parse(data).data != []) {
+                        JSON.parse(data).data.forEach(e => {
+                            detachIcon = $('<button class="btn toggle1-btn" data-content="training"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLink);
+                            addedbutton = createTrainingData(e);
+                            addedbutton.find(".btn-group").append(detachIcon);
+                            addedbutton.attr('data-src', id);
+                            $("#div_B .list-group").append(addedbutton);
+                        });
+                    }
                 } else if (cate == "training") {
-                    JSON.parse(data).data.forEach(e => {
-                        detachIcon = $('<button class="btn toggle1-btn" data-content="lesson"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLink);
-                        addedbutton = createLessonData(e);
-                        addedbutton.find(".btn-group").append(detachIcon).attr('data-src', parent.attr('id'));
-                        $("#div_D .list-group").append(addedbutton);
-                    });
+                    if (JSON.parse(data).data != []) {
+                        JSON.parse(data).data.forEach(e => {
+                            detachIcon = $('<button class="btn toggle1-btn" data-content="lesson"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLink);
+                            addedbutton = createLessonData(e);
+                            addedbutton.find(".btn-group").append(detachIcon);
+                            addedbutton.attr('data-src', id);
+                            $("#div_D .list-group").append(addedbutton);
+                        });
+                    }
                 }
             }
         })
@@ -683,7 +688,7 @@ var submitBtn = function(event) {
         console.log($('#' + formname).serializeArray());
         var serialval = $('#' + formname).serializeArray().map(function(item) {
             if (item.name == 'training-status-icon') {
-                item.value = $('#user-status-icon').prop('checked') == true ? 1 : 0;
+                item.value = $('#lesson-status-icon').prop('checked') == true ? 1 : 0;
             }
             return item;
         });
@@ -708,6 +713,9 @@ var submitBtn = function(event) {
         console.log(serialval);
         $.ajax({
             url: $('#' + formname).attr('action'),
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             method: $('#' + formname).find('.method-select').val(),
             data: serialval,
             success: function(data) {
@@ -737,10 +745,8 @@ var submitBtn = function(event) {
                 notification("Sorry, You have an error!", 2);
             }
         });
-        var type = $('#user_type').val();
         submit_data = null;
         toggleFormOrTable($(this).parents('fieldset'), true, false);
-        $('#user_type').val(type);
     }
     if ($("#" + formname).attr('data-item') != '' && $("#" + formname).attr('data-item') != null) {
         var targetName = $("#" + formname).attr('data-item').split('_')[0],
@@ -870,13 +876,13 @@ var createTrainingData = function(data) {
         $('<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
             '<i class="px-2 fas fa-sort-amount-down-alt"></i></button>');
 
-    var btnShow = $('<button class="btn  item-show" data-content="lesson" data-item-id="' + data['id'] + '">' +
+    var btnShow = $('<button class="btn  item-show" data-content="training" data-item-id="' + data['id'] + '">' +
         '<i class="px-2 fa fa-eye"></i>' +
         '</button>');
-    var btnEdit = $('<button class="btn item-edit" data-content="lesson" data-item-id="' + data['id'] + '">' +
+    var btnEdit = $('<button class="btn item-edit" data-content="training" data-item-id="' + data['id'] + '">' +
         '<i class="px-2 fa fa-edit"></i>' +
         '</button>');
-    var btnDelete = $('<button class="btn item-delete" data-content="lesson" data-item-id="' + data['id'] + '">' +
+    var btnDelete = $('<button class="btn item-delete" data-content="training" data-item-id="' + data['id'] + '">' +
         '<i class="px-2 fa fa-trash-alt"></i>' +
         '</button>');
 
@@ -1137,12 +1143,12 @@ var sortfilter = function(event) {
     switch ($(this).parents('.toolkit').attr('id')) {
         case 'lesson-toolkit':
             if ($(this).is('.filter-name-btn')) {
-                userNameSort = !userNameSort;
+                lessonNameSort = !lessonNameSort;
                 $items.sort(function(a, b) {
                     var an = $(a).find('span.item-name').html().split('&nbsp;').join('').toLowerCase(),
                         bn = $(b).find('span.item-name').html().split('&nbsp;').join('').toLowerCase();
 
-                    if (userNameSort) {
+                    if (lessonNameSort) {
                         nameIcon.toggleClass('fa-sort-alpha-down', true);
                         nameIcon.toggleClass('fa-sort-alpha-up', false);
                         if (an > bn) {
@@ -1168,11 +1174,11 @@ var sortfilter = function(event) {
                 $items.detach().appendTo($itemgroup);
 
             } else {
-                userDateSort = !userDateSort;
+                lessonDateSort = !lessonDateSort;
                 $items.sort(function(a, b) {
                     var an = new Date(a.dataset.date),
                         bn = new Date(b.dataset.date);
-                    if (userDateSort) {
+                    if (lessonDateSort) {
                         dateIcon.toggleClass('fa-sort-numeric-down', true);
                         dateIcon.toggleClass('fa-sort-numeric-up', false);
                         if (an > bn) {
@@ -1200,12 +1206,12 @@ var sortfilter = function(event) {
             break;
         case 'training-toolkit':
             if ($(this).is('.filter-name-btn')) {
-                cateNameSort = !cateNameSort;
+                trainingNameSort = !trainingNameSort;
                 $items.sort(function(a, b) {
                     var an = $(a).find('span.item-name').html().split('&nbsp;').join('').toLowerCase(),
                         bn = $(b).find('span.item-name').html().split('&nbsp;').join('').toLowerCase();
 
-                    if (cateNameSort) {
+                    if (trainingNameSort) {
                         nameIcon.toggleClass('fa-sort-alpha-down', true);
                         nameIcon.toggleClass('fa-sort-alpha-up', false);
                         if (an > bn) {
@@ -1231,11 +1237,11 @@ var sortfilter = function(event) {
                 $items.detach().appendTo($itemgroup);
 
             } else {
-                cateDateSort = !cateDateSort;
+                trainingDateSort = !trainingDateSort;
                 $items.sort(function(a, b) {
                     var an = new Date(a.dataset.date),
                         bn = new Date(b.dataset.date);
-                    if (cateDateSort) {
+                    if (trainingDateSort) {
                         dateIcon.toggleClass('fa-sort-numeric-down', true);
                         dateIcon.toggleClass('fa-sort-numeric-up', false);
                         if (an > bn) {
@@ -1336,41 +1342,47 @@ function dropEnd(event, item) {
     }
 
     var requestData = Array();
-
+    var originalData;
     var cate_id = $(event.target).attr("id").split('_')[1];
     var cate = $(event.target).attr("id").split('_')[0];
     var rowData = Array();
     if (dragitem != null) {
         // var category = dragitem[0].split('_')[0];
+        originalData = $(event.target).attr('data-lesson');
+        if (originalData.length && originalData != "[]") {
+            requestData = JSON.parse(originalData);
+        }
         dragitem.map(function(droppeditem) {
-            var original = $(this).attr('data-lesson');
-
-            rowData = $("#" + droppeditem).attr('id');
-            JSON.parse(original).map(function(e) {
-                if (e != rowData) {
+            rowData = $("#" + droppeditem).attr('id').split('_')[1];
+            if (requestData.length != 0) {
+                if (requestData.filter(function(e) {
+                        return e == parseInt(rowData);
+                    }).length == 0)
                     requestData.push({
-                        "item": rowData
+                        "item": parseInt(rowData)
                     });
-                }
-            });
+            } else {
+                requestData.push({
+                    "item": parseInt(rowData)
+                });
+            }
+
             // console.log(droppeditem.split('_')[1]);
 
             if ($('#' + droppeditem).hasClass('highlight')) {
                 showItem = droppeditem;
             }
         });
-        // requestData.forEach(itemData => {
-        //     itemData =JSON.stringify(itemData)
-        // })
+
 
         $.post({
-            url: baseURL + '/traininglinkfromlesson' + cate,
+            url: baseURL + '/traininglinkfromlesson',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             data: {
                 'id': cate_id,
-                'data': JSON.stringify(requestData)
+                'lesson_content': JSON.stringify(requestData)
             }
         }).done(function(data) {
 
@@ -1381,11 +1393,11 @@ function dropEnd(event, item) {
                 $('#div_A #' + showItem + " .item-show").click();
             }
             if (dragitem[0]) {
-                notification(dragitem.length + ' ' + lessons + 's linked to ' + $(event.target).find('.item-name').html() + '!', 1);
+                notification(dragitem.length + ' lesson s linked to ' + $(event.target).find('.item-name').html() + '!', 1);
             }
             $(this).attr('data-lesson', JSON.stringify(requestData));
             dragitem.map(function(droppeditem) {
-                if ($("#" + droppeditem).attr('data-training').split('_').indexOf(cate_id) == -1) {
+                if ($("#" + droppeditem).attr('data-training').split('_').indexOf(cate_id) == -1 && $("#" + droppeditem).attr('data-training')) {
                     $("#" + droppeditem).attr('data-training').split('_').push(cate_id).join('_');
                 }
             });

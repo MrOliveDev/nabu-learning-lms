@@ -245,6 +245,19 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group" id="expired_date_input">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            End date
+                                        </span>
+                                    </div>
+                                    <input type="text" class="js-flatpickr form-control bg-white" id="lesson_enddate"
+                                        name="lesson_enddate" placeholder="Y-m-d" data-date-format="Y-m-d" required
+                                        title="You need a correct date">
+
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <span class="input-group-text bg-transparent border-0">
                                     Description<span class="text-danger">*</span>
@@ -439,6 +452,19 @@
                                         <option value="1">Step by step</option>
                                         <option value="2">Free</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group" id="expired_date_input">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            End date
+                                        </span>
+                                    </div>
+                                    <input type="text" class="js-flatpickr form-control bg-white" id="training_enddate"
+                                        name="training_enddate" placeholder="Y-m-d" data-date-format="Y-m-d" required
+                                        title="You need a correct date">
+
                                 </div>
                             </div>
                             <div class="form-group">
