@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CursoModel;
 use Illuminate\Http\Request;
 use App\Models\LessonsModel;
 use App\Models\TrainingsModel;
@@ -29,13 +30,49 @@ class LessonController extends Controller
      */
     public function store(Request $request)
     {
-        $lesson = LessonsModel::create([
-            'name' => $request->post('name'),
-            'description' => $request->post('description'),
-            'date_begin' => $request->post('date_begin'),
-            'date_end' => $request->post('date_end'),
-            'template' => $request->post('template')
-        ]);
+        $lesson = new LessonsModel();
+
+        if ($request->post('lesson_name')) {
+            $lesson->name = $request->post('lesson_name');
+        }
+        if ($request->post('lesson_description')) {
+            $lesson->description = $request->post('lesson_description');
+        }
+        if ($request->post('lesson_enddate')) {
+            $lesson->date_end = $request->post('lesson_enddate');
+        }
+        if ($request->post('lesson_target')) {
+            $lesson->publicAudio = $request->post('lesson_target');
+        }
+        if ($request->post('lesson_language')) {
+            $lesson->lang = $request->post('lesson_language');
+        }
+        if ($request->post('lesson_status')) {
+            $lesson->status = $request->post('lesson_status');
+        }
+        $lesson->idFabrique = $this->randomGenerate();
+        $lesson->save();
+
+        $curso = new CursoModel();
+
+        if ($request->post('lesson_name')) {
+            $curso->nome = $request->post('lesson_name');
+        }
+        if ($request->post('lesson_description')) {
+            $curso->descricao = $request->post('lesson_description');
+        }
+        if ($request->post('lesson_enddate')) {
+            $curso->dataCriacao = $request->post('lesson_enddate');
+        }
+        if ($request->post('lesson_target')) {
+            $curso->publicoAlvo = $request->post('lesson_target');
+        }
+        if ($request->post('lesson_status')) {
+            $curso->status = $request->post('lesson_status');
+        }
+        $curso->idFabrica = $lesson->idFabrique;
+        $curso->idCriador = 1;
+        $curso->save();
 
         return response()->json($lesson);
         //
@@ -49,7 +86,7 @@ class LessonController extends Controller
      */
     public function show($id)
     {
-        $lesson = LessonsModel::find($id);
+        $lesson = LessonsModel::getLessonForTrainingpage($id);
 
         return response()->json($lesson);
     }
@@ -65,12 +102,28 @@ class LessonController extends Controller
     {
         $lesson = LessonsModel::find($id);
 
-        $lesson->name = $request->post('name');
-        $lesson->description = $request->post('description');
-        $lesson->date_begin = $request->post('date_begin');
-        $lesson->date_end = $request->post('date_end');
-        $lesson->template_player_id = $request->post('template_player_id');
-        $lesson->status = $request->post('status');
+        if ($request->post('lesson_name')) {
+            $lesson->name = $request->post('lesson_name');
+        }
+        if ($request->post('lesson_description')) {
+            $lesson->description = $request->post('lesson_description');
+        }
+        if ($request->post('lesson_enddate')) {
+            $lesson->date_end = $request->post('lesson_enddate');
+        }
+        if ($request->post('lesson_target')) {
+            $lesson->publicAudio = $request->post('lesson_target');
+        }
+        if ($request->post('lesson_language')) {
+            $lesson->lang = $request->post('lesson_language');
+        }
+        if ($request->post('lesson_status')) {
+            $lesson->status = $request->post('lesson_status');
+        }
+
+        $lesson->update();
+
+        return response()->json($lesson);
         //
     }
 
@@ -93,23 +146,35 @@ class LessonController extends Controller
     public function getTrainingFromLesson($id)
     {
         $templesson = LessonsModel::getLessonContainedTraining($id);
-        if(isset($templesson['training'])){
+        if (isset($templesson['training'])) {
             $trainingList = [];
-            foreach($templesson['training'] as $trainingId){
-                if(TrainingsModel::find($trainingId)){
-                    array_push($trainingList, TrainingsModel::find($trainingId));
+            foreach ($templesson['training'] as $trainingId) {
+                if (TrainingsModel::find($trainingId)) {
+                    if (!in_array(TrainingsModel::getTrainingForTrainingpage($trainingId), $trainingList)) {
+                        array_push($trainingList, TrainingsModel::getTrainingForTrainingpage($trainingId));
+                    }
                 }
             }
 
-            $response = json_encode ( [
+            $response = json_encode([
                 'isSuccess' => true,
                 'data'  => $trainingList
-            ] );
+            ]);
 
             return $response;
             // return response()->json($trainingList);
         } else {
             return response()->json([]);
         }
+    }
+
+    public function randomGenerate($car=8) {
+        $string = "";
+        $chaine = "ABCDEFGHIJQLMNOPQRSTUVWXYZabcdefghijqlmnopqrstuvwxyz0123456789";
+        srand((double) microtime() * 1000000);
+        for ($i = 0; $i < $car; $i++) {
+            $string .= $chaine[rand() % strlen($chaine)];
+        }
+        return $string;
     }
 }
