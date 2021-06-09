@@ -13,10 +13,10 @@ session_start();
 //echo "diff:".(time() - $_SESSION['session_init'])."<br>\n";
 if (isset($_SESSION['session_init']) && (time() - $_SESSION['session_init'] > $session_time)) {
     echo "session EXPIRE !"."<br>\n";
-    //session_unset();     // unset $_SESSION variable for the run-time 
+    //session_unset();     // unset $_SESSION variable for the run-time
     //session_destroy();   // destroy session data in storage
 }
-// Define Debug 
+// Define Debug
 $debug = isset($_GET['debugmode']) ? $_GET['debugmode']:"no"; // pour l'activer rajouter "&debugmode" en fin d'url (ainsi chaque dev peut l'utiliser de son conté sans pertuber l'autre)
 define('DEBUG_MODE', $debug);
 $_SESSION['debugmode'] = $debug;
@@ -42,12 +42,12 @@ endif;
 
 define('FORCE_SMARTY_COMPILE', true);
 
-define('APP_DOMAIN', 'http://ov-c70599.infomaniak.ch');
+define('APP_DOMAIN', 'http://dev2.nabuserver.com');
 define('APP_FOLDER', '/_mixte/html/');
-define('APP_URL', 'http://ov-c70599.infomaniak.ch/_mixte/html/');
+define('APP_URL', 'http://dev2.nabuserver.com/_mixte/html/');
 define('APP_ROOT', '/home/sites/default/www/_mixte/html/');
 define('SERVER_ROOT', '/home/sites/default/www/');
-define('FABRIQUE_URL', 'http://87.106.251.239/fabrique/api/wpc.php');
+define('FABRIQUE_URL', 'http://dev2.nabuserver.com/fabrique/api/wpc.php');
 
 //define('DEFAULT_LANGUAGE', 'fr');
 define('DEFAULT_LANGUAGE', 1); // ATTENTION : changer aussi dans open/optim.php

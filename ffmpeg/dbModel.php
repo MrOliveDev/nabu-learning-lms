@@ -1,5 +1,5 @@
 <?php
-define('FABRIQUE_URL', 'http://ov-c70599.infomaniak.ch/fabrique/api/wpc.php');
+define('FABRIQUE_URL', 'http://dev2.nabuserver.com/fabrique/api/wpc.php');
 
 Abstract Class dbModel {
 
