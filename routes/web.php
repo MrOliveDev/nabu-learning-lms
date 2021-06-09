@@ -133,6 +133,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::get('student', '\App\Http\Controllers\StudentController@index')->name('student');
     Route::get('template', '\App\Http\Controllers\TemplateController@index')->name('template');
     Route::get('template_editor', '\App\Http\Controllers\TemplateEditorController@index')->name('template_editor');
+    Route::get('player_editor/{id}', '\App\Http\Controllers\PlayerController@index')->name('player_editor');
     Route::get('changeLanuguage', function (Request $request) {
         session(['language' => $request->language]);
     })->name('changeLanguage');
@@ -162,6 +163,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
 
     Route::get('training', '\App\Http\Controllers\TrainingController@index')->name('training');
     Route::post('traininglinkfromlesson', '\App\Http\Controllers\TrainingController@trainingLinkFromLesson')->name('traininglinkfromlesson');
+    Route::post('trainingupdatetype', '\App\Http\Controllers\TrainingController@trainingUpdateType')->name('trainingupdatetype');
 
     Route::post('trainingshow/{id}', '\App\Http\Controllers\TrainingController@getLessonFromTraining')->name('trainingshow');
     Route::post('lessonshow/{id}', '\App\Http\Controllers\LessonController@getTrainingFromLesson')->name('lessonshow');

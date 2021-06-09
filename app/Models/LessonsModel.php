@@ -19,11 +19,12 @@ class LessonsModel extends Model
         'idFabrica',
         'idCriador',
         'threshold_score',
-        'template_player_id'
+        'template_player_id',
+        'date_end'
     ];
 
     protected $table = 'tb_lesson';
-    use HasFactory;
+    public $timestamps = false;
 
     public function scopeGetLessonsContainedTraining($query)
     {

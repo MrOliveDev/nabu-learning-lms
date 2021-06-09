@@ -24,6 +24,7 @@ class TrainingsModel extends Model
     ];
 
     protected $table = 'tb_trainings';
+    public $timestamps = false;
     use HasFactory;
 
     public function scopeGetAllTrainings($query)

@@ -1,7 +1,8 @@
 @extends('welcome')
 
 @section('con')
-
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/flatpickr/flatpickr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/js/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/cropper.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/cropperModal.css') }}">
@@ -36,6 +37,8 @@
 
 
 @section('js_after')
+    <script src="{{ asset('assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/flatpickr/flatpickr.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
 
     <script src="{{ asset('assets/js/cropper.js') }}"></script>
@@ -52,7 +55,7 @@
 
     <script>
         jQuery(function() {
-            Dashmix.helpers(['select2', 'rangeslider', 'notify', 'summernote']);
+            Dashmix.helpers(['select2', 'rangeslider', 'notify', 'summernote', 'flatpickr', 'datepicker']);
         });
 
     </script>
@@ -79,22 +82,29 @@
             </div>
             <div class="filter p-2 toolkit-filter">
                 <div class="float-left">
-                    <div class="status-switch">
-                        <input type="radio" id="filter-state-on" name="status" value="1">
-                        <span>TO BE EDITED&nbsp;</span>
-                        <input type="radio" id="filter-state-off" name="status" value="2">
-                        <span>TO BE CHECKED&nbsp;</span>
-                        <input type="radio" id="filter-state-all" name="status" value="3">
-                        <span>TO BE FIXED&nbsp;</span>
-                        <input type="radio" id="filter-state-all" name="status" value="4">
-                        <span>APPROVED&nbsp;</span>
-                        <input type="radio" id="filter-state-all" name="status" value="5">
-                        <span>ONLINE&nbsp;</span>
-                        <input type="radio" id="filter-state-all" name="status" value="all">
-                        <span>ALL&nbsp;</span>
-                        <input type="radio" id="filter-state-all" name="status" value="orphans">
-                        <span>ORPHANS&nbsp;</span>
-                    </div>
+                    <select class="status-switch">
+                        <option value="1">
+                            TO BE EDITED
+                        </option>
+                        <option value="2">
+                            TO BE CHECKED
+                        </option>
+                        <option value="3">
+                            TO BE FIXED
+                        </option>
+                        <option value="4">
+                            APPROVED
+                        </option>
+                        <option value="5">
+                            ONLINE
+                        </option>
+                        <option value="all" selected>
+                            ALL
+                        </option>
+                        <option value="orphans">
+                            ORPHANS
+                        </option>
+                    </select>
                 </div>
                 <div class="float-right">
                     <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
@@ -114,22 +124,31 @@
                             id="lesson_{{ $lesson['id'] }}" data-date="{{ $lesson['creation_date'] }}"
                             data-training="{{ implode('_', $lesson['training']) }}">
                             <div class="float-left">
-                                @if ($lesson['status'] == 1)
-                                    <i class="fa fa-circle  m-2" style="color:green;"></i>
-                                    <input type="hidden" name="item-status" class='status-notification' value="1">
-                                @elseif ($lesson['status'] == 2)
-                                    <i class="fa fa-circle m-2" style="color:blue;"></i>
-                                    <input type="hidden" name="item-status" class='status-notification' value="0">
-                                @elseif ($lesson['status'] == 3)
-                                    <i class="fa fa-circle m-2" style="color:yellow;"></i>
-                                    <input type="hidden" name="item-status" class='status-notification' value="0">
-                                @elseif ($lesson['status'] == 4)
-                                    <i class="fa fa-circle m-2" style="color:orange;"></i>
-                                    <input type="hidden" name="item-status" class='status-notification' value="0">
-                                @else
-                                    <i class="fa fa-circle m-2" style="color:white;"></i>
-                                    <input type="hidden" name="item-status" class='status-notification' value="0">
-                                @endif
+                                @switch ($lesson['status'])
+                                    @case (1)
+                                        <i class="fa fa-circle  m-2" style="color:green;"></i>
+                                        <input type="hidden" name="item-status" class="status-notification" value="1">
+                                    @break
+                                    @case (2)
+                                        <i class="fa fa-circle  m-2" style="color:yellow;"></i>
+                                        <input type="hidden" name="item-status" class="status-notification" value="2">
+                                    @break
+                                    @case (3)
+                                        <i class="fa fa-circle  m-2" style="color:pink;"></i>
+                                        <input type="hidden" name="item-status" class="status-notification" value="3">
+                                    @break
+                                    @case (4)
+                                        <i class="fa fa-circle  m-2" style="color:blue;"></i>
+                                        <input type="hidden" name="item-status" class="status-notification" value="4">
+                                    @break
+                                    @case (5)
+                                        <i class="fa fa-circle  m-2" style="color:white;"></i>
+                                        <input type="hidden" name="item-status" class="status-notification" value="5">
+                                    @break
+                                    @default
+                                        <i class="fa fa-circle  m-2" style="color:red;"></i>
+                                        <input type="hidden" name="item-status" class="status-notification" value="2">
+                                @endswitch
                                 <span class="item-name">{{ $lesson['name'] }}</span>
                                 <input type="hidden" name="item-name" value="{{ $lesson['name'] }}">
                             </div>
@@ -174,7 +193,7 @@
             <div class="mx-4">
                 <form method="post" id="lesson_form" enctype="multipart/form-data" class="form"
                     action="http://localhost:8000/newlms/user" autocomplete="off" data-cate="" data-item="">
-                    <input type="hidden" name="_token" value="aoenpfPhy8DEX9wObeHolrgRMtZc3zD7LcnH2I2Q">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input name="_method" type="hidden" value="POST" class="method-select">
                     <div class="card text-black pt-3">
                         <div class="card-body  p-3">
@@ -262,7 +281,7 @@
                                 <span class="input-group-text bg-transparent border-0">
                                     Description<span class="text-danger">*</span>
                                 </span>
-                                <textarea class="form-control clearfix w-100" id="lesson-description"
+                                <textarea class="form-control clearfix w-100" id="lesson_description"
                                     required></textarea>
                             </div>
                             <div class="form-group clearfix">
@@ -471,7 +490,7 @@
                                 <span class="input-group-text bg-transparent border-0">
                                     Description<span class="text-danger">*</span>
                                 </span>
-                                <textarea class="form-control clearfix w-100" id="training-description"
+                                <textarea class="form-control clearfix w-100" id="training_description"
                                     required></textarea>
                             </div>
                             <div class="form-group clearfix">
