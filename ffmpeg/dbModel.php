@@ -27,6 +27,7 @@ Abstract Class dbModel {
      * @return array
      */
     public function getDatas($sql, $database = false) {
+        print_r($sql);exit;
         $dataf = array();
 
         if ($database) {

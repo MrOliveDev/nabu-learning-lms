@@ -21,11 +21,14 @@ Abstract Class dbModel {
 
 
     /** Generic datas getter
-     * 
+     *
      * @param string $sql query needed to get the list
      * @return array
      */
     public function getDatas($sql, $database = false) {
+// print_r($database);
+// print_r($sql);
+// exit;
         $dataf = array();
 
         if ($database) {
@@ -49,7 +52,7 @@ Abstract Class dbModel {
     }
 
     /**
-     * 
+     *
      * @return int
      */
     public function getLastIdInserted() {
@@ -58,7 +61,7 @@ Abstract Class dbModel {
 
     /**
      * Dynamic method to show values required without affect user perception
-     * 
+     *
      * @param string $type
      * @param array $str
      */
@@ -79,7 +82,7 @@ Abstract Class dbModel {
     }
 
     /**
-     * 
+     *
      * @param type $array
      * @return XML
      */
@@ -128,7 +131,7 @@ Abstract Class dbModel {
     }
 
     /**
-     * 
+     *
      * @param type $url
      * @param type $data
      * @param type $optional_headers
@@ -159,7 +162,7 @@ Abstract Class dbModel {
         return $xml;
     }
 
-    
+
     public function tableExists($name) {
         $results = $this->db->query("SHOW TABLES LIKE '$name'");
         if (!$results) {
@@ -167,16 +170,16 @@ Abstract Class dbModel {
         }
         return $results->rowCount()>0;
     }
-    
-    
+
+
     public function formatrewriting($chaine) {
         //les accents
         /*$chaine = trim($chaine);
         $chaine = strtr($chaine, "ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ", "aaaaaaaaaaaaooooooooooooeeeeeeeecciiiiiiiiuuuuuuuuynn");
         $chaine = strtolower($chaine);*/
-        
-        $a = 'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ';	
-        $b = 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY';	
+
+        $a = 'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ';
+        $b = 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY';
         $chaine = utf8_encode(strtr(utf8_decode($chaine), utf8_decode($a), utf8_decode($b)));
         $chaine = strtolower($chaine);
 
@@ -185,26 +188,26 @@ Abstract Class dbModel {
         $chaine = preg_replace('/([^.a-z0-9]+)/i', '-', $chaine);
         return $chaine;
     }
-    
-    /** 
-     * 
+
+    /**
+     *
      * @param string $datas
      * @param string $filename
      */
     public function datasToCsv($datas, $filename) {
         $url = "reports/csv/".$filename;
-        
+
         $fp = fopen(APP_ROOT.$url, "w");
         $error = !$fp ? "fopen failed":"";
         $write = fwrite($fp, $datas);
         $error = !$write ? "fwrite failed":"";
         fclose($fp);
-        
+
         return $error=="" ? true:array("error"=>$error);
     }
-    
+
     /**
-     * 
+     *
      * @param id $reporting_creator
      * @param string $reporting_file
      * @param string $reporting_file_type
@@ -220,7 +223,7 @@ Abstract Class dbModel {
         //echo "details:".$reporting_details."\n";
         //echo "list:".$pdf_list."\n";
 
-        $sql = 'INSERT INTO reporting_history (reporting_creator, reporting_file, reporting_file_type, reporting_details, pdfs_list, reporting_date) 
+        $sql = 'INSERT INTO reporting_history (reporting_creator, reporting_file, reporting_file_type, reporting_details, pdfs_list, reporting_date)
 				VALUES (:reporting_creator, :reporting_file, :reporting_file_type, :reporting_details, :pdfs_list, now() ) ';
         //echo $sql."\n";
         $stmt = $this->db->prepare($sql);
@@ -231,18 +234,18 @@ Abstract Class dbModel {
         $stmt->bindValue("reporting_details", $reporting_details, PDO::PARAM_STR);
         $stmt->bindValue("pdfs_list", $pdfs_list, PDO::PARAM_STR);
         $execute = $stmt->execute();
-        
+
         return $this->getLastIdInserted();
     }
-    
+
     /** Return an array with the years,months,days differences between 2 dates
-     * 
+     *
      * @param string $start
      * @param string $end
      * @return array
      */
     public function getDateDiff($start, $end, $notpast=false) {
-    //echo "end:".$end."<br>\n"; 
+    //echo "end:".$end."<br>\n";
     //echo "-zero:".($end<0)."<br>\n";
         if($end=="0000-00-00" || $end=="" || !$end || $end<0) {
     //echo "true"."<br>\n";
@@ -257,7 +260,7 @@ Abstract Class dbModel {
                 $day    = 60*60*24;
                 $hour   = 60*60;
                 $min    = 60;
-                
+
                 $diff   = abs(strtotime($end) - strtotime($start));
                 $years  = floor($diff / $year);
                 $months = floor(($diff - $years * $year) / $month);
@@ -272,9 +275,9 @@ Abstract Class dbModel {
     //echo "<pre>result:";var_dump($result);echo "</pre>";
         return $result;
     }
-        
+
     /**
-     * 
+     *
      * @param string $table
      * @param int $user_id
      * @param int $days
@@ -285,12 +288,12 @@ Abstract Class dbModel {
         $sql .= " WHERE user_id=$user_id";
         $sql .= " ORDER BY start DESC";
     //echo $sql."<br>\n";
-        
+
         $result = $this->getDatas($sql);
     //echo "<pre>result:";var_dump($result);echo "</pre>";
-        
+
         if(count($result)>0) {
-            $start = $result[0]['start']; 
+            $start = $result[0]['start'];
     //echo "start:".$start."<br>\n";
             $today  = date("Y-m-d H:i:s");
     //echo "today:".$today."<br>\n";
@@ -303,76 +306,76 @@ Abstract Class dbModel {
             return $already ? $result[0]:false;
         }
     }
-    
+
     public function getSessions($fisrt=0,$last=0) {
         $sql = "SELECT us.*, u.id_creator";
         $sql .= " FROM tb_users_sessions AS us";
         $sql .= " INNER JOIN tb_users AS u ON u.id = us.user_id";
         $sql .= " ORDER BY us.id DESC";
-    //echo $sql."<br>\n";        
+    //echo $sql."<br>\n";
         $results = $this->getDatas($sql);
         $session_activ = $fisrt==0 && $last==0;
-    //echo "session_activ:".$session_activ."<br>\n"; 
-        
+    //echo "session_activ:".$session_activ."<br>\n";
+
         $sessions = 0;
         foreach ($results as $session) {
             $dateformat = $session_activ ? "Y-m-d H:i:s":"Y-m-d";
-            $start  = date($dateformat, strtotime($session['start'])); 
+            $start  = date($dateformat, strtotime($session['start']));
             $stop   = date($dateformat, strtotime($session['stop']));
             $online = $session['online'];
             $today  = date($dateformat);
             $theday  = $session_activ ? date($dateformat, strtotime($today. " + 1 hours")):$today;
 
-    //echo "online:".$online."<br>\n"; 
+    //echo "online:".$online."<br>\n";
     //echo "<pre>diff:";var_dump($diff_start);echo "</pre>";
-    //echo "start:".$start." / today:".$today."<br>\n"; 
+    //echo "start:".$start." / today:".$today."<br>\n";
             // If 'online' in database
             //$is = $session_activ && $online;
-    //echo "is:".$is."<br>\n"; 
+    //echo "is:".$is."<br>\n";
             // If is admin
             $is_admin = $_SESSION['user_status']==0;
-    //echo "is_admin:".$is_admin."<br>\n"; 
+    //echo "is_admin:".$is_admin."<br>\n";
             // If is client
     //echo "session user_id:".$session['user_id']."<br>\n";
     //echo "SESSION user_id:".$_SESSION['user_id']."<br>\n";
             $is_client = $_SESSION['user_status']==1 && $_SESSION['user_id']==$session['user_id'];
-    //echo "is_client:".$is_client."<br>\n"; 
-            // If is client's user 
+    //echo "is_client:".$is_client."<br>\n";
+            // If is client's user
             $is_client_user = $_SESSION['user_status']==1 && $session['id_creator']==$_SESSION['user_id'];
-    //echo "is_client_user:".$is_client_user."<br>\n"; 
+    //echo "is_client_user:".$is_client_user."<br>\n";
             $user_authorised = $is_admin || $is_client || $is_client_user;
-            
+
             $is = $session_activ && $online && $user_authorised;
             // Check if user has been active since 15 mins (see isActivSession method in usersModel)
             $diff_start   = $this->getDateDiff($theday, $start);
             $is = $is && $diff_start['years']<=0 && $diff_start['months']<=0 && $diff_start['days']<=0 && $diff_start['hours']<=0 && $diff_start['mins']<=15;
-    //echo "still there:".$is."<br>\n"; 
+    //echo "still there:".$is."<br>\n";
             if(!$is && ($_SESSION['user_id']!=$session['user_id']) ) {
                 $this->storeSession($session['session_id'], true);
             }
-            
-    //echo "is:".$is."<br>\n"; 
-            
+
+    //echo "is:".$is."<br>\n";
+
             $is     = !$is && !$session_activ && $user_authorised ? $diff_start['years']<=0:$is;
-    //echo "is:".$is."<br>\n"; 
+    //echo "is:".$is."<br>\n";
     //echo "diff['days']:".$diff_start['days']."<br>\n";
     //echo "diff['hours']:".$diff_start['hours']."<br>\n";
-    //echo "session_activ:".$session_activ."<br>\n"; 
+    //echo "session_activ:".$session_activ."<br>\n";
             $is     = $is && !$session_activ  ? $diff_start['months']<=0 && $fisrt<=$diff_start['days'] && $diff_start['days']<=$last:$is;
-    //echo "is:".$is."<br>\n"; 
-            
-            
+    //echo "is:".$is."<br>\n";
+
+
             if($is){
                 $sessions++;
             }
-    //echo "<br>\n"; 
+    //echo "<br>\n";
         }
     //echo "sessions:".$sessions."<br><br>\n";exit;
         return $sessions;
-    }    
-    
+    }
+
     /**
-     * 
+     *
      * @param boolean $offline
      * @param int $session_id
      */
@@ -381,16 +384,16 @@ Abstract Class dbModel {
         $table      = "tb_users_sessions";
         $user_id    = isset($_SESSION['user_id']) ? $_SESSION['user_id']:null;
     //echo "user_id:".$user_id."<br>\n";
-        
+
         $is_day_session = $user_id!=null && $this->isPeriodSession($user_id) ? $this->isPeriodSession($user_id):false;
     //echo "<pre>is_day_session:";var_dump($is_day_session);echo "</pre>";
     //echo "session_id:".$session_id."<br>\n";
-        
+
         $session_id = isset($_SESSION['session_id']) ? $_SESSION['session_id']:$session_id;
     //echo "session_id:".$session_id."<br>\n";
         $session_id = $session_id==null && isset($is_day_session['id']) ? $is_day_session['id']:$session_id;
     //echo "session_id:".$session_id."<br>\n";
-        
+
         $date_zero = "0000-00-00 00:00:00";
         if ($session_id==null) {
             $sql = "INSERT INTO $table (user_id, start, stop,  online) VALUES ($user_id, now(), '$date_zero', 1)";
@@ -399,40 +402,40 @@ Abstract Class dbModel {
             $online      = $offline ? 0:1;
     //echo "online:".$online."<br>\n";
             $field      = $offline ? "stop":"start";
-            
+
             $sql = "UPDATE $table SET";
             $sql .= " $field=now()";
             $sql .= ", online=".$online;
-            $sql .= " WHERE id=$session_id"; 
+            $sql .= " WHERE id=$session_id";
         }
     //echo $sql."<br>\n";//exit;
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
-        
+
         $_SESSION['session_id'] = $session_id == null || $session_id == "" ? $this->db->lastInsertId():$session_id;
     }
-    
+
     /**
-     * 
+     *
      * @param string $tablename
      * @return array
      */
     public function getColsDescrption($tablename) {
         $sql = "DESCRIBE tb_$tablename";
     //echo $sql."<br>\n";
-        
+
         $results = $this->getDatas($sql);
-        
+
         $cols = array();
         foreach ($results as $col) {
             $cols[] = $col['Field'];
         }
     //var_dump($cols);exit;
         return $cols;
-    }    
+    }
 
     /**
-     * 
+     *
      * @param int $car
      * @return string
      */
@@ -444,10 +447,10 @@ Abstract Class dbModel {
             $string .= $chaine[rand() % strlen($chaine)];
         }
         return $string;
-    }    
-    
+    }
+
     /**
-     * 
+     *
      * @param string $name
      * @param string $surname
      * @return string
@@ -472,9 +475,9 @@ Abstract Class dbModel {
             $this->generateLogin($name,$surname,$test);
         }
     }
-    
+
     /** Used to check if an login is already used for this client, so don't allow user creation
-     * 
+     *
      * @param array $datas
      * @param int $creator_col
      * @return boolean
@@ -496,13 +499,13 @@ Abstract Class dbModel {
     //echo $result[0][nb];exit;
         return $result[0]['nb']>0;
     }
-    
+
     /**
-     * 
+     *
      * @param array $formdatas
      * @param string $creator_col
      * @return int
-     */    
+     */
     public function is_creator($formdatas, $creator_col) {
         foreach ($formdatas as $item) {
             if($item['name'] == $creator_col) {
@@ -512,9 +515,9 @@ Abstract Class dbModel {
         }
         return $id_creator;
     }
-    
+
     /** Returns query result or errors in a array
-     * 
+     *
      * @param array $update
      * @param string $msg
      * @return array
@@ -525,39 +528,39 @@ Abstract Class dbModel {
     //var_dump($result);
         return $result;
     }
-    
+
     /**
-     * 
+     *
      * @param string $root
      * @param string $folder
      * @return array
      */
     public function createDir($root, $folder) {
-        $path = SERVER_ROOT . $root . $folder;        
+        $path = SERVER_ROOT . $root . $folder;
     //echo "path:".$path."\n";
-        if (!file_exists($path)){    
+        if (!file_exists($path)){
             $make = mkdir($path, 0777);
         }
         return !$make ? array("error"=>"Unable to create the folder '$folder' in '".ROOTPATH . $root."'"):true;
-    }    
-    
+    }
+
     /**
-     * 
+     *
      * @param string $src
      * @param string $dst
      * @param string $code
      */
-    public function recurse_copy($src, $dst, $code) { 
-        $dir = opendir($src); 
+    public function recurse_copy($src, $dst, $code) {
+        $dir = opendir($src);
     //echo "dir:".$dir."\n";
     //echo "dst:".$dst."\n";
-        @mkdir($dst, 0777, true); 
+        @mkdir($dst, 0777, true);
     //echo "file_exists:".file_exists($dst)."\n";exit;
-        while(false !== ( $file = readdir($dir)) ) { 
-            if (( $file != '.' ) && ( $file != '..' )) { 
+        while(false !== ( $file = readdir($dir)) ) {
+            if (( $file != '.' ) && ( $file != '..' )) {
     //echo "file:".$file."\n";
-                if ( is_dir($src . '/' . $file) ) { 
-                    recurse_copy($src . '/' . $file,$dst . '/' . $file, $code); 
+                if ( is_dir($src . '/' . $file) ) {
+                    recurse_copy($src . '/' . $file,$dst . '/' . $file, $code);
                 } else {
                     if(strpos($file, "default")>-1){
                         $file_arr = explode(".", $file);
@@ -567,10 +570,10 @@ Abstract Class dbModel {
                     }
     //echo "file_new:".$file_new."\n";
     //echo "file_new:".$dst . '/' .$file_new."\n";
-                    copy($src . '/' . $file, $dst . '/' . $file_new); 
-                } 
-            } 
-        } 
+                    copy($src . '/' . $file, $dst . '/' . $file_new);
+                }
+            }
+        }
         closedir($dir);
-    } 
+    }
 }

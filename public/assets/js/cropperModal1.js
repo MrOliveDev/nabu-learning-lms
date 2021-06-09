@@ -46,7 +46,7 @@ $("body").on("change", ".image", function(e) {
         $("#zoom-rangeslider-group").css('display', 'block');
         $('#drag-comment').remove();
         // $('#drop').unbind('click');
-        let my_range = $(".js-rangeslider").data("ionRangeSlider");
+        let my_range = $("#zoom-rangeslider").data("ionRangeSlider");
         my_range.reset();
     };
     var reader;
@@ -257,7 +257,7 @@ if (window.FileReader) {
                 // var temp = 1;
                 // $("#img-range-slider").append(range_slider_template);
                 $("#zoom-rangeslider-group").css('display', 'block');
-                let my_range = $(".js-rangeslider").data("ionRangeSlider");
+                let my_range = $(".zoom-rangeslider").data("ionRangeSlider");
                 my_range.reset();
 
             }.bindToEventHandler(file));

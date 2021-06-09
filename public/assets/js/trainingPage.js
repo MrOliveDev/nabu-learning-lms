@@ -148,7 +148,7 @@ var clearTable = function(element) {
     });
 };
 
-var clearFrom = function(element) {
+var clearForm = function(element) {
     element.find('input, select, textarea').each(function(i, forminput) {
         if ($(forminput).attr('name') != '_token' && $(forminput).attr('name') != '_method') {
             $(forminput).val('');
@@ -157,14 +157,16 @@ var clearFrom = function(element) {
     if (element.has('#preview-rect').length != 0) {
         element.find('#preview-rect').attr('src', '');
     }
-
+    if (element.attr('id') == "trainiing_form") {
+        $('#preview_rect').attr('src', baseURL + '/assets/media/default.png');
+    }
 };
 
 //@param : div_b | div_d
 var toggleFormOrTable = function(element, flag = null, flag1 = true) {
     var form = element.find('form');
     var table = element.find('.second-table');
-    clearFrom(form);
+    clearForm(form);
     clearTable(table);
     if (flag1) {
         if (flag) {
@@ -368,7 +370,7 @@ var item_edit = function(element) {
     switch (element.attr('data-content')) {
         case 'lesson':
             toggleFormOrTable($('#LeftPanel'), true);
-            clearFrom($('LeftPanel'));
+            clearForm($('#lesson_form'));
             $("#lesson_form").attr('action', baseURL + '/lesson/' + id);
             $('#lesson_form').attr('data-item', parent.attr('id'));
             $('#lesson_form .method-select').val('PUT');
@@ -393,7 +395,7 @@ var item_edit = function(element) {
 
         case 'training':
             toggleFormOrTable($('#RightPanel'), true);
-            clearFrom($('RightPanel'));
+            clearForm($('#training_form'));
             $("#training_form").attr('action', baseURL + '/training/' + id);
             $('#training_form').attr('data-item', parent.attr('id'));
             $('#training_form .method-select').val('PUT');
@@ -564,11 +566,11 @@ var itemShow = function(event) {
 };
 var itemPlay = function(event) {
     var parent = $(this).parents('.list-group-item');
-    window.open(baseURL + "/player_editor" + "/" + $(this).attr('data-fabrica'), '_blank');
+    window.open(baseURL + "/player_editor" + "/#/open/fr/fabrique/0/" + parent.find('.item-play').attr('data-fabrica') + "/0/dae8efee8afc1994204d76ee963bcfb1");
 };
 var itemTemplate = function(event) {
     var parent = $(this).parents('.list-group-item');
-    window.open(baseURL + "/template_editor" + "/" + $(this).attr('data-template'), '_blank');
+    window.open(baseURL + "/fabrique_editor" + "/#/open/" + parent.find('.item-play').attr('data-fabrica') + "/dae8efee8afc1994204d76ee963bcfb1");
 };
 var itemRefresh = function(event) {
     var parent = $(this).parents('.list-group-item');
@@ -701,7 +703,18 @@ var submitBtn = function(event) {
     }
     var validate = true;
     //TODO: We have to check this function again after a while;
-
+    if (formname == 'user_form') {
+        validate = validate && $("#lesson_name")[0].checkValidity();
+        validate = validate && $("#lesson_target")[0].checkValidity();
+        validate = validate && $("#lesson_status")[0].checkValidity();
+        validate = validate && $("#lesson_language")[0].checkValidity();
+        validate = validate && $("#lesson-description")[0].checkValidity();
+    } else if (formname == 'cate_form') {
+        validate = validate && $("#training_name")[0].checkValidity();
+        validate = validate && $("#training_language")[0].checkValidity();
+        validate = validate && $("#training_type")[0].checkValidity();
+        validate = validate && $("#training-description")[0].checkValidity();
+    }
 
     if (validate) {
         event.preventDefault(); // stops the "normal" <form> request, so we can post using ajax instead, below
