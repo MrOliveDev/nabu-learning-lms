@@ -71,7 +71,9 @@
         <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4"
             id="lesson-toolkit">
             <div class="w-100 p-2">
-                <div class="input-container">
+                <span style="font-size:16pt">LESSON</span>
+
+                <div class="input-container float-right">
                     <a href="#" class="toolkit-add-item">
                         <i class="fa fa-plus icon p-2 text-white"></i>
                     </a>
@@ -87,7 +89,7 @@
             <div class="filter p-2 toolkit-filter">
                 <div class="float-left">
                     <select class="status-switch">
-                        <option value="1">
+                        <option value="1" selected>
                             TO BE EDITED
                         </option>
                         <option value="2">
@@ -217,7 +219,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Duration<span class="text-danger">*</span>
+                                            Duration
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="lesson_duration" name="lesson_duration"
@@ -228,7 +230,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Target audience<span class="text-danger">*</span>
+                                            Target audience
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="lesson_target" name="lesson_target"
@@ -243,8 +245,7 @@
                                         </span>
                                     </div>
                                     <select class="form-control" id="lesson_status" name="lesson_status">
-                                        <option value="" selected>No Status</option>
-                                        <option value="1">TO BE EDITED</option>
+                                        <option value="1" selected="selected">TO BE EDITED</option>
                                         <option value="2">TO BE CHECKED</option>
                                         <option value="3">TO BE FIXED</option>
                                         <option value="4">APPROVED</option>
@@ -256,29 +257,20 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Language
+                                            Language<span class="text-danger">*</span>
                                         </span>
                                     </div>
                                     <select class="form-control" id="lesson_language" name="lesson_language">
-                                        <option value="" selected>No Langauge</option>
                                         @foreach ($languages as $language)
-                                            <option value="{{ $language->language_id }}">
-                                                {{ $language->language_name }}</option>
+                                            @if ($loop->first)
+                                                <option value="{{ $language->language_id }}" selected="selected">
+                                                    {{ $language->language_name }}</option>
+                                            @else
+                                                <option value="{{ $language->language_id }}">
+                                                    {{ $language->language_name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
-                                </div>
-                            </div>
-                            <div class="form-group" id="expired_date_input">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            End date
-                                        </span>
-                                    </div>
-                                    <input type="text" class="js-flatpickr form-control bg-white" id="lesson_enddate"
-                                        name="lesson_enddate" placeholder="Y-m-d" data-date-format="Y-m-d" required
-                                        title="You need a correct date">
-
                                 </div>
                             </div>
                             <div class="form-group mb-5">
@@ -288,7 +280,7 @@
                             </div>
                             <div class="form-group">
                                 <span class="input-group-text bg-transparent border-0">
-                                    Description<span class="text-danger">*</span>
+                                    Description
                                 </span>
                                 <textarea class="form-control clearfix w-100" id="lesson_description"
                                     required></textarea>
@@ -319,7 +311,8 @@
         <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4"
             id="training-toolkit">
             <div class="w-100 p-2">
-                <div class="input-container">
+                <span style="font-size:16pt">TRAININGS</span>
+                <div class="input-container float-right">
                     <a href="#" class="toolkit-add-item">
                         <i class="fa fa-plus icon p-2 text-white"></i>
                     </a>
@@ -445,7 +438,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Duration<span class="text-danger">*</span>
+                                            Duration
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="training_duration"
@@ -456,14 +449,18 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Language
+                                            Language<span class="text-danger">*</span>
                                         </span>
                                     </div>
                                     <select class="form-control" id="training_language" name="training_language">
-                                        <option value="" selected>No Langauge</option>
                                         @foreach ($languages as $language)
-                                            <option value="{{ $language->language_id }}">
-                                                {{ $language->language_name }}</option>
+                                            @if ($loop->last)
+                                                <option value="{{ $language->language_id }}" selected>
+                                                    {{ $language->language_name }}</option>
+                                            @else
+                                                <option value="{{ $language->language_id }}">
+                                                    {{ $language->language_name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -476,28 +473,14 @@
                                         </span>
                                     </div>
                                     <select class="form-control" id="training_type" name="training_type">
-                                        <option value="" selected>No Type</option>
-                                        <option value="1">Step by step</option>
+                                        <option value="1" selected>Step by step</option>
                                         <option value="2">Free</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group" id="expired_date_input">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            End date
-                                        </span>
-                                    </div>
-                                    <input type="text" class="js-flatpickr form-control bg-white" id="training_enddate"
-                                        name="training_enddate" placeholder="Y-m-d" data-date-format="Y-m-d" required
-                                        title="You need a correct date">
-
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <span class="input-group-text bg-transparent border-0">
-                                    Description<span class="text-danger">*</span>
+                                    Description
                                 </span>
                                 <textarea class="form-control clearfix w-100" id="training_description"
                                     required></textarea>

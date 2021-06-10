@@ -149,10 +149,13 @@ var clearTable = function(element) {
 };
 
 var clearForm = function(element) {
-    element.find('input, select, textarea').each(function(i, forminput) {
+    element.find('input, textarea').each(function(i, forminput) {
         if ($(forminput).attr('name') != '_token' && $(forminput).attr('name') != '_method') {
             $(forminput).val('');
         }
+    });
+    element.find('select').each(function(i, item) {
+        $(item).val($(item).find('option:first').val());
     });
     if (element.has('#preview-rect').length != 0) {
         element.find('#preview-rect').attr('src', '');
@@ -384,7 +387,6 @@ var item_edit = function(element) {
                     $("#lesson_status").val(data.status);
                     $("#lesson_language").val(data.lang);
                     $("#lesson_description").val(data.description);
-                    $("#lesson_enddate").val(data.date_end);
                 },
                 error: function(err) {
                     notification("Sorry, You can't get lesson data!", 2);
@@ -412,7 +414,6 @@ var item_edit = function(element) {
                     $("#training_type").val(data.type);
                     $("#training_description").val(data.description);
                     $('.preview-rect').attr("src", data.training_icon);
-                    $('#training_enddate').val(data.date_end);
                 },
                 error: function(err) {
                     notification("Sorry, You can't get training data!", 2);
@@ -705,15 +706,10 @@ var submitBtn = function(event) {
     //TODO: We have to check this function again after a while;
     if (formname == 'user_form') {
         validate = validate && $("#lesson_name")[0].checkValidity();
-        validate = validate && $("#lesson_target")[0].checkValidity();
-        validate = validate && $("#lesson_status")[0].checkValidity();
         validate = validate && $("#lesson_language")[0].checkValidity();
-        validate = validate && $("#lesson-description")[0].checkValidity();
     } else if (formname == 'cate_form') {
         validate = validate && $("#training_name")[0].checkValidity();
         validate = validate && $("#training_language")[0].checkValidity();
-        validate = validate && $("#training_type")[0].checkValidity();
-        validate = validate && $("#training-description")[0].checkValidity();
     }
 
     if (validate) {

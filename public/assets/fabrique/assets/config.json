@@ -6,7 +6,7 @@
     "API_PROD": "http://dev2.nabuserver.com/newlms/public/html5_player_api/",
     "URL": "http://dev2.nabuserver.com/newlms/public/assets/player/",
     "APP_URL": "http://dev2.nabuserver.com/newlms/public/assets/fabrique/",
-    "API_FABRIQUE": "http://dev2.nabuserver.com/newlms/public/assets/fabrique/api/",
+    "API_FABRIQUE": "http://dev2.nabuserver.com/fabrique/api/",
     "PRODUCT_FABRIQUE_API": "http://dev2.nabuserver.com/newlms/public/assets/assets/fabrique/api/datas/products",
     "PRODUCT_FABRIQUE": "http://dev2.nabuserver.com/newlms/public/assets/export_fabrique/products",
     "API_CONVERTER": "http://dev2.nabuserver.com/newlms/public/assets/ffmpeg/convert.php",
