@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <title>PlayerApp</title>
     {{-- <base href="/newlms/public/assets/playerApp/"> --}}
-    <base href="/assets/player/">
+    <base href="/newlms/public/assets/player/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
