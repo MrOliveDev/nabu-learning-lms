@@ -566,11 +566,11 @@ var itemShow = function(event) {
 };
 var itemPlay = function(event) {
     var parent = $(this).parents('.list-group-item');
-    window.open(baseURL + "/player_editor" + "/#/open/fr/fabrique/0/4EZ536DC/0/dae8efee8afc1994204d76ee963bcfb1");
+    window.open(baseURL + "/player_editor" + "/#/open/fr/fabrique/0/" + parent.find('.item-play').attr('data-fabrica') + "/0/dae8efee8afc1994204d76ee963bcfb1");
 };
 var itemTemplate = function(event) {
     var parent = $(this).parents('.list-group-item');
-    window.open(baseURL + "/fabrique_editor" + "/#/open/4EZ536DC/dae8efee8afc1994204d76ee963bcfb1");
+    window.open(baseURL + "/fabrique_editor" + "/#/open/" + parent.find('.item-play').attr('data-fabrica') + "/dae8efee8afc1994204d76ee963bcfb1");
 };
 var itemRefresh = function(event) {
     var parent = $(this).parents('.list-group-item');
