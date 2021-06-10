@@ -4,14 +4,11 @@
 <head>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800&display=swap" rel="stylesheet">
     <meta charset="utf-8">
-    <title>PlayerApp</title>
-    {{-- <base href="/newlms/public/assets/playerApp/"> --}}
-    <base href="/assets/player/">
+    <title>FabriqueApp</title>
+    <base href="/assets/fabrique/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="indigo-pink.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 

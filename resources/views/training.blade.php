@@ -32,6 +32,10 @@
             ;
         }
 
+        .cropper-view-box {
+            border-radius: 0;
+        }
+
     </style>
     <link rel="stylesheet" href="{{ asset('assets/css/trainingPage.css') }}">
 
@@ -276,6 +280,11 @@
                                         title="You need a correct date">
 
                                 </div>
+                            </div>
+                            <div class="form-group mb-5">
+                                <label class="mb-4">Threshold Score</label>
+                                <input type="text" class="js-rangeslider" id="threshold-score" name="threshold-score"
+                                    value="25">
                             </div>
                             <div class="form-group">
                                 <span class="input-group-text bg-transparent border-0">
