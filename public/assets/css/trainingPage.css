@@ -21,7 +21,7 @@
     background-color: var(--lesson-h);
 }
 
-#LeftPanel .toolkit,
+#LeftPanel .toolkit>div,
 #div_D .list-group-item.active,
 #div_A .list-group-item.active {
     background-color: var(--lesson-c);
@@ -32,7 +32,7 @@
     background-color: var(--training-h);
 }
 
-#RightPanel .toolkit,
+#RightPanel .toolkit>div,
 #div_B .list-group-item.active,
 #div_C .list-group-item.active {
     background-color: var(--training-c);
