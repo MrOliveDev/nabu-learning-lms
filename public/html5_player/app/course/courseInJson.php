@@ -19,9 +19,6 @@ require_once('inc/courseProcessor.fnc.php');
 
 // Get JSON datas
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 $form_data  = json_decode(file_get_contents('php://input'));
 $refresh = false;
 if ($form_data->refresh) {
