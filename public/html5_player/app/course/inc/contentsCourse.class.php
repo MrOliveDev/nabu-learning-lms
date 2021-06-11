@@ -1,5 +1,5 @@
 <?php
-class ContentsCourse { 
+class ContentsCourse {
 
     public $reference = null;
     public $layout;
@@ -10,17 +10,26 @@ class ContentsCourse {
     public $attempts = null;
     public $questionRandom = array();
     public $tempXmlCols = array();
-    public $resourcesArray = array(); 
-    public $poolArray = array(); 
+    public $resourcesArray = array();
+    public $poolArray = array();
     public $actionsArray = array();
     public $contentsArray = array();
     public $colomnsArray = array();
     public $urlFile = null;
     public $randomEvaluation = false;
     public $background = null;
-    
-    function __construct($datasXml, $layout="twoleft", $hasEvaluation = false, $lang = 'fr', $urlFile, $evaluation = false, $step = 0) 
-    { 
+
+    function __construct($datasXml, $layout, $hasEvaluation, $lang, $urlFile, $evaluation = false, $step = 0)
+    {
+        if(!isset($lang)){
+            $lang = "fr";
+        }
+        if(!isset($hasEvaluation)){
+            $hasEvaluation = false;
+        }
+        if(!isset($layout)){
+            $layout="twoleft";
+        }
         $this->layout = $layout;
         $this->urlFile = $urlFile;
         $this->isEvaluation = $evaluation;
@@ -32,7 +41,7 @@ class ContentsCourse {
         $this->initActions($datasXml->actions);
         $this->initColumns($datasXml->content);
         $this->traitementContent($hasEvaluation);
-    } 
+    }
 
     function read(){
         return $this->colomnsArray;
@@ -219,7 +228,7 @@ class ContentsCourse {
             }else{
                 $componant = $this->gestionTypeEvaluationDatas($evaluation, $this->stepEvaluation);
                 $this->contentsArray = $componant;
-            }            
+            }
         }
     }
 
@@ -348,7 +357,7 @@ class ContentsCourse {
         $componant['type'] = $type;
         $componant['id'] = (string)$datas->attributes()->id;
         $componant['seqid'] = (string)$datas->attributes()->seqid;
-        
+
         // Init content
         $contentArray = array();
         $contentArray['unique'] = (string)$datas->attributes()->unique;
@@ -370,10 +379,10 @@ class ContentsCourse {
             $contentArray['onquestionclick'] = $this->actionsArray[(int)$datas->attributes()->onquestionclick];
         }
         $contentArray['ifReponseTrue'] = null;
-        $contentArray['ifReponseFalse'] = null;  
+        $contentArray['ifReponseFalse'] = null;
         $contentArray['ifTimeOver'] = null;
         $contentArray['answers'] = array();
-        
+
         // Answer
         foreach($datas->answers->answer as $answer){
             $answerArray = array();
@@ -382,7 +391,7 @@ class ContentsCourse {
             $componant['y'] = (string)$datas->attributes()->y;
             $componant['index'] = '9';
             for($i=1; $i <= intval($componant['id']); $i++){
-                $componant['index'] .= '9'; 
+                $componant['index'] .= '9';
             }
             $componant['width'] = (string)$datas->attributes()->width;
             $componant['height'] = (string)$datas->attributes()->height;
@@ -412,17 +421,17 @@ class ContentsCourse {
                     }
                     $answerArray['source'] = array();
                     if($answer->source->attributes()->resource!=NULL){
-                        $answerArray['source']['media'] = $this->resourcesArray[(string)$answer->source->attributes()->resource]; 
+                        $answerArray['source']['media'] = $this->resourcesArray[(string)$answer->source->attributes()->resource];
                     }
                     if((string)$answer->source){
-                        $answerArray['source']['text'] = (string)$answer->source; 
+                        $answerArray['source']['text'] = (string)$answer->source;
                     }
                     $answerArray['target'] = array();
                     if($answer->target->attributes()->resource!=NULL){
-                        $answerArray['target']['media'] = $this->resourcesArray[(int)$answer->target->attributes()->resource]; 
+                        $answerArray['target']['media'] = $this->resourcesArray[(int)$answer->target->attributes()->resource];
                     }
                     if((string)$answer->target){
-                        $answerArray['target']['text'] = (string)$answer->target; 
+                        $answerArray['target']['text'] = (string)$answer->target;
                     }
                     break;
             }
@@ -483,13 +492,13 @@ class ContentsCourse {
             $contentArray['ifTimeOver'] = $actions;
         }
         $componant['content'] = $contentArray;
-    
+
         $attr = clone $datas->attributes();
         $attr->orderPosition = intval($attr->orderPosition)+1;
         //$tmp = (string)$datas->attributes()->orderPosition;
         //(string)$datas->attributes()->orderPosition = $tmp.'b';
         $componant['attributes'] = $attr;
-        return $componant;    
+        return $componant;
     }
     function gestionTypeQuestion($datas){
         $componant = array();
@@ -499,7 +508,7 @@ class ContentsCourse {
         $componant['y'] = (string)$datas->attributes()->y;
         $componant['index'] = '9';
         for($i=1; $i <= intval($componant['id']); $i++){
-            $componant['index'] .= '9'; 
+            $componant['index'] .= '9';
         }
         $componant['seqid'] = (string)$datas->attributes()->seqid;
         $componant['width'] = (string)$datas->attributes()->width;
@@ -522,7 +531,7 @@ class ContentsCourse {
         $componant['styles']['orderPosition'] = (string)$datas->attributes()->orderPosition;
         $componant['styles']['z-index'] = '9';
         for($i=1; $i <= intval($componant['id']); $i++){
-            $componant['styles']['z-index'] .= '9'; 
+            $componant['styles']['z-index'] .= '9';
         }
         $componant['content'] = array();
         $componant['content']['type'] = $medias['type'];
@@ -530,7 +539,7 @@ class ContentsCourse {
         $componant['content']['url'] = $medias['url'];
         $componant['content']['state'] = 'pause';
         $componant['content']['controllers'] = (string)$datas->attributes()->controllers;
-        
+
         if($datas->attributes()->onstart){
             $componant['content']['onStart'] = $this->actionsArray[(int)$datas->attributes()->onstart];
         }
@@ -559,7 +568,7 @@ class ContentsCourse {
         $componant['y'] = (string)$datas->attributes()->y;
         $componant['index'] = '9';
         for($i=1; $i <= intval($componant['id']); $i++){
-            $componant['index'] .= '9'; 
+            $componant['index'] .= '9';
         }
         $componant['seqid'] = (string)$datas->attributes()->seqid;
         $componant['width'] = (string)$datas->attributes()->width;
@@ -579,7 +588,7 @@ class ContentsCourse {
         }
         $componant['index'] = '9';
         for($i=1; $i <= intval($componant['id']); $i++){
-            $componant['index'] .= '9'; 
+            $componant['index'] .= '9';
         }
         $componant['seqid'] = (string)$datas->attributes()->seqid;
         $componant['width'] = (string)$datas->attributes()->width;
@@ -596,7 +605,7 @@ class ContentsCourse {
         $componant['y'] = (string)$datas->attributes()->y;
         $componant['index'] = '9';
         for($i=1; $i <= intval($componant['id']); $i++){
-            $componant['index'] .= '9'; 
+            $componant['index'] .= '9';
         }
         $componant['seqid'] = (string)$datas->attributes()->seqid;
         $componant['width'] = (string)$datas->attributes()->width;
@@ -613,7 +622,7 @@ class ContentsCourse {
         $componant['y'] = (string)$datas->attributes()->y;
         $componant['index'] = '9';
         for($i=1; $i <= intval($componant['id']); $i++){
-            $componant['index'] .= '9'; 
+            $componant['index'] .= '9';
         }
         $componant['seqid'] = (string)$datas->attributes()->seqid;
         $componant['width'] = (string)$datas->attributes()->width;
@@ -639,7 +648,7 @@ class ContentsCourse {
                 $i++;
             }
         }
-        
+
     }
 
     function gestionTypeEvaluationDatas($datas, $stepEvaluation){
@@ -680,7 +689,7 @@ class ContentsCourse {
     }
 
     function gestionTypeList($datas , $type){
-        
+
         $componant = array();
         $componant['type'] = $type;
         $componant['id'] = (string)$datas->attributes()->id;
@@ -688,7 +697,7 @@ class ContentsCourse {
         $componant['y'] = (string)$datas->attributes()->y;
         $componant['index'] = '9';
         for($i=1; $i <= intval($componant['id']); $i++){
-            $componant['index'] .= '9'; 
+            $componant['index'] .= '9';
         }
         $componant['seqid'] = (string)$datas->attributes()->seqid;
         $componant['width'] = (string)$datas->attributes()->width;
@@ -709,7 +718,7 @@ class ContentsCourse {
         $componant['y'] = (string)$datas->attributes()->y;
         $componant['index'] = '9';
         for($i=1; $i <= intval($componant['id']); $i++){
-            $componant['index'] .= '9'; 
+            $componant['index'] .= '9';
         }
         $componant['seqid'] = (string)$datas->attributes()->seqid;
         $componant['width'] = (string)$datas->attributes()->width;
