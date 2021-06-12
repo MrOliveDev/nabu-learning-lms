@@ -62,7 +62,7 @@ define('DEFAULT_LANGUAGE', 1); // ATTENTION : changer aussi dans open/optim.php
 // Local
 define("DB_DSN", "mysql:host=localhost;dbname=lms");
 define("DB_USERNAME", "root");
-define("DB_PASSWORD", "BKGqmh1Q");
+define("DB_PASSWORD", "mabrQv$%2x");
 
 define("SALTHASH", 'D]Jn#|LIFvx!1pW|-cF>.J6Z^W~Oz`<[K{(S+]w8|>$,ip^B{YC8 a1^yxh$ZUs6');
 
