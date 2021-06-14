@@ -50,7 +50,7 @@ class LessonController extends Controller
         if ($request->post('lesson_status')) {
             $lesson->status = $request->post('lesson_status');
         }
-        $lesson->idFabrique = $this->randomGenerate();
+        $lesson->idFabrica = $this->randomGenerate();
         $lesson->save();
 
         $curso = new CursoModel();
@@ -70,11 +70,14 @@ class LessonController extends Controller
         if ($request->post('lesson_status')) {
             $curso->status = $request->post('lesson_status');
         }
-        $curso->idFabrica = $lesson->idFabrique;
+        if ($request->post('threshold-score')) {
+            $curso->threshold_score = $request->post('threshold-score');
+        }
+        $curso->idFabrica = $lesson->idFabrica;
         $curso->idCriador = 1;
         $curso->save();
 
-        return response()->json($lesson);
+        return response()->json(LessonsModel::getLessonContainedTraining($lesson->id));
         //
     }
 
@@ -120,10 +123,31 @@ class LessonController extends Controller
         if ($request->post('lesson_status')) {
             $lesson->status = $request->post('lesson_status');
         }
-
+        if ($request->post('threshold-score')) {
+            $lesson->threshold_score = $request->post('threshold-score');
+        }
         $lesson->update();
 
-        return response()->json($lesson);
+        $curso = CursoModel::find($id);
+        if (isset($curso)) {
+            if ($request->post('lesson_name')) {
+                $curso->nome = $request->post('lesson_name');
+            }
+            if ($request->post('lesson_description')) {
+                $curso->descricao = $request->post('lesson_description');
+            }
+            if ($request->post('lesson_target')) {
+                $curso->publicoAlvo = $request->post('lesson_target');
+            }
+            if ($request->post('lesson_status')) {
+                $curso->status = $request->post('lesson_status');
+            }
+            if ($request->post('threshold-score')) {
+                $curso->threshold_score = $request->post('threshold-score');
+            }
+            $curso->update();
+        }
+        return response()->json(LessonsModel::getLessonContainedTraining($lesson->id));
         //
     }
 
@@ -168,10 +192,11 @@ class LessonController extends Controller
         }
     }
 
-    public function randomGenerate($car=8) {
+    public function randomGenerate($car = 8)
+    {
         $string = "";
         $chaine = "ABCDEFGHIJQLMNOPQRSTUVWXYZabcdefghijqlmnopqrstuvwxyz0123456789";
-        srand((double) microtime() * 1000000);
+        srand((float) microtime() * 1000000);
         for ($i = 0; $i < $car; $i++) {
             $string .= $chaine[rand() % strlen($chaine)];
         }

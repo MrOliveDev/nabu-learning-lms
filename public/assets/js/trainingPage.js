@@ -163,6 +163,11 @@ var clearForm = function(element) {
     if (element.attr('id') == "trainiing_form") {
         $('#preview_rect').attr('src', baseURL + '/assets/media/default.png');
     }
+    $("#threshold-score").ionRangeSlider({
+        min: 0,
+        max: 100,
+        from: 50
+    });
 };
 
 //@param : div_b | div_d
@@ -357,7 +362,7 @@ var toolkitAddItem = function(event) {
         $('#lesson_form').attr('action', baseURL + '/lesson');
     }
     parent.find(".method-select").val('POST');
-    parent.attr('data-item', '');
+    parent.find("form").attr('data-item', '');
 };
 
 
@@ -387,6 +392,9 @@ var item_edit = function(element) {
                     $("#lesson_status").val(data.status);
                     $("#lesson_language").val(data.lang);
                     $("#lesson_description").val(data.description);
+                    $("#threshold-score").ionRangeSlider({
+                        from: data.threshold_score
+                    });
                 },
                 error: function(err) {
                     notification("Sorry, You can't get lesson data!", 2);
