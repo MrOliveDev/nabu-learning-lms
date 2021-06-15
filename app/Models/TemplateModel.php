@@ -10,7 +10,7 @@ class TemplateModel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'alpha_id', 'name', 'code', 'id_creator', 'style', 'published'
+        'alpha_id', 'name', 'code', 'id_creator', 'style', 'published', 'creation_date'
     ];
 
     protected $table = 'tb_template_html5_edit';
