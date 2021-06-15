@@ -1,0 +1,224 @@
+#div_A .list-group,
+#div_B .list-group,
+#div_C .list-group,
+#div_D .list-group {
+    max-height: 400px;
+}
+
+#div_A .list-group.nolimit,
+#div_B .list-group.nolimit,
+#div_C .list-group.nolimit,
+#div_D .list-group.nolimit {
+    max-height: none;
+}
+
+.toolkit-filter {
+    display: none;
+}
+
+#company,
+#session {
+    display: none;
+}
+
+#LeftPanel .toolkit>div,
+#div_A .list-group-item {
+    background-color: var(--template-c);
+}
+
+#div_A .list-group-item.active,
+#div_A .list-group-item:hover {
+    background-color: var(--template-h);
+}
+
+#training-tab,
+#RightPanel .toolkit>div,
+#training .list-group-item {
+    background-color: var(--training-c);
+}
+
+#training-tab:hover,
+#training-tab.ui-state-active,
+#training .list-group-item.active,
+#training .list-group-item:hover {
+    background-color: var(--training-h);
+}
+
+#session-tab:hover,
+#session-tab.ui-state-active,
+#session .list-group-item.active,
+#session .list-group-item:hover {
+    background-color: var(--session-h);
+}
+
+#session-tab,
+#session .list-group-item {
+    background-color: var(--session-c);
+}
+
+#company-tab:hover,
+#company-tab.ui-state-active,
+#company .list-group-item.active,
+#company .list-group-item:hover {
+    background-color: var(--company-h);
+}
+
+#company-tab,
+#company .list-group-item {
+    background-color: var(--company-c);
+}
+
+#template .highlight,
+#table-template .highlight {
+    animation: templatehighlight 2s infinite;
+}
+
+@keyframes templatehighlight {
+    0% {
+        border-color: var(--template-h);
+    }
+    50% {
+        border-color: var(--template-c);
+    }
+    100% {
+        border-color: var(--template-h);
+    }
+}
+
+#session .highlight {
+    animation: sessionhighlight 2s infinite;
+}
+
+@keyframes sessionhighlight {
+    0% {
+        border-color: var(--session-h);
+    }
+    50% {
+        border-color: var(--session-c);
+    }
+    100% {
+        border-color: var(--session-h);
+    }
+}
+
+#training .highlight {
+    animation: traininghighlight 2s infinite;
+}
+
+@keyframes traininghighlight {
+    0% {
+        border-color: var(--training-h);
+    }
+    50% {
+        border-color: var(--training-c);
+    }
+    100% {
+        border-color: var(--training-h);
+    }
+}
+
+#company .highlight {
+    animation: companyhighlight 2s infinite;
+}
+
+@keyframes companyhighlight {
+    0% {
+        border-color: var(--company-h);
+    }
+    50% {
+        border-color: var(--company-c);
+    }
+    100% {
+        border-color: var(--company-h);
+    }
+}
+
+.filter-date-btn:hover {
+    background-color: blue !important;
+}
+
+.filter-date-btn {
+    background-color: rgb(97, 97, 248) !important;
+}
+
+.filter-name-btn:hover {
+    background-color: green !important;
+}
+
+.filter-name-btn {
+    background-color: rgb(0, 184, 0) !important;
+}
+
+
+/* ///////////////////////////////////////////////// */
+
+
+/* ////////this is for modification for cropper form */
+
+.toolkit {
+    padding-right: 8px;
+}
+
+.second-table {
+    display: none;
+}
+
+fieldset form {
+    display: none;
+}
+
+.toggle2-btn {
+    display: none;
+    /* color:white !important; */
+}
+
+.list-group-item.select-active .toggle2-btn {
+    /* display: none; */
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-group button.btn,
+.list-group-item-action,
+a.list-group-item:not([href]) {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-group button.btn:hover {
+    color: white;
+}
+
+.active .btn-group button.btn,
+.active .list-group-item-action,
+.active a.list-group-item:not([href]) {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.list-group-item.active .btn.active,
+.list-group-item .btn.active {
+    color: white;
+}
+
+#category_save_button,
+#category_cancel_button {
+    z-index: 6;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+}
+
+.btn-group button.btn:active,
+.btn-group button.btn:focus {
+    outline: none;
+}
+
+#teachers .item-show,
+#authors .item-show {
+    display: none;
+}
+
+.list-group-item.border-transparent {
+    border-color: transparent;
+}

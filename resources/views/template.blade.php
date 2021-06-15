@@ -2,88 +2,126 @@
 
 @section('con')
 
-<style>
-    #companies .toolkit,
-    #companies .list-group-item {
-        background-color: <?php echo "#" . $interfaceCfg->Companies->c; ?> !important;
-    }
+    <style>
+        :root {
+            --company-c:
+                <?php
+                echo '#'. $interfaceCfg->Companies->c;
+            ?>
+            ;
+            --company-h:
+                <?php
+                echo '#'. $interfaceCfg->Companies->h;
+            ?>
+            ;
+            --training-c:
+                <?php
+                echo '#'. $interfaceCfg->TrainingCourses->c;
+            ?>
+            ;
+            --training-h:
+                <?php
+                echo '#'. $interfaceCfg->TrainingCourses->h;
+            ?>
+            ;
+            --session-c:
+                <?php
+                echo '#'. $interfaceCfg->Sessions->c;
+            ?>
+            ;
+            --session-h:
+                <?php
+                echo '#'. $interfaceCfg->Sessions->h;
+            ?>
+            ;
+            --template-c: #ffc61a;
+            --template-h: #c29100;
+        }
 
-    #companies .list-group-item.active {
-        background-color: <?php echo "#" . $interfaceCfg->Companies->c; ?> !important;
-    }
-
-    #trainingcourses .toolkit,
-    #trainingcourses .list-group-item {
-        background-color: <?php echo "#" . $interfaceCfg->TrainingCourses->c; ?> !important;
-    }
-
-    #trainingcourses .list-group-item.active {
-        background-color: <?php echo "#" . $interfaceCfg->TrainingCourses->c; ?> !important;
-    }
-
-    .nav-link#companies-tab {
-        background-color: <?php echo "#" . $interfaceCfg->Companies->c; ?> !important;
-    }
-
-    .nav-link#companies-tab.active {
-        background-color: <?php echo "#" . $interfaceCfg->Companies->c; ?> !important;
-    }
-
-    .nav-link#trainingcourses-tab {
-        background-color: <?php echo "#" . $interfaceCfg->TrainingCourses->c; ?> !important;
-    }
-
-    .nav-link#trainingcourses-tab.active {
-        background-color: <?php echo "#" . $interfaceCfg->TrainingCourses->c; ?> !important;
-    }
-</style>
-
+    </style>
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/templatePage.css') }}">
+@section('js_after')
+    <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/js/templatePage.js') }}"></script>
+@endsection
 <div id="content">
     <fieldset id="LeftPanel">
+        <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4"
+            id="template-toolkit">
+            <div class="w-100 p-2">
+                <span style="font-size:16pt">TEMPLATES</span>
+                <div class="input-container float-right">
+                    <a href="#" class="toolkit-add-item">
+                        <i class="fa fa-plus icon p-2 text-white"></i>
+                    </a>
+                    <span class="bg-white text-black p-2 rounded">
+                        <input class="input-field border-0 mw-100 search-filter" type="text" name="search-filter">
+                        <i class="fa fa-search icon p-2"></i>
+                    </span>
+                    <a href="#" class="toolkit-show-filter float-right">
+                        <i class="fas fa-sliders-h icon p-2  text-white"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="filter p-2 toolkit-filter">
+                <div class="float-left">
+                    <div class="status-switch">
+                        <input type="radio" id="filter-state-on" name="status" value="on">
+                        <span>on&nbsp;</span>
+                        <input type="radio" id="filter-state-off" name="status" value="off">
+                        <span>off&nbsp;</span>
+                        <input type="radio" id="filter-state-all" name="status" value="all">
+                        <span>all&nbsp;</span>
+                    </div>
+                </div>
+                <div class="float-right">
+                    <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
+                        <i class="fas fa-sort-numeric-down"></i>
+                    </button>
+                    <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
+                        <i class="fas fa-sort-numeric-down"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
         <div id="div_A" class="window top">
             <div class="clear-fix mx-4">
 
-                <div class="clear-fix bg-warning text-white mb-3 toolkit" style="height:50px">
-                    <strong class="float-left p-2">{{$translation->l('Template')}}</strong>
-                    <div class="float-right p-2">
-                        <div class="input-container">
-                            <button class="border-0 bg-transparent text-white" id="template_add_btn">
-                                <i class="fa fa-plus icon p-2"></i>
-                            </button>
-                            <span class="bg-white text-black p-2 rounded">
-                                <input class="input-field border-0" type="text" name="usrnm">
-                                <i class="fa fa-search icon p-2"></i>
-                            </span>
-                            <i class="fa fa-bars icon p-2"></i>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="list-group" id="template-list-tab" role="tablist">
-                    @foreach($templates as $template)
-                    <div class="list-group-item list-group-item-action p-1 border-0 bg-yellow-2 " id="template_item_{{$template->id}}" data-toggle="list" role="tab">
-                        <div class="float-left">
-                            <i class="fa fa-circle text-danger m-2"></i>
-                            <span class="template_name">{{$template->name}}</span>
-                        </div>
-                        <div class="btn-group float-right">
-                            <a class="btn text-primary px-2 viewTemplateItem" href="" style="display:none;">
-                                <i class="fa fa-eye"></i>
-                            </a>
-                            <a class="btn text-primary px-2 editTemplateItem" href="">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            <a class="btn text-primary px-2 deleteItem" href="">
-                                <i class="fa fa-trash-alt"></i>
-                            </a>
-                            <a class="btn text-primary px-2 templateEditor" href="{{'#/template-generator/'.$template->alpha_id}}">
-                                <i class="fa fa-cube"></i>
-                            </a>
-                            <a class="btn text-primary px-2 duplicate" href="">
-                            <i class="far fa-copy"></i>
-                            </a>
-                        </div>
-                    </div>
+                    @foreach ($templates as $template)
+                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x template_{{ $template->id }}"
+                            id="template_{{ $template->id }}" data-date="{{ $template->creation_date }}">
+                            <div class="float-left">
+                                @if ($template->status != 0)
+                                    <i class="fa fa-circle  m-2" style="color:green;"></i>
+                                    <input type="hidden" name="item-status" class='status-notification' value="1">
+                                @else
+                                    <i class="fa fa-circle m-2" style="color:red;"></i>
+                                    <input type="hidden" name="item-status" class='status-notification' value="0">
+                                @endif
+                                <span class="item-name">{{ $template->name }}</span>
+                                <input type="hidden" name="item-name" value="{{ $template->name }}">
+                            </div>
+                            <div class="btn-group float-right">
+                                <button class="btn item-edit" data-content='template'
+                                    data-item-id="{{ $template->id }}">
+                                    <i class="px-2 fa fa-edit"></i>
+                                </button>
+                                <button class="btn item-delete" data-content='template'
+                                    data-item-id="{{ $template->id }}">
+                                    <i class="px-2 fa fa-trash-alt"></i>
+                                </button>
+                                <button class="btn item-template" data-content='template'
+                                    data-template="#/template-generator/{{ $template->alpha_id }}">
+                                    <i class="px-2 fa fa-cube"></i>
+                                </button>
+                                <button class="btn item-copy" data-content='template'
+                                    data-item-id="{{ $template->id }}">
+                                    <i class="px-2 far fa-copy"></i>
+                                </button>
+                            </div>
+                        </a>
                     @endforeach
 
                 </div>
@@ -98,22 +136,27 @@
 
             <div class="mx-4">
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active container m-0 p-2" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+                    <div class="tab-pane fade show active container m-0 p-2" id="list-home" role="tabpanel"
+                        aria-labelledby="list-home-list">
                         <div class="card bg-white text-black p-3 mx-2 text-left">
                             <p>
-                                <strong class="pt-1">{{$translation->l('Template Name')}} :</strong>
-                                <button class="float-right p-2 border-0" id="template_edit_btn"><i class="fa fa-cog"></i></button>
+                                <strong class="pt-1">{{ $translation->l('Template Name') }} :</strong>
+                                <button class="float-right p-2 border-0" id="template_edit_btn"><i
+                                        class="fa fa-cog"></i></button>
                             </p>
 
                             <label id="template_name_label"></label>
                             <input type="label" id="template_name_input">
-                            <button class="float-right mt-3 p-2 border-0 float-right bg-yellow-1" id="template_save_btn">{{$translation->l('SAVE')}}</button>
+                            <button class="float-right mt-3 p-2 border-0 float-right bg-yellow-1"
+                                id="template_save_btn">{{ $translation->l('SAVE') }}</button>
 
 
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">Messages</div>
-                    <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">Settings</div>
+                    <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+                        Messages</div>
+                    <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
+                        Settings</div>
                 </div>
             </div>
 
@@ -124,285 +167,207 @@
         <i class="fas fa-grip-lines-vertical text-white"></i>
     </div>
     <fieldset id="RightPanel">
-        <div id="div_C" class="window top">
-
-            <ul class="nav nav-tabs border-0 mb-2 mx-4">
-                <li class="nav-item">
-                    <a class="nav-link m-1  rounded-1 border-0" id="companies-tab" href="#menu1">{{$translation->l('COMPANIES')}}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active m-1 rounded-1 border-0" id="trainingcourses-tab" href="#home">{{$translation->l('TRAINING COURSES')}}</a>
-                </li>
-            </ul>
-            <div id="companies">
-                <div class="toolkit clear-fix text-white mb-3 mx-4" style="height:50px">
-                    <strong class="float-left p-2">{{$translation->l('Companies')}}</strong>
-                    <div class="float-right p-2">
-                        <div class="input-container">
-                            <i class="fa fa-plus icon p-2"></i>
-                            <span class="bg-white text-black p-2 rounded">
-                                <input class="input-field border-0" type="text" name="usrnm">
-                                <i class="fa fa-search icon p-2"></i>
-                            </span>
-                            <i class="fa fa-bars icon p-2"></i>
-                        </div>
+        <ul class="nav nav-tabs border-0 mb-2 mx-4">
+            <li class="nav-item">
+                <a class="nav-link active m-1 rounded-1 border-0" id="training-tab"
+                    href="#training">{{ $translation->l('TRAININGS') }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link m-1 rounded-1 border-0" id="company-tab"
+                    href="#company">{{ $translation->l('COMPANIES') }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link m-1 rounded-1 border-0" id="session-tab"
+                    href="#session">{{ $translation->l('SESSIONS') }}</a>
+            </li>
+        </ul>
+        <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4"
+            id="cate-toolkit">
+            <div class="w-100 p-2">
+                <span style="font-size:16pt" id="toolkit-tab-name">TRAINS</span>
+                <div class="input-container float-right">
+                    <a href="#" class="toolkit-add-item">
+                        <i class="fa fa-plus icon p-2 text-white"></i>
+                    </a>
+                    <span class="bg-white text-black p-2 rounded">
+                        <input class="input-field border-0 mw-100 search-filter" type="text" name="search-filter">
+                        <i class="fa fa-search icon p-2"></i>
+                    </span>
+                    <a href="#" class="toolkit-show-filter float-right">
+                        <i class="fas fa-sliders-h icon p-2  text-white"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="filter p-2 toolkit-filter">
+                <div class="float-left">
+                    <div class="status-switch">
+                        <input type="radio" id="filter-state-on" name="status" value="on">
+                        <span>on&nbsp;</span>
+                        <input type="radio" id="filter-state-off" name="status" value="off">
+                        <span>off&nbsp;</span>
+                        <input type="radio" id="filter-state-all" name="status" value="all">
+                        <span>all&nbsp;</span>
                     </div>
                 </div>
+                <div class="float-right">
+                    <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
+                        <i class="fas fa-sort-numeric-down"></i>
+                    </button>
+                    <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
+                        <i class="fas fa-sort-numeric-down"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="div_C" class="window top">
 
-                <div class="list-group mx-4" id="list-tab" role="tablist">
-                    <a class="list-group-item list-group-item-action active p-1 border-0 " id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
-                        <div class="float-left">
-                            <i class="fa fa-circle text-danger m-2"></i>
-                            Delta co.
-                        </div>
-                        <div class="btn-group float-right">
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-eye"></i>
-                            </button>
-                            <button class="btn text-primary px-2" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-trash-alt"></i>
-                            </button>
-                        </div>
-                    </a>
-                    <a class="list-group-item list-group-item-action p-1 border-0  " id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
-                        <div class="float-left">
-                            <i class="fa fa-circle text-danger m-2"></i>
-                            Moscow university
-                        </div>
-                        <div class="btn-group float-right">
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-eye"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-trash-alt"></i>
-                            </button>
-                        </div>
-                    </a>
-                    <a class="list-group-item list-group-item-action p-1 border-0  " id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
-                        <div class="float-left">
-                            <i class="fa fa-circle text-danger m-2"></i>
-                            Tronto stuff company
-                        </div>
-                        <div class="btn-group float-right">
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-eye"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button class="btn text-primary px-2">
-                                <i class="fa fa-trash-alt"></i>
-                            </button>
-                        </div>
-                    </a>
+            <div id="training">
+                <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
+                    @foreach ($trainings as $training)
+                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x company_{{ $training->id }}"
+                            id="company_{{ $training->id }}" data-date="{{ $training->creation_date }}">
+                            <div class="float-left">
+                                @if ($training->status != 0)
+                                    <i class="fa fa-circle  m-2" style="color:green;"></i>
+                                    <input type="hidden" name="item-status" class='status-notification' value="1">
+                                @else
+                                    <i class="fa fa-circle m-2" style="color:red;"></i>
+                                    <input type="hidden" name="item-status" class='status-notification' value="0">
+                                @endif
+                                <span class="item-name">{{ $training->name }}</span>
+                                <input type="hidden" name="item-name" value="{{ $training->name }}">
+                            </div>
+                            <div class="btn-group float-right">
+                                <button class="btn  toggle1-btn  item-show" data-content='training'
+                                    data-item-id="{{ $training->id }}">
+                                    <i class="px-2 fa fa-eye"></i>
+                                </button>
+                                <button class="btn item-edit toggle1-btn" data-content='training'
+                                    data-item-id="{{ $training->id }}">
+                                    <i class="px-2 fa fa-edit"></i>
+                                </button>
+                                <button class="btn item-delete toggle1-btn" data-content='training'
+                                    data-item-id="{{ $training->id }}">
+                                    <i class="px-2 fa fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+            <div id="company">
+                <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
+                    @foreach ($companies as $company)
+                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x company_{{ $company->id }}"
+                            id="company_{{ $company->id }}" data-date="{{ $company->creation_date }}">
+                            <div class="float-left">
+                                <span class="item-name">{{ $company->name }}</span>
+                                <input type="hidden" name="item-name" value="{{ $company->name }}">
+                            </div>
+                            <div class="btn-group float-right">
+                                <button class="btn  toggle1-btn  item-show" data-content='company'
+                                    data-item-id="{{ $company->id }}">
+                                    <i class="px-2 fa fa-eye"></i>
+                                </button>
+                                <button class="btn item-edit toggle1-btn" data-content='company'
+                                    data-item-id="{{ $company->id }}">
+                                    <i class="px-2 fa fa-edit"></i>
+                                </button>
+                                <button class="btn item-delete toggle1-btn" data-content='company'
+                                    data-item-id="{{ $company->id }}">
+                                    <i class="px-2 fa fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+            <div id="session">
+                <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
+                    @foreach ($sessions as $session)
+                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x company_{{ $session->id }}"
+                            id="company_{{ $session->id }}" data-date="{{ $session->creation_date }}">
+                            <div class="float-left">
+                                <span class="item-name">{{ $session->session_name }}</span>
+                                <input type="hidden" name="item-name" value="{{ $session->session_name }}">
+                            </div>
+                            <div class="btn-group float-right">
+                                <button class="btn  toggle1-btn item-show" data-content='session'
+                                    data-item-id="{{ $session->id }}">
+                                    <i class="px-2 fa fa-eye"></i>
+                                </button>
+                                <button class="btn item-edit toggle1-btn" data-content='session'
+                                    data-item-id="{{ $session->id }}">
+                                    <i class="px-2 fa fa-edit"></i>
+                                </button>
+                                <button class="btn item-delete toggle1-btn" data-content='session'
+                                    data-item-id="{{ $session->id }}">
+                                    <i class="px-2 fa fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </a>
+                    @endforeach
                 </div>
             </div>
 
         </div>
+        <div id="div_right" class="handler_horizontal  text-center  font-size-h3 text-white mb-4">
+            <i class="fas fa-grip-lines"></i>
+        </div>
+        <div id="div_D" class="window top">
+            <div class="second-table">
+                <div class="list-group">
 
+                </div>
+            </div>
+            <div class="tab-content mx-4" id="nav-tabContent">
+                <form method="post" id="category_form" enctype="multipart/form-data" class="form" action="">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input name='_method' type='hidden' value='PUT' class='method-select' />
+                    <div class="card bg-white text-black mx-2">
+                        <div class="card-body  p-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Name<span class="text-danger">*</span>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="category_name" name="category_name"
+                                        value="" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Description<span class="text-danger">*</span>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="category_description"
+                                        name="category_description" value="" required>
+                                </div>
+                            </div>
+                            <div class="form-group" id='status-form-group'>
+                                <div class="custom-control custom-switch custom-control-lg mb-2 ml-0 ">
+                                    <input type="checkbox" class="custom-control-input" id="cate-status-icon"
+                                        name="cate-status-icon" checked="">
+                                    <label class="custom-control-label" for="cate-status-icon">Status</label>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <button type="submit" class="btn btn-hero-primary float-right mx-1 submit-btn"
+                                    id="category_save_button" data-form="category_form">SAVE</button>
+                                <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn"
+                                    id="category_cancel_button">CANCEL</button>
+                                <input type="hidden" name="cate-status">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </fieldset>
 </div>
 
-<script>
-    $('#templates').addClass('active');
-
-    const VIEWMODE = 1,
-        EDITMODE = 2,
-        SAVEMODE = 3,
-
-        UPDATEMODE = 1,
-        ADDMODE = 2;
-
-    let tmpbtnmode = VIEWMODE,
-        sendmode = UPDATEMODE;
-
-    let selecteditem;
-
-    // $(".list-group-item").find('.btn').click( function(){
-    //     selecteditem = $(this).parents('.list-group-item');
-    //     $('#template_name_label').html(selecteditem.find(".template_name").html());
-    //     $('#template_name_input').val(selecteditem.find(".template_name").html());
-    // }
-    // );
-
-    template_btn_action = function(data, btnmode) {
-        switch (btnmode) {
-            case VIEWMODE:
-                $('#template_name_label').show();
-                $('#template_name_input').hide();
-                break;
-
-            case EDITMODE:
-                $('#template_name_label').hide();
-                $('#template_name_input').show();
-                break;
-
-            case SAVEMODE:
-                if (sendmode == UPDATEMODE) {
-                    // console.log();
-                    // console.log(selecteditem.children('.template_name').html());
-                    $.post("{{route('template.update')}}", data,
-                        function(data, status) {
-                            tmpbtnmode = VIEWMODE;
-                            selecteditem.find('.template_name').html($('#template_name_input').val());
-                            // .html($('#template_name_input').val());
-                        });
-                } else {
-                    $.post("{{route('template.add')}}", data,
-                        function(data, status) {
-                            tmpbtnmode = VIEWMODE;
-                            $('#template-list-tab').append(
-                                "<div class='list-group-item list-group-item-action p-1 border-0  bg-yellow-2' id='template_item_" + data.id + "' data-toggle='list' role='tab'>" +
-                                "<div class='float-left'>" +
-                                "<i class='fa fa-circle text-danger m-2'></i>" +
-                                "<span class='template_name'>" + data.name + "</span>" +
-                                "</div>" +
-                                "<div class='btn-group float-right'>" +
-                                // "<a class='btn text-primary px-2' href='' onclick='viewTemplateItem()'>" +
-                                // "<i class='fa fa-eye'></i>" +
-                                // "</a>" +
-                                "<a class='btn text-primary px-2' href='' onclick='editTemplateItem()'>" +
-                                "<i class='fa fa-edit'></i>" +
-                                " </a>" +
-                                "<a class='btn text-primary px-2 deleteItem' href='' onclick='deleteTemplateItem('" + data.id + "')'>" +
-                                "<i class='fa fa-trash-alt'></i>" +
-                                "</a>" +
-                                "<a class='btn text-primary px-2' href='' onclick='toTemplateEditor('" + data.id + "')'>" +
-                                "<i class='fa fa-cube'></i>" +
-                                "</a>" +
-                                "<a class='btn text-primary px-2 duplicate' href=''>" +
-                                "<i class='far fa-copy'></i>" +
-                                "</a>" +
-                                "</div>" +
-                                "</div>"
-                            );
-                        });
-                    $("#div_B").hide();
-                }
-                break;
-
-            default:
-                console.error('overflow');
-                break;
-        }
-    };
-
-    $('.templateEditor').click(function(evt) {
-        evt.preventDefault();
-        evt.stopPropagation();
-        // console.log($(this).attr('href'));
-        window.open("{{route('template_editor')}}" + "/" + $(this).attr('href'), '_blank');
-    })
-
-    $('.viewTemplateItem').click(function(evt) {
-        evt.preventDefault();
-        evt.stopPropagation();
-        selecteditem = $(this).parents('.list-group-item');
-        $('#template_name_label').html(selecteditem.find(".template_name").html());
-        $('#template_name_input').val(selecteditem.find(".template_name").html());
-        tmpbtnmode = VIEWMODE;
-        template_btn_action(null, tmpbtnmode);
-    });
-
-    $('.editTemplateItem').click(function(evt) {
-        evt.preventDefault();
-        evt.stopPropagation();
-        selecteditem = $(this).parents('.list-group-item');
-        tmpbtnmode = EDITMODE;
-        template_btn_action(null, tmpbtnmode);
-        $('#div_B').show();
-        $('#template_name_label').html(selecteditem.find(".template_name").html());
-        $('#template_name_input').val(selecteditem.find(".template_name").html());
-        $("#template_save_btn").hide();
-        $("#template_edit_btn").show();
-    });
-
-    $('.deleteItem').click(function(evt) {
-        evt.preventDefault();
-        evt.stopPropagation();
-        selecteditem = $(this).parents('.list-group-item');
-        console.log(selecteditem.attr("id"));
-        $.post("{{route('template.delete')}}", {
-                "_token": "{{ csrf_token() }}",
-                "id": selecteditem.attr("id").split('_')[2]
-            },
-            function(data, status) {
-                $("#div_B").hide();
-                $('#template_item_' + selecteditem.attr("id").split('_')[2]).remove();
-            });
-    });
-
-
-
-    $(document).ready(function() {
-        $("#div_B").hide();
-        $('#template-list-tab>.list-group-item').click(function(e) {
-                if ($(this).attr('id').split('_')[0] == "template") {
-                    selecteditem = $(this);
-                } else {
-                    selecteditem = $(this).parents('.list-group-item');
-                }
-                // console.log(selecteditem.find(".template_name").html());
-                sendmode = UPDATEMODE;
-                tmpbtnmode = VIEWMODE;
-                $("#div_B").show();
-                $("#template_save_btn").hide();
-                $("#template_edit_btn").show();
-                template_btn_action({
-                    _token: "{{ csrf_token() }}",
-                    id: selecteditem.attr("id").split("_")[2],
-                    name: $('#template_name_input').val(),
-                }, tmpbtnmode);
-                $('#template_name_label').html(selecteditem.find(".template_name").html());
-                $('#template_name_input').val(selecteditem.find(".template_name").html());
-            }
-
-        );
-
-    });
-
-    // $('')
-
-    $('#template_edit_btn').click(
-        function() {
-            template_btn_action({
-                _token: "{{ csrf_token() }}",
-                id: selecteditem.attr("id").split("_")[2],
-                name: $('#template_name_input').val()
-            }, tmpbtnmode);
-            tmpbtnmode == 3 ? (tmpbtnmode = 1) : (tmpbtnmode++);
-        }
-    );
-
-    $('#template_save_btn').click(
-        function() {
-            tmpbtnmode = SAVEMODE;
-            template_btn_action({
-                name: $('#template_name_input').val()
-            }, tmpbtnmode);
-        }
-    );
-
-    $('#template_add_btn').click(
-        function() {
-            tmpbtnmode = EDITMODE;
-            sendmode = ADDMODE;
-            $("#div_B").show();
-            template_btn_action({
-                _token: "{{ csrf_token() }}",
-                name: $('#template_name_input').val()
-            }, tmpbtnmode);
-            $("#template_save_btn").show();
-            $("#template_edit_btn").hide();
-            $('#template_name_label').html('');
-            $('#template_name_input').val('');
-        }
-    )
-</script>
 @endsection
