@@ -55,7 +55,12 @@ class TrainingController extends Controller
         if ($request->post('base64_img_data') != NULL) {
             $training->training_icon = $request->post('base64_img_data');
         }
-
+        if ($request->post('name') != NULL) {
+            $training->name = $request->post('name');
+        }
+        if ($request->post('description') != NULL) {
+            $training->description = $request->post('description');
+        }
         $training->save();
         return response()->json(TrainingsModel::getTrainingForTrainingpage($training->id));
         //
@@ -106,7 +111,12 @@ class TrainingController extends Controller
         if ($request->post('base64_img_data')) {
             $training->training_icon = $request->post('base64_img_data');
         }
-
+        if ($request->post('name')) {
+            $training->name = $request->post('name');
+        }
+        if ($request->post('description')) {
+            $training->description = $request->post('description');
+        }
         $training->update();
 
         return response()->json($training);
