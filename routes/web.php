@@ -11,6 +11,7 @@ use App\Http\Controllers\LessonController;
 use App\Http\Controllers\useradmin\GroupController;
 use App\Http\Controllers\useradmin\CompanyController;
 use App\Http\Controllers\useradmin\PositionController;
+use App\Http\Controllers\TemplateController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -131,7 +132,6 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::get('admindash', '\App\Http\Controllers\admin\DashController@index')->name('admin.dash');
     Route::get('dash', '\App\Http\Controllers\common\DashController@index')->name('dash');
     Route::get('student', '\App\Http\Controllers\StudentController@index')->name('student');
-    Route::get('template', '\App\Http\Controllers\TemplateController@index')->name('template');
     Route::get('template_editor', '\App\Http\Controllers\TemplateEditorController@index')->name('template_editor');
     Route::get('player_editor', '\App\Http\Controllers\PlayerController@index')->name('player_editor');
     Route::get('fabrique_editor', '\App\Http\Controllers\FabriqueController@index')->name('fabrique_editor');
@@ -141,9 +141,6 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('searchfromdictionary', function (Request $request) {
         $request->keyword;
     })->name('searchfromdictionary');
-    Route::post('template/update', '\App\Http\Controllers\TemplateController@update')->name('template.update');
-    Route::post('template/add', '\App\Http\Controllers\TemplateController@add')->name('template.add');
-    Route::post('template/delete', '\App\Http\Controllers\TemplateController@delete')->name('template.delete');
     Route::get('superadminsettings', '\App\Http\Controllers\ClientController@index')->name('superadminsettings');
     Route::resource('languageadmin', \App\Http\Controllers\LanguageManageController::class);
     Route::resource('clients', \App\Http\Controllers\ClientController::class);
@@ -155,8 +152,13 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
         'function' => PositionController::class,
         'lesson' => LessonController::class,
         'training' => TrainingController::class,
+        'template' => TemplateController::class,
     ]);
-
+    Route::get('template', '\App\Http\Controllers\TemplateController@index')->name('template');
+    Route::post('tempaltelinktocate', '\App\Http\Controllers\TemplateController@templateLinkTo');
+    Route::post('templateduplicate', '\App\Http\Controllers\TemplateController@templateDuplicate');
+    Route::post('gettemplatefromcate', '\App\Http\Controllers\TemplateController@getTemplateFromCate');
+    
     Route::get('usercreate', '\App\Http\Controllers\StudentController@create')->name('usercreate');
     Route::post('userjointogroup', '\App\Http\Controllers\StudentController@userJoinToGroup')->name('userjointogroup');
     Route::post('userjointocompany', '\App\Http\Controllers\StudentController@userJoinToCompany')->name('userjointocompany');
@@ -168,7 +170,6 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
 
     Route::post('trainingshow/{id}', '\App\Http\Controllers\TrainingController@getLessonFromTraining')->name('trainingshow');
     Route::post('lessonshow/{id}', '\App\Http\Controllers\LessonController@getTrainingFromLesson')->name('lessonshow');
-
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

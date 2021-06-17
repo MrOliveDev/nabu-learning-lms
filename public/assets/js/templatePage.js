@@ -1,179 +1,3 @@
-const VIEWMODE = 1,
-    EDITMODE = 2,
-    SAVEMODE = 3,
-
-    UPDATEMODE = 1,
-    ADDMODE = 2;
-
-let tmpbtnmode = VIEWMODE,
-    sendmode = UPDATEMODE;
-
-let selecteditem;
-
-template_btn_action = function(data, btnmode) {
-    switch (btnmode) {
-        case VIEWMODE:
-            $('#template_name_label').show();
-            $('#template_name_input').hide();
-            break;
-
-        case EDITMODE:
-            $('#template_name_label').hide();
-            $('#template_name_input').show();
-            break;
-
-        case SAVEMODE:
-            if (sendmode == UPDATEMODE) {
-                // console.log();
-                // console.log(selecteditem.children('.template_name').html());
-                $.post("{{route('template.update')}}", data,
-                    function(data, status) {
-                        tmpbtnmode = VIEWMODE;
-                        selecteditem.find('.template_name').html($('#template_name_input').val());
-                        // .html($('#template_name_input').val());
-                    });
-            } else {
-                $.post("{{route('template.add')}}", data,
-                    function(data, status) {
-                        tmpbtnmode = VIEWMODE;
-                        $('#template-list-tab').append(
-                            "<div class='list-group-item list-group-item-action p-1 border-0  bg-yellow-2' id='template_item_" + data.id + "' data-toggle='list' role='tab'>" +
-                            "<div class='float-left'>" +
-                            "<i class='fa fa-circle text-danger m-2'></i>" +
-                            "<span class='template_name'>" + data.name + "</span>" +
-                            "</div>" +
-                            "<div class='btn-group float-right'>" +
-                            // "<a class='btn text-primary px-2' href='' onclick='viewTemplateItem()'>" +
-                            // "<i class='fa fa-eye'></i>" +
-                            // "</a>" +
-                            "<a class='btn text-primary px-2' href='' onclick='editTemplateItem()'>" +
-                            "<i class='fa fa-edit'></i>" +
-                            " </a>" +
-                            "<a class='btn text-primary px-2 deleteItem' href='' onclick='deleteTemplateItem('" + data.id + "')'>" +
-                            "<i class='fa fa-trash-alt'></i>" +
-                            "</a>" +
-                            "<a class='btn text-primary px-2' href='' onclick='toTemplateEditor('" + data.id + "')'>" +
-                            "<i class='fa fa-cube'></i>" +
-                            "</a>" +
-                            "<a class='btn text-primary px-2 item-copy' href=''>" +
-                            "<i class='far fa-copy'></i>" +
-                            "</a>" +
-                            "</div>" +
-                            "</div>"
-                        );
-                    });
-                $("#div_B").hide();
-            }
-            break;
-
-        default:
-            console.error('overflow');
-            break;
-    }
-};
-
-$('.templateEditor').click(function(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-    // console.log($(this).attr('href'));
-    window.open("{{route('template_editor')}}" + "/" + $(this).attr('href'), '_blank');
-})
-
-$('.editTemplateItem').click(function(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-    selecteditem = $(this).parents('.list-group-item');
-    tmpbtnmode = EDITMODE;
-    template_btn_action(null, tmpbtnmode);
-    $('#div_B').show();
-    $('#template_name_label').html(selecteditem.find(".template_name").html());
-    $('#template_name_input').val(selecteditem.find(".template_name").html());
-    $("#template_save_btn").hide();
-    $("#template_edit_btn").show();
-});
-
-$('.deleteItem').click(function(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-    selecteditem = $(this).parents('.list-group-item');
-    console.log(selecteditem.attr("id"));
-    $.post("{{route('template.delete')}}", {
-            "_token": "{{ csrf_token() }}",
-            "id": selecteditem.attr("id").split('_')[2]
-        },
-        function(data, status) {
-            $("#div_B").hide();
-            $('#template_item_' + selecteditem.attr("id").split('_')[2]).remove();
-        });
-});
-
-
-
-$(document).ready(function() {
-    $("#div_B").hide();
-    $('#template-list-tab>.list-group-item').click(function(e) {
-            if ($(this).attr('id').split('_')[0] == "template") {
-                selecteditem = $(this);
-            } else {
-                selecteditem = $(this).parents('.list-group-item');
-            }
-            // console.log(selecteditem.find(".template_name").html());
-            sendmode = UPDATEMODE;
-            tmpbtnmode = VIEWMODE;
-            $("#div_B").show();
-            $("#template_save_btn").hide();
-            $("#template_edit_btn").show();
-            template_btn_action({
-                _token: "{{ csrf_token() }}",
-                id: selecteditem.attr("id").split("_")[2],
-                name: $('#template_name_input').val(),
-            }, tmpbtnmode);
-            $('#template_name_label').html(selecteditem.find(".template_name").html());
-            $('#template_name_input').val(selecteditem.find(".template_name").html());
-        }
-
-    );
-
-});
-
-// $('')
-
-$('#template_edit_btn').click(
-    function() {
-        template_btn_action({
-            _token: "{{ csrf_token() }}",
-            id: selecteditem.attr("id").split("_")[2],
-            name: $('#template_name_input').val()
-        }, tmpbtnmode);
-        tmpbtnmode == 3 ? (tmpbtnmode = 1) : (tmpbtnmode++);
-    }
-);
-
-$('#template_save_btn').click(
-    function() {
-        tmpbtnmode = SAVEMODE;
-        template_btn_action({
-            name: $('#template_name_input').val()
-        }, tmpbtnmode);
-    }
-);
-
-$('#template_add_btn').click(
-    function() {
-        tmpbtnmode = EDITMODE;
-        sendmode = ADDMODE;
-        $("#div_B").show();
-        template_btn_action({
-            _token: "{{ csrf_token() }}",
-            name: $('#template_name_input').val()
-        }, tmpbtnmode);
-        $("#template_save_btn").show();
-        $("#template_edit_btn").hide();
-        $('#template_name_label').html('');
-        $('#template_name_input').val('');
-    }
-);
-
 // const { nodeName } = require("jquery");
 
 // const { parseHTML } = require("jquery");
@@ -182,8 +6,22 @@ $('#template_add_btn').click(
 
 var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document.body.clientHeight));
 
-// var baseURL = window.location.protocol + "//" + window.location.host;
-var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
+
+// const VIEWMODE = 1,
+//     EDITMODE = 2,
+//     SAVEMODE = 3,
+
+//     UPDATEMODE = 1,
+//     ADDMODE = 2;
+
+// let tmpbtnmode = VIEWMODE,
+//     sendmode = UPDATEMODE;
+
+// let selecteditem;
+
+
+var baseURL = window.location.protocol + "//" + window.location.host;
+// var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
 var filteritem = null;
 var grouptab = null,
     detailtags = null;
@@ -207,7 +45,7 @@ var templateDateSort = false,
 
 // Dashmix.helpers('notify', {message: 'Your message!'});
 
-var notification = function(str, type) {
+var notification = function (str, type) {
     switch (type) {
         case 1:
             Dashmix.helpers('notify', {
@@ -231,12 +69,8 @@ var notification = function(str, type) {
 
 };
 
-var countDisplayUser = function(event) {
-    $('#member-count').html($(this).find('.list-group-item').length + " members");
-};
-
-var clearClassName = function(i, highlighted) {
-    $(highlighted).find(".btn").each(function(index, btnelement) {
+var clearClassName = function (i, highlighted) {
+    $(highlighted).find(".btn").each(function (index, btnelement) {
         $(btnelement).removeClass("active");
     });
     if ($(highlighted).hasClass('highlight')) {
@@ -244,14 +78,14 @@ var clearClassName = function(i, highlighted) {
     }
 };
 
-var toggleBtnChange = function() {
+var toggleBtnChange = function () {
     $(this).find('.toggle2-btn').toggle(false);
     $(this).find('.toggle1-btn').toggle(true);
     $(this).removeClass('select-active');
 };
 
-var itemDBClick = function() {
-    $(this).parents('.list-group').children(".list-group-item").each(function(i, e) {
+var itemDBClick = function () {
+    $(this).parents('.list-group').children(".list-group-item").each(function (i, e) {
         if ($(e).hasClass("active")) {
             $(e).removeClass("active");
         }
@@ -267,19 +101,20 @@ var itemDBClick = function() {
 //     $(this).addClass('active');
 // });
 
-var leftItemClick = function(e) {
+var leftItemClick = function (e) {
     // e.stopPropagation();
+    $(this).parents('.list-group').find('.list-group-item').each(function (i, em) {
+        $(em).toggleClass('active', false);
+    });
     if (!$(this).hasClass("active")) {
         $(this).addClass("active");
-        // $(this).attr('draggable', true);
     } else {
         $(this).removeClass("active");
-        // $(this).attr('draggable', false);
     }
 
 };
 
-var btnClick = function(e) {
+var btnClick = function (e) {
     if (!$(this).hasClass('toggle2-btn')) {
         e.stopPropagation();
         $(this).parents('.window').find('.list-group-item').each(clearClassName);
@@ -287,36 +122,36 @@ var btnClick = function(e) {
         switch ($(this).parents('.window').attr("id")) {
             case "div_A":
                 if ($('#div_D').find('.highlight').length != 0)
-                    $('#div_D').find('.highlight').each(function(i, e) {
+                    $('#div_D').find('.highlight').each(function (i, e) {
                         $(e).removeClass("highlight");
-                        $(e).find('.btn').each(function(i, item) {
+                        $(e).find('.btn').each(function (i, item) {
                             $(item).removeClass('active');
                         });
                     });
                 break;
             case "div_B":
                 if ($('#div_C').find('.highlight').length != 0 && activedTab == '#groups')
-                    $('#div_C').find('.highlight').each(function(i, e) {
+                    $('#div_C').find('.highlight').each(function (i, e) {
                         $(e).removeClass("highlight");
-                        $(e).find('.btn').each(function(i, item) {
+                        $(e).find('.btn').each(function (i, item) {
                             $(item).removeClass('active');
                         });
                     });
                 break;
             case "div_C":
                 if ($('#div_B').find('.highlight').length != 0 && activedTab == '#groups')
-                    $('#div_B').find('.highlight').each(function(i, e) {
+                    $('#div_B').find('.highlight').each(function (i, e) {
                         $(e).removeClass("highlight");
-                        $(e).find('.btn').each(function(i, item) {
+                        $(e).find('.btn').each(function (i, item) {
                             $(item).removeClass('active');
                         });
                     });
                 break;
             case "div_D":
                 if ($('#div_A').find('.highlight').length != 0)
-                    $('#div_A').find('.highlight').each(function(i, e) {
+                    $('#div_A').find('.highlight').each(function (i, e) {
                         $(e).removeClass("highlight");
-                        $(e).find('.btn').each(function(i, item) {
+                        $(e).find('.btn').each(function (i, item) {
                             $(item).removeClass('active');
                         });
                     });
@@ -328,7 +163,7 @@ var btnClick = function(e) {
 
     } else {
         $(this).parents('.window').find('.list-group-item').each(clearClassName);
-        $(this).parents('.list-group').children(".list-group-item").each(function(i, e) {
+        $(this).parents('.list-group').children(".list-group-item").each(function (i, e) {
             if ($(e).hasClass("active")) {
                 $(e).removeClass("active");
             }
@@ -338,16 +173,16 @@ var btnClick = function(e) {
     $(this).addClass("active");
 };
 
-var clearTable = function(element) {
-    element.each(function(i, em) {
+var clearTable = function (element) {
+    element.each(function (i, em) {
         if ($(em).find('.list-group-item').length != 0) {
             $(em).find('.list-group-item').detach();
         }
     });
 };
 
-var clearFrom = function(element) {
-    element.find('input, select').each(function(i, forminput) {
+var clearFrom = function (element) {
+    element.find('input, select').each(function (i, forminput) {
         if ($(forminput).attr('name') != '_token' && $(forminput).attr('name') != '_method') {
             $(forminput).val('');
         }
@@ -359,7 +194,7 @@ var clearFrom = function(element) {
 };
 
 //@param : div_b | div_d
-var toggleFormOrTable = function(element, flag = null, flag1 = true) {
+var toggleFormOrTable = function (element, flag = null, flag1 = true) {
     var form = element.find('form');
     var table = element.find('.second-table');
     clearFrom(form);
@@ -369,7 +204,7 @@ var toggleFormOrTable = function(element, flag = null, flag1 = true) {
             if (form.css('display') == "none") {
 
                 form.css('display', 'block');
-                table.each(function(i, em) {
+                table.each(function (i, em) {
                     $(em).css('display', 'none');
                 });
                 return form;
@@ -377,14 +212,14 @@ var toggleFormOrTable = function(element, flag = null, flag1 = true) {
         } else if (!flag) {
             if (table.css('display') == "none") {
                 form.css('display', 'none');
-                table.each(function(i, em) {
+                table.each(function (i, em) {
                     $(em).css('display', 'block');
                 });
                 return table;
             }
         } else if (flag == null) {
             if ($(table[0]).css('display') == "block") {
-                table.each(function(i, em) {
+                table.each(function (i, em) {
                     $(em).css('display', 'none');
                 });
                 form.css('display', 'block');
@@ -393,7 +228,7 @@ var toggleFormOrTable = function(element, flag = null, flag1 = true) {
             } else {
                 if (form.css('display') == "block") {
                     form.css('display', 'none');
-                    table.each(function(i, em) {
+                    table.each(function (i, em) {
                         $(em).css('display', 'block');
                     });
 
@@ -403,7 +238,7 @@ var toggleFormOrTable = function(element, flag = null, flag1 = true) {
         }
     } else {
         form.toggle(false);
-        table.each(function(i, em) {
+        table.each(function (i, em) {
             $(em).toggle(false);
         });
         return null;
@@ -411,56 +246,33 @@ var toggleFormOrTable = function(element, flag = null, flag1 = true) {
 
 };
 
-var goTab = function(name) {
+var goTab = function (name) {
     // console.log($('#' + name + '-tab')[0]);
     $('#' + name + '-tab').click();
 };
 
-// var contentFilter = function(element_id, str = '', comp = null, func = null, online = 0) {
-
-//     var category = element_id.split('_')[0].split('-')[0];
-//     var id = element_id.split('_')[1];
-//     var data = {
-//         'id': id,
-//         'str': str,
-//         'comp': comp,
-//         'func': func,
-//         'online': online
-//     };
-//     $.post(baseURL + "/userFind" + category + "/" + id, data)
-//         .done(function(responseData) {
-//             notification("Data Loaded!", 1);
-//             return responseData;
-//         })
-//         .fail(function(err) {
-//             notification('Sorry, You have an error!', 2);
-//         }).always(function(data) {
-//             console.log(data);
-//         });;
-
-// };
-var filterToggleShow = function(event) {
+var filterToggleShow = function (event) {
     var parent = $(this).parents('.toolkit');
     parent.children(".toolkit-filter").toggle();
-    if (parent.attr('id') == 'user-toolkit') {
-        var leftActiveTab = $('#LeftPanel .ui-state-active a').attr('href').split('#')[1];
-        if ( /* leftActiveTab == 'teachers' ||  */ leftActiveTab == 'authors') {
-            parent.find('.filter-function-btn').toggle(false);
-        } else {
-            parent.find('.filter-function-btn').toggle(true);
-        }
+    // if (parent.attr('id') == 'template-toolkit') {
+    //     var leftActiveTab = $('#LeftPanel .ui-state-active a').attr('href').split('#')[1];
+    //     if ( /* leftActiveTab == 'teachers' ||  */ leftActiveTab == 'authors') {
+    //         parent.find('.filter-function-btn').toggle(false);
+    //     } else {
+    //         parent.find('.filter-function-btn').toggle(true);
+    //     }
 
-    }
+    // }
 
-    parent.children('.toolkit-filter input').each(function(i, e) {
+    parent.children('.toolkit-filter input').each(function (i, e) {
         $(e).attr('checked', false);
     });
     parent.children('.search-filter').val('');
     parent.children('.filter-company-btn').html('company +<i></i>');
     parent.children('.filter-function-btn').html('function +<i></i>');
 
-    parent.find('.search-filter').val('')
-    parent.find('input[name=status]').each(function(i, e) {
+    parent.find('.search-filter').val('');
+    parent.find('input[name=status]').each(function (i, e) {
         $(e).prop('checked', false);
     });
     parent.find('.filter-company-btn').val('');
@@ -490,137 +302,62 @@ var filterToggleShow = function(event) {
     parent.find('.filter-date-btn i').toggleClass('fa-sort-numeric-down', false);
 };
 
-var secondShow1 = function(event) {
+// var divBDshow = function (event) {
+//     event.preventDefault();
+//     var parent = $(this).parents('fieldset');
+//     if (parent.attr('id') == "LeftPanel") {
+//         toggleFormOrTable($('#RightPanel'), false);
+//         $('.second-table .toolkit>div').css('background-color', 'var(--template-h)');
+//         $("#category-form-tags .list-group-item").css('background-color', 'var(--template-c)');
+//         $("#category-form-tags .list-group-item.active").css('background-color', 'var(--template-h)');
+//     } else {
+//         toggleFormOrTable($('#LeftPanel'), false);
+//     }
+// };
+
+var divACshow = function (event) {
     var parent = $(this).parents('.list-group-item');
-    var id = parent.attr('id').split('_')[1];
-
-    if ($(this).parents('fieldset').attr('id') == "RightPanel") {
-
-        var item_group = parent.find('input[name="item-group"]').val();
-        var arr_group = item_group.split('_');
-
-        arr_group.map(function(group) {
-            // console.log(group);
-            $('#groups').find('.list-group-item').each(function(i, e) {
-                if (group == $(this).attr('id').split('_')[1]) {
-                    var element = $(e).clone(false);
-                    var unlinkbtn = null;
-                    var sectId = $(event.target).parents('.window').attr('id');
-                    if (sectId == 'div_B' || sectId == 'div_D') {
-                        unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
-                    } else {
-                        unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkFrom);
-                    }
-                    if (element.hasClass('highlight')) {
-                        element.removeClass('highlight');
-                        element.find('.btn.active').each(function(i, e) {
-                            $(e).removeClass('active');
-                        });
-                    }
-
-                    if (element.hasClass('active')) {
-                        element.removeClass('active');
-                    }
-                    // unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkFrom);
-                    element.find('.btn-group').append(unlinkbtn);
-                    element.find('button.btn').click(btnClick);
-                    element.find('.item-show').bind('click', divBDshow);
-                    element.find('.item-show').bind('click', secondShow1);
-                    element.find('.item-edit').bind('click', function() {
-                        item_edit($(this));
-                    });
-                    element.find('.item-delete').click(itemDelete);
-
-                    element.toggle(true);
-                    element.attr('data-src', parent.attr('id'));
-                    element.parents('.list-group').attr('data-src', parent.attr('id'));
-                    element.removeClass('active');
-                    $("#table-groups .list-group").append(element);
-                }
-            });
-        });
-
-        if (!$(document).has("#user-form-tags"))
-            grouptab.appendTo("#user-form-tags");
-
-    } else if ($(this).parents('fieldset').attr('id') == "LeftPanel") {
-
-        var activetab = $("#LeftPanel").find(".ui-state-active:first a").attr('href').split('#')[1];
-        var items = $('#' + activetab).find('.list-group-item input[name="item-group"]');
-        items.map(function(i, e) {
-            // var item = $(e).parents('.list-group-item');
-            var arr_group = $(e).val().split('_');
-            var unlinkbtn = null;
-            arr_group.map(function(group) {
-                // console.log(group);
-                if (id == group) {
-                    var element = $(e).parents('.list-group-item').clone(false);
-                    var sectId = $(event.target).parents('.window').attr('id');
-                    if (sectId == 'div_B' || sectId == 'div_D') {
-                        unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkFrom);
-                    } else {
-                        unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
-                    }
-                    if (element.hasClass('highlight')) {
-                        element.removeClass('highlight');
-                        element.find('.btn.active').each(function(i, e) {
-                            $(e).removeClass('active');
-                        });
-                    }
-                    if (element.hasClass('active')) {
-                        element.removeClass('active');
-                    }
-                    element.find('button.btn').click(btnClick);
-                    element.find('.btn-group').append(unlinkbtn);
-                    element.find('.item-show').bind('click', divBDshow);
-                    element.find('.item-show').bind('click', secondShow1);
-                    element.find('.item-edit').bind('click', function() {
-                        item_edit($(this));
-                    });
-                    element.find('.item-delete').click(itemDelete);
-
-                    element.toggle(true);
-                    element.attr('data-src', parent.attr('id'));
-                    element.parents('.list-group').attr('data-src', parent.attr('id'));
-                    element.removeClass('active');
-                    $("#category-form-tags .list-group").append(element);
-                }
-            });
-        });
-    }
+    $.post({url:baseURL+'/gettemplatefromcate', data:{id:parent.attr('id').split('_')[1], data:parent.attr('id').split('_')[0]}})
+    .then(function(data){
+        notification("Getting Data Success", 1);
+        if(data.name){
+            var showedcomp = createTemplateData(data, 'template');
+            showedcomp.find('.item-duplicate').detach();
+        $("#div_D .list-group").append(showedcomp);
+        }
+    }).fail(function(err){
+        notification("You got an error getting data", 2);
+    })
+    toggleFormOrTable($("#RightPanel"), false);
 };
 
-var divBDshow = function(event) {
-    event.preventDefault();
-    var parent = $(this).parents('fieldset');
-    if (parent.attr('id') == "LeftPanel") {
-        toggleFormOrTable($('#RightPanel'), false);
-        $('.second-table .toolkit>div').css('background-color', 'var(--student-h)');
-        $("#category-form-tags .list-group-item").css('background-color', 'var(--student-c)');
-        $("#category-form-tags .list-group-item.active").css('background-color', 'var(--student-h)');
-    } else {
-        toggleFormOrTable($('#LeftPanel'), false);
-    }
+var itemTemplate = function (event) {
+    window.open(baseURL + "/template_editor/" + $(this).attr('data-template'), '_blank');
 };
 
-var divACshow = function(event) {
-    var parent = $(this).parents('fieldset');
-    toggleFormOrTable(parent, false);
-};
+var itemDuplicate = function (event) {
+    var parent = $(this).parents('.list-group-item');
+    $.post({url:baseURL+'/templateduplicate', data:{id:parent.attr('id').split('_')[1]}})
+    .then(function(data){
+        console.log(data);
+    // var data = {
+    //     id: parent.attr('id').split('_')[1],
+    //     creation_date: parent.attr('data-date'),
+    //     status: parent.find('.float-left i').css('color') == 'green' ? 1 : 0,
+    //     name: parent.find('.item-name').html(),
+    //     alpha_id: parent.find('button.item-template').attr('data-template').split('/')[2]
+    // }
+    createTemplateData(data, "template").insertAfter(parent);
+    }).fail(function(err){
 
-var toolkitAddItem = function(event) {
+    });
+
+}
+
+var toolkitAddItem = function (event) {
     event.preventDefault();
     event.stopPropagation();
     toggleFormOrTable($(this).parents('fieldset'), true);
-    if ($('#groups-tab').parents('li').hasClass('ui-state-active')) {
-        $('#status-form-group').css('display', 'block');
-        $('#cate-status-icon').val('true');
-        $('#cate-status-icon').prop('checked', true);
-    } else {
-        $('#status-form-group').css('display', 'none');
-        $('#user-status-icon').val('true');
-        $('#user-status-icon').prop('checked', true);
-    }
     var parent = $(this).parents('fieldset');
     var parent_id = parent.attr('id');
     var activeTagName;
@@ -628,386 +365,108 @@ var toolkitAddItem = function(event) {
         activeTagName = $('#RightPanel').find('.ui-state-active:first a').attr('href');
         $('#div_B').find('.list-group-item').each(clearClassName);
         switch (activeTagName) {
-            case '#groups':
-                $("#category_form").attr('action', baseURL + '/group');
+            case '#training':
+                $("#category_form").attr('action', baseURL + '/training');
                 $('#status_checkbox').css('display', 'block');
-                $('#category_status').attr("checked", 'checked');
-
-                $('#category_form').attr('data-item', '');
-
-                $("#category_form .method-select").val('POST');
+                $('#cate-status-icon').attr("checked", 'checked');
                 break;
             case '#companies':
                 $("#category_form").attr('action', baseURL + '/company');
                 $('#status_checkbox').css('display', 'none');
-
-                $('#category_form').attr('data-item', '');
-
-                $("#category_form .method-select").val('POST');
                 break;
-            case '#positions':
-                $("#category_form").attr('action', baseURL + '/function');
+            case '#session':
+                $("#category_form").attr('action', baseURL + '/session');
                 $('#status_checkbox').css('display', 'none');
 
-                $('#category_form').attr('data-item', '');
-
-                $("#category_form .method-select").val('POST');
                 break;
 
             default:
                 console.log('There is some error adding new component');
                 break;
         }
-
+        $('#category_form').attr('data-item', '');
+        $("#category_form .method-select").val('POST');
 
     } else {
-        activeTagName = $('#LeftPanel').find('.ui-state-active:first a').attr('href');
-        $('#div_A').find('.list-group-item').each(clearClassName);
-        $('#user_form').attr('action', baseURL + '/user');
-
-        $('#user_form').attr('data-item', '');
-
-        $("#user_form .method-select").val('POST');
-
-        // $('#password').attr('disabled', false);
-        $('#password').attr('placeholder', '');
-        $('#preview').attr('src', baseURL + '/assets/media/default.png');
-        $('#generatepassword').prop('checked', false);
-
-        switch (activeTagName) {
-            case '#students':
-                $('#user_type').val('4');
-                $('#login-label').html('Login Student');
-
-                if ($('#expired_date_input .input-group').length == 0) {
-                    expired_date.appendTo($('#expired_date_input'));
-                }
-                break;
-            case '#teachers':
-                $('#user_type').val('3');
-                $('#login-label').html('Login Teacher');
-
-                if ($('#expired_date_input .input-group').length == 0) {
-                    expired_date.appendTo($('#expired_date_input'));
-                }
-                break;
-            case '#authors':
-                $('#user_type').val('2');
-                $('#login-label').html('Login Author');
-
-                if ($('#expired_date_input .input-group').length != 0) {
-                    expired_date = $('#expired_date_input .input-group');
-                    expired_date.appendTo($('#expired_date_input'));
-                }
-
-                break;
-
-            default:
-                break;
-        }
-        // $.get({
-        //     url: baseURL + "/usercreate",
-        //     success: function(data) {
-        //         notification('Initialized success!', 1);
-        //         $('#login').val(data.name);
-        //         $('#preview').attr('src', baseURL + '/assets/media/default.png');
-        //         $('#password').val(data.password);
-        //         $('#password').attr('data-password', data.password);
-        //     },
-        //     error: function(err) {
-        //         notification("Sorry, You can't init the form!", 2);
-        //     }
-        // })
+        $('#template_name').val('');
+        $('#template_description').val('');
+        $('#template-status-icon').prop('checked', true);
+        $("#template_form").attr('action', baseURL + '/template');
+        $('#template_form').attr('data-item', '');
+        $("#template_form .method-select").val('POST');
     }
 };
 
-var divACedit = function(event) {
-    // event.stopPropagation();
+var divACedit = function (event) {
     var parent = $(this).parents('fieldset');
     toggleFormOrTable(parent, true);
 };
 
-var divBDedit = function(event) {
-    // event.stopPropagation();
-    var parent = $(this).parents('fieldset');
-    if (parent.attr('id') == "LeftPanel") {
-        toggleFormOrTable($('#RightPanel'), true);
-        // if ($(this).attr('data-content') == 'group') {
-        //     $('#cate-status-icon').toggle(true);
-        // } else {
-        //     $('#cate-status-icon').toggle(false);
-        // }
-    } else {
-        toggleFormOrTable($('#LeftPanel'), true);
-    }
-};
+// var divBDedit = function (event) {
+//     var parent = $(this).parents('fieldset');
+//     if (parent.attr('id') == "LeftPanel") {
+//         toggleFormOrTable($('#RightPanel'), true);
+//     } else {
+//         toggleFormOrTable($('#LeftPanel'), true);
+//     }
+// };
 
-var divAshow = function(event) {
-    heightToggleLeft = true;
-    $('#div_left').dblclick();
-    var parent = $(this).parents('.list-group-item');
-    // var id = parent.attr('id').split('_')[1];
-
-    var item_group = parent.find('input[name="item-group"]').val();
-    var arr_group = item_group.split('_');
-
-    arr_group.map(function(group) {
-        // console.log(group);
-        $('#groups').find('.list-group-item').each(function(i, e) {
-            if (group == $(e).attr('id').split('_')[1]) {
-                var element = $(e).clone(false);
-                var unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
-                element.find('.btn-group').append(unlinkbtn);
-                element.find('button.btn').click(btnClick);
-                element.find('.item-show').bind('click', divBDshow);
-                element.find('.item-show').bind('click', secondShow1);
-                element.find('.item-edit').bind('click', itemEdit);
-                element.find('.item-delete').click(itemDelete);
-
-                if (element.hasClass('highlight')) {
-                    element.removeClass('highlight');
-                    element.find('.btn.active').each(function(i, e) {
-                        $(e).removeClass('active');
-                    });
-                }
-                if (element.hasClass('active')) {
-                    element.removeClass('active');
-                }
-                element.find('button.btn').click(btnClick);
-
-                element.toggle(true);
-                element.attr('data-src', parent.attr('id'));
-                element.parents('.list-group').attr('data-src', parent.attr('id'));
-                element.removeClass('active');
-                $("#table-groups .list-group").append(element);
-            }
-        });
-    });
-};
-
-var divCshow = function(event) {
-    heightToggleRight = true;
-    $('#member-count').html("0 members");
-    $('#div_right').dblclick();
-    var parent = $(this).parents('.list-group-item');
-    var id = parent.attr('id').split('_')[1];
-    var cate = parent.attr('id').split('_')[0];
-    var activetab = $("#LeftPanel").find(".ui-state-active:first a").attr('href').split('#')[1];
-    var items = $('#' + activetab).find('.list-group-item input[name="item-' + cate + '"]');
-    $('#show-toolkit input[name="status"]:checked').prop('checked', false);
-    var nameIcon = $('show-toolkit').find('.filter-name-btn i');
-    var dateIcon = $('show-toolkit').find('.filter-date-btn i');
-    nameIcon.toggleClass('fa-sort-alpha-down', false);
-    nameIcon.toggleClass('fa-sort-alpha-up', false);
-    dateIcon.toggleClass('fa-sort-numeric-down', false);
-    dateIcon.toggleClass('fa-sort-numeric-up', false);
-    items.map(function(i, e) {
-        var item = $(e).parents('.list-group-item');
-        if (cate == 'group') {
-            var arr_group = $(e).val().split('_');
-            arr_group.map(function(group) {
-                // console.log(group);
-                if (id == group) {
-                    var element = item.clone(false);
-                    unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkFrom);
-                    element.find('.btn-group').append(unlinkbtn);
-                    element.find('button.btn').click(btnClick);
-                    element.find('.item-show').bind('click', divBDshow);
-                    element.find('.item-show').bind('click', secondShow1);
-                    element.find('.item-edit').bind('click', itemEdit);
-                    element.find('.item-delete').click(itemDelete);
-                    if (element.hasClass('highlight')) {
-                        element.removeClass('highlight');
-                        element.find('.btn.active').each(function(i, e) {
-                            $(e).removeClass('active');
-                        });
-                    }
-                    if (element.hasClass('active')) {
-                        element.removeClass('active');
-                    }
-                    element.toggle(true);
-                    element.attr('data-src', parent.attr('id'));
-                    element.parents('.list-group').attr('data-src', parent.attr('id'));
-                    element.removeClass('active');
-                    $("#category-form-tags .list-group").append(element);
-                }
-            });
-        } else {
-            var cateVal = $(e).val();
-            // console.log(group);
-            if (id == cateVal) {
-                var element = item.clone(false);
-                unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkFrom);
-                element.find('.btn-group').append(unlinkbtn);
-                element.find('button.btn').click(btnClick);
-                element.find('.item-show').bind('click', divBDshow);
-                element.find('.item-show').bind('click', secondShow1);
-                element.find('.item-edit').bind('click', itemEdit);
-                element.find('.item-delete').click(itemDelete);
-                if (element.hasClass('highlight')) {
-                    element.removeClass('highlight');
-                    element.find('.btn.active').each(function(i, e) {
-                        $(e).removeClass('active');
-                    });
-                }
-                if (element.hasClass('active')) {
-                    element.removeClass('active');
-                }
-                element.toggle(true);
-                element.attr('data-src', parent.attr('id'));
-                element.parents('.list-group').attr('data-src', parent.attr('id'));
-                element.removeClass('active');
-                $("#category-form-tags .list-group").append(element);
-            }
-        }
-    });
-
-    //TODO:
-    switch ($('#LeftPanel .ui-state-active a').attr('href')) {
-        case '#students':
-            $('.second-table .toolkit>div').css('background-color', 'var(--student-h)');
-            $("#category-form-tags .list-group-item").css('background-color', 'var(--student-c)');
-            $("#category-form-tags .list-group-item.active").css('background-color', 'var(--student-h)');
-            $('#show-toolkit .filter-function-btn').toggle(true);
-            break;
-        case '#teachers':
-            $('.second-table .toolkit>div').css('background-color', 'var(--teacher-h)');
-            $("#category-form-tags .list-group-item").css('background-color', 'var(--teacher-c)');
-            $("#category-form-tags .list-group-item.active").css('background-color', 'var(--teacher-h)');
-            $('#show-toolkit .filter-function-btn').toggle(true);
-            break;
-        case '#authors':
-            $('.second-table .toolkit>div').css('background-color', 'var(--author-h)');
-            $("#category-form-tags .list-group-item").css('background-color', 'var(--author-c)');
-            $("#category-form-tags .list-group-item.active").css('background-color', 'var(--author-h)');
-            $('#show-toolkit .filter-function-btn').toggle(false);
-            break;
-        default:
-            break;
-    }
-
-};
-
-var formInputChange = function(event) {
+var formInputChange = function (event) {
     console.log($(event.target).val());
 };
 
-var item_edit = function(element) {
+var item_edit = function (element) {
     var parent = element.parents('.list-group-item');
     var id = parent.attr('id').split('_')[1];
 
-    if (parent.find('.item-edit').attr('data-content') == 'group') {
+    if (parent.find('.item-edit').attr('data-content') == 'training') {
         $('#status-form-group').css('display', 'block');
     } else {
         $('#status-form-group').css('display', 'none');
     }
-
-
-
     switch (element.attr('data-content')) {
-        case 'student':
-        case 'teacher':
-        case 'author':
-            $('#user_form .method-select').val('PUT');
-            // $('#password').attr('disabled', false);
+        case 'template':
             toggleFormOrTable($('#LeftPanel'), true);
-            clearFrom($('LeftPanel'));
-            switch (element.attr('data-content')) {
-                case 'student':
-                case 'teacher':
-                    if ($('#expired_date_input .input-group').length == 0) {
-                        expired_date.appendTo($('#expired_date_input'));
-                    }
-                    break;
-                case 'author':
-                    if ($('#expired_date_input .input-group').length != 0) {
-                        expired_date = $('#expired_date_input .input-group');
-                        $('#expired_date_input .input-group').detach();
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-            $('#user_form').attr('data-item', parent.attr('id'));
+            clearFrom($('#LeftPanel'));
             $.get({
-                url: baseURL + '/user/' + id,
-                success: function(data, state) {
-                    notification('We got user data successfully!', 1);
+                url: baseURL + '/template/' + id,
+                success: function (data, state) {
+                    notification('We got group data successfully!', 1);
                     console.log(state);
-                    if (data.user_info.interface_icon == null || data.user_info.interface_icon == "") {
-                        $('#preview').attr('src', baseURL + '/assets/media/default.png');
-                    } else {
-                        $('#preview').attr('src', data.user_info.interface_icon);
-                        $('#base64_img_data').val(data.user_info.interface_icon);
-                    }
-
-                    $('#login').val(data.user_info.login);
-                    $('#expired_date').val(data.user_info.expired_date);
-                    $('#password').attr('placeholder', "Private password");
-                    $('#generatepassword').prop('checked', false);
-                    $('#firstname').val(data.user_info.first_name);
-                    $('#lastname').val(data.user_info.last_name);
-                    $('#language').val(data.user_info.lang);
-                    $('#company').val(data.user_info.company);
-                    $('#position').val(data.user_info.function);
-                    $("#user_form").attr('action', baseURL + '/user/' + id);
-                    $('#status-form-group').css('display', 'block !important');
-                    if (data.user_info.auto_generate) {
-                        $('#generatepassword').prop('checked', true);
-                    }
-                    switch (data.user_info.type) {
-                        case 2:
-                            $('#login-label').html('Login Author');
-                            break;
-                        case 4:
-                            $('#login-label').html('Login Student');
-                            break;
-                        case 3:
-                            $('#login-label').html('Login Teacher');
-                            break;
-
-                        default:
-                            break;
-                    }
-
-                    if (data.user_info.contact_info != null && data.user_info.contact_info != "") {
-                        $('#contact_info').val(JSON.parse(data.user_info.contact_info).address);
-                        $('#user-email').val(JSON.parse(data.user_info.contact_info).email);
-                    }
-
-                    $('#user-status-icon').prop('checked', data.user_info.status == 1).change();
-                    // $("#user_form").prop('method', "PUT");
-
+                    $('#template_name').val(data.name);
+                    $('#template_description').val(data.description);
+                    $('#template-status-icon').prop("checked", data.status == 1).change();
+                    $("#template_form").attr('action', baseURL + '/template/' + id);
+                    $('#template_form .method-select').val('PUT');
                 },
-                error: function(err) {
-                    notification("Sorry, You can't get user data!", 2);
+                error: function (err) {
+                    notification("Sorry, You can't get template data!", 2);
                 }
             });
 
             break;
 
-        case 'group':
+        case 'training':
             toggleFormOrTable($('#RightPanel'), true);
-            clearFrom($('RightPanel'));
+            clearFrom($('#RightPanel'));
             $('#category_form').attr('data-item', parent.attr('id'));
             $.get({
-                url: baseURL + '/group/' + id,
-                success: function(data, state) {
-                    notification('We got group data successfully!', 1);
+                url: baseURL + '/training/' + id,
+                success: function (data, state) {
+                    notification('We got training data successfully!', 1);
                     console.log(state);
-                    $('#category_name').val(data.name);
-                    $('#category_description').val(data.description);
+                    $('#name').val(data.name);
+                    $('#description').val(data.description);
                     $('#status_checkbox').css('display', 'block');
                     $('#cate-status-icon').prop("checked", data.status == 1).change();
                     $('#cate-status').val(data.status);
 
 
-                    $("#category_form").attr('action', baseURL + '/group/' + id);
+                    $("#category_form").attr('action', baseURL + '/training/' + id);
 
                     $('#category_form .method-select').val('PUT');
                 },
-                error: function(err) {
+                error: function (err) {
                     notification("Sorry, You can't get group data!", 2);
                 }
             });
@@ -1017,13 +476,13 @@ var item_edit = function(element) {
             $('#category_form').attr('data-item', parent.attr('id'));
             $.get({
                 url: baseURL + '/company/' + id,
-                success: function(data, state) {
+                success: function (data, state) {
                     notification('We got company data successfully!', 1);
                     console.log(state);
                     toggleFormOrTable($('#RightPanel'), true);
                     clearFrom($('RightPanel'));
-                    $('#category_name').val(data.name);
-                    $('#category_description').val(data.description);
+                    $('#name').val(data.name);
+                    $('#description').val(data.description);
                     $('#status_checkbox').css('display', 'none');
 
                     $("#category_form").attr('action', baseURL + '/company/' + id);
@@ -1031,90 +490,83 @@ var item_edit = function(element) {
                     $('#category_form .method-select').val('PUT');
 
                 },
-                error: function(err) {
+                error: function (err) {
                     notification("Sorry, You can't get company data!", 2);
                 }
             });
             break;
 
-        case 'position':
+        case 'session':
             $('#category_form').attr('data-item', parent.attr('id'));
             $.get({
-                url: baseURL + '/function/' + id,
-                success: function(data, state) {
-                    notification('We got position data successfully!', 1);
+                url: baseURL + '/session/' + id,
+                success: function (data, state) {
+                    notification('We got session data successfully!', 1);
                     console.log(state);
                     toggleFormOrTable($('#RightPanel'), true);
                     clearFrom($('RightPanel'));
 
-                    $('#category_name').val(data.name);
-                    $('#category_description').val(data.description);
+                    $('#name').val(data.name);
+                    $('#description').val(data.description);
                     $('#status_checkbox').css('display', 'none');
 
-                    $("#category_form").attr('action', baseURL + '/function/' + id);
+                    $("#category_form").attr('action', baseURL + '/session/' + id);
 
                     $('#category_form .method-select').val('PUT');
 
                 },
-                error: function(err) {
+                error: function (err) {
                     notification("Sorry, You can't get position data!", 2);
                 }
             });
             break;
-
-        case 'session':
-            notification('There is no session for this user', 1);
-            break;
-
         default:
             notification('How dare you can do this!<br>Please contact me about this error :)');
             break;
     }
 };
 
-var itemEdit = function(event) {
+var itemEdit = function (event) {
     item_edit($(this));
 };
 
-var formStatusChange = function(e) {
+var formStatusChange = function (e) {
     $(this).val($(this).prop('checked'));
 };
 
-var item_delete = function(element) {
+var item_delete = function (element) {
     var parent = element.parents('.list-group-item');
     var id = parent.attr('id').split('_')[1];
     switch (element.attr('data-content')) {
-        case 'student':
-        case 'teacher':
-        case 'author':
+        case 'template':
             $.ajax({
                 type: "DELETE",
-                url: baseURL + '/user/' + id,
+                url: baseURL + '/template/' + id,
                 // dataType: "json",
-                success: function(result) {
+                success: function (result) {
                     console.log(result);
                     parent.detach();
                     notification('Successfully deleted!', 1);
                 },
-                error: function(err) {
+                error: function (err) {
                     console.log(err);
                     notification("Sorry, You can't delete!", 2);
                 }
             });
             break;
 
-        case 'group':
+        case 'training':
             $.ajax({
                 type: "DELETE",
-                url: baseURL + '/group/' + id,
+                url: baseURL + '/training/' + id,
 
                 // dataType: "json",
-                success: function(result) {
+                success: function (result) {
                     console.log(result);
                     parent.detach();
                     notification('Successfully deleted!', 1);
                 },
-                error: function(err) {
+                error: function (err) {
                     console.log(err);
                     notification("Sorry, You can't delete!", 2);
                 }
@@ -1127,30 +579,12 @@ var item_delete = function(element) {
                 url: baseURL + '/company/' + id,
 
                 // dataType: "json",
-                success: function(result) {
+                success: function (result) {
                     console.log(result);
                     parent.detach();
                     notification('Successfully deleted!', 1);
                 },
-                error: function(err) {
-                    console.log(err);
-                    notification("Sorry, You can't delete!", 2);
-                }
-            });
-            break;
-
-        case 'position':
-            $.ajax({
-                type: "DELETE",
-                url: baseURL + '/function/' + id,
-
-                // dataType: "json",
-                success: function(result) {
-                    console.log(result);
-                    parent.detach();
-                    notification('Successfully deleted!', 1);
-                },
-                error: function(err) {
+                error: function (err) {
                     console.log(err);
                     notification("Sorry, You can't delete!", 2);
                 }
@@ -1163,12 +597,12 @@ var item_delete = function(element) {
                 url: baseURL + '/session/' + id,
 
                 // dataType: "json",
-                success: function(result) {
+                success: function (result) {
                     console.log(result);
                     parent.detach();
                     notification('Successfully deleted!', 1);
                 },
-                error: function(err) {
+                error: function (err) {
                     console.log(err);
                     notification("Sorry, You can't delete!", 2);
                 }
@@ -1180,7 +614,7 @@ var item_delete = function(element) {
     }
 };
 
-var itemDelete = function(event) {
+var itemDelete = function (event) {
     elem = $(this);
     cate = $(this).attr('data-content');
     var e = Swal.mixin({
@@ -1193,7 +627,7 @@ var itemDelete = function(event) {
     });
     e.fire({
         title: 'Are you sure you want to delete this item ?',
-        text: cate == 'student' ? ' This user and all his historic and reports will be permanently deleted' : '',
+        text: cate == 'student' ? ' This item and all his historic and reports will be permanently deleted' : '',
         icon: 'warning',
         showCancelButton: !0,
         customClass: {
@@ -1202,15 +636,15 @@ var itemDelete = function(event) {
         },
         confirmButtonText: 'Yes, delete it!',
         html: !1,
-        preConfirm: function(e) {
-            return new Promise((function(e) {
-                setTimeout((function() {
+        preConfirm: function (e) {
+            return new Promise((function (e) {
+                setTimeout((function () {
                     e();
                     item_delete(elem);
                 }), 50);
             }));
         }
-    }).then((function(n) {
+    }).then((function (n) {
         if (n.value) {
             e.fire('Deleted!', 'Your ' + cate + ' has been deleted.', 'success');
             console.log();
@@ -1220,10 +654,9 @@ var itemDelete = function(event) {
         }
     }));
 
-
 };
 
-var submitFunction = function(event) {
+var submitFunction = function (event) {
     console.log($(this).attr('action'));
     console.log($("#cate-status").attr("checked"));
 
@@ -1231,71 +664,30 @@ var submitFunction = function(event) {
 };
 
 
-var detachLinkTo = function(e) {
-    var parent = $(this).parents('.list-group-item');
-    var showeditem = parent.attr('data-src');
-    var id = parent.attr('id').split('_')[1];
-    var cate = parent.attr('id').split('_')[0];
-    var value = $("#" + showeditem).find('input[name="item-' + cate + '"]').val();
-    if (cate == 'group') {
-        $("#div_A #" + showeditem).find('input[name="item-' + cate + '"]').val(combine(value, id).join('_'));
-    } else {
-        $("#div_A #" + showeditem).find('input[name="item-' + cate + '"]').val('');
+var detachLink = function (e) {
+    var id, parent = $(this).parents('.list-group-item');
+    if ($(this).parents('.fieldset').attr("id") == "LeftPanel") {
+        id = parent.attr('id').split("_")[1];
+    } else if ($(this).parents('.fieldset').attr("id") == "RightPanel") {
+        id = parent.attr('data-src').spilt('_')[1];
     }
-
-    var result = $("#" + showeditem).find('input[name="item-' + cate + '"]').val();
-
-    detachCall(cate, {
+    detachCall({
         id: showeditem.split('_')[1],
-        target: result,
-        flag: false
-    }, $(this));
-
-
-
-};
-
-var detachLinkFrom = function(e) {
-    var parent = $(this).parents('.list-group-item');
-    var divAitem = $("#div_A #" + parent.attr('id'));
-    var showeditem = parent.attr('data-src');
-    var id = $("#" + showeditem).attr('id').split('_')[1];
-    var cate = $("#" + showeditem).attr('id').split('_')[0];
-    var value = divAitem.find('input[name="item-' + cate + '"]').val();
-    if (cate == 'group') {
-        divAitem.find('input[name="item-' + cate + '"]').val(combine(value, id).join('_'));
-    } else {
-        divAitem.find('input[name="item-' + cate + '"]').val('');
-    }
-
-    var result = parent.find('input[name="item-' + cate + '"]').val();
-    var parent_id = parent.attr('id').split('_')[1];
-
-    detachCall(cate, {
-        id: parent_id,
-        target: result,
-        flag: false
+        data: cate,
+        template: '',
     }, $(this));
 };
 
-var combine = function(value, id) {
-    var combineArray = value.split('_').filter(function(item, i, d) {
-        return item != id && item != null;
-    });
-    console.log(combineArray);
-    return combineArray;
-};
-
-var detachCall = function(cate, connectiondata, element) {
+var detachCall = function (connectiondata, element) {
     $.post({
-        url: baseURL + '/userjointo' + cate,
+        url: baseURL + '/tempaltelinktocate',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         data: {
             'data': JSON.stringify(Array(connectiondata))
         }
-    }).then(function(data) {
+    }).then(function (data) {
         notification('Successfully unliked!', 1);
         if (element.parents('fieldset').attr('id') == 'RightPanel') {
             toggleFormOrTable($("#LeftPanel"), false, false);
@@ -1304,20 +696,20 @@ var detachCall = function(cate, connectiondata, element) {
         }
         element.parents('.list-group-item').detach();
         return true;
-    }).fail(function(err) {
+    }).fail(function (err) {
         notification("Sorry, Your action brocken!", 2);
         return false;
-    }).always(function(data) {
+    }).always(function (data) {
         console.log(data);
     });
 };
 
-var submitBtn = function(event) {
+var submitBtn = function (event) {
     var formname = $(this).attr('data-form');
     var inputpassword = document.getElementById('password');
     if ($("#" + formname).attr('data-item')) {
         $("#" + $(this).parents('form').attr('data-item')).toggleClass('highlight', false);
-        $("#" + $(this).parents('form').attr('data-item') + " .btn").each(function(i, em) {
+        $("#" + $(this).parents('form').attr('data-item') + " .btn").each(function (i, em) {
             $(em).toggleClass('active', false);
         });
     }
@@ -1326,51 +718,26 @@ var submitBtn = function(event) {
     //TODO: We have to check this function again after a while;
     var regularExpression = new RegExp("^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[!%&@#$^*?_~+={}().,\/<>-]).*$");
     var password = $('#password').val();
-    if (formname == 'user_form') {
-        validate = validate && $("#login")[0].checkValidity();
-        validate = validate && $("#contact_info")[0].checkValidity();
-        validate = validate && $("#user-email")[0].checkValidity();
-        validate = validate && $("#lastname")[0].checkValidity();
-        validate = validate && $("#firstname")[0].checkValidity();
-        if (password == '' || password == null) {
-            if ($('#password').attr('placeholder') == '') {
-                validate = false;
-                inputpassword.setCustomValidity('bad password');
-                inputpassword.reportValidity();
-            }
-        } else {
-            if (!regularExpression.test(password)) {
-                validate = false;
-                inputpassword.setCustomValidity('bad password');
-                inputpassword.reportValidity();
-            }
-        }
-
-        if (($('#expired_date').val() == '' || $('#expired_date').val() == null) && $('#expired_date_input .input-group').length != 0) {
-            validate = false;
-            validate = validate && $("#expired_date")[0].checkValidity();
-            // document.getElementById('expired_date').setCustomValidity('You have to insert date');
-            // document.getElementById('expired_date').reportValidity();
-            notification('You have to insert date', 2);
-        }
+    if (formname == 'template_form') {
+        // validate = validate && $("#login")[0].checkValidity();
     } else if (formname == 'cate_form') {
-        validate = validate && $("#category_description")[0].checkValidity();
-        validate = validate && $("#category_name")[0].checkValidity();
+        validate = validate && $("#description")[0].checkValidity();
+        validate = validate && $("#name")[0].checkValidity();
     }
 
     if (validate) {
         event.preventDefault(); // stops the "normal" <form> request, so we can post using ajax instead, below
         var submit_data = Array();
 
-        $('#' + formname).find('input, switch').each(function(i, e) {
+        $('#' + formname).find('input, switch').each(function (i, e) {
             submit_data[$(e).attr('name')] = $(e).val();
         });
 
         console.log($('#' + formname).serializeArray());
-        var serialval = $('#' + formname).serializeArray().map(function(item) {
+        var serialval = $('#' + formname).serializeArray().map(function (item) {
             var arr = {};
-            if (item.name == 'user-status-icon') {
-                item.value = $('#user-status-icon').prop('checked') == true ? 1 : 0;
+            if (item.name == 'template-status-icon') {
+                item.value = $('#template-status-icon').prop('checked') == true ? 1 : 0;
             } else if (item.name == 'cate-status-icon') {
                 item.value = $('#cate-status-icon').prop("checked") == true ? 1 : 0;
             } else if (item.name == 'generatepassword') {
@@ -1378,17 +745,13 @@ var submitBtn = function(event) {
             }
             return item;
         });
-        if (!serialval.filter(function(em, t, arr) {
-                return em.name == 'user-status-icon' || em.name == 'cate-status-icon';
+        if (!serialval.filter(function (em, t, arr) {
+                return em.name == 'template-status-icon' || em.name == 'cate-status-icon';
             }).length) {
-            if (formname == 'user_form') {
+            if (formname == 'template_form') {
                 serialval.push({
-                    name: 'user-status-icon',
-                    value: $('#user-status-icon').prop('checked') == true ? 1 : 0
-                });
-                serialval.push({
-                    name: 'generatepassword',
-                    value: $('#generatepassword').prop('checked') == true ? 1 : 0
+                    name: 'template-status-icon',
+                    value: $('#template-status-icon').prop('checked') == true ? 1 : 0
                 });
             } else if (formname == 'cate_form') {
                 serialval.push({
@@ -1398,17 +761,11 @@ var submitBtn = function(event) {
             }
         }
         if (!$("#" + formname).find('input[type=checkbox]').prop('checked')) {
-            if (formname == 'user_form') {
+            if (formname == 'template_form') {
                 serialval.push({
-                    name: 'user-status-icon',
+                    name: 'template-status-icon',
                     value: 0
                 });
-                if ($('#generatepassword').prop('checked') == false) {
-                    serialval.push({
-                        name: 'generatepassword',
-                        value: 0
-                    });
-                }
             } else if (formname == 'cate_form') {
                 serialval.push({
                     name: 'cate-status-icon',
@@ -1420,49 +777,27 @@ var submitBtn = function(event) {
         $.ajax({
             url: $('#' + formname).attr('action'),
             method: $('#' + formname).find('.method-select').val(),
-            data: serialval,
-            success: function(data) {
+            data: serialval}).done(function (data) {
                 console.log(data);
                 if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
                     var arr_url = $('#' + formname).attr('action').split('/');
                     var groupName = arr_url[arr_url.length - 1];
                     switch (groupName) {
-                        case 'user':
-
-                            notification('User added successfully!', 1);
-                            switch ($("#user_type").val()) {
-                                case '4':
-                                    notification('A student has been registered sucessfully!', 1);
-                                    $('#students .list-group').append(createTemplateData(data, 'student'));
-                                    break;
-
-                                case '3':
-                                    notification('A teacher has been registered sucessfully!', 1);
-                                    $('#teachers .list-group').append(createTemplateData(data, 'teacher'));
-                                    break;
-
-                                case '2':
-                                    notification('An author has been registered sucessfully!', 1);
-                                    $('#authors .list-group').append(createTemplateData(data, 'author'));
-                                    break;
-
-                                default:
-                                    break;
-                            }
+                        case 'template':
+                            notification('template added successfully!', 1);
+                            $('#div_A .list-group').append(createTemplateData(data, 'template'));
                             break;
-                        case 'group':
-                            notification('The group has been saved sucessfully!', 1);
-                            $('#groups .list-group').append(createTrainingData(data, 'group'));
+                        case 'training':
+                            notification('The training has been saved sucessfully!', 1);
+                            $('#training .list-group').append(createTrainingData(data, 'training'));
                             break;
                         case 'company':
                             notification('The company has been saved sucessfully!', 1);
-                            $('#companies .list-group').append(createCategoryData(data, 'company'));
-                            $('#company').append('<option value="' + data.id + '">' + data.name + '</option>');
+                            $('#company .list-group').append(createCategoryData(data, 'company'));
                             break;
-                        case 'function':
+                        case 'session':
                             notification('The position has been saved sucessfully!', 1);
-                            $('#positions .list-group').append(createCategoryData(data, 'function'));
-                            $('#position').append('<option value="' + data.id + '">' + data.name + '</option>');
+                            $('#positions .list-group').append(createCategoryData(data, 'session'));
                             break;
 
                         default:
@@ -1471,18 +806,16 @@ var submitBtn = function(event) {
                 } else {
                     var target = $("#" + formname).attr('data-item');
                     switch (target.split('_')[0]) {
-                        case 'student':
-                        case 'teacher':
-                        case 'author':
+                        case 'template':
                             updateTemplateData(data, target);
                             break;
-                        case 'group':
+                        case 'training':
                             updateTrainingData(data, target);
                             break;
                         case 'company':
                             updateCategoryData(data, target);
                             break;
-                        case 'function':
+                        case 'session':
                             updateCategoryData(data, target);
                             break;
 
@@ -1490,87 +823,91 @@ var submitBtn = function(event) {
                             break;
                     }
                 }
-            },
-            error: function(err) {
+            })
+            .fail(function (err) {
                 notification("Sorry, You have an error!", 2);
-            }
-        });
-        var type = $('#user_type').val();
+            });
         submit_data = null;
         toggleFormOrTable($(this).parents('fieldset'), true, false);
-        $('#user_type').val(type);
     }
     if ($("#" + formname).attr('data-item') != '' && $("#" + formname).attr('data-item') != null) {
         var targetName = $("#" + formname).attr('data-item').split('_')[0],
             sourceId;
-        if (targetName == 'student' || targetName == 'author' || targetName == 'teacher') {
-            sourceId = $("#user_form").attr('data-item');
+        if (targetName == 'template') {
+            sourceId = $("#template_form").attr('data-item');
         } else {
             sourceId = $("#cate_form").attr('data-item');
         }
-        $('#' + sourceId).toggleClass('highlight', false);
-        $('#' + sourceId + ' .item-edit').toggleClass('active', false);
     }
-
 };
 
-var createTemplateData = function(data, category) {
+var createTemplateData = function (data, category) {
 
-    var status_temp = data.status == '1' ?
+    var status_temp = data.status==1 ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var userItem = $('<a class="list-group-item list-group-item-action  p-1 border-0 ' + category + '_' + data.id + '" id="template_' + data.id + '" data-date="' + data.creation_date + '">' +
+    var templateItem = $('<a class="list-group-item list-group-item-action  p-1 border-0 template_' + data.id + '" id="template_' + data.id + '" data-date="' + data.creation_date + '">' +
         '<div class="float-left">' +
         status_temp +
-        '<span class="item-name">' + data.first_name + '&nbsp;' + data.last_name + '</span>' +
-        '<input type="hidden" name="item-name" value="' + data.first_name + data.last_name + '">' +
-        '<input type="hidden" name="item-group" value="' + data.linked_groups + '">' +
-        '<input type="hidden" name="item-company" value="' + data.company + '">' +
-        '<input type="hidden" name="item-function" value="' + data.function+'">' +
+        '<span class="item-name">' + data.name+'</span>' +
+        '<input type="hidden" name="item-name" value="' + data.name+'">' +
         '</div>' +
         '<div class="btn-group float-right">' +
         '</div>' +
         '</a>');
-    var showbtn = $('<button class="btn  item-show" data-content="' + category + '">' +
+    var showbtn = $('<button class="btn  item-show" data-content="' + category + '" data-item-id="'+ data.id +'">' +
         '<i class="px-2 fa fa-eye"></i>' +
         '</button>');
 
-    var editbtn = $('<button class="btn item-edit" data-content="' + category + '">' +
+    var editbtn = $('<button class="btn item-edit" data-content="' + category + '" data-item-id="'+ data.id +'">' +
         '<i class="px-2 fa fa-edit"></i>' +
         '</button>');
 
-    var deletebtn = $('<button class="btn item-delete" data-content="' + category + '">' +
+    var deletebtn = $('<button class="btn item-delete" data-content="' + category + '" data-item-id="'+ data.id +'">' +
         '<i class="px-2 fa fa-trash-alt"></i>' +
         '</button>');
-    showbtn.attr('drag', false);
 
-    showbtn.click(btnClick);
-    showbtn.click(divACshow);
-    showbtn.click(divAshow);
+    var templatebtn = $('<button class="btn item-template" data-content="' + category + '"  data-template="#/template-generator/'+data.alpha_id+'">' +
+        '<i class="px-2 fa fa-cube"></i>' +
+        '</button>');
+
+    var duplicatebtn = $('<button class="btn item-duplicate" data-content="' + category + '" data-item-id="'+ data.id +'">' +
+        '<i class="px-2 far fa-copy"></i>' +
+        '</button>');
 
     editbtn.click(btnClick);
     editbtn.click(itemEdit);
-    editbtn.click(divACedit);
+    // editbtn.click(divACedit);
 
     deletebtn.click(btnClick);
     deletebtn.click(itemDelete);
 
-    userItem.dblclick(itemDBClick);
-    userItem.find('.btn-group').append(showbtn).append(editbtn).append(deletebtn);
-    userItem.click(leftItemClick);
+    templatebtn.click(btnClick);
+    templatebtn.click(itemTemplate);
 
-    userItem.find('.item-name').val(data.user.first_name + data.user.last_name);
-    userItem.bind('dragstart', dragStart);
-    userItem.bind('dragend', dragEnd);
-    userItem.attr('draggable', true);
+    duplicatebtn.click(btnClick);
+    duplicatebtn.click(itemDuplicate);
 
-    return userItem;
+    templateItem.dblclick(itemDBClick);
+    templateItem.find('.btn-group')
+        .append(editbtn)
+        .append(deletebtn)
+        .append(templatebtn)
+        .append(duplicatebtn);
+    templateItem.click(leftItemClick);
+
+    templateItem.find('.item-name').val(data.name);
+    templateItem.bind('dragstart', dragStart);
+    templateItem.bind('dragend', dragEnd);
+    templateItem.attr('draggable', true);
+
+    return templateItem;
 
 };
 
-var createTrainingData = function(data, category) {
+var createTrainingData = function (data, category) {
     var status_temp = data.status == '1' ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
@@ -1583,18 +920,18 @@ var createTrainingData = function(data, category) {
         '<input type="hidden" name="item-name" value="' + data.name + '">' +
         '</div>' +
         '<div class="btn-group float-right">' +
-        '<button class="btn  toggle1-btn  item-show" data-content="' + category + '">' +
-        '<i class="px-2 fa fa-eye"></i>' +
-        '</button>' +
-        '<button class="btn item-edit toggle1-btn" data-content="' + category + '">' +
-        '<i class="px-2 fa fa-edit"></i>' +
-        '</button>' +
-        '<button class="btn item-delete toggle1-btn" data-content="' + category + '">' +
-        '<i class="px-2 fa fa-trash-alt"></i>' +
-        '</button>' +
-        '<button class="btn  toggle2-btn" data-content="' + category + '">' +
-        '<i class="px-2 fas fa-check-circle"></i>' +
-        '</button>' +
+        '<button class="btn  toggle1-btn  item-show" data-content="training"'+
+        'data-item-id="'+data.id+ '">'+
+        '<i class="px-2 fa fa-eye"></i>'+
+        '</button>'+
+        '<button class="btn item-edit toggle1-btn" data-content="training"'+
+        'data-item-id="'+data.id+ '">'+
+        '<i class="px-2 fa fa-edit"></i>'+
+        '</button>'+
+        '<button class="btn item-delete toggle1-btn" data-content="training"'+
+        'data-item-id="'+data.id+ '">'+
+        '<i class="px-2 fa fa-trash-alt"></i>'+
+        '</button>'+
         '</div>' +
         '</a>');
 
@@ -1608,32 +945,31 @@ var createTrainingData = function(data, category) {
     groupItem.find('.item-edit').click(divACedit);
     groupItem.find('.item-delete').click(itemDelete);
     groupItem.find('.item-show').click(divACshow);
-    groupItem.find('.item-show').click(divCshow);
 
     return groupItem;
 };
 
-var createCategoryData = function(data, category) {
+var createCategoryData = function (data, category) {
     var cateItem = $(' <a class="list-group-item list-group-item-action p-1 border-0 ' + category + '_' + data.id + '" id="' + category + '_' + data.id + '" data-date="' + data.creation_date + '">' +
         ' <div class="float-left">' +
         '<span class="item-name">' + data.name + '</span>' +
         '<input type="hidden" name="item-status" value="">' +
         '<input type="hidden" name="item-name" value="' + data.name + '">' +
         ' </div>' +
-        ' <div class="btn-group float-right">' +
-        '<button class="btn  toggle1-btn  item-show" data-content="' + category + '">' +
-        '<i class="px-2 fa fa-eye"></i>' +
-        '</button>' +
-        '<button class="btn item-edit toggle1-btn" data-content="' + category + '">' +
-        '<i class="px-2 fa fa-edit"></i>' +
-        '</button>' +
-        '<button class="btn item-delete toggle1-btn" data-content="' + category + '">' +
-        '<i class="px-2 fa fa-trash-alt"></i>' +
-        '</button>' +
-        '<button class="btn  toggle2-btn" data-content="' + category + '">' +
-        '<i class="px-2 fas fa-check-circle"></i>' +
-        '</button>' +
-        ' </div>' +
+        '<div class="btn-group float-right">' +
+        '<button class="btn  toggle1-btn  item-show" data-content="training"'+
+        'data-item-id="'+data.id+ '">'+
+        '<i class="px-2 fa fa-eye"></i>'+
+        '</button>'+
+        '<button class="btn item-edit toggle1-btn" data-content="training"'+
+        'data-item-id="'+data.id+ '">'+
+        '<i class="px-2 fa fa-edit"></i>'+
+        '</button>'+
+        '<button class="btn item-delete toggle1-btn" data-content="training"'+
+        'data-item-id="'+data.id+ '">'+
+        '<i class="px-2 fa fa-trash-alt"></i>'+
+        '</button>'+
+        '</div>' +
         '</a>');
 
     cateItem.attr('draggable', false);
@@ -1646,21 +982,16 @@ var createCategoryData = function(data, category) {
     cateItem.find('.item-edit').click(divACedit);
     cateItem.find('.item-delete').click(itemDelete);
     cateItem.find('.item-show').click(divACshow);
-    cateItem.find('.item-show').click(divCshow);
 
     return cateItem;
 };
 
-var updateTemplateData = function(data, target) {
-    $('.' + target).each(function(i, im) {
-        $(im).find('.item-name').html(data.user.first_name + "&nbsp;" + data.user.last_name);
-        $(im).find('.status-notification').val(data.user.status);
-        $(im).find('.status-notification').prev().css('color', data.user.status == '1' ? 'green' : 'red');
-        $(im).find('input[name="item-name"]').val(data.user.name);
-        $(im).find('input[name="item-group]').val(data.user.linked_groups);
-        $(im).find('input[name="item-company]').val(data.user.company);
-        $(im).find('input[name="item-function]').val(data.user.function);
-        $(im).find('input[name="item-function]').val(data.user.function);
+var updateTemplateData = function (data, target) {
+    $('.' + target).each(function (i, im) {
+        $(im).find('.item-name').html(data.name);
+        $(im).find('.status-notification').val(data.status);
+        $(im).find('.status-notification').prev().css('color', data.status == '1' ? 'green' : 'red');
+        $(im).find('input[name="item-name"]').val(data.name);
         $(im).find('.item-lang').html(data.lang.toUpperCase());
         if ($(im).attr('data-src')) {
             switch ($(im).attr('data-src').split('_')[0]) {
@@ -1683,8 +1014,8 @@ var updateTemplateData = function(data, target) {
 
 };
 
-var updateTrainingData = function(data, target) {
-    $('.' + target).each(function(i, im) {
+var updateTrainingData = function (data, target) {
+    $('.' + target).each(function (i, im) {
         $(im).find('.item-name').html(data.name);
         $(im).find('input[name="item-name"]').html(data.name);
         $(im).find('.status-notification').val(data.status);
@@ -1692,25 +1023,25 @@ var updateTrainingData = function(data, target) {
     });
 };
 
-var updateCategoryData = function(data, target) {
-    $('.' + target).each(function(i, im) {
+var updateCategoryData = function (data, target) {
+    $('.' + target).each(function (i, im) {
         $(im).find('.item-name').html(data.name);
         $(im).find('input[name="item-name"]').val(data.name);
     });
 };
 
-var cancelBtn = function(event) {
+var cancelBtn = function (event) {
     var parent = $(this).parents('fieldset');
     if ($(this).parents('form').attr('data-item')) {
         $("#" + $(this).parents('form').attr('data-item')).toggleClass('highlight');
-        $("#" + $(this).parents('form').attr('data-item') + " .btn").each(function(i, em) {
+        $("#" + $(this).parents('form').attr('data-item') + " .btn").each(function (i, em) {
             $(em).toggleClass('active', false);
         });
     }
     toggleFormOrTable(parent, null, false);
 };
 
-var filterCompanyBtn = function(event) {
+var filterCompanyBtn = function (event) {
     // var activedTab = $('#RightPanel').find('.ui-state-active a').attr('href');
     switch ($(this).html()) {
         case 'company +<i></i>':
@@ -1730,7 +1061,7 @@ var filterCompanyBtn = function(event) {
     }
 };
 
-var filterFunctionBtn = function(event) {
+var filterFunctionBtn = function (event) {
     switch ($(this).html()) {
         case 'function +<i></i>':
             if ($(this).parents('.toolkit').find('.filter-company-btn').html() != 'Cancel') {
@@ -1748,7 +1079,7 @@ var filterFunctionBtn = function(event) {
     }
 };
 
-var clearFilterCategory = function(element, category, defaultStr) {
+var clearFilterCategory = function (element, category, defaultStr) {
     $(element).val('');
     $(element).html(defaultStr);
     $(element).change();
@@ -1757,11 +1088,11 @@ var clearFilterCategory = function(element, category, defaultStr) {
     $('#' + category).find('.toggle2-btn').toggle(false);
 };
 
-var toggleAndSearch = function(element, category, defaultStr) {
+var toggleAndSearch = function (element, category, defaultStr) {
     if ($('#' + category).find('.list-group-item.active').length) {
         var items = [],
             itemVal = [];
-        $('#' + category).find('.list-group-item.active').each(function(i, el) {
+        $('#' + category).find('.list-group-item.active').each(function (i, el) {
             items.push($(el).find('.item-name').html());
             itemVal.push($(el).attr('id').split('_')[1]);
         });
@@ -1776,7 +1107,7 @@ var toggleAndSearch = function(element, category, defaultStr) {
         $('#' + category).fadeOut(1);
         $(activedTab).fadeIn(1);
     } else {
-        $(activedTab).find('.toggle2-btn').each(function(i, e) {
+        $(activedTab).find('.toggle2-btn').each(function (i, e) {
             $(e).toggle(false);
             $(e).siblings('.toggle1-btn').toggle(true);
             $(e).parents('.list-group-item').toggleClass('active', false);
@@ -1784,22 +1115,22 @@ var toggleAndSearch = function(element, category, defaultStr) {
     }
 };
 
-var getFilterCategory = function(element, category) {
+var getFilterCategory = function (element, category) {
     $(activedTab).fadeOut(1);
     $('#' + category).fadeIn(1);
     $('#' + category + " .list-group").attr('data-filter', $(element).parents('.toolkit').attr('id'));
     $(element).html('Cancel');
-    $("#" + category).find('.toggle2-btn').each(function(i, e) {
+    $("#" + category).find('.toggle2-btn').each(function (i, e) {
         $(e).toggle(true);
     });
-    $("#" + category).find('.toggle1-btn').each(function(i, e) {
+    $("#" + category).find('.toggle1-btn').each(function (i, e) {
         $(e).toggle(false);
     });
     $('#' + category).find('.list-group-item').each(clearClassName);
 };
 
-var cancelFilterCategoryAll = function() {
-    $('.filter-function-btn').each(function(i, e) {
+var cancelFilterCategoryAll = function () {
+    $('.filter-function-btn').each(function (i, e) {
         if ($(e).html() != 'function +<i></i>') {
             $(e).html('function +<i></i>');
             $(e).val('');
@@ -1807,7 +1138,7 @@ var cancelFilterCategoryAll = function() {
             $(activedTab).fadeIn(1);
         }
     });
-    $('.filter-company-btn').each(function(i, e) {
+    $('.filter-company-btn').each(function (i, e) {
         if ($(e).html() != 'company +<i></i>') {
             $(e).html('company +<i></i>');
             $(e).val('');
@@ -1817,7 +1148,7 @@ var cancelFilterCategoryAll = function() {
     });
 };
 //filter
-var toggle2Btn = function(evt) {
+var toggle2Btn = function (evt) {
     // evt.stopPropagation();
     var tooltipid = $(this).parents('.list-group').attr('data-filter');
     $(this).parents('.list-group-item').addClass('active');
@@ -1833,7 +1164,7 @@ var toggle2Btn = function(evt) {
     $(this).parents('.list-group-item').find('.btn.active').removeClass('active');
 };
 
-var searchfilter = function(event) {
+var searchfilter = function (event) {
     var parent = $(event.target).parents('.toolkit');
     var items = null;
     var str = parent.find('input.search-filter').val();
@@ -1852,7 +1183,7 @@ var searchfilter = function(event) {
     }
     // console.log(items);
 
-    items.map(function(i, e) {
+    items.map(function (i, e) {
         var item_name = $(e).find('input[name="item-name"]').val();
         var item_status = $(e).find('input[name="item-status"]').val();
 
@@ -1896,7 +1227,7 @@ var searchfilter = function(event) {
     }
 };
 
-var sortfilter = function(event) {
+var sortfilter = function (event) {
     var parent = $(event.target).parents('.toolkit');
     var $items = null,
         $itemgroup;
@@ -1933,7 +1264,7 @@ var sortfilter = function(event) {
         case 'template-toolkit':
             if ($(this).is('.filter-name-btn')) {
                 templateNameSort = !templateNameSort;
-                $items.sort(function(a, b) {
+                $items.sort(function (a, b) {
                     var an = $(a).find('span.item-name').html().split('&nbsp;').join('').toLowerCase(),
                         bn = $(b).find('span.item-name').html().split('&nbsp;').join('').toLowerCase();
 
@@ -1964,7 +1295,7 @@ var sortfilter = function(event) {
 
             } else {
                 templateDateSort = !templateDateSort;
-                $items.sort(function(a, b) {
+                $items.sort(function (a, b) {
                     var an = new Date(a.dataset.date),
                         bn = new Date(b.dataset.date);
                     if (templateDateSort) {
@@ -1996,7 +1327,7 @@ var sortfilter = function(event) {
         case 'cate-toolkit':
             if ($(this).is('.filter-name-btn')) {
                 cateNameSort = !cateNameSort;
-                $items.sort(function(a, b) {
+                $items.sort(function (a, b) {
                     var an = $(a).find('span.item-name').html().split('&nbsp;').join('').toLowerCase(),
                         bn = $(b).find('span.item-name').html().split('&nbsp;').join('').toLowerCase();
 
@@ -2027,7 +1358,7 @@ var sortfilter = function(event) {
 
             } else {
                 cateDateSort = !cateDateSort;
-                $items.sort(function(a, b) {
+                $items.sort(function (a, b) {
                     var an = new Date(a.dataset.date),
                         bn = new Date(b.dataset.date);
                     if (cateDateSort) {
@@ -2064,7 +1395,7 @@ var sortfilter = function(event) {
     $(this).siblings('button').toggleClass('.active', false);
 };
 
-var cateStateIcon = function(e) {
+var cateStateIcon = function (e) {
     var el = $(this);
     if (el.is(':checked')) {
         $("#cate-status").val(1);
@@ -2073,7 +1404,7 @@ var cateStateIcon = function(e) {
     }
 };
 
-var tabClick = function(event) {
+var tabClick = function (event) {
     switch ($(this).attr('id')) {
         case 'training-tab':
             $('#RightPanel .toolkit:first>div').css('background-color', 'var(--training-c)');
@@ -2100,7 +1431,7 @@ var tabClick = function(event) {
     $('#RightPanel').find('.list-group-item').each(toggleBtnChange);
     toggleFormOrTable($('#RightPanel'), null, false);
     cancelFilterCategoryAll();
-    $("#RightPanel").find(".list-group-item").each(function() {
+    $("#RightPanel").find(".list-group-item").each(function () {
         $(this).removeClass("active");
     });
     $('#div_C').find('.list-group-item').each(clearClassName);
@@ -2114,7 +1445,7 @@ var tabClick = function(event) {
     dateIcon.toggleClass('fa-sort-numeric-up', false);
 };
 
-var handlerDBClick = function(event) {
+var handlerDBClick = function (event) {
     var heightToggle;
     if ($(this).parents('fieldset').attr('id') == 'LeftPanel') {
         heightToggleLeft = !heightToggleLeft;
@@ -2144,11 +1475,11 @@ var dragitem = null;
 
 function dragStart(event) {
     dragitem = Array();
-    $(this).parents(".list-group").children('.active.list-group-item').each(function(i, dragelem) {
+    $(this).parents(".list-group").children('.active.list-group-item').each(function (i, dragelem) {
         dragitem.push($(dragelem).attr("id"));
     });
     if (dragitem.indexOf($(this).attr('id')) == -1) {
-        dragitem.push($(this).attr('id'));
+        dragitem = [$(this).attr('id')];
     }
     console.log($(this).css('cursor'));
     // console.log(dragitem);
@@ -2184,47 +1515,21 @@ function dropEnd(event, item) {
     var cate = $(event.target).attr("id").split('_')[0];
     var rowData = Array();
     if (dragitem != null) {
-        // var category = dragitem[0].split('_')[0];
-        dragitem.map(function(droppeditem) {
-
-            // console.log(droppeditem.split('_')[1]);
-            if (cate == "group") {
-                var cate_items = $("#" + droppeditem).find('input[name="item-group"]').val();
-                if (cate_items.indexOf(cate_id) == -1) {
-                    cate_items += "_" + cate_id;
-                }
-                $("#" + droppeditem).find('input[name="item-group"]').val(cate_items);
-            } else {
-                var cate_item = $("#" + droppeditem).find('input[name="item-' + cate + '"]').val();
-                if (cate_item != cate_id) {
-                    $("#" + droppeditem).find('input[name="item-' + cate + '"]').val(cate_id);
-                    // console.log($("#" + item).find('input[name="item-' + cate + '"]').val());
-                }
-            }
-            rowData = {};
-            rowData.id = droppeditem.split('_')[1];
-            rowData.target = $("#" + droppeditem).find('input[name="item-' + cate + '"]').val();
-            rowData.flag = true;
-
-            requestData.push(rowData);
-            if ($('#' + droppeditem).hasClass('highlight')) {
-                showItem = droppeditem;
-            }
-        });
-
-        // requestData.forEach(itemData => {
-        //     itemData =JSON.stringify(itemData)
-        // })
+        requestData = {
+            id: cate_id,
+            data: cate,
+            template: dragitem[0].split('_')[1]
+        }
 
         $.post({
-            url: baseURL + '/userjointo' + cate,
+            url: baseURL + '/tempaltelinktocate',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             data: {
                 'data': JSON.stringify(requestData)
             }
-        }).done(function(data) {
+        }).done(function (data) {
 
             if (showCate) {
                 $('#div_C #' + showCate + " .item-show").click();
@@ -2236,71 +1541,29 @@ function dropEnd(event, item) {
                 notification(dragitem.length + ' ' + dragitem[0].split('_')[0] + 's linked to ' + $(event.target).find('.item-name').html() + '!', 1);
             }
             requestData = [];
-        }).fail(function(err) {
+        }).fail(function (err) {
             notification("Sorry, You have an error!", 2);
             requestData = [];
-        }).always(function(data) {
+        }).always(function (data) {
             console.log(data);
             dragitem = null;
         });
     }
-    $("#LeftPanel").find('.list-group-item').each(function() {
+    $("#LeftPanel").find('.list-group-item').each(function () {
         if ($(this).hasClass('active')) {
             $(this).removeClass('active');
         }
     });
 }
-
-function companyDropEnd(event, item) {
-    $(event.target).css('opacity', '100%');
-    if (dragitem != null && dragitem[0].split('_')[0] == 'company') {
-        $(this).html(dragitem.map(function(om, t, rr) {
-            return $('#' + om + " .item-name").html();
-        }).join(', ') + "&nbsp <i>X</i>");
-        var companyName = dragitem.map(function(e, i, r) {
-            return e.split('_')[1];
-        });
-        $(this).val(companyName.join('_'));
-        console.log(dragitem[0]);
-        searchfilter(event);
-
-        $(activedTab).fadeIn(1);
-        $('#companies').fadeOut(1);
-    }
-    dragitem = null;
-    $('.filter-company-btn').change();
-}
-
-function functionDropEnd(event, item) {
-    $(event.target).css('opacity', '100%');
-    if (dragitem != null && dragitem[0].split('_')[0] == 'function') {
-        $(this).html(dragitem.map(function(om, t, rr) {
-            return $('#' + om + " .item-name").html();
-        }).join(', ') + "&nbsp <i>X</i>");
-        var companyName = dragitem.map(function(e, i, r) {
-            return e.split('_')[1];
-        });
-        $(this).val(companyName.join('_'));
-        console.log(dragitem[0]);
-        searchfilter(event);
-
-        $(activedTab).fadeIn(1);
-        $('#positions').fadeOut(1);
-    }
-    dragitem = null;
-    $('.filter-function-btn').change();
-}
-
-
 ////
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     $('#RightPanel').tabs();
     $('#LeftPanel .toolkit>div').css('background-color', 'var(--template-c)');
     $('#RightPanel .toolkit:first>div').css('background-color', 'var(--training-c)');
 
-    $("#RightPanel .list-group-item").each(function(i, elem) {
+    $("#RightPanel .list-group-item").each(function (i, elem) {
         $(elem).attr('draggable', false);
         $(elem).on('drop', dropEnd);
 
@@ -2308,14 +1571,11 @@ $(document).ready(function() {
         elem.addEventListener('dragleave', dragLeave);
     });
 
-    $("#LeftPanel .list-group-item").each(function(i, elem) {
+    $("#LeftPanel .list-group-item").each(function (i, elem) {
         elem.addEventListener('dragstart', dragStart);
         elem.addEventListener('dragend', dragEnd);
         $(elem).attr('draggable', true);
     });
-
-    $(".filter-company-btn").on('drop', companyDropEnd);
-    $(".filter-function-btn").on('drop', functionDropEnd);
 });
 $('input[name=status], input.search-filter, button.filter-company-btn, button.filter-function-btn').change(searchfilter);
 $('input.search-filter').on('keydown change keyup', searchfilter);
@@ -2327,20 +1587,20 @@ $("#LeftPanel .list-group-item").click(leftItemClick);
 $(".list-group-item button.btn").click(btnClick);
 
 $('.item-delete').click(itemDelete);
+$('.item-duplicate').click(itemDuplicate);
 
 $('.item-edit').click(itemEdit);
 $('#div_A .fa.fa-edit, #div_C .fa.fa-edit').click(divACedit);
-$('#div_B .fa.fa-edit, #div_D .fa.fa-edit').click(divBDedit);
+// $('#div_B .fa.fa-edit, #div_D .fa.fa-edit').click(divBDedit);
 
 $('#div_A .item-show, #div_C .item-show').click(divACshow);
-$('#div_B .item-show, #div_D .item-show').click(divBDshow);
-$('#div_A .item-show').click(divAshow);
-$('#div_C .item-show').click(divCshow);
+// $('#div_B .item-show, #div_D .item-show').click(divBDshow);
+$('#div_C .item-template, #div_A .item-template').click(itemTemplate);
 
 $('.toolkit-add-item').click(toolkitAddItem);
 $('form').submit(submitFunction);
 $('form input, form select').change(formInputChange);
-$('#user-status-icon, #cate-status-icon').change(formStatusChange);
+$('#template-status-icon, #cate-status-icon').change(formStatusChange);
 $('.submit-btn').click(submitBtn);
 $('.cancel-btn').click(cancelBtn);
 
@@ -2352,27 +1612,7 @@ $('.filter-date-btn').click(sortfilter);
 $("#cate-status-icon").change(cateStateIcon);
 
 $('.toggle2-btn').click(toggle2Btn);
-$('#table-user').on('DOMSubtreeModified', countDisplayUser);
+// $('#table-user').on('DOMSubtreeModified', countDisplayUser);
 $('.nav-link').click(tabClick);
 
 $('.handler_horizontal').dblclick(handlerDBClick);
-
-$('#generatepassword').change(function(event) {
-    if ($(this).prop('checked') == true) {
-        $.get({
-            url: baseURL + "/usercreate",
-            success: function(data) {
-                notification('Initializing login and password success!', 1);
-                $('#password').val(data.password);
-                $('#password').attr('data-password', data.password);
-                $('#login').val(data.name);
-            },
-            error: function(err) {
-                notification('You have a problem getting new password!');
-            }
-        });
-        // $('#password').attr('disabled', true);
-    } else {
-        // $('#password').attr('disabled', false);
-    }
-});

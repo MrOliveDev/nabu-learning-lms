@@ -16,7 +16,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -37,14 +37,23 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-// print_r($request->input());exit;
+        // print_r($request->input());exit;
 
-        $company = CompanyModel::create([
-            'name' => $request->input('category_name'),
-            'description' =>$request->input('category_description'),
-            'status' => 1
-        ]);
-
+        $company = new CompanyModel();
+        if ($request->post("category_name") != NULL) {
+            $company->name = $request->input('category_name');
+        }
+        if ($request->post("category_description") != NULL) {
+            $company->description = $request->input('category_description');
+        }
+        if ($request->post("name") != NULL) {
+            $company->name = $request->input('name');
+        }
+        if ($request->post("description") != NULL) {
+            $company->description = $request->input('description');
+        }
+        $company->status = 1;
+        $company->save();
         return response()->json($company);
         //
     }
@@ -86,8 +95,18 @@ class CompanyController extends Controller
         $company = CompanyModel::find($id);
         // print_r($request->input());
         // exit;
-        $company->name = $request->input('category_name');
-        $company->description = $request->input('category_description');
+        if ($request->post('category_name') != NULL) {
+            $company->name = $request->input('category_name');
+        }
+        if ($request->post('category_description') != NULL) {
+            $company->description = $request->input('category_description');
+        }
+        if ($request->post('name') != NULL) {
+            $company->name = $request->input('name');
+        }
+        if ($request->post('description') != NULL) {
+            $company->description = $request->input('description');
+        }
 
         $company->update();
 

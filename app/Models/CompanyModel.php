@@ -11,7 +11,7 @@ class CompanyModel extends Model
 
 
     protected $fillable = [
-        'id', 'name','description'
+        'id', 'name','description', 'creation_date', 'templateformation'
     ];
 
     protected $table = 'tb_companies';
