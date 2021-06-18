@@ -1591,10 +1591,7 @@ $('.item-duplicate').click(itemDuplicate);
 $('.item-edit').click(itemEdit);
 $('#div_A .fa.fa-edit, #div_C .fa.fa-edit').click(divACedit);
 // $('#div_B .fa.fa-edit, #div_D .fa.fa-edit').click(divBDedit);
-
-$('#div_A .item-show, #div_C .item-show').click(divACshow);
-// $('#div_B .item-show, #div_D .item-show').click(divBDshow);
-$('#div_C .item-template, #div_A .item-template').click(itemTemplate);
+$('#div_A .item-template').click(itemTemplate);
 
 $('.toolkit-add-item').click(toolkitAddItem);
 $('form').submit(submitFunction);
@@ -1607,18 +1604,10 @@ $(".toolkit-show-filter").click(filterToggleShow);
 $('.filter-company-btn').click(filterCompanyBtn);
 $('.filter-function-btn').click(filterFunctionBtn);
 $('.filter-name-btn').click(sortfilter);
-$('.filter-date-btn').click(sortfilter);
 $("#cate-status-icon").change(cateStateIcon);
 
 $('.toggle2-btn').click(toggle2Btn);
 // $('#table-user').on('DOMSubtreeModified', countDisplayUser);
 $('.nav-link').click(tabClick);
 
-$('.nav-link').click(tabClick);
-
-$('.handler_horizontal').dblclick(handlerDBClick);
-$('.handler_horizontal').dblclick(handlerDBClick);
-$('.handler_horizontal').dblclick(handlerDBClick);
-$('.handler_horizontal').dblclick(handlerDBClick);
-$('.handler_horizontal').dblclick(handlerDBClick);
 $('.handler_horizontal').dblclick(handlerDBClick);
