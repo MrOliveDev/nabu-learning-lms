@@ -34,30 +34,30 @@ class TemplateController extends Controller
     public function store(Request $request)
     {
         $template = new TemplateModel();
-        if($request->post("template_name")!=NULL){
+        if ($request->post("template_name") != NULL) {
             $template->name = $request->post("template_name");
         } else {
-            $template->name='';
+            $template->name = '';
         }
-            if($request->post("template_name")!=NULL){
-                $template->code = $request->post("template_name");
-            } else {
-                $template->code='';
-            }
-            if($request->post("template_description")!=NULL){
-                $template->description = $request->post("template_description");
-            } else {
-                $template->description='';
-            }
-            if($request->post("template-status-icon")!=NULL){
-                $template->status = $request->post("template-status-icon");
-            } else {
-                $template->status=1;
-            }
-            $template->alpha_id = md5(uniqid());
-            $template->id_creator = TemplateModel::first()->id_creator;
-            $template->style = TemplateModel::first()->style;
-            $template->published = TemplateModel::first()->published;
+        if ($request->post("template_name") != NULL) {
+            $template->code = $request->post("template_name");
+        } else {
+            $template->code = '';
+        }
+        if ($request->post("template_description") != NULL) {
+            $template->description = $request->post("template_description");
+        } else {
+            $template->description = '';
+        }
+        if ($request->post("template-status-icon") != NULL) {
+            $template->status = $request->post("template-status-icon");
+        } else {
+            $template->status = 1;
+        }
+        $template->alpha_id = md5(uniqid());
+        $template->id_creator = TemplateModel::first()->id_creator;
+        $template->style = TemplateModel::first()->style;
+        $template->published = TemplateModel::first()->published;
         $template->save();
         return response()->json($template);
     }
@@ -83,26 +83,28 @@ class TemplateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        print_r($request->all());
+        // print_r($request->all());
         $template = TemplateModel::find($id);
 
-        if($request->post('template_name')!=NULL){
-        $template->name = $request->post("template_name");
-        $template->code = $request->post("template_name");
+        if ($request->post('template_name') != NULL) {
+            $template->name = $request->post("template_name");
+            $template->code = $request->post("template_name");
         }
-        if($request->post('template_name')!=NULL){
-        $template->description = $request->post('template_description');
+        if ($request->post('template_name') != NULL) {
+            $template->description = $request->post('template_description');
         }
-        if($request->post('template_name')!=NULL){
-        $template->status = $request->post('template-status-icon');
+        if ($request->post('template_name') != NULL) {
+            $template->status = $request->post('template-status-icon');
         }
-        if($request->post("template-status-icon")!=NULL){
+        if ($request->post("template-status-icon") != NULL) {
             $template->status = $request->post("template-status-icon");
         } else {
-            $template->status=1;
+            $template->status = 1;
         }
+        $template->update();
+        // print_r($template);exit;
         $arrTemplate = $template->toArray();
-        $arrTemplate['style']='';
+        $arrTemplate['style'] = '';
         return response()->json($arrTemplate);
     }
 
@@ -121,81 +123,105 @@ class TemplateController extends Controller
 
     public function templateLinkTo(Request $request)
     {
-        switch ($request->post('data')) {
-            case "company":
-                $company = CompanyModel::find($request->post('id'));
-                if($company!=NULL){
-                    $company->templateformation = $request->post('template');
-                    return response()->json($company);
+        $reqData = $request->data;
+        if ($reqData != NULL) {
+            // var_dump($reqData);
+            $arrData = json_decode($reqData);
+            if ($arrData != NULL) {
+                $id = (int)$arrData->id;
+                $data = $arrData->data;
+                $template = (int)$arrData->template;
+
+                switch ($data) {
+                    case "company":
+                        $company = CompanyModel::find($id);
+                        if ($company != NULL) {
+                            $company->templateformation = $template;
+                            $company->update();
+                            return response()->json(["data"=>$company->templateformation]);//
+                        }
+                        break;
+                    case "training":
+                        $training = TrainingsModel::find($id);
+                        if ($training != NULL) {
+                            $training->templateformation = $template;
+                            $training->update();
+                            // var_dump($training->templateformation);
+                            return response()->json(["data"=>"ad"]);//
+                        }
+                        break;
+                    case "session":
+                        $session = SessionModel::find($id);
+                        if ($session != NULL) {
+                            $session->templateformation = $template;
+                            $session->update();
+                            return response()->json(["data"=>$session->templateformation]);//
+                        }
+                        break;
+                    default:
+                        return false;
+                        break;
                 }
-                break;
-            case "training":
-                $training = TrainingsModel::find($request->post('id'));
-                if($training!=NULL){
-                    $training->templateformation = $request->post('template');
-                    return response()->json($training);
-                }
-                break;
-            case "session":
-                $session = SessionModel::find($request->post('id'));
-                if($session!=NULL){
-                    $session->templateformation = $request->post('template');
-                    return response()->json($session);
-                }
-                break;
-            default:
-            return false;
-                break;
+            }
         }
     }
 
     public function getTemplateFromCate(Request $request)
     {
-        // print_r(TemplateModel::find(TrainingsModel::find((int)$request->post('id'))->templateformation)); exit;
-        switch ($request->post('data')) {
-            case "company":
-                $company = CompanyModel::find((int)$request->post('id'));
-                if($company!=NULL){
-                if ($company->templateformation!=NULL) {
-                    $template = TemplateModel::find($company->templateformation);
-                    if($template!=NULL){
-                    return response()->json($template->toArray());
-                    }
+        $data_id = $request->data;
+        if ($data_id != NULL) {
+            $arrData = explode("_", $data_id);
+            if (is_array($arrData)) {
+                $id = (int)$arrData[1];
+                $data = $arrData[0];
+                switch ($data) {
+                    case "company":
+                        $company = CompanyModel::find($id);
+                        if ($company != NULL) {
+                            if ($company->templateformation != NULL) {
+                                $template = TemplateModel::find($company->templateformation);
+                                if ($template != NULL) {
+                                    return response()->json(["data"=>$template]);
+                                }
+                            }
+                        }
+                        return false;
+                        break;
+                        case "training":
+                            $training = TrainingsModel::find($id);
+                            if ($training != NULL) {
+                                if ($training->templateformation != NULL) {
+                                    $template = TemplateModel::find($training->templateformation);
+                                    if ($template != NULL) {
+                                    //  var_dump(->toArray());
+                                    return response()->json(["data"=>$template]);
+                                }
+                            }
+                        }
+                        return false;
+                        break;
+                    case "session":
+                        $session = SessionModel::find($id);
+                        if ($session != NULL) {
+                            if ($session->templateformation != NULL) {
+                                $template = TemplateModel::find($session->templateformation);
+                                if ($template != NULL) {
+                                    return response()->json(["data"=>$template]);
+                                }
+                            }
+                        }
+                        return false;
+                        break;
+                    default:
+                        return false;
+                        break;
                 }
-                }
-                return false;
-                break;
-            case "training":
-                $training = TrainingsModel::find((int)$request->post('id'));
-                if($training!=NULL){
-                if ($training->templateformation!=NULL) {
-                    $template = TemplateModel::find($training->templateformation);
-                    if($template!=NULL){
-                    return response()->json($template->toArray());
-                    }
-                }
-                }
-                return false;
-                break;
-            case "session":
-                $session = SessionModel::find((int)$request->post('id'));
-                if($session!=NULL){
-                if ($session->templateformation !=NULL) {
-                    $template = TemplateModel::find($session->templateformation);
-                    if($template!=NULL){
-                    return response()->json($template->toArray());
-                    }
-                }
-                }
-                return false;
-                break;
-            default:
-            return false;
-                break;
+            }
         }
     }
 
-    public function templateDuplicate(Request $request){
+    public function templateDuplicate(Request $request)
+    {
         $template = TemplateModel::find($request->post('id'));
         $copyTemplate = new TemplateModel();
         $copyTemplate->name = $template->name;

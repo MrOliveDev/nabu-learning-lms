@@ -320,8 +320,8 @@
                 <a class="list-group-item list-group-item-action p-0 border-transparent border-5x session_{{ $session->id }}"
                     id="session_{{ $session->id }}" data-date="{{ $session->creation_date }}">
                     <div class="float-left">
-                        <span class="item-name">{{ $session->session_name }}</span>
-                        <input type="hidden" name="item-name" value="{{ $session->session_name }}">
+                        <span class="item-name">{{ $session->name }}</span>
+                        <input type="hidden" name="item-name" value="{{ $session->name }}">
                     </div>
                     <div class="btn-group float-right">
                         <button class="btn  toggle1-btn item-show" data-content='session'

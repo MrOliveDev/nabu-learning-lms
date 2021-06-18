@@ -10,7 +10,16 @@ class SessionModel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id', 'session', 'idFabrica', 'user_id', 'template_formation'
+'id',
+'session_code',
+'name',
+'begin_date',
+'linked_item',
+'create_date',
+'templateformation',
+'description',
+'end_date',
+
     ];
 
     protected $table = 'tb_session';
