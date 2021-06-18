@@ -20,8 +20,8 @@ var h = (window.innerHeight || (window.document.documentElement.clientHeight || 
 // let selecteditem;
 
 
-var baseURL = window.location.protocol + "//" + window.location.host;
-// var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
+// var baseURL = window.location.protocol + "//" + window.location.host;
+var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
 var filteritem = null;
 var grouptab = null,
     detailtags = null;
@@ -317,17 +317,23 @@ var filterToggleShow = function (event) {
 
 var divACshow = function (event) {
     var parent = $(this).parents('.list-group-item');
-    $.post({url:baseURL+'/gettemplatefromcate', data:{id:parent.attr('id').split('_')[1], data:parent.attr('id').split('_')[0]}})
-    .then(function(data){
-        notification("Getting Data Success", 1);
-        if(data.name){
-            var showedcomp = createTemplateData(data, 'template');
-            showedcomp.find('.item-duplicate').detach();
-        $("#div_D .list-group").append(showedcomp);
-        }
-    }).fail(function(err){
-        notification("You got an error getting data", 2);
-    })
+    $.post({
+            url: baseURL + '/gettemplatefromcate',
+            data: {
+                id: parent.attr('id').split('_')[1],
+                data: parent.attr('id').split('_')[0]
+            }
+        })
+        .then(function (data) {
+            notification("Getting Data Success", 1);
+            if (data.name) {
+                var showedcomp = createTemplateData(data, 'template');
+                showedcomp.find('.item-duplicate').detach();
+                $("#div_D .list-group").append(showedcomp);
+            }
+        }).fail(function (err) {
+            notification("You got an error getting data", 2);
+        })
     toggleFormOrTable($("#RightPanel"), false);
 };
 
@@ -337,20 +343,25 @@ var itemTemplate = function (event) {
 
 var itemDuplicate = function (event) {
     var parent = $(this).parents('.list-group-item');
-    $.post({url:baseURL+'/templateduplicate', data:{id:parent.attr('id').split('_')[1]}})
-    .then(function(data){
-        console.log(data);
-    // var data = {
-    //     id: parent.attr('id').split('_')[1],
-    //     creation_date: parent.attr('data-date'),
-    //     status: parent.find('.float-left i').css('color') == 'green' ? 1 : 0,
-    //     name: parent.find('.item-name').html(),
-    //     alpha_id: parent.find('button.item-template').attr('data-template').split('/')[2]
-    // }
-    createTemplateData(data, "template").insertAfter(parent);
-    }).fail(function(err){
+    $.post({
+            url: baseURL + '/templateduplicate',
+            data: {
+                id: parent.attr('id').split('_')[1]
+            }
+        })
+        .then(function (data) {
+            console.log(data);
+            // var data = {
+            //     id: parent.attr('id').split('_')[1],
+            //     creation_date: parent.attr('data-date'),
+            //     status: parent.find('.float-left i').css('color') == 'green' ? 1 : 0,
+            //     name: parent.find('.item-name').html(),
+            //     alpha_id: parent.find('button.item-template').attr('data-template').split('/')[2]
+            // }
+            createTemplateData(data, "template").insertAfter(parent);
+        }).fail(function (err) {
 
-    });
+        });
 
 }
 
@@ -750,12 +761,12 @@ var submitBtn = function (event) {
             }).length) {
             if (formname == 'template_form') {
                 serialval.push({
-                    name: 'template-status-icon',
+                    name: "template-status-icon",
                     value: $('#template-status-icon').prop('checked') == true ? 1 : 0
                 });
             } else if (formname == 'cate_form') {
                 serialval.push({
-                    name: 'cate-status-icon',
+                    name: "cate-status-icon",
                     value: $('#cate-status-icon').prop('checked') == true ? 1 : 0
                 });
             }
@@ -763,12 +774,12 @@ var submitBtn = function (event) {
         if (!$("#" + formname).find('input[type=checkbox]').prop('checked')) {
             if (formname == 'template_form') {
                 serialval.push({
-                    name: 'template-status-icon',
+                    name: "template-status-icon",
                     value: 0
                 });
             } else if (formname == 'cate_form') {
                 serialval.push({
-                    name: 'cate-status-icon',
+                    name: "cate-status-icon",
                     value: 0
                 });
             }
@@ -777,7 +788,9 @@ var submitBtn = function (event) {
         $.ajax({
             url: $('#' + formname).attr('action'),
             method: $('#' + formname).find('.method-select').val(),
-            data: serialval}).done(function (data) {
+            contentType: 'application/json; charset=utf-8',
+            data: serialval,
+            success: function (data) {
                 console.log(data);
                 if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
                     var arr_url = $('#' + formname).attr('action').split('/');
@@ -823,10 +836,11 @@ var submitBtn = function (event) {
                             break;
                     }
                 }
-            })
-            .fail(function (err) {
+            },
+            error: function (err) {
                 notification("Sorry, You have an error!", 2);
-            });
+            }
+        });
         submit_data = null;
         toggleFormOrTable($(this).parents('fieldset'), true, false);
     }
@@ -843,7 +857,7 @@ var submitBtn = function (event) {
 
 var createTemplateData = function (data, category) {
 
-    var status_temp = data.status==1 ?
+    var status_temp = data.status == 1 ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
@@ -851,29 +865,26 @@ var createTemplateData = function (data, category) {
     var templateItem = $('<a class="list-group-item list-group-item-action  p-1 border-0 template_' + data.id + '" id="template_' + data.id + '" data-date="' + data.creation_date + '">' +
         '<div class="float-left">' +
         status_temp +
-        '<span class="item-name">' + data.name+'</span>' +
-        '<input type="hidden" name="item-name" value="' + data.name+'">' +
+        '<span class="item-name">' + data.name + '</span>' +
+        '<input type="hidden" name="item-name" value="' + data.name + '">' +
         '</div>' +
         '<div class="btn-group float-right">' +
         '</div>' +
         '</a>');
-    var showbtn = $('<button class="btn  item-show" data-content="' + category + '" data-item-id="'+ data.id +'">' +
-        '<i class="px-2 fa fa-eye"></i>' +
-        '</button>');
 
-    var editbtn = $('<button class="btn item-edit" data-content="' + category + '" data-item-id="'+ data.id +'">' +
+    var editbtn = $('<button class="btn item-edit" data-content="' + category + '" data-item-id="' + data.id + '">' +
         '<i class="px-2 fa fa-edit"></i>' +
         '</button>');
 
-    var deletebtn = $('<button class="btn item-delete" data-content="' + category + '" data-item-id="'+ data.id +'">' +
+    var deletebtn = $('<button class="btn item-delete" data-content="' + category + '" data-item-id="' + data.id + '">' +
         '<i class="px-2 fa fa-trash-alt"></i>' +
         '</button>');
 
-    var templatebtn = $('<button class="btn item-template" data-content="' + category + '"  data-template="#/template-generator/'+data.alpha_id+'">' +
+    var templatebtn = $('<button class="btn item-template" data-content="' + category + '"  data-template="#/template-generator/' + data.alpha_id + '">' +
         '<i class="px-2 fa fa-cube"></i>' +
         '</button>');
 
-    var duplicatebtn = $('<button class="btn item-duplicate" data-content="' + category + '" data-item-id="'+ data.id +'">' +
+    var duplicatebtn = $('<button class="btn item-duplicate" data-content="' + category + '" data-item-id="' + data.id + '">' +
         '<i class="px-2 far fa-copy"></i>' +
         '</button>');
 
@@ -920,18 +931,18 @@ var createTrainingData = function (data, category) {
         '<input type="hidden" name="item-name" value="' + data.name + '">' +
         '</div>' +
         '<div class="btn-group float-right">' +
-        '<button class="btn  toggle1-btn  item-show" data-content="training"'+
-        'data-item-id="'+data.id+ '">'+
-        '<i class="px-2 fa fa-eye"></i>'+
-        '</button>'+
-        '<button class="btn item-edit toggle1-btn" data-content="training"'+
-        'data-item-id="'+data.id+ '">'+
-        '<i class="px-2 fa fa-edit"></i>'+
-        '</button>'+
-        '<button class="btn item-delete toggle1-btn" data-content="training"'+
-        'data-item-id="'+data.id+ '">'+
-        '<i class="px-2 fa fa-trash-alt"></i>'+
-        '</button>'+
+        '<button class="btn  toggle1-btn  item-show" data-content="training"' +
+        'data-item-id="' + data.id + '">' +
+        '<i class="px-2 fa fa-eye"></i>' +
+        '</button>' +
+        '<button class="btn item-edit toggle1-btn" data-content="training"' +
+        'data-item-id="' + data.id + '">' +
+        '<i class="px-2 fa fa-edit"></i>' +
+        '</button>' +
+        '<button class="btn item-delete toggle1-btn" data-content="training"' +
+        'data-item-id="' + data.id + '">' +
+        '<i class="px-2 fa fa-trash-alt"></i>' +
+        '</button>' +
         '</div>' +
         '</a>');
 
@@ -957,18 +968,18 @@ var createCategoryData = function (data, category) {
         '<input type="hidden" name="item-name" value="' + data.name + '">' +
         ' </div>' +
         '<div class="btn-group float-right">' +
-        '<button class="btn  toggle1-btn  item-show" data-content="training"'+
-        'data-item-id="'+data.id+ '">'+
-        '<i class="px-2 fa fa-eye"></i>'+
-        '</button>'+
-        '<button class="btn item-edit toggle1-btn" data-content="training"'+
-        'data-item-id="'+data.id+ '">'+
-        '<i class="px-2 fa fa-edit"></i>'+
-        '</button>'+
-        '<button class="btn item-delete toggle1-btn" data-content="training"'+
-        'data-item-id="'+data.id+ '">'+
-        '<i class="px-2 fa fa-trash-alt"></i>'+
-        '</button>'+
+        '<button class="btn  toggle1-btn  item-show" data-content="training"' +
+        'data-item-id="' + data.id + '">' +
+        '<i class="px-2 fa fa-eye"></i>' +
+        '</button>' +
+        '<button class="btn item-edit toggle1-btn" data-content="training"' +
+        'data-item-id="' + data.id + '">' +
+        '<i class="px-2 fa fa-edit"></i>' +
+        '</button>' +
+        '<button class="btn item-delete toggle1-btn" data-content="training"' +
+        'data-item-id="' + data.id + '">' +
+        '<i class="px-2 fa fa-trash-alt"></i>' +
+        '</button>' +
         '</div>' +
         '</a>');
 

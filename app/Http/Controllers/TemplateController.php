@@ -101,6 +101,8 @@ class TemplateController extends Controller
         } else {
             $template->status=1;
         }
+        $template->update();
+        // print_r($template);exit;
         $arrTemplate = $template->toArray();
         $arrTemplate['style']='';
         return response()->json($arrTemplate);
