@@ -61,6 +61,9 @@ class TrainingController extends Controller
         if ($request->post('description') != NULL) {
             $training->description = $request->post('description');
         }
+        if ($request->post('cate-status-icon') != NULL) {
+            $training->status = $request->post('cate-status-icon');
+        }
         $training->save();
         return response()->json(TrainingsModel::getTrainingForTrainingpage($training->id));
         //
@@ -116,6 +119,9 @@ class TrainingController extends Controller
         }
         if ($request->post('description')) {
             $training->description = $request->post('description');
+        }
+        if ($request->post('cate-status-icon') != NULL) {
+            $training->status = $request->post('cate-status-icon');
         }
         $training->update();
 

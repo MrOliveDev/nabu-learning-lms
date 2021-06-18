@@ -156,6 +156,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     ]);
     Route::get('template', '\App\Http\Controllers\TemplateController@index')->name('template');
     Route::post('tempaltelinktocate', '\App\Http\Controllers\TemplateController@templateLinkTo');
+    Route::post('templateduplicate', '\App\Http\Controllers\TemplateController@templateDuplicate');
     Route::post('gettemplatefromcate', '\App\Http\Controllers\TemplateController@getTemplateFromCate');
     
     Route::get('usercreate', '\App\Http\Controllers\StudentController@create')->name('usercreate');

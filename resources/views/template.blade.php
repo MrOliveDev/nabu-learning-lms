@@ -108,7 +108,7 @@
                                 data-template="#/template-generator/{{ $template->alpha_id }}">
                                 <i class="px-2 fa fa-cube"></i>
                             </button>
-                            <button class="btn item-copy" data-content='template' data-item-id="{{ $template->id }}">
+                            <button class="btn item-duplicate" data-content='template' data-item-id="{{ $template->id }}">
                                 <i class="px-2 far fa-copy"></i>
                             </button>
                         </div>
@@ -256,8 +256,8 @@
         <div id="training">
             <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
                 @foreach ($trainings as $training)
-                <a class="list-group-item list-group-item-action p-0 border-transparent border-5x company_{{ $training->id }}"
-                    id="company_{{ $training->id }}" data-date="{{ $training->creation_date }}">
+                <a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_{{ $training->id }}"
+                    id="training_{{ $training->id }}" data-date="{{ $training->creation_date }}">
                     <div class="float-left">
                         @if ($training->status != 0)
                         <i class="fa fa-circle  m-2" style="color:green;"></i>
@@ -317,8 +317,8 @@
         <div id="session">
             <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
                 @foreach ($sessions as $session)
-                <a class="list-group-item list-group-item-action p-0 border-transparent border-5x company_{{ $session->id }}"
-                    id="company_{{ $session->id }}" data-date="{{ $session->creation_date }}">
+                <a class="list-group-item list-group-item-action p-0 border-transparent border-5x session_{{ $session->id }}"
+                    id="session_{{ $session->id }}" data-date="{{ $session->creation_date }}">
                     <div class="float-left">
                         <span class="item-name">{{ $session->session_name }}</span>
                         <input type="hidden" name="item-name" value="{{ $session->session_name }}">
@@ -347,7 +347,7 @@
         <i class="fas fa-grip-lines"></i>
     </div>
     <div id="div_D" class="window top">
-        <div class="second-table">
+        <div class="second-table mx-4">
             <div class="list-group">
 
             </div>

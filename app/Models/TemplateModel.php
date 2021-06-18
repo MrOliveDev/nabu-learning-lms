@@ -155,7 +155,7 @@ class TemplateModel extends Model
         } else
             return FALSE;
     }
-    public function duplicateTemplate($datas)
+    public function scopeDuplicateTemplate($datas)
     {
         $id_creator = $_SESSION['user_status'] <= 1 || $_SESSION['user_status'] == 3 ? $_SESSION['user_id'] : $_SESSION['user_creator_id'];
 

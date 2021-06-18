@@ -22,12 +22,15 @@
 }
 
 #LeftPanel .toolkit>div,
-#div_A .list-group-item {
+#div_A .list-group-item,
+#div_D .list-group-item {
     background-color: var(--template-c);
 }
 
 #div_A .list-group-item.active,
-#div_A .list-group-item:hover {
+#div_A .list-group-item:hover,
+#div_D .list-group-item.active,
+#div_D .list-group-item:hover {
     background-color: var(--template-h);
 }
 
@@ -69,7 +72,7 @@
 }
 
 #template .highlight,
-#table-template .highlight {
+#div_D .highlight {
     animation: templatehighlight 2s infinite;
 }
 

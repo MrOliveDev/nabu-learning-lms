@@ -254,15 +254,15 @@ var goTab = function (name) {
 var filterToggleShow = function (event) {
     var parent = $(this).parents('.toolkit');
     parent.children(".toolkit-filter").toggle();
-    if (parent.attr('id') == 'template-toolkit') {
-        var leftActiveTab = $('#LeftPanel .ui-state-active a').attr('href').split('#')[1];
-        if ( /* leftActiveTab == 'teachers' ||  */ leftActiveTab == 'authors') {
-            parent.find('.filter-function-btn').toggle(false);
-        } else {
-            parent.find('.filter-function-btn').toggle(true);
-        }
+    // if (parent.attr('id') == 'template-toolkit') {
+    //     var leftActiveTab = $('#LeftPanel .ui-state-active a').attr('href').split('#')[1];
+    //     if ( /* leftActiveTab == 'teachers' ||  */ leftActiveTab == 'authors') {
+    //         parent.find('.filter-function-btn').toggle(false);
+    //     } else {
+    //         parent.find('.filter-function-btn').toggle(true);
+    //     }
 
-    }
+    // }
 
     parent.children('.toolkit-filter input').each(function (i, e) {
         $(e).attr('checked', false);
@@ -302,38 +302,56 @@ var filterToggleShow = function (event) {
     parent.find('.filter-date-btn i').toggleClass('fa-sort-numeric-down', false);
 };
 
-var divBDshow = function (event) {
-    event.preventDefault();
-    var parent = $(this).parents('fieldset');
-    if (parent.attr('id') == "LeftPanel") {
-        toggleFormOrTable($('#RightPanel'), false);
-        $('.second-table .toolkit>div').css('background-color', 'var(--template-h)');
-        $("#category-form-tags .list-group-item").css('background-color', 'var(--template-c)');
-        $("#category-form-tags .list-group-item.active").css('background-color', 'var(--template-h)');
-    } else {
-        toggleFormOrTable($('#LeftPanel'), false);
-    }
-};
+// var divBDshow = function (event) {
+//     event.preventDefault();
+//     var parent = $(this).parents('fieldset');
+//     if (parent.attr('id') == "LeftPanel") {
+//         toggleFormOrTable($('#RightPanel'), false);
+//         $('.second-table .toolkit>div').css('background-color', 'var(--template-h)');
+//         $("#category-form-tags .list-group-item").css('background-color', 'var(--template-c)');
+//         $("#category-form-tags .list-group-item.active").css('background-color', 'var(--template-h)');
+//     } else {
+//         toggleFormOrTable($('#LeftPanel'), false);
+//     }
+// };
 
 var divACshow = function (event) {
-    var parent = $(this).parents('fieldset');
-    toggleFormOrTable(parent, false);
+    var parent = $(this).parents('.list-group-item');
+    $.post({url:baseURL+'/gettemplatefromcate', data:{id:parent.attr('id').split('_')[1], data:parent.attr('id').split('_')[0]}})
+    .then(function(data){
+        notification("Getting Data Success", 1);
+        if(data.name){
+            var showedcomp = createTemplateData(data, 'template');
+            showedcomp.find('.item-duplicate').detach();
+        $("#div_D .list-group").append(showedcomp);
+        }
+    }).fail(function(err){
+        notification("You got an error getting data", 2);
+    })
+    toggleFormOrTable($("#RightPanel"), false);
 };
 
 var itemTemplate = function (event) {
-    window.open(baseURL + "/" + $(this).attr('data-template'), '_blank');
+    window.open(baseURL + "/template_editor/" + $(this).attr('data-template'), '_blank');
 };
 
 var itemDuplicate = function (event) {
     var parent = $(this).parents('.list-group-item');
-    var data = {
-        id: parent.attr('id').split('_')[1],
-        creation_date: parent.attr('data-date'),
-        status: parent.find('.float-left i').css('color') == 'green' ? 1 : 0,
-        name: parent.find('.item-name').html(),
-        alpha_id: parent.find('button.item-template').attr('data-template').split('/')[2]
-    }
-    parent.prev();
+    $.post({url:baseURL+'/templateduplicate', data:{id:parent.attr('id').split('_')[1]}})
+    .then(function(data){
+        console.log(data);
+    // var data = {
+    //     id: parent.attr('id').split('_')[1],
+    //     creation_date: parent.attr('data-date'),
+    //     status: parent.find('.float-left i').css('color') == 'green' ? 1 : 0,
+    //     name: parent.find('.item-name').html(),
+    //     alpha_id: parent.find('button.item-template').attr('data-template').split('/')[2]
+    // }
+    createTemplateData(data, "template").insertAfter(parent);
+    }).fail(function(err){
+
+    });
+
 }
 
 var toolkitAddItem = function (event) {
@@ -373,6 +391,7 @@ var toolkitAddItem = function (event) {
         $('#template_name').val('');
         $('#template_description').val('');
         $('#template-status-icon').prop('checked', true);
+        $("#template_form").attr('action', baseURL + '/template');
         $('#template_form').attr('data-item', '');
         $("#template_form .method-select").val('POST');
     }
@@ -383,14 +402,14 @@ var divACedit = function (event) {
     toggleFormOrTable(parent, true);
 };
 
-var divBDedit = function (event) {
-    var parent = $(this).parents('fieldset');
-    if (parent.attr('id') == "LeftPanel") {
-        toggleFormOrTable($('#RightPanel'), true);
-    } else {
-        toggleFormOrTable($('#LeftPanel'), true);
-    }
-};
+// var divBDedit = function (event) {
+//     var parent = $(this).parents('fieldset');
+//     if (parent.attr('id') == "LeftPanel") {
+//         toggleFormOrTable($('#RightPanel'), true);
+//     } else {
+//         toggleFormOrTable($('#LeftPanel'), true);
+//     }
+// };
 
 var formInputChange = function (event) {
     console.log($(event.target).val());
@@ -758,8 +777,7 @@ var submitBtn = function (event) {
         $.ajax({
             url: $('#' + formname).attr('action'),
             method: $('#' + formname).find('.method-select').val(),
-            data: serialval,
-            success: function (data) {
+            data: serialval}).done(function (data) {
                 console.log(data);
                 if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
                     var arr_url = $('#' + formname).attr('action').split('/');
@@ -805,11 +823,10 @@ var submitBtn = function (event) {
                             break;
                     }
                 }
-            },
-            error: function (err) {
+            })
+            .fail(function (err) {
                 notification("Sorry, You have an error!", 2);
-            }
-        });
+            });
         submit_data = null;
         toggleFormOrTable($(this).parents('fieldset'), true, false);
     }
@@ -826,51 +843,43 @@ var submitBtn = function (event) {
 
 var createTemplateData = function (data, category) {
 
-    var status_temp = data.status == '1' ?
+    var status_temp = data.status==1 ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var templateItem = $('<a class="list-group-item list-group-item-action  p-1 border-0 ' + category + '_' + data.id + '" id="template_' + data.id + '" data-date="' + data.creation_date + '">' +
+    var templateItem = $('<a class="list-group-item list-group-item-action  p-1 border-0 template_' + data.id + '" id="template_' + data.id + '" data-date="' + data.creation_date + '">' +
         '<div class="float-left">' +
         status_temp +
-        '<span class="item-name">' + data.first_name + '&nbsp;' + data.last_name + '</span>' +
-        '<input type="hidden" name="item-name" value="' + data.first_name + data.last_name + '">' +
-        '<input type="hidden" name="item-group" value="' + data.linked_groups + '">' +
-        '<input type="hidden" name="item-company" value="' + data.company + '">' +
-        '<input type="hidden" name="item-function" value="' + data.function+'">' +
+        '<span class="item-name">' + data.name+'</span>' +
+        '<input type="hidden" name="item-name" value="' + data.name+'">' +
         '</div>' +
         '<div class="btn-group float-right">' +
         '</div>' +
         '</a>');
-    var showbtn = $('<button class="btn  item-show" data-content="' + category + '">' +
+    var showbtn = $('<button class="btn  item-show" data-content="' + category + '" data-item-id="'+ data.id +'">' +
         '<i class="px-2 fa fa-eye"></i>' +
         '</button>');
 
-    var editbtn = $('<button class="btn item-edit" data-content="' + category + '">' +
+    var editbtn = $('<button class="btn item-edit" data-content="' + category + '" data-item-id="'+ data.id +'">' +
         '<i class="px-2 fa fa-edit"></i>' +
         '</button>');
 
-    var deletebtn = $('<button class="btn item-delete" data-content="' + category + '">' +
+    var deletebtn = $('<button class="btn item-delete" data-content="' + category + '" data-item-id="'+ data.id +'">' +
         '<i class="px-2 fa fa-trash-alt"></i>' +
         '</button>');
 
-    var templatebtn = $('<button class="btn item-template" data-content="' + category + '">' +
-        '<i class="px-2 fa fa-trash-alt"></i>' +
+    var templatebtn = $('<button class="btn item-template" data-content="' + category + '"  data-template="#/template-generator/'+data.alpha_id+'">' +
+        '<i class="px-2 fa fa-cube"></i>' +
         '</button>');
 
-    var duplicatebtn = $('<button class="btn item-duplicate" data-content="' + category + '">' +
-        '<i class="px-2 fa fa-trash-alt"></i>' +
+    var duplicatebtn = $('<button class="btn item-duplicate" data-content="' + category + '" data-item-id="'+ data.id +'">' +
+        '<i class="px-2 far fa-copy"></i>' +
         '</button>');
-    showbtn.attr('drag', false);
-
-    showbtn.click(btnClick);
-    showbtn.click(divACshow);
-    showbtn.click(divAshow);
 
     editbtn.click(btnClick);
     editbtn.click(itemEdit);
-    editbtn.click(divACedit);
+    // editbtn.click(divACedit);
 
     deletebtn.click(btnClick);
     deletebtn.click(itemDelete);
@@ -878,12 +887,11 @@ var createTemplateData = function (data, category) {
     templatebtn.click(btnClick);
     templatebtn.click(itemTemplate);
 
-    dupiicatebtn.click(btnClick);
+    duplicatebtn.click(btnClick);
     duplicatebtn.click(itemDuplicate);
 
     templateItem.dblclick(itemDBClick);
     templateItem.find('.btn-group')
-        .append(showbtn)
         .append(editbtn)
         .append(deletebtn)
         .append(templatebtn)
@@ -912,18 +920,18 @@ var createTrainingData = function (data, category) {
         '<input type="hidden" name="item-name" value="' + data.name + '">' +
         '</div>' +
         '<div class="btn-group float-right">' +
-        '<button class="btn  toggle1-btn  item-show" data-content="' + category + '">' +
-        '<i class="px-2 fa fa-eye"></i>' +
-        '</button>' +
-        '<button class="btn item-edit toggle1-btn" data-content="' + category + '">' +
-        '<i class="px-2 fa fa-edit"></i>' +
-        '</button>' +
-        '<button class="btn item-delete toggle1-btn" data-content="' + category + '">' +
-        '<i class="px-2 fa fa-trash-alt"></i>' +
-        '</button>' +
-        '<button class="btn  toggle2-btn" data-content="' + category + '">' +
-        '<i class="px-2 fas fa-check-circle"></i>' +
-        '</button>' +
+        '<button class="btn  toggle1-btn  item-show" data-content="training"'+
+        'data-item-id="'+data.id+ '">'+
+        '<i class="px-2 fa fa-eye"></i>'+
+        '</button>'+
+        '<button class="btn item-edit toggle1-btn" data-content="training"'+
+        'data-item-id="'+data.id+ '">'+
+        '<i class="px-2 fa fa-edit"></i>'+
+        '</button>'+
+        '<button class="btn item-delete toggle1-btn" data-content="training"'+
+        'data-item-id="'+data.id+ '">'+
+        '<i class="px-2 fa fa-trash-alt"></i>'+
+        '</button>'+
         '</div>' +
         '</a>');
 
@@ -948,20 +956,20 @@ var createCategoryData = function (data, category) {
         '<input type="hidden" name="item-status" value="">' +
         '<input type="hidden" name="item-name" value="' + data.name + '">' +
         ' </div>' +
-        ' <div class="btn-group float-right">' +
-        '<button class="btn  toggle1-btn  item-show" data-content="' + category + '">' +
-        '<i class="px-2 fa fa-eye"></i>' +
-        '</button>' +
-        '<button class="btn item-edit toggle1-btn" data-content="' + category + '">' +
-        '<i class="px-2 fa fa-edit"></i>' +
-        '</button>' +
-        '<button class="btn item-delete toggle1-btn" data-content="' + category + '">' +
-        '<i class="px-2 fa fa-trash-alt"></i>' +
-        '</button>' +
-        '<button class="btn  toggle2-btn" data-content="' + category + '">' +
-        '<i class="px-2 fas fa-check-circle"></i>' +
-        '</button>' +
-        ' </div>' +
+        '<div class="btn-group float-right">' +
+        '<button class="btn  toggle1-btn  item-show" data-content="training"'+
+        'data-item-id="'+data.id+ '">'+
+        '<i class="px-2 fa fa-eye"></i>'+
+        '</button>'+
+        '<button class="btn item-edit toggle1-btn" data-content="training"'+
+        'data-item-id="'+data.id+ '">'+
+        '<i class="px-2 fa fa-edit"></i>'+
+        '</button>'+
+        '<button class="btn item-delete toggle1-btn" data-content="training"'+
+        'data-item-id="'+data.id+ '">'+
+        '<i class="px-2 fa fa-trash-alt"></i>'+
+        '</button>'+
+        '</div>' +
         '</a>');
 
     cateItem.attr('draggable', false);
@@ -980,14 +988,10 @@ var createCategoryData = function (data, category) {
 
 var updateTemplateData = function (data, target) {
     $('.' + target).each(function (i, im) {
-        $(im).find('.item-name').html(data.user.first_name + "&nbsp;" + data.user.last_name);
-        $(im).find('.status-notification').val(data.user.status);
-        $(im).find('.status-notification').prev().css('color', data.user.status == '1' ? 'green' : 'red');
-        $(im).find('input[name="item-name"]').val(data.user.name);
-        $(im).find('input[name="item-group]').val(data.user.linked_groups);
-        $(im).find('input[name="item-company]').val(data.user.company);
-        $(im).find('input[name="item-function]').val(data.user.function);
-        $(im).find('input[name="item-function]').val(data.user.function);
+        $(im).find('.item-name').html(data.name);
+        $(im).find('.status-notification').val(data.status);
+        $(im).find('.status-notification').prev().css('color', data.status == '1' ? 'green' : 'red');
+        $(im).find('input[name="item-name"]').val(data.name);
         $(im).find('.item-lang').html(data.lang.toUpperCase());
         if ($(im).attr('data-src')) {
             switch ($(im).attr('data-src').split('_')[0]) {
@@ -1583,14 +1587,15 @@ $("#LeftPanel .list-group-item").click(leftItemClick);
 $(".list-group-item button.btn").click(btnClick);
 
 $('.item-delete').click(itemDelete);
+$('.item-duplicate').click(itemDuplicate);
 
 $('.item-edit').click(itemEdit);
 $('#div_A .fa.fa-edit, #div_C .fa.fa-edit').click(divACedit);
-$('#div_B .fa.fa-edit, #div_D .fa.fa-edit').click(divBDedit);
+// $('#div_B .fa.fa-edit, #div_D .fa.fa-edit').click(divBDedit);
 
 $('#div_A .item-show, #div_C .item-show').click(divACshow);
-$('#div_B .item-show, #div_D .item-show').click(divBDshow);
-$('#div_C .item-template').click(itemTemplate);
+// $('#div_B .item-show, #div_D .item-show').click(divBDshow);
+$('#div_C .item-template, #div_A .item-template').click(itemTemplate);
 
 $('.toolkit-add-item').click(toolkitAddItem);
 $('form').submit(submitFunction);
