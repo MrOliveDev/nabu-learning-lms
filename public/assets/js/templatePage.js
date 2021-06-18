@@ -69,10 +69,6 @@ var notification = function (str, type) {
 
 };
 
-var countDisplayUser = function (event) {
-    $('#member-count').html($(this).find('.list-group-item').length + " members");
-};
-
 var clearClassName = function (i, highlighted) {
     $(highlighted).find(".btn").each(function (index, btnelement) {
         $(btnelement).removeClass("active");
@@ -107,12 +103,13 @@ var itemDBClick = function () {
 
 var leftItemClick = function (e) {
     // e.stopPropagation();
+    $(this).parents('.list-group').find('.list-group-item').each(function (i, em) {
+        $(em).toggleClass('active', false);
+    });
     if (!$(this).hasClass("active")) {
         $(this).addClass("active");
-        // $(this).attr('draggable', true);
     } else {
         $(this).removeClass("active");
-        // $(this).attr('draggable', false);
     }
 
 };
@@ -254,33 +251,10 @@ var goTab = function (name) {
     $('#' + name + '-tab').click();
 };
 
-// var contentFilter = function(element_id, str = '', comp = null, func = null, online = 0) {
-
-//     var category = element_id.split('_')[0].split('-')[0];
-//     var id = element_id.split('_')[1];
-//     var data = {
-//         'id': id,
-//         'str': str,
-//         'comp': comp,
-//         'func': func,
-//         'online': online
-//     };
-//     $.post(baseURL + "/userFind" + category + "/" + id, data)
-//         .done(function(responseData) {
-//             notification("Data Loaded!", 1);
-//             return responseData;
-//         })
-//         .fail(function(err) {
-//             notification('Sorry, You have an error!', 2);
-//         }).always(function(data) {
-//             console.log(data);
-//         });;
-
-// };
 var filterToggleShow = function (event) {
     var parent = $(this).parents('.toolkit');
     parent.children(".toolkit-filter").toggle();
-    if (parent.attr('id') == 'user-toolkit') {
+    if (parent.attr('id') == 'template-toolkit') {
         var leftActiveTab = $('#LeftPanel .ui-state-active a').attr('href').split('#')[1];
         if ( /* leftActiveTab == 'teachers' ||  */ leftActiveTab == 'authors') {
             parent.find('.filter-function-btn').toggle(false);
@@ -333,9 +307,9 @@ var divBDshow = function (event) {
     var parent = $(this).parents('fieldset');
     if (parent.attr('id') == "LeftPanel") {
         toggleFormOrTable($('#RightPanel'), false);
-        $('.second-table .toolkit>div').css('background-color', 'var(--student-h)');
-        $("#category-form-tags .list-group-item").css('background-color', 'var(--student-c)');
-        $("#category-form-tags .list-group-item.active").css('background-color', 'var(--student-h)');
+        $('.second-table .toolkit>div').css('background-color', 'var(--template-h)');
+        $("#category-form-tags .list-group-item").css('background-color', 'var(--template-c)');
+        $("#category-form-tags .list-group-item.active").css('background-color', 'var(--template-h)');
     } else {
         toggleFormOrTable($('#LeftPanel'), false);
     }
@@ -347,8 +321,20 @@ var divACshow = function (event) {
 };
 
 var itemTemplate = function (event) {
-    window.open("{{route('template_editor')}}" + "/" + $(this).attr('href'), '_blank');
+    window.open(baseURL + "/" + $(this).attr('data-template'), '_blank');
 };
+
+var itemDuplicate = function (event) {
+    var parent = $(this).parents('.list-group-item');
+    var data = {
+        id: parent.attr('id').split('_')[1],
+        creation_date: parent.attr('data-date'),
+        status: parent.find('.float-left i').css('color') == 'green' ? 1 : 0,
+        name: parent.find('.item-name').html(),
+        alpha_id: parent.find('button.item-template').attr('data-template').split('/')[2]
+    }
+    parent.prev();
+}
 
 var toolkitAddItem = function (event) {
     event.preventDefault();
@@ -424,7 +410,7 @@ var item_edit = function (element) {
             toggleFormOrTable($('#LeftPanel'), true);
             clearFrom($('#LeftPanel'));
             $.get({
-                url: baseURL + '/template/'+id,
+                url: baseURL + '/template/' + id,
                 success: function (data, state) {
                     notification('We got group data successfully!', 1);
                     console.log(state);
@@ -515,11 +501,6 @@ var item_edit = function (element) {
                 }
             });
             break;
-
-        case 'session':
-            notification('There is no session for this user', 1);
-            break;
-
         default:
             notification('How dare you can do this!<br>Please contact me about this error :)');
             break;
@@ -666,15 +647,15 @@ var submitFunction = function (event) {
 
 var detachLink = function (e) {
     var id, parent = $(this).parents('.list-group-item');
-    if ($(this).parents('.fieldset').attr("id")=="LeftPanel") {
-        id=parent.attr('id').split("_")[1];
-    } else if($(this).parents('.fieldset').attr("id")=="RightPanel"){
-        id=parent.attr('data-src').spilt('_')[1];
+    if ($(this).parents('.fieldset').attr("id") == "LeftPanel") {
+        id = parent.attr('id').split("_")[1];
+    } else if ($(this).parents('.fieldset').attr("id") == "RightPanel") {
+        id = parent.attr('data-src').spilt('_')[1];
     }
     detachCall({
         id: showeditem.split('_')[1],
         data: cate,
-        template:'',
+        template: '',
     }, $(this));
 };
 
@@ -850,7 +831,7 @@ var createTemplateData = function (data, category) {
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var userItem = $('<a class="list-group-item list-group-item-action  p-1 border-0 ' + category + '_' + data.id + '" id="template_' + data.id + '" data-date="' + data.creation_date + '">' +
+    var templateItem = $('<a class="list-group-item list-group-item-action  p-1 border-0 ' + category + '_' + data.id + '" id="template_' + data.id + '" data-date="' + data.creation_date + '">' +
         '<div class="float-left">' +
         status_temp +
         '<span class="item-name">' + data.first_name + '&nbsp;' + data.last_name + '</span>' +
@@ -894,16 +875,27 @@ var createTemplateData = function (data, category) {
     deletebtn.click(btnClick);
     deletebtn.click(itemDelete);
 
-    userItem.dblclick(itemDBClick);
-    userItem.find('.btn-group').append(showbtn).append(editbtn).append(deletebtn);
-    userItem.click(leftItemClick);
+    templatebtn.click(btnClick);
+    templatebtn.click(itemTemplate);
 
-    userItem.find('.item-name').val(data.user.first_name + data.user.last_name);
-    userItem.bind('dragstart', dragStart);
-    userItem.bind('dragend', dragEnd);
-    userItem.attr('draggable', true);
+    dupiicatebtn.click(btnClick);
+    duplicatebtn.click(itemDuplicate);
 
-    return userItem;
+    templateItem.dblclick(itemDBClick);
+    templateItem.find('.btn-group')
+        .append(showbtn)
+        .append(editbtn)
+        .append(deletebtn)
+        .append(templatebtn)
+        .append(duplicatebtn);
+    templateItem.click(leftItemClick);
+
+    templateItem.find('.item-name').val(data.name);
+    templateItem.bind('dragstart', dragStart);
+    templateItem.bind('dragend', dragEnd);
+    templateItem.attr('draggable', true);
+
+    return templateItem;
 
 };
 
@@ -945,7 +937,6 @@ var createTrainingData = function (data, category) {
     groupItem.find('.item-edit').click(divACedit);
     groupItem.find('.item-delete').click(itemDelete);
     groupItem.find('.item-show').click(divACshow);
-    groupItem.find('.item-show').click(divCshow);
 
     return groupItem;
 };
@@ -983,7 +974,6 @@ var createCategoryData = function (data, category) {
     cateItem.find('.item-edit').click(divACedit);
     cateItem.find('.item-delete').click(itemDelete);
     cateItem.find('.item-show').click(divACshow);
-    cateItem.find('.item-show').click(divCshow);
 
     return cateItem;
 };
@@ -1485,7 +1475,7 @@ function dragStart(event) {
         dragitem.push($(dragelem).attr("id"));
     });
     if (dragitem.indexOf($(this).attr('id')) == -1) {
-        dragitem.push($(this).attr('id'));
+        dragitem = [$(this).attr('id')];
     }
     console.log($(this).css('cursor'));
     // console.log(dragitem);
@@ -1521,36 +1511,11 @@ function dropEnd(event, item) {
     var cate = $(event.target).attr("id").split('_')[0];
     var rowData = Array();
     if (dragitem != null) {
-        // var category = dragitem[0].split('_')[0];
-        dragitem.map(function (droppeditem) {
-
-            // console.log(droppeditem.split('_')[1]);
-            if (cate == "group") {
-                var cate_items = $("#" + droppeditem).find('input[name="item-group"]').val();
-                if (cate_items.indexOf(cate_id) == -1) {
-                    cate_items += "_" + cate_id;
-                }
-                $("#" + droppeditem).find('input[name="item-group"]').val(cate_items);
-            } else {
-                var cate_item = $("#" + droppeditem).find('input[name="item-' + cate + '"]').val();
-                if (cate_item != cate_id) {
-                    $("#" + droppeditem).find('input[name="item-' + cate + '"]').val(cate_id);
-                    // console.log($("#" + item).find('input[name="item-' + cate + '"]').val());
-                }
-            }
-            rowData = {};
-            rowData.id = droppeditem.split('_')[1];
-            rowData.target = $("#" + droppeditem).find('input[name="item-' + cate + '"]').val();
-
-            requestData.push(rowData);
-            if ($('#' + droppeditem).hasClass('highlight')) {
-                showItem = droppeditem;
-            }
-        });
-
-        // requestData.forEach(itemData => {
-        //     itemData =JSON.stringify(itemData)
-        // })
+        requestData = {
+            id: cate_id,
+            data: cate,
+            template: dragitem[0].split('_')[1]
+        }
 
         $.post({
             url: baseURL + '/tempaltelinktocate',
@@ -1642,8 +1607,7 @@ $('.filter-date-btn').click(sortfilter);
 $("#cate-status-icon").change(cateStateIcon);
 
 $('.toggle2-btn').click(toggle2Btn);
-$('#table-user').on('DOMSubtreeModified', countDisplayUser);
+// $('#table-user').on('DOMSubtreeModified', countDisplayUser);
 $('.nav-link').click(tabClick);
 
 $('.handler_horizontal').dblclick(handlerDBClick);
-
