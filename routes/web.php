@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\SessionController;
 use App\Http\Controllers\useradmin\GroupController;
 use App\Http\Controllers\useradmin\CompanyController;
 use App\Http\Controllers\useradmin\PositionController;
@@ -128,7 +129,6 @@ Auth::routes();
 Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], function () {
     Route::get('/', '\App\Http\Controllers\admin\DashController@index');
     Route::get('home', '\App\Http\Controllers\HomeController@index')->name('home');
-    Route::get('session', '\App\Http\Controllers\SessionController@index')->name('session');
     Route::get('admindash', '\App\Http\Controllers\admin\DashController@index')->name('admin.dash');
     Route::get('dash', '\App\Http\Controllers\common\DashController@index')->name('dash');
     Route::get('student', '\App\Http\Controllers\StudentController@index')->name('student');
@@ -153,12 +153,13 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
         'lesson' => LessonController::class,
         'training' => TrainingController::class,
         'template' => TemplateController::class,
+        'session' => SessionController::class,
     ]);
     Route::get('template', '\App\Http\Controllers\TemplateController@index')->name('template');
-    Route::post('tempaltelinktocate', '\App\Http\Controllers\TemplateController@templateLinkTo');
+    Route::post('templatelinktocate', '\App\Http\Controllers\TemplateController@templateLinkTo');
     Route::post('templateduplicate', '\App\Http\Controllers\TemplateController@templateDuplicate');
     Route::post('gettemplatefromcate', '\App\Http\Controllers\TemplateController@getTemplateFromCate');
-    
+
     Route::get('usercreate', '\App\Http\Controllers\StudentController@create')->name('usercreate');
     Route::post('userjointogroup', '\App\Http\Controllers\StudentController@userJoinToGroup')->name('userjointogroup');
     Route::post('userjointocompany', '\App\Http\Controllers\StudentController@userJoinToCompany')->name('userjointocompany');
@@ -170,6 +171,9 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
 
     Route::post('trainingshow/{id}', '\App\Http\Controllers\TrainingController@getLessonFromTraining')->name('trainingshow');
     Route::post('lessonshow/{id}', '\App\Http\Controllers\LessonController@getTrainingFromLesson')->name('lessonshow');
+
+    Route::get('session', '\App\Http\Controllers\SessionController@index')->name('session');
+
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

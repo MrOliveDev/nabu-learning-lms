@@ -131,7 +131,7 @@ class StudentController extends Controller
     public function show($id)
     {
         $user_info = User::getUserPageInfoFromId($id);
-        $session = SessionModel::select('session_name')->where('user_id',  $id)->get();
+        $session = SessionModel::select('name')->where('user_id',  $id)->get();
 
         return response()->json(['user_info' => $user_info, 'session' => $session]);
         //

@@ -27,13 +27,13 @@ class SessionController extends Controller
     {
         $session = new SessionModel();
         if($request->post("name")!=NULL){
-            $session->name=$request->post('name');
-            }
-            if($request->post("description")!=NULL){
-            $session->description=$request->post('description');
-            }
-            $session->save();
-            return response()->json($session);
+        $session->name=$request->post('name');
+        }
+        if($request->post("description")!=NULL){
+        $session->description=$request->post('description');
+        }
+        $session->save();
+        return response()->json($session);
     }
 
     /**
@@ -45,6 +45,7 @@ class SessionController extends Controller
     public function show($id)
     {
         $session = SessionModel::find($id);
+        // print_r($session);
         return response()->json($session);
     }
 
