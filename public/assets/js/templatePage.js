@@ -1580,6 +1580,8 @@ $('input[name=status], input.search-filter, button.filter-company-btn, button.fi
 $('input.search-filter').on('keydown change keyup', searchfilter);
 $("button.filter-company-btn, button.filter-function-btn").on('drop', searchfilter);
 
+$("#div_A .list-group-item, #div_C .list-group-item").click(divACshow);
+
 $(".list-group-item").dblclick(itemDBClick);
 $("#LeftPanel .list-group-item").click(leftItemClick);
 
@@ -1611,3 +1613,4 @@ $('.toggle2-btn').click(toggle2Btn);
 $('.nav-link').click(tabClick);
 
 $('.handler_horizontal').dblclick(handlerDBClick);
+
