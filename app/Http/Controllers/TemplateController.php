@@ -123,6 +123,9 @@ class TemplateController extends Controller
 
     public function templateLinkTo(Request $request)
     {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
         $reqData = $request->data;
         if ($reqData != NULL) {
             // var_dump($reqData);
@@ -169,9 +172,6 @@ class TemplateController extends Controller
     public function getTemplateFromCate(Request $request)
     {
 
-        ini_set('display_errors', 1);
-        ini_set('display_startup_errors', 1);
-        error_reporting(E_ALL);
         $data_id = $request->data;
         if ($data_id != NULL) {
             $arrData = explode("_", $data_id);
