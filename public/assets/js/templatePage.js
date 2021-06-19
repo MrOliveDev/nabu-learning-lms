@@ -798,8 +798,8 @@ var submitBtn = function(event) {
                             $('#company .list-group').append(createCategoryData(data, 'company'));
                             break;
                         case 'session':
-                            notification('The position has been saved sucessfully!', 1);
-                            $('#positions .list-group').append(createCategoryData(data, 'session'));
+                            notification('The session has been saved sucessfully!', 1);
+                            $('#session .list-group').append(createCategoryData(data, 'session'));
                             break;
 
                         default:
@@ -1555,3 +1555,4 @@ $('.toggle2-btn').click(toggle2Btn);
 $('.nav-link').click(tabClick);
 
 $('.handler_horizontal').dblclick(handlerDBClick);
+
