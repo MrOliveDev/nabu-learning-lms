@@ -138,7 +138,7 @@ class TemplateController extends Controller
                         if ($company != NULL) {
                             $company->templateformation = $template;
                             $company->update();
-                            return response()->json(["data"=>$company->templateformation]);//
+                            return response()->json(["data" => $company->templateformation]); //
                         }
                         break;
                     case "training":
@@ -147,7 +147,7 @@ class TemplateController extends Controller
                             $training->templateformation = $template;
                             $training->update();
                             // var_dump($training->templateformation);
-                            return response()->json(["data"=>"ad"]);//
+                            return response()->json(["data" => "ad"]); //
                         }
                         break;
                     case "session":
@@ -155,7 +155,7 @@ class TemplateController extends Controller
                         if ($session != NULL) {
                             $session->templateformation = $template;
                             $session->update();
-                            return response()->json(["data"=>$session->templateformation]);//
+                            return response()->json(["data" => $session->templateformation]); //
                         }
                         break;
                     default:
@@ -168,6 +168,10 @@ class TemplateController extends Controller
 
     public function getTemplateFromCate(Request $request)
     {
+
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
         $data_id = $request->data;
         if ($data_id != NULL) {
             $arrData = explode("_", $data_id);
@@ -181,20 +185,20 @@ class TemplateController extends Controller
                             if ($company->templateformation != NULL) {
                                 $template = TemplateModel::find($company->templateformation);
                                 if ($template != NULL) {
-                                    return response()->json(["data"=>$template]);
+                                    return response()->json(["data" => $template]);
                                 }
                             }
                         }
                         return false;
                         break;
-                        case "training":
-                            $training = TrainingsModel::find($id);
-                            if ($training != NULL) {
-                                if ($training->templateformation != NULL) {
-                                    $template = TemplateModel::find($training->templateformation);
-                                    if ($template != NULL) {
+                    case "training":
+                        $training = TrainingsModel::find($id);
+                        if ($training != NULL) {
+                            if ($training->templateformation != NULL) {
+                                $template = TemplateModel::find($training->templateformation);
+                                if ($template != NULL) {
                                     //  var_dump(->toArray());
-                                    return response()->json(["data"=>$template]);
+                                    return response()->json(["data" => $template]);
                                 }
                             }
                         }
@@ -206,7 +210,7 @@ class TemplateController extends Controller
                             if ($session->templateformation != NULL) {
                                 $template = TemplateModel::find($session->templateformation);
                                 if ($template != NULL) {
-                                    return response()->json(["data"=>$template]);
+                                    return response()->json(["data" => $template]);
                                 }
                             }
                         }
