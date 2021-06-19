@@ -1304,7 +1304,6 @@ var tabClick = function(event) {
     }
     $('#RightPanel').find('.list-group-item').each(toggleBtnChange);
     toggleFormOrTable($('#RightPanel'), null, false);
-    cancelFilterCategoryAll();
     $("#RightPanel").find(".list-group-item").each(function() {
         $(this).removeClass("active");
     });
