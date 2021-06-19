@@ -244,48 +244,15 @@ var goTab = function(name) {
 var filterToggleShow = function(event) {
     var parent = $(this).parents('.toolkit');
     parent.children(".toolkit-filter").toggle();
-    // if (parent.attr('id') == 'template-toolkit') {
-    //     var leftActiveTab = $('#LeftPanel .ui-state-active a').attr('href').split('#')[1];
-    //     if ( /* leftActiveTab == 'teachers' ||  */ leftActiveTab == 'authors') {
-    //         parent.find('.filter-function-btn').toggle(false);
-    //     } else {
-    //         parent.find('.filter-function-btn').toggle(true);
-    //     }
-
-    // }
-
     parent.children('.toolkit-filter input').each(function(i, e) {
         $(e).attr('checked', false);
     });
     parent.children('.search-filter').val('');
-    parent.children('.filter-company-btn').html('company +<i></i>');
-    parent.children('.filter-function-btn').html('function +<i></i>');
-
     parent.find('.search-filter').val('');
     parent.find('input[name=status]').each(function(i, e) {
         $(e).prop('checked', false);
     });
-    parent.find('.filter-company-btn').val('');
-    parent.find('.filter-company-btn').html('company +<i></i>');
-    parent.find('.filter-function-btn').val('');
-    parent.find('.filter-function-btn').html('function +<i></i>');
     searchfilter(event);
-
-    switch (activedTab) {
-        case '#groups':
-            $('#cate-toolkit .status-switch').toggle(true);
-            break;
-        case '#companies':
-            $('#cate-toolkit .status-switch').toggle(false);
-            break;
-        case '#positions':
-            $('#cate-toolkit .status-switch').toggle(false);
-            break;
-
-        default:
-            break;
-    }
-
     parent.find('.filter-name-btn i').toggleClass('fa-sort-alpha-down', false);
     parent.find('.filter-name-btn i').toggleClass('fa-sort-alpha-up', false);
     parent.find('.filter-date-btn i').toggleClass('fa-sort-numeric-up', false);
@@ -362,7 +329,7 @@ var toolkitAddItem = function(event) {
                 $('#status_checkbox').css('display', 'block');
                 $('#cate-status-icon').attr("checked", 'checked');
                 break;
-            case '#companies':
+            case '#company':
                 $("#category_form").attr('action', baseURL + '/company');
                 $('#status_checkbox').css('display', 'none');
                 break;
@@ -625,7 +592,7 @@ var itemDelete = function(event) {
     });
     e.fire({
         title: 'Are you sure you want to delete this item ?',
-        text: cate == 'student' ? ' This item and all his historic and reports will be permanently deleted' : '',
+        text: cate == 'template' ? ' This item and all his historic and reports will be permanently deleted' : '',
         icon: 'warning',
         showCancelButton: !0,
         customClass: {
@@ -1066,41 +1033,6 @@ var getFilterCategory = function(element, category) {
         $(e).toggle(false);
     });
     $('#' + category).find('.list-group-item').each(clearClassName);
-};
-
-var cancelFilterCategoryAll = function() {
-    $('.filter-function-btn').each(function(i, e) {
-        if ($(e).html() != 'function +<i></i>') {
-            $(e).html('function +<i></i>');
-            $(e).val('');
-            $('#positions').fadeOut(1);
-            $(activedTab).fadeIn(1);
-        }
-    });
-    $('.filter-company-btn').each(function(i, e) {
-        if ($(e).html() != 'company +<i></i>') {
-            $(e).html('company +<i></i>');
-            $(e).val('');
-            $('#companies').fadeOut(1);
-            $(activedTab).fadeIn(1);
-        }
-    });
-};
-//filter
-var toggle2Btn = function(evt) {
-    // evt.stopPropagation();
-    var tooltipid = $(this).parents('.list-group').attr('data-filter');
-    $(this).parents('.list-group-item').addClass('active');
-    // $(this).parents('.list-group-item').attr('draggable', function(index, attr) {
-    //     return attr == "true" ? false : true;
-    // });
-    if ($('#' + tooltipid).find('.filter-function-btn').html() == 'Cancel') {
-        toggleAndSearch($('#' + tooltipid).find('.filter-function-btn'), 'positions', 'function +<i></i>');
-    } else {
-        toggleAndSearch($('#' + tooltipid).find('.filter-company-btn'), 'companies', 'company +<i></i>');
-    }
-    $(this).parents('.list-group-item').removeClass('active');
-    $(this).parents('.list-group-item').find('.btn.active').removeClass('active');
 };
 
 var searchfilter = function(event) {
@@ -1555,4 +1487,3 @@ $('.toggle2-btn').click(toggle2Btn);
 $('.nav-link').click(tabClick);
 
 $('.handler_horizontal').dblclick(handlerDBClick);
-
