@@ -20,8 +20,8 @@ var h = (window.innerHeight || (window.document.documentElement.clientHeight || 
 // let selecteditem;
 
 
-// var baseURL = window.location.protocol + "//" + window.location.host;
-var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
+var baseURL = window.location.protocol + "//" + window.location.host;
+// var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
 var filteritem = null;
 var grouptab = null,
     detailtags = null;
@@ -92,17 +92,7 @@ var itemDBClick = function() {
     });
 };
 
-// $("#RightPanel .list-group-item").click(function(e) {
-//     $(this).parents('.list-group').children(".list-group-item").each(function(i, e) {
-//         if ($(e).hasClass("active")) {
-//             $(e).removeClass("active");
-//         }
-//     });
-//     $(this).addClass('active');
-// });
-
 var leftItemClick = function(e) {
-    // e.stopPropagation();
     $(this).parents('.list-group').find('.list-group-item').each(function(i, em) {
         $(em).toggleClass('active', false);
     });
@@ -1037,53 +1027,6 @@ var cancelBtn = function(event) {
     toggleFormOrTable(parent, null, false);
 };
 
-var filterCompanyBtn = function(event) {
-    // var activedTab = $('#RightPanel').find('.ui-state-active a').attr('href');
-    switch ($(this).html()) {
-        case 'company +<i></i>':
-            if ($(this).parents('.toolkit').find('.filter-function-btn').html() != 'Cancel') {
-                getFilterCategory(this, 'companies');
-            }
-            break;
-
-        case 'Cancel':
-            $('#companies').fadeOut(1);
-            $(activedTab).fadeIn(1);
-            $(this).html('company +<i></i>');
-            break;
-        default:
-            clearFilterCategory(this, 'companies', 'company +<i></i>');
-            break;
-    }
-};
-
-var filterFunctionBtn = function(event) {
-    switch ($(this).html()) {
-        case 'function +<i></i>':
-            if ($(this).parents('.toolkit').find('.filter-company-btn').html() != 'Cancel') {
-                getFilterCategory(this, 'positions');
-            }
-            break;
-        case 'Cancel':
-            $('#positions').fadeOut(1);
-            $(activedTab).fadeIn(1);
-            $(this).html('function +<i></i>');
-            break;
-        default:
-            clearFilterCategory(this, 'positions', 'function +<i></i>');
-            break;
-    }
-};
-
-var clearFilterCategory = function(element, category, defaultStr) {
-    $(element).val('');
-    $(element).html(defaultStr);
-    $(element).change();
-    $('#' + category).find('.list-group-item').each(clearClassName);
-    $('#' + category).find('.toggle1-btn').toggle(true);
-    $('#' + category).find('.toggle2-btn').toggle(false);
-};
-
 var toggleAndSearch = function(element, category, defaultStr) {
     if ($('#' + category).find('.list-group-item.active').length) {
         var items = [],
@@ -1580,7 +1523,7 @@ $('input[name=status], input.search-filter, button.filter-company-btn, button.fi
 $('input.search-filter').on('keydown change keyup', searchfilter);
 $("button.filter-company-btn, button.filter-function-btn").on('drop', searchfilter);
 
-$("#div_A .list-group-item, #div_C .list-group-item").click(divACshow);
+$("#div_A .item-show, #div_C .item-show").click(divACshow);
 
 $(".list-group-item").dblclick(itemDBClick);
 $("#LeftPanel .list-group-item").click(leftItemClick);
@@ -1603,8 +1546,6 @@ $('.submit-btn').click(submitBtn);
 $('.cancel-btn').click(cancelBtn);
 
 $(".toolkit-show-filter").click(filterToggleShow);
-$('.filter-company-btn').click(filterCompanyBtn);
-$('.filter-function-btn').click(filterFunctionBtn);
 $('.filter-name-btn').click(sortfilter);
 $("#cate-status-icon").change(cateStateIcon);
 
@@ -1613,4 +1554,3 @@ $('.toggle2-btn').click(toggle2Btn);
 $('.nav-link').click(tabClick);
 
 $('.handler_horizontal').dblclick(handlerDBClick);
-
