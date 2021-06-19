@@ -1547,6 +1547,7 @@ $('.cancel-btn').click(cancelBtn);
 
 $(".toolkit-show-filter").click(filterToggleShow);
 $('.filter-name-btn').click(sortfilter);
+$('.filter-date-btn').click(sortfilter);
 $("#cate-status-icon").change(cateStateIcon);
 
 $('.toggle2-btn').click(toggle2Btn);
