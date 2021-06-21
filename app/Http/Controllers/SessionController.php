@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SessionModel;
 use Illuminate\Http\Request;
+use App\Models\InterfaceCfgModel;
+use App\Models\User;
+use App\Models\GroupModel;
+use App\Models\PositionModel;
+use App\Models\CompanyModel;
+use App\Models\ConfigModel;
+use App\Models\LanguageModel;
+use App\Models\SessionModel;
 
 class SessionController extends Controller
 {
@@ -14,7 +21,15 @@ class SessionController extends Controller
      */
     public function index()
     {
-        return view('session');
+        $students = User::all();
+        $authors = User::all();
+        $teachers = User::all();
+        $groups = GroupModel::all();
+        $positions = PositionModel::all();
+        $companies = CompanyModel::all();
+        $languages = LanguageModel::all();
+        $sessions = SessionModel::all();
+        return view('session', compact(['authors', 'teachers', 'students', 'groups', 'positions', 'companies', 'languages', 'sessions']));
     }
 
     /**
