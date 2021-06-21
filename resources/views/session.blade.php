@@ -312,7 +312,63 @@
     </div>
     <fieldset id="RightPanel">
 
-
+        <div class="row py-3 bg-white rounded m-0 mx-4">
+            <div class="col-md-6">
+                <div class="card bg-white text-black">
+                    <img src="{{ asset('assets/media/17.jpg') }}" alt="" class="card-img-top">
+                    <i class="fa fa-cog float-right p-2 position-absolute ml-auto" style="right:0;"></i>
+                    <div class="card-body  p-3">
+                        <strong>
+                            Objectifs :
+                        </strong>
+                        <span>
+                            <b>
+                                Durée :
+                            </b> 25 minutes
+                        </span>
+                        <br>
+                        <span class="text-wrap">
+                            <b>
+                                Langue :
+                            </b>FR (français) En ligne
+                        </span>
+                        <br>
+                        <span>
+                            <b>
+                                Public cible :
+                            </b>
+                        </span>
+                        techniciens
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card bg-white text-black border-0">
+                    <strong>
+                        Objectifs :
+                        <i class="fa fa-cog float-right p-2"></i>
+                    </strong>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eleifend
+                        magna dignissim nunc maximus
+                        maximus. Nunc eget laoreet purus.
+                        Proin interdum, felis non malesuada
+                        vehicula, est ante ornare tortor, blandit
+                        sodales enim diam eu leo. Nam
+                        malesuada in tortor quis pharetra.
+                        Vestibulum ante ipsum primis in
+                        faucibus orci luctus et ultrices posuere
+                        cubilia curae; Curabitur ultricies odio
+                        velit, vitae rutrum ipsum viverra in.
+                        Suspendisse mollis et dolor gravida
+                        ultrices. Aenean iaculis, orci ultrices
+                        posuere sagittis, nisi felis fermentum
+                        quam, viverra euismod eros velit non
+                        ligula. Etiam sit amet tempor massa
+                    </p>
+                </div>
+            </div>
+        </div>
         <ul class="nav nav-tabs border-0 mb-2 mx-4">
             <li class="nav-item">
                 <a class="nav-link active m-1 rounded-1 border-0" id="students-tab"
