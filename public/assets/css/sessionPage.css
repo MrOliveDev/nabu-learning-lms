@@ -1,0 +1,368 @@
+#div_A .list-group,
+#div_B .list-group,
+#div_C .list-group,
+#div_D .list-group {
+    max-height: 400px;
+}
+
+#div_A .list-group.nolimit,
+#div_B .list-group.nolimit,
+#div_C .list-group.nolimit,
+#div_D .list-group.nolimit {
+    max-height: none;
+}
+
+.toolkit-filter {
+    display: none;
+}
+
+#teachers,
+#authors,
+#companies,
+#positions {
+    display: none;
+}
+
+#students .list-group-item,
+#category-form-tags .list-group-item {
+    background-color: var(--student-c);
+}
+
+#students .list-group-item.active,
+#category-form-tags .list-group-item.active,
+#students .list-group-item:hover,
+#category-form-tags .list-group-item:hover {
+    background-color: var(--student-h);
+}
+
+#groups .list-group-item,
+#table-groups .list-group-item {
+    background-color: var(--group-c);
+}
+
+#groups .list-group-item.active,
+#table-groups .list-group-item.active,
+#groups .list-group-item:hover,
+#table-groups .list-group-item:hover {
+    background-color: var(--group-h);
+}
+
+#teachers .list-group-item {
+    background-color: var(--teacher-c);
+}
+
+#teachers .list-group-item.active,
+#teachers .list-group-item:hover {
+    background-color: var(--teacher-h) !important;
+}
+
+#authors .list-group-item {
+    background-color: var(--author-c);
+}
+
+#authors .list-group-item:hover,
+#authors .list-group-item.active {
+    background-color: var(--author-h);
+}
+
+#companies .list-group-item,
+.filter-company-btn {
+    background-color: var(--company-c);
+}
+
+.filter-date-btn:hover {
+    background-color: blue !important;
+}
+
+.filter-date-btn {
+    background-color: rgb(97, 97, 248) !important;
+}
+
+.filter-name-btn:hover {
+    background-color: green !important;
+}
+
+.filter-name-btn {
+    background-color: rgb(0, 184, 0) !important;
+}
+
+#companies .list-group-item.active,
+#companies .list-group-item:hover,
+.filter-company-btn:hover {
+    background-color: var(--company-h);
+}
+
+#positions .toolkit,
+#positions .list-group-item,
+.filter-function-btn {
+    background-color: var(--position-c);
+}
+
+#positions .list-group-item.active,
+#positions .list-group-item:hover,
+.filter-function-btn:hover {
+    background-color: var(--position-h);
+}
+
+#session .list-group-item {
+    background-color: var(--session-c);
+}
+
+#session .list-group-item.active,
+#session .list-group-item:hover {
+    background-color: var(--session-h);
+}
+
+.nav-link#students-tab {
+    background-color: var(--student-c);
+}
+
+.nav-item.ui-state-hover .nav-link#students-tab,
+.nav-item.ui-state-active .nav-link#students-tab {
+    background-color: var(--student-h);
+}
+
+.nav-link#teachers-tab {
+    background-color: var(--teacher-c);
+}
+
+.nav-item.ui-state-hover .nav-link#teachers-tab,
+.nav-item.ui-state-active .nav-link#teachers-tab {
+    background-color: var(--teacher-h);
+}
+
+.nav-link#authors-tab {
+    background-color: var(--author-c);
+}
+
+.nav-item.ui-state-hover .nav-link#authors-tab,
+.nav-item.ui-state-active .nav-link#authors-tab {
+    background-color: var(--author-h);
+}
+
+.nav-link#companies-tab {
+    background-color: var(--company-c);
+}
+
+.nav-item.ui-state-hover .nav-link#companies-tab,
+.nav-item.ui-state-active .nav-link#companies-tab {
+    background-color: var(--company-h);
+}
+
+.nav-link#groups-tab,
+.nav-link#table-groups-tab {
+    background-color: var(--group-c);
+}
+
+.nav-item.ui-state-hover .nav-link#groups-tab,
+.nav-item.ui-state-active .nav-link#groups-tab,
+.nav-item.ui-state-hover .nav-link#table-groups-tab,
+.nav-item.ui-state-active .nav-link#table-groups-tab {
+    background-color: var(--group-h) !important;
+}
+
+.nav-link#positions-tab {
+    background-color: var(--position-c) !important;
+}
+
+.nav-item.ui-state-hover .nav-link#positions-tab,
+.nav-item.ui-state-active .nav-link#positions-tab {
+    background-color: var(--position-h) !important;
+}
+
+.nav-link#table-session-tab {
+    background-color: var(--session-c) !important;
+}
+
+.nav-item.ui-state-hover .nav-link#table-session-tab,
+.nav-item.ui-state-active .nav-link#table-session-tab {
+    background-color: var(--session-h) !important;
+}
+
+
+/* ///////////////////////////////////////////////// */
+
+
+/* ////////this is for modification for cropper form */
+
+.toolkit {
+    padding-right: 8px;
+}
+
+.second-table {
+    display: none;
+}
+
+fieldset form {
+    display: none;
+}
+
+.toggle2-btn {
+    display: none;
+    /* color:white !important; */
+}
+
+.list-group-item.select-active .toggle2-btn {
+    /* display: none; */
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-group button.btn,
+.list-group-item-action,
+a.list-group-item:not([href]) {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-group button.btn:hover {
+    color: white;
+}
+
+.active .btn-group button.btn,
+.active .list-group-item-action,
+.active a.list-group-item:not([href]) {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.list-group-item.active .btn.active,
+.list-group-item .btn.active {
+    color: white;
+}
+
+#category_save_button,
+#category_cancel_button {
+    z-index: 6;
+}
+
+#students .highlight,
+#table-user .highlight {
+    animation: studenthighlight 2s infinite;
+}
+
+@keyframes studenthighlight {
+    0% {
+        border-color: var(--student-h);
+    }
+    50% {
+        border-color: var(--student-c);
+    }
+    100% {
+        border-color: var(--student-h);
+    }
+}
+
+#teachers .highlight {
+    animation: teacherhighlight 2s infinite;
+}
+
+@keyframes teacherhighlight {
+    0% {
+        border-color: var(--teacher-h);
+    }
+    50% {
+        border-color: var(--teacher-c);
+    }
+    100% {
+        border-color: var(--teacher-h);
+    }
+}
+
+#teachers .highlight {
+    animation: teacherhighlight 2s infinite;
+}
+
+@keyframes teacherhighlight {
+    0% {
+        border-color: var(--teacher-h);
+    }
+    50% {
+        border-color: var(--teacher-c);
+    }
+    100% {
+        border-color: var(--teacher-h);
+    }
+}
+
+#authors .highlight {
+    animation: authorhighlight 2s infinite;
+}
+
+@keyframes authorhighlight {
+    0% {
+        border-color: var(--author-h);
+    }
+    50% {
+        border-color: var(--author-c);
+    }
+    100% {
+        border-color: var(--author-h);
+    }
+}
+
+#groups .highlight,
+#table-groups .highlight {
+    animation: grouphighlight 2s infinite;
+}
+
+@keyframes grouphighlight {
+    0% {
+        border-color: var(--group-h);
+    }
+    50% {
+        border-color: var(--group-c);
+    }
+    100% {
+        border-color: var(--group-h);
+    }
+}
+
+#companies .highlight {
+    animation: companyhighlight 2s infinite;
+}
+
+@keyframes companyhighlight {
+    0% {
+        border-color: var(--company-h);
+    }
+    50% {
+        border-color: var(--company-c);
+    }
+    100% {
+        border-color: var(--company-h);
+    }
+}
+
+#positions .highlight {
+    animation: positionhighlight 2s infinite;
+}
+
+@keyframes positionhighlight {
+    0% {
+        border-color: var(--position-h);
+    }
+    50% {
+        border-color: var(--position-c);
+    }
+    100% {
+        border-color: var(--position-h);
+    }
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+}
+
+.btn-group button.btn:active,
+.btn-group button.btn:focus {
+    outline: none;
+}
+
+#teachers .item-show,
+#authors .item-show {
+    display: none;
+}
+
+.list-group-item.border-transparent {
+    border-color: transparent;
+}
