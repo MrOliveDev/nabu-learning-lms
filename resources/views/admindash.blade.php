@@ -1,5 +1,5 @@
 <!-- <i class="fas fa-graduation-cap"></i> -->
-@extends('welcome')
+@extends('layout')
 
 @section('con')
 <div id="admindash">
