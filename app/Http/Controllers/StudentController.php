@@ -11,7 +11,7 @@ use App\Models\PositionModel;
 use App\Models\CompanyModel;
 use App\Models\ConfigModel;
 use App\Models\LanguageModel;
-use App\Models\SessionModel;
+// use App\Models\SessionModel;
 
 use Hackzilla\PasswordGenerator\Generator\RequirementPasswordGenerator;
 
@@ -131,9 +131,9 @@ class StudentController extends Controller
     public function show($id)
     {
         $user_info = User::getUserPageInfoFromId($id);
-        $session = SessionModel::select('name')->where('user_id',  $id)->get();
+        // $session = SessionModel::select('name')->where('user_id',  $id)->get();
 
-        return response()->json(['user_info' => $user_info, 'session' => $session]);
+        return response()->json(['user_info' => $user_info /*, 'session' => $session */]);
         //
     }
 
@@ -146,9 +146,9 @@ class StudentController extends Controller
     public function edit($id)
     {
         $user_info = User::getUserPageInfoFromId($id);
-        $session = SessionModel::select('session_name')->where('user_id',  $id)->get();
+        // $session = SessionModel::select('session_name')->where('user_id',  $id)->get();
 
-        return response()->json(['user_info' => $user_info, 'session' => $session]);
+        return response()->json(['user_info' => $user_info /*, 'session' => $session */]);
     }
 
     /**

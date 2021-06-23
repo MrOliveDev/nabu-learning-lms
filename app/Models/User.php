@@ -88,14 +88,12 @@ class User extends Authenticatable
     {
         $result = $query->select(
             'tb_users.*',
-            'tb_session.*',
             'tb_interface_config.interface_color as interface_color',
             'tb_interface_config.interface_icon as interface_icon',
             'tb_interface_config.id as interface_id',
             'tb_languages.language_iso as language_iso'
         )
             ->leftjoin('tb_interface_config', 'tb_interface_config.id', '=', 'tb_users.id_config')
-            ->leftjoin('tb_session', 'tb_session.session_id', '=', 'tb_users.id')
             ->leftjoin('tb_languages', 'tb_users.lang', 'tb_languages.language_id')
             ->where('tb_users.type', $type)
             ->get();
