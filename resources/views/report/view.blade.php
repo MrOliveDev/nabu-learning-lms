@@ -563,8 +563,7 @@
 <script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.html5.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.flash.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.colVis.min.js') }}"></script>
-
-<script src="{{ asset('assets/js/plugins/trumbowyg/trumbowyg.min.js') }}">
+<script src="{{ asset('assets/js/plugins/trumbowyg/trumbowyg.min.js') }}"></script>
 @endsection
 
 @include('report.script')
