@@ -87,6 +87,16 @@
                 echo '#'. $interfaceCfg->Sessions->c;
             ?>
             ;
+            --training-c:
+                <?php
+                echo '#'. $interfaceCfg->TrainingCourses->c;
+            ?>
+            ;
+            --training-h:
+                <?php
+                echo '#'. $interfaceCfg->TrainingCourses->h;
+            ?>
+            ;
         }
 
     </style>
@@ -114,7 +124,7 @@
 
     <script>
         $(function() {
-            $(" #LeftPanel, #RightPanel").tabs();
+            $("#RightPanel").tabs();
             $(".second-table").tabs();
         });
     </script>
@@ -122,7 +132,6 @@
         jQuery(function() {
             Dashmix.helpers(['select2', 'rangeslider', 'notify', 'summernote', 'flatpickr', 'datepicker']);
         });
-
     </script>
 @endsection
 
@@ -181,10 +190,8 @@
                                         <i class="fa fa-circle m-2" style="color:red;"></i>
                                         <input type="hidden" name="item-status" class='status-notification' value="0">
                                     @endif
-                                    <span
-                                        class="item-name">{{ $session->name }}</span>
-                                    <input type="hidden" name="item-name"
-                                        value="{{ $session->name }}">
+                                    <span class="item-name">{{ $session->name }}</span>
+                                    <input type="hidden" name="item-name" value="{{ $session->name }}">
                                 </div>
                                 <div class="btn-group float-right">
                                     <span
@@ -210,69 +217,25 @@
         </div>
         <div id="div_B" class="window bottom">
             <div class="mx-4">
-                <form method="post" id="template_form" enctype="multipart/form-data" class="form mx-4" action="">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input name='_method' type='hidden' value='PUT' class='method-select' />
-                    <div class="card bg-white text-black mx-2">
-                        <div class="card-body  p-3">
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            Name<span class="text-danger">*</span>
-                                        </span>
-                                    </div>
-                                    <input type="text" class="form-control" id="template_name" name="template_name" value=""
-                                        required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            Description<span class="text-danger">*</span>
-                                        </span>
-                                    </div>
-                                    <input type="text" class="form-control" id="template_description"
-                                        name="template_description" value="" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="custom-control custom-switch custom-control-lg mb-2 ml-0 ">
-                                    <input type="checkbox" class="custom-control-input" id="template-status-icon"
-                                        name="template-status-icon" checked="">
-                                    <label class="custom-control-label" for="template-status-icon">Status</label>
-                                </div>
-                            </div>
-                            <div class="form-group clearfix">
-                                <button type="submit" class="btn btn-hero-primary float-right mx-1 submit-btn"
-                                    id="template_save_button" data-form="template_form">SAVE</button>
-                                <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn"
-                                    id="template_cancel_button">CANCEL</button>
-                                <input type="hidden" name="template-status">
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
                 <div id="user-form-tags" class="second-table">
                     <ul class="nav nav-tabs border-0 mb-2">
                         <li class="nav-item">
-                            <a class="nav-link active m-1 rounded-1 border-0" id="table-groups-tab"
-                                href="#table-groups">Participants</a>
+                            <a class="nav-link active m-1 rounded-1 border-0" id="table-participant-tab"
+                                href="#table-participant">Participants</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link m-1 rounded-1 border-0" id="table-session-tab" href="#table-session">
+                            <a class="nav-link m-1 rounded-1 border-0" id="table-content-tab"
+                            href="#table-content">
                                 Contents</a>
                         </li>
                     </ul>
 
-                    <div id="table-groups">
+                    <div id="table-participant">
                         <div class="list-group" id="list-tab" role="tablist" data-src=''>
 
                         </div>
                     </div>
-                    <div id="table-session">
+                    <div id="table-content">
                         <div class="list-group" id="list-tab" role="tablist" data-src=''>
 
                         </div>
@@ -312,63 +275,7 @@
     </div>
     <fieldset id="RightPanel">
 
-        <div class="row py-3 bg-white rounded m-0 mx-4">
-            <div class="col-md-6">
-                <div class="card bg-white text-black">
-                    <img src="{{ asset('assets/media/17.jpg') }}" alt="" class="card-img-top">
-                    <i class="fa fa-cog float-right p-2 position-absolute ml-auto" style="right:0;"></i>
-                    <div class="card-body  p-3">
-                        <strong>
-                            Objectifs :
-                        </strong>
-                        <span>
-                            <b>
-                                Durée :
-                            </b> 25 minutes
-                        </span>
-                        <br>
-                        <span class="text-wrap">
-                            <b>
-                                Langue :
-                            </b>FR (français) En ligne
-                        </span>
-                        <br>
-                        <span>
-                            <b>
-                                Public cible :
-                            </b>
-                        </span>
-                        techniciens
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card bg-white text-black border-0">
-                    <strong>
-                        Objectifs :
-                        <i class="fa fa-cog float-right p-2"></i>
-                    </strong>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eleifend
-                        magna dignissim nunc maximus
-                        maximus. Nunc eget laoreet purus.
-                        Proin interdum, felis non malesuada
-                        vehicula, est ante ornare tortor, blandit
-                        sodales enim diam eu leo. Nam
-                        malesuada in tortor quis pharetra.
-                        Vestibulum ante ipsum primis in
-                        faucibus orci luctus et ultrices posuere
-                        cubilia curae; Curabitur ultricies odio
-                        velit, vitae rutrum ipsum viverra in.
-                        Suspendisse mollis et dolor gravida
-                        ultrices. Aenean iaculis, orci ultrices
-                        posuere sagittis, nisi felis fermentum
-                        quam, viverra euismod eros velit non
-                        ligula. Etiam sit amet tempor massa
-                    </p>
-                </div>
-            </div>
-        </div>
+
         <ul class="nav nav-tabs border-0 mb-2 mx-4">
             <li class="nav-item">
                 <a class="nav-link active m-1 rounded-1 border-0" id="students-tab"
@@ -379,8 +286,7 @@
                     {{ $translation->l('TEACHERS') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link m-1 rounded-1 border-0" id="authors-tab"
-                    href="#authors">{{ $translation->l('AUTHORS') }}</a>
+                <a class="nav-link m-1 rounded-1 border-0" id="groups-tab" href="#groups">GROUPS</a>
             </li>
         </ul>
         <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4"
@@ -411,142 +317,194 @@
                     </div>
 
                 </div>
-                <div class="float-right d-none">
-
+                <div class="float-right">
+                    <span>
+                        <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
+                            <i class="fas"></i>
+                        </button>
+                        <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
+                            <i class="fas"></i>
+                        </button>
+                    </span>
                     <button type="button" value="" class="rounded text-white filter-company-btn px-1 border-0">company
                         +<i></i></button>&nbsp;
                     <button type="button" value="" class="rounded text-white filter-function-btn px-1 border-0">function
                         +<i></i></button>
-                    </span>
                 </div>
-                <span class='float-right'>
-                    <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
-                        <i class="fas"></i></button>
-                    <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
-                        <i class="fas"></i></button>
-                </span>
             </div>
         </div>
         <div id="div_C" class="window top">
             <div class="clear-fix mx-4">
-                <div id="students">
+                <div id="paticipant-group">
+                    <div id="students">
 
 
-                    <div class="list-group" id="list-tab" role="tablist" data-src=''>
-                        @foreach ($students as $student)
-                            <a class="list-group-item list-group-item-action p-0 border-transparent border-5x student_{{ $student->id }}"
-                                id="student_{{ $student->id }}" data-date="{{ $student->creation_date }}">
-                                <div class="float-left">
-                                    @if ($student->status == 1)
-                                        <i class="fa fa-circle  m-2" style="color:green;"></i>
-                                        <input type="hidden" name="item-status" class='status-notification' value="1">
-                                    @else
-                                        <i class="fa fa-circle m-2" style="color:red;"></i>
-                                        <input type="hidden" name="item-status" class='status-notification' value="0">
-                                    @endif
-                                    <span
-                                        class="item-name">{{ $student->first_name }}&nbsp;{{ $student->last_name }}</span>
-                                    <input type="hidden" name="item-name"
-                                        value="{{ $student->first_name }}{{ $student->last_name }}">
-                                    <input type="hidden" name="item-group" value="{{ $student->linked_groups }}">
-                                    <input type="hidden" name="item-company" value="{{ $student->company }}">
-                                    <input type="hidden" name="item-function" value="{{ $student->function }}">
-                                </div>
-                                <div class="btn-group float-right">
-                                    <span
-                                        class=" p-2 font-weight-bolder item-lang">{{ strtoupper($student->language_iso) }}</span>
-                                    <button class="btn  item-show" data-content='student'>
-                                        <i class="px-2 fa fa-eye"></i>
-                                    </button>
-                                    <button class="btn item-edit" data-content='student'>
-                                        <i class="px-2 fa fa-edit"></i>
-                                    </button>
-                                    <button class="btn item-delete" data-content='student'>
-                                        <i class="px-2 fa fa-trash-alt"></i>
-                                    </button>
-                                </div>
-                            </a>
-                        @endforeach
+                        <div class="list-group" id="list-tab" role="tablist" data-src=''>
+                            @foreach ($students as $student)
+                                <a class="list-group-item list-group-item-action p-0 border-transparent border-5x student_{{ $student->id }}"
+                                    id="student_{{ $student->id }}" data-date="{{ $student->creation_date }}">
+                                    <div class="float-left">
+                                        @if ($student->status == 1)
+                                            <i class="fa fa-circle  m-2" style="color:green;"></i>
+                                            <input type="hidden" name="item-status" class='status-notification'
+                                                value="1">
+                                        @else
+                                            <i class="fa fa-circle m-2" style="color:red;"></i>
+                                            <input type="hidden" name="item-status" class='status-notification'
+                                                value="0">
+                                        @endif
+                                        <span
+                                            class="item-name">{{ $student->first_name }}&nbsp;{{ $student->last_name }}</span>
+                                        <input type="hidden" name="item-name"
+                                            value="{{ $student->first_name }}{{ $student->last_name }}">
+                                        <input type="hidden" name="item-group" value="{{ $student->linked_groups }}">
+                                        <input type="hidden" name="item-company" value="{{ $student->company }}">
+                                        <input type="hidden" name="item-function" value="{{ $student->function }}">
+                                    </div>
+                                    <div class="btn-group float-right">
+                                        <span
+                                            class=" p-2 font-weight-bolder item-lang">{{ strtoupper($student->language_iso) }}</span>
+                                        <button class="btn  item-show" data-content='student'>
+                                            <i class="px-2 fa fa-eye"></i>
+                                        </button>
+                                        <button class="btn item-edit" data-content='student'>
+                                            <i class="px-2 fa fa-edit"></i>
+                                        </button>
+                                        <button class="btn item-delete" data-content='student'>
+                                            <i class="px-2 fa fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div id="teachers">
+
+                        <div class="list-group" id="list-tab" role="tablist" data-src=''>
+                            @foreach ($teachers as $teacher)
+                                <a class="list-group-item list-group-item-action p-0 border-transparent border-5x teacher_{{ $teacher->id }}"
+                                    id="teacher_{{ $teacher->id }}" data-date="{{ $teacher->creation_date }}">
+                                    <div class="float-left">
+                                        @if ($teacher->status == 1)
+                                            <i class="fa fa-circle  m-2" style="color:green;"></i>
+                                            <input type="hidden" name="item-status" class='status-notification'
+                                                value="1">
+                                        @else
+                                            <i class="fa fa-circle m-2" style="color:red;"></i>
+                                            <input type="hidden" name="item-status" class='status-notification'
+                                                value="0">
+                                        @endif
+                                        <span
+                                            class="item-name">{{ $teacher->first_name }}&nbsp;{{ $teacher->last_name }}</span>
+                                        <input type="hidden" name="item-name"
+                                            value="{{ $teacher->first_name }}{{ $teacher->last_name }}">
+                                        <input type="hidden" name="item-group" value="{{ $teacher->linked_groups }}">
+                                        <input type="hidden" name="item-company" value="{{ $teacher->company }}">
+                                        <input type="hidden" name="item-function" value="{{ $teacher->function }}">
+                                    </div>
+                                    <div class="btn-group float-right">
+                                        <span
+                                            class=" p-2 font-weight-bolder item-lang">{{ strtoupper($teacher->language_iso) }}</span>
+
+                                        <button class="btn  item-show" data-content='teacher'>
+                                            <i class="px-2 fa fa-eye"></i>
+                                        </button>
+                                        <button class="btn item-edit" data-content='teacher'>
+                                            <i class="px-2 fa fa-edit"></i>
+                                        </button>
+                                        <button class="btn item-delete" data-content='teacher'>
+                                            <i class="px-2 fa fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div id="groups">
+                        <div class="list-group" id="list-tab" role="tablist" data-src=''>
+                            @foreach ($groups as $group)
+                                <a class="list-group-item list-group-item-action p-0 border-transparent border-5x group_{{ $group->id }}"
+                                    id="group_{{ $group->id }}" data-date="{{ $group->creation_date }}">
+                                    <div class="float-left">
+                                        @if ($group->status == 1)
+                                            <i class="fa fa-circle  m-2" style="color:green;"></i>
+                                            <input type="hidden" name="item-status" class="status-notification"
+                                                value="1">
+                                        @else
+                                            <i class="fa fa-circle m-2" style="color:red;"></i>
+                                            <input type="hidden" name="item-status" class="status-notification"
+                                                value="0">
+                                        @endif
+                                        <span class="item-name">{{ $group->name }}</span>
+                                        <input type="hidden" name="item-name" value="{{ $group->name }}">
+                                    </div>
+                                    <div class="btn-group float-right">
+                                        <button class="btn  toggle1-btn  item-show" data-content="group">
+                                            <i class="px-2 fa fa-eye"></i>
+                                        </button>
+                                        <button class="btn item-edit toggle1-btn" data-content="group">
+                                            <i class="px-2 fa fa-edit"></i>
+                                        </button>
+                                        <button class="btn item-delete toggle1-btn" data-content="group">
+                                            <i class="px-2 fa fa-trash-alt"></i>
+                                        </button>
+                                        <button class="btn  toggle2-btn" data-content="group">
+                                            <i class="px-2 fas fa-check-circle"></i>
+                                        </button>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
-                <div id="teachers">
+                <div id="content-group">
+                    <div id="trainings">
+                        <div class="list-group" id="list-tab" role="tablist" data-src=''>
+                            @foreach ($trainings as $training)
+                                <a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_{{ $training->id }}"
+                                    id="training_{{ $training->id }}" data-date="{{ $training->creation_date }}"
+                                    data-lesson='{{ $training->lesson_content }}'>
+                                    <div class="float-left">
+                                        @if ($training->status != 0)
+                                            <i class="fa fa-circle  m-2" style="color:green;"></i>
+                                            <input type="hidden" name="item-status" class='status-notification'
+                                                value="1">
+                                        @else
+                                            <i class="fa fa-circle m-2" style="color:red;"></i>
+                                            <input type="hidden" name="item-status" class='status-notification'
+                                                value="0">
+                                        @endif
+                                        <span class="item-name">{{ $training->name }}</span>
+                                        <input type="hidden" name="item-name" value="{{ $training->name }}">
+                                    </div>
+                                    <div class="btn-group float-right">
+                                        <span
+                                            class=" p-2 font-weight-bolder  item-lang">{{ strtoupper($training->language_iso) }}</span>
 
-                    <div class="list-group" id="list-tab" role="tablist" data-src=''>
-                        @foreach ($teachers as $teacher)
-                            <a class="list-group-item list-group-item-action p-0 border-transparent border-5x teacher_{{ $teacher->id }}"
-                                id="teacher_{{ $teacher->id }}" data-date="{{ $teacher->creation_date }}">
-                                <div class="float-left">
-                                    @if ($teacher->status == 1)
-                                        <i class="fa fa-circle  m-2" style="color:green;"></i>
-                                        <input type="hidden" name="item-status" class='status-notification' value="1">
-                                    @else
-                                        <i class="fa fa-circle m-2" style="color:red;"></i>
-                                        <input type="hidden" name="item-status" class='status-notification' value="0">
-                                    @endif
-                                    <span
-                                        class="item-name">{{ $teacher->first_name }}&nbsp;{{ $teacher->last_name }}</span>
-                                    <input type="hidden" name="item-name"
-                                        value="{{ $teacher->first_name }}{{ $teacher->last_name }}">
-                                    <input type="hidden" name="item-group" value="{{ $teacher->linked_groups }}">
-                                    <input type="hidden" name="item-company" value="{{ $teacher->company }}">
-                                    <input type="hidden" name="item-function" value="{{ $teacher->function }}">
-                                </div>
-                                <div class="btn-group float-right">
-                                    <span
-                                        class=" p-2 font-weight-bolder item-lang">{{ strtoupper($teacher->language_iso) }}</span>
-
-                                    <button class="btn  item-show" data-content='teacher'>
-                                        <i class="px-2 fa fa-eye"></i>
-                                    </button>
-                                    <button class="btn item-edit" data-content='teacher'>
-                                        <i class="px-2 fa fa-edit"></i>
-                                    </button>
-                                    <button class="btn item-delete" data-content='teacher'>
-                                        <i class="px-2 fa fa-trash-alt"></i>
-                                    </button>
-                                </div>
-                            </a>
-                        @endforeach
-                    </div>
-                </div>
-                <div id="authors">
-
-                    <div class="list-group" id="list-tab" role="tablist" data-src=''>
-                        @foreach ($authors as $author)
-                            <a class="list-group-item list-group-item-action p-0 border-transparent border-5x author_{{ $author->id }}"
-                                id="author_{{ $author->id }}" data-date="{{ $author->creation_date }}">
-                                <div class="float-left">
-                                    @if ($author->status == 1)
-                                        <i class="fa fa-circle  m-2" style="color:green;"></i>
-                                        <input type="hidden" name="item-status" class='status-notification' value="1">
-                                    @else
-                                        <i class="fa fa-circle m-2" style="color:red;"></i>
-                                        <input type="hidden" name="item-status" class='status-notification' value="0">
-                                    @endif
-                                    <span
-                                        class="item-name">{{ $author->first_name }}&nbsp;{{ $author->last_name }}</span>
-                                    <input type="hidden" name="item-name"
-                                        value="{{ $author->first_name }}{{ $author->last_name }}">
-                                    <input type="hidden" name="item-group" value="{{ $author->linked_groups }}">
-                                    <input type="hidden" name="item-company" value="{{ $author->company }}">
-                                    <input type="hidden" name="item-function" value="{{ $author->function }}">
-                                </div>
-                                <div class="btn-group float-right">
-                                    <span
-                                        class=" p-2 font-weight-bolder item-lang">{{ strtoupper($author->language_iso) }}</span>
-
-                                    <button class="btn  item-show" data-content='author'>
-                                        <i class="px-2 fa fa-eye"></i>
-                                    </button>
-                                    <button class="btn item-edit" data-content='author'>
-                                        <i class="px-2 fa fa-edit"></i>
-                                    </button>
-                                    <button class="btn item-delete" data-content='author'>
-                                        <i class="px-2 fa fa-trash-alt"></i>
-                                    </button>
-                                </div>
-                            </a>
-                        @endforeach
+                                        <button class="btn  item-type" data-content='training'
+                                            data-value="{{ $training->type }}" data-item-id="{{ $training->id }}">
+                                            @if ($training->type == 1)
+                                                <i class="px-2 fas fa-wave-square"></i>
+                                            @else
+                                                <i class="px-2 fas fa-sort-amount-down-alt"></i>
+                                            @endif
+                                        </button>
+                                        <button class="btn item-show" data-content='training'
+                                            data-item-id="{{ $training->id }}">
+                                            <i class="px-2 fa fa-eye"></i>
+                                        </button>
+                                        <button class="btn item-edit" data-content='training'
+                                            data-item-id="{{ $training->id }}">
+                                            <i class="px-2 fa fa-edit"></i>
+                                        </button>
+                                        <button class="btn item-delete" data-content='training'
+                                            data-item-id="{{ $training->id }}">
+                                            <i class="px-2 fa fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
@@ -554,7 +512,7 @@
         <div id="div_right" class="handler_horizontal  text-center  font-size-h3 text-white mb-4">
             <i class="fas fa-grip-lines"></i>
         </div>
-        <div class="second-table mx-4">
+        {{-- <div class="second-table mx-4">
             <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column"
                 id="show-toolkit">
                 <div class="w-100 p-2">
@@ -597,11 +555,11 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div id="div_D" class="window bottom">
 
             <div class="tab-content mx-4" id="nav-tabContent">
-                <form method="post" id="category_form" enctype="multipart/form-data" class="form" action="">
+                <form method="post" id="session_form" enctype="multipart/form-data" class="form" action="">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input name='_method' type='hidden' value='PUT' class='method-select' />
                     <div class="card bg-white text-black mx-2">
@@ -613,7 +571,7 @@
                                             Name<span class="text-danger">*</span>
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="category_name" name="category_name"
+                                    <input type="text" class="form-control" id="session_name" name="session_name"
                                         value="" required>
                                 </div>
                             </div>
@@ -624,37 +582,35 @@
                                             Description<span class="text-danger">*</span>
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="category_description"
-                                        name="category_description" value="" required>
+                                    <input type="text" class="form-control" id="session_description"
+                                        name="session_description" value="" required>
                                 </div>
                             </div>
                             <div class="form-group" id='status-form-group'>
                                 <div class="custom-control custom-switch custom-control-lg mb-2 ml-0 ">
-                                    <input type="checkbox" class="custom-control-input" id="cate-status-icon"
-                                        name="cate-status-icon" checked="">
+                                    <input type="checkbox" class="custom-control-input" id="session-status-icon"
+                                        name="session-status-icon" checked="">
                                     <label class="custom-control-label" for="cate-status-icon">Status</label>
                                 </div>
                             </div>
                             <div class="form-group clearfix">
                                 <button type="submit" class="btn btn-hero-primary float-right mx-1 submit-btn"
-                                    id="category_save_button" data-form="category_form">SAVE</button>
+                                    id="session_save_button" data-form="session_form">SAVE</button>
                                 <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn"
-                                    id="category_cancel_button">CANCEL</button>
+                                    id="session_cancel_button">CANCEL</button>
                                 <input type="hidden" name="cate-status">
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
-
-            <div id="category-form-tags" class="second-table mx-4">
+        </div>
+        {{-- <div id="category-form-tags" class="second-table mx-4">
                 <div class="list-group" id="table-user" role="tablist" data-src=''>
 
                 </div>
 
-            </div>
-
-
+            </div> --}}
     </fieldset>
 </div>
 <button type="button" id="notificator" class="js-notify btn btn-secondary push" data-message="Your message!<br>"

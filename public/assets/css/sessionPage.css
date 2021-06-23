@@ -19,31 +19,32 @@
 #teachers,
 #authors,
 #companies,
-#positions {
+#positions,
+#groups {
     display: none;
 }
 
 #students .list-group-item,
-#category-form-tags .list-group-item {
+#table-participant .list-group-item,
+#table-participant-tab {
     background-color: var(--student-c);
 }
 
 #students .list-group-item.active,
-#category-form-tags .list-group-item.active,
+#table-participant .list-group-item.active,
 #students .list-group-item:hover,
-#category-form-tags .list-group-item:hover {
+#table-participant .list-group-item:hover,
+#table-participant-tab.ui-state-active,
+#table-participant-tab:hover {
     background-color: var(--student-h);
 }
 
-#groups .list-group-item,
-#table-groups .list-group-item {
+#groups .list-group-item {
     background-color: var(--group-c);
 }
 
 #groups .list-group-item.active,
-#table-groups .list-group-item.active,
-#groups .list-group-item:hover,
-#table-groups .list-group-item:hover {
+#groups .list-group-item:hover {
     background-color: var(--group-h);
 }
 
@@ -113,6 +114,20 @@
     background-color: var(--session-h);
 }
 
+#trainings .list-group-item,
+#table-content,
+#table-content-tab {
+    background-color: var(--training-c);
+}
+
+#trainings .list-group-item.active,
+#trainings .list-group-item:hover,
+#table-content .list-group-item:hover,
+#table-content-tab:hover,
+#table-content-tab.ui-state-active {
+    background-color: var(--training-h);
+}
+
 .nav-link#students-tab {
     background-color: var(--student-c);
 }
@@ -149,15 +164,12 @@
     background-color: var(--company-h);
 }
 
-.nav-link#groups-tab,
-.nav-link#table-groups-tab {
+.nav-link#groups-tab {
     background-color: var(--group-c);
 }
 
 .nav-item.ui-state-hover .nav-link#groups-tab,
-.nav-item.ui-state-active .nav-link#groups-tab,
-.nav-item.ui-state-hover .nav-link#table-groups-tab,
-.nav-item.ui-state-active .nav-link#table-groups-tab {
+.nav-item.ui-state-active .nav-link#groups-tab {
     background-color: var(--group-h) !important;
 }
 
@@ -170,14 +182,16 @@
     background-color: var(--position-h) !important;
 }
 
-.nav-link#table-session-tab {
-    background-color: var(--session-c) !important;
-}
 
-.nav-item.ui-state-hover .nav-link#table-session-tab,
+/* .nav-link#table-session-tab {
+    background-color: var(--session-c) !important;
+} */
+
+
+/* .nav-item.ui-state-hover .nav-link#table-session-tab,
 .nav-item.ui-state-active .nav-link#table-session-tab {
     background-color: var(--session-h) !important;
-}
+} */
 
 
 /* ///////////////////////////////////////////////// */
@@ -190,11 +204,11 @@
 }
 
 .second-table {
-    display: none;
+    /* display: none; */
 }
 
 fieldset form {
-    display: none;
+    /* display: none; */
 }
 
 .toggle2-btn {
@@ -233,8 +247,7 @@ a.list-group-item:not([href]) {
     z-index: 6;
 }
 
-#students .highlight,
-#table-user .highlight {
+#students .highlight {
     animation: studenthighlight 2s infinite;
 }
 
@@ -250,6 +263,38 @@ a.list-group-item:not([href]) {
     }
 }
 
+#trainings .highlight {
+    animation: traininghighlight 2s infinite;
+}
+
+@keyframes traininghighlight {
+    0% {
+        border-color: var(--training-h);
+    }
+    50% {
+        border-color: var(--training-c);
+    }
+    100% {
+        border-color: var(--training-h);
+    }
+}
+
+#session .highlight {
+    animation: sessionhighlight 2s infinite;
+}
+
+@keyframes sessionhighlight {
+    0% {
+        border-color: var(--session-h);
+    }
+    50% {
+        border-color: var(--session-c);
+    }
+    100% {
+        border-color: var(--session-h);
+    }
+}
+
 #teachers .highlight {
     animation: teacherhighlight 2s infinite;
 }
@@ -266,40 +311,7 @@ a.list-group-item:not([href]) {
     }
 }
 
-#teachers .highlight {
-    animation: teacherhighlight 2s infinite;
-}
-
-@keyframes teacherhighlight {
-    0% {
-        border-color: var(--teacher-h);
-    }
-    50% {
-        border-color: var(--teacher-c);
-    }
-    100% {
-        border-color: var(--teacher-h);
-    }
-}
-
-#authors .highlight {
-    animation: authorhighlight 2s infinite;
-}
-
-@keyframes authorhighlight {
-    0% {
-        border-color: var(--author-h);
-    }
-    50% {
-        border-color: var(--author-c);
-    }
-    100% {
-        border-color: var(--author-h);
-    }
-}
-
-#groups .highlight,
-#table-groups .highlight {
+#groups .highlight {
     animation: grouphighlight 2s infinite;
 }
 
@@ -312,38 +324,6 @@ a.list-group-item:not([href]) {
     }
     100% {
         border-color: var(--group-h);
-    }
-}
-
-#companies .highlight {
-    animation: companyhighlight 2s infinite;
-}
-
-@keyframes companyhighlight {
-    0% {
-        border-color: var(--company-h);
-    }
-    50% {
-        border-color: var(--company-c);
-    }
-    100% {
-        border-color: var(--company-h);
-    }
-}
-
-#positions .highlight {
-    animation: positionhighlight 2s infinite;
-}
-
-@keyframes positionhighlight {
-    0% {
-        border-color: var(--position-h);
-    }
-    50% {
-        border-color: var(--position-c);
-    }
-    100% {
-        border-color: var(--position-h);
     }
 }
 
