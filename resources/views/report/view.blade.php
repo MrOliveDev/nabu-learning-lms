@@ -540,6 +540,12 @@
             </div>
 
             <fieldset id="modelRight">
+                <div class="mb-3">
+                    <span class="text-white mr-3">Name * </span>
+                    <span class="bg-white text-black p-2 rounded">
+                        <input class="input-field border-0 mw-100 model-name-input" type="text" style="width: 350px;">
+                    </span>
+                </div>
                 <div class="w-100" style="height: 600px; background-color: white;" id="model-trumb-pane">
                 </div>
                 <div class="float-right mt-3">
