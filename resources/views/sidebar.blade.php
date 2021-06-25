@@ -186,7 +186,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="#" id="rapports">
+                                    <a class="nav-main-link" href="{{ route('report') }}" id="rapports">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon fas fa-chart-pie"></i>

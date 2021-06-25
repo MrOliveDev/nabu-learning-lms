@@ -174,6 +174,8 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
 
     Route::get('session', '\App\Http\Controllers\SessionController@index')->name('session');
 
+    Route::get('report', '\App\Http\Controllers\ReportController@index')->name('report');
+
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

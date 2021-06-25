@@ -1,4 +1,4 @@
-@extends('welcome')
+@extends('layout')
 
 @section('con')
     <link rel="stylesheet" href="{{ asset('assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
