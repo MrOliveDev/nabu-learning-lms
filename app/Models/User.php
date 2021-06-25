@@ -99,4 +99,34 @@ class User extends Authenticatable
             ->get();
         return $result;
     }
+
+    public function scopeAddUserSession($query, $id, $data)
+    {
+        $result = $query->find($id);
+        if (isset($result->linked_session)) {
+            $linked_session = json_decode($result->linked_session);
+
+            $diff = array_diff($linked_session, array($data));
+            if (count($diff) != count($linked_session)) {
+                array_push($linked_session, $data);
+            }
+            $result->linked_session = $linked_session;
+            $result->update();
+            return true;
+        }
+        return false;
+    }
+
+    public function scopeGetUserFromGroup($query, $id)
+    {
+        $result = $query->select("tb_users.*")
+        ->leftjoin('tb_groups', function ($join) {
+            $join->on('tb_users.linked_groups', 'like', DB::raw("CONCAT('%_', tb_groups.id, '_%')"));
+            $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT(tb_groups.id, '_%')"));
+            $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT('%_', tb_groups.id)"));
+        })
+        ->where('tb_groups.id', '=', $id)->get();
+        print_r($result->toArray());
+        return $result;
+    }
 }

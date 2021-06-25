@@ -196,12 +196,6 @@
                                 <div class="btn-group float-right">
                                     <span
                                         class=" p-2 font-weight-bolder item-lang">{{ strtoupper($session->language_iso) }}</span>
-                                    <button class="btn  item-show" data-content='session'>
-                                        <i class="px-2 fa fa-eye"></i>
-                                    </button>
-                                    <button class="btn item-edit" data-content='session'>
-                                        <i class="px-2 fa fa-edit"></i>
-                                    </button>
                                     <button class="btn item-delete" data-content='session'>
                                         <i class="px-2 fa fa-trash-alt"></i>
                                     </button>
@@ -224,8 +218,7 @@
                                 href="#table-participant">Participants</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link m-1 rounded-1 border-0" id="table-content-tab"
-                            href="#table-content">
+                            <a class="nav-link m-1 rounded-1 border-0" id="table-content-tab" href="#table-content">
                                 Contents</a>
                         </li>
                     </ul>
@@ -292,7 +285,7 @@
         <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4"
             id="cate-toolkit">
             <div class="w-100 p-2">
-                <div class="input-container">
+                <div class="input-container float-right">
                     <a href="#" class="toolkit-add-item">
                         <i class="fa fa-plus icon p-2 text-white"></i>
                     </a>
@@ -357,22 +350,11 @@
                                             class="item-name">{{ $student->first_name }}&nbsp;{{ $student->last_name }}</span>
                                         <input type="hidden" name="item-name"
                                             value="{{ $student->first_name }}{{ $student->last_name }}">
-                                        <input type="hidden" name="item-group" value="{{ $student->linked_groups }}">
-                                        <input type="hidden" name="item-company" value="{{ $student->company }}">
-                                        <input type="hidden" name="item-function" value="{{ $student->function }}">
                                     </div>
                                     <div class="btn-group float-right">
                                         <span
-                                            class=" p-2 font-weight-bolder item-lang">{{ strtoupper($student->language_iso) }}</span>
-                                        <button class="btn  item-show" data-content='student'>
-                                            <i class="px-2 fa fa-eye"></i>
-                                        </button>
-                                        <button class="btn item-edit" data-content='student'>
-                                            <i class="px-2 fa fa-edit"></i>
-                                        </button>
-                                        <button class="btn item-delete" data-content='student'>
-                                            <i class="px-2 fa fa-trash-alt"></i>
-                                        </button>
+                                            class=" p-2 font-weight-bolder item-lang">{{ strtoupper($student->language_iso) }}
+                                        </span>
                                     </div>
                                 </a>
                             @endforeach
@@ -405,16 +387,6 @@
                                     <div class="btn-group float-right">
                                         <span
                                             class=" p-2 font-weight-bolder item-lang">{{ strtoupper($teacher->language_iso) }}</span>
-
-                                        <button class="btn  item-show" data-content='teacher'>
-                                            <i class="px-2 fa fa-eye"></i>
-                                        </button>
-                                        <button class="btn item-edit" data-content='teacher'>
-                                            <i class="px-2 fa fa-edit"></i>
-                                        </button>
-                                        <button class="btn item-delete" data-content='teacher'>
-                                            <i class="px-2 fa fa-trash-alt"></i>
-                                        </button>
                                     </div>
                                 </a>
                             @endforeach
@@ -439,16 +411,47 @@
                                         <input type="hidden" name="item-name" value="{{ $group->name }}">
                                     </div>
                                     <div class="btn-group float-right">
-                                        <button class="btn  toggle1-btn  item-show" data-content="group">
-                                            <i class="px-2 fa fa-eye"></i>
-                                        </button>
-                                        <button class="btn item-edit toggle1-btn" data-content="group">
-                                            <i class="px-2 fa fa-edit"></i>
-                                        </button>
-                                        <button class="btn item-delete toggle1-btn" data-content="group">
-                                            <i class="px-2 fa fa-trash-alt"></i>
-                                        </button>
                                         <button class="btn  toggle2-btn" data-content="group">
+                                            <i class="px-2 fas fa-check-circle"></i>
+                                        </button>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div id="companies">
+
+                        <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
+                            @foreach ($companies as $company)
+                                <a class="list-group-item list-group-item-action p-0 border-transparent border-5x company_{{ $company->id }}"
+                                    id="company_{{ $company->id }}" data-date="{{ $company->creation_date }}">
+                                    <div class="float-left">
+                                        <span class="item-name">{{ $company->name }}</span>
+                                        <input type="hidden" name="item-name" value="{{ $company->name }}">
+                                    </div>
+                                    <div class="btn-group float-right">
+                                        <button class="btn  toggle2-btn" data-content='company'>
+                                            <i class="px-2 fas fa-check-circle"></i>
+                                        </button>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div id="positions">
+
+                        <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
+                            @foreach ($positions as $position)
+                                <a class="list-group-item list-group-item-action p-0 border-transparent border-5x function_{{ $position->id }}"
+                                    id="function_{{ $position->id }}">
+                                    <div class="float-left">
+                                        <!-- <i class="fa fa-circle text-danger m-2"></i> -->
+                                        <span class="item-name">{{ $position->name }}</span>
+                                        <input type="hidden" name="item-name" value="{{ $position->name }}">
+                                    </div>
+                                    <div class="btn-group float-right">
+                                        <button class="btn  toggle2-btn" data-content='position'>
                                             <i class="px-2 fas fa-check-circle"></i>
                                         </button>
                                     </div>
@@ -479,28 +482,8 @@
                                     </div>
                                     <div class="btn-group float-right">
                                         <span
-                                            class=" p-2 font-weight-bolder  item-lang">{{ strtoupper($training->language_iso) }}</span>
-
-                                        <button class="btn  item-type" data-content='training'
-                                            data-value="{{ $training->type }}" data-item-id="{{ $training->id }}">
-                                            @if ($training->type == 1)
-                                                <i class="px-2 fas fa-wave-square"></i>
-                                            @else
-                                                <i class="px-2 fas fa-sort-amount-down-alt"></i>
-                                            @endif
-                                        </button>
-                                        <button class="btn item-show" data-content='training'
-                                            data-item-id="{{ $training->id }}">
-                                            <i class="px-2 fa fa-eye"></i>
-                                        </button>
-                                        <button class="btn item-edit" data-content='training'
-                                            data-item-id="{{ $training->id }}">
-                                            <i class="px-2 fa fa-edit"></i>
-                                        </button>
-                                        <button class="btn item-delete" data-content='training'
-                                            data-item-id="{{ $training->id }}">
-                                            <i class="px-2 fa fa-trash-alt"></i>
-                                        </button>
+                                            class=" p-2 font-weight-bolder  item-lang">{{ strtoupper($training->language_iso) }}
+                                        </span>
                                     </div>
                                 </a>
                             @endforeach
@@ -512,50 +495,6 @@
         <div id="div_right" class="handler_horizontal  text-center  font-size-h3 text-white mb-4">
             <i class="fas fa-grip-lines"></i>
         </div>
-        {{-- <div class="second-table mx-4">
-            <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column"
-                id="show-toolkit">
-                <div class="w-100 p-2">
-                    <div class="input-container">
-                        <span id='member-count' class="pl-2 pr-4"></span>
-                        <span class="bg-white text-black p-2 rounded">
-                            <input class="input-field border-0 mw-100 search-filter" type="text" name="search-filter">
-                            <i class="fa fa-search icon p-2"></i>
-                        </span>
-                        <a href="#" class="toolkit-show-filter float-right">
-                            <i class="fas fa-sliders-h icon p-2  text-white"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="filter p-2 toolkit-filter">
-                    <div class="float-left">
-                        <div class="status-switch">
-                            <input type="radio" id="filter-state-on" name="status" value="on">
-                            <span>on&nbsp;</span>
-                            <input type="radio" id="filter-state-off" name="status" value="off">
-                            <span>off&nbsp;</span>
-                            <input type="radio" id="filter-state-all" name="status" value="all">
-                            <span>all&nbsp;</span>
-                        </div>
-
-                    </div>
-                    <div class="float-right">
-                        <span>
-                            <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
-                                <i class="fas"></i></button>
-                            <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
-                                <i class="fas"></i></button>
-                        </span>
-                        <button type="button" value=""
-                            class="rounded text-white filter-company-btn px-1 border-0">company
-                            +<i></i></button>&nbsp;
-                        <button type="button" value=""
-                            class="rounded text-white filter-function-btn px-1 border-0">function
-                            +<i></i></button>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
         <div id="div_D" class="window bottom">
 
             <div class="tab-content mx-4" id="nav-tabContent">
@@ -590,14 +529,12 @@
                                 <div class="custom-control custom-switch custom-control-lg mb-2 ml-0 ">
                                     <input type="checkbox" class="custom-control-input" id="session-status-icon"
                                         name="session-status-icon" checked="">
-                                    <label class="custom-control-label" for="cate-status-icon">Status</label>
+                                    <label class="custom-control-label" for="session-status-icon">Status</label>
                                 </div>
                             </div>
                             <div class="form-group clearfix">
                                 <button type="submit" class="btn btn-hero-primary float-right mx-1 submit-btn"
                                     id="session_save_button" data-form="session_form">SAVE</button>
-                                <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn"
-                                    id="session_cancel_button">CANCEL</button>
                                 <input type="hidden" name="cate-status">
                             </div>
                         </div>
@@ -605,12 +542,6 @@
                 </form>
             </div>
         </div>
-        {{-- <div id="category-form-tags" class="second-table mx-4">
-                <div class="list-group" id="table-user" role="tablist" data-src=''>
-
-                </div>
-
-            </div> --}}
     </fieldset>
 </div>
 <button type="button" id="notificator" class="js-notify btn btn-secondary push" data-message="Your message!<br>"

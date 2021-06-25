@@ -48,4 +48,53 @@ class TrainingsModel extends Model
             ->first();
         return $result;
     }
+
+    public function scopeGetContentData($query, $content_data)
+    {
+        $groupData = array();
+        $studentData = array();
+        $teacherData = array();
+        if (isset($content_data)) {
+            $content = json_decode($content_data);
+            dd($content);
+            $groupList = $content["s"];
+            $studentList = $content["t"];
+            $teacherList = $content["g"];
+            exit;
+            if (count($groupList) != 0) {
+                foreach ($groupList as $groupValue) {
+                    $groupSubData = array();
+                    $groupSubList = $groupValue['item'];
+                    if (count($groupSubList) != 0) {
+                        foreach ($groupSubList as $groupSubItemValue) {
+                            array_push($groupSubItem, User::find($groupSubItemValue));
+                        }
+                    }
+                    array_push($groupData, array("value" => $query->find($groupValue['value']), "items"=>$groupSubData));
+                }
+            }
+            if (count($studentList) != 0) {
+                foreach ($groupList as $studentValue) {
+                    array_push($studentData, User::find($studentValue));
+                }
+            }
+            if (count($teacherList) != 0) {
+                foreach ($groupList as $teacherValue) {
+                    array_push($teacherData, User::find($teacherValue));
+                }
+            }
+        }
+        return json_encode(array('group' => $groupData, 'student' => $studentData, 'teacher' => $teacherData));
+    }
+
+    public function scopeSetContentData($query, $data)
+    {
+        // $data = array("s" => array(), "t" => array(array("value"=>234, "item"=>array(123,24)), array("value"=>234, "item"=>array(123,24))));
+        $ItemList = json_decode($data);
+        $groupList = $ItemList['group'];
+        $studentList = $ItemList['student'];
+        $teacherList = $ItemList['teacher'];
+        $result = json_encode(array("s" => $studentList, "t" => array(array("value"=>234, "item"=>array(123,24)), array("value"=>234, "item"=>array(123,24)))));
+        return $result;
+    }
 }

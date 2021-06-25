@@ -59,10 +59,12 @@ class SessionController extends Controller
     public function show($id)
     {
         $session = SessionModel::find($id);
-        // print_r($session);
-        return response()->json($session);
+        $participant=SessionModel::getParticipantDataFromSession($session->participants);
+        $content=SessionModel::getContentDataFromSession($session->contents);
+        // dd(array('contents'=>$content, 'participants'=>$participant, "session_info"=>$session->toArray()));
+        // dd(User::getUserFromGroup(2));
+        return response()->json(['contents'=>$content, 'participants'=>$participant, "session_info"=>$session->toArray()]);
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -79,6 +81,13 @@ class SessionController extends Controller
         if($request->post("description")!=NULL){
         $session->description=$request->post('description');
         }
+        if($request->post("session_name")!=NULL){
+        $session->name=$request->post('session_name');
+        }
+        if($request->post("session_description")!=NULL){
+        $session->description=$request->post('session_description');
+        }
+        
         $session->update();
         return response()->json($session);
     }
