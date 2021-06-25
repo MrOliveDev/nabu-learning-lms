@@ -25,7 +25,7 @@
     - SELECT * FROM `tb_awesome_hexa`
     -
     ----------------------------------------------------------------------- */
-    if ( ! session()->exists('user_id') )
+    if ( !$_SESSION['user_id'] )
     {
         $return['state']    = 'error';
         $return['date']     = date( 'm.d.y H:i:s' );

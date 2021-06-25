@@ -1,4 +1,5 @@
 <?php
+    session_start();
     /* ----------------------------------------------------------------------
     - INITIALISATION DES VARIABLES
     -  @Input $productId;
@@ -12,6 +13,7 @@
     $return = array();
         $return['state']        = 'success';
         $return['productId']    = $productId;
+        $return['courseId']     = $courseId;
         $return['userId']       = $userId;
         $return['date']         = date( 'm.d.y H:i:s' );
         $return['msg']          = 'OK';
@@ -42,7 +44,7 @@
     -
     -
     ----------------------------------------------------------------------- */
-    if ( ! session()->exists('user_id') )
+    if ( !$_SESSION['user_id'] )
     {
         $return['state']    = 'error';
         $return['date']     = date( 'm.d.y H:i:s' );
@@ -67,25 +69,46 @@
         /**
          * GET historic datas from DATABASE
          */
-
-        $curso_sql = 'select * from tb_lesson where idFabrica = "'.$productId.'"';
-        $curso_result = $openModel->getDatas( $curso_sql );
-        $cursoId = $curso_result[0]['id'];
-        $return['cursoId']       = $cursoId;
-
-        $sql         = "SELECT `id_screen_optim`, `id_fabrique_screen_optim`, `id_curso_screen_optim`, `id_user_screen_optim`, `progress_details_screen_optim` ";
-        $sql        .= "FROM `tb_screen_optim` ";
-        $sql        .= "WHERE `id_fabrique_screen_optim` = '".$productId."' AND `id_curso_screen_optim` = ".$cursoId." AND `id_user_screen_optim` = ".$userId;
-        $sql        .= " ORDER BY `id_screen_optim` DESC";
+        $sql         = "SELECT `screen_stats`.`id_screen`, `screen_stats`.`status`, CONCAT( `screen_stats`.`reg_date`, ' ', `screen_stats`.`h_end` ) AS `date_screen` ";
+        $sql        .= "FROM `screen_stats` INNER JOIN `tb_lesson` ON `tb_lesson`.`idFabrica` = `screen_stats`.`idFabrica` ";
+        $sql        .= "WHERE `screen_stats`.`user_id` = " . intval( $userId ) . " AND `tb_lesson`.`idFabrica` = '" . $productId . "' ";
+        $sql        .= "ORDER BY `date_screen` DESC";
 
         $results    = $openModel->getDatas( $sql );
 
-        if(count($results) == 0)
+        $return['datas']['stateItems']  = array();
+
+        if ( count( $results ) == 0 )
         {
-            $return['details'] = array();
-        }
+            $return['state']    = 'success';
+            $return['msg']      = 'Pas d\'historique';
+        } // eo if
         else
-            $return['details']  = $results[0]['progress_details_screen_optim'];
+        {
+            // Read datas
+            $items                          = array();
+            $countRow                       = 0;
+
+            foreach( $results as $row )
+            {
+                // Check for lastitem
+                if ( $countRow == 0 )
+                {
+                    $return['datas']['lastItem']    = $row['id_screen'];
+                } // eo if
+
+                // Verify if item is already read
+                if ( in_array( intval( $row['id_screen'] ), $items ) )
+                {
+                    continue;
+                } // eo if
+
+                $return['datas']['stateItems'][$row['id_screen']]   = $row['status']; // Vue partiellement
+                $items[]                                            = intval( $row['id_screen'] );
+
+                $countRow++;
+            } // eo foreach
+        } // eo else
 
     } // eo else
 

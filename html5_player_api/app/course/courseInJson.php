@@ -2,7 +2,7 @@
 
 require_once('inc/contentsCourse.class.php');
 require_once('inc/courseProcessor.fnc.php');
-require_once(__DIR__.'/../../config/config.sample.php');
+require_once(__DIR__.'/../../config/config.php');
 /* ----------------------------------------------------------------------
     - INITIALISATION DES VARIABLES
     -  @Input $productId;
@@ -183,7 +183,6 @@ if (!file_exists($jsonUrl) || $refresh == true) {
         $return['datas']['globalbackground'] = $urlDefault . $productId . '/content/' . (string)$xml->attributes()->globalbackground;
     $return['datas']['courses'] = $fullDatas;
 
-    include(dirname(__FILE__) . '/../../config/config.php');
     include(dirname(__FILE__) . '/../../dbModel.php');
 
     class openModel extends dbModel

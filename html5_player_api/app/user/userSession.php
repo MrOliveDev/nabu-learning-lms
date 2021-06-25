@@ -48,7 +48,7 @@
 
     $openModel  = new openModel;
 
-    if ( ! session()->exists('user_id') )
+    if ( !$_SESSION['user_id'] )
     {
         $return['state']    = 'error';
         $return['date']     = date( 'm.d.y H:i:s' );
@@ -85,7 +85,7 @@
             if ( ! isset( $_GET['ID_session'] ) )
             {
                 $ID_session = aleatorio();
-                $sql        = "INSERT INTO tb_session (id, session, idFabrica, user_id) VALUES (NULL, '$ID_session', '" . $productId . "', '$userId' )";
+                $sql        = "INSERT INTO tb_user_session (id, session, idFabrica, user_id) VALUES (NULL, '$ID_session', '" . $productId . "', '$userId' )";
 
                 $openModel->getDatas( $sql );
             } // eo if

@@ -23,7 +23,7 @@
     -
     ----------------------------------------------------------------------- */
 
-    if ( ! session()->exists('user_id') )
+    if ( !$_SESSION['user_id'] )
     {
         $return['state']    = 'error';
         $return['date']     = date( 'm.d.y H:i:s' );
@@ -88,36 +88,36 @@
             $where  = " AND c.status = 7 ";
         } // eo if
 
-        $sql        = "SELECT c.idFabrica FROM tb_lesson c LEFT JOIN tb_manage_formations_courses mfc ON mfc.id_course = c.id WHERE mfc.id_formation = '$formationId' $where ORDER BY mfc.order";
-        $results    = $openModel->getDatas( $sql );
+        // $sql        = "SELECT c.idFabrica FROM tb_lesson c LEFT JOIN tb_manage_formations_courses mfc ON mfc.id_course = c.id WHERE mfc.id_formation = '$formationId' $where ORDER BY mfc.order";
+        // $results    = $openModel->getDatas( $sql );
 
-        foreach( $results as $row )
-        {
-            if ( $next )
-            {
-                // We are ahead from curretn course
-                if ( count( $nextlessons ) == 0 )
-                {
-                    // Here is the next course
-                    $nextlesson = $row['idFabrica'];
-                } // eo if
+        // foreach( $results as $row )
+        // {
+        //     if ( $next )
+        //     {
+        //         // We are ahead from curretn course
+        //         if ( count( $nextlessons ) == 0 )
+        //         {
+        //             // Here is the next course
+        //             $nextlesson = $row['idFabrica'];
+        //         } // eo if
 
-                // Populate nextLessons
-                $nextlessons[]  = $row['idFabrica'];
-            } // eo if
+        //         // Populate nextLessons
+        //         $nextlessons[]  = $row['idFabrica'];
+        //     } // eo if
 
-            if ( $row['idFabrica'] == $productId )
-            {
-                // We are on the current course
-                $next  = true;
-            } // eo if
+        //     if ( $row['idFabrica'] == $productId )
+        //     {
+        //         // We are on the current course
+        //         $next  = true;
+        //     } // eo if
 
-            // Populate allLessons
-            $alllessons[]   = $row['idFabrica'];
-        } // eo foreach
+        //     // Populate allLessons
+        //     $alllessons[]   = $row['idFabrica'];
+        // } // eo foreach
 
 
-        if ( ! session()->exists('user_id') )
+        if ( !$_SESSION['user_id'] )
         {
             $return['state']    = 'error';
             $return['date']     = date( 'm.d.y H:i:s' );
