@@ -196,12 +196,6 @@
                                 <div class="btn-group float-right">
                                     <span
                                         class=" p-2 font-weight-bolder item-lang">{{ strtoupper($session->language_iso) }}</span>
-                                    <button class="btn  item-show" data-content='session'>
-                                        <i class="px-2 fa fa-eye"></i>
-                                    </button>
-                                    <button class="btn item-edit" data-content='session'>
-                                        <i class="px-2 fa fa-edit"></i>
-                                    </button>
                                     <button class="btn item-delete" data-content='session'>
                                         <i class="px-2 fa fa-trash-alt"></i>
                                     </button>
@@ -291,14 +285,17 @@
         <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4"
             id="cate-toolkit">
             <div class="w-100 p-2">
-                <div class="input-container">
-                    <a href="#" class="toolkit-show-filter float-right">
-                        <i class="fas fa-sliders-h icon p-2  text-white"></i>
+                <div class="input-container float-right">
+                    <a href="#" class="toolkit-add-item">
+                        <i class="fa fa-plus icon p-2 text-white"></i>
                     </a>
-                    <span class="bg-white text-black p-2 rounded float-right">
+                    <span class="bg-white text-black p-2 rounded">
                         <input class="input-field border-0 mw-100 search-filter" type="text" name="search-filter">
                         <i class="fa fa-search icon p-2"></i>
                     </span>
+                    <a href="#" class="toolkit-show-filter float-right">
+                        <i class="fas fa-sliders-h icon p-2  text-white"></i>
+                    </a>
                 </div>
             </div>
             <div class="filter p-2 toolkit-filter">
@@ -353,9 +350,6 @@
                                             class="item-name">{{ $student->first_name }}&nbsp;{{ $student->last_name }}</span>
                                         <input type="hidden" name="item-name"
                                             value="{{ $student->first_name }}{{ $student->last_name }}">
-                                        <input type="hidden" name="item-group" value="{{ $student->linked_groups }}">
-                                        <input type="hidden" name="item-company" value="{{ $student->company }}">
-                                        <input type="hidden" name="item-function" value="{{ $student->function }}">
                                     </div>
                                     <div class="btn-group float-right">
                                         <span

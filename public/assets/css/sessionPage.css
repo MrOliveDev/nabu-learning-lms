@@ -21,12 +21,13 @@
 #companies,
 #positions,
 #groups,
-#content-group {
+#content-group,
+#div_B .d-flex>.list-group-item {
     display: none;
 }
 
 #students .list-group-item,
-#table-participant .list-group-item,
+#table-participant .list-group-item[data-type='4'],
 #table-participant-tab {
     background-color: var(--student-c);
 }
@@ -40,21 +41,25 @@
     background-color: var(--student-h);
 }
 
-#groups .list-group-item {
+#groups .list-group-item,
+#table-participant .list-group-item[data-type='group'] {
     background-color: var(--group-c);
 }
 
 #groups .list-group-item.active,
-#groups .list-group-item:hover {
+#groups .list-group-item:hover,
+#table-participant .list-group-item[data-type='group']:hover {
     background-color: var(--group-h);
 }
 
-#teachers .list-group-item {
+#teachers .list-group-item,
+#table-participant .list-group-item[data-type='3'] {
     background-color: var(--teacher-c);
 }
 
 #teachers .list-group-item.active,
-#teachers .list-group-item:hover {
+#teachers .list-group-item:hover,
+#table-participant .list-group-item[data-type='3']:hover {
     background-color: var(--teacher-h) !important;
 }
 
@@ -116,7 +121,7 @@
 }
 
 #trainings .list-group-item,
-#table-content,
+#table-content .list-group-item,
 #table-content-tab {
     background-color: var(--training-c);
 }

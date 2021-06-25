@@ -172,7 +172,7 @@ var sessionItemClick = function(e) {
     var parent = $(this).parents('.list-group-item');
 
     $('#session_form .method-select').val('PUT');
-    $("#session_form").attr('action', baseURL + '/session/' + id);
+    $("#session_form").attr('action', baseURL + '/session/' + $(this).attr('id').split('_')[1]);
     var parent = $(this);
     var id = parent.attr('id').split('_')[1];
     $.get({
@@ -182,20 +182,26 @@ var sessionItemClick = function(e) {
             console.log(state);
             //TODO:show function;
             if (data.contents) {
-                JSON.parse(data.contents).map(function(content_item) {
-                    $('#table-participant .list-group').append(createContentItem(content_item));
+                data.contents.map(function(content_item) {
+                    $('#table-content .list-group').append(createContentItem(content_item));
                 });
             }
 
             if (data.participants) {
-                JSON.parse(data.participants).map(function(participant_item) {
-                    $('#table-content .list-group').append(createParticipantItem(participant_item));
+                data.participants.group.map(function(participant_item) {
+                    $('#table-participant .list-group').append(createGroupItem(participant_item));
+                });
+                data.participants.student.map(function(participant_item) {
+                    $('#table-participant .list-group').append(createUserItem(participant_item));
+                });
+                data.participants.teacher.map(function(participant_item) {
+                    $('#table-participant .list-group').append(createUserItem(participant_item));
                 });
             }
 
             $('#session-status-icon').prop('checked', data.session_info.status == 1).change();
-            $('#session-name').val(data.session_info.name);
-            $('#session-description').val(data.session_info.description);
+            $('#session_name').val(data.session_info.name);
+            $('#session_description').val(data.session_info.description);
         },
         error: function(err) {
             notification("Sorry, You can't get session data!", 2);
@@ -203,25 +209,112 @@ var sessionItemClick = function(e) {
     });
 };
 
-var createParticipantItem = function(data) {
-    var element;
+var createUserItem = function(data) {
+        var status_temp = data.status == '1' ?
+        '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
+        '<input type="hidden" name="item-status" class="status-notification" value="1">' :
+        '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
+        '<input type="hidden" name="item-status" class="status-notification" value="0">';
+    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x '+ (data.type == 4? "student_"+data.id:"teacher_"+data.id)+' data-date="2021-05-25 08:50:54" data-type = "'+data.type+'">' +
+        '<div class="float-left">' +
+        status_temp +
+        '<span class="item-name">'+data.first_name+'&nbsp;'+data.last_name+'</span>' +
+        '<input type="hidden" name="item-name" value="'+data.first_name+data.last_name+'">' +
+        '</div>' +
+        '<div class="btn-group float-right">' +
+//         '<span class=" p-2 font-weight-bolder item-lang">'+ data.lang+
+//         '</span>' +
+        '</div>' +
+        '</a>');
+        unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
+        element.find('.btn-group').append(unlinkbtn);
+    return $(element);
+};
+
+var createGroupItem = function(data) {
+    var status_temp = data.value.status == '1' ?
+        '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
+        '<input type="hidden" name="item-status" class="status-notification" value="1">' :
+        '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
+        '<input type="hidden" name="item-status" class="status-notification" value="0">';
+    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x group_'+data.value.id+'" data-date="'+data.value.creation_date+'" data-type="group">' +
+        '<div class="float-left">' +
+        status_temp +
+        '<span class="item-name">'+data.value.name+'</span>' +
+        '<input type="hidden" name="item-name" value="'+data.value.name+'">' +
+        '</div>' +
+        '<div class="btn-group float-right">' +
+        '</div>' +
+        '</a>'+
+        '<div class="group_'+data.value.id+' d-flex flex-column pl-4"></div>');
+        unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
+        openbtn = $('<button class="btn"><i class="px-2 fas fa-angle-down"></i></button>').on('click', function(e){
+            $(this).parents('.list-group-item').next('div.d-flex').find('.list-group-item').fadeToggle();
+        });
+        var refreshbtn = $('<button class="btn"><i class="px-2 fa fa-sync-alt"></i></button>').on('click', refreshGroupBtn);
+        
+        element.find('.btn-group').append(refreshbtn);
+        element.find('.btn-group').append(unlinkbtn);
+        element.find('.btn-group').append(openbtn);
+        data.items.map(function(userItem){
+            var userElem = createUserItem(userItem);
+            $(element[1]).append(userElem);
+        })
     return element;
 };
 
 var createContentItem = function(data) {
-    var element;
+        var status_temp = data.status == '1' ?
+        '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
+        '<input type="hidden" name="item-status" class="status-notification" value="1">' :
+        '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
+        '<input type="hidden" name="item-status" class="status-notification" value="0">';
+    var element =$('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_22" id="training_22" data-date="2021-06-19 05:30:44" data-lesson="[{&quot;item&quot;:218}]" draggable="true">' +
+    '<div class="float-left">' +
+    status_temp +
+    '<span class="item-name">new Training</span>' +
+    '<input type="hidden" name="item-name" value="new Training">' +
+    '</div>' +
+    '<div class="btn-group float-right">' +
+//     '<span class=" p-2 font-weight-bolder  item-lang">' +
+//     '</span>' +
+    '</div>' +
+    '</a>');
+            unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
+        element.find('.btn-group').append(unlinkbtn);
     return element;
-};
-
+}
 var createSessionData = function(data) {
-    var element;
+            var status_temp = data.status == '1' ?
+        '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
+        '<input type="hidden" name="item-status" class="status-notification" value="1">' :
+        '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
+        '<input type="hidden" name="item-status" class="status-notification" value="0">';
+    var element =     $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x session_3821" id="session_3821" data-date="" draggable="false">' +
+    '<div class="float-left">' +
+    status_temp +
+    '<span class="item-name">'+data.name+'</span>' +
+    '<input type="hidden" name="item-name" value="'+data.name+'">' +
+    '</div>' +
+    '<div class="btn-group float-right">' +
+    '<span class=" p-2 font-weight-bolder item-lang">'+data.language_iso+'</span>' +
+    '<button class="btn item-delete" data-content="session">' +
+    '<i class="px-2 fa fa-trash-alt"></i>' +
+    '</button>' +
+    '</div>' +
+    '</a>');
     return element;
-};
+}
+
 
 var updateSessionData = function(data, target) {
     $('#' + target + " .item-lang").html(data.language_iso);
     $('#' + target + " input[name='item-name'").val(data.name);
     $('#' + target + " .item-name").html(data.name);
+}
+
+var refreshGroupBtn =function(e){
+//     ajax
 }
 
 var formInputChange = function(event) {
@@ -1228,11 +1321,15 @@ function functionDropEnd(event, item) {
 var participateClick = function(e) {
     $('#paticipant-group').toggle(true);
     $('#content-group').toggle(false);
+    $('#RightPanel>ul').toggle(true);
+    goTab('students');
 }
 
 var contentClick = function(e) {
     $('#paticipant-group').toggle(false);
     $('#content-group').toggle(true);
+$('#RightPanel>ul').toggle(false);
+$('#cate-toolkit>div').css('background', "var(--training-c)");
 }
 
 
