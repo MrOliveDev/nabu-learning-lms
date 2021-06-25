@@ -1,7 +1,7 @@
 var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document.body.clientHeight));
 
-var baseURL = window.location.protocol + "//" + window.location.host;
-// var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
+// var baseURL = window.location.protocol + "//" + window.location.host;
+var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
 var filteritem = null;
 var grouptab = null,
     detailtags = null;
@@ -488,29 +488,6 @@ var detachLinkTo = function(e) {
 
     detachCall(cate, {
         id: showeditem.split('_')[1],
-        target: result,
-        flag: false
-    }, $(this));
-};
-
-var detachLinkFrom = function(e) {
-    var parent = $(this).parents('.list-group-item');
-    var divAitem = $("#div_A #" + parent.attr('id'));
-    var showeditem = parent.attr('data-src');
-    var id = $("#" + showeditem).attr('id').split('_')[1];
-    var cate = $("#" + showeditem).attr('id').split('_')[0];
-    var value = divAitem.find('input[name="item-' + cate + '"]').val();
-    if (cate == 'group') {
-        divAitem.find('input[name="item-' + cate + '"]').val(combine(value, id).join('_'));
-    } else {
-        divAitem.find('input[name="item-' + cate + '"]').val('');
-    }
-
-    var result = parent.find('input[name="item-' + cate + '"]').val();
-    var parent_id = parent.attr('id').split('_')[1];
-
-    detachCall(cate, {
-        id: parent_id,
         target: result,
         flag: false
     }, $(this));
