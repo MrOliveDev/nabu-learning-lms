@@ -52,4 +52,69 @@ class SessionModel extends Model
             ->get();
         return $result;
     }
+
+    public function scopeGetContentDataFromSession($query, $content_data)
+    {
+        $array = [];
+        if (isset($content_data) || $content_data != "{}") {
+            $content = json_decode($content_data);
+            if (count($content) != 0) {
+                foreach ($content as $contentItem) {
+                    if (isset($contentItem)) {
+                        $training = TrainingsModel::find($contentItem);
+                        $training = $training != NULL ? $training->toArray() : $training;
+                        array_push($array, $training);
+                    }
+                }
+            }
+        }
+        return $array;
+    }
+    public function scopeGetParticipantDataFromSession($query, $participant_data)
+    {
+        $groupData = array();
+        $studentData = array();
+        $teacherData = array();
+        if (isset($participant_data)) {
+            $content = json_decode($participant_data);
+            $groupList = $content->g;
+            $studentList = $content->s;
+            $teacherList = $content->t;
+            if (count($groupList) != 0) {
+                foreach ($groupList as $groupValue) {
+                    $groupSubData = array();
+                    $groupTopData = NULL;
+                    $groupSubList = $groupValue->item;
+                    if (count($groupSubList) != 0) {
+                        foreach ($groupSubList as $groupSubItemValue) {
+                            if (User::find($groupSubItemValue) != NULL) {
+                                array_push($groupSubData, User::find($groupSubItemValue)->toArray());
+                            }
+                        }
+                    }
+                    $groupTopData = GroupModel::find($groupValue->value);
+                    $groupTopData = $groupTopData != NULL ? $groupTopData->toArray() : NULL;
+                    array_push($groupData, array("value" => $groupTopData, "items" => $groupSubData));
+                }
+            }
+            if (count($studentList) != 0) {
+                foreach ($studentList as $studentValue) {
+                    // print_r($studentValue);
+                    $studentItem = User::find($studentValue);
+                    $studentItem = $studentItem != NULL ? $studentItem->toArray() : $studentItem;
+                    array_push($studentData, $studentItem);
+                }
+            }
+            if (count($teacherList) != 0) {
+                foreach ($teacherList as $teacherValue) {
+                    $teacherItem = User::find($teacherValue);
+                    $teacherItem = $teacherItem != NULL ? $teacherItem->toArray() : $teacherItem;
+                    array_push($teacherData, $teacherItem);
+                }
+            }
+        }
+        // var_dump(array('group' => $groupData, 'student' => $studentData, 'teacher' => $teacherData));
+        // exit;
+        return array('group' => $groupData, 'student' => $studentData, 'teacher' => $teacherData);
+    }
 }

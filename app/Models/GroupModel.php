@@ -15,5 +15,4 @@ class GroupModel extends Model
 
     protected $table = 'tb_groups';
     public $timestamps = false;
-
 }

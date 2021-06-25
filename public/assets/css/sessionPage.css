@@ -20,7 +20,8 @@
 #authors,
 #companies,
 #positions,
-#groups {
+#groups,
+#content-group {
     display: none;
 }
 
