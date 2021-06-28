@@ -1,7 +1,7 @@
 var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document.body.clientHeight));
 
-// var baseURL = window.location.protocol + "//" + window.location.host;
-var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
+var baseURL = window.location.protocol + "//" + window.location.host;
+// var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
 var filteritem = null;
 var grouptab = null,
     detailtags = null;
@@ -210,24 +210,24 @@ var sessionItemClick = function(e) {
 };
 
 var createUserItem = function(data) {
-        var status_temp = data.status == '1' ?
+    var status_temp = data.status == '1' ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x '+ (data.type == 4? "student_"+data.id:"teacher_"+data.id)+' data-date="2021-05-25 08:50:54" data-type = "'+data.type+'">' +
+    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x ' + (data.type == 4 ? "student_" + data.id : "teacher_" + data.id) + ' data-date="2021-05-25 08:50:54" data-type = "' + data.type + '">' +
         '<div class="float-left">' +
         status_temp +
-        '<span class="item-name">'+data.first_name+'&nbsp;'+data.last_name+'</span>' +
-        '<input type="hidden" name="item-name" value="'+data.first_name+data.last_name+'">' +
+        '<span class="item-name">' + data.first_name + '&nbsp;' + data.last_name + '</span>' +
+        '<input type="hidden" name="item-name" value="' + data.first_name + data.last_name + '">' +
         '</div>' +
         '<div class="btn-group float-right">' +
-//         '<span class=" p-2 font-weight-bolder item-lang">'+ data.lang+
-//         '</span>' +
+        //         '<span class=" p-2 font-weight-bolder item-lang">'+ data.lang+
+        //         '</span>' +
         '</div>' +
         '</a>');
-        unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
-        element.find('.btn-group').append(unlinkbtn);
+    unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
+    element.find('.btn-group').append(unlinkbtn);
     return $(element);
 };
 
@@ -237,72 +237,72 @@ var createGroupItem = function(data) {
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x group_'+data.value.id+'" data-date="'+data.value.creation_date+'" data-type="group">' +
+    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x group_' + data.value.id + '" data-date="' + data.value.creation_date + '" data-type="group">' +
         '<div class="float-left">' +
         status_temp +
-        '<span class="item-name">'+data.value.name+'</span>' +
-        '<input type="hidden" name="item-name" value="'+data.value.name+'">' +
+        '<span class="item-name">' + data.value.name + '</span>' +
+        '<input type="hidden" name="item-name" value="' + data.value.name + '">' +
         '</div>' +
         '<div class="btn-group float-right">' +
         '</div>' +
-        '</a>'+
-        '<div class="group_'+data.value.id+' d-flex flex-column pl-4"></div>');
-        unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
-        openbtn = $('<button class="btn"><i class="px-2 fas fa-angle-down"></i></button>').on('click', function(e){
-            $(this).parents('.list-group-item').next('div.d-flex').find('.list-group-item').fadeToggle();
-        });
-        var refreshbtn = $('<button class="btn"><i class="px-2 fa fa-sync-alt"></i></button>').on('click', refreshGroupBtn);
-        
-        element.find('.btn-group').append(refreshbtn);
-        element.find('.btn-group').append(unlinkbtn);
-        element.find('.btn-group').append(openbtn);
-        data.items.map(function(userItem){
-            var userElem = createUserItem(userItem);
-            $(element[1]).append(userElem);
-        })
+        '</a>' +
+        '<div class="group_' + data.value.id + ' d-flex flex-column pl-4"></div>');
+    unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
+    openbtn = $('<button class="btn"><i class="px-2 fas fa-angle-down"></i></button>').on('click', function(e) {
+        $(this).parents('.list-group-item').next('div.d-flex').find('.list-group-item').fadeToggle();
+    });
+    var refreshbtn = $('<button class="btn"><i class="px-2 fa fa-sync-alt"></i></button>').on('click', refreshGroupBtn);
+
+    element.find('.btn-group').append(refreshbtn);
+    element.find('.btn-group').append(unlinkbtn);
+    element.find('.btn-group').append(openbtn);
+    data.items.map(function(userItem) {
+        var userElem = createUserItem(userItem);
+        $(element[1]).append(userElem);
+    })
     return element;
 };
 
 var createContentItem = function(data) {
-        var status_temp = data.status == '1' ?
+    var status_temp = data.status == '1' ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var element =$('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_22" id="training_22" data-date="2021-06-19 05:30:44" data-lesson="[{&quot;item&quot;:218}]" draggable="true">' +
-    '<div class="float-left">' +
-    status_temp +
-    '<span class="item-name">new Training</span>' +
-    '<input type="hidden" name="item-name" value="new Training">' +
-    '</div>' +
-    '<div class="btn-group float-right">' +
-//     '<span class=" p-2 font-weight-bolder  item-lang">' +
-//     '</span>' +
-    '</div>' +
-    '</a>');
-            unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
-        element.find('.btn-group').append(unlinkbtn);
+    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_22" id="training_22" data-date="2021-06-19 05:30:44" data-lesson="[{&quot;item&quot;:218}]" draggable="true">' +
+        '<div class="float-left">' +
+        status_temp +
+        '<span class="item-name">new Training</span>' +
+        '<input type="hidden" name="item-name" value="new Training">' +
+        '</div>' +
+        '<div class="btn-group float-right">' +
+        //     '<span class=" p-2 font-weight-bolder  item-lang">' +
+        //     '</span>' +
+        '</div>' +
+        '</a>');
+    unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
+    element.find('.btn-group').append(unlinkbtn);
     return element;
 }
 var createSessionData = function(data) {
-            var status_temp = data.status == '1' ?
+    var status_temp = data.status == '1' ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var element =     $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x session_3821" id="session_3821" data-date="" draggable="false">' +
-    '<div class="float-left">' +
-    status_temp +
-    '<span class="item-name">'+data.name+'</span>' +
-    '<input type="hidden" name="item-name" value="'+data.name+'">' +
-    '</div>' +
-    '<div class="btn-group float-right">' +
-    '<span class=" p-2 font-weight-bolder item-lang">'+data.language_iso+'</span>' +
-    '<button class="btn item-delete" data-content="session">' +
-    '<i class="px-2 fa fa-trash-alt"></i>' +
-    '</button>' +
-    '</div>' +
-    '</a>');
+    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x session_3821" id="session_3821" data-date="" draggable="false">' +
+        '<div class="float-left">' +
+        status_temp +
+        '<span class="item-name">' + data.name + '</span>' +
+        '<input type="hidden" name="item-name" value="' + data.name + '">' +
+        '</div>' +
+        '<div class="btn-group float-right">' +
+        '<span class=" p-2 font-weight-bolder item-lang">' + data.language_iso + '</span>' +
+        '<button class="btn item-delete" data-content="session">' +
+        '<i class="px-2 fa fa-trash-alt"></i>' +
+        '</button>' +
+        '</div>' +
+        '</a>');
     return element;
 }
 
@@ -313,8 +313,8 @@ var updateSessionData = function(data, target) {
     $('#' + target + " .item-name").html(data.name);
 }
 
-var refreshGroupBtn =function(e){
-//     ajax
+var refreshGroupBtn = function(e) {
+    //     ajax
 }
 
 var formInputChange = function(event) {
@@ -323,6 +323,13 @@ var formInputChange = function(event) {
 
 var formStatusChange = function(e) {
     $(this).val($(this).prop('checked'));
+};
+
+var submitFunction = function(event) {
+    console.log($(this).attr('action'));
+    console.log($("#cate-status").attr("checked"));
+
+    return false;
 };
 
 var submitBtn = function(event) {
@@ -336,72 +343,41 @@ var submitBtn = function(event) {
 
     var serialval = $('#' + formname).serializeArray().map(function(item) {
         var arr = {};
-        if (item.name == 'user-status-icon') {
-            item.value = $('#user-status-icon').prop('checked') == true ? 1 : 0;
-        } else if (item.name == 'cate-status-icon') {
-            item.value = $('#cate-status-icon').prop("checked") == true ? 1 : 0;
-        } else if (item.name == 'generatepassword') {
-            item.value = $('#generatepassword').prop("checked") == true ? 1 : 0;
+        if (item.name == 'session-status-icon') {
+            item.value = $('#session-status-icon').prop('checked') == true ? 1 : 0;
         }
         return item;
     });
     if (!serialval.filter(function(em, t, arr) {
-            return em.name == 'user-status-icon' || em.name == 'cate-status-icon';
+            return em.name == 'session-status-icon';
         }).length) {
-        if (formname == 'user_form') {
-            serialval.push({
-                name: 'user-status-icon',
-                value: $('#user-status-icon').prop('checked') == true ? 1 : 0
-            });
-            serialval.push({
-                name: 'generatepassword',
-                value: $('#generatepassword').prop('checked') == true ? 1 : 0
-            });
-        } else if (formname == 'cate_form') {
-            serialval.push({
-                name: 'cate-status-icon',
-                value: $('#cate-status-icon').prop('checked') == true ? 1 : 0
-            });
-        }
+
     }
-    if (!$("#" + formname).find('input[type=checkbox]').prop('checked')) {
-        if (formname == 'user_form') {
-            serialval.push({
-                name: 'user-status-icon',
-                value: 0
-            });
-            if ($('#generatepassword').prop('checked') == false) {
-                serialval.push({
-                    name: 'generatepassword',
-                    value: 0
-                });
-            }
-        } else if (formname == 'cate_form') {
-            serialval.push({
-                name: 'cate-status-icon',
-                value: 0
-            });
-        }
+    if (!$("#session_form").find('input[type=checkbox]').prop('checked')) {
+        serialval.push({
+            name: 'session-status-icon',
+            value: 0
+        });
     }
     console.log(serialval);
-    $.ajax({
-        url: $('#' + formname).attr('action'),
-        method: $('#' + formname).find('.method-select').val(),
-        data: serialval,
-        success: function(data) {
-            console.log(data);
-            if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
-                notification('A session has been registered sucessfully!', 1);
-                $('#session .list-group').append(createSessionData(data));
-            } else {
-                var target = $("#" + formname).attr('data-item');
-                updateSessionData(data, target);
-            }
-        },
-        error: function(err) {
-            notification("Sorry, You have an error!", 2);
-        }
-    });
+    //     $.ajax({
+    //         url: $('#' + formname).attr('action'),
+    //         method: $('#' + formname).find('.method-select').val(),
+    //         data: serialval,
+    //         success: function(data) {
+    //             console.log(data);
+    // //             if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
+    // //                 notification('A session has been registered sucessfully!', 1);
+    // //                 $('#session .list-group').append(createSessionData(data));
+    // //             } else {
+    // //                 var target = $("#" + formname).attr('data-item');
+    // //                 updateSessionData(data, target);
+    // //             }
+    //         },
+    //         error: function(err) {
+    //             notification("Sorry, You have an error!", 2);
+    //         }
+    //     });
 
     if ($("#" + formname).attr('data-item') != '' && $("#" + formname).attr('data-item') != null) {
         var targetName = $("#" + formname).attr('data-item').split('_')[0],
@@ -1178,64 +1154,101 @@ function dragEnd(event) {
 
 function dropEnd(event, item) {
     $(event.target).css('opacity', '100%');
-    $('main').css('cursor', 'default');
-    var parent = $(event.target);
-    var showCate = null,
-        showItem = null;
-    if (parent.hasClass('highlight')) {
-        showCate = parent.attr('id');
-    }
+    var parent= $(event.target);
 
     var requestData = Array();
 
-    var cate_id = $(event.target).attr("id").split('_')[1];
-    var cate = $(event.target).attr("id").split('_')[0];
-    var rowData = Array();
+    var id = $(event.target).attr("id").split('_')[1];
+    var participantData = $(this).attr('data-participant');
+    var participant = participantData?JSON.parse(participantData):{"s":[], "t":[], "g":{value:''}};
+    var contentData = $(this).attr('data-content');
+    var content = contentData?JSON.parse(contentData):[];
+    
+    var rowData;
     if (dragitem != null) {
-        // var category = dragitem[0].split('_')[0];
+        var droppeditem_cate = dragitem[0].split('_')[0];
+        var cate;
         dragitem.map(function(droppeditem) {
-
-            // console.log(droppeditem.split('_')[1]);
-            if (cate == "group") {
-                var cate_items = $("#" + droppeditem).find('input[name="item-group"]').val();
-                if (cate_items.indexOf(cate_id) == -1) {
-                    cate_items += "_" + cate_id;
-                }
-                $("#" + droppeditem).find('input[name="item-group"]').val(cate_items);
-            } else {
-                var cate_item = $("#" + droppeditem).find('input[name="item-' + cate + '"]').val();
-                if (cate_item != cate_id) {
-                    $("#" + droppeditem).find('input[name="item-' + cate + '"]').val(cate_id);
-                    // console.log($("#" + item).find('input[name="item-' + cate + '"]').val());
-                }
-            }
-            rowData = {};
-            rowData.id = droppeditem.split('_')[1];
-            rowData.target = $("#" + droppeditem).find('input[name="item-' + cate + '"]').val();
-            rowData.flag = true;
-
-            requestData.push(rowData);
-            if ($('#' + droppeditem).hasClass('highlight')) {
-                showItem = droppeditem;
+            var droppeditem_id = droppeditem.split('_')[1];
+            switch(droppeditem_cate){
+                case "group":
+                    var groupData = participant.g;
+                    if(groupData.length != 0){
+                        var repeat = groupData.filter(function(groupitem){
+                            return groupitem.value == droppeditem_id;
+                        })
+                        if(!repeat){
+                            groupData.push({value:droppeditem_id});
+                            //TODO:Here we have to add real group datas.
+                        }
+                    } else {
+                       groupData.push({value:droppeditem_id});
+                    }
+                    participant.g = groupData;
+                    $(this).attr('data-participant', JSON.stringify(participant));
+                    cate = 'participant';
+                break;
+                case "student":
+                    var studentData = participant.s;
+                    if(studentData.length!=0){
+                        var repeat = studentData.filter(function(studentItem){
+                            return studentItem == droppeditem_id;
+                        })
+                        if(!repeat){
+                            studentData.push(droppeditem_id);
+                        }
+                    } else {
+                        studentData.push(droppeditem_id);
+                    }
+                    participant.s = studentData;
+                    $(this).attr('data-participant', JSON.stringify(participant));
+                    cate = 'participant';
+                break;
+                case "teacher":
+                    var teacherData = participant.t;
+                    if(teacherData.length!=0){
+                       var repeat = teacherData.filter(function(teacherItem){
+                           return teacherItem == droppeditem_id;
+                       })
+                       if(!repeat){
+                           teacherData.push(droppeditem_id);
+                       }
+                       participant.t = teacherData;
+                       $(this).attr('data-participant', JSON.stringify(participant));
+                    }
+                    cate = 'participant';
+                break;
+                case "training":
+                    if(content.length!=0){
+                       var repeat = content.filter(function(contentItem){
+                           return contentItem == droppeditem_id;
+                       })
+                       if(!repeat){
+                           content.push(droppeditem_id);
+                       }
+                    } else {
+                        content.push(droppeditem_id);
+                    }
+                    $(this).attr('data-content', JSON.parse(content));
+                    cate = 'content';
+                break;
+                default:
+                break;
             }
         });
 
         $.post({
-            url: baseURL + '/userjointo' + cate,
+            url: baseURL + '/sessionjointo',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             data: {
-                'data': JSON.stringify(requestData)
+                'participant':participant,
+                'content':content,
+                'id':id,
+                'cate':cate
             }
         }).done(function(data) {
-
-            if (showCate) {
-                $('#div_C #' + showCate + " .item-show").click();
-            }
-            if (showItem) {
-                $('#div_A #' + showItem + " .item-show").click();
-            }
             if (dragitem[0]) {
                 notification(dragitem.length + ' ' + dragitem[0].split('_')[0] + 's linked to ' + $(event.target).find('.item-name').html() + '!', 1);
             }
@@ -1248,11 +1261,12 @@ function dropEnd(event, item) {
             dragitem = null;
         });
     }
-    $("#LeftPanel").find('.list-group-item').each(function() {
+    $("#RightPanel").find('.list-group-item').each(function() {
         if ($(this).hasClass('active')) {
             $(this).removeClass('active');
         }
     });
+    $(this).click();
 }
 
 function companyDropEnd(event, item) {
@@ -1305,8 +1319,9 @@ var participateClick = function(e) {
 var contentClick = function(e) {
     $('#paticipant-group').toggle(false);
     $('#content-group').toggle(true);
-$('#RightPanel>ul').toggle(false);
-$('#cate-toolkit>div').css('background', "var(--training-c)");
+    $('#RightPanel>ul').toggle(false);
+    $('#cate-toolkit>div').css('background', "var(--training-c)");
+    $('#cate-toolkit .status-switch').toggle(false);
 }
 
 
@@ -1348,7 +1363,7 @@ $('.toolkit-add-item').click(toolkitAddItem);
 $('form input, form select').change(formInputChange);
 $('#user-status-icon, #cate-status-icon').change(formStatusChange);
 $('.submit-btn').click(submitBtn);
-
+$('form').submit(submitFunction);
 $(".toolkit-show-filter").click(filterToggleShow);
 $('.filter-company-btn').click(filterCompanyBtn);
 $('.filter-function-btn').click(filterFunctionBtn);

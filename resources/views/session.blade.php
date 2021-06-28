@@ -181,7 +181,8 @@
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach ($sessions as $session)
                             <a class="list-group-item list-group-item-action p-0 border-transparent border-5x session_{{ $session->id }}"
-                                id="session_{{ $session->id }}" data-date="{{ $session->creation_date }}">
+                                id="session_{{ $session->id }}" data-date='{{ $session->create_date }}' data-participant='{{$session->participants}}'
+                                data-content="{{$session->contents}}">
                                 <div class="float-left">
                                     @if ($session->status == 1)
                                         <i class="fa fa-circle  m-2" style="color:green;"></i>
@@ -498,7 +499,7 @@
         <div id="div_D" class="window bottom">
 
             <div class="tab-content mx-4" id="nav-tabContent">
-                <form method="post" id="session_form" enctype="multipart/form-data" class="form" action="">
+                <form method="post" id="session_form" enctype="multipart/form-data" class="form" action="" onSubmit="false">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input name='_method' type='hidden' value='PUT' class='method-select' />
                     <div class="card bg-white text-black mx-2">
