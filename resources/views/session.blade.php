@@ -172,6 +172,10 @@
                     <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
                         <i class="fas fa-sort-numeric-down"></i>
                     </button>
+                    <button type="button" value="" class="rounded text-white filter-company-btn px-1 border-0" style="display:none;">company
+                        +<i></i></button>&nbsp;
+                    <button type="button" value="" class="rounded text-white filter-function-btn px-1 border-0" style="display:none;">function
+                        +<i></i></button>
                 </div>
             </div>
         </div>
@@ -181,7 +185,8 @@
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach ($sessions as $session)
                             <a class="list-group-item list-group-item-action p-0 border-transparent border-5x session_{{ $session->id }}"
-                                id="session_{{ $session->id }}" data-date="{{ $session->creation_date }}">
+                                id="session_{{ $session->id }}" data-date='{{ $session->create_date }}' data-participant='{{$session->participants}}'
+                                data-content="{{$session->contents}}">
                                 <div class="float-left">
                                     @if ($session->status == 1)
                                         <i class="fa fa-circle  m-2" style="color:green;"></i>
@@ -199,6 +204,7 @@
                                     <button class="btn item-delete" data-content='session'>
                                         <i class="px-2 fa fa-trash-alt"></i>
                                     </button>
+
                                 </div>
                             </a>
                         @endforeach
@@ -286,9 +292,9 @@
             id="cate-toolkit">
             <div class="w-100 p-2">
                 <div class="input-container float-right">
-                    <a href="#" class="toolkit-add-item">
+                    {{-- <a href="#" class="toolkit-add-item">
                         <i class="fa fa-plus icon p-2 text-white"></i>
-                    </a>
+                    </a> --}}
                     <span class="bg-white text-black p-2 rounded">
                         <input class="input-field border-0 mw-100 search-filter" type="text" name="search-filter">
                         <i class="fa fa-search icon p-2"></i>
@@ -350,6 +356,9 @@
                                             class="item-name">{{ $student->first_name }}&nbsp;{{ $student->last_name }}</span>
                                         <input type="hidden" name="item-name"
                                             value="{{ $student->first_name }}{{ $student->last_name }}">
+                                            <input type="hidden" name="item-group" value="{{ $student->linked_groups }}">
+                                            <input type="hidden" name="item-company" value="{{ $student->company }}">
+                                            <input type="hidden" name="item-function" value="{{ $student->function }}">
                                     </div>
                                     <div class="btn-group float-right">
                                         <span
@@ -498,7 +507,7 @@
         <div id="div_D" class="window bottom">
 
             <div class="tab-content mx-4" id="nav-tabContent">
-                <form method="post" id="session_form" enctype="multipart/form-data" class="form" action="">
+                <form method="post" id="session_form" enctype="multipart/form-data" class="form" action="" onSubmit="false">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input name='_method' type='hidden' value='PUT' class='method-select' />
                     <div class="card bg-white text-black mx-2">

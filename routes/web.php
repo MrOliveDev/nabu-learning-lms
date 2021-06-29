@@ -173,6 +173,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('lessonshow/{id}', '\App\Http\Controllers\LessonController@getTrainingFromLesson')->name('lessonshow');
 
     Route::get('session', '\App\Http\Controllers\SessionController@index')->name('session');
+    Route::post('sessionjointo', '\App\Http\Controllers\SessionController@sessionJoinTo')->name('sessionjointo');
 
     Route::get('report', '\App\Http\Controllers\ReportController@index')->name('report');
 

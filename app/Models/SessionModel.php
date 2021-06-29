@@ -31,12 +31,12 @@ class SessionModel extends Model
     public function scopeGetSessionPageInfoFromId($query, $id)
     {
         $result = $query->select(
-            'tb_users.*',
+            'tb_session.*',
             'tb_languages.language_iso as language_iso'
             // 'tb_position.name as position',
             // 'tb_companies.name as companies'
         )
-            ->leftjoin('tb_languages', 'session.language_iso', '=', 'tb_languages.language_id')
+            ->leftjoin('tb_languages', 'tb_session.language_iso', '=', 'tb_languages.language_id')
             ->where('tb_session.id', $id)
             ->first();
         return $result;
@@ -78,22 +78,30 @@ class SessionModel extends Model
         $studentData = array();
         $teacherData = array();
         if (isset($participant_data)) {
-            $content = json_decode($participant_data);
-            $groupList = $content->g;
-            $studentList = $content->s;
-            $teacherList = $content->t;
+            $participant = json_decode($participant_data);
+            $groupList = isset($participant->g)?$participant->g:array();
+            $studentList = isset($participant->s)?$participant->s:array();
+            $teacherList = isset($participant->t)?$participant->t:array();
             if (isset($groupList)) {
+                // var_dump($groupList);
+                // var_dump($studentList);
+                // var_dump($teacherList);
                 if (count($groupList) != 0) {
                     foreach ($groupList as $groupValue) {
                         $groupSubData = array();
                         $groupTopData = NULL;
-                        $groupSubList = $groupValue->item;
-                        if (count($groupSubList) != 0) {
-                            foreach ($groupSubList as $groupSubItemValue) {
-                                if (User::find($groupSubItemValue) != NULL) {
-                                    array_push($groupSubData, User::find($groupSubItemValue)->toArray());
+                        $groupSubList = [];
+                        if (isset($groupValue->item)) {
+                            $groupSubList = $groupValue->item;
+                            if (count($groupSubList) != 0) {
+                                foreach ($groupSubList as $groupSubItemValue) {
+                                    if (User::find($groupSubItemValue) != NULL) {
+                                        array_push($groupSubData, User::find($groupSubItemValue)->toArray());
+                                    }
                                 }
                             }
+                        } else {
+                            $groupSubData = User::getUserFromGroup($groupValue->value);
                         }
                         $groupTopData = GroupModel::find($groupValue->value);
                         $groupTopData = $groupTopData != NULL ? $groupTopData->toArray() : NULL;

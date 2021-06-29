@@ -126,7 +126,20 @@ class User extends Authenticatable
             $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT('%_', tb_groups.id)"));
         })
         ->where('tb_groups.id', '=', $id)->get();
-        print_r($result->toArray());
+        // print_r($result->toArray());
+        return $result;
+    }
+
+    public function scopeGetUserIDFromGroup($query, $id)
+    {
+        $result = $query->select("tb_users.id")
+        ->leftjoin('tb_groups', function ($join) {
+            $join->on('tb_users.linked_groups', 'like', DB::raw("CONCAT('%_', tb_groups.id, '_%')"));
+            $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT(tb_groups.id, '_%')"));
+            $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT('%_', tb_groups.id)"));
+        })
+        ->where('tb_groups.id', '=', $id)->get();
+        // print_r($result->toArray());
         return $result;
     }
 }

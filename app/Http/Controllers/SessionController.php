@@ -40,14 +40,23 @@ class SessionController extends Controller
     public function store(Request $request)
     {
         $session = new SessionModel();
-        if($request->post("name")!=NULL){
-        $session->name=$request->post('name');
+        if ($request->post("name") != NULL) {
+            $session->name = $request->post('name');
         }
-        if($request->post("description")!=NULL){
-        $session->description=$request->post('description');
+        if ($request->post("description") != NULL) {
+            $session->description = $request->post('description');
+        }
+        if ($request->post("session_name") != NULL) {
+            $session->name = $request->post('session_name');
+        }
+        if ($request->post("session_description") != NULL) {
+            $session->description = $request->post('session_description');
+        }
+        if ($request->post("session-status-icon") != NULL) {
+            $session->status = $request->post('session-status-icon');
         }
         $session->save();
-        return response()->json($session);
+        return response()->json(SessionModel::getSessionPageInfoFromId($session->id)->toArray());
     }
 
     /**
@@ -59,11 +68,11 @@ class SessionController extends Controller
     public function show($id)
     {
         $session = SessionModel::find($id);
-        $participant=SessionModel::getParticipantDataFromSession($session->participants);
-        $content=SessionModel::getContentDataFromSession($session->contents);
+        $participant = SessionModel::getParticipantDataFromSession($session->participants);
+        $content = SessionModel::getContentDataFromSession($session->contents);
         // dd(array('contents'=>$content, 'participants'=>$participant, "session_info"=>$session->toArray()));
-        // dd(User::getUserFromGroup(2));
-        return response()->json(['contents'=>$content, 'participants'=>$participant, "session_info"=>$session->toArray()]);
+        // dd(User::getUserIDFromGroup(2));
+        return response()->json(['contents' => $content, 'participants' => $participant, "session_info" => $session->toArray()]);
     }
     /**
      * Update the specified resource in storage.
@@ -75,21 +84,23 @@ class SessionController extends Controller
     public function update(Request $request, $id)
     {
         $session = SessionModel::find($id);
-        if($request->post("name")!=NULL){
-        $session->name=$request->post('name');
+        if ($request->post("name") != NULL) {
+            $session->name = $request->post('name');
         }
-        if($request->post("description")!=NULL){
-        $session->description=$request->post('description');
+        if ($request->post("description") != NULL) {
+            $session->description = $request->post('description');
         }
-        if($request->post("session_name")!=NULL){
-        $session->name=$request->post('session_name');
+        if ($request->post("session_name") != NULL) {
+            $session->name = $request->post('session_name');
         }
-        if($request->post("session_description")!=NULL){
-        $session->description=$request->post('session_description');
+        if ($request->post("session_description") != NULL) {
+            $session->description = $request->post('session_description');
         }
-        
+        if ($request->post("session-status-icon") != NULL) {
+            $session->status = $request->post('session-status-icon');
+        }
         $session->update();
-        return response()->json($session);
+        return response()->json($session->toArray());
     }
 
     /**
@@ -102,6 +113,30 @@ class SessionController extends Controller
     {
         $session = SessionModel::find($id);
         $session->delete();
-        return response()->json(["success"=>true]);
+        return response()->json(["success" => true]);
+    }
+
+    public function sessionJoinTo(Request $request)
+    {
+        $participantData = $request->participant;
+        $contentData = $request->content;
+        $id = $request->id;
+        $cate = $request->cate;
+        if (($session = SessionModel::find($id)) != NULL) {
+            if ($cate == 'participant') {
+                if ($participantData != NULL) {
+                    $session->participants = $participantData;
+                    $session->update();
+                    return response()->json(["success" => true]);
+                }
+            } else if($cate == 'content'){
+                if ($contentData != NULL) {
+                    $session->contents = $contentData;
+                    $session->update();
+                    return response()->json(["success" => true]);
+                }
+            }
+        }
+        return false;
     }
 }

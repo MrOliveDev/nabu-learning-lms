@@ -6,7 +6,7 @@ var filteritem = null;
 var grouptab = null,
     detailtags = null;
 var detailtag1 = null;
-var activedTab = '#groups';
+var activedTab = '#students';
 
 var window_level = 1;
 
@@ -162,17 +162,18 @@ var toolkitAddItem = function(event) {
 };
 
 var sessionItemClick = function(e) {
+    $('#table-content .list-group .list-group-item').detach();
+    $('#table-participant .list-group .list-group-item').detach();
+    $('#div_A .list-group-item').removeClass('active');
     if (!$(this).hasClass("active")) {
         $(this).addClass("active");
-    } else {
-        $(this).removeClass("active");
     }
     heightToggleLeft = true;
-    $('#div_left').dblclick();
     var parent = $(this).parents('.list-group-item');
 
     $('#session_form .method-select').val('PUT');
     $("#session_form").attr('action', baseURL + '/session/' + $(this).attr('id').split('_')[1]);
+    $('#session_form').attr('data-item', $(this).attr('id'));
     var parent = $(this);
     var id = parent.attr('id').split('_')[1];
     $.get({
@@ -183,19 +184,29 @@ var sessionItemClick = function(e) {
             //TODO:show function;
             if (data.contents) {
                 data.contents.map(function(content_item) {
-                    $('#table-content .list-group').append(createContentItem(content_item));
+                    if(content_item!=null){
+                        var newItem = createContentItem(content_item);
+                        newItem.attr('data-src', id);
+                        $('#table-content .list-group').append(newItem);                        
+                    }
                 });
             }
 
             if (data.participants) {
                 data.participants.group.map(function(participant_item) {
-                    $('#table-participant .list-group').append(createGroupItem(participant_item));
+                    var newItem = createGroupItem(participant_item);
+                    newItem.attr('data-src', id);
+                    $('#table-participant .list-group').append(newItem);
                 });
                 data.participants.student.map(function(participant_item) {
-                    $('#table-participant .list-group').append(createUserItem(participant_item));
+                    var newItem = createUserItem(participant_item);
+                    newItem.attr('data-src', id);
+                    $('#table-participant .list-group').append(newItem);
                 });
                 data.participants.teacher.map(function(participant_item) {
-                    $('#table-participant .list-group').append(createUserItem(participant_item));
+                    var newItem = createUserItem(participant_item);
+                    newItem.attr('data-src', id);
+                    $('#table-participant .list-group').append(newItem);
                 });
             }
 
@@ -210,24 +221,24 @@ var sessionItemClick = function(e) {
 };
 
 var createUserItem = function(data) {
-        var status_temp = data.status == '1' ?
+    var status_temp = data.status == '1' ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x '+ (data.type == 4? "student_"+data.id:"teacher_"+data.id)+' data-date="2021-05-25 08:50:54" data-type = "'+data.type+'">' +
+    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x ' + (data.type == 4 ? "student_" + data.id : "teacher_" + data.id) + '" id="' + (data.type == 4 ? "student_" + data.id : "teacher_" + data.id) + '_copy" data-type = "' + data.type + '">' +
         '<div class="float-left">' +
         status_temp +
-        '<span class="item-name">'+data.first_name+'&nbsp;'+data.last_name+'</span>' +
-        '<input type="hidden" name="item-name" value="'+data.first_name+data.last_name+'">' +
+        '<span class="item-name">' + data.first_name + '&nbsp;' + data.last_name + '</span>' +
+        '<input type="hidden" name="item-name" value="' + data.first_name + data.last_name + '">' +
         '</div>' +
         '<div class="btn-group float-right">' +
-//         '<span class=" p-2 font-weight-bolder item-lang">'+ data.lang+
-//         '</span>' +
+        //         '<span class=" p-2 font-weight-bolder item-lang">'+ data.lang+
+        //         '</span>' +
         '</div>' +
         '</a>');
-        unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
-        element.find('.btn-group').append(unlinkbtn);
+    unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
+    element.find('.btn-group').append(unlinkbtn);
     return $(element);
 };
 
@@ -237,84 +248,90 @@ var createGroupItem = function(data) {
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x group_'+data.value.id+'" data-date="'+data.value.creation_date+'" data-type="group">' +
+    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x group_' + data.value.id + '" id="group_' + data.value.id + '_copy" data-type="group">' +
         '<div class="float-left">' +
         status_temp +
-        '<span class="item-name">'+data.value.name+'</span>' +
-        '<input type="hidden" name="item-name" value="'+data.value.name+'">' +
+        '<span class="item-name">' + data.value.name + '</span>' +
+        '<input type="hidden" name="item-name" value="' + data.value.name + '">' +
         '</div>' +
         '<div class="btn-group float-right">' +
         '</div>' +
-        '</a>'+
-        '<div class="group_'+data.value.id+' d-flex flex-column pl-4"></div>');
-        unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
-        openbtn = $('<button class="btn"><i class="px-2 fas fa-angle-down"></i></button>').on('click', function(e){
-            $(this).parents('.list-group-item').next('div.d-flex').find('.list-group-item').fadeToggle();
-        });
-        var refreshbtn = $('<button class="btn"><i class="px-2 fa fa-sync-alt"></i></button>').on('click', refreshGroupBtn);
+        '</a>' +
+        '<div class="group_' + data.value.id + ' d-flex flex-column pl-4"></div>');
+    unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
+    openbtn = $('<button class="btn"><i class="px-2 fas fa-angle-down"></i></button>').on('click', function(e) {
+        $(this).parents('.list-group-item').next('div.d-flex').find('.list-group-item').fadeToggle();
+    });
+    var refreshbtn = $('<button class="btn"><i class="px-2 fa fa-sync-alt"></i></button>').on('click', refreshGroupBtn);
+
+    element.find('.btn-group').append(refreshbtn);
+    element.find('.btn-group').append(unlinkbtn);
+    element.find('.btn-group').append(openbtn);
+    data.items.map(function(userItem) {
+        if(userItem.type==3||userItem.type==4){
+        var userElem = createUserItem(userItem);    
+        userElem.attr('data-sub', data.value.id);
+        $(element[1]).append(userElem);
+        }
         
-        element.find('.btn-group').append(refreshbtn);
-        element.find('.btn-group').append(unlinkbtn);
-        element.find('.btn-group').append(openbtn);
-        data.items.map(function(userItem){
-            var userElem = createUserItem(userItem);
-            $(element[1]).append(userElem);
-        })
+    })
     return element;
 };
 
 var createContentItem = function(data) {
-        var status_temp = data.status == '1' ?
+    var status_temp = data.status == '1' ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var element =$('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_22" id="training_22" data-date="2021-06-19 05:30:44" data-lesson="[{&quot;item&quot;:218}]" draggable="true">' +
-    '<div class="float-left">' +
-    status_temp +
-    '<span class="item-name">new Training</span>' +
-    '<input type="hidden" name="item-name" value="new Training">' +
-    '</div>' +
-    '<div class="btn-group float-right">' +
-//     '<span class=" p-2 font-weight-bolder  item-lang">' +
-//     '</span>' +
-    '</div>' +
-    '</a>');
-            unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
-        element.find('.btn-group').append(unlinkbtn);
+    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_'+data.id+'" id="training_'+data.id+'_copy">' +
+        '<div class="float-left">' +
+        status_temp +
+        '<span class="item-name">'+data.name+'</span>' +
+        '<input type="hidden" name="item-name" value="'+data.name+'">' +
+        '</div>' +
+        '<div class="btn-group float-right">' +
+        //     '<span class=" p-2 font-weight-bolder  item-lang">' +
+        //     '</span>' +
+        '</div>' +
+        '</a>');
+    unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
+    element.find('.btn-group').append(unlinkbtn);
     return element;
 }
 var createSessionData = function(data) {
-            var status_temp = data.status == '1' ?
+    var status_temp = data.status == '1' ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var element =     $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x session_3821" id="session_3821" data-date="" draggable="false">' +
-    '<div class="float-left">' +
-    status_temp +
-    '<span class="item-name">'+data.name+'</span>' +
-    '<input type="hidden" name="item-name" value="'+data.name+'">' +
-    '</div>' +
-    '<div class="btn-group float-right">' +
-    '<span class=" p-2 font-weight-bolder item-lang">'+data.language_iso+'</span>' +
-    '<button class="btn item-delete" data-content="session">' +
-    '<i class="px-2 fa fa-trash-alt"></i>' +
-    '</button>' +
-    '</div>' +
-    '</a>');
+    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x session_'+data.id+'" id="session_'+data.id+'_copy" data-date="'+data.create_date+'">' +
+        '<div class="float-left">' +
+        status_temp +
+        '<span class="item-name">' + data.name + '</span>' +
+        '<input type="hidden" name="item-name" value="' + data.name + '">' +
+        '</div>' +
+        '<div class="btn-group float-right">' +
+        '<span class=" p-2 font-weight-bolder item-lang">' + data.language_iso + '</span>' +
+        '<button class="btn item-delete" data-content="session">' +
+        '<i class="px-2 fa fa-trash-alt"></i>' +
+        '</button>' +
+        '</div>' +
+        '</a>');
+        element.click(sessionItemClick);
     return element;
 }
 
-
 var updateSessionData = function(data, target) {
     $('#' + target + " .item-lang").html(data.language_iso);
-    $('#' + target + " input[name='item-name'").val(data.name);
+    $('#' + target + " input[name='item-name']").val(data.name);
     $('#' + target + " .item-name").html(data.name);
+    $('#' + target).find('.status-notification').val(data.status);
+    $('#' + target).find('.status-notification').prev().css('color', data.status == '1' ? 'green' : 'red');
 }
 
-var refreshGroupBtn =function(e){
-//     ajax
+var refreshGroupBtn = function(e) {
+    //     ajax
 }
 
 var formInputChange = function(event) {
@@ -323,6 +340,13 @@ var formInputChange = function(event) {
 
 var formStatusChange = function(e) {
     $(this).val($(this).prop('checked'));
+};
+
+var submitFunction = function(event) {
+    console.log($(this).attr('action'));
+    console.log($("#cate-status").attr("checked"));
+
+    return false;
 };
 
 var submitBtn = function(event) {
@@ -336,72 +360,41 @@ var submitBtn = function(event) {
 
     var serialval = $('#' + formname).serializeArray().map(function(item) {
         var arr = {};
-        if (item.name == 'user-status-icon') {
-            item.value = $('#user-status-icon').prop('checked') == true ? 1 : 0;
-        } else if (item.name == 'cate-status-icon') {
-            item.value = $('#cate-status-icon').prop("checked") == true ? 1 : 0;
-        } else if (item.name == 'generatepassword') {
-            item.value = $('#generatepassword').prop("checked") == true ? 1 : 0;
+        if (item.name == 'session-status-icon') {
+            item.value = $('#session-status-icon').prop('checked') == true ? 1 : 0;
         }
         return item;
     });
     if (!serialval.filter(function(em, t, arr) {
-            return em.name == 'user-status-icon' || em.name == 'cate-status-icon';
+            return em.name == 'session-status-icon';
         }).length) {
-        if (formname == 'user_form') {
-            serialval.push({
-                name: 'user-status-icon',
-                value: $('#user-status-icon').prop('checked') == true ? 1 : 0
-            });
-            serialval.push({
-                name: 'generatepassword',
-                value: $('#generatepassword').prop('checked') == true ? 1 : 0
-            });
-        } else if (formname == 'cate_form') {
-            serialval.push({
-                name: 'cate-status-icon',
-                value: $('#cate-status-icon').prop('checked') == true ? 1 : 0
-            });
-        }
+
     }
-    if (!$("#" + formname).find('input[type=checkbox]').prop('checked')) {
-        if (formname == 'user_form') {
-            serialval.push({
-                name: 'user-status-icon',
-                value: 0
-            });
-            if ($('#generatepassword').prop('checked') == false) {
-                serialval.push({
-                    name: 'generatepassword',
-                    value: 0
-                });
-            }
-        } else if (formname == 'cate_form') {
-            serialval.push({
-                name: 'cate-status-icon',
-                value: 0
-            });
-        }
+    if (!$("#session_form").find('input[type=checkbox]').prop('checked')) {
+        serialval.push({
+            name: 'session-status-icon',
+            value: 0
+        });
     }
     console.log(serialval);
-    $.ajax({
-        url: $('#' + formname).attr('action'),
-        method: $('#' + formname).find('.method-select').val(),
-        data: serialval,
-        success: function(data) {
-            console.log(data);
-            if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
-                notification('A session has been registered sucessfully!', 1);
-                $('#session .list-group').append(createSessionData(data));
-            } else {
-                var target = $("#" + formname).attr('data-item');
-                updateSessionData(data, target);
+        $.ajax({
+            url: $('#' + formname).attr('action'),
+            method: $('#' + formname).find('.method-select').val(),
+            data: serialval,
+            success: function(data) {
+                console.log(data);
+                if ($('#' + formname).find('.method-select').val()=='post') {
+                    notification('A session has been registered sucessfully!', 1);
+                    $('#session .list-group').append(createSessionData(data));
+                } else {
+                    var target = $("#session_form").attr('data-item');
+                    updateSessionData(data, target);
+                }
+            },
+            error: function(err) {
+                notification("Sorry, You have an error!", 2);
             }
-        },
-        error: function(err) {
-            notification("Sorry, You have an error!", 2);
-        }
-    });
+        });
 
     if ($("#" + formname).attr('data-item') != '' && $("#" + formname).attr('data-item') != null) {
         var targetName = $("#" + formname).attr('data-item').split('_')[0],
@@ -474,22 +467,71 @@ var itemDelete = function(event) {
 
 var detachLinkTo = function(e) {
     var parent = $(this).parents('.list-group-item');
-    var showeditem = parent.attr('data-src');
-    var id = parent.attr('id').split('_')[1];
-    var cate = parent.attr('id').split('_')[0];
-    var value = $("#" + showeditem).find('input[name="item-' + cate + '"]').val();
-    if (cate == 'group') {
-        $("#div_A #" + showeditem).find('input[name="item-' + cate + '"]').val(combine(value, id).join('_'));
-    } else {
-        $("#div_A #" + showeditem).find('input[name="item-' + cate + '"]').val('');
+    var isSubItem = parent.attr('data-sub');
+    if(isSubItem){
+        var showeditem = parent.parents('.list-group div.d-flex').attr('data-src');
+    }else{
+        var showeditem = parent.attr('data-src');    
     }
+    var id = parent.attr('id').split('_')[1];
+    var cate = parent.attr('id').split('_')[0], sendCate;
+    var participantData = $('#session_'+showeditem).attr('data-participant');
+    var participant = participantData?JSON.parse(participantData):{"s":[],"t":[],"g":[]};
+    var contentData = $('#session_'+showeditem).attr('data-content');
+    var content = contentData?JSON.parse(contentData):[];
 
-    var result = $("#" + showeditem).find('input[name="item-' + cate + '"]').val();
-
-    detachCall(cate, {
-        id: showeditem.split('_')[1],
-        target: result,
-        flag: false
+    
+    switch(cate){
+        case 'training':
+            content = content.filter(function(trainingItem){
+                return trainingItem!=id;
+            });
+            $('#session_'+showeditem).attr('data-content', JSON.stringify(content));
+            sendCate='content';
+        break;
+        case 'group':
+            var group = participant.g;
+            participant.t = group.filter(function(groupItem){
+                return groupItem!=id;
+            });
+            $('#session_'+showeditem).attr('data-participant', JSON.stringify(participant));
+            sendCate='participant';
+        break;
+        case 'student':
+            if(isSubItem==undefined){
+                var student = participant.s;
+                participant.t = student.filter(function(studentItem){
+                    return trainingItem!=id;
+                });
+                
+            } else {
+                var group = participant.g;
+                participant.g=group.map(function(gitem){if(gitem.value==isSubItem){gitem.item = gitem.item?gitem.item.filter(function(item){return item!=id}):gitem.item;} return gitem;});
+            }
+            sendCate='participant';$('#session_'+showeditem).attr('data-participant', JSON.stringify(participant));
+        break;
+        case 'teacher':
+            if(isSubItem==undefined){
+                var groupItem =participant.t;
+                groupItem.t = content.filter(function(teacherItem){
+                    return teacherItem !=id;
+                })[0];
+                
+                
+            } else{
+                var group = participant.g;
+                participant.g=group.map(function(gitem){if(gitem.value==isSubItem){gitem.item = gitem.item?gitem.item.filter(function(item){return item!=id}):gitem.item} return gitem;});
+            }
+                sendCate='participant';$('#session_'+showeditem).attr('data-participant', JSON.stringify(participant));
+        break;
+        default:
+        break;
+    }
+    detachCall({
+        id: showeditem,
+        participant: JSON.stringify(participant),
+        content:content,
+        cate:sendCate
     }, $(this));
 };
 
@@ -501,15 +543,13 @@ var combine = function(value, id) {
     return combineArray;
 };
 
-var detachCall = function(cate, connectiondata, element) {
+var detachCall = function(connectiondata, element) {
     $.post({
-        url: baseURL + '/userjointo' + cate,
+        url: baseURL + '/sessionjointo',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        data: {
-            'data': JSON.stringify(Array(connectiondata))
-        }
+        data: connectiondata
     }).then(function(data) {
         notification('Successfully unliked!', 1);
         element.parents('.list-group-item').detach();
@@ -657,12 +697,16 @@ var searchfilter = function(event) {
         console.log(str);
     }
 
-    if (parent.attr('id') == 'user-toolkit' || parent.attr('id') == 'cate-toolkit') {
+    if (parent.attr('id') == 'cate-toolkit') {
+        if($('#table-content-tab').parents('li.nav-item').hasClass('ui-state-active')){
+            items = parent.next('div:first').find('.list-group-item');
+        }else{
         var selector = parent.prev().find('.ui-state-active a').attr('href').split('#')[1];
-        // console.log(selector);
-        items = $("#" + selector).find('.list-group .list-group-item');
-    } else {
-        items = $('#div_D .list-group').find('.list-group-item');
+        items = $("#" + selector).find('.list-group .list-group-item');    
+        }
+        
+    } else if(parent.attr('id')=='session-toolkit'){
+        items = parent.next('div:first').find('.list-group-item');
     }
     // console.log(items);
 
@@ -718,10 +762,8 @@ var searchfilter = function(event) {
     });
     if ($(this).parents('fieldset').attr('id') == "LeftPanel") {
         heightToggleLeft = true;
-        $('#div_left').dblclick();
     } else if ($(this).parents('fieldset').attr('id') == "RightPanel") {
         heightToggleRight = true;
-        $('#div_right').dblclick();
     }
 };
 
@@ -749,17 +791,20 @@ var sortfilter = function(event) {
         $(this).siblings('button').find('i').removeClass('fa-sort-alpha-up');
     }
 
-    if (parent.prev().is('.nav')) {
+    if (parent.attr('id') == 'cate-toolkit') {
+        if($('#table-content-tab').parents('li.nav-item').hasClass('ui-state-active')){
+            $itemgroup = parent.next('div:first').find('.list-group');
+        }else{
         var selector = parent.prev().find('.ui-state-active a').attr('href').split('#')[1];
-        $itemgroup = $("#" + selector).find('.list-group');
-        // items = $("#" + selector).find('.list-group .list-group-item');
-    } else {
-        // items = parent.next('.list-group').find('.list-group-item');
-        $itemgroup = parent.next('.list-group');
+        $itemgroup = $("#" + selector).find('.list-group');    
+        }
+        
+    } else if(parent.attr('id')=='session-toolkit'){
+        $itemgroup = parent.next('div:first').find('.list-group');
     }
     $items = $itemgroup.children('.list-group-item');
     switch ($(this).parents('.toolkit').attr('id')) {
-        case 'user-toolkit':
+        case 'session-toolkit':
             if ($(this).is('.filter-name-btn')) {
                 userNameSort = !userNameSort;
                 $items.sort(function(a, b) {
@@ -885,69 +930,6 @@ var sortfilter = function(event) {
                 $items.detach().appendTo($itemgroup);
             }
             break;
-        case 'show-toolkit':
-            if ($(this).is('.filter-name-btn')) {
-                showNameSort = !showNameSort;
-                $items.sort(function(a, b) {
-                    var an = $(a).find('span.item-name').html().split('&nbsp;').join('').toLowerCase(),
-                        bn = $(b).find('span.item-name').html().split('&nbsp;').join('').toLowerCase();
-
-                    if (showNameSort) {
-                        nameIcon.toggleClass('fa-sort-alpha-down', true);
-                        nameIcon.toggleClass('fa-sort-alpha-up', false);
-
-                        if (an > bn) {
-                            return 1;
-                        }
-                        if (an < bn) {
-                            return -1;
-                        }
-                        return 0;
-                    } else {
-                        nameIcon.toggleClass('fa-sort-alpha-down', false);
-                        nameIcon.toggleClass('fa-sort-alpha-up', true);
-                        if (an < bn) {
-                            return 1;
-                        }
-                        if (an > bn) {
-                            return -1;
-                        }
-                        return 0;
-                    }
-                });
-
-                $items.detach().appendTo($itemgroup);
-            } else {
-                showDateSort = !showDateSort;
-                $items.sort(function(a, b) {
-                    var an = new Date(a.dataset.date),
-                        bn = new Date(b.dataset.date);
-                    if (showDateSort) {
-                        dateIcon.toggleClass('fa-sort-numeric-down', true);
-                        dateIcon.toggleClass('fa-sort-numeric-up', false);
-                        if (an > bn) {
-                            return 1;
-                        }
-                        if (an < bn) {
-                            return -1;
-                        }
-                        return 0;
-                    } else {
-                        dateIcon.toggleClass('fa-sort-numeric-down', false);
-                        dateIcon.toggleClass('fa-sort-numeric-up', true);
-                        if (an < bn) {
-                            return 1;
-                        }
-                        if (an > bn) {
-                            return -1;
-                        }
-                        return 0;
-                    }
-                });
-                $items.detach().appendTo($itemgroup);
-
-            }
-            break;
         default:
             break;
     }
@@ -959,149 +941,26 @@ var sortfilter = function(event) {
 var tabClick = function(event) {
     if ($(this).parents('fieldset').attr('id') == 'LeftPanel') {
 
-        var nameIcon = $('#user-toolkit').find('.filter-name-btn i');
-        var dateIcon = $('#user-toolkit').find('.filter-date-btn i');
-        nameIcon.toggleClass('fa-sort-alpha-down', false);
-        nameIcon.toggleClass('fa-sort-alpha-up', false);
-        dateIcon.toggleClass('fa-sort-numeric-down', false);
-        dateIcon.toggleClass('fa-sort-numeric-up', false);
-
-        switch ($(this).attr('id')) {
-            case 'students-tab':
-                $('#RightPanel .toolkit>div').css('background-color', 'var(--student-h)');
-                if ($("#table-groups").length == 0) {
-                    grouptab.appendTo("#user-form-tags");
-                }
-
-                if ($('#user-form-tags ul').length == 0) {
-                    $('#user-form-tags').prepend(detailtags);
-                }
-
-                if ($('#table-groups-tab').length == 0) {
-                    $('#user-form-tags li:first').prepend(detailtag1);
-                }
-
-                if ($('#user_form #input_group_position').length == 0) {
-                    $('#user_form #form_group_position').append(input_group_position);
-                }
-
-                if ($('#table-user').length == 0) {
-                    $('#category-form-tags').append(tableuser);
-                }
-
-                $('#groups-tab').toggle(true);
-                $('#positions-tab').toggle(true);
-
-                $('#user-toolkit .filter-function-btn').toggle(true);
-                $('#div_A').find('.list-group-item').each(clearClassName);
-                break;
-            case 'teachers-tab':
-                $('#RightPanel .toolkit>div').css('background-color', 'var(--teacher-h)');
-                if ($("#table-groups").length != 0) {
-                    grouptab = $("#table-groups");
-                    $("#table-groups").detach();
-                }
-
-                if ($('#user-form-tags ul').length == 0) {
-                    $('#user-form-tags').prepend(detailtags);
-                }
-
-                if ($('#table-groups-tab').length != 0) {
-                    detailtag1 = $('#table-groups-tab');
-                    $('#table-groups-tab').detach();
-                }
-
-                if ($('#user_form #input_group_position').length != 0) {
-                    input_group_position = $("#user_form #input_group_position");
-                    $("#user_form #input_group_position").detach();
-                }
-
-                if (activedTab == '#groups') {
-                    if ($('#table-user').length != 0) {
-                        tableuser = $('#table-user');
-                        $('#table-user').detach();
-                    }
-                } else {
-                    if ($('#table-user').length == 0) {
-                        $('#category-form-tags').append(tableuser);
-                    }
-                }
-
-                $('#groups-tab').toggle(false);
-                $('#positions-tab').toggle(true);
-
-                if (activedTab != '#positions' || activedTab != '#companies') {
-                    $('#companies-tab').click();
-                }
-
-                $('#user-toolkit .filter-function-btn').toggle(true);
-                $('#div_A').find('.list-group-item').each(clearClassName);
-
-                break;
-            case 'authors-tab':
-                $('#RightPanel .toolkit>div').css('background-color', 'var(--author-h)');
-                if ($("#table-groups").length != 0) {
-                    grouptab = $("#table-groups");
-                    $("#table-groups").detach();
-                }
-
-                if ($('#user-form-tags ul').length != 0) {
-                    detailtags = $('#user-form-tags ul');
-                    $('#user-form-tags ul').detach();
-                }
-
-                if ($('#user_form #input_group_position').length != 0) {
-                    input_group_position = $("#user_form #input_group_position");
-                    $("#user_form #input_group_position").detach();
-                }
-
-                $('#user-toolkit .filter-function-btn').toggle(false);
-                if (activedTab == '#groups' || activedTab == '#positions') {
-                    if ($('#table-user').length != 0) {
-                        tableuser = $('#table-user');
-                        $('#table-user').detach();
-                    }
-                } else {
-                    if ($('#table-user').length == 0) {
-                        $('#category-form-tags').append(tableuser);
-                    }
-                }
-
-                $('#groups-tab').toggle(false);
-                $('#positions-tab').toggle(false);
-                if (activedTab != '#companies') {
-                    $('#companies-tab').click();
-                }
-                $('#div_A').find('.list-group-item').each(clearClassName);
-
-                break;
-
-            default:
-                break;
-        }
-        $("#LeftPanel").find(".list-group-item").each(function() {
-            $(this).removeClass("active");
-        });
-        cancelFilterCategoryAll();
-        $('#user-toolkit .search-filter').val('');
-        $('#user-toolkit .search-filter').change();
-        $('#user-toolkit input[name="status"]:checked').prop('checked', false);
+        
     } else if ($(this).parents('fieldset').attr('id') == 'RightPanel') {
         switch ($(this).attr('id')) {
             case 'groups-tab':
                 $('#RightPanel .toolkit>div').css('background-color', 'var(--group-h)');
                 activedTab = '#groups';
-                $('#cate-toolkit .status-switch').toggle(true);
+                $('#cate-toolkit .filter-function-btn').toggle(false);
+                $('#cate-toolkit .filter-company-btn').toggle(false);
                 break;
             case 'teachers-tab':
                 $('#RightPanel .toolkit:first>div').css('background-color', 'var(--teacher-h)');
                 activedTab = '#teachers';
-                $('#cate-toolkit .status-switch').toggle(false);
+                $('#cate-toolkit .filter-function-btn').toggle(false);
+                $('#cate-toolkit .filter-company-btn').toggle(true);
                 break;
             case 'students-tab':
                 $('#RightPanel .toolkit:first>div').css('background-color', 'var(--student-h)');
                 activedTab = '#students';
-                $('#cate-toolkit .status-switch').toggle(false);
+                $('#cate-toolkit .filter-function-btn').toggle(true);
+                $('#cate-toolkit .filter-company-btn').toggle(true);
                 break;
 
             default:
@@ -1138,7 +997,12 @@ var handlerDBClick = function(event) {
     if (heightToggle) {
         $(this).prev().css('height', (h - parseInt($('.toolkit').css('height')) - divHight) - 90 + 'px');
     } else {
-        var activeTabHeight = parseInt($($(this).parents('fieldset').find('.ui-state-active a').first().attr('href')).find('.list-group').css('height'));
+        if($(this).parents('fieldset').attr('id')=='LeftPanel'){
+        var activeTabHeight = $('#div_A .list-group').css('height');
+        }else{
+        var activeTabHeight = parseInt($($(this).parents('fieldset').find('.ui-state-active a').first().attr('href')).find('.list-group').css('height'));    
+        }
+        
         var newHeight = (h - parseInt($('.toolkit').css('height')) - divHight) / 2 - 90;
         if (newHeight > activeTabHeight) {
             $(this).prev().css('height', activeTabHeight + "px");
@@ -1178,64 +1042,105 @@ function dragEnd(event) {
 
 function dropEnd(event, item) {
     $(event.target).css('opacity', '100%');
-    $('main').css('cursor', 'default');
-    var parent = $(event.target);
-    var showCate = null,
-        showItem = null;
-    if (parent.hasClass('highlight')) {
-        showCate = parent.attr('id');
-    }
+    var parent= $(event.target);
 
     var requestData = Array();
 
-    var cate_id = $(event.target).attr("id").split('_')[1];
-    var cate = $(event.target).attr("id").split('_')[0];
-    var rowData = Array();
+    var id = $(event.target).attr("id").split('_')[1];
+    var participantData = $(this).attr('data-participant');
+    var participant = participantData?JSON.parse(participantData):{s:[], t:[], g:[]};
+    var contentData = $(this).attr('data-content');
+    var content = contentData?JSON.parse(contentData):[];
+    
+    var rowData;
     if (dragitem != null) {
-        // var category = dragitem[0].split('_')[0];
+        var droppeditem_cate = dragitem[0].split('_')[0];
+        var cate;
         dragitem.map(function(droppeditem) {
+            var droppeditem_id = parseInt(droppeditem.split('_')[1]);
+            switch(droppeditem_cate){
+                case "group":
+                    var groupData = participant.g?participant.g:[];
+                    if(groupData.length != 0){
+                        var repeat = groupData.filter(function(groupitem){
+                            return groupitem.value == droppeditem_id;
+                        })
+                        if(repeat.length==0){
+                            groupData.push({value:droppeditem_id});
+                            //TODO:Here we have to add real group datas.
+                        }
+                    } else {
+                       groupData.push({value:droppeditem_id});
+                    }
+                    participant.g = groupData;
+                    $(event.target).attr('data-participant', JSON.stringify(participant));
+                    cate = 'participant';
+                break;
+                case "student":
+                    var studentData = participant.s?participant.s:[];
+                    if(studentData.length!=0){
+                        var repeat = studentData.filter(function(studentItem){
+                            return studentItem == droppeditem_id;
+                        })
+                        if(repeat.length==0){
+                            studentData.push(droppeditem_id);
+                        }
+                    } else {
+                        studentData.push(droppeditem_id);
+                    }
+                    participant.s = studentData;
+                    $(event.target).attr('data-participant', JSON.stringify(participant));
+                    cate = 'participant';
+                break;
+                case "teacher":
+                    var teacherData = participant.t?participant.t:[];
+                    if(teacherData.length!=0){
+                       var repeat = teacherData.filter(function(teacherItem){
+                           return teacherItem == droppeditem_id;
+                       })
+                       if(repeat.length==0){
+                           teacherData.push(droppeditem_id);
+                       }
+                    } else {
+                           teacherData.push(droppeditem_id);
+                    }
+                       participant.t = teacherData;
+                       $(event.target).attr('data-participant', JSON.stringify(participant));
 
-            // console.log(droppeditem.split('_')[1]);
-            if (cate == "group") {
-                var cate_items = $("#" + droppeditem).find('input[name="item-group"]').val();
-                if (cate_items.indexOf(cate_id) == -1) {
-                    cate_items += "_" + cate_id;
-                }
-                $("#" + droppeditem).find('input[name="item-group"]').val(cate_items);
-            } else {
-                var cate_item = $("#" + droppeditem).find('input[name="item-' + cate + '"]').val();
-                if (cate_item != cate_id) {
-                    $("#" + droppeditem).find('input[name="item-' + cate + '"]').val(cate_id);
-                    // console.log($("#" + item).find('input[name="item-' + cate + '"]').val());
-                }
-            }
-            rowData = {};
-            rowData.id = droppeditem.split('_')[1];
-            rowData.target = $("#" + droppeditem).find('input[name="item-' + cate + '"]').val();
-            rowData.flag = true;
-
-            requestData.push(rowData);
-            if ($('#' + droppeditem).hasClass('highlight')) {
-                showItem = droppeditem;
+                    cate = 'participant';
+                break;
+                case "training":
+                    if(content.length!=0){
+                       var repeat = content.filter(function(contentItem){
+                           return contentItem == droppeditem_id;
+                       })
+                       if(repeat.length==0){
+                           content.push(droppeditem_id);
+                       }
+                    } else {
+                        content.push(droppeditem_id);
+                    }
+                    $(event.target).attr('data-content', JSON.stringify(content));
+                    cate = 'content';
+                break;
+                default:
+                break;
             }
         });
 
+        var sendData = {
+            'participant':JSON.stringify(participant),
+            'content':content,
+            'id':id,
+            'cate':cate
+        };
         $.post({
-            url: baseURL + '/userjointo' + cate,
+            url: baseURL + '/sessionjointo',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            data: {
-                'data': JSON.stringify(requestData)
-            }
+            data: sendData
         }).done(function(data) {
-
-            if (showCate) {
-                $('#div_C #' + showCate + " .item-show").click();
-            }
-            if (showItem) {
-                $('#div_A #' + showItem + " .item-show").click();
-            }
             if (dragitem[0]) {
                 notification(dragitem.length + ' ' + dragitem[0].split('_')[0] + 's linked to ' + $(event.target).find('.item-name').html() + '!', 1);
             }
@@ -1248,51 +1153,12 @@ function dropEnd(event, item) {
             dragitem = null;
         });
     }
-    $("#LeftPanel").find('.list-group-item').each(function() {
+    $("#RightPanel").find('.list-group-item').each(function() {
         if ($(this).hasClass('active')) {
             $(this).removeClass('active');
         }
     });
-}
-
-function companyDropEnd(event, item) {
-    $(event.target).css('opacity', '100%');
-    if (dragitem != null && dragitem[0].split('_')[0] == 'company') {
-        $(this).html(dragitem.map(function(om, t, rr) {
-            return $('#' + om + " .item-name").html();
-        }).join(', ') + "&nbsp <i>X</i>");
-        var companyName = dragitem.map(function(e, i, r) {
-            return e.split('_')[1];
-        });
-        $(this).val(companyName.join('_'));
-        console.log(dragitem[0]);
-        searchfilter(event);
-
-        $(activedTab).fadeIn(1);
-        $('#companies').fadeOut(1);
-    }
-    dragitem = null;
-    $('.filter-company-btn').change();
-}
-
-function functionDropEnd(event, item) {
-    $(event.target).css('opacity', '100%');
-    if (dragitem != null && dragitem[0].split('_')[0] == 'function') {
-        $(this).html(dragitem.map(function(om, t, rr) {
-            return $('#' + om + " .item-name").html();
-        }).join(', ') + "&nbsp <i>X</i>");
-        var companyName = dragitem.map(function(e, i, r) {
-            return e.split('_')[1];
-        });
-        $(this).val(companyName.join('_'));
-        console.log(dragitem[0]);
-        searchfilter(event);
-
-        $(activedTab).fadeIn(1);
-        $('#positions').fadeOut(1);
-    }
-    dragitem = null;
-    $('.filter-function-btn').change();
+    $(this).click();
 }
 
 var participateClick = function(e) {
@@ -1305,8 +1171,10 @@ var participateClick = function(e) {
 var contentClick = function(e) {
     $('#paticipant-group').toggle(false);
     $('#content-group').toggle(true);
-$('#RightPanel>ul').toggle(false);
-$('#cate-toolkit>div').css('background', "var(--training-c)");
+    $('#RightPanel>ul').toggle(false);
+    $('#cate-toolkit>div').css('background', "var(--training-c)");
+    $('#cate-toolkit .filter-function-btn').toggle(false);
+    $('#cate-toolkit .filter-company-btn').toggle(false);
 }
 
 
@@ -1330,8 +1198,6 @@ $(document).ready(function() {
         $(elem).attr('draggable', true);
     });
 
-    $(".filter-company-btn").on('drop', companyDropEnd);
-    $(".filter-function-btn").on('drop', functionDropEnd);
 });
 $('input[name=status], input.search-filter, button.filter-company-btn, button.filter-function-btn').change(searchfilter);
 $('input.search-filter').on('keydown change keyup', searchfilter);
@@ -1348,7 +1214,7 @@ $('.toolkit-add-item').click(toolkitAddItem);
 $('form input, form select').change(formInputChange);
 $('#user-status-icon, #cate-status-icon').change(formStatusChange);
 $('.submit-btn').click(submitBtn);
-
+$('form').submit(submitFunction);
 $(".toolkit-show-filter").click(filterToggleShow);
 $('.filter-company-btn').click(filterCompanyBtn);
 $('.filter-function-btn').click(filterFunctionBtn);
