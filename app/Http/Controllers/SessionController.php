@@ -55,6 +55,12 @@ class SessionController extends Controller
         if ($request->post("session-status-icon") != NULL) {
             $session->status = $request->post('session-status-icon');
         }
+        if ($request->post("begin_date") != NULL) {
+            $session->begin_date = $request->post('begin_date');
+        }
+        if ($request->post("end_date") != NULL) {
+            $session->end_date = $request->post('end_date');
+        }
         $session->save();
         return response()->json(SessionModel::getSessionPageInfoFromId($session->id)->toArray());
     }
@@ -98,6 +104,12 @@ class SessionController extends Controller
         }
         if ($request->post("session-status-icon") != NULL) {
             $session->status = $request->post('session-status-icon');
+        }
+        if ($request->post("begin_date") != NULL) {
+            $session->begin_date = $request->post('begin_date');
+        }
+        if ($request->post("end_date") != NULL) {
+            $session->end_date = $request->post('end_date');
         }
         $session->update();
         return response()->json($session->toArray());
