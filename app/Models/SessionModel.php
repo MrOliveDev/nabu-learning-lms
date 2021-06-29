@@ -122,6 +122,7 @@ class SessionModel extends Model
             if (isset($teacherList)) {
                 if (count($teacherList) != 0) {
                     foreach ($teacherList as $teacherValue) {
+//                         var_dump($teacherValue);
                         $teacherItem = User::find($teacherValue);
                         $teacherItem = $teacherItem != NULL ? $teacherItem->toArray() : $teacherItem;
                         array_push($teacherData, $teacherItem);

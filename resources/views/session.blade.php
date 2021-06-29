@@ -534,6 +534,32 @@
                                         name="session_description" value="" required>
                                 </div>
                             </div>
+                            <div class="form-group" id="expired_date_input">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Start date
+                                        </span>
+                                    </div>
+                                    <input type="text" class="js-flatpickr form-control bg-white" id="begin_date"
+                                        name="begin_date" placeholder="Y-m-d" data-date-format="Y-m-d" required
+                                        title="You need a correct date">
+
+                                </div>
+                            </div>
+                            <div class="form-group" id="expired_date_input">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            End date
+                                        </span>
+                                    </div>
+                                    <input type="text" class="js-flatpickr form-control bg-white" id="end_date"
+                                        name="end_date" placeholder="Y-m-d" data-date-format="Y-m-d" required
+                                        title="You need a correct date">
+
+                                </div>
+                            </div>
                             <div class="form-group" id='status-form-group'>
                                 <div class="custom-control custom-switch custom-control-lg mb-2 ml-0 ">
                                     <input type="checkbox" class="custom-control-input" id="session-status-icon"

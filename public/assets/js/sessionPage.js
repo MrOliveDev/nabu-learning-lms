@@ -193,26 +193,40 @@ var sessionItemClick = function(e) {
             }
 
             if (data.participants) {
+                if(data.participants.group){
                 data.participants.group.map(function(participant_item) {
+                    if(participant_item){
                     var newItem = createGroupItem(participant_item);
                     newItem.attr('data-src', id);
                     $('#table-participant .list-group').append(newItem);
+                    }
                 });
+                }
+                if(data.participants.student){
                 data.participants.student.map(function(participant_item) {
+                    if(participant_item){
                     var newItem = createUserItem(participant_item);
                     newItem.attr('data-src', id);
                     $('#table-participant .list-group').append(newItem);
+                    }
                 });
+                }
+                if(data.participants.teacher){
                 data.participants.teacher.map(function(participant_item) {
+                    if(participant_item){
                     var newItem = createUserItem(participant_item);
                     newItem.attr('data-src', id);
                     $('#table-participant .list-group').append(newItem);
+                    }
                 });
+                }
             }
 
             $('#session-status-icon').prop('checked', data.session_info.status == 1).change();
             $('#session_name').val(data.session_info.name);
             $('#session_description').val(data.session_info.description);
+            $('#end_date').val(data.session_info.end_date);
+            $('#begin_date').val(data.session_info.begin_date);
         },
         error: function(err) {
             notification("Sorry, You can't get session data!", 2);
@@ -237,7 +251,7 @@ var createUserItem = function(data) {
         //         '</span>' +
         '</div>' +
         '</a>');
-    unlinkbtn = $('<button class="btn toggle1-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
+    unlinkbtn = $('<button class="btn toggle1-btn unlink-btn"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLinkTo);
     element.find('.btn-group').append(unlinkbtn);
     return $(element);
 };
@@ -262,15 +276,14 @@ var createGroupItem = function(data) {
     openbtn = $('<button class="btn"><i class="px-2 fas fa-angle-down"></i></button>').on('click', function(e) {
         $(this).parents('.list-group-item').next('div.d-flex').find('.list-group-item').fadeToggle();
     });
-    var refreshbtn = $('<button class="btn"><i class="px-2 fa fa-sync-alt"></i></button>').on('click', refreshGroupBtn);
 
-    element.find('.btn-group').append(refreshbtn);
     element.find('.btn-group').append(unlinkbtn);
     element.find('.btn-group').append(openbtn);
     data.items.map(function(userItem) {
-        if(userItem.type==3||userItem.type==4){
+        if(userItem.type==4){
         var userElem = createUserItem(userItem);    
         userElem.attr('data-sub', data.value.id);
+        userElem.find('.unlink-btn').detach();
         $(element[1]).append(userElem);
         }
         
@@ -351,6 +364,7 @@ var submitFunction = function(event) {
 
 var submitBtn = function(event) {
     var formname = $(this).attr('data-form');
+    if($('#'+formname).attr('action')){
     if ($("#" + formname).attr('data-item')) {
         $("#" + $(this).parents('form').attr('data-item')).toggleClass('highlight', false);
         $("#" + $(this).parents('form').attr('data-item') + " .btn").each(function(i, em) {
@@ -375,6 +389,11 @@ var submitBtn = function(event) {
             name: 'session-status-icon',
             value: 0
         });
+    }
+
+    if($('#start_date').val()!=''&& $('#end_date').val()!='' &&$('#start_date').val()>$('#end_date').val()){
+        notification('You have to insert correct date!', 2);
+        return;
     }
     console.log(serialval);
         $.ajax({
@@ -402,7 +421,7 @@ var submitBtn = function(event) {
         $('#' + sourceId).toggleClass('highlight', false);
         $('#' + sourceId + ' .item-edit').toggleClass('active', false);
     }
-
+    }
 };
 
 var item_delete = function(element) {
@@ -534,6 +553,16 @@ var detachLinkTo = function(e) {
         cate:sendCate
     }, $(this));
 };
+
+var refreshGroupBtn = function(event){
+    var parent = $(this).parents('.list-group-item');
+    var id = parent.attr('id');
+    var dataSrc = parent.attr('data-src');
+    var participantData = $('#session_'+dataSrc).attr('data-participant');
+    var participant = JSON.parse(participantData);
+    $.post({url:baseURL+'/grouprefresh'})
+
+}
 
 var combine = function(value, id) {
     var combineArray = value.split('_').filter(function(item, i, d) {
@@ -940,7 +969,14 @@ var sortfilter = function(event) {
 
 var tabClick = function(event) {
     if ($(this).parents('fieldset').attr('id') == 'LeftPanel') {
-
+        switch ($(this).attr('id')) {
+            case 'table-conent-tab':
+            $('#cate-toolkit .filter-function-btn').toggle(false);
+            $('#cate-toolkit .filter-company-btn').toggle(false);
+            break;
+            default:
+            break;
+        }
         
     } else if ($(this).parents('fieldset').attr('id') == 'RightPanel') {
         switch ($(this).attr('id')) {
@@ -1229,3 +1265,30 @@ $('#table-participant-tab').click(participateClick);
 $('#table-content-tab').click(contentClick);
 
 $('#session .list-group-item').click(sessionItemClick);
+$('.refresh-group').click(refreshGroupBtn);
+$("#table-content .list-group").sortable({
+    update: function(event, ui) {
+        var src = $(this).find('.list-group-item:first').attr('data-src');
+        var temparr = [];
+        $(this).find('.list-group-item').each(function(i, e) {
+            temparr.push($(e).attr('id').split('_')[1]);
+        });
+        $('#session_'+src).attr('data-content', JSON.stringify(temparr));
+        $.post({
+            url: baseURL + '/sessionjointo',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                id: src,
+                content: temparr,
+                participant:$('#session_'+src).attr('data-participant'),
+                cate:'content'
+            }
+        }).done(function(){
+            notification('The order of training changed successfully.',1);
+        }).fail(function(){
+            notification('The order of training have some problem.', 2);
+        });
+    }
+});
