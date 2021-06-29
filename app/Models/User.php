@@ -126,7 +126,7 @@ class User extends Authenticatable
             $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT('%_', tb_groups.id)"));
         })
         ->where('tb_groups.id', '=', $id)->get();
-        print_r($result->toArray());
+        // print_r($result->toArray());
         return $result;
     }
 
@@ -139,7 +139,7 @@ class User extends Authenticatable
             $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT('%_', tb_groups.id)"));
         })
         ->where('tb_groups.id', '=', $id)->get();
-        print_r($result->toArray());
+        // print_r($result->toArray());
         return $result;
     }
 }

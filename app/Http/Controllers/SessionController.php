@@ -46,8 +46,17 @@ class SessionController extends Controller
         if ($request->post("description") != NULL) {
             $session->description = $request->post('description');
         }
+        if ($request->post("session_name") != NULL) {
+            $session->name = $request->post('session_name');
+        }
+        if ($request->post("session_description") != NULL) {
+            $session->description = $request->post('session_description');
+        }
+        if ($request->post("session-status-icon") != NULL) {
+            $session->status = $request->post('session-status-icon');
+        }
         $session->save();
-        return response()->json($session);
+        return response()->json(SessionModel::getSessionPageInfoFromId($session->id)->toArray());
     }
 
     /**
@@ -86,6 +95,9 @@ class SessionController extends Controller
         }
         if ($request->post("session_description") != NULL) {
             $session->description = $request->post('session_description');
+        }
+        if ($request->post("session-status-icon") != NULL) {
+            $session->status = $request->post('session-status-icon');
         }
         $session->update();
         return response()->json($session->toArray());
