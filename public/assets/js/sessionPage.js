@@ -183,13 +183,18 @@ var sessionItemClick = function(e) {
             console.log(state);
             //TODO:show function;
             if (data.contents) {
-                data.contents.map(function(content_item) {
-                    if(content_item!=null){
-                        var newItem = createContentItem(content_item);
+//                 data.contents.map(function(content_item) {
+//                     if(content_item!=null){
+//                         var newItem = createContentItem(content_item);
+//                         newItem.attr('data-src', id);
+//                         $('#table-content .list-group').append(newItem);                        
+//                     }
+//                 });
+                    if(data.contents!=null){
+                        var newItem = createContentItem(data.contents);
                         newItem.attr('data-src', id);
                         $('#table-content .list-group').append(newItem);                        
                     }
-                });
             }
 
             if (data.participants) {
@@ -502,46 +507,31 @@ var detachLinkTo = function(e) {
     
     switch(cate){
         case 'training':
-            content = content.filter(function(trainingItem){
-                return trainingItem!=id;
-            });
-            $('#session_'+showeditem).attr('data-content', JSON.stringify(content));
+            content = "";
+            $('#session_'+showeditem).attr('data-content', content);
             sendCate='content';
         break;
         case 'group':
             var group = participant.g;
-            participant.t = group.filter(function(groupItem){
-                return groupItem!=id;
+            participant.g = group.filter(function(groupItem){
+                return groupItem.value!=parseInt(id);
             });
             $('#session_'+showeditem).attr('data-participant', JSON.stringify(participant));
             sendCate='participant';
         break;
         case 'student':
-            if(isSubItem==undefined){
-                var student = participant.s;
-                participant.t = student.filter(function(studentItem){
-                    return trainingItem!=id;
-                });
-                
-            } else {
-                var group = participant.g;
-                participant.g=group.map(function(gitem){if(gitem.value==isSubItem){gitem.item = gitem.item?gitem.item.filter(function(item){return item!=id}):gitem.item;} return gitem;});
-            }
+            var student = participant.s;
+            participant.s = student.filter(function(studentItem){
+                return studentItem!=parseInt(id);
+            });
             sendCate='participant';$('#session_'+showeditem).attr('data-participant', JSON.stringify(participant));
         break;
         case 'teacher':
-            if(isSubItem==undefined){
-                var groupItem =participant.t;
-                groupItem.t = content.filter(function(teacherItem){
-                    return teacherItem !=id;
-                })[0];
-                
-                
-            } else{
-                var group = participant.g;
-                participant.g=group.map(function(gitem){if(gitem.value==isSubItem){gitem.item = gitem.item?gitem.item.filter(function(item){return item!=id}):gitem.item} return gitem;});
-            }
-                sendCate='participant';$('#session_'+showeditem).attr('data-participant', JSON.stringify(participant));
+            var groupItem =participant.t;
+            groupItem.t = content.filter(function(teacherItem){
+                return teacherItem !=parseInt(id);
+            })[0];
+            sendCate='participant';$('#session_'+showeditem).attr('data-participant', JSON.stringify(participant));
         break;
         default:
         break;
@@ -1146,18 +1136,21 @@ function dropEnd(event, item) {
                     cate = 'participant';
                 break;
                 case "training":
-                    if(content.length!=0){
-                       var repeat = content.filter(function(contentItem){
-                           return contentItem == droppeditem_id;
-                       })
-                       if(repeat.length==0){
-                           content.push(droppeditem_id);
-                       }
-                    } else {
-                        content.push(droppeditem_id);
-                    }
-                    $(event.target).attr('data-content', JSON.stringify(content));
-                    cate = 'content';
+//                     if(content.length!=0){
+//                        var repeat = content.filter(function(contentItem){
+//                            return contentItem == droppeditem_id;
+//                        })
+//                        if(repeat.length==0){
+//                            content.push(droppeditem_id);
+//                        }
+//                     } else {
+//                         content.push(droppeditem_id);
+//                     }
+
+                        content = droppeditem_id;
+                        $(event.target).attr('data-content', content);
+                        cate = 'content';
+
                 break;
                 default:
                 break;
@@ -1177,8 +1170,12 @@ function dropEnd(event, item) {
             },
             data: sendData
         }).done(function(data) {
-            if (dragitem[0]) {
-                notification(dragitem.length + ' ' + dragitem[0].split('_')[0] + 's linked to ' + $(event.target).find('.item-name').html() + '!', 1);
+            if(data.message==null){
+                if (dragitem[0]) {
+                    notification(dragitem.length + ' ' + dragitem[0].split('_')[0] + 's linked to ' + $(event.target).find('.item-name').html() + '!', 1);
+                } 
+            } else {
+                notification('This training is already allocated.',2);
             }
             requestData = [];
         }).fail(function(err) {

@@ -55,22 +55,27 @@ class SessionModel extends Model
 
     public function scopeGetContentDataFromSession($query, $content_data)
     {
-        $array = [];
-        if (isset($content_data) || $content_data != "{}") {
-            $content = json_decode($content_data);
-            if (isset($content)) {
-                if (count($content) != 0) {
-                    foreach ($content as $contentItem) {
-                        if (isset($contentItem)) {
-                            $training = TrainingsModel::find($contentItem);
-                            $training = $training != NULL ? $training->toArray() : $training;
-                            array_push($array, $training);
-                        }
-                    }
-                }
-            }
+        // $array = [];
+        // if (isset($content_data) || $content_data != "{}") {
+        //     $content = json_decode($content_data);
+        //     if (isset($content)) {
+        //         if (count($content) != 0) {
+        //             foreach ($content as $contentItem) {
+        //                 if (isset($contentItem)) {
+        //                     $training = TrainingsModel::find($contentItem);
+        //                     $training = $training != NULL ? $training->toArray() : $training;
+        //                     array_push($array, $training);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        // return $array;
+        if (isset($content_data)) {
+            $training = TrainingsModel::find($content_data);
+            return $training;
         }
-        return $array;
+        return false;
     }
     public function scopeGetParticipantDataFromSession($query, $participant_data)
     {
@@ -79,9 +84,9 @@ class SessionModel extends Model
         $teacherData = array();
         if (isset($participant_data)) {
             $participant = json_decode($participant_data);
-            $groupList = isset($participant->g)?$participant->g:array();
-            $studentList = isset($participant->s)?$participant->s:array();
-            $teacherList = isset($participant->t)?$participant->t:array();
+            $groupList = isset($participant->g) ? $participant->g : array();
+            $studentList = isset($participant->s) ? $participant->s : array();
+            $teacherList = isset($participant->t) ? $participant->t : array();
             if (isset($groupList)) {
                 // var_dump($groupList);
                 // var_dump($studentList);
@@ -122,8 +127,9 @@ class SessionModel extends Model
             if (isset($teacherList)) {
                 if (count($teacherList) != 0) {
                     foreach ($teacherList as $teacherValue) {
-//                         var_dump($teacherValue);
-                        $teacherItem = User::find($teacherValue);
+                        // var_dump($teacherValue);
+                        // exit;
+                        $teacherItem = User::find(intval($teacherValue));
                         $teacherItem = $teacherItem != NULL ? $teacherItem->toArray() : $teacherItem;
                         array_push($teacherData, $teacherItem);
                     }
