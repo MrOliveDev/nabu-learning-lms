@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{{ asset('assets/js/plugins/datatables/dataTables.bootstrap4.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/js/plugins/trumbowyg/trumbowyg.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.min.css') }}" >
 @endsection
 
 @section('con')
@@ -69,11 +70,11 @@
                     <th style="width: 10%;">{{ $translation->l('FileType') }}</th>
                     <th style="width: 40%;">{{ $translation->l('Details') }}</th>
                     <th style="width: 10%;">{{ $translation->l('Date') }}</th>
-                    <th style="width: 10%; background-color: #7e3e98;"></th>
+                    <th style="width: 10%;">{{ $translation->l('Actions') }}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <!-- <tr>
                     <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
                     <td class="font-w600">Name of File</td>
                     <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
@@ -82,197 +83,7 @@
                     <td style="background-color: #7e3e98; cursor: pointer;">
                         <i class="far fa-trash-alt"></i>
                     </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-pdf"></i> .pdf</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-archive"></i> .zip</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-archive"></i> .zip</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-archive"></i> .zip</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-archive"></i> .zip</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                    <td class="font-w600">Name of File</td>
-                    <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
-                    <td class="font-w600">Details</td>
-                    <td class="font-w600">Date</td>
-                    <td style="background-color: #7e3e98; cursor: pointer;">
-                        <i class="far fa-trash-alt"></i>
-                    </td>
-                </tr>
+                </tr> -->
             </tbody>
         </table>
         </div>
@@ -462,37 +273,21 @@
         <div id="modeles" class="ml-4">
             <fieldset id="modelLeft">
                 <div class="w-100 p-2 sliderStyle" style="height: 200px;">
-                    <div class="model-item">
+                    <div id="model-item-list">
+                    @foreach($templates as $template)
+                    <div class="model-item" id="model-item-{{$template['id']}}">
                         <div>
                             <i class="fa fa-circle mr-3" style="color: green;"></i>
-                            <span>Report 1</span>
+                            <span id="model-title-{{$template['id']}}">{{ $template['name'] }}</span>
                         </div>
                         <div>
-                            <i class="fa fa-edit mr-3"></i>
-                            <i class="fa fa-trash mr-3"></i>
+                            <i class="fa fa-edit mr-3 actionBtn" onclick="editTemplate({{$template['id']}})"></i>
+                            <i class="fa fa-trash mr-3 dangerBtn" onclick="delTemplate({{$template['id']}})"></i>
                         </div>
                     </div>
-                    <div class="model-item">
-                        <div>
-                            <i class="fa fa-circle mr-3" style="color: red;"></i>
-                            <span>Certificate 1</span>
-                        </div>
-                        <div>
-                            <i class="fa fa-edit mr-3"></i>
-                            <i class="fa fa-trash mr-3"></i>
-                        </div>
+                    @endforeach
                     </div>
-                    <div class="model-item">
-                        <div>
-                            <i class="fa fa-circle mr-3" style="color: green;"></i>
-                            <span>Report Complete</span>
-                        </div>
-                        <div>
-                            <i class="fa fa-edit mr-3"></i>
-                            <i class="fa fa-trash mr-3"></i>
-                        </div>
-                    </div>
-                    <i class="fa fa-plus addModelBtn ml-3 mt-3"></i>
+                    <i class="fa fa-plus addModelBtn ml-3 mt-3 actionBtn" onclick="addTemplate()"></i>
                 </div>
 
                 <div id="horizSplit4" class="handler_horizontal  text-center  font-size-h3 mb-4" style="color: #362f81;">
@@ -512,23 +307,23 @@
                     </ul>
                     <div class="ml-3">
                         <div id="variables">
-                            <p class="model-drag-item mt-1">#last_name</p>
-                            <p class="model-drag-item mt-1">#first_name</p>
-                            <p class="model-drag-item mt-1">#student_company</p>
-                            <p class="model-drag-item mt-1">#training_name</p>
-                            <p class="model-drag-item mt-1">#total_time_spent_on_training</p>
-                            <p class="model-drag-item mt-1">#session_begin_Date</p>
-                            <p class="model-drag-item mt-1">#session_end_Date</p>
-                            <p class="model-drag-item mt-1">#session_administrator_complete_name</p>
-                            <p class="model-drag-item mt-1">#session_teacher_complete_name</p>
-                            <p class="model-drag-item mt-1">#evaluation_pc_result</p>
-                            <p class="model-drag-item mt-1">#evaluation_num_result</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#last_name</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#first_name</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#student_company</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#training_name</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#total_time_spent_on_training</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#session_begin_Date</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#session_end_Date</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#session_administrator_complete_name</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#session_teacher_complete_name</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#evaluation_pc_result</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#evaluation_num_result</p>
                         </div>
                         <div id="blocks">
-                            <p class="model-drag-item mt-1">#Content block1</p>
-                            <p class="model-drag-item mt-1">#Content block2</p>
-                            <p class="model-drag-item mt-1">#Content block3</p>
-                            <p class="model-drag-item mt-1">#Content block4</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Content block1</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Content block2</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Content block3</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Content block4</p>
                         </div>
                     </div>  
                 </div>
@@ -543,14 +338,14 @@
                 <div class="mb-3">
                     <span class="text-white mr-3">Name * </span>
                     <span class="bg-white text-black p-2 rounded">
-                        <input class="input-field border-0 mw-100 model-name-input" type="text" style="width: 350px;">
+                        <input class="input-field border-0 mw-100 model-name-input" type="text" style="width: 350px;" id="model-name">
                     </span>
                 </div>
                 <div class="w-100" style="height: 600px; background-color: white;" id="model-trumb-pane">
                 </div>
                 <div class="float-right mt-3">
-                    <button class="modelActBtn mr-2"> CANCEL </button>
-                    <button class="modelActBtn mr-2"> SAVE </button>
+                    <button class="modelActBtn mr-2" onclick="cancelTemplate()"> CANCEL </button>
+                    <button class="modelActBtn mr-2" onclick="saveTemplate()"> SAVE </button>
                 </div>
             </fieldset>
         </div>
@@ -570,6 +365,8 @@
 <script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.flash.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.colVis.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/trumbowyg/trumbowyg.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
 @endsection
 
 @include('report.script')

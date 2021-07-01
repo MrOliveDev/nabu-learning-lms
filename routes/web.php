@@ -176,7 +176,10 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('sessionjointo', '\App\Http\Controllers\SessionController@sessionJoinTo')->name('sessionjointo');
 
     Route::get('report', '\App\Http\Controllers\ReportController@index')->name('report');
-
+    Route::post('getReportList', '\App\Http\Controllers\ReportController@getReportList')->name('getReportList');
+    Route::post('getTemplateData', '\App\Http\Controllers\ReportController@getTemplateData')->name('getTemplateData');
+    Route::post('saveTemplateData', '\App\Http\Controllers\ReportController@saveTemplateData')->name('saveTemplateData');
+    Route::post('delTemplate', '\App\Http\Controllers\ReportController@delTemplate')->name('delTemplate');
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

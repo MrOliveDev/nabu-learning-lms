@@ -161,7 +161,23 @@ td{
     cursor: pointer;
 }
 
+.model-drag-item.active{
+    color: white;
+}
+
 .model-name-input{
     outline: none;
     width: 350px;
+}
+
+.actionBtn, .dangerBtn{
+    cursor: pointer;
+}
+
+.actionBtn:hover{
+    color: green;
+}
+
+.dangerBtn:hover{
+    color: red;
 }
