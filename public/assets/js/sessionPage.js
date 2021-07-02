@@ -550,7 +550,7 @@ var detachLinkTo = function(e) {
             var teacher =participant.t;
             participant.t = teacher.filter(function(teacherItem){
                 return teacherItem !=parseInt(id);
-            })[0];
+            });
             sendCate='participant';$('#session_'+showeditem).attr('data-participant', JSON.stringify(participant));
         break;
         default:
