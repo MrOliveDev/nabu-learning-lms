@@ -129,7 +129,7 @@ class SessionModel extends Model
                     foreach ($teacherList as $teacherValue) {
                         // var_dump($teacherValue);
                         // exit;
-                        $teacherItem = User::find(intval($teacherValue));
+                        $teacherItem = User::find($teacherValue);
                         $teacherItem = $teacherItem != NULL ? $teacherItem->toArray() : $teacherItem;
                         array_push($teacherData, $teacherItem);
                     }
