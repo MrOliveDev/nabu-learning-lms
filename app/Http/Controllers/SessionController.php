@@ -61,6 +61,9 @@ class SessionController extends Controller
         if ($request->post("end_date") != NULL) {
             $session->end_date = $request->post('end_date');
         }
+        if ($request->post("language") != NULL) {
+            $session->language_iso = $request->post('language');
+        }
         $session->save();
         return response()->json(SessionModel::getSessionPageInfoFromId($session->id)->toArray());
     }
@@ -111,8 +114,11 @@ class SessionController extends Controller
         if ($request->post("end_date") != NULL) {
             $session->end_date = $request->post('end_date');
         }
+        if ($request->post("language") != NULL) {
+            $session->language_iso = $request->post('language');
+        }
         $session->update();
-        return response()->json($session->toArray());
+        return response()->json(SessionModel::getSessionPageInfoFromId($session->id)->toArray());
     }
 
     /**

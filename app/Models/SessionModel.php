@@ -95,19 +95,7 @@ class SessionModel extends Model
                     foreach ($groupList as $groupValue) {
                         $groupSubData = array();
                         $groupTopData = NULL;
-                        $groupSubList = [];
-                        if (isset($groupValue->item)) {
-                            $groupSubList = $groupValue->item;
-                            if (count($groupSubList) != 0) {
-                                foreach ($groupSubList as $groupSubItemValue) {
-                                    if (User::find($groupSubItemValue) != NULL) {
-                                        array_push($groupSubData, User::find($groupSubItemValue)->toArray());
-                                    }
-                                }
-                            }
-                        } else {
-                            $groupSubData = User::getUserFromGroup($groupValue->value);
-                        }
+                        $groupSubData = User::getUserFromGroup($groupValue->value);
                         $groupTopData = GroupModel::find($groupValue->value);
                         $groupTopData = $groupTopData != NULL ? $groupTopData->toArray() : NULL;
                         array_push($groupData, array("value" => $groupTopData, "items" => $groupSubData));
