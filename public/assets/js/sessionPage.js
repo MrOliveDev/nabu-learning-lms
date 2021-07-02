@@ -119,7 +119,10 @@ var filterToggleShow = function(event) {
     parent.children(".toolkit-filter").toggle();
     if (parent.attr('id') == 'cate-toolkit') {
         var leftActiveTab = $('#RightPanel .ui-state-active a').attr('href').split('#')[1];
-        if (leftActiveTab == 'students') {
+        if($('#table-content-tab').parents('li').is('.ui-state-active')){
+            parent.find('.filter-function-btn').toggle(false);
+            parent.find('.filter-company-btn').toggle(false);
+        } else if (leftActiveTab == 'students') {
             parent.find('.filter-function-btn').toggle(true);
         } else if (leftActiveTab == 'teachers') {
             parent.find('.filter-function-btn').toggle(false);
@@ -154,22 +157,25 @@ var filterToggleShow = function(event) {
 var toolkitAddItem = function(event) {
     event.preventDefault();
     event.stopPropagation();
-
+    notification('Please insert new session.', 1);
+    $('#div_B .list-group-item').detach();
     clearFrom($('#session_form'));
-    $("#session-status-icon").val('POST');
+    $('#div_A .list-group-item').removeClass('active');
     $("#session_form .method-select").val('POST');
+    $("#language").val(1);
     $("#session_form").attr('action', baseURL + '/session');
 };
 
+
 var sessionItemClick = function(e) {
-    $('#table-content .list-group .list-group-item').detach();
-    $('#table-participant .list-group .list-group-item').detach();
+
     $('#div_A .list-group-item').removeClass('active');
     if (!$(this).hasClass("active")) {
         $(this).addClass("active");
     }
     heightToggleLeft = true;
     var parent = $(this).parents('.list-group-item');
+    $('#div_B .list-group-item').detach();
 
     $('#session_form .method-select').val('PUT');
     $("#session_form").attr('action', baseURL + '/session/' + $(this).attr('id').split('_')[1]);
@@ -232,6 +238,7 @@ var sessionItemClick = function(e) {
             $('#session_description').val(data.session_info.description);
             $('#end_date').val(data.session_info.end_date);
             $('#begin_date').val(data.session_info.begin_date);
+            $('#language').val(data.session_info.language_iso);
         },
         error: function(err) {
             notification("Sorry, You can't get session data!", 2);
@@ -330,18 +337,23 @@ var createSessionData = function(data) {
         '<input type="hidden" name="item-name" value="' + data.name + '">' +
         '</div>' +
         '<div class="btn-group float-right">' +
-        '<span class=" p-2 font-weight-bolder item-lang">' + data.language_iso + '</span>' +
+        '<span class=" p-2 font-weight-bolder item-lang">' + data.language_iso.toUpperCase() + '</span>' +
         '<button class="btn item-delete" data-content="session">' +
         '<i class="px-2 fa fa-trash-alt"></i>' +
         '</button>' +
         '</div>' +
         '</a>');
         element.click(sessionItemClick);
+        element.attr('draggable', false);
+        element.on('drop', dropEnd);
+        element.on('dragover', dragOver);
+        element.on('dragleave', dragLeave);
+        element.find('.item-delete').click(itemDelete);
     return element;
 }
 
 var updateSessionData = function(data, target) {
-    $('#' + target + " .item-lang").html(data.language_iso);
+    $('#' + target + " .item-lang").html(data.language_iso.toUpperCase());
     $('#' + target + " input[name='item-name']").val(data.name);
     $('#' + target + " .item-name").html(data.name);
     $('#' + target).find('.status-notification').val(data.status);
@@ -396,29 +408,32 @@ var submitBtn = function(event) {
         });
     }
 
-    if($('#start_date').val()!=''&& $('#end_date').val()!='' &&$('#start_date').val()>$('#end_date').val()){
+    if($('#begin_date').val()!=''&& $('#end_date').val()!='' &&$('#begin_date').val()>$('#end_date').val()){
         notification('You have to insert correct date!', 2);
         return;
     }
     console.log(serialval);
-        $.ajax({
-            url: $('#' + formname).attr('action'),
-            method: $('#' + formname).find('.method-select').val(),
-            data: serialval,
-            success: function(data) {
-                console.log(data);
-                if ($('#' + formname).find('.method-select').val()=='post') {
-                    notification('A session has been registered sucessfully!', 1);
-                    $('#session .list-group').append(createSessionData(data));
-                } else {
-                    var target = $("#session_form").attr('data-item');
-                    updateSessionData(data, target);
-                }
-            },
-            error: function(err) {
-                notification("Sorry, You have an error!", 2);
+    $.ajax({
+        url: $('#' + formname).attr('action'),
+        method: $('#' + formname).find('.method-select').val(),
+        data: serialval,
+        success: function(data) {
+            console.log(data);
+            $('#div_B .list-group-item').detach();
+            clearFrom($('#session_form'));
+            $('#div_A .list-group-item').removeClass('active');
+            if ($('#session_form .method-select').val()=='POST') {
+                notification('A session has been registered sucessfully!', 1);
+                $('#session .list-group').append(createSessionData(data));
+            } else {
+                var target = $("#session_form").attr('data-item');
+                updateSessionData(data, target);
             }
-        });
+        },
+        error: function(err) {
+            notification("Sorry, You have an error!", 2);
+        }
+    });
 
     if ($("#" + formname).attr('data-item') != '' && $("#" + formname).attr('data-item') != null) {
         var targetName = $("#" + formname).attr('data-item').split('_')[0],
@@ -438,8 +453,13 @@ var item_delete = function(element) {
         // dataType: "json",
         success: function(result) {
             console.log(result);
-            parent.detach();
             notification('Successfully deleted!', 1);
+            if(parent.hasClass('active')){
+                $('#div_B .list-group-item').detach();
+                clearFrom($('#session_form'));
+                $('#div_A .list-group-item').removeClass('active');
+            }
+            parent.detach();
         },
         error: function(err) {
             console.log(err);
@@ -527,10 +547,10 @@ var detachLinkTo = function(e) {
             sendCate='participant';$('#session_'+showeditem).attr('data-participant', JSON.stringify(participant));
         break;
         case 'teacher':
-            var groupItem =participant.t;
-            groupItem.t = content.filter(function(teacherItem){
+            var teacher =participant.t;
+            participant.t = teacher.filter(function(teacherItem){
                 return teacherItem !=parseInt(id);
-            })[0];
+            });
             sendCate='participant';$('#session_'+showeditem).attr('data-participant', JSON.stringify(participant));
         break;
         default:
@@ -571,6 +591,10 @@ var detachCall = function(connectiondata, element) {
         data: connectiondata
     }).then(function(data) {
         notification('Successfully unliked!', 1);
+        
+        if(element.parents('.list-group-item').next().is('div.d-flex')){
+            element.parents('.list-group-item').next().detach();
+        }
         element.parents('.list-group-item').detach();
         return true;
     }).fail(function(err) {
@@ -812,7 +836,7 @@ var sortfilter = function(event) {
 
     if (parent.attr('id') == 'cate-toolkit') {
         if($('#table-content-tab').parents('li.nav-item').hasClass('ui-state-active')){
-            $itemgroup = parent.next('div:first').find('.list-group');
+            $itemgroup = $('#trainings').find('.list-group');
         }else{
         var selector = parent.prev().find('.ui-state-active a').attr('href').split('#')[1];
         $itemgroup = $("#" + selector).find('.list-group');    
@@ -1071,8 +1095,12 @@ function dropEnd(event, item) {
     var parent= $(event.target);
 
     var requestData = Array();
-
-    var id = $(event.target).attr("id").split('_')[1];
+    if(!$(event.target).is('.list-group-item')){
+        var id = $(event.target).parents('.list-group-item').attr("id").split('_')[1];
+    }else {
+        var id = $(event.target).attr("id").split('_')[1];
+    }
+    
     var participantData = $(this).attr('data-participant');
     var participant = participantData?JSON.parse(participantData):{s:[], t:[], g:[]};
     var contentData = $(this).attr('data-content');
@@ -1220,7 +1248,6 @@ $(document).ready(function() {
     $("#LeftPanel .list-group-item").each(function(i, elem) {
         $(elem).attr('draggable', false);
         $(elem).on('drop', dropEnd);
-
         elem.addEventListener('dragover', dragOver);
         elem.addEventListener('dragleave', dragLeave);
     });
@@ -1236,7 +1263,7 @@ $('input[name=status], input.search-filter, button.filter-company-btn, button.fi
 $('input.search-filter').on('keydown change keyup', searchfilter);
 $("button.filter-company-btn, button.filter-function-btn").on('drop', searchfilter);
 
-$(".list-group-item").dblclick(itemDBClick);
+$("#RightPanel .list-group-item").dblclick(itemDBClick);
 $("#RightPanel .list-group-item").click(rightItemClick);
 
 $(".list-group-item button.btn").click(btnClick);

@@ -564,6 +564,22 @@
 
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Language
+                                        </span>
+                                    </div>
+                                    <select class="form-control" id="language" name="language" required>
+                                        <option value="" selected>No Langauge</option>
+                                        @foreach ($languages as $language)
+                                            <option value="{{ $language->language_id }}">
+                                                {{ $language->language_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <div class="form-group" id='status-form-group'>
                                 <div class="custom-control custom-switch custom-control-lg mb-2 ml-0 ">
                                     <input type="checkbox" class="custom-control-input" id="session-status-icon"
