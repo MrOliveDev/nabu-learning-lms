@@ -172,9 +172,11 @@
                     <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
                         <i class="fas fa-sort-numeric-down"></i>
                     </button>
-                    <button type="button" value="" class="rounded text-white filter-company-btn px-1 border-0" style="display:none;">company
+                    <button type="button" value="" class="rounded text-white filter-company-btn px-1 border-0"
+                        style="display:none;">company
                         +<i></i></button>&nbsp;
-                    <button type="button" value="" class="rounded text-white filter-function-btn px-1 border-0" style="display:none;">function
+                    <button type="button" value="" class="rounded text-white filter-function-btn px-1 border-0"
+                        style="display:none;">function
                         +<i></i></button>
                 </div>
             </div>
@@ -185,8 +187,9 @@
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @foreach ($sessions as $session)
                             <a class="list-group-item list-group-item-action p-0 border-transparent border-5x session_{{ $session->id }}"
-                                id="session_{{ $session->id }}" data-date='{{ $session->create_date }}' data-participant='{{$session->participants}}'
-                                data-content="{{$session->contents}}">
+                                id="session_{{ $session->id }}" data-date='{{ $session->create_date }}'
+                                data-participant='{{ $session->participants }}'
+                                data-content="{{ $session->contents }}">
                                 <div class="float-left">
                                     @if ($session->status == 1)
                                         <i class="fa fa-circle  m-2" style="color:green;"></i>
@@ -356,9 +359,9 @@
                                             class="item-name">{{ $student->first_name }}&nbsp;{{ $student->last_name }}</span>
                                         <input type="hidden" name="item-name"
                                             value="{{ $student->first_name }}{{ $student->last_name }}">
-                                            <input type="hidden" name="item-group" value="{{ $student->linked_groups }}">
-                                            <input type="hidden" name="item-company" value="{{ $student->company }}">
-                                            <input type="hidden" name="item-function" value="{{ $student->function }}">
+                                        <input type="hidden" name="item-group" value="{{ $student->linked_groups }}">
+                                        <input type="hidden" name="item-company" value="{{ $student->company }}">
+                                        <input type="hidden" name="item-function" value="{{ $student->function }}">
                                     </div>
                                     <div class="btn-group float-right">
                                         <span
@@ -507,7 +510,8 @@
         <div id="div_D" class="window bottom">
 
             <div class="tab-content mx-4" id="nav-tabContent">
-                <form method="post" id="session_form" enctype="multipart/form-data" class="form" action="" onSubmit="false">
+                <form method="post" id="session_form" enctype="multipart/form-data" class="form" action=""
+                    onSubmit="false">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input name='_method' type='hidden' value='PUT' class='method-select' />
                     <div class="card bg-white text-black mx-2">
@@ -527,11 +531,11 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Description<span class="text-danger">*</span>
+                                            Description
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="session_description"
-                                        name="session_description" value="" required>
+                                        name="session_description" value="">
                                 </div>
                             </div>
                             <div class="form-group" id="expired_date_input">
