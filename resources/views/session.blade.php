@@ -590,6 +590,8 @@
                             <div class="form-group clearfix">
                                 <button type="submit" class="btn btn-hero-primary float-right mx-1 submit-btn"
                                     id="session_save_button" data-form="session_form">SAVE</button>
+                                <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn"
+                                    id="user_cancel_button">CANCEL</button>
                                 <input type="hidden" name="cate-status">
                             </div>
                         </div>

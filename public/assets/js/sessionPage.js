@@ -64,8 +64,14 @@ var itemDBClick = function() {
     });
 };
 
+
 var rightItemClick = function(e) {
-    $(this).addClass('active');
+    if($(e.target).is('.active')){
+        $(e.target).removeClass('active');
+    }else{
+        $(e.target).addClass('active');    
+    }
+    
 };
 
 var btnClick = function(e) {
@@ -157,6 +163,7 @@ var filterToggleShow = function(event) {
 var toolkitAddItem = function(event) {
     event.preventDefault();
     event.stopPropagation();
+    $('#session_form').toggle(true);
     notification('Please insert new session.', 1);
     $('#div_B .list-group-item').detach();
     clearFrom($('#session_form'));
@@ -168,7 +175,7 @@ var toolkitAddItem = function(event) {
 
 
 var sessionItemClick = function(e) {
-
+    $('#session_form').toggle(true);
     $('#div_A .list-group-item').removeClass('active');
     if (!$(this).hasClass("active")) {
         $(this).addClass("active");
@@ -196,8 +203,8 @@ var sessionItemClick = function(e) {
 //                         $('#table-content .list-group').append(newItem);                        
 //                     }
 //                 });
-                    if(data.contents!=null){
-                        var newItem = createContentItem(data.contents);
+                    if(data.contents!=null&&Object.keys(data.contents).length!= 0){
+                        var newItem = createContentItem(data.contents[0]);
                         newItem.attr('data-src', id);
                         $('#table-content .list-group').append(newItem);                        
                     }
@@ -442,6 +449,12 @@ var submitBtn = function(event) {
         $('#' + sourceId + ' .item-edit').toggleClass('active', false);
     }
     }
+};
+
+var cancelBtn = function(event) {
+    var parent = $(event.target).parents('form');
+    parent.toggle(false);
+    clearFrom($('#session_form'));
 };
 
 var item_delete = function(element) {
@@ -1090,10 +1103,41 @@ function dragEnd(event) {
     $('main').css('cursor', 'default');
 }
 
-function dropEnd(event, item) {
+var sessionLinkTo = function(parent, sendData){
+        return new Promise((resolve, reject)=>{
+            $.post({
+            url: baseURL + '/sessionjointo',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: sendData
+        }).done(function(data) {
+            if(data.message==null){
+                if (dragitem[0]) {
+                    notification('Items linked to ' + parent.find('.item-name').html() + '!', 1);
+                } 
+            } else {
+                notification('This training is already allocated.',2);
+            }
+            parent.click();
+            resolve(true);
+        }).fail(function(err) {
+            notification("Sorry, You have an error!", 2);
+            resolve(false);
+        }).always(function(data) {
+            console.log(data);
+            dragitem = null;
+//             $(this).click();
+        });
+        })    
+}
+
+async function dropEnd(event, item) {
     $(event.target).css('opacity', '100%');
     var parent= $(event.target);
-
+    if(!$(event.target).is('.list-group-item')){
+        parent=$(event.target).parents('.list-group-item');
+    }
     var requestData = Array();
     if(!$(event.target).is('.list-group-item')){
         var id = $(event.target).parents('.list-group-item').attr("id").split('_')[1];
@@ -1191,35 +1235,15 @@ function dropEnd(event, item) {
             'id':id,
             'cate':cate
         };
-        $.post({
-            url: baseURL + '/sessionjointo',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: sendData
-        }).done(function(data) {
-            if(data.message==null){
-                if (dragitem[0]) {
-                    notification(dragitem.length + ' ' + dragitem[0].split('_')[0] + 's linked to ' + $(event.target).find('.item-name').html() + '!', 1);
-                } 
-            } else {
-                notification('This training is already allocated.',2);
-            }
-            requestData = [];
-        }).fail(function(err) {
-            notification("Sorry, You have an error!", 2);
-            requestData = [];
-        }).always(function(data) {
-            console.log(data);
-            dragitem = null;
-        });
+        await sessionLinkTo(parent, sendData);
+        requestData = [];
     }
     $("#RightPanel").find('.list-group-item').each(function() {
         if ($(this).hasClass('active')) {
             $(this).removeClass('active');
         }
     });
-    $(this).click();
+    
 }
 
 var participateClick = function(e) {
@@ -1316,3 +1340,4 @@ $("#table-content .list-group").sortable({
         });
     }
 });
+$('.cancel-btn').click(cancelBtn);
