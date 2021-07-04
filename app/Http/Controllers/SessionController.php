@@ -64,6 +64,9 @@ class SessionController extends Controller
         if ($request->post("language") != NULL) {
             $session->language_iso = $request->post('language');
         }
+        // if(){
+
+        // }
         $session->save();
         return response()->json(SessionModel::getSessionPageInfoFromId($session->id)->toArray());
     }
@@ -78,10 +81,15 @@ class SessionController extends Controller
     {
         $session = SessionModel::find($id);
         $participant = SessionModel::getParticipantDataFromSession($session->participants);
-        $content = SessionModel::getContentDataFromSession($session->contents);
+        $contentData = SessionModel::getContentDataFromSession($session->contents);
         // dd(array('contents'=>$content, 'participants'=>$participant, "session_info"=>$session->toArray()));
         // dd(User::getUserIDFromGroup(2));
-        return response()->json(['contents' => $content, 'participants' => $participant, "session_info" => $session->toArray()]);
+        if ($contentData == null) {
+            print_r('abc');
+            exit;
+            return;
+        }
+        return response()->json(['contents' => $contentData, 'participants' => $participant, "session_info" => $session->toArray()]);
     }
     /**
      * Update the specified resource in storage.

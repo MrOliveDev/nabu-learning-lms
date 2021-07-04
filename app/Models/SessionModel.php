@@ -71,23 +71,27 @@ class SessionModel extends Model
         //     }
         // }
         // return $array;
-        if (isset($content_data)) {
-            $training = TrainingsModel::find($content_data);
-            return $training;
+        if (isset($content_data) || $content_data != "") {
+            $training = TrainingsModel::where('id', $content_data)->get();
+            if ($training->count() != 0) {
+                return $training;
+            } else {
+                return null;
+            }
         }
-        return false;
+        return null;
     }
     public function scopeGetParticipantDataFromSession($query, $participant_data)
     {
         $groupData = array();
         $studentData = array();
         $teacherData = array();
-        if (isset($participant_data)) {
+        if (isset($participant_data) || $participant_data != "") {
             $participant = json_decode($participant_data);
             $groupList = isset($participant->g) ? $participant->g : array();
             $studentList = isset($participant->s) ? $participant->s : array();
             $teacherList = isset($participant->t) ? $participant->t : array();
-            if (isset($groupList)) {
+            if (isset($groupList) || $groupList != "") {
                 // var_dump($groupList);
                 // var_dump($studentList);
                 // var_dump($teacherList);
@@ -102,7 +106,7 @@ class SessionModel extends Model
                     }
                 }
             }
-            if (isset($studentList)) {
+            if (isset($studentList) || $studentList != "") {
                 if (count($studentList) != 0) {
                     foreach ($studentList as $studentValue) {
                         // print_r($studentValue);
@@ -112,7 +116,7 @@ class SessionModel extends Model
                     }
                 }
             }
-            if (isset($teacherList)) {
+            if (isset($teacherList) || $teacherList != "") {
                 if (count($teacherList) != 0) {
                     foreach ($teacherList as $teacherValue) {
                         // var_dump($teacherValue);
