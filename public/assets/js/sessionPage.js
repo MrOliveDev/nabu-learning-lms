@@ -1288,7 +1288,7 @@ $('input.search-filter').on('keydown change keyup', searchfilter);
 $("button.filter-company-btn, button.filter-function-btn").on('drop', searchfilter);
 
 $("#RightPanel .list-group-item").dblclick(itemDBClick);
-$("#RightPanel .list-group-item").click(rightItemClick);
+$("#RightPanel .list-group-item, #RightPanel .list-group-item *").click(rightItemClick);
 
 $(".list-group-item button.btn").click(btnClick);
 
