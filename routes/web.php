@@ -121,7 +121,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => 'html5
     });
 });
 
-Route::group(['middleware' => ['cors'], 'prefix' => 'html5_player_api_'], function () {
+Route::group(['prefix' => 'html5_player_api_'], function () {
 
     Route::get('/', function () {
         echo 'Welcome html5 player api :-)';
