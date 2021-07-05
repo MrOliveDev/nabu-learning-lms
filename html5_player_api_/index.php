@@ -4,7 +4,7 @@ header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 header('Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS');
 
-include($_SERVER['DOCUMENT_ROOT']."/nabu-new-lms/html5_player_api/config/config.php");
+include($_SERVER['DOCUMENT_ROOT']."/nabu-new-lms/html5_player_api_/config/config.php");
 // Include router class
 include('inc/router.class.php');
 // Add base route (startpage)
@@ -130,5 +130,5 @@ Route::methodNotAllowed(function($path, $method){
     echo json_encode($return);
 });
 
-Route::run('/html5_player_api');
+Route::run('/html5_player_api_');
 ?>
