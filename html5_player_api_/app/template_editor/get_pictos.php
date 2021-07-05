@@ -26,7 +26,7 @@
     -
     ----------------------------------------------------------------------- */
     // var_dump(session('user_id'));
-
+    $_SESSION['user_id'] = 6664;
     if ( !$_SESSION['user_id'] )
     {
         $return['state']    = 'error';

@@ -22,7 +22,8 @@
     -
     -
     ----------------------------------------------------------------------- */
-
+    $_SESSION['user_id'] = 6664;
+    $_SESSION['config_id'] = 1;
     if ( !$_SESSION['user_id'] )
     {
         $return['state']    = 'error';

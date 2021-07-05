@@ -135,6 +135,7 @@ Route::group(['prefix' => 'html5_player_api_'], function () {
     Route::get('/i18n/{languageId}', function ($languageId) {
         require_once('../html5_player_api_/app/i18n/get_i18n_strings.php');
     });
+    
     // GET Tutorial Translations
     Route::get('/tutorial/{language}/{appType}', function ($language, $appType) {
         require_once('../html5_player_api_/app/i18n/get_tutorial_strings.php');

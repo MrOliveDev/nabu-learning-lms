@@ -26,6 +26,7 @@
     - SELECT * FROM `tb_awesome_hexa`
     -
     ----------------------------------------------------------------------- */
+    $_SESSION['user_id'] = 6664;
     if ( !$_SESSION['user_id'] )
     {
         $return['state']    = 'error';
