@@ -121,12 +121,109 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => 'html5
     });
 });
 
+Route::group(['middleware' => ['cors'], 'prefix' => 'html5_player_api_'], function () {
+
+    Route::get('/', function () {
+        echo 'Welcome html5 player api :-)';
+    });
+
+    /**
+     * Adding i18n route
+     */
+
+    // GET Pictos list
+    Route::get('/i18n/{languageId}', function ($languageId) {
+        require_once('../html5_player_api_/app/i18n/get_i18n_strings.php');
+    });
+    // GET Tutorial Translations
+    Route::get('/tutorial/{language}/{appType}', function ($language, $appType) {
+        require_once('../html5_player_api_/app/i18n/get_tutorial_strings.php');
+    });
+
+    /**
+     * Adding routes for Template Editor
+     */
+
+    // GET saved template datas
+    Route::get('/template_editor/template/{templateId}', function ($templateId) {
+        require_once('../html5_player_api_/app/template_editor/get_template.php');
+    });
+
+    // GET Pictos list
+    Route::get('/template_editor/pictos', function () {
+        require_once('../html5_player_api_/app/template_editor/get_pictos.php');
+    });
+
+    // POST template datas to save
+    Route::post('/template_editor/template/{templateId}', function ($templateId) {
+        require_once('../html5_player_api_/app/template_editor/post_template.php');
+    });
+
+    /**
+     * End Of Template Editor routes
+     * */
+
+    // Route pour afficher ou créer le json.
+    Route::post('/courses/{productId}/{courseId}/json', function ($productId, $courseId) {
+        require_once('../html5_player_api_/app/course/courseInJson.php');
+    });
+
+    // Route pour connaitre la configuration du player par rapport à un cours
+    Route::post('/courses/{productId}/{courseId}/player/config', function ($productId, $courseId) {
+        require_once('../html5_player_api_/app/playerConfig/playerConfig.php');
+    });
+
+    // Route pour connaitre la configuration du player pour un utilisateur
+    Route::get('/courses/{formationId}/{productId}/{courseId}/user/{userId}/config', function ($formationId, $productId, $courseId, $userId) {
+        require_once('../html5_player_api_/app/userCourse/userCourseConfig.php');
+    });
+
+    // Route pour enregistrer l'évaluation de l'utilisateur
+    Route::post('/courses/{productId}/{courseId}/user/{userId}/screen/{screenId}/{state}/evaluation', function ($productId, $courseId, $userId, $screenId, $state) {
+        require_once('../html5_player_api_/app/userCourse/userCourseEvaluation.php');
+    });
+
+    // Route pour enregistrer la progression de l'utilisateur
+    Route::post('/courses/{productId}/{courseId}/user/{userId}/screen/{screenId}/{state}', function ($productId, $courseId, $userId, $screenId, $state) {
+        require_once('../html5_player_api_/app/userCourse/userCourseProgression.php');
+    });
+
+    // Route pour connaitre l'avancé de l'utilisateur.
+    Route::get('/courses/{productId}/{courseId}/user/{userId}', function ($productId, $courseId, $userId) {
+        require_once('../html5_player_api_/app/userCourse/userCourseHistoric.php');
+    });
+
+    Route::get('/progression/{productId}/user/{userId}', function ($productId, $userId) {
+        require_once('../html5_player_api_/app/userCourse/userProgression.php');
+    });
+
+    // Route pour créer une session à un utilisateur
+    Route::get('/user/{userId}/session/courses/{productId}', function ($userId, $productId) {
+        require_once('../html5_player_api_/app/user/userSession.php');
+    });
+
+    // Route pour savoir si un utilisateur est connecté
+    Route::get('/user/isConnect', function () {
+        require_once('../html5_player_api_/app/user/userIsConnect.php');
+    });
+
+    // Route pour récupérer les informations d'un utilisateur
+    Route::get('/user/{userId}', function ($userId) {
+        require_once('../html5_player_api_/app/user/userInfos.php');
+    });
+
+    // Route for report bug
+    Route::post('/report/{userId}', function ($userId) {
+        require_once('../html5_player_api_/app/user/userReport.php');
+    });
+});
+
 
 Route::get('/', '\App\Http\Controllers\HomeController@index');
 
 Auth::routes();
 
-Route::group(['middleware' => ['auth', 'checksinglesession',  'cors'], 'prefix' => ''], function () {
+Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], function () {
     Route::get('/', '\App\Http\Controllers\admin\DashController@index');
     Route::get('home', '\App\Http\Controllers\HomeController@index')->name('home');
     Route::get('admindash', '\App\Http\Controllers\admin\DashController@index')->name('admin.dash');
