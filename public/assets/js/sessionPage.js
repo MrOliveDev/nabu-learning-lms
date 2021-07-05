@@ -66,10 +66,14 @@ var itemDBClick = function() {
 
 
 var rightItemClick = function(e) {
-    if($(e.target).is('.active')){
-        $(e.target).removeClass('active');
+    var parent = $(event.target);
+    if(!parent.is('.list-group-item')){
+        parent = $(event.target).parents('.list-group-item');
+    }
+    if(parent.is('.active')){
+        parent.removeClass('active');
     }else{
-        $(e.target).addClass('active');    
+        parent.addClass('active');    
     }
     
 };
