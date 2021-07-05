@@ -126,7 +126,7 @@ Route::get('/', '\App\Http\Controllers\HomeController@index');
 
 Auth::routes();
 
-Route::group(['middleware' => ['auth', 'checksinglesession', 'cors'], 'prefix' => ''], function () {
+Route::group(['middleware' => ['auth', 'checksinglesession',  'cors'], 'prefix' => ''], function () {
     Route::get('/', '\App\Http\Controllers\admin\DashController@index');
     Route::get('home', '\App\Http\Controllers\HomeController@index')->name('home');
     Route::get('admindash', '\App\Http\Controllers\admin\DashController@index')->name('admin.dash');
