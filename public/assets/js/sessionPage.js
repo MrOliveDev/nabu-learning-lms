@@ -1116,13 +1116,13 @@ var sessionLinkTo = function(parent, sendData){
             },
             data: sendData
         }).done(function(data) {
-            if(data.message==null){
+//             if(data.message==null){
                 if (dragitem[0]) {
                     notification('Items linked to ' + parent.find('.item-name').html() + '!', 1);
                 } 
-            } else {
-                notification('This training is already allocated.',2);
-            }
+//             } else {
+//                 notification('This training is already allocated.',2);
+//             }
             parent.click();
             resolve(true);
         }).fail(function(err) {
