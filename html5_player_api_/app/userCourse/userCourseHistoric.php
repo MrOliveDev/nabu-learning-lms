@@ -77,8 +77,9 @@
          * GET historic datas from DATABASE
          */
         $sql         = "SELECT `{$tableName}`.`id_screen`, `{$tableName}`.`status`, CONCAT( `{$tableName}`.`reg_date`, ' ', `{$tableName}`.`h_end` ) AS `date_screen` ";
-        $sql        .= "FROM `{$tableName}` INNER JOIN `tb_lesson` ON `tb_lesson`.`idFabrica` = `{$tableName}`.`idFabrica` ";
-        $sql        .= "WHERE `{$tableName}`.`user_id` = " . intval( $userId ) . " AND `tb_lesson`.`idFabrica` = '" . $productId . "' ";
+        //$sql        .= "FROM `{$tableName}` INNER JOIN `tb_lesson` ON `tb_lesson`.`idFabrica` = `{$tableName}`.`idFabrica` ";
+        $sql        .= "FROM `{$tableName}` ";
+        $sql        .= "WHERE `{$tableName}`.`user_id` = " . intval( $userId ) . " AND `{$tableName}`.`idFabrica` = '" . $productId . "' ";
         $sql        .= "ORDER BY `date_screen` DESC";
 
         $results    = $openModel->getDatas( $sql );
