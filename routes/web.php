@@ -184,6 +184,10 @@ Route::group(['prefix' => 'html5_player_api_'], function () {
         require_once('../html5_player_api_/app/userCourse/userCourseEvaluation.php');
     });
 
+    Route::post('/courses/{sessionId}/{productId}/{courseId}/user/{userId}/screen/{screenId}/{state}/evaluation', function ($sessionId, $productId, $courseId, $userId, $screenId, $state) {
+        require_once('../html5_player_api_/app/userCourse/userCourseEvaluation.php');
+    });
+
     // Route pour enregistrer la progression de l'utilisateur
     Route::post('/courses/{productId}/{courseId}/user/{userId}/screen/{screenId}/{state}', function ($productId, $courseId, $userId, $screenId, $state) {
         require_once('../html5_player_api_/app/userCourse/userCourseProgression.php');
