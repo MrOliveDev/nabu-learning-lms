@@ -98,7 +98,7 @@
                         $insertModel = new openModel(DB_HISTORIC_DSN);
                         $evalTableName = "tb_evaluation_" . $sessionId;
                         $createSql = "CREATE TABLE IF NOT EXISTS `{$evalTableName}` ("
-                            . "`id` int(11) NOT NULL,"
+                            . "`id` int(11) NOT NULL AUTO_INCREMENT,"
                             . "`session` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
                             . "`user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
                             . "`date_start` datetime DEFAULT NULL,"
@@ -110,12 +110,13 @@
                             . "`number_eval` int(11) DEFAULT NULL,"
                             . "`progression` int(11) NOT NULL DEFAULT '0',"
                             . "`note` varchar(11) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',"
-                            . "`status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL"
+                            . "`status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                            . "PRIMARY KEY (id) "
                           . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
                         $insertModel->query( $createSql );
                         $questionTableName = "tb_evaluation_question_" . $sessionId;
                         $createSql = "CREATE TABLE IF NOT EXISTS `{$questionTableName}` ("
-                            . "`id` int(11) NOT NULL,"
+                            . "`id` int(11) NOT NULL AUTO_INCREMENT,"
                             . "`id_evaluation` int(11) DEFAULT NULL,"
                             . "`id_q` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
                             . "`id_group` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
@@ -125,7 +126,8 @@
                             . "`option_serialize` text COLLATE utf8_unicode_ci,"
                             . "`expected_response` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
                             . "`reply` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
-                            . "`points` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL"
+                            . "`points` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                            . "PRIMARY KEY (id) "
                           . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
                         $insertModel->query( $createSql );
                     } else {
