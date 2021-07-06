@@ -106,13 +106,14 @@ class LoginController extends Controller
                 session_start();
                 $_SESSION['user_id'] = auth()->user()->id;
                 $_SESSION['config_id'] = auth()->user()->id_config;
-//                 session(['user_id' => auth()->user()->id]);
+                //                 session(['user_id' => auth()->user()->id]);
                 //minimized sliderbar
                 session(['slider-control' => true]);
                 return $this->sendLoginResponse($request);
             }
-        $validator->errors()->add('username', 'These credentials do not match our records.');
-        return redirect()->route('login')->withErrors($validator)->withInput();
+            $validator->errors()->add('username', 'These credentials do not match our records.');
+            return redirect()->route('login')->withErrors($validator)->withInput();
+        }
     }
 
     protected function logout()
