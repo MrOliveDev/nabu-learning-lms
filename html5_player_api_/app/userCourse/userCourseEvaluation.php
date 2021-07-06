@@ -161,9 +161,9 @@
                     if ( ! isset( $preproduction ) || ! $preproduction  )
                     {
                         /** Connexion MySQL obligatoire car optim utilise des instrutions mysql_* au lieu de PDO comme ailleurs dans le LMS ... */
-                        mysql_connect('localhost','root', DB_PASSWORD ) or die("mysql server fail(connection)");
-                        mysql_select_db('lms') or die("mysql db fail (connection)Problemas com o arquivos de dados");
-                        mysql_query("SET NAMES utf8");
+                        // mysql_connect('localhost','root', DB_PASSWORD ) or die("mysql server fail(connection)");
+                        // mysql_select_db('lms') or die("mysql db fail (connection)Problemas com o arquivos de dados");
+                        // mysql_query("SET NAMES utf8");
                         require_once( dirname( __FILE__ ) . '/../open/optim.php' );
                         treatOptimEval( $optim_eval_datas );
                     } // eo if
