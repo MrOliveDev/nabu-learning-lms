@@ -16,42 +16,52 @@ class pageAuthSignUp {
         // Init Form Validation
         jQuery('.js-validation-signup').validate({
             rules: {
-                'signup-username': {
+                'login': {
                     required: true,
-                    minlength: 3
+                    minlength: 5,
+                    matches: /\S+[a-zA-Z0-9]+/g
                 },
-                'signup-email': {
+                'firstname': {
+                    required: true,
+                },
+                'lastname': {
+                    required: true,
+                },
+                'email': {
                     required: true,
                     email: true
                 },
-                'signup-password': {
+                'password': {
                     required: true,
                     minlength: 5
                 },
-                'signup-password-confirm': {
+                'password-confirm': {
                     required: true,
                     equalTo: '#signup-password'
                 },
-                'signup-terms': {
-                    required: true
-                }
             },
             messages: {
-                'signup-username': {
-                    required: 'Please enter a username',
-                    minlength: 'Your username must consist of at least 3 characters'
+                'login': {
+                    required: 'Please enter a login name',
+                    minlength: 'Your username must consist of at least 3 characters',
+                    matches: 'Not allowed to insert special character'
                 },
-                'signup-email': 'Please enter a valid email address',
-                'signup-password': {
+                'firstname': {
+                    required: "Please enter a first name",
+                },
+                'lastname': {
+                    required: "Please enter a last name",
+                },
+                'email': 'Please enter a valid email address',
+                'password': {
                     required: 'Please provide a password',
                     minlength: 'Your password must be at least 5 characters long'
                 },
-                'signup-password-confirm': {
+                'confirm': {
                     required: 'Please provide a password',
                     minlength: 'Your password must be at least 5 characters long',
                     equalTo: 'Please enter the same password as above'
                 },
-                'signup-terms': 'You must agree to the service terms!'
             }
         });
     }
@@ -66,4 +76,6 @@ class pageAuthSignUp {
 }
 
 // Initialize when page loads
-jQuery(() => { pageAuthSignUp.init(); });
+jQuery(() => {
+    pageAuthSignUp.init();
+});

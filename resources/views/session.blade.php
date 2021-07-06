@@ -13,7 +13,7 @@
     <link rel="stylesheet"
         href="{{ asset('assets/js/plugins/jquery-password-validation-while-typing/css/jquery.passwordRequirements.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/js/plugins/jquery-password-validation-while-typing/demo.css') }}" />
-
+    <meta name='date' content="{{ date('Y-m-d') }}">
 
     <style>
         :root {
