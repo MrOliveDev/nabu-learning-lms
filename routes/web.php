@@ -199,7 +199,7 @@ Route::group(['prefix' => 'html5_player_api_'], function () {
     });
 
     Route::get('/courses/{sessionId}/{productId}/{courseId}/user/{userId}', function ($sessionId, $productId, $courseId, $userId) {
-        require_once('../html5_player_api/app/userCourse/userCourseHistoric.php');
+        require_once('../html5_player_api_/app/userCourse/userCourseHistoric.php');
     });
 
     Route::get('/progression/{productId}/user/{userId}', function ($productId, $userId) {

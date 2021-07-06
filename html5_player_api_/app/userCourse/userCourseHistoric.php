@@ -63,11 +63,36 @@
             {
                 parent::__construct($dbdsn);
             } // eo constructor
+
+            public function query( $sql )
+            {
+                $results = $this->db->query( $sql );
+
+                if ( ! $results )
+                {
+                    die( print_r( $this->db->errorInfo(), true ) );
+                }
+            }
         } // eo openModel class
 
         if($sessionId){
             $openModel = new openModel(DB_HISTORIC_DSN);
             $tableName = 'tb_screen_stats_' . $sessionId;
+            $createSql = "CREATE TABLE IF NOT EXISTS `tb_screen_stats_" . $sessionId . "` ("
+                     . "`id` int(11) NOT NULL,"
+                     . "`user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                     . "`date` date DEFAULT NULL,"
+                     . "`session` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                     . "`id_screen` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                     . "`question` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                     . "`h_begin` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                     . "`h_end` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                     . "`status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                     . "`reg_date` date DEFAULT NULL,"
+                     . "`idFabrica` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                     . "`is_chapter` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'to know if a screen is a chapter'"
+                     . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+            $openModel->query( $createSql );
         } else{
             $openModel  = new openModel;
             $tableName = 'screen_stats';
