@@ -51,9 +51,9 @@
 
             class openModel extends dbModel
             {
-                public function __construct()
+                public function __construct($dbdsn = null)
                 {
-                    parent::__construct();
+                    parent::__construct($dbdsn);
                 } // eo constructor
 
                 public function query( $sql )
@@ -95,8 +95,31 @@
                     $reg_date   = substr( $form_data->startDate, 0, 10 );
                     $question   = $form_data->question;
 
+                    if($sessionId){
+                        $insertModel = new openModel(DB_HISTORIC_DSN);
+                        $createSql = "CREATE TABLE `tb_screen_stats_" . $sessionId . "` ("
+                             . "`id` int(11) NOT NULL,"
+                             . "`user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                             . "`date` date DEFAULT NULL,"
+                             . "`session` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                             . "`id_screen` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                             . "`question` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                             . "`h_begin` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                             . "`h_end` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                             . "`status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                             . "`reg_date` date DEFAULT NULL,"
+                             . "`idFabrica` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                             . "`is_chapter` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'to know if a screen is a chapter'"
+                             . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+                        $openModel->query( $createSql );
+                        $tableName = "tb_screen_stats_" . $sessionId;
+                    }
+                    else{
+                        $insertModel = new openModel;
+                        $tableName = "screen_stats";
+                    }
                     // Insert screen_stats
-                    $sql = "INSERT INTO screen_stats (user_id, id_screen, session, question, h_begin, h_end,status, reg_date, idFabrica, is_chapter) VALUES ( ";
+                    $sql = "INSERT INTO {$tableName} (user_id, id_screen, session, question, h_begin, h_end,status, reg_date, idFabrica, is_chapter) VALUES ( ";
                     $sql .= "  '" . $form_data->user_id . "'";
                     $sql .= ", '" . $form_data->id_screen . "'";
                     $sql .= ", '" . $form_data->session . "'";
