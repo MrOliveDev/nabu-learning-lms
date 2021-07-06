@@ -96,10 +96,6 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => 'html5
         require_once('../html5_player_api/app/userCourse/userCourseHistoric.php');
     });
 
-    Route::get('/courses/{sessionId}/{productId}/{courseId}/user/{userId}', function ($sessionId, $productId, $courseId, $userId) {
-        require_once('../html5_player_api/app/userCourse/userCourseHistoric.php');
-    });
-
     Route::get('/progression/{productId}/user/{userId}', function ($productId, $userId) {
         require_once('../html5_player_api/app/userCourse/userProgression.php');
     });
@@ -200,6 +196,10 @@ Route::group(['prefix' => 'html5_player_api_'], function () {
     // Route pour connaitre l'avancé de l'utilisateur.
     Route::get('/courses/{productId}/{courseId}/user/{userId}', function ($productId, $courseId, $userId) {
         require_once('../html5_player_api_/app/userCourse/userCourseHistoric.php');
+    });
+
+    Route::get('/courses/{sessionId}/{productId}/{courseId}/user/{userId}', function ($sessionId, $productId, $courseId, $userId) {
+        require_once('../html5_player_api/app/userCourse/userCourseHistoric.php');
     });
 
     Route::get('/progression/{productId}/user/{userId}', function ($productId, $userId) {
