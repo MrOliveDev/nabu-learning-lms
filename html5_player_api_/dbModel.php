@@ -7,9 +7,12 @@ Abstract Class dbModel {
     public $user_logo;
     public $user_color;
 
-    public function __construct() {
+    public function __construct($dbdsn = null) {
         try {
-            $this->db = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+            if(!$dbname){
+                $this->db = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+            } else
+                $this->db = new PDO($dbdsn, DB_USERNAME, DB_PASSWORD, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 
             $this->user_logo = "logo.png";
             $this->user_color = "#ED1C24";

@@ -189,6 +189,10 @@ Route::group(['prefix' => 'html5_player_api_'], function () {
         require_once('../html5_player_api_/app/userCourse/userCourseProgression.php');
     });
 
+    Route::post('/courses/{sessionId}/{productId}/{courseId}/user/{userId}/screen/{screenId}/{state}', function ($sessionId, $productId, $courseId, $userId, $screenId, $state) {
+        require_once('../html5_player_api_/app/userCourse/userCourseProgression.php');
+    });
+
     // Route pour connaitre l'avancé de l'utilisateur.
     Route::get('/courses/{productId}/{courseId}/user/{userId}', function ($productId, $courseId, $userId) {
         require_once('../html5_player_api_/app/userCourse/userCourseHistoric.php');
