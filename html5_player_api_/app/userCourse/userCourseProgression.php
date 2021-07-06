@@ -97,7 +97,7 @@
 
                     if($sessionId){
                         $insertModel = new openModel(DB_HISTORIC_DSN);
-                        $createSql = "CREATE TABLE `tb_screen_stats_" . $sessionId . "` ("
+                        $createSql = "CREATE TABLE IF NOT EXISTS `tb_screen_stats_" . $sessionId . "` ("
                              . "`id` int(11) NOT NULL,"
                              . "`user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
                              . "`date` date DEFAULT NULL,"
@@ -111,7 +111,7 @@
                              . "`idFabrica` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
                              . "`is_chapter` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'to know if a screen is a chapter'"
                              . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-                        $openModel->query( $createSql );
+                        $insertModel->query( $createSql );
                         $tableName = "tb_screen_stats_" . $sessionId;
                     }
                     else{
@@ -132,7 +132,7 @@
                     $sql .= ", '" . $form_data->isChapter . "' )";
 
                     // Execute query
-                    $results        = $openModel->query( $sql );
+                    $results        = $insertModel->query( $sql );
 
                     $optim_datas    = array(
                          'id_user'       => $form_data->user_id

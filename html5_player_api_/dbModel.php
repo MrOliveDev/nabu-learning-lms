@@ -9,7 +9,7 @@ Abstract Class dbModel {
 
     public function __construct($dbdsn = null) {
         try {
-            if(!$dbname){
+            if(!$dbdsn){
                 $this->db = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
             } else
                 $this->db = new PDO($dbdsn, DB_USERNAME, DB_PASSWORD, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
