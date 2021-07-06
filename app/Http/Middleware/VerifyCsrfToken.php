@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'html5_player_api/*'
+        'html5_player_api/*',
+        'html5_player_api_/*',
     ];
 }
