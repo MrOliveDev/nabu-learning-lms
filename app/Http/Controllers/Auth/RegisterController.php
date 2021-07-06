@@ -51,9 +51,7 @@ class RegisterController extends Controller
     {
         // var_dump($data);die;
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'login' => ['required', 'string', 'max:255', 'unique:tb_users'],
         ]);
     }
 
@@ -68,8 +66,10 @@ class RegisterController extends Controller
         // var_dump("dljflsdflsjdf");
         // die;
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'login' => $data['login'],
+            'first_name' => $data['firstname'],
+            'last_name' => $data['lastname'],
+            'contact_info' => json_encode(['email' => $data['email'], 'address' => '']),
             'password' => Hash::make($data['password']),
         ]);
     }

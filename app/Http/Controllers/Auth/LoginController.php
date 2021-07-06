@@ -91,33 +91,28 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'login';
-        $user = User::where($fieldType, '=', $input['username'])->first();
+        // $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'login';
+        $users = User::where('login', '=', $input['username'])->orWhere('contact_info', 'like', "%" . $input['username'] . "%")->get();
+        foreach ($users as $user) {
+            if (Hash::check($input['password'], $user->password)) {
 
-        if (Hash::check($input['password'], $user->password)) {
+                $request->session()->regenerate();
+                // var_dump(session()->getID());die;
+                auth()->loginUsingId($user->id, true);
 
-            $request->session()->regenerate();
-            // var_dump(session()->getID());die;
-            auth()->loginUsingId($user->id, true);
+                $user->last_session = session()->getID();
 
-            $user->last_session = session()->getID();
-
-            $user->save();
-
-            session_start();
-            $_SESSION['user_id'] = auth()->user()->id;
-            $_SESSION['config_id'] = auth()->user()->id_config;
-            //session(['user_id' => auth()->user()->id]);
-            //minimized sliderbar
-            session(['slider-control'=>true]);
-
-            // var_dump(auth()->user()->type===1);die;
-            return $this->sendLoginResponse($request);
-            //return redirect()->route('home');
-        } else {
-            $validator->errors()->add('username', 'These credentials do not match our records.');
-            return redirect()->route('login')->withErrors($validator)->withInput();
-        }
+                $user->save();
+                session_start();
+                $_SESSION['user_id'] = auth()->user()->id;
+                $_SESSION['config_id'] = auth()->user()->id_config;
+//                 session(['user_id' => auth()->user()->id]);
+                //minimized sliderbar
+                session(['slider-control' => true]);
+                return $this->sendLoginResponse($request);
+            }
+        $validator->errors()->add('username', 'These credentials do not match our records.');
+        return redirect()->route('login')->withErrors($validator)->withInput();
     }
 
     protected function logout()
@@ -143,7 +138,7 @@ class LoginController extends Controller
         } else {
             $this->redirectTo = 'dash';
         }
-        session(['language'=>'en']);
+        session(['language' => 'en']);
 
 
 

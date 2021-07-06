@@ -67,15 +67,15 @@ var itemDBClick = function() {
 
 var rightItemClick = function(e) {
     var parent = $(event.target);
-    if(!parent.is('.list-group-item')){
+    if (!parent.is('.list-group-item')) {
         parent = $(event.target).parents('.list-group-item');
     }
-    if(parent.is('.active')){
+    if (parent.is('.active')) {
         parent.removeClass('active');
-    }else{
-        parent.addClass('active');    
+    } else {
+        parent.addClass('active');
     }
-    
+
 };
 
 var btnClick = function(e) {
@@ -129,7 +129,7 @@ var filterToggleShow = function(event) {
     parent.children(".toolkit-filter").toggle();
     if (parent.attr('id') == 'cate-toolkit') {
         var leftActiveTab = $('#RightPanel .ui-state-active a').attr('href').split('#')[1];
-        if($('#table-content-tab').parents('li').is('.ui-state-active')){
+        if ($('#table-content-tab').parents('li').is('.ui-state-active')) {
             parent.find('.filter-function-btn').toggle(false);
             parent.find('.filter-company-btn').toggle(false);
         } else if (leftActiveTab == 'students') {
@@ -200,47 +200,47 @@ var sessionItemClick = function(e) {
             console.log(state);
             //TODO:show function;
             if (data.contents) {
-//                 data.contents.map(function(content_item) {
-//                     if(content_item!=null){
-//                         var newItem = createContentItem(content_item);
-//                         newItem.attr('data-src', id);
-//                         $('#table-content .list-group').append(newItem);                        
-//                     }
-//                 });
-                    if(data.contents!=null&&Object.keys(data.contents).length!= 0){
-                        var newItem = createContentItem(data.contents[0]);
-                        newItem.attr('data-src', id);
-                        $('#table-content .list-group').append(newItem);                        
-                    }
+                //                 data.contents.map(function(content_item) {
+                //                     if(content_item!=null){
+                //                         var newItem = createContentItem(content_item);
+                //                         newItem.attr('data-src', id);
+                //                         $('#table-content .list-group').append(newItem);                        
+                //                     }
+                //                 });
+                if (data.contents != null && Object.keys(data.contents).length != 0) {
+                    var newItem = createContentItem(data.contents[0]);
+                    newItem.attr('data-src', id);
+                    $('#table-content .list-group').append(newItem);
+                }
             }
 
             if (data.participants) {
-                if(data.participants.group){
-                data.participants.group.map(function(participant_item) {
-                    if(participant_item){
-                    var newItem = createGroupItem(participant_item);
-                    newItem.attr('data-src', id);
-                    $('#table-participant .list-group').append(newItem);
-                    }
-                });
+                if (data.participants.group) {
+                    data.participants.group.map(function(participant_item) {
+                        if (participant_item) {
+                            var newItem = createGroupItem(participant_item);
+                            newItem.attr('data-src', id);
+                            $('#table-participant .list-group').append(newItem);
+                        }
+                    });
                 }
-                if(data.participants.student){
-                data.participants.student.map(function(participant_item) {
-                    if(participant_item){
-                    var newItem = createUserItem(participant_item);
-                    newItem.attr('data-src', id);
-                    $('#table-participant .list-group').append(newItem);
-                    }
-                });
+                if (data.participants.student) {
+                    data.participants.student.map(function(participant_item) {
+                        if (participant_item) {
+                            var newItem = createUserItem(participant_item);
+                            newItem.attr('data-src', id);
+                            $('#table-participant .list-group').append(newItem);
+                        }
+                    });
                 }
-                if(data.participants.teacher){
-                data.participants.teacher.map(function(participant_item) {
-                    if(participant_item){
-                    var newItem = createUserItem(participant_item);
-                    newItem.attr('data-src', id);
-                    $('#table-participant .list-group').append(newItem);
-                    }
-                });
+                if (data.participants.teacher) {
+                    data.participants.teacher.map(function(participant_item) {
+                        if (participant_item) {
+                            var newItem = createUserItem(participant_item);
+                            newItem.attr('data-src', id);
+                            $('#table-participant .list-group').append(newItem);
+                        }
+                    });
                 }
             }
 
@@ -303,13 +303,13 @@ var createGroupItem = function(data) {
     element.find('.btn-group').append(unlinkbtn);
     element.find('.btn-group').append(openbtn);
     data.items.map(function(userItem) {
-        if(userItem.type==4){
-        var userElem = createUserItem(userItem);    
-        userElem.attr('data-sub', data.value.id);
-        userElem.find('.unlink-btn').detach();
-        $(element[1]).append(userElem);
+        if (userItem.type == 4) {
+            var userElem = createUserItem(userItem);
+            userElem.attr('data-sub', data.value.id);
+            userElem.find('.unlink-btn').detach();
+            $(element[1]).append(userElem);
         }
-        
+
     })
     return element;
 };
@@ -320,11 +320,11 @@ var createContentItem = function(data) {
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_'+data.id+'" id="training_'+data.id+'_copy">' +
+    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_' + data.id + '" id="training_' + data.id + '_copy">' +
         '<div class="float-left">' +
         status_temp +
-        '<span class="item-name">'+data.name+'</span>' +
-        '<input type="hidden" name="item-name" value="'+data.name+'">' +
+        '<span class="item-name">' + data.name + '</span>' +
+        '<input type="hidden" name="item-name" value="' + data.name + '">' +
         '</div>' +
         '<div class="btn-group float-right">' +
         //     '<span class=" p-2 font-weight-bolder  item-lang">' +
@@ -341,7 +341,7 @@ var createSessionData = function(data) {
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x session_'+data.id+'" id="session_'+data.id+'_copy" data-date="'+data.create_date+'">' +
+    var element = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x session_' + data.id + '" id="session_' + data.id + '_copy" data-date="' + data.create_date + '">' +
         '<div class="float-left">' +
         status_temp +
         '<span class="item-name">' + data.name + '</span>' +
@@ -354,12 +354,12 @@ var createSessionData = function(data) {
         '</button>' +
         '</div>' +
         '</a>');
-        element.click(sessionItemClick);
-        element.attr('draggable', false);
-        element.on('drop', dropEnd);
-        element.on('dragover', dragOver);
-        element.on('dragleave', dragLeave);
-        element.find('.item-delete').click(itemDelete);
+    element.click(sessionItemClick);
+    element.attr('draggable', false);
+    element.on('drop', dropEnd);
+    element.on('dragover', dragOver);
+    element.on('dragleave', dragLeave);
+    element.find('.item-delete').click(itemDelete);
     return element;
 }
 
@@ -392,66 +392,66 @@ var submitFunction = function(event) {
 
 var submitBtn = function(event) {
     var formname = $(this).attr('data-form');
-    if($('#'+formname).attr('action')){
-    if ($("#" + formname).attr('data-item')) {
-        $("#" + $(this).parents('form').attr('data-item')).toggleClass('highlight', false);
-        $("#" + $(this).parents('form').attr('data-item') + " .btn").each(function(i, em) {
-            $(em).toggleClass('active', false);
-        });
-    }
-
-    var serialval = $('#' + formname).serializeArray().map(function(item) {
-        var arr = {};
-        if (item.name == 'session-status-icon') {
-            item.value = $('#session-status-icon').prop('checked') == true ? 1 : 0;
+    if ($('#' + formname).attr('action')) {
+        if ($("#" + formname).attr('data-item')) {
+            $("#" + $(this).parents('form').attr('data-item')).toggleClass('highlight', false);
+            $("#" + $(this).parents('form').attr('data-item') + " .btn").each(function(i, em) {
+                $(em).toggleClass('active', false);
+            });
         }
-        return item;
-    });
-    if (!serialval.filter(function(em, t, arr) {
-            return em.name == 'session-status-icon';
-        }).length) {
 
-    }
-    if (!$("#session_form").find('input[type=checkbox]').prop('checked')) {
-        serialval.push({
-            name: 'session-status-icon',
-            value: 0
-        });
-    }
-
-    if($('#begin_date').val()!=''&& $('#end_date').val()!='' &&$('#begin_date').val()>$('#end_date').val()){
-        notification('You have to insert correct date!', 2);
-        return;
-    }
-    console.log(serialval);
-    $.ajax({
-        url: $('#' + formname).attr('action'),
-        method: $('#' + formname).find('.method-select').val(),
-        data: serialval,
-        success: function(data) {
-            console.log(data);
-            $('#div_B .list-group-item').detach();
-            clearFrom($('#session_form'));
-            $('#div_A .list-group-item').removeClass('active');
-            if ($('#session_form .method-select').val()=='POST') {
-                notification('A session has been registered sucessfully!', 1);
-                $('#session .list-group').append(createSessionData(data));
-            } else {
-                var target = $("#session_form").attr('data-item');
-                updateSessionData(data, target);
+        var serialval = $('#' + formname).serializeArray().map(function(item) {
+            var arr = {};
+            if (item.name == 'session-status-icon') {
+                item.value = $('#session-status-icon').prop('checked') == true ? 1 : 0;
             }
-        },
-        error: function(err) {
-            notification("Sorry, You have an error!", 2);
-        }
-    });
+            return item;
+        });
+        if (!serialval.filter(function(em, t, arr) {
+                return em.name == 'session-status-icon';
+            }).length) {
 
-    if ($("#" + formname).attr('data-item') != '' && $("#" + formname).attr('data-item') != null) {
-        var targetName = $("#" + formname).attr('data-item').split('_')[0],
-            sourceId = $("#session_form").attr('data-item');
-        $('#' + sourceId).toggleClass('highlight', false);
-        $('#' + sourceId + ' .item-edit').toggleClass('active', false);
-    }
+        }
+        if (!$("#session_form").find('input[type=checkbox]').prop('checked')) {
+            serialval.push({
+                name: 'session-status-icon',
+                value: 0
+            });
+        }
+
+        if ($('#begin_date').val() != '' && $('#end_date').val() != '' && $('#begin_date').val() > $('#end_date').val()) {
+            notification('You have to insert correct date!', 2);
+            return;
+        }
+        console.log(serialval);
+        $.ajax({
+            url: $('#' + formname).attr('action'),
+            method: $('#' + formname).find('.method-select').val(),
+            data: serialval,
+            success: function(data) {
+                console.log(data);
+                $('#div_B .list-group-item').detach();
+                clearFrom($('#session_form'));
+                $('#div_A .list-group-item').removeClass('active');
+                if ($('#session_form .method-select').val() == 'POST') {
+                    notification('A session has been registered sucessfully!', 1);
+                    $('#session .list-group').append(createSessionData(data));
+                } else {
+                    var target = $("#session_form").attr('data-item');
+                    updateSessionData(data, target);
+                }
+            },
+            error: function(err) {
+                notification("Sorry, You have an error!", 2);
+            }
+        });
+
+        if ($("#" + formname).attr('data-item') != '' && $("#" + formname).attr('data-item') != null) {
+            var targetName = $("#" + formname).attr('data-item').split('_')[0],
+                sourceId = $("#session_form").attr('data-item');
+            $('#' + sourceId).toggleClass('highlight', false);
+            $('#' + sourceId + ' .item-edit').toggleClass('active', false);
+        }
     }
 };
 
@@ -471,7 +471,7 @@ var item_delete = function(element) {
         success: function(result) {
             console.log(result);
             notification('Successfully deleted!', 1);
-            if(parent.hasClass('active')){
+            if (parent.hasClass('active')) {
                 $('#div_B .list-group-item').detach();
                 clearFrom($('#session_form'));
                 $('#div_A .list-group-item').removeClass('active');
@@ -529,65 +529,74 @@ var itemDelete = function(event) {
 var detachLinkTo = function(e) {
     var parent = $(this).parents('.list-group-item');
     var isSubItem = parent.attr('data-sub');
-    if(isSubItem){
+    if (isSubItem) {
         var showeditem = parent.parents('.list-group div.d-flex').attr('data-src');
-    }else{
-        var showeditem = parent.attr('data-src');    
+    } else {
+        var showeditem = parent.attr('data-src');
     }
     var id = parent.attr('id').split('_')[1];
-    var cate = parent.attr('id').split('_')[0], sendCate;
-    var participantData = $('#session_'+showeditem).attr('data-participant');
-    var participant = participantData?JSON.parse(participantData):{"s":[],"t":[],"g":[]};
-    var contentData = $('#session_'+showeditem).attr('data-content');
-    var content = contentData?JSON.parse(contentData):[];
+    var cate = parent.attr('id').split('_')[0],
+        sendCate;
+    var participantData = $('#session_' + showeditem).attr('data-participant');
+    var participant = participantData ? JSON.parse(participantData) : {
+        "s": [],
+        "t": [],
+        "g": []
+    };
+    var contentData = $('#session_' + showeditem).attr('data-content');
+    var content = contentData ? JSON.parse(contentData) : [];
 
-    
-    switch(cate){
+
+    switch (cate) {
         case 'training':
             content = "";
-            $('#session_'+showeditem).attr('data-content', content);
-            sendCate='content';
-        break;
+            $('#session_' + showeditem).attr('data-content', content);
+            sendCate = 'content';
+            break;
         case 'group':
             var group = participant.g;
-            participant.g = group.filter(function(groupItem){
-                return groupItem.value!=parseInt(id);
+            participant.g = group.filter(function(groupItem) {
+                return groupItem.value != parseInt(id);
             });
-            $('#session_'+showeditem).attr('data-participant', JSON.stringify(participant));
-            sendCate='participant';
-        break;
+            $('#session_' + showeditem).attr('data-participant', JSON.stringify(participant));
+            sendCate = 'participant';
+            break;
         case 'student':
             var student = participant.s;
-            participant.s = student.filter(function(studentItem){
-                return studentItem!=parseInt(id);
+            participant.s = student.filter(function(studentItem) {
+                return studentItem != parseInt(id);
             });
-            sendCate='participant';$('#session_'+showeditem).attr('data-participant', JSON.stringify(participant));
-        break;
+            sendCate = 'participant';
+            $('#session_' + showeditem).attr('data-participant', JSON.stringify(participant));
+            break;
         case 'teacher':
-            var teacher =participant.t;
-            participant.t = teacher.filter(function(teacherItem){
-                return teacherItem !=parseInt(id);
+            var teacher = participant.t;
+            participant.t = teacher.filter(function(teacherItem) {
+                return teacherItem != parseInt(id);
             });
-            sendCate='participant';$('#session_'+showeditem).attr('data-participant', JSON.stringify(participant));
-        break;
+            sendCate = 'participant';
+            $('#session_' + showeditem).attr('data-participant', JSON.stringify(participant));
+            break;
         default:
-        break;
+            break;
     }
     detachCall({
         id: showeditem,
         participant: JSON.stringify(participant),
-        content:content,
-        cate:sendCate
+        content: content,
+        cate: sendCate
     }, $(this));
 };
 
-var refreshGroupBtn = function(event){
+var refreshGroupBtn = function(event) {
     var parent = $(this).parents('.list-group-item');
     var id = parent.attr('id');
     var dataSrc = parent.attr('data-src');
-    var participantData = $('#session_'+dataSrc).attr('data-participant');
+    var participantData = $('#session_' + dataSrc).attr('data-participant');
     var participant = JSON.parse(participantData);
-    $.post({url:baseURL+'/grouprefresh'})
+    $.post({
+        url: baseURL + '/grouprefresh'
+    })
 
 }
 
@@ -608,8 +617,8 @@ var detachCall = function(connectiondata, element) {
         data: connectiondata
     }).then(function(data) {
         notification('Successfully unliked!', 1);
-        
-        if(element.parents('.list-group-item').next().is('div.d-flex')){
+
+        if (element.parents('.list-group-item').next().is('div.d-flex')) {
             element.parents('.list-group-item').next().detach();
         }
         element.parents('.list-group-item').detach();
@@ -758,14 +767,14 @@ var searchfilter = function(event) {
     }
 
     if (parent.attr('id') == 'cate-toolkit') {
-        if($('#table-content-tab').parents('li.nav-item').hasClass('ui-state-active')){
+        if ($('#table-content-tab').parents('li.nav-item').hasClass('ui-state-active')) {
             items = parent.next('div:first').find('.list-group-item');
-        }else{
-        var selector = parent.prev().find('.ui-state-active a').attr('href').split('#')[1];
-        items = $("#" + selector).find('.list-group .list-group-item');    
+        } else {
+            var selector = parent.prev().find('.ui-state-active a').attr('href').split('#')[1];
+            items = $("#" + selector).find('.list-group .list-group-item');
         }
-        
-    } else if(parent.attr('id')=='session-toolkit'){
+
+    } else if (parent.attr('id') == 'session-toolkit') {
         items = parent.next('div:first').find('.list-group-item');
     }
     // console.log(items);
@@ -852,14 +861,14 @@ var sortfilter = function(event) {
     }
 
     if (parent.attr('id') == 'cate-toolkit') {
-        if($('#table-content-tab').parents('li.nav-item').hasClass('ui-state-active')){
+        if ($('#table-content-tab').parents('li.nav-item').hasClass('ui-state-active')) {
             $itemgroup = $('#trainings').find('.list-group');
-        }else{
-        var selector = parent.prev().find('.ui-state-active a').attr('href').split('#')[1];
-        $itemgroup = $("#" + selector).find('.list-group');    
+        } else {
+            var selector = parent.prev().find('.ui-state-active a').attr('href').split('#')[1];
+            $itemgroup = $("#" + selector).find('.list-group');
         }
-        
-    } else if(parent.attr('id')=='session-toolkit'){
+
+    } else if (parent.attr('id') == 'session-toolkit') {
         $itemgroup = parent.next('div:first').find('.list-group');
     }
     $items = $itemgroup.children('.list-group-item');
@@ -1002,13 +1011,13 @@ var tabClick = function(event) {
     if ($(this).parents('fieldset').attr('id') == 'LeftPanel') {
         switch ($(this).attr('id')) {
             case 'table-conent-tab':
-            $('#cate-toolkit .filter-function-btn').toggle(false);
-            $('#cate-toolkit .filter-company-btn').toggle(false);
-            break;
+                $('#cate-toolkit .filter-function-btn').toggle(false);
+                $('#cate-toolkit .filter-company-btn').toggle(false);
+                break;
             default:
-            break;
+                break;
         }
-        
+
     } else if ($(this).parents('fieldset').attr('id') == 'RightPanel') {
         switch ($(this).attr('id')) {
             case 'groups-tab':
@@ -1064,12 +1073,12 @@ var handlerDBClick = function(event) {
     if (heightToggle) {
         $(this).prev().css('height', (h - parseInt($('.toolkit').css('height')) - divHight) - 90 + 'px');
     } else {
-        if($(this).parents('fieldset').attr('id')=='LeftPanel'){
-        var activeTabHeight = $('#div_A .list-group').css('height');
-        }else{
-        var activeTabHeight = parseInt($($(this).parents('fieldset').find('.ui-state-active a').first().attr('href')).find('.list-group').css('height'));    
+        if ($(this).parents('fieldset').attr('id') == 'LeftPanel') {
+            var activeTabHeight = $('#div_A .list-group').css('height');
+        } else {
+            var activeTabHeight = parseInt($($(this).parents('fieldset').find('.ui-state-active a').first().attr('href')).find('.list-group').css('height'));
         }
-        
+
         var newHeight = (h - parseInt($('.toolkit').css('height')) - divHight) / 2 - 90;
         if (newHeight > activeTabHeight) {
             $(this).prev().css('height', activeTabHeight + "px");
@@ -1078,6 +1087,17 @@ var handlerDBClick = function(event) {
         }
     }
 };
+
+var statusBtn = function(event) {
+    var today = $('meta[name="date"]').attr('content');
+    if($(event.target).prop('checked')==true){
+        if ($("#begin_date").val() > today||$("#end_date").val() < today) {
+            console.log('error');
+            notification('You are not allowed to set online when you are out date', 2);
+            $(event.target).prop('checked', false);
+        }
+    }
+}
 
 var dragitem = null;
 
@@ -1107,22 +1127,22 @@ function dragEnd(event) {
     $('main').css('cursor', 'default');
 }
 
-var sessionLinkTo = function(parent, sendData){
-        return new Promise((resolve, reject)=>{
-            $.post({
+var sessionLinkTo = function(parent, sendData) {
+    return new Promise((resolve, reject) => {
+        $.post({
             url: baseURL + '/sessionjointo',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             data: sendData
         }).done(function(data) {
-//             if(data.message==null){
-                if (dragitem[0]) {
-                    notification('Items linked to ' + parent.find('.item-name').html() + '!', 1);
-                } 
-//             } else {
-//                 notification('This training is already allocated.',2);
-//             }
+            //             if(data.message==null){
+            if (dragitem[0]) {
+                notification('Items linked to ' + parent.find('.item-name').html() + '!', 1);
+            }
+            //             } else {
+            //                 notification('This training is already allocated.',2);
+            //             }
             parent.click();
             resolve(true);
         }).fail(function(err) {
@@ -1131,60 +1151,68 @@ var sessionLinkTo = function(parent, sendData){
         }).always(function(data) {
             console.log(data);
             dragitem = null;
-//             $(this).click();
+            //             $(this).click();
         });
-        })    
+    })
 }
 
 async function dropEnd(event, item) {
     $(event.target).css('opacity', '100%');
-    var parent= $(event.target);
-    if(!$(event.target).is('.list-group-item')){
-        parent=$(event.target).parents('.list-group-item');
+    var parent = $(event.target);
+    if (!$(event.target).is('.list-group-item')) {
+        parent = $(event.target).parents('.list-group-item');
     }
     var requestData = Array();
-    if(!$(event.target).is('.list-group-item')){
+    if (!$(event.target).is('.list-group-item')) {
         var id = $(event.target).parents('.list-group-item').attr("id").split('_')[1];
-    }else {
+    } else {
         var id = $(event.target).attr("id").split('_')[1];
     }
-    
+
     var participantData = $(this).attr('data-participant');
-    var participant = participantData?JSON.parse(participantData):{s:[], t:[], g:[]};
+    var participant = participantData ? JSON.parse(participantData) : {
+        s: [],
+        t: [],
+        g: []
+    };
     var contentData = $(this).attr('data-content');
-    var content = contentData?JSON.parse(contentData):[];
-    
+    var content = contentData ? JSON.parse(contentData) : [];
+
     var rowData;
     if (dragitem != null) {
         var droppeditem_cate = dragitem[0].split('_')[0];
         var cate;
         dragitem.map(function(droppeditem) {
             var droppeditem_id = parseInt(droppeditem.split('_')[1]);
-            switch(droppeditem_cate){
+            switch (droppeditem_cate) {
                 case "group":
-                    var groupData = participant.g?participant.g:[];
-                    if(groupData.length != 0){
-                        var repeat = groupData.filter(function(groupitem){
+                    var groupData = participant.g ? participant.g : [];
+                    if (groupData.length != 0) {
+                        var repeat = groupData.filter(function(groupitem) {
                             return groupitem.value == droppeditem_id;
                         })
-                        if(repeat.length==0){
-                            groupData.push({value:droppeditem_id});
+                        if (repeat.length == 0) {
+                            groupData.push({
+                                value: droppeditem_id
+                            });
                             //TODO:Here we have to add real group datas.
                         }
                     } else {
-                       groupData.push({value:droppeditem_id});
+                        groupData.push({
+                            value: droppeditem_id
+                        });
                     }
                     participant.g = groupData;
                     $(event.target).attr('data-participant', JSON.stringify(participant));
                     cate = 'participant';
-                break;
+                    break;
                 case "student":
-                    var studentData = participant.s?participant.s:[];
-                    if(studentData.length!=0){
-                        var repeat = studentData.filter(function(studentItem){
+                    var studentData = participant.s ? participant.s : [];
+                    if (studentData.length != 0) {
+                        var repeat = studentData.filter(function(studentItem) {
                             return studentItem == droppeditem_id;
                         })
-                        if(repeat.length==0){
+                        if (repeat.length == 0) {
                             studentData.push(droppeditem_id);
                         }
                     } else {
@@ -1193,51 +1221,51 @@ async function dropEnd(event, item) {
                     participant.s = studentData;
                     $(event.target).attr('data-participant', JSON.stringify(participant));
                     cate = 'participant';
-                break;
+                    break;
                 case "teacher":
-                    var teacherData = participant.t?participant.t:[];
-                    if(teacherData.length!=0){
-                       var repeat = teacherData.filter(function(teacherItem){
-                           return teacherItem == droppeditem_id;
-                       })
-                       if(repeat.length==0){
-                           teacherData.push(droppeditem_id);
-                       }
+                    var teacherData = participant.t ? participant.t : [];
+                    if (teacherData.length != 0) {
+                        var repeat = teacherData.filter(function(teacherItem) {
+                            return teacherItem == droppeditem_id;
+                        })
+                        if (repeat.length == 0) {
+                            teacherData.push(droppeditem_id);
+                        }
                     } else {
-                           teacherData.push(droppeditem_id);
+                        teacherData.push(droppeditem_id);
                     }
-                       participant.t = teacherData;
-                       $(event.target).attr('data-participant', JSON.stringify(participant));
+                    participant.t = teacherData;
+                    $(event.target).attr('data-participant', JSON.stringify(participant));
 
                     cate = 'participant';
-                break;
+                    break;
                 case "training":
-//                     if(content.length!=0){
-//                        var repeat = content.filter(function(contentItem){
-//                            return contentItem == droppeditem_id;
-//                        })
-//                        if(repeat.length==0){
-//                            content.push(droppeditem_id);
-//                        }
-//                     } else {
-//                         content.push(droppeditem_id);
-//                     }
+                    //                     if(content.length!=0){
+                    //                        var repeat = content.filter(function(contentItem){
+                    //                            return contentItem == droppeditem_id;
+                    //                        })
+                    //                        if(repeat.length==0){
+                    //                            content.push(droppeditem_id);
+                    //                        }
+                    //                     } else {
+                    //                         content.push(droppeditem_id);
+                    //                     }
 
-                        content = droppeditem_id;
-                        $(event.target).attr('data-content', content);
-                        cate = 'content';
+                    content = droppeditem_id;
+                    $(event.target).attr('data-content', content);
+                    cate = 'content';
 
-                break;
+                    break;
                 default:
-                break;
+                    break;
             }
         });
 
         var sendData = {
-            'participant':JSON.stringify(participant),
-            'content':content,
-            'id':id,
-            'cate':cate
+            'participant': JSON.stringify(participant),
+            'content': content,
+            'id': id,
+            'cate': cate
         };
         await sessionLinkTo(parent, sendData);
         requestData = [];
@@ -1247,7 +1275,7 @@ async function dropEnd(event, item) {
             $(this).removeClass('active');
         }
     });
-    
+
 }
 
 var participateClick = function(e) {
@@ -1325,7 +1353,7 @@ $("#table-content .list-group").sortable({
         $(this).find('.list-group-item').each(function(i, e) {
             temparr.push($(e).attr('id').split('_')[1]);
         });
-        $('#session_'+src).attr('data-content', JSON.stringify(temparr));
+        $('#session_' + src).attr('data-content', JSON.stringify(temparr));
         $.post({
             url: baseURL + '/sessionjointo',
             headers: {
@@ -1334,14 +1362,15 @@ $("#table-content .list-group").sortable({
             data: {
                 id: src,
                 content: temparr,
-                participant:$('#session_'+src).attr('data-participant'),
-                cate:'content'
+                participant: $('#session_' + src).attr('data-participant'),
+                cate: 'content'
             }
-        }).done(function(){
-            notification('The order of training changed successfully.',1);
-        }).fail(function(){
+        }).done(function() {
+            notification('The order of training changed successfully.', 1);
+        }).fail(function() {
             notification('The order of training have some problem.', 2);
         });
     }
 });
 $('.cancel-btn').click(cancelBtn);
+$('#session-status-icon').click(statusBtn);
