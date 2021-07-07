@@ -132,4 +132,18 @@ class SessionModel extends Model
         // exit;
         return array('group' => $groupData, 'student' => $studentData, 'teacher' => $teacherData);
     }
+
+    public function scopeGetTrainingsForStudent($query, $id)
+    {
+        // $sessions = $query->where('content', $id)->get();
+        $sessions = $query->get();
+        $trainings = array();
+        foreach ($sessions as $session) {
+            if ($session->contents != NULL && $session->contents != '') {
+                // var_dump($session->contents);
+                array_push($trainings, TrainingsModel::find(intval($session->contents)));
+            }
+        }
+        return $trainings;
+    }
 }

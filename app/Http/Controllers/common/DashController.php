@@ -6,7 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\InterfaceCfgModel;
+use App\Models\LessonsModel;
 use App\Models\TranslateModel;
+use App\Models\SessionModel;
+use Illuminate\Support\Facades\Session;
+use App\Models\TrainingsModel;
+
 class DashController extends Controller
 {
 
@@ -17,6 +22,28 @@ class DashController extends Controller
     }
     public function index()
     {
-        return view('commondash', ['sidebardata'=>$this->sidebarData]);
+
+        $id = Session::get('user_id');
+        $sidebardata = $this->sidebarData;
+        $trainings = SessionModel::getTrainingsForStudent($id);
+        $training = TrainingsModel::getTrainingForTrainingpage(22);
+        $lessons = [];
+        if ($training->lesson_content) {
+            $lessonList = json_decode($training->lesson_content, true);
+            if ($lessonList != NULL) {
+                foreach ($lessonList as $value) {
+                    if (LessonsModel::find($value['item'])) {
+                        if (!in_array(LessonsModel::getLessonContainedTraining($value['item']), $lessons)) {
+                            array_push($lessons, LessonsModel::getLessonContainedTraining($value['item']));
+                        }
+                    }
+                }
+            }
+        }
+        // var_dump($lessons[0]['id']);
+
+        // // var_dump($training);
+        // exit;
+        return view('commondash', compact('sidebardata', 'trainings', 'lessons'));
     }
 }
