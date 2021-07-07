@@ -369,7 +369,7 @@ function modelGetOptim($id_fabrique,$id_user,$id_curso='',$sessionId=null) {
             . "`last_eval_id_screen_optim` int(11) NOT NULL,"
             . "PRIMARY KEY (id_screen_optim) "
             . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-        $stmt = $db->prepare($sql);
+        $stmt = $db->prepare($createSql);
         $stmt->execute();
     } else {
         $tableName = "tb_screen_optim";
