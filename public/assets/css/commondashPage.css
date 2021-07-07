@@ -1,0 +1,7 @@
+.list-group-item:nth-child(odd)>div {
+    background-color: blue;
+}
+
+.list-group-item:nth-child(even) div {
+    background-color: blue;
+}

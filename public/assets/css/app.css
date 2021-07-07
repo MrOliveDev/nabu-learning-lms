@@ -851,3 +851,9 @@ main select.form-control option {
 #div_vertical {
     transform: translate(8px, 0px);
 }
+
+@media screen and (max-width: 992px) {
+    #sidebar {
+        display: none !important;
+    }
+}
