@@ -157,6 +157,7 @@
                         ,'id_fabrique'   => $productId
                         ,'id_eval'       => $evaluation_id
                         ,'date_end'      => $form_data->endDate
+                        ,'sessionId'     => $sessionId
                     );
 
                     // Test for preproduction, for PHP7 compatiblity turnaround

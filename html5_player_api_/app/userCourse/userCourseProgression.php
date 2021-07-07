@@ -143,6 +143,7 @@
                         ,'hour_end'      => $hour_end
                         ,'reg_date'      => $reg_date
                         ,'status'        => $form_data->status
+                        ,'sessionId'     => $sessionId
                     );
 
                     // Test for preproduction, for PHP7 compatiblity turnaround
