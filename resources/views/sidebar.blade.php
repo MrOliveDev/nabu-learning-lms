@@ -107,6 +107,7 @@
 
                         <!-- Side Navigation -->
                         <div class="content-side content-side-full">
+                            @if (auth()->user()->type === 0)
                             <ul class="nav-main">
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{ route('admin.dash') }}" id="tableau">
@@ -198,6 +199,7 @@
                                     </a>
                                 </li>
                             </ul>
+                            @endif
                         </div>
                         <!-- END Side Navigation -->
                     </div>
