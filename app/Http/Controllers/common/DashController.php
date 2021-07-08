@@ -49,4 +49,22 @@ class DashController extends Controller
         // exit;
         return view('commondash', compact('sidebardata', 'trainings', 'lessons'));
     }
+
+    public function getLessonsForStudent($id){
+        $training = TrainingsModel::getTrainingForTrainingpage($id);
+        $lessons = [];
+        if ($training->lesson_content) {
+            $lessonList = json_decode($training->lesson_content, true);
+            if ($lessonList != NULL) {
+                foreach ($lessonList as $value) {
+                    if (LessonsModel::find($value['item'])) {
+                        if (!in_array(LessonsModel::getLessonContainedTraining($value['item']), $lessons)) {
+                            array_push($lessons, LessonsModel::getLessonContainedTraining($value['item']));
+                        }
+                    }
+                }
+            }
+        }
+        return response()->json($lessons);
+    }
 }

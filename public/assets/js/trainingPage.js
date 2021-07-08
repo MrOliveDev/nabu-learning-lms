@@ -1400,6 +1400,9 @@ function dropEnd(event, item) {
     $(event.target).css('opacity', '100%');
     $('main').css('cursor', 'default');
     var parent = $(event.target);
+    if (!parent.is('.list-group-item')) {
+        parent = $(event.target).parents('.list-group-item');
+    }
     var showCate = null,
         showItem = null;
     if (parent.hasClass('highlight')) {
@@ -1408,12 +1411,12 @@ function dropEnd(event, item) {
 
     var requestData = Array();
     var originalData;
-    var cate_id = $(event.target).attr("id").split('_')[1];
-    var cate = $(event.target).attr("id").split('_')[0];
+    var cate_id = parent.attr("id").split('_')[1];
+    var cate = parent.attr("id").split('_')[0];
     var rowData = Array();
     if (dragitem != null) {
         // var category = dragitem[0].split('_')[0];
-        originalData = $(event.target).attr('data-lesson');
+        originalData = parent.attr('data-lesson');
         if (originalData.length && originalData != "[]") {
             requestData = JSON.parse(originalData);
         }
@@ -1458,9 +1461,9 @@ function dropEnd(event, item) {
                 $('#div_A #' + showItem + " .item-show").click();
             }
             if (dragitem[0]) {
-                notification(dragitem.length + ' lesson s linked to ' + $(event.target).find('.item-name').html() + '!', 1);
+                notification(dragitem.length + ' lesson s linked to ' + parent.find('.item-name').html() + '!', 1);
             }
-            $(this).attr('data-lesson', JSON.stringify(requestData));
+            parent.attr('data-lesson', JSON.stringify(requestData));
             dragitem.map(function(droppeditem) {
                 if ($("#" + droppeditem).attr('data-training').split('_').indexOf(cate_id) == -1 && $("#" + droppeditem).attr('data-training')) {
                     var arraytemp = $("#" + droppeditem).attr('data-training').split('_');
