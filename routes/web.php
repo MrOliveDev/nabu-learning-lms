@@ -238,6 +238,7 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], function () {
     Route::get('/', '\App\Http\Controllers\admin\DashController@index');
+    Route::post('getlessonsforstudent/{id}', '\App\Http\Controllers\common\DashController@getLessonsForStudent');
     Route::get('home', '\App\Http\Controllers\HomeController@index')->name('home');
     Route::get('admindash', '\App\Http\Controllers\admin\DashController@index')->name('admin.dash');
     Route::get('dash', '\App\Http\Controllers\common\DashController@index')->name('dash');
