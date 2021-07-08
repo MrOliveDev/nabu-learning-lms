@@ -104,7 +104,8 @@ class LoginController extends Controller
 
                 $user->save();
                 session_start();
-                $_SESSION['user_id'] = auth()->user()->id;
+                $request->session()->put('user_id', auth()->user()->id);
+                $request->session()->put('user_name', auth()->user()->login);
                 $_SESSION['config_id'] = auth()->user()->id_config;
                 //                 session(['user_id' => auth()->user()->id]);
                 //minimized sliderbar

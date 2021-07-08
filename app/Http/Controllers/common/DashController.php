@@ -23,10 +23,12 @@ class DashController extends Controller
     public function index()
     {
 
-        $id = Session::get('user_id');
+        $user_name = Session::get('user_name');
+        $user_id = Session::get('user_id');
+        // var_dump($id);exit;
         $sidebardata = $this->sidebarData;
-        $trainings = SessionModel::getTrainingsForStudent($id);
-        $training = TrainingsModel::getTrainingForTrainingpage(22);
+        $trainings = SessionModel::getTrainingsForStudent($user_id);
+        $training = TrainingsModel::getTrainingForTrainingpage($trainings[0]->id);
         $lessons = [];
         if ($training->lesson_content) {
             $lessonList = json_decode($training->lesson_content, true);
@@ -40,6 +42,7 @@ class DashController extends Controller
                 }
             }
         }
+        // $lessons = array_unique($lessons);
         // var_dump($lessons[0]['id']);
 
         // // var_dump($training);

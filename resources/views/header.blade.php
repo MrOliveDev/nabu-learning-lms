@@ -1,7 +1,7 @@
 <header id="page-header">
     <div class="content-header">
-        @if (auth()->user()->type === 0)
-            <div>
+        <div>
+            @if (auth()->user()->type === 0)
                 <button type="button" class="btn btn-rounded btn-dual mr-1" id="sidebar-control">
                     <!-- <i class="fa fa-fw fa-bars"></i> -->
                     <i class="fa fa-fw fa-bars"></i>
@@ -9,8 +9,8 @@
                 <button type="button" class="btn btn-rounded btn-dual" style="margin-right: 10px;">
                     <a href="{{ route('superadminsettings') }}"><i class="fas fa-cogs"></i></a>
                 </button>
-            </div>
-        @endif
+            @endif
+        </div>
 
         <div>
             <!-- User Profile Dropdown Menu -->
@@ -19,7 +19,8 @@
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <!-- <i class="fa fa-fw fa-user d-sm-none"></i> -->
                     <span class="d-none d-sm-inline-block">
-                        {{ $translation->l('Admin') }}
+                        {{-- {{ $translation->l('Admin') }} --}}
+                        {{Session::get('user_name')}}
                     </span>
                     <i class="fa fa-fw fa-user"></i>
                 </button>

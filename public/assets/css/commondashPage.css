@@ -1,7 +1,7 @@
-.list-group-item:nth-child(odd)>div {
-    background-color: blue;
+.block-header:nth-child(odd)>div {
+    background-color: #c3aacb;
 }
 
-.list-group-item:nth-child(even) div {
-    background-color: blue;
+.block-header:nth-child(even) div {
+    background-color: #a8abd5;
 }

@@ -136,7 +136,55 @@ class SessionModel extends Model
     public function scopeGetTrainingsForStudent($query, $id)
     {
         // $sessions = $query->where('content', $id)->get();
-        $sessions = $query->get();
+        $user = User::find($id);
+        $sessionList = $query->get();
+        $sessions = array();
+        foreach ($sessionList as $sessionItem) {
+            if ($sessionItem->participants != NULL) {
+                $participant = json_decode($sessionItem->participants);
+                // var_dump($participant);
+                if ($user->type == 3) {
+                    $teachers = $participant->t;
+                    var_dump($teachers);
+                    if ($teachers != NULL && count($teachers) != 0) {
+                        foreach ($teachers as $teacher) {
+                            if ($teacher == $id) {
+                                array_push($sessions, $sessionItem);
+                            }
+                        }
+                    }
+                } else if ($user->type == 4) {
+                    $students = $participant->s;
+                    $groups = $participant->g;
+                    // var_dump($students);
+                    // var_dump($groups);
+                    if ($students != NULL && count($students) != 0) {
+                        foreach ($students as $student) {
+                            if ($student == $id) {
+                                array_push($sessions, $sessionItem);
+                            }
+                        }
+                    }
+                    if ($groups != NULL && count($groups) != 0) {
+                        foreach ($groups as $group) {
+                            if (isset($group->value)) {
+                                $users = User::getUserIDFromGroup($group->value);
+                                if ($users != NULL && $users->count() != 0) {
+                                    foreach ($user as $userItem) {
+                                        if ($userItem == $id) {
+                                            array_push($sessions, $sessionItem);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // var_dump($sessions);
+        // exit;
+        $sessions = array_unique($sessions);
         $trainings = array();
         foreach ($sessions as $session) {
             if ($session->contents != NULL && $session->contents != '') {
