@@ -1,5 +1,6 @@
 var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
 // var baseURL = window.location.protocol + "//" + window.location.host;
+var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document.body.clientHeight));
 
 var clearRightField = function() {
     $('#div_C .push').find('.block').detach();
@@ -17,33 +18,33 @@ var createLessonItem = function(data) {
             '<div class="block block-rounded mb-1 bg-transparent shadow-none">' +
             '<div class="block-header block-header-default border-transparent border-0 bg-transparent p-0" role="tab" id="accordion_h1">' +
             '<div class=" col-md-3 text-white align-self-stretch d-flex text-center  flex-md-row" style="border-right:2px solid #9a6cb0;">' +
-            '<span class="col-md-6">' +
-            '<i class="fa fa-chart-line">' +
+            '<span class="col-md-6 align-middle py-2">' +
+            '<i class="fa fa-chart-line align-middle">' +
             '</i>' +
-            '<span>' +
+            '<span class=" align-middle pl-1">' +
             '75%' +
             '</span>' +
             '</span>' +
-            '<span class="col-md-6">' +
+            '<span class="col-md-6 py-2">' +
             '<i class="fa fa-check-circle">' +
             '</i>' +
-            '<span>' +
+            '<span class=" align-middle  pl-1">' +
             '75%' +
             '</span>' +
             '</span>' +
             '</div>' +
             '<div class="  col-md-9 border-transparent border-left-1 align-self-stretch d-flex flex-row justify-content-between">' +
-            '<div class="float-left">' +
-            '<span class="item-name">' + data['name'] + '</span>' +
+            '<div class="float-left py-2">' +
+            '<span class="item-name align-middle">' + data['name'] + '</span>' +
             '</div>' +
             '<div class="btn-group float-right d-flex">' +
             '<button class="btn  item-show" data-content="teacher">' +
             '<a class="font-w600 collapsed" data-toggle="collapse" data-parent="#accordion" href="#lesson_' + data['id'] + '" aria-expanded="false" aria-controls="accordion_q1">' +
-            '<i class="fas fa-exclamation-circle text-white m-0 p-2"></i>' +
+            '<i class="fas fa-exclamation-circle m-0 p-2"></i>' +
             '</a>' +
             '</button>' +
             '<button class="btn  item-play" data-content="teacher" data-fabrica="' + data.idFabrica + '">' +
-            '<i class="fa fa-play text-white m-0 p-2"></i>' +
+            '<i class="fa fa-play m-0 p-2 align-middle"></i>' +
             '</button>' +
             '</div>' +
             '</div>' +
@@ -57,17 +58,24 @@ var createLessonItem = function(data) {
             '</div>'
         );
     }
+    if (data['description'] == "" || data['description' == null]) {
+        component.find('.item-show').detach();
+    }
     component.find('.item-play').click(playBtn);
     return component;
 }
 
 $(document).ready(function() {
-    $('main .card:first').addClass('active');
+    var divHight = 20 + parseInt($('.content-header').height());
+    $('#div_A').css('height', (h - divHight) + 'px');
+    $('#div_A').css('height', (h - divHight) + 'px');
+
     $('.training-collapse').click(function(event) {
         var parent = $(this).parents('.card');
         parent.find('.card-img-top').toggle('slow');
         parent.find('.card-body').toggle('slow');
     });
+    $('.item-play').click(playBtn);
     $('.training-show').click(function(event) {
         var parent = $(this).parents('.card');
         parent.parents('fieldset').find('card').removeClass('active');
@@ -85,5 +93,6 @@ $(document).ready(function() {
 
         });
     });
-    $('.item-play').click(playBtn);
+    $('main .card:first').addClass('active');
+    $('main .card:first .training-show').click();
 });
