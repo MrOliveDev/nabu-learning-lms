@@ -189,9 +189,13 @@ class SessionModel extends Model
         foreach ($sessions as $session) {
             if ($session->contents != NULL && $session->contents != '') {
                 // var_dump($session->contents);
-                array_push($trainings, TrainingsModel::find(intval($session->contents)));
+                $new_training = TrainingsModel::find(intval($session->contents));
+                // var_dump($new_training->lesson_content);
+                if($new_training->lesson_content!=NULL||$new_training->lesson_content!=''||$new_training->lesson_content!='[]')
+                    array_push($trainings, $new_training);
             }
         }
+        // exit;
         return $trainings;
     }
 }

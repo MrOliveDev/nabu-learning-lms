@@ -28,20 +28,20 @@ class DashController extends Controller
         // var_dump($id);exit;
         $sidebardata = $this->sidebarData;
         $trainings = SessionModel::getTrainingsForStudent($user_id);
-        $training = TrainingsModel::getTrainingForTrainingpage($trainings[0]->id);
+        // $training = TrainingsModel::getTrainingForTrainingpage($trainings[0]->id);
         $lessons = [];
-        if ($training->lesson_content) {
-            $lessonList = json_decode($training->lesson_content, true);
-            if ($lessonList != NULL) {
-                foreach ($lessonList as $value) {
-                    if (LessonsModel::find($value['item'])) {
-                        if (!in_array(LessonsModel::getLessonContainedTraining($value['item']), $lessons)) {
-                            array_push($lessons, LessonsModel::getLessonContainedTraining($value['item']));
-                        }
-                    }
-                }
-            }
-        }
+        // if ($training->lesson_content) {
+        //     $lessonList = json_decode($training->lesson_content, true);
+        //     if ($lessonList != NULL) {
+        //         foreach ($lessonList as $value) {
+        //             if (LessonsModel::find($value['item'])) {
+        //                 if (!in_array(LessonsModel::getLessonContainedTraining($value['item']), $lessons)) {
+        //                     array_push($lessons, LessonsModel::getLessonContainedTraining($value['item']));
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
         // $lessons = array_unique($lessons);
         // var_dump($lessons[0]['id']);
 

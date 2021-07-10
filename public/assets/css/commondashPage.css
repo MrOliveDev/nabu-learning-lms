@@ -1,4 +1,3 @@
-
 .block-header:nth-child(odd)>div {
     background-color: #c3aacb;
 }
@@ -11,34 +10,52 @@
     background-color: #a8abd5;
 }
 
-.card .card-header{
-    background-color:#5794c9;
+.card .card-header {
+    background-color: #5794c9;
 }
 
-.card.active .card-header{
-    background-color:#2e3092;
+.card.active .card-header {
+    background-color: #2e3092;
 }
 
-main span, main p {
-    font-size:1.5vw !important;
+.btn-group .btn,
+.btn-group .btn a {
+    color: white !important;
 }
 
-@media screen and (max-width:992px){
-    main span, main p {
-        font-size:1.5vw !important;
+main span,
+main p {
+    font-size: 1.0vw !important;
+}
+
+.btn-group .btn a[aria-expanded='true'] {
+    color: blue !important;
+}
+
+@media screen and (max-width:992px) {
+    main span,
+    main p {
+        font-size: 1.0vw !important;
     }
 }
 
-@media screen and (max-width:766px){
-    main span, main p {
-        font-size:3vw !important;
+@media screen and (max-width:766px) {
+    main span,
+    main p {
+        font-size: 3vw !important;
     }
-}@media screen and (max-width:400px){
-    main span, main p {
-        font-size:5vw !important;
+}
+
+@media screen and (max-width:400px) {
+    main span,
+    main p {
+        font-size: 5vw !important;
     }
-}@media screen and (max-width:200px){
-    main span, main p {
-        font-size:6vw !important;
+}
+
+@media screen and (max-width:200px) {
+    main span,
+    main p {
+        font-size: 6vw !important;
     }
 }
