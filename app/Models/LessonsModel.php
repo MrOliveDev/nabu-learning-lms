@@ -20,7 +20,8 @@ class LessonsModel extends Model
         'idCriador',
         'threshold_score',
         'template_player_id',
-        'date_end'
+        'date_end',
+        'duration'
     ];
 
     protected $table = 'tb_lesson';

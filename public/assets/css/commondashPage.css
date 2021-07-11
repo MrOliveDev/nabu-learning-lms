@@ -1,13 +1,15 @@
-.block-header:nth-child(odd)>div {
+#div_C .accordion:nth-child(odd) .block-header>.col-md-3,
+#div_C .accordion:nth-child(odd) .block-header>.col-md-9 {
     background-color: #c3aacb;
+}
+
+#div_C .accordion:nth-child(even) .block-header>.col-md-3,
+#div_C .accordion:nth-child(even) .block-header>.col-md-9 {
+    background-color: #a8abd5;
 }
 
 .card {
     background-color: transparent !important;
-}
-
-.block-header:nth-child(even) div {
-    background-color: #a8abd5;
 }
 
 .card .card-header {
@@ -24,8 +26,9 @@
 }
 
 main span,
-main p {
-    font-size: 1.0vw !important;
+main p,
+.btn-group .btn {
+    font-size: 1.1vw !important;
 }
 
 .btn-group .btn a[aria-expanded='true'] {
@@ -34,28 +37,32 @@ main p {
 
 @media screen and (max-width:992px) {
     main span,
-    main p {
-        font-size: 1.0vw !important;
+    main p,
+    .btn-group .btn {
+        font-size: 1.1vw !important;
     }
 }
 
 @media screen and (max-width:766px) {
     main span,
-    main p {
+    main p,
+    .btn-group .btn {
         font-size: 3vw !important;
     }
 }
 
 @media screen and (max-width:400px) {
     main span,
-    main p {
+    main p,
+    .btn-group .btn {
         font-size: 5vw !important;
     }
 }
 
 @media screen and (max-width:200px) {
     main span,
-    main p {
+    main p,
+    .btn-group .btn {
         font-size: 6vw !important;
     }
 }

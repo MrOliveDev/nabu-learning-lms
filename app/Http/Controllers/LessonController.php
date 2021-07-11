@@ -35,6 +35,9 @@ class LessonController extends Controller
         if ($request->post('lesson_name')) {
             $lesson->name = $request->post('lesson_name');
         }
+        if ($request->post('lesson_duration')) {
+            $lesson->duration = $request->post('lesson_duration');
+        }
         if ($request->post('lesson_description')) {
             $lesson->description = $request->post('lesson_description');
         }
@@ -53,29 +56,29 @@ class LessonController extends Controller
         $lesson->idFabrica = $this->randomGenerate();
         $lesson->save();
 
-        $curso = new CursoModel();
+        // $curso = new CursoModel();
 
-        if ($request->post('lesson_name')) {
-            $curso->nome = $request->post('lesson_name');
-        }
-        if ($request->post('lesson_description')) {
-            $curso->descricao = $request->post('lesson_description');
-        }
-        if ($request->post('lesson_enddate')) {
-            $curso->dataCriacao = $request->post('lesson_enddate');
-        }
-        if ($request->post('lesson_target')) {
-            $curso->publicoAlvo = $request->post('lesson_target');
-        }
-        if ($request->post('lesson_status')) {
-            $curso->status = $request->post('lesson_status');
-        }
-        if ($request->post('threshold-score')) {
-            $curso->threshold_score = $request->post('threshold-score');
-        }
-        $curso->idFabrica = $lesson->idFabrica;
-        $curso->idCriador = 1;
-        $curso->save();
+        // if ($request->post('lesson_name')) {
+        //     $curso->nome = $request->post('lesson_name');
+        // }
+        // if ($request->post('lesson_description')) {
+        //     $curso->descricao = $request->post('lesson_description');
+        // }
+        // if ($request->post('lesson_enddate')) {
+        //     $curso->dataCriacao = $request->post('lesson_enddate');
+        // }
+        // if ($request->post('lesson_target')) {
+        //     $curso->publicoAlvo = $request->post('lesson_target');
+        // }
+        // if ($request->post('lesson_status')) {
+        //     $curso->status = $request->post('lesson_status');
+        // }
+        // if ($request->post('threshold-score')) {
+        //     $curso->threshold_score = $request->post('threshold-score');
+        // }
+        // $curso->idFabrica = $lesson->idFabrica;
+        // $curso->idCriador = 1;
+        // $curso->save();
 
         return response()->json(LessonsModel::getLessonContainedTraining($lesson->id));
         //
@@ -108,6 +111,9 @@ class LessonController extends Controller
         if ($request->post('lesson_name')) {
             $lesson->name = $request->post('lesson_name');
         }
+        if ($request->post('lesson_duration')) {
+            $lesson->duration = $request->post('lesson_duration');
+        }
         if ($request->post('lesson_description')) {
             $lesson->description = $request->post('lesson_description');
         }
@@ -128,25 +134,25 @@ class LessonController extends Controller
         }
         $lesson->update();
 
-        $curso = CursoModel::find($id);
-        if (isset($curso)) {
-            if ($request->post('lesson_name')) {
-                $curso->nome = $request->post('lesson_name');
-            }
-            if ($request->post('lesson_description')) {
-                $curso->descricao = $request->post('lesson_description');
-            }
-            if ($request->post('lesson_target')) {
-                $curso->publicoAlvo = $request->post('lesson_target');
-            }
-            if ($request->post('lesson_status')) {
-                $curso->status = $request->post('lesson_status');
-            }
-            if ($request->post('threshold-score')) {
-                $curso->threshold_score = $request->post('threshold-score');
-            }
-            $curso->update();
-        }
+        // $curso = CursoModel::find($id);
+        // if (isset($curso)) {
+        //     if ($request->post('lesson_name')) {
+        //         $curso->nome = $request->post('lesson_name');
+        //     }
+        //     if ($request->post('lesson_description')) {
+        //         $curso->descricao = $request->post('lesson_description');
+        //     }
+        //     if ($request->post('lesson_target')) {
+        //         $curso->publicoAlvo = $request->post('lesson_target');
+        //     }
+        //     if ($request->post('lesson_status')) {
+        //         $curso->status = $request->post('lesson_status');
+        //     }
+        //     if ($request->post('threshold-score')) {
+        //         $curso->threshold_score = $request->post('threshold-score');
+        //     }
+        //     $curso->update();
+        // }
         return response()->json(LessonsModel::getLessonContainedTraining($lesson->id));
         //
     }

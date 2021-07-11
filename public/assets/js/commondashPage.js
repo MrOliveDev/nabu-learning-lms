@@ -14,7 +14,7 @@ var playBtn = function(event) {
 var createLessonItem = function(data) {
     if (data != null) {
         var component = $(
-            '<div id="accordion" role="tablist" aria-multiselectable="true">' +
+            '<div class="accordion" role="tablist" aria-multiselectable="true" id="accordion">' +
             '<div class="block block-rounded mb-1 bg-transparent shadow-none">' +
             '<div class="block-header block-header-default border-transparent border-0 bg-transparent p-0" role="tab" id="accordion_h1">' +
             '<div class=" col-md-3 text-white align-self-stretch d-flex text-center  flex-md-row" style="border-right:2px solid #9a6cb0;">' +
@@ -50,17 +50,19 @@ var createLessonItem = function(data) {
             '</div>' +
             '</div>' +
             '<div id="lesson_' + data['id'] + '" class="collapse" role="tabpanel" aria-labelledby="accordion_h1" data-parent="#accordion">' +
-            '<div class="block-content bg-white mt-2  pb-3">' +
-            '<p>' + data['description'] + '</p>' +
+            '<div class="block-content bg-white mt-2  pb-3 text-black">' +
+            '<p><b>Duration: </b> ' + (data['duration'] ? data['duration'] : '') + '</p>' +
+            '<p><b>Public Audio: </b>' + data['publicAudio'] + '</p>' +
+            '<p><b>Description: </b>' + data['description'] + '</p>' +
             '</div>' +
             '</div>' +
             '</div>' +
             '</div>'
         );
     }
-    if (data['description'] == "" || data['description' == null]) {
-        component.find('.item-show').detach();
-    }
+    // if (data['description'] == "" || data['description' == null]) {
+    //     component.find('.item-show').detach();
+    // }
     component.find('.item-play').click(playBtn);
     return component;
 }
