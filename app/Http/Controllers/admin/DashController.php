@@ -10,7 +10,7 @@ class DashController extends Controller
     public function index()
     {
         if (auth()->user()->type === 0) {
-            return redirect('admin.dash');
+            return view('admindash');
         } else {
             // var_dump('abc'.auth()->user()->type);
             return redirect('dash');

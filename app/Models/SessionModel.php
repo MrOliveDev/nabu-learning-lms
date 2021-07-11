@@ -182,20 +182,26 @@ class SessionModel extends Model
                 }
             }
         }
-        // var_dump($sessions);
-        // exit;
         $sessions = array_unique($sessions);
         $trainings = array();
         foreach ($sessions as $session) {
             if ($session->contents != NULL && $session->contents != '') {
-                // var_dump($session->contents);
                 $new_training = TrainingsModel::find(intval($session->contents));
-                // var_dump($new_training->lesson_content);
-                if($new_training->lesson_content!=NULL||$new_training->lesson_content!=''||$new_training->lesson_content!='[]')
-                    array_push($trainings, $new_training);
+                if($new_training->lesson_content!=NULL&&$new_training->lesson_content!=''&&$new_training->lesson_content!='[]'){
+                    $lessonList = json_decode($new_training->lesson_content, true);
+                    if ($lessonList != NULL) {
+                        foreach ($lessonList as $value) {
+                            if (LessonsModel::find($value['item'])) {
+                                $lesson = LessonsModel::find($value['item']);
+                                if($lesson->status==5)
+                                array_push($trainings, $new_training);
+                            }
+                        }
+                    }
+                }
             }
         }
-        // exit;
+        $trainings = array_unique($trainings);
         return $trainings;
     }
 }
