@@ -38,23 +38,23 @@
     outline: none;
 }
 
-table, th, tr, td{
+.reportTbl table, .reportTbl th, .reportTbl tr, .reportTbl td{
     border: 1px solid #7e3e98 !important;
 }
 
-th{
+.reportTbl th{
     background-color: #362f81;
     color: white;
 }
 
-tr{
+.reportTbl tr{
     background-color: #9c9b9b;
 }
-tr:hover td{
+.reportTbl tr:hover td{
     background-color: #6f6e6e;
 }
 
-td{
+.reportTbl td{
     color: white;
     background-color: #9c9b9b;
 }
@@ -123,6 +123,8 @@ td{
 
 .learnerName{
     background-color: #d0ac7e;
+    border: 1px solid #7e3e98 !important;
+    color: white;
 }
 .learnerName:hover{
     background-color: #e5921d;
@@ -130,6 +132,8 @@ td{
 
 .learnerAction{
     background-color: #362f81 !important;
+    border: 1px solid #7e3e98 !important;
+    color: white;
 }
 .learnerAction:hover{
     color: #d52f72;

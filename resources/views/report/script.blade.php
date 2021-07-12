@@ -63,11 +63,128 @@ $(document).ready(function(){
     $("#model-trumb-pane").on("click", function(){
         $(".model-drag-item").each(function() {
             if($(this).hasClass("active")){
-                $('#model-trumb-pane').trumbowyg('execCmd', {
-                    cmd: 'insertText',
-                    param: $(this).html(),
-                    forceCss: false,
-                });
+                console.log($(this).html());
+                if($(this).html() == "#Training_Synthetic_details_bloc"){
+                    $.ajax({
+                        url: 'getBlockHTML',
+                        method: 'post',
+                        data: {name: "training_synthetic"},
+                        success: function(res) {
+                            if(res.success && res.html){
+                                $('#model-trumb-pane').trumbowyg('execCmd', {
+                                    cmd: 'insertHTML',
+                                    param: res.html,
+                                    forceCss: false,
+                                });
+                            } else
+                                notification(res.message, 2);
+                        },
+                        error: function(err) {
+                            notification("Sorry, You have an error!", 2);
+                        }
+                    });
+                }  else if($(this).html() == "#Training_lessons_list_bloc"){
+                    $.ajax({
+                        url: 'getBlockHTML',
+                        method: 'post',
+                        data: {name: "training_lessons"},
+                        success: function(res) {
+                            if(res.success && res.html){
+                                $('#model-trumb-pane').trumbowyg('execCmd', {
+                                    cmd: 'insertHTML',
+                                    param: res.html,
+                                    forceCss: false,
+                                });
+                            } else
+                                notification(res.message, 2);
+                        },
+                        error: function(err) {
+                            notification("Sorry, You have an error!", 2);
+                        }
+                    });
+                } else if($(this).html() == "#Training_Complete_details_bloc"){
+                    $.ajax({
+                        url: 'getBlockHTML',
+                        method: 'post',
+                        data: {name: "training_complete_details"},
+                        success: function(res) {
+                            if(res.success && res.html){
+                                $('#model-trumb-pane').trumbowyg('execCmd', {
+                                    cmd: 'insertHTML',
+                                    param: res.html,
+                                    forceCss: false,
+                                });
+                            } else
+                                notification(res.message, 2);
+                        },
+                        error: function(err) {
+                            notification("Sorry, You have an error!", 2);
+                        }
+                    });
+                } else if($(this).html() == "#Training_Evaluation_details_bloc"){
+                    $.ajax({
+                        url: 'getBlockHTML',
+                        method: 'post',
+                        data: {name: "training_evaluation_details"},
+                        success: function(res) {
+                            if(res.success && res.html){
+                                $('#model-trumb-pane').trumbowyg('execCmd', {
+                                    cmd: 'insertHTML',
+                                    param: res.html,
+                                    forceCss: false,
+                                });
+                            } else
+                                notification(res.message, 2);
+                        },
+                        error: function(err) {
+                            notification("Sorry, You have an error!", 2);
+                        }
+                    });
+                } else if($(this).html() == "#Training_Complete_Evaluation_details_bloc"){
+                    $.ajax({
+                        url: 'getBlockHTML',
+                        method: 'post',
+                        data: {name: "training_complete_evaluation"},
+                        success: function(res) {
+                            if(res.success && res.html){
+                                $('#model-trumb-pane').trumbowyg('execCmd', {
+                                    cmd: 'insertHTML',
+                                    param: res.html,
+                                    forceCss: false,
+                                });
+                            } else
+                                notification(res.message, 2);
+                        },
+                        error: function(err) {
+                            notification("Sorry, You have an error!", 2);
+                        }
+                    });
+                } else if($(this).html() == "#Signature_bloc"){
+                    $.ajax({
+                        url: 'getBlockHTML',
+                        method: 'post',
+                        data: {name: "signature_bloc"},
+                        success: function(res) {
+                            if(res.success && res.html){
+                                $('#model-trumb-pane').trumbowyg('execCmd', {
+                                    cmd: 'insertHTML',
+                                    param: res.html,
+                                    forceCss: false,
+                                });
+                            } else
+                                notification(res.message, 2);
+                        },
+                        error: function(err) {
+                            notification("Sorry, You have an error!", 2);
+                        }
+                    });
+                } else {
+                    $('#model-trumb-pane').trumbowyg('execCmd', {
+                        cmd: 'insertText',
+                        param: $(this).html(),
+                        forceCss: false,
+                    });
+                }
 
                 $(this).removeClass("active");
             }

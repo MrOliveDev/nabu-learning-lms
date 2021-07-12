@@ -62,7 +62,7 @@
                     </div>
                 </div> -->
             </div>
-            <table class="table table-bordered table-striped table-vcenter" id="historic-table" style="width:100%;">
+            <table class="table table-striped table-vcenter reportTbl" id="historic-table" style="width:100%;">
             <thead>
                 <tr>
                     <th style="width: 15%;">{{ $translation->l('Session') }}</th>
@@ -154,7 +154,7 @@
                             <i class="fa fa-search icon p-2"></i>
                         </span>
                     </div>
-                    <table class="table table-bordered table-striped table-vcenter" id="session-table" style="width:100%;">
+                    <table class="table table-bordered table-striped table-vcenter reportTbl" id="session-table" style="width:100%;">
                         <colgroup>
                             <col span="1" style="width: 75%;">
                             <col span="1" style="width: 25%;">
@@ -320,10 +320,12 @@
                             <p class="model-drag-item mt-1" onclick="toggleActive(this)">#evaluation_num_result</p>
                         </div>
                         <div id="blocks">
-                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Content block1</p>
-                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Content block2</p>
-                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Content block3</p>
-                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Content block4</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_Synthetic_details_bloc</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_lessons_list_bloc</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_Complete_details_bloc</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_Evaluation_details_bloc</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_Complete_Evaluation_details_bloc</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Signature_bloc</p>
                         </div>
                     </div>  
                 </div>

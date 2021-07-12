@@ -254,4 +254,17 @@ class ReportController extends Controller
         } else
             return response()->json(["success" => false, "message" => "Missing id."]);
     }
+
+    /**
+     * Delete model template data.
+     *
+     * @param  Request  $request
+     * @return JSON
+     */
+    function getBlockHTML(Request $request){
+        if(!empty($request['name'])){
+            return response()->json(["success" => true, "html" => view('report.' . $request['name'])->render()]);
+        } else
+            return response()->json(["success" => false, "message" => "Missing id."]);
+    }
 }
