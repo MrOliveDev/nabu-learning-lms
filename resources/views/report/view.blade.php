@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="{{ asset('assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/js/plugins/trumbowyg/trumbowyg.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.min.css') }}" >
+<link rel="stylesheet" href="{{asset('assets/css/cropper.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/js/plugins/ion-rangeslider/css/ion.rangeSlider.css')}}">
 @endsection
 
 @section('con')
@@ -304,6 +306,10 @@
                             <a class="model-tab-item m-1 rounded-1 border-0" id="blocks-tab"
                                 href="#blocks">{{ $translation->l('Content blocks') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="model-tab-item m-1 rounded-1 border-0" id="blocks-tab"
+                                href="#images">{{ $translation->l('Images') }}</a>
+                        </li>
                     </ul>
                     <div class="ml-3">
                         <div id="variables">
@@ -320,12 +326,24 @@
                             <p class="model-drag-item mt-1" onclick="toggleActive(this)">#evaluation_num_result</p>
                         </div>
                         <div id="blocks">
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Header</p>
                             <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_Synthetic_details_bloc</p>
                             <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_lessons_list_bloc</p>
                             <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_Complete_details_bloc</p>
                             <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_Evaluation_details_bloc</p>
                             <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_Complete_Evaluation_details_bloc</p>
                             <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Signature_bloc</p>
+                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Footer</p>
+                        </div>
+                        <div id="images">
+                            <div id="imagePreviews">
+                                @foreach($images as $image)
+                                <img src="{{ $image['data'] }}" alt="image" class="model-drag-item previewImg" width="100" height="100" onclick="toggleActive(this)">
+                                @endforeach
+                            </div>
+                            <i class="fa fa-plus addModelBtn ml-3 mt-3 actionBtn" id="upload_button">
+                                <input type="file" name="image" class="image" accept="image/*" hidden>
+                            </i>
                         </div>
                     </div>  
                 </div>
@@ -354,6 +372,24 @@
 
     </div>
     
+    <div class="modal myModal fade" id="image-crop-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body" id="drop">
+                    <div class="img-container" id="img-range-slider">
+                        <div class="form-group" id="zoom-rangeslider-group" style="display:none;">
+                            <input type="text" class="js-rangeslider" id="zoom-rangeslider" value="50">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="crop">Crop</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </fieldset>
 
 </div>
@@ -366,10 +402,339 @@
 <script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.html5.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.flash.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.colVis.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/trumbowyg/jquery-resizable.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/trumbowyg/trumbowyg.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/trumbowyg/trumbowyg.resizimg.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
+
+<script src="{{asset('assets/js/cropper.js')}}"></script>
+<script src="{{asset('assets/js/plugins/ion-rangeslider/js/ion.rangeSlider.js')}}"></script>
+<script>
+    var $modal = $('#image-crop-modal');
+    var previewimg = document.getElementById('image');
+    var cropper;
+    var zoomscale = 50;
+    $("body").on("change", ".image", function(e) {
+        var files = e.target.files;
+        var done = function(url) {
+            var list = $('.img-container')[0];
+            var img = document.createElement("img");
+            // img.file = file;
+            img.src = url;
+            img.id = 'image';
+            list.prepend(img);
+
+            previewimg = document.getElementById('image');
+            previewimg.src = url;
+            cropper = new Cropper(previewimg, {
+                aspectRatio: 1,
+                "container": {
+                    "width": "100%",
+                    "height": 400
+                },
+                "viewport": {
+                    "width": 200,
+                    "height": 200,
+                    "type": "circle",
+                    "border": {
+                        "width": 2,
+                        "enable": true,
+                        "color": "#fff"
+                    }
+                },
+                "zoom": {
+                    "enable": true,
+                    "mouseWheel": true,
+                    "slider": true
+                },
+                "rotation": {
+                    "slider": true,
+                    "enable": true,
+                    "position": "left"
+                },
+                "transformOrigin": "viewport"
+
+            });
+
+            $("#zoom-rangeslider-group").css('display', 'block');
+            $('#drag-comment').remove();
+            // $('#drop').unbind('click');
+            let my_range = $(".js-rangeslider").data("ionRangeSlider");
+            my_range.reset();
+        };
+        var reader;
+        var file;
+        var url;
+        if (files && files.length > 0) {
+            file = files[0];
+            if (URL) {
+                done(URL.createObjectURL(file));
+            } else if (FileReader) {
+                reader = new FileReader();
+                reader.onload = function(e) {
+                    done(reader.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+
+    $modal.on('shown.bs.modal', function() {
+        $('#image-crop-modal .modal-body').prepend('<div id="drag-comment"><div class="text-center mt-3" id="drop-text">Drop your file here!</div><div class="text-center my-1" id="drop-text1">or</div><div class="row"  id="browse-btn"><button type="button" class="btn btn-hero-primary float-right mx-auto" id="browse">Browse</button></div></div>');
+        $('#image').remove();
+        $("#zoom-rangeslider-group").css('display', 'none');
+        if (cropper != null) {
+            cropper.destroy();
+            cropper = null;
+        }
+    }).on('hidden.bs.modal', function() {
+        // $("#zoom-rangeslider-group").remove();
+        $('#drag-comment').remove()
+        $('#image').remove();
+        $("#zoom-rangeslider-group").css('display', 'none');
+
+        if (cropper != null) {
+            cropper.destroy();
+            cropper = null;
+        }
+    });
+    $("#crop").click(function() {
+
+        if (cropper != null) {
+
+            // var range_slider_template = '<div class="form-group mb-5" id="zoom-rangeslider-group">' +
+            //     '<input type="text" class="js-rangeslider" id="zoom-rangeslider" value="50"> </div>';
+
+            // $("#img-range-slider").append(range_slider_template);
+            canvas = cropper.getCroppedCanvas({
+                width: 300,
+                height: 300,
+            });
+            canvas.toBlob(function(blob) {
+                url = URL.createObjectURL(blob);
+                var reader = new FileReader();
+                reader.readAsDataURL(blob);
+                reader.onloadend = function() {
+                    var base64data = reader.result;
+                    $("#preview").attr('src', base64data);
+                    $modal.modal('hide');
+                    $.ajax({
+                        url: 'saveReportImg',
+                        method: 'post',
+                        data: {data: base64data},
+                        success: function(res) {
+                            if(res.success){
+                                $("#imagePreviews").append('<img src="' + base64data + '" alt="image" class="model-drag-item previewImg" width="100" height="100" onclick="toggleActive(this)">');
+                            } else
+                                Dashmix.helpers('notify', {type: 'danger', icon: 'fa fa-times mr-1', message: res.message });
+                        },
+                        error: function(err) {
+                            Dashmix.helpers('notify', {type: 'danger', icon: 'fa fa-times mr-1', message: "Sorry, You have an error!" });
+                        }
+                    });
+                }
+            });
+            $('#drag-comment').remove()
+            $('#image').remove();
+            $("#zoom-rangeslider-group").css('display', 'none');
+            cropper.destroy();
+            cropper = null;
+        } else {
+            $modal.modal('hide');
+        }
+    })
+    $("#zoom-rangeslider").change(function() {
+        // if (zoomscale < $(this).val()) {
+        //     cropper.zoom(0.9);
+        // } else if(zoomscale > $(this).val()) {
+        //     cropper.zoom(-0.8);
+        // }
+        if (cropper != null) {
+            zoomvalue = 1 - (50 - $(this).val()) * 0.02;
+            cropper.zoomTo(zoomvalue);
+        }
+        // zoomscale = $(this).val();
+    })
+    $('#upload_button').click(function(evt) {
+        evt.stopPropagation();
+        // alert($('#menuBackground').css('background-color'));
+        // var interface_color={
+        //     'menuBackground':RGBToHex($('#menu-background').css('background-color')),
+        //     'pageBackground':RGBToHex($('#page-background').css('background-color')),
+        //     'iconOverColor':RGBToHex($('#icon-over-color').css('background-color')),
+        //     'iconDefaultColor':RGBToHex($('#icon-default-color').css('background-color'))
+        // }
+        // $('#interface_color').val(JSON.stringify(interface_color));
+        // alert($('#interface_color').val());
+        // $(this).children("input[type='file']")[0].click();
+        // if ($(".uploadcare--link.uploadcare--widget__file-name").length == 0) {
+        $("#zoom-rangeslider").val(50);
+        $modal.modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+        // $("input.image")[0].click();
+    });
+    if (window.FileReader) {
+        var drop;
+        addEventHandler(window, 'load', function() {
+            drop = document.getElementById('drop');
+            var list = $('.img-container')[0];
+
+            function cancel(e) {
+                if (e.preventDefault) {
+                    e.preventDefault();
+                }
+                return false;
+                $('.modal').removeClass('dropover');
+                $('.modal-content').removeClass('modal_dropover');
+            }
+
+            // Tells the browser that we *can* drop on this target
+            addEventHandler(drop, 'dragover', function(e) {
+                e = e || window.event; // get window.event if e argument missing (in IE)
+                if (e.preventDefault) {
+                    e.preventDefault();
+                }
+                $('.modal').addClass('dropover');
+                $('.modal-content').addClass('modal_dropover');
+
+                return false;
+            });
+            addEventHandler(drop, 'dragleave', function(e) {
+                e = e || window.event; // get window.event if e argument missing (in IE)
+                if (e.preventDefault) {
+                    e.preventDefault();
+                }
+                $('.modal').removeClass('dropover');
+                $('.modal-content').removeClass('modal_dropover');
+                return false;
+            });
+            addEventHandler(drop, 'dragenter', cancel);
+            addEventHandler(drop, 'drop', function(e) {
+                $('.modal-content').removeClass('modal_dropover');
+                $('.modal').removeClass('dropover');
+                $('#drag-comment').remove()
+                e = e || window.event; // get window.event if e argument missing (in IE)
+                if (e.preventDefault) {
+                    e.preventDefault();
+                } // stops the browser from redirecting off to the image.
+
+                var dt = e.dataTransfer;
+                var files = dt.files;
+                // for (var i = 0; i < files.length; i++) {
+                var file = files[0];
+                var reader = new FileReader();
+
+                //attach event handlers here...
+
+                reader.readAsDataURL(file);
+                addEventHandler(reader, 'loadend', function(e, file) {
+                    var bin = this.result;
+                    var img = document.createElement("img");
+                    img.file = file;
+                    img.src = bin;
+                    img.id = 'image';
+                    $('#image').remove();
+                    list.prepend(img);
+
+                    $('#drop-text').remove();
+
+                    if (cropper != null) {
+                        cropper.destroy();
+                        cropper = null;
+                    }
+                    previewimg = document.getElementById('image');
+                    cropper = new Cropper(previewimg, {
+                        aspectRatio: 1,
+                        "container": {
+                            "width": "100%",
+                            "height": 400
+                        },
+                        "viewport": {
+                            "width": 200,
+                            "height": 200,
+                            "type": "circle",
+                            "border": {
+                                "width": 2,
+                                "enable": true,
+                                "color": "#fff"
+                            }
+                        },
+                        "zoom": {
+                            "enable": true,
+                            "mouseWheel": true,
+                            "slider": true
+                        },
+                        "rotation": {
+                            "slider": true,
+                            "enable": true,
+                            "position": "left"
+                        },
+                        "transformOrigin": "viewport"
+
+                    });
+
+                    // var range_slider_template = '<div class="form-group mb-5" id="zoom-rangeslider-group">' +
+                    //     '<input type="text" class="js-rangeslider" id="zoom-rangeslider" value="50"> </div>';
+
+                    // //////////
+                    // var temp = 1;
+                    // $("#img-range-slider").append(range_slider_template);
+                    $("#zoom-rangeslider-group").css('display', 'block');
+                    let my_range = $(".js-rangeslider").data("ionRangeSlider");
+                    my_range.reset();
+
+                }.bindToEventHandler(file));
+                // }
+                return false;
+            });
+            Function.prototype.bindToEventHandler = function bindToEventHandler() {
+                var handler = this;
+                var boundParameters = Array.prototype.slice.call(arguments);
+                console.log(boundParameters);
+                //create closure
+                return function(e) {
+                    e = e || window.event; // get window.event if e argument missing (in IE)
+                    boundParameters.unshift(e);
+                    handler.apply(this, boundParameters);
+                }
+            };
+        });
+    } else {
+        console.log('Your browser does not support the HTML5 FileReader.');
+    }
+
+    function addEventHandler(obj, evt, handler) {
+        if (obj.addEventListener) {
+            // W3C method
+            obj.addEventListener(evt, handler, false);
+        } else if (obj.attachEvent) {
+            // IE method.
+            obj.attachEvent('on' + evt, handler);
+        } else {
+            // Old school method.
+            obj['on' + evt] = handler;
+        }
+    }
+    $('#drop').click(function(e) {
+        if (cropper == null) {
+        e.preventDefault();
+        console.log('jaljdlf');
+        $(".image")[0].click();
+        }
+    })
+</script>
 @endsection
 
 @include('report.script')
+
+<script src="{{asset('assets/js/ga.js')}}"></script>
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36251023-1']);
+    _gaq.push(['_setDomainName', 'jqueryscript.net']);
+    _gaq.push(['_trackPageview']);
+</script>
 @endsection

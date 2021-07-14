@@ -185,3 +185,40 @@
 .dangerBtn:hover{
     color: red;
 }
+
+#imagePreviews{
+    display: flex;
+}
+
+.previewImg{
+    margin: 20px;
+}
+
+.previewImg.active{
+    border: 3px solid red;
+}
+
+#drop {
+    min-height: 150px;
+    min-width: 250px;
+    max-width: 100%;
+    border: 1px dashed blue;
+    margin: 10px;
+    padding: 10px;
+}
+
+.dropover {
+    background-color: #2e6dea70;
+}
+
+.modal_dropover {
+    background-color: #a6c1f4;
+}
+
+.cropper-view-box {
+    border-radius: 50%;
+}
+
+.swal2-container .btn, .modal .btn {
+    border-radius: 3px;
+}
