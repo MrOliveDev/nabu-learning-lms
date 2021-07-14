@@ -1,15 +1,23 @@
 #div_C .accordion:nth-child(odd) .block-header>.col-md-3,
-#div_C .accordion:nth-child(odd) .block-header>.col-md-9 {
+#div_C .accordion:nth-child(odd) .block-header>.col-md-9,
+#div_A .accordion:nth-child(odd) .block-header>.col-md-3,
+#div_A .accordion:nth-child(odd) .block-header>.col-md-9 {
     background-color: #c3aacb;
 }
 
 #div_C .accordion:nth-child(even) .block-header>.col-md-3,
-#div_C .accordion:nth-child(even) .block-header>.col-md-9 {
+#div_C .accordion:nth-child(even) .block-header>.col-md-9,
+#div_A .accordion:nth-child(even) .block-header>.col-md-3,
+#div_A .accordion:nth-child(even) .block-header>.col-md-9 {
     background-color: #a8abd5;
 }
 
 .card {
     background-color: transparent !important;
+}
+
+.training-item .content-training {
+    display: none;
 }
 
 .card .card-header {
@@ -48,6 +56,12 @@ main p,
     main p,
     .btn-group .btn {
         font-size: 3vw !important;
+    }
+    .training-item .content-training {
+        display: block;
+    }
+    #div_C .block {
+        display: none;
     }
 }
 

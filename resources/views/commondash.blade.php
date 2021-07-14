@@ -10,58 +10,64 @@
         <fieldset class='col-sm-12 col-md-3 col-lg-3 h-100'>
             <div id="div_A" class="window top">
                 @foreach ($trainings as $training)
-                    <div class="card mb-4" id="training_{{ $training->id }}">
-                        <div class="card-header d-flex">
-                            <div class="w-100 text-white">
-                                <a class="training-collapse" href="javascript:void(0)">
-                                    <i class="mb-0 text-white fa fa-bars float-right">
-                                    </i>
-                                </a>
-                                <h3 class='mb-0 text-white'>{{ $training->name }}</h3>
+                <div class="training-item" data-session = "{{$training['session_id']}}" data-type="{{$training["training"]['type']}}">
+                    <div class="training-card">
+                        <div class="card mb-4 pr-3 border-0" id="training_{{ $training["training"]["id"] }}">
+                            <div class="card-header d-flex">
+                                <div class="w-100 text-white">
+                                    <a class="training-collapse" href="javascript:void(0)">
+                                        <i class="mb-0 text-white fa fa-bars float-right">
+                                        </i>
+                                    </a>
+                                    <h3 class='mb-0 text-white'>{{ $training["training"]["name"] }}</h3>
+                                </div>
                             </div>
-                        </div>
-                        <div class="items-push card-img-top">
-                            <div class="animated fadeIn ">
-                                <div class="options-container fx-item-zoom-in fx-overlay-slide-right">
-                                    <img class="img-fluid options-item w-100"
-                                        src="{{ $training->training_icon ? $training->training_icon : asset('assets/media/18.jpg') }}"
-                                        alt="">
-                                    <div class="options-overlay bg-black-75">
-                                        <div class="options-overlay-content">
+                            <div class="items-push card-img-top">
+                                <div class="animated fadeIn ">
+                                    <div class="options-container fx-item-zoom-in fx-overlay-slide-right">
+                                        <img class="img-fluid options-item w-100"
+                                            src="{{ $training["training"]["training_icon"] ? $training["training"]["training_icon"] : asset('assets/media/18.jpg') }}"
+                                            alt="">
+                                        <div class="options-overlay bg-black-75">
+                                            <div class="options-overlay-content">
 
-                                            <p class="h6 text-white-75 mb-3">{{ $training->description }}</p>
-                                            <a class="btn btn-sm btn-primary training-show" href="javascript:void(0)">
-                                                <i class="fa fa-eye mr-1"></i> show
-                                            </a>
+                                                <p class="h6 text-white-75 mb-3">{{ $training["training"]["description"] }}</p>
+                                                <a class="btn btn-sm btn-primary training-show" href="javascript:void(0)">
+                                                    <i class="fa fa-eye mr-1"></i> show
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row mb-0 text-center text-black">
-                                <div class="col-6">
-                                    <i class="fa fa-chart-line">
+                            <div class="card-body">
+                                <div class="row mb-0 text-center text-black">
+                                    <div class="col-6">
+                                        <i class="fa fa-chart-line">
 
-                                    </i>
-                                    <span class="text-mute">
-                                        75%
-                                    </span>
-                                </div>
-                                <div class="col-6">
-                                    <i class="fa fa-check-circle text-success">
+                                        </i>
+                                        <span class="text-mute">
+                                            {{$training["progress"]}}%
+                                        </span>
+                                    </div>
+                                    <div class="col-6">
+                                        <i class="fa fa-check-circle text-success">
 
-                                    </i>
-                                    <span>
-                                        85%
-                                    </span>
+                                        </i>
+                                        <span>
+                                            {{$training["eval"]}}%
+                                        </span>
+                                    </div>
                                 </div>
+                                <p class="h4 mb-0 mt-2 text-center ">
+                                    Terminated on {{ date_format(date_create($training["training"]["date_end"]), 'd F Y') }}
+                                </p>
                             </div>
-                            <p class="h4 mb-0 mt-2 text-center ">
-                                Terminated on {{ date_format(date_create($training->date_end), 'd F Y') }}
-                            </p>
                         </div>
                     </div>
+                    <div class="content-training push pr-3">
+                    </div>
+                </div>
                 @endforeach
             </div>
         </fieldset>

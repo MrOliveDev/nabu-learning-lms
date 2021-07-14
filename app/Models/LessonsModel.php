@@ -10,18 +10,19 @@ class LessonsModel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id',
-        'nome',
-        'descricao',
-        'publicoAlvo',
-        'dataCriacao',
-        'status',
-        'idFabrica',
-        'idCriador',
-        'threshold_score',
-        'template_player_id',
-        'date_end',
-        'duration'
+'id',
+'name',
+'description',
+'publicAudio',
+'creation_date',
+'status',
+'idFabrica',
+'idCreator',
+'threshold_score',
+'template_player_id',
+'lang',
+'date_end',
+'duration'
     ];
 
     protected $table = 'tb_lesson';
