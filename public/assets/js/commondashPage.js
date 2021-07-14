@@ -44,7 +44,7 @@ var createLessonItem = function(data) {
                 '</div>' +
                 '<div class="btn-group float-right d-flex">' +
                 '<button class="btn  item-show" data-content="teacher">' +
-                '<a class="font-w600 collapsed" data-toggle="collapse" data-parent="#accordion" href="#lesson_' + data["lesson"]['id'] + '" aria-expanded="false" aria-controls="accordion_q1">' +
+                '<a class="font-w600 collapsed" data-toggle="collapse" data-parent="#accordion' + data["lesson"]["id"] + '" href="#lesson_' + data["lesson"]['id'] + '" aria-expanded="false" aria-controls="accordion_q1">' +
                 '<i class="fas fa-exclamation-circle m-0 p-2"></i>' +
                 '</a>' +
                 '</button>' +
@@ -54,7 +54,7 @@ var createLessonItem = function(data) {
                 '</div>' +
                 '</div>' +
                 '</div>' +
-                '<div id="lesson_' + data["lesson"]['id'] + '" class="collapse" role="tabpanel" aria-labelledby="accordion_h1" data-parent="#accordion">' +
+                '<div id="lesson_' + data["lesson"]['id'] + '" class="collapse" role="tabpanel" aria-labelledby="accordion_h1" data-parent="#accordion' + data["lesson"]["id"] + '">' +
                 '<div class="block-content bg-white mt-2  pb-3 text-black">' +
                 '<p><b>Duration: </b> ' + (data["lesson"]['duration'] ? data["lesson"]['duration'] : '') + '</p>' +
                 '<p><b>Public Target: </b>' + data["lesson"]['publicAudio'] + '</p>' +
