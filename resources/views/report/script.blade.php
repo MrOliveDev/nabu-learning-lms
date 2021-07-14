@@ -26,7 +26,14 @@ $(document).ready(function(){
 
     $("#modelDragItems").tabs({ active: 0 });
 
-    $("#model-trumb-pane").trumbowyg();
+    $("#model-trumb-pane").trumbowyg({
+        plugins: {
+          resizimg: {
+              minSize: 64,
+              step: 16,
+          }
+        },
+    });
 
     var table = $('#historic-table').DataTable({
         "processing": true,
@@ -63,8 +70,26 @@ $(document).ready(function(){
     $("#model-trumb-pane").on("click", function(){
         $(".model-drag-item").each(function() {
             if($(this).hasClass("active")){
-                console.log($(this).html());
-                if($(this).html() == "#Training_Synthetic_details_bloc"){
+                if($(this).html() == "#Header"){
+                    $.ajax({
+                        url: 'getBlockHTML',
+                        method: 'post',
+                        data: {name: "header"},
+                        success: function(res) {
+                            if(res.success && res.html){
+                                $('#model-trumb-pane').trumbowyg('execCmd', {
+                                    cmd: 'insertHTML',
+                                    param: res.html,
+                                    forceCss: false,
+                                });
+                            } else
+                                notification(res.message, 2);
+                        },
+                        error: function(err) {
+                            notification("Sorry, You have an error!", 2);
+                        }
+                    });
+                } else if($(this).html() == "#Training_Synthetic_details_bloc"){
                     $.ajax({
                         url: 'getBlockHTML',
                         method: 'post',
@@ -178,6 +203,34 @@ $(document).ready(function(){
                             notification("Sorry, You have an error!", 2);
                         }
                     });
+                } else if($(this).html() == "#Footer"){
+                    $.ajax({
+                        url: 'getBlockHTML',
+                        method: 'post',
+                        data: {name: "footer"},
+                        success: function(res) {
+                            if(res.success && res.html){
+                                $('#model-trumb-pane').trumbowyg('execCmd', {
+                                    cmd: 'insertHTML',
+                                    param: res.html,
+                                    forceCss: false,
+                                });
+                            } else
+                                notification(res.message, 2);
+                        },
+                        error: function(err) {
+                            notification("Sorry, You have an error!", 2);
+                        }
+                    });
+                } else if($(this).is('img')){
+                    if($(this).attr('src') != ''){
+                        $('#model-trumb-pane').trumbowyg('execCmd', {
+                            cmd: 'insertImage',
+                            param: $(this).attr('src'),
+                            forceCss: false,
+                            skipTrumbowyg: true
+                        });
+                    }
                 } else {
                     $('#model-trumb-pane').trumbowyg('execCmd', {
                         cmd: 'insertText',

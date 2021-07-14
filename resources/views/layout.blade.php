@@ -100,7 +100,7 @@
         //     $('body').waitMe("hide");
         // });
         jQuery(function() {
-            Dashmix.helpers(['highlightjs', 'magnific-popup']);
+            Dashmix.helpers(['highlightjs', 'magnific-popup', 'rangeslider']);
         });
 
         $(document).ready(function() {

@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Models\ReportsModel;
 use App\Models\ReportTemplateModel;
+use App\Models\ReportImages;
+
+use Auth;
 
 class ReportController extends Controller
 {
@@ -17,7 +20,8 @@ class ReportController extends Controller
     public function index()
     {
         $templates = ReportTemplateModel::get();
-        return view('report.view')->with('templates', $templates);
+        $images = ReportImages::where('userId', Auth::user()->id)->get();
+        return view('report.view')->with('templates', $templates)->with('images', $images);
     }
 
     /**
@@ -264,6 +268,23 @@ class ReportController extends Controller
     function getBlockHTML(Request $request){
         if(!empty($request['name'])){
             return response()->json(["success" => true, "html" => view('report.' . $request['name'])->render()]);
+        } else
+            return response()->json(["success" => false, "message" => "Missing id."]);
+    }
+
+    /**
+     * Save base64 image to db.
+     *
+     * @param  Request  $request
+     * @return JSON
+     */
+    function saveReportImg(Request $request){
+        if(!empty($request['data'])){
+            ReportImages::create([
+                'userId' => Auth::user()->id,
+                'data' => $request['data']
+            ]);
+            return response()->json(["success" => true]);
         } else
             return response()->json(["success" => false, "message" => "Missing id."]);
     }
