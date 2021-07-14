@@ -1,5 +1,5 @@
-// var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
-var baseURL = window.location.protocol + "//" + window.location.host;
+var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
+// var baseURL = window.location.protocol + "//" + window.location.host;
 var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document.body.clientHeight));
 
 var clearRightField = function() {
@@ -8,18 +8,18 @@ var clearRightField = function() {
 
 var playBtn = function(event) {
     event.preventDefault();
-    if($(this).css("opacity")!="0.3"){
-        window.open(baseURL + "/player_editor" + "/#/open/fr/fabrique/0/" + $(this).attr('data-fabrica') + "/0/dae8efee8afc1994204d76ee963bcfb1");        
-    }else {
+    if ($(this).css("opacity") != "0.3") {
+        window.open(baseURL + "/player_editor" + "/#/open/fr/fabrique/0/" + $(this).attr('data-fabrica') + "/0/dae8efee8afc1994204d76ee963bcfb1");
+    } else {
         alert("You have to cross the prev lesson first.");
     }
 };
 
 var createLessonItem = function(data) {
     if (data["lesson"] != null) {
-        if (data["lesson"].status == 5&&$("#accordion"+data["lesson"]["id"]).length==0) {
+        if (data["lesson"].status == 5 && $("#accordion" + data["lesson"]["id"]).length == 0) {
             var component = $(
-                '<div class="accordion" role="tablist" aria-multiselectable="true" id="accordion'+data["lesson"]["id"]+'" data-progress="'+data["progress"]+'" data-eval="'+data["eval"]+'">' +
+                '<div class="accordion" role="tablist" aria-multiselectable="true" id="accordion' + data["lesson"]["id"] + '" data-progress="' + data["progress"] + '" data-eval="' + data["eval"] + '">' +
                 '<div class="block block-rounded mb-1 bg-transparent shadow-none">' +
                 '<div class="block-header block-header-default border-transparent border-0 bg-transparent p-0" role="tab" id="accordion_h1">' +
                 '<div class=" col-md-3 text-white align-self-stretch d-flex text-center  flex-md-row" style="border-right:2px solid #9a6cb0;">' +
@@ -27,14 +27,14 @@ var createLessonItem = function(data) {
                 '<i class="fa fa-chart-line align-middle">' +
                 '</i>' +
                 '<span class=" align-middle pl-1">' +
-                data["progress"]+'%' +
+                data["progress"] + '%' +
                 '</span>' +
                 '</span>' +
                 '<span class="col-md-6 py-2">' +
                 '<i class="fa fa-check-circle">' +
                 '</i>' +
                 '<span class=" align-middle  pl-1">' +
-                data["eval"]+'%' +
+                data["eval"] + '%' +
                 '</span>' +
                 '</span>' +
                 '</div>' +
@@ -65,13 +65,13 @@ var createLessonItem = function(data) {
                 '</div>'
             );
             component.find('.item-play').click(playBtn);
-//             if(!data["lesson"]['duration']&&!data["lesson"]['publicAudio']&&!data["lesson"]['description']){
-//                 component.find('.item-show').detach();
-//             }
+            //             if(!data["lesson"]['duration']&&!data["lesson"]['publicAudio']&&!data["lesson"]['description']){
+            //                 component.find('.item-show').detach();
+            //             }
             return component;
         }
     } else
-    return null;
+        return null;
     // if (data['description'] == "" || data['description' == null]) {
     //     component.find('.item-show').detach();
     // }
@@ -105,10 +105,10 @@ $(document).ready(function() {
                 $('#div_C .push').append(new_comp);
                 $(event.target).parents('.training-item').find('.content-training').append(new_comp1);
             });
-            if($("#div_C .push").attr('data-type')!=1){
-                $("#div_C").find(".accordion").map(function(i, item){
-                    if($(item).prev(".accordion").length!=0){
-                        if($(item).prev(".accordion").attr("data-progress")!="100"){
+            if ($("#div_C .push").attr('data-type') != 1) {
+                $("#div_C").find(".accordion").map(function(i, item) {
+                    if ($(item).prev(".accordion").length != 0) {
+                        if ($(item).prev(".accordion").attr("data-progress") != "100") {
                             $(item).find('.item-play').css('opacity', "30%");
                         }
                     }
