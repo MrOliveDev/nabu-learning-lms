@@ -293,6 +293,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('delTemplate', '\App\Http\Controllers\ReportController@delTemplate')->name('delTemplate');
     Route::post('getBlockHTML', '\App\Http\Controllers\ReportController@getBlockHTML')->name('getBlockHTML');
     Route::post('saveReportImg', '\App\Http\Controllers\ReportController@saveReportImg')->name('saveReportImg');
+    Route::post('getStudentsList', '\App\Http\Controllers\ReportController@getStudentsList')->name('getStudentsList');
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

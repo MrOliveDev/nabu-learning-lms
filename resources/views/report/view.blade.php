@@ -95,49 +95,17 @@
                     <div class="input-container ">
                         <span style="color: white;">Choose the type of document </span>
                         <span class="bg-white text-black p-2 rounded">
-                            <input class="input-field border-0 mw-100 type-filter" type="text" name="type-filter">
+                            <input class="input-field border-0 mw-100" type="text" id="type-filter">
                             <i class="fa fa-search icon p-2"></i>
                         </span>
                     </div>
-                    <div class="doc-type-item">
-                        <span>Report 1</span>
-                        <i class="fa fa-edit"></i>
-                    </div>
-                    <div class="doc-type-item">
-                        <span>Report 2</span>
-                        <i class="fa fa-edit"></i>
-                    </div>
-                    <div class="doc-type-item">
-                        <span>Report 3</span>
-                        <i class="fa fa-edit"></i>
-                    </div>
-                    <div class="doc-type-item">
-                        <span>Report 4</span>
-                        <i class="fa fa-edit"></i>
-                    </div>
-                    <div class="doc-type-item">
-                        <span>Report 5</span>
-                        <i class="fa fa-edit"></i>
-                    </div>
-                    <div class="doc-type-item">
-                        <span>Report 6</span>
-                        <i class="fa fa-edit"></i>
-                    </div>
-                    <div class="doc-type-item">
-                        <span>Report 7</span>
-                        <i class="fa fa-edit"></i>
-                    </div>
-                    <div class="doc-type-item">
-                        <span>Report 8</span>
-                        <i class="fa fa-edit"></i>
-                    </div>
-                    <div class="doc-type-item">
-                        <span>Report 9</span>
-                        <i class="fa fa-edit"></i>
-                    </div>
-                    <div class="doc-type-item">
-                        <span>Report 10</span>
-                        <i class="fa fa-edit"></i>
+                    <div id="doc-type-list">
+                        @foreach($templates as $template)
+                        <div class="doc-type-item" onclick="selectModel({{ $template['id'] }})" id="doc-type-item-{{ $template['id'] }}">
+                            <span>{{ $template['name'] }}</span>
+                            <i class="fa fa-edit"></i>
+                        </div>
+                        @endforeach
                     </div>
                 </div>
 
@@ -162,46 +130,12 @@
                             <col span="1" style="width: 25%;">
                         </colgroup>
                         <tbody>
-                            <tr>
-                                <td class="font-w600">Name of session</td>
-                                <td class="font-w600">12 April 2021</td>
+                            @foreach($sessions as $session)
+                            <tr class="session-item" onclick="selectSession({{ $session['id'] }})" id="session-{{ $session['id'] }}">
+                                <td class="font-w600">{{ $session['name'] }}</td>
+                                <td class="font-w600">{{ $session['create_date'] }}</td>
                             </tr>
-                            <tr>
-                                <td class="font-w600">Name of session</td>
-                                <td class="font-w600">12 April 2021</td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600">Name of session</td>
-                                <td class="font-w600">12 April 2021</td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600">Name of session</td>
-                                <td class="font-w600">12 April 2021</td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600">Name of session</td>
-                                <td class="font-w600">12 April 2021</td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600">Name of session</td>
-                                <td class="font-w600">12 April 2021</td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600">Name of session</td>
-                                <td class="font-w600">12 April 2021</td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600">Name of session</td>
-                                <td class="font-w600">12 April 2021</td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600">Name of session</td>
-                                <td class="font-w600">12 April 2021</td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600">Name of session</td>
-                                <td class="font-w600">12 April 2021</td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -217,7 +151,7 @@
                             <i class="fas fa-sliders-h icon p-2  text-white"></i>
                         </a>
                         <span class="bg-white text-black p-2 rounded">
-                            <input class="input-field border-0 mw-100 learner-filter" type="text" name="session-filter">
+                            <input class="input-field border-0 mw-100 learner-filter" type="text" name="learner-filter">
                             <i class="fa fa-search icon p-2"></i>
                         </span>
                     </div>
@@ -227,27 +161,7 @@
                             <col span="1" style="width: 5%;">
                             <col span="1" style="width: 25%;">
                         </colgroup>
-                        <tbody>
-                            <tr>
-                                <td class="font-w600 learnerName">Hideo Fujimoto</td>
-                                <td class="font-w600 text-center learnerAction"><i class="fa fa-download"></i></td>
-                                <td class="font-w600 text-center learnerAction">Overview <i class="fa fa-eye"></i></td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600 learnerName">Yutaka</td>
-                                <td class="font-w600 text-center learnerAction"><i class="fa fa-download"></i></td>
-                                <td class="font-w600 text-center learnerAction">Overview <i class="fa fa-eye"></i></td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600 learnerName">Sebastien Acacia</td>
-                                <td class="font-w600 text-center learnerAction"><i class="fa fa-download"></i></td>
-                                <td class="font-w600 text-center learnerAction">Overview <i class="fa fa-eye"></i></td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600 learnerName">Nicolas Tournade</td>
-                                <td class="font-w600 text-center learnerAction"><i class="fa fa-download"></i></td>
-                                <td class="font-w600 text-center learnerAction">Overview <i class="fa fa-eye"></i></td>
-                            </tr>
+                        <tbody id="studentsList">
                         </tbody>
                     </table>
                 </div>
@@ -267,7 +181,7 @@
                 <i class="fas fa-grip-lines-vertical text-white"></i>
             </div>
             <fieldset id="genererRight">
-                <div class="w-100 p-2" style="min-height: 700px; border-radius: 5px; background-color: white;">
+                <div class="w-100 p-2" style="min-height: 700px; border-radius: 5px; background-color: white;" id="overviewPane">
                 </div>
             </fieldset>
         </div>

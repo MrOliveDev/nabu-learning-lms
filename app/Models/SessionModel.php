@@ -241,4 +241,26 @@ class SessionModel extends Model
 //         print_r($trainings);exit;
         return $trainings;
     }
+
+    public function scopeGetStudentsFromSession($query, $participant_data)
+    {
+        $studentData = array();
+        if (isset($participant_data) || $participant_data != "") {
+            $participant = json_decode($participant_data);
+            $studentList = isset($participant->s) ? $participant->s : array();
+            
+            if (isset($studentList) || $studentList != "") {
+                if (count($studentList) != 0) {
+                    foreach ($studentList as $studentValue) {
+                        // print_r($studentValue);
+                        $studentItem = User::find($studentValue);
+                        if($studentItem)
+                            array_push($studentData, $studentItem->toArray());
+                    }
+                }
+            }
+            
+        }
+        return $studentData;
+    }
 }
