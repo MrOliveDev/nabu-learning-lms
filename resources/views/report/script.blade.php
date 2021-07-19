@@ -248,6 +248,36 @@ $(document).ready(function(){
         trumbowygChanged ++;
         console.log(trumbowygChanged);
     });
+
+    $("#type-filter").on('keyup', function(){
+        $(".doc-type-item").each(function(){
+            let html = $(this).children('span').html();
+            if(html && html.includes($("#type-filter").val())){
+                $(this).css("display", "flex");
+            } else
+                $(this).css("display", "none");
+        });
+    });
+
+    $(".session-filter").on('keyup', function(){
+        $(".session-item").each(function(){
+            let html = $(this).children()[0].innerHTML;
+            if(html && html.includes($(".session-filter").val())){
+                $(this).css("display", "table-row");
+            } else
+                $(this).css("display", "none");
+        });
+    });
+
+    $(".learner-filter").on('keyup', function(){
+        $(".learner-item").each(function(){
+            let html = $(this).children()[0].innerHTML;
+            if(html && html.includes($(".learner-filter").val())){
+                $(this).css("display", "table-row");
+            } else
+                $(this).css("display", "none");
+        });
+    })
 });
 
 var notification = function(str, type) {
@@ -353,6 +383,10 @@ function saveTemplate(){
                             '<i class="fa fa-trash mr-3 dangerBtn" onclick="delTemplate(' + res.id + ')"></i>' +
                         '</div>' + 
                     '</div>');
+                    $("#doc-type-list").append('<div class="doc-type-item" onclick="selectModel(' + res.id + ')" id="doc-type-item-' + res.id + '">' + 
+                            '<span>' + res.name + '</span>' + 
+                            '<i class="fa fa-edit"></i>' + 
+                        '</div>');
                 } else
                     $("#model-title-" + modelSelectedId).html($("#model-name").val());
                 notification("Successfully saved.", 1);
@@ -424,6 +458,82 @@ async function cancelTemplate(){
     trumbowygChanged = -1;
     $('#model-name').val('');
     $('#model-trumb-pane').trumbowyg('html', '');
+}
+
+var curModel = 0, curSession = 0, curStudent = 0;
+function selectModel(templateId){
+    curModel = templateId;
+    $(".doc-type-item").each(function(){
+        $(this).removeClass("active");
+    });
+    $("#doc-type-item-" + templateId).addClass("active");
+    if(curModel && curSession && curStudent){
+        overviewReport(curStudent);
+    }
+}
+
+function selectSession(sessionId){
+    curSession = sessionId;
+    $(".session-item").each(function(){
+        $(this).removeClass("active");
+    });
+    $("#session-" + sessionId).addClass("active");
+    $("#studentsList").html('');
+    swal.fire({ title: "Please wait...", showConfirmButton: false });
+    swal.showLoading();
+    $.ajax({
+        url: 'getStudentsList',
+        method: 'post',
+        data: {sessionId: sessionId},
+        success: function(res) {
+            swal.close();
+            if(res.success && res.students){
+                res.students.forEach(student => {
+                    $("#studentsList").append('<tr class="learner-item">' + 
+                                '<td class="font-w600 learnerName">' + student.first_name + ' ' + student.last_name + '</td>' + 
+                                '<td class="font-w600 text-center learnerAction" onclick="downloadReport(' + student.id + ')"><i class="fa fa-download"></i></td>' + 
+                                '<td class="font-w600 text-center learnerAction" onclick="overviewReport(' + student.id + ')">Overview <i class="fa fa-eye"></i></td>' + 
+                            '</tr>');
+                });
+            } else
+                notification(res.message, 2);
+        },
+        error: function(err) {
+            swal.close();
+            notification("Sorry, You have an error!", 2);
+        }
+    });
+}
+
+function overviewReport(studentId){
+    curStudent = studentId;
+    if(!curModel){
+        swal.fire({ title: "Warning", text: "Please select document type.", icon: "info", confirmButtonText: `OK` });
+        return;
+    }
+    if(!curSession){
+        swal.fire({ title: "Warning", text: "Please select session.", icon: "info", confirmButtonText: `OK` });
+        return;
+    }
+
+    swal.fire({ title: "Please wait...", showConfirmButton: false });
+    swal.showLoading();
+    $.ajax({
+        url: 'getTemplateData',
+        method: 'post',
+        data: {id: curModel},
+        success: function(res) {
+            swal.close();
+            if(res.success){
+                $("#overviewPane").html(res.data);
+            } else
+                notification(res.message, 2);
+        },
+        error: function(err) {
+            swal.close();
+            notification("Sorry, You have an error!", 2);
+        }
+    });
 }
 
 </script>

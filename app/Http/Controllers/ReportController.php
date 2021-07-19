@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\ReportsModel;
 use App\Models\ReportTemplateModel;
 use App\Models\ReportImages;
+use App\Models\SessionModel;
 
 use Auth;
 
@@ -21,7 +22,8 @@ class ReportController extends Controller
     {
         $templates = ReportTemplateModel::get();
         $images = ReportImages::where('userId', Auth::user()->id)->get();
-        return view('report.view')->with('templates', $templates)->with('images', $images);
+        $sessions = SessionModel::getSessionPageInfo();
+        return view('report.view')->with('templates', $templates)->with('images', $images)->with('sessions', $sessions);
     }
 
     /**
@@ -285,6 +287,24 @@ class ReportController extends Controller
                 'data' => $request['data']
             ]);
             return response()->json(["success" => true]);
+        } else
+            return response()->json(["success" => false, "message" => "Missing id."]);
+    }
+
+    /**
+     * Retrieve students' list of the session.
+     *
+     * @param  Request  $request
+     * @return JSON
+     */
+    function getStudentsList(Request $request){
+        if(!empty($request['sessionId'])){
+            $session = SessionModel::find($request['sessionId']);
+            if($session){
+                $students = SessionModel::getStudentsFromSession($session->participants);
+                return response()->json(["success" => true, "students" => $students]);
+            } else
+                return response()->json(["success" => false, "message" => "Cannot find the session."]);
         } else
             return response()->json(["success" => false, "message" => "Missing id."]);
     }
