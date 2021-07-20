@@ -44,8 +44,8 @@ class LanguageModel extends Model
 
 	public function scopeGet_language_iso($query, $language_id){
 
-        $data=$query->where('language_id', $language_id)->get();
-        return $data['language_iso'];
+        $data=$query->where('language_id', $language_id)->first();
+        return $data ? $data['language_iso'] : '';
 	}
 
 	public function scopeGet_language_name($query, $language_iso){

@@ -246,7 +246,6 @@ $(document).ready(function(){
 
     $('#model-trumb-pane').trumbowyg().on('tbwchange', () => {
         trumbowygChanged ++;
-        console.log(trumbowygChanged);
     });
 
     $("#type-filter").on('keyup', function(){
@@ -261,8 +260,9 @@ $(document).ready(function(){
 
     $(".session-filter").on('keyup', function(){
         $(".session-item").each(function(){
-            let html = $(this).children()[0].innerHTML;
-            if(html && html.includes($(".session-filter").val())){
+            let sessionName = $(this).children()[0].innerHTML;
+            let sessionDate = $(this).children()[1].innerHTML;
+            if((sessionName && sessionName.includes($(".session-filter").val())) || (sessionDate && sessionDate.includes($(".session-filter").val()))){
                 $(this).css("display", "table-row");
             } else
                 $(this).css("display", "none");
@@ -495,6 +495,7 @@ function selectSession(sessionId){
                                 '<td class="font-w600 text-center learnerAction" onclick="overviewReport(' + student.id + ')">Overview <i class="fa fa-eye"></i></td>' + 
                             '</tr>');
                 });
+                $("#studentsPane").css("height", "150px");
             } else
                 notification(res.message, 2);
         },
@@ -505,7 +506,51 @@ function selectSession(sessionId){
     });
 }
 
-function overviewReport(studentId){
+function getReportData(){
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: 'getReportData',
+            method: 'post',
+            data: {sessionId: curSession, studentId: curStudent},
+            success: function(res) {
+                if(res.success){
+                    resolve(res.data);
+                } else{
+                    notification(res.message, 2);
+                    resolve(null);
+                }
+            },
+            error: function(err) {
+                notification("Sorry, You have an error!", 2);
+                resolve(null);
+            }
+        });
+    })
+}
+
+function getTemplateData(){
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: 'getTemplateData',
+            method: 'post',
+            data: {id: curModel},
+            success: function(res) {
+                if(res.success){
+                    resolve(res.data);
+                } else{
+                    notification(res.message, 2);
+                    resolve(null);
+                }
+            },
+            error: function(err) {
+                notification("Sorry, You have an error!", 2);
+                resolve(null);
+            }
+        });
+    })
+}
+
+async function overviewReport(studentId){
     curStudent = studentId;
     if(!curModel){
         swal.fire({ title: "Warning", text: "Please select document type.", icon: "info", confirmButtonText: `OK` });
@@ -518,22 +563,10 @@ function overviewReport(studentId){
 
     swal.fire({ title: "Please wait...", showConfirmButton: false });
     swal.showLoading();
-    $.ajax({
-        url: 'getTemplateData',
-        method: 'post',
-        data: {id: curModel},
-        success: function(res) {
-            swal.close();
-            if(res.success){
-                $("#overviewPane").html(res.data);
-            } else
-                notification(res.message, 2);
-        },
-        error: function(err) {
-            swal.close();
-            notification("Sorry, You have an error!", 2);
-        }
-    });
+
+    var info = await getReportData();
+    var template = await getTemplateData();
+    console.log(info, template);
 }
 
 </script>
