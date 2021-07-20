@@ -91,19 +91,18 @@
         </div>
         <div id="generer" class="ml-4">
             <fieldset id="genererLeft">
+                <div class="input-container p-2">
+                    <span style="color: white;">Choose the type of document </span>
+                    <span class="bg-white text-black p-2 rounded">
+                        <input class="input-field border-0 mw-100" type="text" id="type-filter">
+                        <i class="fa fa-search icon p-2"></i>
+                    </span>
+                </div>
                 <div class="w-100 p-2 sliderStyle" style="height: 200px;">
-                    <div class="input-container ">
-                        <span style="color: white;">Choose the type of document </span>
-                        <span class="bg-white text-black p-2 rounded">
-                            <input class="input-field border-0 mw-100" type="text" id="type-filter">
-                            <i class="fa fa-search icon p-2"></i>
-                        </span>
-                    </div>
                     <div id="doc-type-list">
                         @foreach($templates as $template)
                         <div class="doc-type-item" onclick="selectModel({{ $template['id'] }})" id="doc-type-item-{{ $template['id'] }}">
                             <span>{{ $template['name'] }}</span>
-                            <i class="fa fa-edit"></i>
                         </div>
                         @endforeach
                     </div>
@@ -112,19 +111,18 @@
                 <div id="horizSplit1" class="handler_horizontal  text-center  font-size-h3 text-white mb-4">
                     <i class="fas fa-grip-lines"></i>
                 </div>
-
+                <div class="input-container mt-5 p-2">
+                    <span style="color: white;">Choose the session </span>
+                    <a href="#" class="toolkit-show-filter">
+                        <i class="fas fa-sliders-h icon p-2  text-white"></i>
+                    </a>
+                    <span class="bg-white text-black p-2 rounded">
+                        <input class="input-field border-0 mw-100 session-filter" type="text" name="session-filter">
+                        <i class="fa fa-search icon p-2"></i>
+                    </span>
+                </div>
                 <div class="w-100 p-2 sliderStyle" style="height: 250px;">
-                    <div class="input-container mb-2">
-                        <span style="color: white;">Choose the session </span>
-                        <a href="#" class="toolkit-show-filter">
-                            <i class="fas fa-sliders-h icon p-2  text-white"></i>
-                        </a>
-                        <span class="bg-white text-black p-2 rounded">
-                            <input class="input-field border-0 mw-100 session-filter" type="text" name="session-filter">
-                            <i class="fa fa-search icon p-2"></i>
-                        </span>
-                    </div>
-                    <table class="table table-bordered table-striped table-vcenter reportTbl" id="session-table" style="width:100%;">
+                    <table class="table table-bordered table-striped table-vcenter reportTbl" style="width:100%;">
                         <colgroup>
                             <col span="1" style="width: 75%;">
                             <col span="1" style="width: 25%;">
@@ -143,19 +141,18 @@
                 <div id="horizSplit2" class="handler_horizontal  text-center  font-size-h3 text-white mb-4">
                     <i class="fas fa-grip-lines"></i>
                 </div>
-
-                <div class="w-100 p-2 sliderStyle" style="height: 200px;">
-                    <div class="input-container mb-2">
-                        <span style="color: white;">List of learners </span>
-                        <a href="#" class="toolkit-show-filter">
-                            <i class="fas fa-sliders-h icon p-2  text-white"></i>
-                        </a>
-                        <span class="bg-white text-black p-2 rounded">
-                            <input class="input-field border-0 mw-100 learner-filter" type="text" name="learner-filter">
-                            <i class="fa fa-search icon p-2"></i>
-                        </span>
-                    </div>
-                    <table class="table table-bordered table-striped table-vcenter" id="session-table" style="width:100%;">
+                <div class="input-container mb-2 mt-5 p-2">
+                    <span style="color: white;">List of learners </span>
+                    <a href="#" class="toolkit-show-filter">
+                        <i class="fas fa-sliders-h icon p-2  text-white"></i>
+                    </a>
+                    <span class="bg-white text-black p-2 rounded">
+                        <input class="input-field border-0 mw-100 learner-filter" type="text" name="learner-filter">
+                        <i class="fa fa-search icon p-2"></i>
+                    </span>
+                </div>
+                <div class="w-100 p-2 sliderStyle" id="studentsPane">
+                    <table class="table table-bordered table-striped table-vcenter" style="width:100%;">
                         <colgroup>
                             <col span="1" style="width: 70%;">
                             <col span="1" style="width: 5%;">
@@ -181,7 +178,7 @@
                 <i class="fas fa-grip-lines-vertical text-white"></i>
             </div>
             <fieldset id="genererRight">
-                <div class="w-100 p-2" style="min-height: 700px; border-radius: 5px; background-color: white;" id="overviewPane">
+                <div class="w-100 p-2" id="overviewPane">
                 </div>
             </fieldset>
         </div>

@@ -8,6 +8,9 @@ use App\Models\ReportsModel;
 use App\Models\ReportTemplateModel;
 use App\Models\ReportImages;
 use App\Models\SessionModel;
+use App\Models\TrainingsModel;
+use App\Models\LessonCourses;
+use App\Models\LanguageModel;
 
 use Auth;
 
@@ -307,5 +310,108 @@ class ReportController extends Controller
                 return response()->json(["success" => false, "message" => "Cannot find the session."]);
         } else
             return response()->json(["success" => false, "message" => "Missing id."]);
+    }
+
+    /**
+     * Retrieve report data for a student of a session.
+     *
+     * @param  Request  $request
+     * @return JSON
+     */
+    function getReportData(Request $request){
+        if(!empty($request['sessionId']) && !empty($request['studentId'])){
+            $data = array();
+            $user = User::find($request['studentId']);
+            if($user){
+                $data['student'] = $user;
+            } else
+                response()->json(["success" => false, "message" => "Cannot find the student."]);
+
+            $language_iso = LanguageModel::get_language_iso($user['lang']);
+            if($language_iso == '')
+                $language_iso = LanguageModel::get_language_iso(1);
+            
+            $session = SessionModel::find($request['sessionId']);
+            if($session){
+                $trainingIds = explode("_", $session->contents);
+                $data['trainings'] = array();
+                foreach($trainingIds as $trainingId){
+                    $training = TrainingsModel::find($trainingId);
+                    $lessons = [];
+                    if($training){
+                        if ($training->lesson_content) {
+                            $lessonList = json_decode($training->lesson_content, true);
+                            if ($lessonList != NULL) {
+                                foreach ($lessonList as $value) {
+                                    if (LessonsModel::find($value['item'])) {
+                                        if (!in_array(LessonsModel::getLessonContainedTraining($value['item']), $lessons)) {
+                                            array_push($lessons, LessonsModel::getLessonContainedTraining($value['item']));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    $lessonData = [];
+                    foreach($lessons as $lesson){
+                        $lessonInfo = array("lesson" => $lesson);
+                        $lessonCourse = LessonCourses::getLessonCourse($lesson['id'], $language_iso);
+                        $lessonInfo["lessonCourse"] = $lessonCourse;
+                        
+                        $module_structure = json_decode($lessonCourse->module_structure);
+                        $lessonInfo["screensCount"] = $this->helperCountScreensModule($module_structure);
+                        $lessonInfo["chaptersCount"] = $this->helperCountChaptersModule($module_structure);
+                        
+                        //$lessonInfo["optim"] = 
+
+                        $lessonData[] = $lessonInfo;
+                    }
+
+                    $data['trainings'][] = array("training" => $training, "lessons" => $lessonData);
+                }
+                return response()->json(["success" => true, "data" => $data]);
+            } else
+                response()->json(["success" => false, "message" => "Cannot find the session."]);
+        } else
+            return response()->json(["success" => false, "message" => "Empty parameters."]);
+    }
+
+    /**
+     * Return count of screens from module structure.
+     *
+     * @param  Array  $module_structure
+     * @return Integer
+     */
+    private function helperCountScreensModule($module_structure) {
+        $nb_screens = 0;
+        if (!empty($module_structure)) {
+            foreach ($module_structure as $screen) {
+                // On vire du total les screen nav = FALSE
+                if (isset($screen->nav) && $screen->nav != "false") {
+                    $nb_screens++;
+                }
+            }
+        }
+        return $nb_screens;
+    }
+
+    /**
+     * Return count of chapters from module structure.
+     *
+     * @param  Array  $module_structure
+     * @return Integer
+     */
+    private function helperCountChaptersModule($module_structure) {
+        $nb_chapters = 0;
+        if (!empty($module_structure)) {
+            foreach ($module_structure as $screen) {
+                // On vire du total les screen nav = FALSE
+                if (!isset($screen->nav) || $screen->nav == "false") {
+                    $nb_chapters++;
+                }
+            }
+        }
+        return $nb_chapters;
     }
 }
