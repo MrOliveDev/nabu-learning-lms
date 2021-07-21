@@ -1,5 +1,5 @@
 var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
-// var baseURL = window.location.protocol + "//" + window.location.host;
+//var baseURL = window.location.protocol + "//" + window.location.host;
 var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document.body.clientHeight));
 
 var clearRightField = function() {
@@ -8,8 +8,9 @@ var clearRightField = function() {
 
 var playBtn = function(event) {
     event.preventDefault();
+    var session_id = $(this).parents(".accordion").attr('data-session');
     if ($(this).css("opacity") != "0.3") {
-        window.open(baseURL + "/player_editor" + "/#/open/fr/fabrique/0/" + $(this).attr('data-fabrica') + "/0/dae8efee8afc1994204d76ee963bcfb1");
+        window.open(baseURL + "/player_editor" + "/#/open/fr/fabrique/"+session_id+"/0/" + $(this).attr('data-fabrica') + "/0/dae8efee8afc1994204d76ee963bcfb1");
     } else {
         alert("You have to cross the prev lesson first.");
     }
@@ -102,6 +103,8 @@ $(document).ready(function() {
             data.map(function(dataItem, i) {
                 var new_comp = createLessonItem(dataItem);
                 var new_comp1 = createLessonItem(dataItem);
+                new_comp1.attr("data-session", parent.parents('.training-item').attr('data-session'));
+                new_comp.attr("data-session", parent.parents('.training-item').attr('data-session'));
                 $('#div_C .push').append(new_comp);
                 $(event.target).parents('.training-item').find('.content-training').append(new_comp1);
             });
