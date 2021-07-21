@@ -47,7 +47,6 @@
     } // eo openModel class
 
     $openModel  = new openModel;
-
     if ( !$_SESSION['user_id'] )
     {
         $return['state']    = 'error';

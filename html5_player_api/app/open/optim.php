@@ -60,7 +60,7 @@ function treatOptim($optim_datas) {
             return 0;
         
         // On récupère l'optim pour la fabrique, le cours et le user
-        $optim = modelGetOptim($optim_datas['id_fabrique'],$optim_datas['id_user'],$id_curso);
+        $optim = modelGetOptim($optim_datas['id_fabrique'],$optim_datas['id_user'],$id_curso,$optim_datas['sessionId']);
         
         if ($optim != FALSE) { // Si on a déjà une ligne optim
             // On récupère le progress details puis on check si l'écran courrant est présent dedans
@@ -77,7 +77,8 @@ function treatOptim($optim_datas) {
             
             $payload = array('progress_details' => json_encode($progress_details),
                 'progress_screen' => $progress_screen,
-                'last_date' => $optim_datas['reg_date'].' '.$optim_datas['hour_end']);
+                'last_date' => $optim_datas['reg_date'].' '.$optim_datas['hour_end'],
+                'sessionId' => $optim_datas['sessionId']);
             modelUpdateOptim($payload,$optim['id_screen_optim']);
         } else { // Si il faut créer la ligne optim
             // On crée le progress detail et on ajoute le screen courant
@@ -93,7 +94,8 @@ function treatOptim($optim_datas) {
                 'id_user' => $optim_datas['id_user'],
                 'progress_details' => json_encode($progress_details),
                 'progress_screen' => $progress_screen,
-                'last_date' => $optim_datas['reg_date'].' '.$optim_datas['hour_end']);
+                'last_date' => $optim_datas['reg_date'].' '.$optim_datas['hour_end'],
+                'sessionId' => $optim_datas['sessionId']);
             modelInsertOptim($payload);
         }
         return $payload;
@@ -122,16 +124,18 @@ function treatOptimEval($optim_datas) {
         $nb_screens_module = helperCountScreensModule($module_structure); // On récupère le nombre d'écran du cours
     
         // On récupère l'optim pour la fabrique et le user
-        $optim = modelGetOptim($optim_datas['id_fabrique'],$optim_datas['id_user'],$id_curso);
+        $optim = modelGetOptim($optim_datas['id_fabrique'],$optim_datas['id_user'],$id_curso,$optim_datas['sessionId']);
         
         if ($optim != FALSE) { // Si on a déjà une ligne optim
             if ($optim['first_eval_id_screen_optim'] == 0) { // Si on a pas de first_eval_id_screen_optim on l'insère
                 $payload = array('first_eval_id_screen_optim' => $optim_datas['id_eval'],
-                    'last_date' => $optim_datas['date_end']);
+                    'last_date' => $optim_datas['date_end'],
+                    'sessionId' => $optim_datas['sessionId']);
                 modelUpdateFirstEvalOptim($payload,$optim['id_screen_optim']);
             } else { // Si on a déjà une first_eval_id_screen_optim on met en last_eval_id_screen_optim
                 $payload = array('last_eval_id_screen_optim' => $optim_datas['id_eval'],
-                    'last_date' => $optim_datas['date_end']);
+                    'last_date' => $optim_datas['date_end'],
+                    'sessionId' => $optim_datas['sessionId']);
                 modelUpdateLastEvalOptim($payload,$optim['id_screen_optim']);
             }
             
@@ -145,7 +149,8 @@ function treatOptimEval($optim_datas) {
 
             $payload = array('progress_details' => json_encode($progress_details),
                 'progress_screen' => $progress_screen,
-                'last_date' => $optim_datas['date_end']);
+                'last_date' => $optim_datas['date_end'],
+                'sessionId' => $optim_datas['sessionId']);
             modelUpdateOptim($payload,$optim['id_screen_optim']);
             
         } else { // Si il faut créer la ligne optim
@@ -154,7 +159,8 @@ function treatOptimEval($optim_datas) {
                 'id_user' => $optim_datas['id_user'],
                 'progress_details' => '',
                 'progress_screen' => '0.00',
-                'last_date' => $optim_datas['date_end']);
+                'last_date' => $optim_datas['date_end'],
+                'sessionId' => $optim_datas['sessionId']);
             $id_optim_inserted = modelInsertOptim($payload);
             $payload = array('first_eval_id_screen_optim' => $optim_datas['id_eval']);
             modelUpdateFirstEvalOptim($payload,$id_optim_inserted);
@@ -163,7 +169,8 @@ function treatOptimEval($optim_datas) {
             $progress_screen = number_format((1*100)/$nb_screens_module,2);
             $payload = array('progress_details' => '',
                 'progress_screen' => $progress_screen,
-                'last_date' => $optim_datas['date_end']);
+                'last_date' => $optim_datas['date_end'],
+                'sessionId' => $optim_datas['sessionId']);
             modelUpdateOptim($payload,$id_optim_inserted);
         }
     }
@@ -269,14 +276,21 @@ function modelGetUser($id_user) {
 
 // Insert une ligne dans la table screen_optim
 function modelInsertOptim($datas) {
-    $sql = "INSERT INTO tb_screen_optim(`id_fabrique_screen_optim`,`id_curso_screen_optim`,`id_user_screen_optim`,`progress_details_screen_optim`,`progress_screen_optim`,`last_date_screen_optim`)
+    if($datas['sessionId']){
+        $tableName = "tb_screen_optim_" . $datas['sessionId'];
+        $db = new PDO("mysql:host=localhost;dbname=db_reports", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+    } else {
+        $tableName = "tb_screen_optim";
+        $db = new PDO("mysql:host=localhost;dbname=laravel", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+    }
+    $sql = "INSERT INTO {$tableName}(`id_fabrique_screen_optim`,`id_curso_screen_optim`,`id_user_screen_optim`,`progress_details_screen_optim`,`progress_screen_optim`,`last_date_screen_optim`)
         VALUES('".$datas['id_fabrique']."',
         '".$datas['id_curso']."',
         '".$datas['id_user']."',
         '".($datas['progress_details'])."',
         '".($datas['progress_screen'])."',
         '".$datas['last_date']."')";
-    $db = new PDO("mysql:host=localhost;dbname=laravel", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+    
     $stmt = $db->prepare($sql);
     $stmt->execute();
     $inserted_id = $db->lastInsertId();
@@ -285,48 +299,90 @@ function modelInsertOptim($datas) {
 
 // MAJ une ligne dans la table screen_optim
 function modelUpdateOptim($datas,$id_row) {
-    $sql = "UPDATE tb_screen_optim
+    if($datas['sessionId']){
+        $tableName = "tb_screen_optim_" . $datas['sessionId'];
+        $db = new PDO("mysql:host=localhost;dbname=db_reports", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+    } else {
+        $tableName = "tb_screen_optim";
+        $db = new PDO("mysql:host=localhost;dbname=laravel", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+    }
+    $sql = "UPDATE {$tableName}
         SET progress_details_screen_optim = '".($datas['progress_details'])."',
             progress_screen_optim = ".($datas['progress_screen']).",
             last_date_screen_optim = '".$datas['last_date']."'
         WHERE id_screen_optim = ".($id_row);
-    $db = new PDO("mysql:host=localhost;dbname=laravel", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+    
     $stmt = $db->prepare($sql);
     $stmt->execute();
 }
 
 // MAJ la first_eval_id_screen_optim d'une ligne dans la table screen_optim
 function modelUpdateFirstEvalOptim($datas,$id_row) {
-    $sql = "UPDATE tb_screen_optim
+    if($datas['sessionId']){
+        $tableName = "tb_screen_optim_" . $datas['sessionId'];
+        $db = new PDO("mysql:host=localhost;dbname=db_reports", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+    } else {
+        $tableName = "tb_screen_optim";
+        $db = new PDO("mysql:host=localhost;dbname=laravel", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+    }
+    $sql = "UPDATE {$tableName}
         SET first_eval_id_screen_optim = ".($datas['first_eval_id_screen_optim']).",
             last_date_screen_optim = '".$datas['last_date']."'
         WHERE id_screen_optim = ".($id_row);
-    $db = new PDO("mysql:host=localhost;dbname=laravel", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+    
     $stmt = $db->prepare($sql);
     $stmt->execute();
 }
 
 // MAJ la last_eval_id_screen_optim d'une ligne dans la table screen_optim
 function modelUpdateLastEvalOptim($datas,$id_row) {
-    $sql = "UPDATE tb_screen_optim
+    if($datas['sessionId']){
+        $tableName = "tb_screen_optim_" . $datas['sessionId'];
+        $db = new PDO("mysql:host=localhost;dbname=db_reports", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+    } else {
+        $tableName = "tb_screen_optim";
+        $db = new PDO("mysql:host=localhost;dbname=laravel", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+    }
+    $sql = "UPDATE {$tableName}
         SET last_eval_id_screen_optim = ".($datas['last_eval_id_screen_optim']).",
             last_date_screen_optim = '".$datas['last_date']."'
         WHERE id_screen_optim = ".($id_row);
-    $db = new PDO("mysql:host=localhost;dbname=laravel", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+    
     $stmt = $db->prepare($sql);
     $stmt->execute();
 }
 
 // Récupère une ligne dans la table screen_optm
-function modelGetOptim($id_fabrique,$id_user,$id_curso='') {
-    $sql = "SELECT * FROM tb_screen_optim
+function modelGetOptim($id_fabrique,$id_user,$id_curso='',$sessionId=null) {
+    if($sessionId){
+        $tableName = "tb_screen_optim_" . $sessionId;
+        $db = new PDO("mysql:host=localhost;dbname=db_reports", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+        $createSql = "CREATE TABLE IF NOT EXISTS `{$tableName}` ("
+            . "`id_screen_optim` int(11) NOT NULL AUTO_INCREMENT,"
+            . "`id_fabrique_screen_optim` varchar(10) COLLATE utf8_unicode_ci NOT NULL,"
+            . "`id_curso_screen_optim` int(11) NOT NULL,"
+            . "`id_user_screen_optim` int(11) NOT NULL,"
+            . "`progress_details_screen_optim` text COLLATE utf8_unicode_ci NOT NULL,"
+            . "`progress_screen_optim` float(5,2) NOT NULL,"
+            . "`last_date_screen_optim` datetime NOT NULL,"
+            . "`first_eval_id_screen_optim` int(11) NOT NULL,"
+            . "`last_eval_id_screen_optim` int(11) NOT NULL,"
+            . "PRIMARY KEY (id_screen_optim) "
+            . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+        $stmt = $db->prepare($createSql);
+        $stmt->execute();
+    } else {
+        $tableName = "tb_screen_optim";
+        $db = new PDO("mysql:host=localhost;dbname=laravel", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+    }
+    $sql = "SELECT * FROM {$tableName}
         WHERE id_fabrique_screen_optim = '".($id_fabrique)."'
         AND id_user_screen_optim = ".($id_user);
     if ($id_curso != '') {
         $sql .= "
             AND id_curso_screen_optim = ".($id_curso);
     }
-    $db = new PDO("mysql:host=localhost;dbname=laravel", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+    
     $stmt = $db->prepare($sql);
     $stmt->execute();
     if ($stmt->errorCode() == 0) {

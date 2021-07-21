@@ -566,7 +566,8 @@ async function overviewReport(studentId){
 
     var info = await getReportData();
     var template = await getTemplateData();
-    console.log(info, template);
+    console.log(info);
+    swal.close();
 }
 
 </script>

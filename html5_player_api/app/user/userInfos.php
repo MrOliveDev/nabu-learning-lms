@@ -33,7 +33,6 @@
 
         return $novo_valor;
     }
-
     if ( !$_SESSION['user_id'] )
     {
         $return['state']    = 'error';

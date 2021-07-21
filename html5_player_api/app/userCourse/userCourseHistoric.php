@@ -58,20 +58,53 @@
 
         class openModel extends dbModel
         {
-            public function __construct()
+            public function __construct($dbdsn = null)
             {
-                parent::__construct();
+                parent::__construct($dbdsn);
             } // eo constructor
+
+            public function query( $sql )
+            {
+                $results = $this->db->query( $sql );
+
+                if ( ! $results )
+                {
+                    die( print_r( $this->db->errorInfo(), true ) );
+                }
+            }
         } // eo openModel class
 
-        $openModel  = new openModel;
+        if($sessionId){
+            $openModel = new openModel(DB_HISTORIC_DSN);
+            $tableName = 'tb_screen_stats_' . $sessionId;
+            $createSql = "CREATE TABLE IF NOT EXISTS `tb_screen_stats_" . $sessionId . "` ("
+                     . "`id` int(11) NOT NULL AUTO_INCREMENT,"
+                     . "`user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                     . "`date` date DEFAULT NULL,"
+                     . "`session` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                     . "`id_screen` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                     . "`question` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                     . "`h_begin` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                     . "`h_end` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                     . "`status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                     . "`reg_date` date DEFAULT NULL,"
+                     . "`idFabrica` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                     . "`is_chapter` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'to know if a screen is a chapter',"
+                     . "PRIMARY KEY (id) "
+                     . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+            $openModel->query( $createSql );
+        } else{
+            $openModel  = new openModel;
+            $tableName = 'screen_stats';
+        }
 
         /**
          * GET historic datas from DATABASE
          */
-        $sql         = "SELECT `screen_stats`.`id_screen`, `screen_stats`.`status`, CONCAT( `screen_stats`.`reg_date`, ' ', `screen_stats`.`h_end` ) AS `date_screen` ";
-        $sql        .= "FROM `screen_stats` INNER JOIN `tb_lesson` ON `tb_lesson`.`idFabrica` = `screen_stats`.`idFabrica` ";
-        $sql        .= "WHERE `screen_stats`.`user_id` = " . intval( $userId ) . " AND `tb_lesson`.`idFabrica` = '" . $productId . "' ";
+        $sql         = "SELECT `{$tableName}`.`id_screen`, `{$tableName}`.`status`, CONCAT( `{$tableName}`.`reg_date`, ' ', `{$tableName}`.`h_end` ) AS `date_screen` ";
+        //$sql        .= "FROM `{$tableName}` INNER JOIN `tb_lesson` ON `tb_lesson`.`idFabrica` = `{$tableName}`.`idFabrica` ";
+        $sql        .= "FROM `{$tableName}` ";
+        $sql        .= "WHERE `{$tableName}`.`user_id` = " . intval( $userId ) . " AND `{$tableName}`.`idFabrica` = '" . $productId . "' ";
         $sql        .= "ORDER BY `date_screen` DESC";
 
         $results    = $openModel->getDatas( $sql );

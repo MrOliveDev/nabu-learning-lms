@@ -11,6 +11,8 @@ use App\Models\SessionModel;
 use App\Models\TrainingsModel;
 use App\Models\LessonCourses;
 use App\Models\LanguageModel;
+use App\Models\ScreenOptim;
+use App\Models\User;
 
 use Auth;
 
@@ -320,7 +322,6 @@ class ReportController extends Controller
      */
     function getReportData(Request $request){
         if(!empty($request['sessionId']) && !empty($request['studentId'])){
-            $data = array();
             $user = User::find($request['studentId']);
             if($user){
                 $data['student'] = $user;
@@ -353,6 +354,10 @@ class ReportController extends Controller
                         }
                     }
 
+                    $data["are_eval_there"] = array("evals" => array(), "answer" => 0);
+                    $first_date_view = FALSE;
+                    $last_date_view = FALSE;
+                    $totalTime = '00:00:00';
                     $lessonData = [];
                     foreach($lessons as $lesson){
                         $lessonInfo = array("lesson" => $lesson);
@@ -363,12 +368,95 @@ class ReportController extends Controller
                         $lessonInfo["screensCount"] = $this->helperCountScreensModule($module_structure);
                         $lessonInfo["chaptersCount"] = $this->helperCountChaptersModule($module_structure);
                         
-                        //$lessonInfo["optim"] = 
+                        $lessonInfo["optim"] = ScreenOptim::getScreenOptim($request['sessionId'], $request['studentId'], $lesson['idFabrica']);
+                        if($lessonInfo["optim"] != null){
+                            $lessonInfo["first_eval"] = ScreenOptim::getEvaluation($request['sessionId'], $lessonInfo["optim"]["first_eval_id_screen_optim"]);
+                            $lessonInfo["last_eval"] = ScreenOptim::getEvaluation($request['sessionId'], $lessonInfo["optim"]["last_eval_id_screen_optim"]);
+                            
+                            if ($last_date_view == FALSE || (strtotime($lessonInfo['optim']['last_date_screen_optim']) > strtotime($last_date_view)))
+                                $last_date_view = $$lessonInfo['optim']['last_date_screen_optim'];
+
+                            $progress_details = json_decode($lessonInfo['optim']['progress_details_screen_optim']);
+                        } else{
+                            $lessonInfo["first_eval"] = null;
+                            $lessonInfo["last_eval"] = null;
+                        }
+                        $lessonInfo["evalCounts"] = ScreenOptim::getNbEvaluations($request['sessionId'], $request['studentId'], $lesson['idFabrica']);
+
+                        $time_module = '00:00:00';
+                        if($progress_details){
+                            foreach ($progress_details as $screen) {
+                                if ($first_date_view == FALSE || (strtotime($screen->last_view) < strtotime($first_date_view)))
+                                    $first_date_view = $screen->last_view;
+                                $t_time = explode(':',$screen->time);
+                                $time_module = date('H:i:s',strtotime("+".$t_time[0]." hours ".$t_time[1]." minutes ".$t_time[2]." seconds",strtotime($time_module)));
+                                $totalTime = date('H:i:s',strtotime("+".$t_time[0]." hours ".$t_time[1]." minutes ".$t_time[2]." seconds",strtotime($totalTime)));
+                            }
+                        }
+
+                        $time_eval = '00:00:00';
+                        $lessonInfo["eval"] = '';
+                        if($lessonInfo["last_eval"] != null){
+                            $diff_time = $this->helperDateDiff(strtotime($lessonInfo['last_eval']['date_start']),strtotime($lessonInfo['last_eval']['date_end']));
+                            $time_eval = date('H:i:s',strtotime("+".$diff_time['hour']." hours ".$diff_time['minute']." minutes ".$diff_time['second']." seconds",strtotime($time_eval)));
+                            $lessonInfo['last_eval']['time_eval'] = $time_eval;
+                            $lessonInfo['eval'] = 'first';
+                            
+                            $data["are_eval_there"]["answer"] ++;
+                            $data["are_eval_there"]["evals"][] = array("module" => $lessonInfo["lesson"]["name"], "note" => $lessonInfo['last_eval']['note']);
+                            
+                            $lessonInfo['eval_questions'] = EvaluationQuestions::getQuestionDetails($request['sessionId'], $lessonInfo['last_eval']['id']);
+                        } else if($lessonInfo["first_eval"] != null){
+                            $diff_time = $this->helperDateDiff(strtotime($lessonInfo['first_eval']['date_start']),strtotime($lessonInfo['first_eval']['date_end']));
+                            $time_eval = date('H:i:s',strtotime("+".$diff_time['hour']." hours ".$diff_time['minute']." minutes ".$diff_time['second']." seconds",strtotime($time_eval)));
+                            $lessonInfo['first_eval']['time_eval'] = $time_eval;
+                            $lessonInfo['eval'] = 'first';
+                            
+                            $data["are_eval_there"]["answer"] ++;
+                            $data["are_eval_there"]["evals"][] = array("module" => $lessonInfo["lesson"]["name"], "note" => $lessonInfo['first_eval']['note']);
+                            
+                            $lessonInfo['eval_questions'] = EvaluationQuestions::getQuestionDetails($request['sessionId'], $lessonInfo['first_eval']['id']);
+                        }
+
+                        if (isset($lessonInfo['eval_questions'])) {
+                            $questions = array();
+                            foreach ($lessonInfo['eval_questions'] as $one) {
+                                $options =  unserialize($one['option_serialize']);
+                                if( $options == false )
+                                    $options = unserialize(str_replace("'", "''", $one['option_serialize']));
+                                $reponses_attendus = $one['expected_response'];
+                                $reponses_recus = $one['reply'];
+                                $t_options = array();
+                                // On parcours les options de la questions et on vérifie si la réponse donnée est la réponse attendue
+                                foreach ($options as $key => $option) {
+                                    $option_ok = 0;
+                                    if (substr($reponses_attendus,$key,1) == substr($reponses_recus,$key,1))
+                                        $option_ok = 1;
+                                    $t_options[] = array('intitule' => $option,
+                                        'attendu' => substr($reponses_attendus,$key,1),
+                                        'recu' => substr($reponses_recus,$key,1),
+                                        'ok' => $option_ok);
+                                }
+                                $questions[] = array('title' => $one['title'],
+                                    'points' => $one['points'],
+                                    'options' => $t_options,
+                                    'result' => ( $reponses_attendus == $reponses_recus ? 1 : 0) );
+                            }
+                            $lessonInfo['eval_questions'] = $questions;
+                        }
+
+                        if ($time_eval != '00:00:00') {
+                            $t_time_eval = explode(':',$time_eval);
+                            $time_module = date('H:i:s',strtotime("+".$t_time_eval[0]." hours ".$t_time_eval[1]." minutes ".$t_time_eval[2]." seconds",strtotime($time_module)));
+                            // MAJ du temps effectif total de la formation
+                            $totalTime = date('H:i:s',strtotime("+".$t_time_eval[0]." hours ".$t_time_eval[1]." minutes ".$t_time_eval[2]." seconds",strtotime($totalTime)));
+                        }
+                        $lessonInfo['time_module'] = $time_module;
 
                         $lessonData[] = $lessonInfo;
                     }
 
-                    $data['trainings'][] = array("training" => $training, "lessons" => $lessonData);
+                    $data['trainings'][] = array("training" => $training, "lessons" => $lessonData, "first_date" => $first_date_view, "last_date" => $last_date_view, "totalTime" => $totalTime);
                 }
                 return response()->json(["success" => true, "data" => $data]);
             } else
