@@ -70,7 +70,7 @@ Abstract Class dbModel {
      */
     public function listen($type, $str, $exit = false) {
         //echo "debugmode:".$_SESSION['debugmode'];
-        if ($_SESSION['debugmode'] == "listen") {
+        if (auth()->user()->debugmode == "listen") {
             if ($type == "echo") {
                 echo $str;
             } else if ($type == "dump") {
@@ -108,11 +108,11 @@ Abstract Class dbModel {
         $config->addAttribute('code', $productId);
         $config->addAttribute('label', $name);
         $n = $config->addChild('languages');
-        $n->addChild('lang', $_SESSION[lang]);
+        $n->addChild('lang', auth()->user()->lang);
         $t = $config->addChild('lessonPlan');
         $t->addAttribute('id', '0');
         $n2 = $t->addChild('title');
-        $n2->addChild($_SESSION["lang"], 'Menu Principal');
+        $n2->addChild(auth()->user()->lang, 'Menu Principal');
         //    Header('Content-type: text/xml');
         //    echo $config->asXML();
 
@@ -336,15 +336,15 @@ Abstract Class dbModel {
             //$is = $session_activ && $online;
     //echo "is:".$is."<br>\n";
             // If is admin
-            $is_admin = $_SESSION['user_status']==0;
+            $is_admin = auth()->user()->type==0;
     //echo "is_admin:".$is_admin."<br>\n";
             // If is client
     //echo "session user_id:".$session['user_id']."<br>\n";
     //echo "SESSION user_id:".$_SESSION['user_id']."<br>\n";
-            $is_client = $_SESSION['user_status']==1 && $_SESSION['user_id']==$session['user_id'];
+            $is_client = auth()->user()->type==1 && auth()->user()->user_id==$session['user_id'];
     //echo "is_client:".$is_client."<br>\n";
             // If is client's user
-            $is_client_user = $_SESSION['user_status']==1 && $session['id_creator']==$_SESSION['user_id'];
+            $is_client_user = auth()->user()->type==1 && $session['id_creator']==auth()->user()->id;
     //echo "is_client_user:".$is_client_user."<br>\n";
             $user_authorised = $is_admin || $is_client || $is_client_user;
 
@@ -353,7 +353,7 @@ Abstract Class dbModel {
             $diff_start   = $this->getDateDiff($theday, $start);
             $is = $is && $diff_start['years']<=0 && $diff_start['months']<=0 && $diff_start['days']<=0 && $diff_start['hours']<=0 && $diff_start['mins']<=15;
     //echo "still there:".$is."<br>\n";
-            if(!$is && ($_SESSION['user_id']!=$session['user_id']) ) {
+            if(!$is && (auth()->user()->id!=$session['user_id']) ) {
                 $this->storeSession($session['session_id'], true);
             }
 
@@ -385,14 +385,14 @@ Abstract Class dbModel {
     public function storeSession($session_id=null, $offline=false) {
     //echo "<pre>SESSION:";var_dump($_SESSION);echo "</pre>";//exit;
         $table      = "tb_users_sessions";
-        $user_id    = isset($_SESSION['user_id']) ? $_SESSION['user_id']:null;
+        $user_id    = isset(auth()->user()->user_id) ? auth()->user()->user_id:null;
     //echo "user_id:".$user_id."<br>\n";
 
         $is_day_session = $user_id!=null && $this->isPeriodSession($user_id) ? $this->isPeriodSession($user_id):false;
     //echo "<pre>is_day_session:";var_dump($is_day_session);echo "</pre>";
     //echo "session_id:".$session_id."<br>\n";
 
-        $session_id = isset($_SESSION['session_id']) ? $_SESSION['session_id']:$session_id;
+        $session_id = isset(auth()->user()->session_id) ? auth()->user()->session_id:$session_id;
     //echo "session_id:".$session_id."<br>\n";
         $session_id = $session_id==null && isset($is_day_session['id']) ? $is_day_session['id']:$session_id;
     //echo "session_id:".$session_id."<br>\n";
@@ -415,7 +415,7 @@ Abstract Class dbModel {
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
 
-        $_SESSION['session_id'] = $session_id == null || $session_id == "" ? $this->db->lastInsertId():$session_id;
+        auth()->user()->session_id = $session_id == null || $session_id == "" ? $this->db->lastInsertId():$session_id;
     }
 
     /**
@@ -489,7 +489,7 @@ Abstract Class dbModel {
     //echo "action:".$datas['tipo']."\n";
         $creator_id = $this->is_creator($datas['formdatas'], $creator_col);
         if(!$creator_id) {
-            $creator_id = $_SESSION['user_status']==4 ? $_SESSION['user_creator_id']:$_SESSION['user_id'];
+            $creator_id = auth()->user()->type==4 ? auth()->user()->id_creator:auth()->user()->id;
         }
     //echo "name:".$name."\n";exit;
     //echo "creator_id:".$creator_id."\n";

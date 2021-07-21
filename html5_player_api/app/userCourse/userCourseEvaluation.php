@@ -20,7 +20,7 @@
     $return['msg']          = 'OK';
     $return['datas']        = array();
 
-    if ( !$_SESSION['user_id'] )
+    if ( !(auth()->check()) )
     {
         $return['state']    = 'error';
         $return['date']     = date( 'm.d.y H:i:s' );
