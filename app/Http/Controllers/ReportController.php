@@ -19,6 +19,7 @@ use App\Models\EvaluationQuestions;
 use Illuminate\Support\Facades\DB;
 
 use Auth;
+use Exception;
 
 class ReportController extends Controller
 {
@@ -431,7 +432,11 @@ class ReportController extends Controller
                         if (isset($lessonInfo['eval_questions'])) {
                             $questions = array();
                             foreach ($lessonInfo['eval_questions'] as $one) {
-                                $options =  unserialize($one->option_serialize);
+                                try{
+                                    $options =  unserialize($one->option_serialize);
+                                } catch(Exception $e){
+                                    $options = unserialize(str_replace("'", "''", $one->option_serialize));
+                                }
                                 if( $options == false )
                                     $options = unserialize(str_replace("'", "''", $one->option_serialize));
                                 $reponses_attendus = $one->expected_response;
