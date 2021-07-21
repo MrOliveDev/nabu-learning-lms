@@ -415,7 +415,7 @@ class ReportController extends Controller
                             $data["are_eval_there"]["answer"] ++;
                             $data["are_eval_there"]["evals"][] = array("module" => $lessonInfo["lesson"]["name"], "note" => $lessonInfo['last_eval']->note);
                             
-                            $lessonInfo['eval_questions'] = $this->getQuestionDetails($request['sessionId'], $lessonInfo['last_eval']->id)->get();
+                            $lessonInfo['eval_questions'] = $this->getQuestionDetails($request['sessionId'], $lessonInfo['last_eval']->id);
                         } else if($lessonInfo["first_eval"] != null){
                             $diff_time = $this->helperDateDiff(strtotime($lessonInfo['first_eval']->date_start),strtotime($lessonInfo['first_eval']->date_end));
                             $time_eval = date('H:i:s',strtotime("+".$diff_time['hour']." hours ".$diff_time['minute']." minutes ".$diff_time['second']." seconds",strtotime($time_eval)));
@@ -425,7 +425,7 @@ class ReportController extends Controller
                             $data["are_eval_there"]["answer"] ++;
                             $data["are_eval_there"]["evals"][] = array("module" => $lessonInfo["lesson"]["name"], "note" => $lessonInfo['first_eval']->note);
                             
-                            $lessonInfo['eval_questions'] = $this->getQuestionDetails($request['sessionId'], $lessonInfo['first_eval']->id)->get();
+                            $lessonInfo['eval_questions'] = $this->getQuestionDetails($request['sessionId'], $lessonInfo['first_eval']->id);
                         }
 
                         if (isset($lessonInfo['eval_questions'])) {
