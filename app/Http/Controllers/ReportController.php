@@ -13,6 +13,10 @@ use App\Models\LessonCourses;
 use App\Models\LanguageModel;
 use App\Models\ScreenOptim;
 use App\Models\User;
+use App\Models\LessonsModel;
+use App\Models\EvaluationQuestions;
+
+use Illuminate\Support\Facades\DB;
 
 use Auth;
 
@@ -361,30 +365,36 @@ class ReportController extends Controller
                     $lessonData = [];
                     foreach($lessons as $lesson){
                         $lessonInfo = array("lesson" => $lesson);
-                        $lessonCourse = LessonCourses::getLessonCourse($lesson['id'], $language_iso);
+                        //$lessonCourse = LessonCourses::getLessonCourse($lesson['id'], $language_iso);
+                        $lessonCourse = LessonCourses::where('curso_id', $lesson['id'])->where('lang', $language_iso)->first();
                         $lessonInfo["lessonCourse"] = $lessonCourse;
+                       
+                        if($lessonCourse && $lessonCourse->module_structure){
+                            $module_structure = json_decode($lessonCourse->module_structure);
+                            $lessonInfo["screensCount"] = $this->helperCountScreensModule($module_structure);
+                            $lessonInfo["chaptersCount"] = $this->helperCountChaptersModule($module_structure);
+                        } else{
+                            $lessonInfo["screensCount"] = 0;
+                            $lessonInfo["chaptersCount"] = 0;
+                        }
                         
-                        $module_structure = json_decode($lessonCourse->module_structure);
-                        $lessonInfo["screensCount"] = $this->helperCountScreensModule($module_structure);
-                        $lessonInfo["chaptersCount"] = $this->helperCountChaptersModule($module_structure);
-                        
-                        $lessonInfo["optim"] = ScreenOptim::getScreenOptim($request['sessionId'], $request['studentId'], $lesson['idFabrica']);
-                        if($lessonInfo["optim"] != null){
-                            $lessonInfo["first_eval"] = ScreenOptim::getEvaluation($request['sessionId'], $lessonInfo["optim"]["first_eval_id_screen_optim"]);
-                            $lessonInfo["last_eval"] = ScreenOptim::getEvaluation($request['sessionId'], $lessonInfo["optim"]["last_eval_id_screen_optim"]);
+                        $lessonInfo["optim"] = $this->getScreenOptim($request['sessionId'], $request['studentId'], $lesson['idFabrica']);
+                        if($lessonInfo["optim"]){
+                            $lessonInfo["first_eval"] = $this->getEvaluation($request['sessionId'], $lessonInfo["optim"]->first_eval_id_screen_optim);
+                            $lessonInfo["last_eval"] = $this->getEvaluation($request['sessionId'], $lessonInfo["optim"]->last_eval_id_screen_optim);
                             
-                            if ($last_date_view == FALSE || (strtotime($lessonInfo['optim']['last_date_screen_optim']) > strtotime($last_date_view)))
-                                $last_date_view = $$lessonInfo['optim']['last_date_screen_optim'];
+                            if ($last_date_view == FALSE || (strtotime($lessonInfo['optim']->last_date_screen_optim) > strtotime($last_date_view)))
+                                $last_date_view = $lessonInfo['optim']->last_date_screen_optim;
 
-                            $progress_details = json_decode($lessonInfo['optim']['progress_details_screen_optim']);
+                            $progress_details = json_decode($lessonInfo['optim']->progress_details_screen_optim);
                         } else{
                             $lessonInfo["first_eval"] = null;
                             $lessonInfo["last_eval"] = null;
                         }
-                        $lessonInfo["evalCounts"] = ScreenOptim::getNbEvaluations($request['sessionId'], $request['studentId'], $lesson['idFabrica']);
+                        $lessonInfo["evalCounts"] = $this->getNbEvaluations($request['sessionId'], $request['studentId'], $lesson['idFabrica']);
 
                         $time_module = '00:00:00';
-                        if($progress_details){
+                        if(!empty($progress_details)){
                             foreach ($progress_details as $screen) {
                                 if ($first_date_view == FALSE || (strtotime($screen->last_view) < strtotime($first_date_view)))
                                     $first_date_view = $screen->last_view;
@@ -405,7 +415,7 @@ class ReportController extends Controller
                             $data["are_eval_there"]["answer"] ++;
                             $data["are_eval_there"]["evals"][] = array("module" => $lessonInfo["lesson"]["name"], "note" => $lessonInfo['last_eval']['note']);
                             
-                            $lessonInfo['eval_questions'] = EvaluationQuestions::getQuestionDetails($request['sessionId'], $lessonInfo['last_eval']['id']);
+                            $lessonInfo['eval_questions'] = $this->getQuestionDetails($request['sessionId'], $lessonInfo['last_eval']['id'])->get();
                         } else if($lessonInfo["first_eval"] != null){
                             $diff_time = $this->helperDateDiff(strtotime($lessonInfo['first_eval']['date_start']),strtotime($lessonInfo['first_eval']['date_end']));
                             $time_eval = date('H:i:s',strtotime("+".$diff_time['hour']." hours ".$diff_time['minute']." minutes ".$diff_time['second']." seconds",strtotime($time_eval)));
@@ -415,7 +425,7 @@ class ReportController extends Controller
                             $data["are_eval_there"]["answer"] ++;
                             $data["are_eval_there"]["evals"][] = array("module" => $lessonInfo["lesson"]["name"], "note" => $lessonInfo['first_eval']['note']);
                             
-                            $lessonInfo['eval_questions'] = EvaluationQuestions::getQuestionDetails($request['sessionId'], $lessonInfo['first_eval']['id']);
+                            $lessonInfo['eval_questions'] = $this->getQuestionDetails($request['sessionId'], $lessonInfo['first_eval']['id'])->get();
                         }
 
                         if (isset($lessonInfo['eval_questions'])) {
@@ -501,5 +511,89 @@ class ReportController extends Controller
             }
         }
         return $nb_chapters;
+    }
+
+    public function getScreenOptim($sessionId, $studentId, $idFabrica){
+        DB::connection('mysql_reports')->unprepared('CREATE TABLE IF NOT EXISTS `tb_screen_optim_'.$sessionId.'` (
+            `id_screen_optim` int(11) NOT NULL,
+            `id_fabrique_screen_optim` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+            `id_curso_screen_optim` int(11) NOT NULL,
+            `id_user_screen_optim` int(11) NOT NULL,
+            `progress_details_screen_optim` text COLLATE utf8_unicode_ci NOT NULL,
+            `progress_screen_optim` float(5,2) NOT NULL,
+            `last_date_screen_optim` datetime NOT NULL,
+            `first_eval_id_screen_optim` int(11) NOT NULL,
+            `last_eval_id_screen_optim` int(11) NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+        ');
+        $optim = DB::connection('mysql_reports')->selectOne('select * from tb_screen_optim_' . $sessionId . ' where id_user_screen_optim="'.$studentId.'" AND id_fabrique_screen_optim="'.$idFabrica.'"');
+        return $optim;
+	}
+
+    public function getEvaluation($sessionId, $idEvaluation){
+        DB::connection('mysql_historic')->unprepared("CREATE TABLE IF NOT EXISTS `tb_evaluation_{$sessionId}` ("
+        . "`id` int(11) NOT NULL AUTO_INCREMENT,"
+        . "`session` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "`user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "`date_start` datetime DEFAULT NULL,"
+        . "`date_end` datetime DEFAULT NULL,"
+        . "`is_presential` int(1) DEFAULT '0',"
+        . "`user_keypad` int(11) DEFAULT '0',"
+        . "`id_lesson` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "`date_hour` datetime DEFAULT '0000-00-00 00:00:00',"
+        . "`number_eval` int(11) DEFAULT NULL,"
+        . "`progression` int(11) NOT NULL DEFAULT '0',"
+        . "`note` varchar(11) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',"
+        . "`status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "PRIMARY KEY (id) "
+        . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
+        );
+        $eval = DB::connection('mysql_historic')->selectOne('select * from tb_evaluation_' . $sessionId . ' where id="'.$idEvaluation.'"');
+        return $eval;
+    }
+
+    public function getNbEvaluations($sessionId, $studentId, $idFabrica){
+        DB::connection('mysql_historic')->unprepared("CREATE TABLE IF NOT EXISTS `tb_evaluation_{$sessionId}` ("
+        . "`id` int(11) NOT NULL AUTO_INCREMENT,"
+        . "`session` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "`user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "`date_start` datetime DEFAULT NULL,"
+        . "`date_end` datetime DEFAULT NULL,"
+        . "`is_presential` int(1) DEFAULT '0',"
+        . "`user_keypad` int(11) DEFAULT '0',"
+        . "`id_lesson` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "`date_hour` datetime DEFAULT '0000-00-00 00:00:00',"
+        . "`number_eval` int(11) DEFAULT NULL,"
+        . "`progression` int(11) NOT NULL DEFAULT '0',"
+        . "`note` varchar(11) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',"
+        . "`status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "PRIMARY KEY (id) "
+        . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
+        );
+        $eval = DB::connection('mysql_historic')->select('select COUNT(id) as nb_evals from tb_evaluation_' . $sessionId . ' where user_id="'.$studentId.'" AND id_lesson="'.$idFabrica.'"');
+        if($eval && $eval[0])
+            return $eval[0]->nb_evals;
+        else
+            return 0;
+    }
+
+    public function getQuestionDetails($sessionId, $idEvaluation){
+        DB::connection('mysql_historic')->unprepared("CREATE TABLE IF NOT EXISTS `tb_evaluation_question_{$sessionId}` ("
+        . "`id` int(11) NOT NULL AUTO_INCREMENT,"
+        . "`id_evaluation` int(11) DEFAULT NULL,"
+        . "`id_q` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "`id_group` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "`name_group` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "`num_order` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'order of question',"
+        . "`title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "`option_serialize` text COLLATE utf8_unicode_ci,"
+        . "`expected_response` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "`reply` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "`points` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "PRIMARY KEY (id) "
+      . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
+        );
+        $eval = DB::connection('mysql_historic')->select('select * from tb_evaluation_question_' . $sessionId . ' where id_evaluation="'.$idEvaluation.'"');
+        return $eval;
     }
 }
