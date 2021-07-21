@@ -22,8 +22,7 @@
     -
     -
     ----------------------------------------------------------------------- */
-    $_SESSION['config_id'] = 1;
-    if ( !$_SESSION['user_id'] )
+    if ( !(auth()->check()) )
     {
         $return['state']    = 'error';
         $return['date']     = date( 'm.d.y H:i:s' );
@@ -51,7 +50,7 @@
          */
 
         // Load the configs datas from database
-        $sql_config         = "SELECT * FROM tb_config WHERE id = " . $_SESSION['config_id'];
+        $sql_config         = "SELECT * FROM tb_config WHERE id = " . auth()->user()->id_config;
 
         // echo $sql_config;
         $results            = $openModel->getDatas( $sql_config );
@@ -83,7 +82,7 @@
         $nextlessons    = array();
         $alllessons     = array();
 
-        if( $_SESSION['user_status'] == 4 )
+        if( auth()->user()->type == 4 )
         {
             $where  = " AND c.status = 7 ";
         } // eo if
@@ -117,7 +116,7 @@
         // } // eo foreach
 
 
-        if ( !$_SESSION['user_id'] )
+        if ( !(auth()->check()) )
         {
             $return['state']    = 'error';
             $return['date']     = date( 'm.d.y H:i:s' );
@@ -137,7 +136,7 @@
             $return['datas']['thresholdscore']      = $thresholdscore;
 
             if($nextlesson != ''){
-                $sql = "SELECT lang, profile FROM tb_users WHERE id = " . $_SESSION['user_id'];
+                $sql = "SELECT lang, profile FROM tb_users WHERE id = " . auth()->user()->id;
                 $userdata = $openModel->getDatas( $sql );
                 if($userdata[0])
                 {

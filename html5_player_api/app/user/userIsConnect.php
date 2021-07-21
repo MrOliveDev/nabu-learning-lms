@@ -20,7 +20,7 @@
     -
     -
     ----------------------------------------------------------------------- */
-    if ( !$_SESSION['user_id'] )
+    if ( !(auth()->check()) )
     {
         $return['state']    = 'error';
         $return['date']     = date( 'm.d.y H:i:s' );
@@ -29,7 +29,7 @@
     } // eo if
     else
     {
-        $return['datas']['userId']  = $_SESSION['user_id'];
+        $return['datas']['userId']  = auth()->user()->id;
     } // eo else
 
     header( 'Content-type: application/json' );
