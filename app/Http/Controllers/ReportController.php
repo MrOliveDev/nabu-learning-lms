@@ -431,11 +431,11 @@ class ReportController extends Controller
                         if (isset($lessonInfo['eval_questions'])) {
                             $questions = array();
                             foreach ($lessonInfo['eval_questions'] as $one) {
-                                $options =  unserialize($one['option_serialize']);
+                                $options =  unserialize($one->option_serialize);
                                 if( $options == false )
-                                    $options = unserialize(str_replace("'", "''", $one['option_serialize']));
-                                $reponses_attendus = $one['expected_response'];
-                                $reponses_recus = $one['reply'];
+                                    $options = unserialize(str_replace("'", "''", $one->option_serialize));
+                                $reponses_attendus = $one->expected_response;
+                                $reponses_recus = $one->reply;
                                 $t_options = array();
                                 // On parcours les options de la questions et on vérifie si la réponse donnée est la réponse attendue
                                 foreach ($options as $key => $option) {
@@ -447,8 +447,8 @@ class ReportController extends Controller
                                         'recu' => substr($reponses_recus,$key,1),
                                         'ok' => $option_ok);
                                 }
-                                $questions[] = array('title' => $one['title'],
-                                    'points' => $one['points'],
+                                $questions[] = array('title' => $one->title,
+                                    'points' => $one->points,
                                     'options' => $t_options,
                                     'result' => ( $reponses_attendus == $reponses_recus ? 1 : 0) );
                             }
