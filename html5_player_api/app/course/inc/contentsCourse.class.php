@@ -389,10 +389,11 @@ class ContentsCourse {
             $answerArray['id'] = (int)$answer->source->attributes()->id;
             $componant['x'] = (string)$datas->attributes()->x;
             $componant['y'] = (string)$datas->attributes()->y;
-            $componant['index'] = '9';
-            for($i=1; $i <= intval($componant['id']); $i++){
-                $componant['index'] .= '9';
-            }
+            $componant['index'] = (string)$componant['id'];
+            // $componant['index'] = '9';
+            // for($i=1; $i <= intval($componant['id']); $i++){
+            //     $componant['index'] .= '9';
+            // }
             $componant['width'] = (string)$datas->attributes()->width;
             $componant['height'] = (string)$datas->attributes()->height;
             $componant['attributes'] = $datas->attributes();
@@ -506,10 +507,11 @@ class ContentsCourse {
         $componant['id'] = (string)$datas->attributes()->id;
         $componant['x'] = (string)$datas->attributes()->x;
         $componant['y'] = (string)$datas->attributes()->y;
-        $componant['index'] = '9';
-        for($i=1; $i <= intval($componant['id']); $i++){
-            $componant['index'] .= '9';
-        }
+        $componant['index'] = (string)$componant['id'];
+        // $componant['index'] = '9';
+        // for($i=1; $i <= intval($componant['id']); $i++){
+        //     $componant['index'] .= '9';
+        // }
         $componant['seqid'] = (string)$datas->attributes()->seqid;
         $componant['width'] = (string)$datas->attributes()->width;
         $componant['height'] = (string)$datas->attributes()->height;
@@ -529,10 +531,11 @@ class ContentsCourse {
         $componant['styles']['width'] = (string)$datas->attributes()->width;
         $componant['styles']['height'] = (string)$datas->attributes()->height;
         $componant['styles']['orderPosition'] = (string)$datas->attributes()->orderPosition;
-        $componant['styles']['z-index'] = '9';
-        for($i=1; $i <= intval($componant['id']); $i++){
-            $componant['styles']['z-index'] .= '9';
-        }
+        $componant['styles']['z-index'] = (string)$componant['id'];
+        // $componant['styles']['z-index'] = '9';
+        // for($i=1; $i <= intval($componant['id']); $i++){
+        //     $componant['styles']['z-index'] .= '9';
+        // }
         $componant['content'] = array();
         $componant['content']['type'] = $medias['type'];
         $componant['content']['extension'] = $medias['extension'];
@@ -566,10 +569,11 @@ class ContentsCourse {
         $componant['id'] = (string)$datas->attributes()->id;
         $componant['x'] = (string)$datas->attributes()->x;
         $componant['y'] = (string)$datas->attributes()->y;
-        $componant['index'] = '9';
-        for($i=1; $i <= intval($componant['id']); $i++){
-            $componant['index'] .= '9';
-        }
+        $componant['index'] = (string)$componant['id'];
+        // $componant['index'] = '9';
+        // for($i=1; $i <= intval($componant['id']); $i++){
+        //     $componant['index'] .= '9';
+        // }
         $componant['seqid'] = (string)$datas->attributes()->seqid;
         $componant['width'] = (string)$datas->attributes()->width;
         $componant['height'] = (string)$datas->attributes()->height;
@@ -586,10 +590,11 @@ class ContentsCourse {
         if($this->type==null){
             $this->type = 'edit';
         }
-        $componant['index'] = '9';
-        for($i=1; $i <= intval($componant['id']); $i++){
-            $componant['index'] .= '9';
-        }
+        $componant['index'] = (string)$componant['id'];
+        // $componant['index'] = '9';
+        // for($i=1; $i <= intval($componant['id']); $i++){
+        //     $componant['index'] .= '9';
+        // }
         $componant['seqid'] = (string)$datas->attributes()->seqid;
         $componant['width'] = (string)$datas->attributes()->width;
         $componant['height'] = (string)$datas->attributes()->height;
@@ -603,10 +608,11 @@ class ContentsCourse {
         $componant['id'] = (string)$datas->attributes()->id;
         $componant['x'] = (string)$datas->attributes()->x;
         $componant['y'] = (string)$datas->attributes()->y;
-        $componant['index'] = '9';
-        for($i=1; $i <= intval($componant['id']); $i++){
-            $componant['index'] .= '9';
-        }
+        $componant['index'] = (string)$componant['id'];
+        // $componant['index'] = '9';
+        // for($i=1; $i <= intval($componant['id']); $i++){
+        //     $componant['index'] .= '9';
+        // }
         $componant['seqid'] = (string)$datas->attributes()->seqid;
         $componant['width'] = (string)$datas->attributes()->width;
         $componant['height'] = (string)$datas->attributes()->height;
@@ -620,10 +626,11 @@ class ContentsCourse {
         $componant['id'] = (string)$datas->attributes()->id;
         $componant['x'] = (string)$datas->attributes()->x;
         $componant['y'] = (string)$datas->attributes()->y;
-        $componant['index'] = '9';
-        for($i=1; $i <= intval($componant['id']); $i++){
-            $componant['index'] .= '9';
-        }
+        $componant['index'] = (string)$componant['id'];
+        // $componant['index'] = '9';
+        // for($i=1; $i <= intval($componant['id']); $i++){
+        //     $componant['index'] .= '9';
+        // }
         $componant['seqid'] = (string)$datas->attributes()->seqid;
         $componant['width'] = (string)$datas->attributes()->width;
         $componant['height'] = (string)$datas->attributes()->height;
@@ -695,10 +702,11 @@ class ContentsCourse {
         $componant['id'] = (string)$datas->attributes()->id;
         $componant['x'] = (string)$datas->attributes()->x;
         $componant['y'] = (string)$datas->attributes()->y;
-        $componant['index'] = '9';
-        for($i=1; $i <= intval($componant['id']); $i++){
-            $componant['index'] .= '9';
-        }
+        $componant['index'] = (string)$componant['id'];
+        // $componant['index'] = '9';
+        // for($i=1; $i <= intval($componant['id']); $i++){
+        //     $componant['index'] .= '9';
+        // }
         $componant['seqid'] = (string)$datas->attributes()->seqid;
         $componant['width'] = (string)$datas->attributes()->width;
         $componant['height'] = (string)$datas->attributes()->height;
@@ -716,10 +724,11 @@ class ContentsCourse {
         $componant['id'] = (string)$datas->attributes()->id;
         $componant['x'] = (string)$datas->attributes()->x;
         $componant['y'] = (string)$datas->attributes()->y;
-        $componant['index'] = '9';
-        for($i=1; $i <= intval($componant['id']); $i++){
-            $componant['index'] .= '9';
-        }
+        $componant['index'] = (string)$componant['id'];
+        // $componant['index'] = '9';
+        // for($i=1; $i <= intval($componant['id']); $i++){
+        //     $componant['index'] .= '9';
+        // }
         $componant['seqid'] = (string)$datas->attributes()->seqid;
         $componant['width'] = (string)$datas->attributes()->width;
         $componant['height'] = (string)$datas->attributes()->height;
