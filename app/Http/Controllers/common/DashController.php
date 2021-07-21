@@ -26,8 +26,8 @@ class DashController extends Controller
     public function index()
     {
 
-        $user_name = Session::get('user_name');
-        $user_id = Session::get('user_id');
+        $user_name = auth()->user()->login;
+        $user_id = auth()->user()->id;
         // var_dump($id);exit;
         $sidebardata = $this->sidebarData;
         $trainings = SessionModel::getTrainingsForStudent($user_id);

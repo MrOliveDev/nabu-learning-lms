@@ -150,7 +150,7 @@ class SessionModel extends Model
                 // var_dump($participant);
                 if ($user->type == 3) {
                     $teachers = $participant->t;
-                    var_dump($teachers);
+                    
                     if ($teachers != NULL && count($teachers) != 0) {
                         foreach ($teachers as $teacher) {
                             if ($teacher == $id) {
