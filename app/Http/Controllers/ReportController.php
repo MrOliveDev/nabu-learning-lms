@@ -388,9 +388,11 @@ class ReportController extends Controller
                                 $last_date_view = $lessonInfo['optim']->last_date_screen_optim;
 
                             $progress_details = json_decode($lessonInfo['optim']->progress_details_screen_optim);
+                            $lessonInfo["visitedScreens"] = $this->helperCountScreens($progress_details, $lessonInfo["optim"]);
                         } else{
                             $lessonInfo["first_eval"] = null;
                             $lessonInfo["last_eval"] = null;
+                            $lessonInfo["visitedScreens"] = 0;
                         }
                         $lessonInfo["evalCounts"] = $this->getNbEvaluations($request['sessionId'], $request['studentId'], $lesson['idFabrica']);
 
@@ -516,6 +518,31 @@ class ReportController extends Controller
             }
         }
         return $nb_chapters;
+    }
+
+    /**
+     * Return count of visited screens from screen optim datas.
+     *
+     * @param  Array  $module_structure
+     * @param  Array  $optim
+     * @param  Bool   $eval
+     * @return Integer
+     */
+    private function helperCountScreens($screens,$optim,$eval='') {
+        $i = 0;
+        if (!empty($screens)) {
+            foreach ($screens as $screen)
+                $i++;
+        }
+        // Si on a le paramètre $eval, c'est qu'on est en train de faire un treatOptimEval donc on ajoute 1 par défaut
+        // if ($eval == TRUE)
+        //     $i++;
+        // else { // Si on traite pas une évaluation
+        //     // Si on a une évaluation on compte un screen en plus
+        //     if ($optim->first_eval_id_screen_optim != 0 || $optim->last_eval_id_screen_optim != 0)
+        //         $i++;
+        // }
+        return $i;
     }
 
     public function getScreenOptim($sessionId, $studentId, $idFabrica){
