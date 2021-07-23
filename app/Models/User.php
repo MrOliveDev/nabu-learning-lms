@@ -127,7 +127,7 @@ class User extends Authenticatable
         })
         ->where('tb_groups.id', '=', $id)->get();
         // print_r($result->toArray());
-        return $result;
+        return $result->toArray();
     }
 
     public function scopeGetUserIDFromGroup($query, $id)

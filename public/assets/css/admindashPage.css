@@ -1,0 +1,98 @@
+.table-training,
+.table-paticiaptn,
+.table-training {
+    display:none;
+}
+
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+}
+
+.table-participant .list-group-item[data-type='4'],
+.table-participant-tab {
+    background-color: var(--student-c) !important;
+}
+
+.table-participant .list-group-item.active,
+.table-participant .list-group-item:hover,
+.table-participant-tab.ui-state-active,
+.table-participant-tab:hover {
+    background-color: var(--student-h) !important;
+}
+
+.table-participant .list-group-item[data-type='group'] {
+    background-color: var(--group-c) !important;
+}
+.table-participant .list-group-item[data-type='group'].active,
+.table-participant .list-group-item[data-type='group']:hover {
+    background-color: var(--group-h) !important;
+}
+
+.table-participant .list-group-item[data-type='3'] {
+    background-color: var(--teacher-c) !important;
+}
+
+.table-participant .list-group-item[data-type='3'].active,
+.table-participant .list-group-item[data-type='3']:hover {
+    background-color: var(--teacher-h) !important;
+}
+
+.table-training .list-group-item,
+.table-training-tab {
+    background-color: var(--training-c) !important;
+}
+.table-training .list-group-item:hover,
+.table-training-tab:hover,
+.table-training-tab.ui-state-active {
+    background-color: var(--training-h) !important;
+}
+
+
+.table-report .list-group-item,
+.table-report-tab {
+    background-color: var(--training-c) !important;
+}
+.table-report .list-group-item.active,
+.table-report .list-group-item:hover,
+.table-report-tab:hover,
+.table-report-tab.ui-state-active {
+    background-color: var(--training-h) !important;
+}
+
+.session-table tr:nth-child(4n+2) div {
+    background-color: #c3aaca;
+}
+
+.session-table tr:nth-child(4n+4) div {
+    background-color: #a7acd6;
+}
+
+.table-training .list-group-item,
+.table-training-tab {
+    background-color: var(--training-c);
+}
+.table-training .list-group-item.active,
+.table-training .list-group-item:hover,
+.table-training-tab:hover,
+.table-training-tab.ui-state-active {
+    background-color: var(--training-h);
+}
+
+.session-table td .list-group-item>div {
+    border:0;
+}
+
+.list-group-item {
+    border:0;
+}
+
+tr.session-title+tr.session-content {
+    display:none !important;
+}
+
+tr.session-title.active+tr.session-content {
+    display:table-row !important;
+}

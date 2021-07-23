@@ -2368,6 +2368,27 @@ $(document).ready(function() {
 
     $(".filter-company-btn").on('drop', companyDropEnd);
     $(".filter-function-btn").on('drop', functionDropEnd);
+
+    if($("input[name='routeOfUser']").length){
+        var value = $("input[name='routeOfUser']").val();
+        var cate = value.split("_")[0];
+        var id = value.split("_")[1];
+        switch (cate) {
+            case "student":
+                $("#students-tab").parents('li.nav-item').addClass("ui-state-active");
+                $('#students-tab').click();
+                $("#student_"+id+" .item-edit").click();
+                break;
+            case "teacher":
+                $("#teachers-tab").parents('li.nav-item').addClass("ui-state-active");
+                $('#teachers-tab').click();
+                $("#teacher_"+id+" .item-edit").click();
+                break;
+        
+            default:
+                break;
+        }
+    }
     // var divHight = 20 + parseInt($("#div_left").height()) + parseInt($('.content-header').height());
     // $('#div_D').prev().css('height', (h - parseInt($('.toolkit').css('height')) - divHight) / 2 - 90 + 'px');
     // $('#div_B').prev().css('height', (h - parseInt($('.toolkit').css('height')) - divHight) / 2 - 90 + 'px');

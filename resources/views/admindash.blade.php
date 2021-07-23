@@ -2,6 +2,110 @@
 @extends('layout')
 
 @section('con')
+
+
+<style>
+    :root {
+        --student-c:
+            <?php
+            echo '#'. $interfaceCfg->Students->h;
+        ?>
+        ;
+        --student-h:
+            <?php
+            echo '#'. $interfaceCfg->Students->c;
+        ?>
+        ;
+        --teacher-c:
+            <?php
+            echo '#'. $interfaceCfg->Teachers->h;
+        ?>
+        ;
+        --teacher-h:
+            <?php
+            echo '#'. $interfaceCfg->Teachers->c;
+        ?>
+        ;
+        --author-c:
+            <?php
+            echo '#'. $interfaceCfg->Authors->h;
+        ?>
+        ;
+        --author-h:
+            <?php
+            echo '#'. $interfaceCfg->Authors->c;
+        ?>
+        ;
+        --group-c:
+            <?php
+            echo '#'. $interfaceCfg->Groups->h;
+        ?>
+        ;
+        --group-h:
+            <?php
+            echo '#'. $interfaceCfg->Groups->c;
+        ?>
+        ;
+        --company-c:
+            <?php
+            echo '#'. $interfaceCfg->Companies->h;
+        ?>
+        ;
+        --company-h:
+            <?php
+            echo '#'. $interfaceCfg->Companies->c;
+        ?>
+        ;
+        --position-c:
+            <?php
+            echo '#'. $interfaceCfg->Positions->h;
+        ?>
+        ;
+        --position-h:
+            <?php
+            echo '#'. $interfaceCfg->Positions->c;
+        ?>
+        ;
+        --session-c:
+            <?php
+            echo '#'. $interfaceCfg->Sessions->h;
+        ?>
+        ;
+        --session-h:
+            <?php
+            echo '#'. $interfaceCfg->Sessions->c;
+        ?>
+        ;
+        --training-c:
+            <?php
+            echo '#'. $interfaceCfg->TrainingCourses->c;
+        ?>
+        ;
+        --training-h:
+            <?php
+            echo '#'. $interfaceCfg->TrainingCourses->h;
+        ?>
+        ;
+
+        --report-c:"";
+        --report-h:"";
+    }
+
+</style>
+
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.min.css') }}" />
+    <link rel="stylesheet" href="{{asset("assets/css/admindashPage.css")}}">
+<script src="{{asset("assets/js/admindashPage.js")}}"></script>
+{{-- <script src="{{asset("assets/")}}"></script>
+<script src="{{asset("assets/")}}"></script> --}}
+<script src="{{ asset('assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
+
+<script>
+    jQuery(function() {
+        Dashmix.helpers(['notify', 'summernote']);
+    });
+</script>
 <div id="admindash">
 
     <div class="tab-row">
@@ -10,8 +114,9 @@
                 <div class="tab-avatar">
                     <i class="fa fa-users"></i>
                 </div>
-                <span class="tab-item-value">16.023</span>
-                <span class="tab-description">{{$translation->l('Utilisateurs')}} <br>{{$translation->l('enregistrés')}}</span>
+                <span class="tab-item-value counter">0</span>
+                <input type="hidden" class="store-value" value="{{$registeredUsers}}">
+                <span class="tab-description">Registered<br>Users</span>
                 <div class="tab-link">{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
             </div>
         </div>
@@ -19,50 +124,55 @@
         <div class="tab-item">
             <div class="tab-content">
                 <div class="tab-avatar">
-                    <i class="fa fa-users"></i>
+                    <i class="fas fa-user-friends"></i>
                 </div>
-                <span class="tab-item-value">16.023</span>
-                <span class="tab-description">{{$translation->l('Utilisateurs')}} <br>{{$translation->l('enregistrés')}}</span>
+                <span class="tab-item-value counter">0</span>
+                <input type="hidden" class="store-value" value="{{$activedStudents}}">
+                <span class="tab-description">Actived <br>Students</span>
                 <div class="tab-link">{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
             </div>
         </div>
         <div class="tab-item">
             <div class="tab-content">
                 <div class="tab-avatar">
-                    <i class="fa fa-users"></i>
+                    <i class="fas fa-laptop-code"></i>
                 </div>
-                <span class="tab-item-value">16.023</span>
-                <span class="tab-description">{{$translation->l('Utilisateurs')}} <br>{{$translation->l('enregistrés')}}</span>
+                <span class="tab-item-value counter">0</span>
+                <input type="hidden" class="store-value" value="{{$sessionsInProgress}}">
+                <span class="tab-description">Sessions <br>in Progress</span>
                 <div class="tab-link">{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
             </div>
         </div>
         <div class="tab-item">
             <div class="tab-content">
                 <div class="tab-avatar">
-                    <i class="fa fa-users"></i>
+                    <i class="fas fa-graduation-cap"></i>
                 </div>
-                <span class="tab-item-value">16.023</span>
-                <span class="tab-description">{{$translation->l('Utilisateurs')}} <br>{{$translation->l('enregistrés')}}</span>
+                <span class="tab-item-value counter">0</span>
+                <input type="hidden" class="store-value" value="{{$createdLessons}}">
+                <span class="tab-description">Created<br>Lessons</span>
                 <div class="tab-link">{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
             </div>
         </div>
         <div class="tab-item">
             <div class="tab-content">
                 <div class="tab-avatar">
-                    <i class="fa fa-users"></i>
+                    <i class="fas fa-file-pdf"></i>
                 </div>
-                <span class="tab-item-value">16.023</span>
-                <span class="tab-description">{{$translation->l('Utilisateurs')}} <br>{{$translation->l('enregistrés')}}</span>
+                <span class="tab-item-value counter">0</span>
+                <input type="hidden" class="store-value" value="{{$finishedSessions}}">
+                <span class="tab-description">Finished <br>Sessions</span>
                 <div class="tab-link">{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
             </div>
         </div>
         <div class="tab-item">
             <div class="tab-content">
                 <div class="tab-avatar">
-                    <i class="fa fa-users"></i>
+                    <i class="fas fa-network-wired"></i>
                 </div>
-                <span class="tab-item-value">16.023</span>
-                <span class="tab-description">{{$translation->l('Utilisateurs')}} <br>{{$translation->l('enregistrés')}}</span>
+                <span class="tab-item-value counter">0</span>
+                <input type="hidden" class="store-value" value="{{$generatedReports}}">
+                <span class="tab-description">Generated <br>Reports</span>
                 <div class="tab-link">{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
             </div>
         </div>
@@ -97,188 +207,85 @@
                 </div>
             </th>
         </tr>
-        <tr>
+        @foreach ($sessions as $session)
+        <tr class="session-title" id="session_{{$session['id']}}">
             <td>
-                <div>
-                    {{$translation->l('Les Bonnes Pratiques de Fabrication Dans l’Industrie Pharmaceutique')}}
+                <div class="p-2">
+                    {{$session['name']}}
                 </div>
             </td>
             <td>
-                <div>
-                    {{$translation->l('Français - FR')}}
+                <div class="p-2">
+                    {{strtoupper($session['language_iso'])}}
                 </div>
             </td>
             <td>
-                <div>
-                    {{$translation->l('En cours')}}
+                <div class="p-2">
+                    {{$session['status']}}
                 </div>
             </td>
             <td>
-                <div>
-                    23/04/2021
+                <div class="p-2">
+                    {{$session['begin_date']?$session['begin_date']:"Not Defined"}}
                 </div>
             </td>
             <td>
-                <div>
-                    23/04/2021
+                <div class="p-2">
+                    {{$session['end_date']?$session['end_date']:"Not Defined"}}
                 </div>
             </td>
         </tr>
-        <tr>
-            <td colspan="5">
+        <tr class = "session-content session-{{$session['id']}}">
+            <td colspan="5" >
                 <div class="container w-100 p-0 mx-0 bg-transparent" style="max-width:100%;">
                     <div class=" row py-0">
                         <div class="col-md-9 py-0">
                             <div class="toolkit clear-fix text-white p-0" style="height:50px;">
-
-                                <ul class="nav nav-tabs border-0" style="float:left;">
+                                <div class="float-right p-2 m-0">
+                                    <span class="bg-white text-black p-2 rounded">
+                                        <input class="input-field border-0 mw-100 search-filter" type="text" name="search-filter">
+                                        <i class="fa fa-search icon p-2"></i>
+                                    </span>
+                                    <a href="javascript:void(0)" class="toolkit-show-filter float-right">
+                                        <i class="fas fa-sliders-h icon p-2  text-white"></i>
+                                    </a>
+                                </div>
+                                <ul class="nav nav-tabs border-0 mb-2">
                                     <li class="nav-item">
-                                        <a class="nav-link m-1 bg-red-0 active border-0" href="#home">{{$translation->l('Participants à la session')}}</a>
+                                        <a class="nav-link active m-1 rounded-1 border-0 table-participant-tab" id="table-participant-tab_{{$session['id']}}"
+                                            href="#table-participant_{{$session['id']}}">Participants</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link  m-1 bg-red-1 active border-0" href="#menu1">{{$translation->l('Parcours')}}</a>
+                                        <a class="nav-link m-1 rounded-1 border-0 table-training-tab" id="table-training-tab_{{$session['id']}}" href="#table-training_{{$session['id']}}">
+                                            Trainings</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link  m-1 bg-red-2 active border-0" href="#menu2">{{$translation->l('Rapports et certificats')}}</a>
+                                        <a class="nav-link m-1 rounded-1 border-0 table-report-tab" id="table-report-tab_{{$session['id']}}" href="#table-reports_{{$session['id']}}">
+                                            Reports</a>
                                     </li>
                                 </ul>
 
-                                <div class="float-right p-0 m-0">
-                                    <div class="input-container font-size-h5">
-                                        <i class="fa fa-plus icon p-2"></i>
-                                        <span class="bg-white text-black p-2 rounded">
-                                            <input class="input-field border-0" type="text" name="usrnm">
-                                            <i class="fa fa-search icon p-2"></i>
-                                        </span>
-                                        <i class="fa fa-bars icon p-2"></i>
-                                    </div>
+
+                            </div>
+                            <!-- Tab panes -->
+                            <div id="table-participant_{{$session['id']}}" class="table-participant">
+                                <div class="list-group" id="list-tab" role="tablist" data-src=''>
+        
                                 </div>
                             </div>
-
-
-
-                            <!-- Tab panes -->
-                            <div class="tab-content border mb-3 border-0">
-                                <div id="home" class="container tab-pane active m-0 p-0 mw-100">
-                                    <div class="panel-group border-0 p-0" id="accordion">
-                                        <div class="panel panel-default border-0 p-0">
-
-                                            <div class="panel-heading bg-red-0 text-left rounded-1">
-
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="text-white" aria-expanded="true">
-                                                    <h4 class="panel-title mb-0 p-2">{{$translation->l('Rapports et certificats')}} <i class="fa fa-tint-slash float-right text-yellow-0"></i></h4>
-                                                </a>
-                                            </div>
-                                            <div id="collapse1" class="panel-collapse in collapse show border-0 p-0 show" >
-                                                <div class="panel-body ml-5 p-0">
-                                                    <div class="list-group p-0" id="list-tab" role="tablist">
-                                                        <a class="list-group-item list-group-item-action active p-1 border-0  bg-green-0 text-black">
-                                                            <div class="float-left border-0">
-                                                                <i class="fa fa-circle text-danger m-2"></i>
-                                                                {{$translation->l('Module1')}}
-                                                            </div>
-                                                        </a>
-                                                        <a class="list-group-item list-group-item-action active p-1 border-0  bg-green-0 text-black">
-                                                            <div class="float-left border-0">
-                                                                <i class="fa fa-circle text-danger m-2"></i>
-                                                                {{$translation->l('Module1')}}
-                                                            </div>
-                                                        </a>
-                                                        <a class="list-group-item list-group-item-action active p-1 border-0  bg-green-0 text-black">
-                                                            <div class="float-left border-0">
-                                                                <i class="fa fa-circle text-danger m-2"></i>
-                                                                {{$translation->l('Module1')}}
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
+                            <div id="table-training_{{$session['id']}}" class="table-training">
+                                <div class="list-group" id="list-tab" role="tablist" data-src=''>
+        
                                 </div>
-                                <div id="home1" class="container tab-pane active m-0 p-0 mw-100"><br>
-                                    <div class="panel-group border-0 p-0" id="accordion1">
-                                        <div class="panel panel-default border-0 p-0">
-                                            <div class="list-group p-0" id="list-tab1" role="tablist">
-                                                <a class="list-group-item list-group-item-action active p-1 border-0 bg-green-0 text-black">
-                                                    <div class="float-left border-0">
-                                                        <i class="fa fa-circle text-danger m-2"></i>
-                                                        {{$translation->l('Module1')}}
-                                                    </div>
-                                                </a>
-                                                <a class="list-group-item list-group-item-action active p-1 border-0  bg-green-0 text-black">
-                                                    <div class="float-left border-0">
-                                                        <i class="fa fa-circle text-danger m-2"></i>
-                                                        {{$translation->l('Module1')}}
-                                                    </div>
-                                                </a>
-                                                <a class="list-group-item list-group-item-action active p-1 border-0  bg-green-0 text-black">
-                                                    <div class="float-left border-0">
-                                                        <i class="fa fa-circle text-danger m-2"></i>
-                                                        {{$translation->l('Module1')}}
-                                                    </div>
-                                                </a>
-                                                <div class="panel-heading bg-red-0 text-left rounded-1">
-
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="text-white" aria-expanded="true">
-                                                        <h4 class="panel-title mb-0 p-2">{{$translation->l('Rapports et certificats')}} <i class="fa fa-tint-slash float-right text-yellow-0"></i></h4>
-                                                    </a>
-                                                </div>
-                                                <div id="collapse1" class="panel-collapse in collapse show border-0 p-0 show">
-                                                    <div class="panel-body ml-5 p-0">
-                                                        <div class="list-group p-0" id="list-tab" role="tablist">
-                                                            <a class="list-group-item list-group-item-action active p-1 border-0  bg-green-0 text-black">
-                                                                <div class="float-left border-0">
-                                                                    <i class="fa fa-circle text-danger m-2"></i>
-                                                                    {{$translation->l('Module1')}}
-                                                                </div>
-                                                            </a>
-                                                            <a class="list-group-item list-group-item-action active p-1 border-0  bg-green-0 text-black">
-                                                                <div class="float-left border-0">
-                                                                    <i class="fa fa-circle text-danger m-2"></i>
-                                                                    {{$translation->l('Module1')}}
-                                                                </div>
-                                                            </a>
-                                                            <a class="list-group-item list-group-item-action active p-1 border-0  bg-green-0 text-black">
-                                                                <div class="float-left border-0">
-                                                                    <i class="fa fa-circle text-danger m-2"></i>
-                                                                    {{$translation->l('Module1')}}
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <a class="list-group-item list-group-item-action active p-1 border-0 bg-success text-white">
-                                                    <div class="float-left border-0">
-                                                        <i class="fa fa-circle text-danger m-2"></i>
-                                                        {{$translation->l('Module1')}}
-                                                    </div>
-                                                </a>
-                                                <a class="list-group-item list-group-item-action active p-1 border-0  bg-green-0 text-black">
-                                                    <div class="float-left border-0">
-                                                        <i class="fa fa-circle text-danger m-2"></i>
-                                                        {{$translation->l('Module1')}}
-                                                    </div>
-                                                </a>
-                                                <a class="list-group-item list-group-item-action active p-1 border-0  bg-green-0 text-black">
-                                                    <div class="float-left border-0">
-                                                        <i class="fa fa-circle text-danger m-2"></i>
-                                                        {{$translation->l('Module1')}}
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="menu2" class="container tab-pane fade"><br>
-                                    <h3>{{$translation->l('Menu 2')}}</h3>
-                                    <p>{{$translation->l('Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.')}}</p>
+                            </div>
+                            <div id="table-report_{{$session['id']}}" class="table-report">
+                                <div class="list-group" id="list-tab" role="tablist" data-src=''>
+        
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="card w-100 text-left bg-white">
+                            {{-- <div class="card w-100 text-left bg-white">
                                 <img src="{{asset('assets/media/17.jpg')}}" alt="" class="card-img-top">
                                 <div class="card-body border-0">
                                     <span>
@@ -324,13 +331,14 @@
                                     </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
             </td>
         </tr>
-        <tr>
+        @endforeach
+        {{-- <tr>
             <td>
                 <div>
                     {{$translation->l('Les Bonnes Pratiques de Fabrication Dans l’Industrie Pharmaceutique')}}
@@ -410,11 +418,15 @@
                     23/04/2021
                 </div>
             </td>
-        </tr>
+        </tr> --}}
 
     </table>
 <script>
     $('#tableau').addClass('active');
 </script>
+<button type="button" id="notificator" class="js-notify btn btn-secondary push" data-message="Your message!<br>"
+    style="display:none">
+    Top Right
+</button>
 </div>
 @endsection

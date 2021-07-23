@@ -86,25 +86,13 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => 'html5
         require_once('../html5_player_api/app/userCourse/userCourseEvaluation.php');
     });
 
-    Route::post('/courses/{sessionId}/{productId}/{courseId}/user/{userId}/screen/{screenId}/{state}/evaluation', function ($sessionId, $productId, $courseId, $userId, $screenId, $state) {
-        require_once('../html5_player_api/app/userCourse/userCourseEvaluation.php');
-    });
-
     // Route pour enregistrer la progression de l'utilisateur
     Route::post('/courses/{productId}/{courseId}/user/{userId}/screen/{screenId}/{state}', function ($productId, $courseId, $userId, $screenId, $state) {
         require_once('../html5_player_api/app/userCourse/userCourseProgression.php');
     });
 
-    Route::post('/courses/{sessionId}/{productId}/{courseId}/user/{userId}/screen/{screenId}/{state}', function ($sessionId, $productId, $courseId, $userId, $screenId, $state) {
-        require_once('../html5_player_api/app/userCourse/userCourseProgression.php');
-    });
-
     // Route pour connaitre l'avancé de l'utilisateur.
     Route::get('/courses/{productId}/{courseId}/user/{userId}', function ($productId, $courseId, $userId) {
-        require_once('../html5_player_api/app/userCourse/userCourseHistoric.php');
-    });
-
-    Route::get('/courses/{sessionId}/{productId}/{courseId}/user/{userId}', function ($sessionId, $productId, $courseId, $userId) {
         require_once('../html5_player_api/app/userCourse/userCourseHistoric.php');
     });
 
@@ -250,9 +238,11 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], function () {
     Route::get('/', '\App\Http\Controllers\admin\DashController@index');
+    Route::get('admindash_getdata/{id}', '\App\Http\Controllers\admin\DashController@sessionForAdminDashboard');
     Route::post('getlessonsforstudent/{id}/{session_id}', '\App\Http\Controllers\common\DashController@getLessonsForStudent');
     Route::get('home', '\App\Http\Controllers\HomeController@index')->name('home');
     Route::get('admindash', '\App\Http\Controllers\admin\DashController@index')->name('admin.dash');
+    Route::post('setSessionForUserPage', '\App\Http\Controllers\GlobalSessionController@setToPageSetting');
     Route::get('dash', '\App\Http\Controllers\common\DashController@index')->name('dash');
     Route::get('student', '\App\Http\Controllers\StudentController@index')->name('student');
     Route::get('template_editor', '\App\Http\Controllers\TemplateEditorController@index')->name('template_editor');
@@ -305,8 +295,6 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('delTemplate', '\App\Http\Controllers\ReportController@delTemplate')->name('delTemplate');
     Route::post('getBlockHTML', '\App\Http\Controllers\ReportController@getBlockHTML')->name('getBlockHTML');
     Route::post('saveReportImg', '\App\Http\Controllers\ReportController@saveReportImg')->name('saveReportImg');
-    Route::post('getStudentsList', '\App\Http\Controllers\ReportController@getStudentsList')->name('getStudentsList');
-    Route::post('getReportData', '\App\Http\Controllers\ReportController@getReportData')->name('getReportData');
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

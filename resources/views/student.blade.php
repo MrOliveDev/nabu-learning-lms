@@ -801,8 +801,9 @@
                 </div>
 
             </div>
-
-
+            @if(Session::has('routeOfUser'))
+            <input type="hidden" name="routeOfUser" value="{{ Session::get('routeOfUser')}}">
+            @endif
     </fieldset>
 </div>
 <button type="button" id="notificator" class="js-notify btn btn-secondary push" data-message="Your message!<br>"

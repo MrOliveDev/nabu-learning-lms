@@ -138,9 +138,6 @@ class SessionModel extends Model
     public function scopeGetTrainingsForStudent($query, $id)
     {
 
-                $user_id = Session::get('user_id');
-        
-        // $sessions = $query->where('content', $id)->get();
         $user = User::find($id);
         $sessionList = $query->get();
         $sessions = array();
@@ -150,7 +147,7 @@ class SessionModel extends Model
                 // var_dump($participant);
                 if ($user->type == 3) {
                     $teachers = $participant->t;
-                    
+                    var_dump($teachers);
                     if ($teachers != NULL && count($teachers) != 0) {
                         foreach ($teachers as $teacher) {
                             if ($teacher == $id) {
@@ -192,7 +189,7 @@ class SessionModel extends Model
         $temp_trainings = array();
         foreach ($sessions as $session) {
             DB::connection('mysql_reports')->unprepared('CREATE TABLE IF NOT EXISTS `tb_screen_optim_'.$session->id.'` (
-            `id_screen_optim` int(11) NOT NULL AUTO_INCREMENT,
+            `id_screen_optim` int(11) NOT NULL,
             `id_fabrique_screen_optim` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
             `id_curso_screen_optim` int(11) NOT NULL,
             `id_user_screen_optim` int(11) NOT NULL,
@@ -200,8 +197,7 @@ class SessionModel extends Model
             `progress_screen_optim` float(5,2) NOT NULL,
             `last_date_screen_optim` datetime NOT NULL,
             `first_eval_id_screen_optim` int(11) NOT NULL,
-            `last_eval_id_screen_optim` int(11) NOT NULL,
-            PRIMARY KEY (id_screen_optim) 
+            `last_eval_id_screen_optim` int(11) NOT NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
             ');
             if ($session->contents != NULL && $session->contents != '') {
@@ -223,12 +219,12 @@ class SessionModel extends Model
                                         }
                                         // if($training_item['training']!=$new_training)
                                     }
-                                   
+
                                     array_push($temp_trainings, $new_training);
                                     if(!$repeat){
                                         $score_data = DB::connection('mysql_reports')->select('select AVG(progress_screen_optim) as progress_screen_optim, AVG(last_eval_id_screen_optim) as last_eval_id_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.$user_id.'"');
-                                        $progress = $score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0;
-                                        $eval = $score_data[0]->last_eval_id_screen_optim?$score_data[0]->last_eval_id_screen_optim:0;
+                                        $progress = $score_data==NULL?0:(count($score_data)==0?0:($score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0));
+                                        $eval = $score_data==NULL?0:(count($score_data)==0?0:($score_data[0]->last_eval_id_screen_optim?$score_data[0]->last_eval_id_screen_optim:0));
                                         array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval]);
                                     }
                                 }
@@ -243,25 +239,73 @@ class SessionModel extends Model
         return $trainings;
     }
 
-    public function scopeGetStudentsFromSession($query, $participant_data)
+    public function scopeGetParticipantListFromSessionForDash($query, $participant_data, $session_id)
     {
+        $groupData = array();
         $studentData = array();
+        $teacherData = array();
         if (isset($participant_data) || $participant_data != "") {
             $participant = json_decode($participant_data);
+            $groupList = isset($participant->g) ? $participant->g : array();
             $studentList = isset($participant->s) ? $participant->s : array();
-            
-            if (isset($studentList) || $studentList != "") {
-                if (count($studentList) != 0) {
-                    foreach ($studentList as $studentValue) {
-                        // print_r($studentValue);
-                        $studentItem = User::find($studentValue);
-                        if($studentItem)
-                            array_push($studentData, $studentItem->toArray());
+            $teacherList = isset($participant->t) ? $participant->t : array();
+            if (isset($groupList) || $groupList != "") {
+                // var_dump($groupList);
+                // var_dump($studentList);
+                // var_dump($teacherList);
+                if (count($groupList) != 0) {
+                    foreach ($groupList as $groupValue) {
+                        $groupSubData = array();
+                        $groupUserData = array();
+                        $groupTopData = NULL;
+                        $groupSubData = User::getUserFromGroup($groupValue->value);
+                        if(isset($groupSubData)) {
+                            foreach ($groupSubData as $std => $student) {
+                                $score_data = DB::connection('mysql_reports')->select('select AVG(progress_screen_optim) as progress_screen_optim, AVG(last_eval_id_screen_optim) as last_eval_id_screen_optim from tb_screen_optim_'.$session_id.' where  id_user_screen_optim="'.$student['id'].'"');
+                                $progress = $score_data==NULL?0:(count($score_data)==0?0:($score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0));
+                                $eval = $score_data==NULL?0:(count($score_data)==0?0:($score_data[0]->last_eval_id_screen_optim?$score_data[0]->last_eval_id_screen_optim:0));
+                                $student["progress"] = $progress ;
+                                $student["eval"] = $eval ;
+                                array_push($groupUserData, $student);
+                            }
+                        }
+                        $groupTopData = GroupModel::find($groupValue->value);
+                        $groupTopData = $groupTopData != NULL ? $groupTopData->toArray() : NULL;
+                        array_push($groupData, array("value" => $groupTopData, "items" => $groupUserData));
                     }
                 }
             }
-            
+            if (isset($studentList) || $studentList != "") {
+                if (count($studentList) != 0) {
+                    foreach ($studentList as $studentValue) {
+                        $studentItem = User::find($studentValue);
+                        if($studentItem != NULL) {
+                            $studentItem =  $studentItem->toArray();
+                            $score_data = DB::connection('mysql_reports')->select('select AVG(progress_screen_optim) as progress_screen_optim, AVG(last_eval_id_screen_optim) as last_eval_id_screen_optim from tb_screen_optim_'.$session_id.' where  id_user_screen_optim="'.$studentItem["id"].'"');
+                            $progress = $score_data==NULL?0:(count($score_data)==0?0:($score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0));
+                            $eval = $score_data==NULL?0:(count($score_data)==0?0:($score_data[0]->last_eval_id_screen_optim?$score_data[0]->last_eval_id_screen_optim:0));
+                            $studentItem["progress"] = $progress ;
+                            $studentItem["eval"] = $eval ;
+                            array_push($studentData, $studentItem);
+                        }
+                    }
+                }
+            }
+            if (isset($teacherList) || $teacherList != "") {
+                if (count($teacherList) != 0) {
+                    foreach ($teacherList as $teacherValue) {
+                        // var_dump($teacherValue);
+                        // exit;
+                        $teacherItem = User::find($teacherValue);
+                        $teacherItem = $teacherItem != NULL ? $teacherItem->toArray() : $teacherItem;
+                        array_push($teacherData, $teacherItem);
+                    }
+                }
+            }
         }
-        return $studentData;
+        // var_dump(array('group' => $groupData, 'student' => $studentData, 'teacher' => $teacherData));
+        // exit;
+        return array('group' => $groupData, 'student' => $studentData, 'teacher' => $teacherData);
     }
+
 }
