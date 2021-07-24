@@ -327,7 +327,7 @@ class ReportController extends Controller
      */
     function getReportData(Request $request){
         if(!empty($request['sessionId']) && !empty($request['studentId'])){
-            $user = User::find($request['studentId']);
+            $user = User::leftjoin('tb_companies', "tb_companies.id", "=", "tb_users.company")->where('tb_users.id', $request['studentId'])->first(array('tb_users.*', 'tb_companies.name as company_name'));
             if($user){
                 $data['student'] = $user;
             } else
@@ -339,6 +339,18 @@ class ReportController extends Controller
             
             $session = SessionModel::find($request['sessionId']);
             if($session){
+                if($session->participants){
+                    $participants = json_decode($session->participants);
+                    $teacherIds = isset($participants->t) ? $participants->t : array();
+                    $teachers = array();
+                    foreach($teacherIds as $teacherId){
+                        $teacher = User::find($teacherId);
+                        if($teacher)
+                            array_push($teachers, $teacher->first_name . ' ' . $teacher->last_name);
+                    }
+                    $data['teachers'] = $teachers;
+                }
+
                 $trainingIds = explode("_", $session->contents);
                 $data['trainings'] = array();
                 foreach($trainingIds as $trainingId){
@@ -359,7 +371,7 @@ class ReportController extends Controller
                         }
                     }
 
-                    $data["are_eval_there"] = array("evals" => array(), "answer" => 0);
+                    $data["are_eval_there"] = array("evals" => array(), "answer" => 0, "evalnums");
                     $first_date_view = FALSE;
                     $last_date_view = FALSE;
                     $totalTime = '00:00:00';
@@ -433,6 +445,7 @@ class ReportController extends Controller
 
                         if (isset($lessonInfo['eval_questions'])) {
                             $questions = array();
+                            $num = 0;
                             foreach ($lessonInfo['eval_questions'] as $one) {
                                 try{
                                     $options =  unserialize($one->option_serialize);
@@ -458,8 +471,11 @@ class ReportController extends Controller
                                     'points' => $one->points,
                                     'options' => $t_options,
                                     'result' => ( $reponses_attendus == $reponses_recus ? 1 : 0) );
+                                if($reponses_attendus == $reponses_recus)
+                                    $num ++;
                             }
                             $lessonInfo['eval_questions'] = $questions;
+                            $data["are_eval_there"]["evalnums"][] = array("module" => $lessonInfo["lesson"]["name"], "num" => $num . " / " . count($lessonInfo['eval_questions']));
                         }
 
                         if ($time_eval != '00:00:00') {

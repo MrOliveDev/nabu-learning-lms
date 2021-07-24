@@ -33,6 +33,9 @@ $(document).ready(function(){
               step: 16,
           }
         },
+        semantic: {
+            'div': 'div'
+        }
     });
 
     var table = $('#historic-table').DataTable({
@@ -384,11 +387,12 @@ function saveTemplate(){
                         '</div>' + 
                     '</div>');
                     $("#doc-type-list").append('<div class="doc-type-item" onclick="selectModel(' + res.id + ')" id="doc-type-item-' + res.id + '">' + 
-                            '<span>' + res.name + '</span>' + 
-                            '<i class="fa fa-edit"></i>' + 
+                            '<span id="doc-type-item-title-' + res.id + '">' + $("#model-name").val() + '</span>' + 
                         '</div>');
-                } else
+                } else{
                     $("#model-title-" + modelSelectedId).html($("#model-name").val());
+                    $("#doc-type-item-title-" + modelSelectedId).html($("#model-name").val());
+                }   
                 notification("Successfully saved.", 1);
                 trumbowygChanged = 0;
             } else
@@ -431,6 +435,7 @@ function delTemplate(id){
                     if(res.success){
                         notification('Successfully deleted.', 1);
                         $('#model-item-' + id).remove();
+                        $('#doc-type-item-' + id).remove();
                         if(modelSelectedId == id){
                             modelSelectedId = -1;
                             trumbowygChanged = -1;
@@ -575,6 +580,76 @@ async function overviewReport(studentId){
     if(template == null){
         swal.fire({ title: "Warning", text: "Error while getting template data.", icon: "error", confirmButtonText: `OK` });
         return;
+    }
+    
+    // Change variables to real values
+    if(template.includes('#last_name')){
+        if(info && info.student && info.student.last_name)
+            template = template.split('#last_name').join(info.student.last_name);
+        else
+            template = template.split('#last_name').join('');
+    }
+    if(template.includes('#first_name')){
+        if(info && info.student && info.student.first_name)
+            template = template.split('#first_name').join(info.student.first_name);
+        else
+            template = template.split('#first_name').join('');
+    }
+    if(template.includes('#student_company')){
+        if(info && info.student && info.student.company_name)
+            template = template.split('#student_company').join(info.student.company_name);
+        else
+            template = template.split('#student_company').join('');
+    }
+    if(template.includes('#training_name')){
+        if(info && info.trainings && info.trainings[0] && info.trainings[0].training && info.trainings[0].training.name)
+            template = template.split('#training_name').join(info.trainings[0].training.name);
+        else
+            template = template.split('#training_name').join('');
+    }
+    if(template.includes('#total_time_spent_on_training')){
+        if(info && info.trainings && info.trainings[0] && info.trainings[0].totalTime)
+            template = template.split('#total_time_spent_on_training').join(info.trainings[0].totalTime);
+        else
+            template = template.split('#total_time_spent_on_training').join('00:00:00');
+    }
+    if(template.includes('#session_begin_Date')){
+        if(info && info.trainings && info.trainings[0] && info.trainings[0].training && info.trainings[0].training.date_begin)
+            template = template.split('#session_begin_Date').join(info.trainings[0].training.date_begin);
+        else
+            template = template.split('#session_begin_Date').join('');
+    }
+    if(template.includes('#session_end_Date')){
+        if(info && info.trainings && info.trainings[0] && info.trainings[0].training && info.trainings[0].training.date_end)
+            template = template.split('#session_end_Date').join(info.trainings[0].training.date_end);
+        else
+            template = template.split('#session_end_Date').join('');
+    }
+    if(template.includes('#session_teacher_complete_name')){
+        if(info && info.teachers && info.teachers[0])
+            template = template.split('#session_teacher_complete_name').join(info.teachers[0]);
+        else
+            template = template.split('#session_teacher_complete_name').join('');
+    }
+    if(template.includes('#evaluation_pc_result')){
+        if(info && info.are_eval_there && info.are_eval_there.evals && info.are_eval_there.evals.length > 0){
+            let result = '';
+            info.are_eval_there.evals.forEach((eval, i) => {
+                result += ((i == 0 ? '' : ', ') + eval.note + '% (' + eval.module + ')');
+            });
+            template = template.split('#evaluation_pc_result').join(result);
+        } else
+            template = template.split('#evaluation_pc_result').join('');
+    }
+    if(template.includes('#evaluation_num_result')){
+        if(info && info.are_eval_there && info.are_eval_there.evalnums && info.are_eval_there.evalnums.length > 0){
+            let result = '';
+            info.are_eval_there.evalnums.forEach((eval, i) => {
+                result += ((i == 0 ? '' : ', ') + eval.num + ' (' + eval.module + ')');
+            });
+            template = template.split('#evaluation_num_result').join(result);
+        } else
+            template = template.split('#evaluation_num_result').join('');
     }
     
     $("#overviewPane").html(template);
