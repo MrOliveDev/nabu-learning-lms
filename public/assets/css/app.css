@@ -223,7 +223,7 @@ div#sidebar-content-header {
 }
 
 img {
-    display: block;
+    /* display: block; */
     max-width: 100%;
 }
 

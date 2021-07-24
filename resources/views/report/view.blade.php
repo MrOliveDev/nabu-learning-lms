@@ -102,7 +102,7 @@
                     <div id="doc-type-list">
                         @foreach($templates as $template)
                         <div class="doc-type-item" onclick="selectModel({{ $template['id'] }})" id="doc-type-item-{{ $template['id'] }}">
-                            <span>{{ $template['name'] }}</span>
+                            <span id="doc-type-item-title-{{$template['id']}}">{{ $template['name'] }}</span>
                         </div>
                         @endforeach
                     </div>
