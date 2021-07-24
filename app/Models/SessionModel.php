@@ -137,7 +137,6 @@ class SessionModel extends Model
 
     public function scopeGetTrainingsForStudent($query, $id)
     {
-
         $user = User::find($id);
         $sessionList = $query->get();
         $sessions = array();
@@ -147,7 +146,7 @@ class SessionModel extends Model
                 // var_dump($participant);
                 if ($user->type == 3) {
                     $teachers = $participant->t;
-                    var_dump($teachers);
+                    
                     if ($teachers != NULL && count($teachers) != 0) {
                         foreach ($teachers as $teacher) {
                             if ($teacher == $id) {
@@ -189,7 +188,7 @@ class SessionModel extends Model
         $temp_trainings = array();
         foreach ($sessions as $session) {
             DB::connection('mysql_reports')->unprepared('CREATE TABLE IF NOT EXISTS `tb_screen_optim_'.$session->id.'` (
-            `id_screen_optim` int(11) NOT NULL,
+            `id_screen_optim` int(11) NOT NULL AUTO_INCREMENT,
             `id_fabrique_screen_optim` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
             `id_curso_screen_optim` int(11) NOT NULL,
             `id_user_screen_optim` int(11) NOT NULL,
@@ -197,7 +196,8 @@ class SessionModel extends Model
             `progress_screen_optim` float(5,2) NOT NULL,
             `last_date_screen_optim` datetime NOT NULL,
             `first_eval_id_screen_optim` int(11) NOT NULL,
-            `last_eval_id_screen_optim` int(11) NOT NULL
+            `last_eval_id_screen_optim` int(11) NOT NULL,
+            PRIMARY KEY (id_screen_optim) 
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
             ');
             if ($session->contents != NULL && $session->contents != '') {
@@ -219,7 +219,7 @@ class SessionModel extends Model
                                         }
                                         // if($training_item['training']!=$new_training)
                                     }
-
+                                   
                                     array_push($temp_trainings, $new_training);
                                     if(!$repeat){
                                         $score_data = DB::connection('mysql_reports')->select('select AVG(progress_screen_optim) as progress_screen_optim, AVG(last_eval_id_screen_optim) as last_eval_id_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.$user_id.'"');
@@ -308,4 +308,25 @@ class SessionModel extends Model
         return array('group' => $groupData, 'student' => $studentData, 'teacher' => $teacherData);
     }
 
+    public function scopeGetStudentsFromSession($query, $participant_data)
+    {
+        $studentData = array();
+        if (isset($participant_data) || $participant_data != "") {
+            $participant = json_decode($participant_data);
+            $studentList = isset($participant->s) ? $participant->s : array();
+            
+            if (isset($studentList) || $studentList != "") {
+                if (count($studentList) != 0) {
+                    foreach ($studentList as $studentValue) {
+                        // print_r($studentValue);
+                        $studentItem = User::find($studentValue);
+                        if($studentItem)
+                            array_push($studentData, $studentItem->toArray());
+                    }
+                }
+            }
+            
+        }
+        return $studentData;
+    }
 }
