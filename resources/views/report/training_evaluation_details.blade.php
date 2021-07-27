@@ -1,4 +1,4 @@
-<table style="width:100%;" id="training_evaluation">
+<table style="width:100%;" cellpadding='0' cellspacing='0' border="0" id="training_evaluation">
     <tr>
         <td colspan="2" style="color:#000000; background: #ffc107; border:1px solid #000000;" id="lesson_title"><b> Name of Lesson 1 </b></td>
     </tr>
@@ -34,7 +34,7 @@
 
 <br>
 
-<table style="width:100%;" id="evaluation_details">
+<table style="width:100%;" cellpadding='0' cellspacing='0' border="0" id="evaluation_details">
     <tr>
         <td style="width: 30%; background: lightgrey; color:#000000; border:1px solid #000000;" ><b> Question text </b></td>
         <td colspan="3" style="width: 70%; background: lightgrey; color:#000000; border:1px solid #000000;" id="question_title"><b> Text of the question </b></td>
@@ -65,7 +65,7 @@
 
 <br>
 
-<table style="width:100%;" id="evaluation_details_removable">
+<table style="width:100%;" cellpadding='0' cellspacing='0' border="0" id="evaluation_details_removable">
     <tr>
         <td style="width: 30%; background: lightgrey; color:#000000; border:1px solid #000000;" ><b> Question text </b></td>
         <td colspan="3" style="width: 70%; background: lightgrey; color:#000000; border:1px solid #000000;" ><b> Text of the question </b></td>

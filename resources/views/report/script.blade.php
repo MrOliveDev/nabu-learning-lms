@@ -1052,6 +1052,19 @@ function buildTemplateInfo(info, template){
     }
 }
 
+async function download(url, name) {
+	const a = document.createElement('a');
+	a.download = name;
+	a.href = url;
+	a.style.display = 'none';
+	document.body.append(a);
+	a.click();
+
+	// Chrome requires the timeout
+	await delay(100);
+	a.remove();
+};
+
 async function downloadReport(studentId){
     curStudent = studentId;
     if(!curModel){
@@ -1094,8 +1107,8 @@ async function downloadReport(studentId){
         method: 'post',
         data: {sessionId: curSession, studentId: curStudent, header: header, footer: footer, content: $("#overviewPane")[0].outerHTML},
         success: function(res) {
-            if(res.success){
-                console.log(res);
+            if(res.success && res.filename){
+                download("{{ url('pdf') }}" + "/" + res.filename, res.filename);
             } else
                 notification(res.message, 2);
         },
