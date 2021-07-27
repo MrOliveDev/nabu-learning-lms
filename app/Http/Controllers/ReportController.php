@@ -689,8 +689,15 @@ class ReportController extends Controller
                 'created_time' => gmdate("Y-m-d\TH:i:s", time())
             ]);
 
-            return response()->download($filelink, null, ['Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0']);
+            return response()->json(["success" => true, "filename" => $filename]);
         } else
             return response()->json(["success" => false, "message" => "Wrong Parameters."]);
+    }
+
+    public function downloadFile($file){
+        if(file_exists(storage_path('pdf') . '/' . $file))
+            return response()->download(storage_path('pdf' . '/' . $file), null, ['Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0']);
+        else
+            return 'File does not exist!';
     }
 }
