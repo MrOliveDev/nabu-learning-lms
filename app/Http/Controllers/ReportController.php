@@ -671,8 +671,8 @@ class ReportController extends Controller
 
     public function downloadReportPDF(Request $request){
         if(isset($request['sessionId']) && isset($request['studentId'])){
-            set_time_limit(0);
-            ini_set('memory_limit', '-1');
+            set_time_limit(60);
+            // ini_set('memory_limit', '-1');
             $rep = '
                     <page backtop="20mm" backbottom="20mm" backleft="10mm" backright="10mm">
                     <page_header> 
@@ -717,8 +717,8 @@ class ReportController extends Controller
 
     public function downloadReportZip(Request $request){
         if(isset($request['sessionId']) && isset($request['data'])){
-            set_time_limit(0);
-            ini_set('memory_limit', '-1');
+            set_time_limit(60);
+            // ini_set('memory_limit', '-1');
             $filenames = array();
             foreach($request['data'] as $report){
                 $rep = '
