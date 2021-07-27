@@ -98,7 +98,7 @@
                         <i class="fa fa-search icon p-2"></i>
                     </span>
                 </div>
-                <div class="w-100 p-2 sliderStyle" style="height: 200px;">
+                <div class="w-100 p-2 sliderStyle">
                     <div id="doc-type-list">
                         @foreach($templates as $template)
                         <div class="doc-type-item" onclick="selectModel({{ $template['id'] }})" id="doc-type-item-{{ $template['id'] }}">
@@ -121,7 +121,7 @@
                         <i class="fa fa-search icon p-2"></i>
                     </span>
                 </div>
-                <div class="w-100 p-2 sliderStyle" style="height: 250px;">
+                <div class="w-100 p-2 sliderStyle">
                     <table class="table table-bordered table-striped table-vcenter reportTbl" style="width:100%;">
                         <colgroup>
                             <col span="1" style="width: 75%;">
@@ -168,7 +168,7 @@
                 </div>
 
                 <div class="w-100 p-2 text-center">
-                    <button class="downloadBtn">
+                    <button class="downloadBtn" onclick="downloadAllReports()">
                         Download all PDFs <i class="fa fa-download"></i>
                     </button>
                 </div>
