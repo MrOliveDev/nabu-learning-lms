@@ -14,12 +14,14 @@ use App\Models\ScreenOptim;
 use App\Models\User;
 use App\Models\LessonsModel;
 use App\Models\EvaluationQuestions;
+use App\Models\InterfaceCfgModel;
 
 use Illuminate\Support\Facades\DB;
 use Spipu\Html2Pdf\Html2Pdf;
 
 use Auth;
 use Exception;
+use ZipArchive;
 
 class ReportController extends Controller
 {
@@ -333,6 +335,13 @@ class ReportController extends Controller
             } else
                 response()->json(["success" => false, "message" => "Cannot find the student."]);
 
+            $cfg = InterfaceCfgModel::where('id', Auth::user()->id_config)->first();
+            if($cfg && $cfg->interface_color){
+                $color = json_decode($cfg->interface_color);
+                if($color && $color->menuBackground)
+                    $data['background'] = $color->menuBackground;
+            }
+            
             $language_iso = LanguageModel::get_language_iso($user['lang']);
             if($language_iso == '')
                 $language_iso = LanguageModel::get_language_iso(1);
@@ -670,6 +679,9 @@ class ReportController extends Controller
                     <page_footer> 
                          ' . $request['footer'] . ' 
                     </page_footer> 
+                    <style>
+                        td { padding-left: 5px; }
+                    </style>
 
                     ';
             $rep .= $request['content'];
@@ -697,6 +709,62 @@ class ReportController extends Controller
     public function downloadFile($file){
         if(file_exists(storage_path('pdf') . '/' . $file))
             return response()->download(storage_path('pdf' . '/' . $file), null, ['Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0']);
+        else
+            return 'File does not exist!';
+    }
+
+    public function downloadReportZip(Request $request){
+        if(isset($request['sessionId']) && isset($request['data'])){
+            $filenames = array();
+            foreach($request['data'] as $report){
+                $rep = '
+                    <page backtop="20mm" backbottom="20mm" backleft="10mm" backright="10mm">
+                    <page_header> 
+                         ' . $report['header'] . '
+                    </page_header> 
+                    <page_footer> 
+                         ' . $report['footer'] . ' 
+                    </page_footer> 
+                    <style>
+                        td { padding-left: 5px; }
+                    </style>
+
+                    ';
+                $rep .= $report['content'];
+                $rep .= '</page>';
+
+                $filename = $request['sessionId'] . '_' . $report['studentId'] . '_' . time() . '.pdf';
+                $filenames[] = $filename;
+                $filelink = storage_path('pdf') . '/' . $filename;
+                $html2pdf = new HTML2PDF('P', 'A4', 'fr', true, 'UTF-8');
+                $html2pdf->writeHTML($rep);
+                $html2pdf->Output($filelink, 'F');
+
+                ReportsModel::create([
+                    'sessionId' => $request['sessionId'],
+                    'studentId' => $report['studentId'],
+                    'filename' => $filename,
+                    'type' => 'pdf',
+                    'created_time' => gmdate("Y-m-d\TH:i:s", time())
+                ]);
+            }
+
+            $filename = $request['sessionId'] . '_' . time() . '.zip';
+            $zip = new ZipArchive();
+            $zip->open(storage_path('zip') . '/' . $filename, ZipArchive::CREATE);
+            foreach($filenames as $file){
+                $zip->addFile(storage_path('pdf') . '/' . $file, $file);
+            }
+            $zip->close();
+
+            return response()->json(["success" => true, "filename" => $filename]);
+        } else
+            return response()->json(["success" => false, "message" => "Wrong Parameters."]);
+    }
+
+    public function downloadZip($file){
+        if(file_exists(storage_path('zip') . '/' . $file))
+            return response()->download(storage_path('zip' . '/' . $file), null, ['Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0']);
         else
             return 'File does not exist!';
     }

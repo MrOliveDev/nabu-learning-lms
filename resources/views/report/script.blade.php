@@ -556,6 +556,25 @@ function getTemplateData(){
     })
 }
 
+function getStudentsList(){
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: 'getStudentsList',
+            method: 'post',
+            data: {sessionId: curSession},
+            success: function(res) {
+                if(res.success && res.students){
+                    resolve(res.students);
+                } else
+                    resolve(null);
+            },
+            error: function(err) {
+                resolve(null);
+            }
+        });
+    })
+}
+
 async function overviewReport(studentId){
     curStudent = studentId;
     if(!curModel){
@@ -640,9 +659,12 @@ function buildTemplateInfo(info, template){
     if(template.includes('#evaluation_pc_result')){
         if(info && info.are_eval_there && info.are_eval_there.evals && info.are_eval_there.evals.length > 0){
             let result = '';
-            info.are_eval_there.evals.forEach((eval, i) => {
-                result += ((i == 0 ? '' : ', ') + eval.note + '% (' + eval.module + ')');
-            });
+            if(info.are_eval_there.evals.length > 1){
+                info.are_eval_there.evals.forEach((eval, i) => {
+                    result += ((i == 0 ? '' : ', ') + eval.note + '% (' + eval.module + ')');
+                });
+            } else
+                result = info.are_eval_there.evals[0].note + '%';
             template = template.split('#evaluation_pc_result').join(result);
         } else
             template = template.split('#evaluation_pc_result').join('');
@@ -650,9 +672,12 @@ function buildTemplateInfo(info, template){
     if(template.includes('#evaluation_num_result')){
         if(info && info.are_eval_there && info.are_eval_there.evalnums && info.are_eval_there.evalnums.length > 0){
             let result = '';
-            info.are_eval_there.evalnums.forEach((eval, i) => {
-                result += ((i == 0 ? '' : ', ') + eval.num + ' (' + eval.module + ')');
-            });
+            if(info.are_eval_there.evalnums.length > 1){
+                info.are_eval_there.evalnums.forEach((eval, i) => {
+                    result += ((i == 0 ? '' : ', ') + eval.num + ' (' + eval.module + ')');
+                });   
+            } else
+                result = info.are_eval_there.evalnums[0].num;
             template = template.split('#evaluation_num_result').join(result);
         } else
             template = template.split('#evaluation_num_result').join('');
@@ -671,6 +696,8 @@ function buildTemplateInfo(info, template){
                     html.insertAfter("#overviewPane #training_lessons");
 
                     $(`#overviewPane #training_lessons_${i} #training_title`).html(`<b>${info.trainings[i].training.name}</b>`);
+                    if(info.background)
+                        $(`#overviewPane #training_lessons_${i} #training_title`).css("background", info.background);
                     
                     if(info.trainings[i].lessons && info.trainings[i].lessons.length > 0){
                         info.trainings[i].lessons.forEach(lessonData => {
@@ -701,6 +728,9 @@ function buildTemplateInfo(info, template){
                             html.insertAfter("#overviewPane #training_synthetic" + (i == 0 ? "" : "_" + (i - 1)));
 
                             $(`#overviewPane #training_synthetic_${i} #lesson_title`).html(`<b>${lessonData.lesson.name}</b>`);
+                            if(info.background)
+                                $(`#overviewPane #training_synthetic_${i} #lesson_title`).css("background", info.background);
+
                             if(lessonData.optim && lessonData.lesson.threshold_score <= lessonData.optim.progress_screen_optim)
                                 $(`#overviewPane #training_synthetic_${i} #lesson_status`).html(`Completed`);
                             else
@@ -759,6 +789,9 @@ function buildTemplateInfo(info, template){
                             lastHtmlId = "#overviewPane #training_complete_" + i;
 
                             $(`#overviewPane #training_complete_${i} #lesson_title`).html(`<b>${lessonData.lesson.name}</b>`);
+                            if(info.background)
+                                $(`#overviewPane #training_complete_${i} #lesson_title`).css("background", info.background);
+
                             if(lessonData.optim && lessonData.lesson.threshold_score <= lessonData.optim.progress_screen_optim)
                                 $(`#overviewPane #training_complete_${i} #lesson_status`).html(`Completed`);
                             else
@@ -856,6 +889,9 @@ function buildTemplateInfo(info, template){
                             lastHtmlId = "#overviewPane #training_evaluation_" + i;
 
                             $(`#overviewPane #training_evaluation_${i} #lesson_title`).html(`<b>${lessonData.lesson.name}</b>`);
+                            if(info.background)
+                                $(`#overviewPane #training_evaluation_${i} #lesson_title`).css("background", info.background);
+
                             if(lessonData.optim && lessonData.lesson.threshold_score <= lessonData.optim.progress_screen_optim)
                                 $(`#overviewPane #training_evaluation_${i} #lesson_status`).html(`Completed`);
                             else
@@ -944,6 +980,9 @@ function buildTemplateInfo(info, template){
                             lastHtmlId = "#overviewPane #complete_evaluation_" + i;
 
                             $(`#overviewPane #complete_evaluation_${i} #lesson_title`).html(`<b>${lessonData.lesson.name}</b>`);
+                            if(info.background)
+                                $(`#overviewPane #complete_evaluation_${i} #lesson_title`).css("background", info.background);
+
                             if(lessonData.optim && lessonData.lesson.threshold_score <= lessonData.optim.progress_screen_optim)
                                 $(`#overviewPane #complete_evaluation_${i} #lesson_status`).html(`Completed`);
                             else
@@ -1052,6 +1091,8 @@ function buildTemplateInfo(info, template){
     }
 }
 
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 async function download(url, name) {
 	const a = document.createElement('a');
 	a.download = name;
@@ -1105,21 +1146,91 @@ async function downloadReport(studentId){
     $.ajax({
         url: 'downloadReportPDF',
         method: 'post',
-        data: {sessionId: curSession, studentId: curStudent, header: header, footer: footer, content: $("#overviewPane")[0].outerHTML},
+        data: {sessionId: curSession, studentId: curStudent, header: header, footer: footer, content: $("#overviewPane").html()},
         success: function(res) {
+            swal.close();
             if(res.success && res.filename){
                 download("{{ url('pdf') }}" + "/" + res.filename, res.filename);
             } else
                 notification(res.message, 2);
         },
         error: function(err) {
+            swal.close();
             notification("Sorry, You have an error!", 2);
         }
     });
 
     $("#overviewPane").html('');
     $("#overviewPane").css("display", "block");
-    swal.close();
+}
+
+async function downloadAllReports(){
+    if(!curModel){
+        swal.fire({ title: "Warning", text: "Please select document type.", icon: "info", confirmButtonText: `OK` });
+        return;
+    }
+    if(!curSession){
+        swal.fire({ title: "Warning", text: "Please select session.", icon: "info", confirmButtonText: `OK` });
+        return;
+    }
+
+    swal.fire({ title: "Please wait...", showConfirmButton: false });
+    swal.showLoading();
+
+    var students = await getStudentsList();
+    var postdata = [];
+
+    var template = await getTemplateData();
+    if(template == null){
+        swal.fire({ title: "Warning", text: "Error while getting template data.", icon: "error", confirmButtonText: `OK` });
+        return;
+    }
+
+    var header = '', footer = '';
+    $("#overviewPane").css("display", "none");
+
+    if(students && students.length > 0){
+        for(let i = 0; i < students.length; i ++){
+            curStudent = students[i].id;
+            var info = await getReportData();
+            if(info == null){
+                swal.fire({ title: "Warning", text: "Error while getting report data.", icon: "error", confirmButtonText: `OK` });
+                break;
+            }
+            
+            buildTemplateInfo(info, template);
+
+            if($("#overviewPane #rep_header")[0])
+                header = $("#overviewPane #rep_header")[0].outerHTML;
+            $("#overviewPane #rep_header").remove();
+            if($("#overviewPane #rep_footer")[0])
+                footer = $("#overviewPane #rep_footer")[0].outerHTML;
+            $("#overviewPane #rep_footer").remove();
+            postdata.push({studentId: curStudent, header: header, footer: footer, content: $("#overviewPane").html()});
+            $("#overviewPane").html('');
+        }
+
+        $.ajax({
+            url: 'downloadReportZip',
+            method: 'post',
+            data: {sessionId: curSession, data: postdata},
+            success: function(res) {
+                swal.close();
+                if(res.success && res.filename){
+                    download("{{ url('zip') }}" + "/" + res.filename, res.filename);
+                } else
+                    notification(res.message, 2);
+            },
+            error: function(err) {
+                swal.close();
+                notification("Sorry, You have an error!", 2);
+            }
+        });
+    } else
+        swal.fire({ title: "Warning", text: "No students at the moment.", icon: "info", confirmButtonText: `OK` });
+    console.log(postdata);
+
+    $("#overviewPane").css("display", "block");
 }
 
 </script>
