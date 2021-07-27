@@ -309,6 +309,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('saveReportImg', '\App\Http\Controllers\ReportController@saveReportImg')->name('saveReportImg');
     Route::post('getStudentsList', '\App\Http\Controllers\ReportController@getStudentsList')->name('getStudentsList');
     Route::post('getReportData', '\App\Http\Controllers\ReportController@getReportData')->name('getReportData');
+    Route::post('downloadReportPDF', '\App\Http\Controllers\ReportController@downloadReportPDF')->name('downloadReportPDF');
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

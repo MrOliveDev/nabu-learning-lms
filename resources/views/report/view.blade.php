@@ -231,7 +231,7 @@
                             <p class="model-drag-item mt-1" onclick="toggleActive(this)">#total_time_spent_on_training</p>
                             <p class="model-drag-item mt-1" onclick="toggleActive(this)">#session_begin_Date</p>
                             <p class="model-drag-item mt-1" onclick="toggleActive(this)">#session_end_Date</p>
-                            <p class="model-drag-item mt-1" onclick="toggleActive(this)">#session_administrator_complete_name</p>
+                            <!-- <p class="model-drag-item mt-1" onclick="toggleActive(this)">#session_administrator_complete_name</p> -->
                             <p class="model-drag-item mt-1" onclick="toggleActive(this)">#session_teacher_complete_name</p>
                             <p class="model-drag-item mt-1" onclick="toggleActive(this)">#evaluation_pc_result</p>
                             <p class="model-drag-item mt-1" onclick="toggleActive(this)">#evaluation_num_result</p>

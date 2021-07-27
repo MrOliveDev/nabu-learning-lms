@@ -582,6 +582,12 @@ async function overviewReport(studentId){
         return;
     }
     
+    buildTemplateInfo(info, template);
+
+    swal.close();
+}
+
+function buildTemplateInfo(info, template){
     // Change variables to real values
     if(template.includes('#last_name')){
         if(info && info.student && info.student.last_name)
@@ -1044,7 +1050,62 @@ async function overviewReport(studentId){
         $("#overviewPane #complete_evalscreens").remove();
         $("#overviewPane #complete_evaldetails").remove();
     }
+}
 
+async function downloadReport(studentId){
+    curStudent = studentId;
+    if(!curModel){
+        swal.fire({ title: "Warning", text: "Please select document type.", icon: "info", confirmButtonText: `OK` });
+        return;
+    }
+    if(!curSession){
+        swal.fire({ title: "Warning", text: "Please select session.", icon: "info", confirmButtonText: `OK` });
+        return;
+    }
+
+    swal.fire({ title: "Please wait...", showConfirmButton: false });
+    swal.showLoading();
+
+    var info = await getReportData();
+    if(info == null){
+        swal.fire({ title: "Warning", text: "Error while getting report data.", icon: "error", confirmButtonText: `OK` });
+        return;
+    }
+
+    var template = await getTemplateData();
+    if(template == null){
+        swal.fire({ title: "Warning", text: "Error while getting template data.", icon: "error", confirmButtonText: `OK` });
+        return;
+    }
+    
+    $("#overviewPane").css("display", "none");
+    buildTemplateInfo(info, template);
+
+    let header = '', footer = '';
+    if($("#overviewPane #rep_header")[0])
+        header = $("#overviewPane #rep_header")[0].outerHTML;
+    $("#overviewPane #rep_header").remove();
+    if($("#overviewPane #rep_footer")[0])
+        footer = $("#overviewPane #rep_footer")[0].outerHTML;
+    $("#overviewPane #rep_footer").remove();
+    
+    $.ajax({
+        url: 'downloadReportPDF',
+        method: 'post',
+        data: {sessionId: curSession, studentId: curStudent, header: header, footer: footer, content: $("#overviewPane")[0].outerHTML},
+        success: function(res) {
+            if(res.success){
+                console.log(res);
+            } else
+                notification(res.message, 2);
+        },
+        error: function(err) {
+            notification("Sorry, You have an error!", 2);
+        }
+    });
+
+    $("#overviewPane").html('');
+    $("#overviewPane").css("display", "block");
     swal.close();
 }
 
