@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -17,6 +16,7 @@ use App\Models\LessonsModel;
 use App\Models\EvaluationQuestions;
 
 use Illuminate\Support\Facades\DB;
+use Spipu\Html2Pdf\Html2Pdf;
 
 use Auth;
 use Exception;
@@ -658,5 +658,39 @@ class ReportController extends Controller
         $tmp = floor( ($tmp - $retour['hour']) / 24 );
         $retour['day'] = $tmp;
         return $retour;
+    }
+
+    public function downloadReportPDF(Request $request){
+        if(isset($request['sessionId']) && isset($request['studentId'])){
+            $rep = '
+                    <page backtop="20mm" backbottom="20mm" backleft="10mm" backright="10mm">
+                    <page_header> 
+                         ' . $request['header'] . '
+                    </page_header> 
+                    <page_footer> 
+                         ' . $request['footer'] . ' 
+                    </page_footer> 
+
+                    ';
+            $rep .= $request['content'];
+            $rep .= '</page>';
+
+            $filename = $request['sessionId'] . '_' . $request['studentId'] . '_' . time() . '.pdf';
+            $filelink = storage_path('pdf') . '/' . $filename;
+            $html2pdf = new HTML2PDF('P', 'A4', 'fr', true, 'UTF-8');
+            $html2pdf->writeHTML($rep);
+            $html2pdf->Output($filelink, 'F');
+
+            ReportsModel::create([
+                'sessionId' => $request['sessionId'],
+                'studentId' => $request['studentId'],
+                'filename' => $filename,
+                'type' => 'pdf',
+                'created_time' => gmdate("Y-m-d\TH:i:s", time())
+            ]);
+
+            return response()->download($filelink, null, ['Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0']);
+        } else
+            return response()->json(["success" => false, "message" => "Wrong Parameters."]);
     }
 }
