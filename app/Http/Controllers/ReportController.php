@@ -139,7 +139,7 @@ class ReportController extends Controller
                 ->get(
                     array(
                         'tb_reports.id as id',
-                        'tb_session.description as session',
+                        'tb_session.name as session',
                         'tb_reports.filename as filename',
                         'tb_reports.type as type',
                         'tb_reports.detail as detail',
@@ -162,7 +162,7 @@ class ReportController extends Controller
                         ->get(
                             array(
                                 'tb_reports.id as id',
-                                'tb_session.description as session',
+                                'tb_session.name as session',
                                 'tb_reports.filename as filename',
                                 'tb_reports.type as type',
                                 'tb_reports.detail as detail',
@@ -195,7 +195,10 @@ class ReportController extends Controller
                 
                 $nestedData['actions'] = "
                 <div class='text-center'>
-                    <button type='button' class='js-swal-confirm btn btn-danger' onclick='delCompany(this,{$nestedData['id']})'>
+                    <a href='" .env('APP_URL').'/'.$report->type.'/'.$report->filename."' class='btn btn-primary mr-3' style='border-radius: 5px' target='_blank'>
+                        <i class='fa fa-download'></i>
+                    </a>
+                    <button type='button' class='js-swal-confirm btn btn-danger mr-3' onclick='delReport({$nestedData['id']})' style='border-radius: 5px'>
                         <i class='fa fa-trash'></i>
                     </button>
                 </div>";
@@ -759,18 +762,10 @@ class ReportController extends Controller
                 $mpdf->SetHTMLFooter(str_replace("<br>", "<wbr> </wbr>", $report['footer']));
                 $mpdf->writeHTML(str_replace("<br>", "<wbr> </wbr>", '<style> td { padding-left: 5px; } </style>' . $report['content']));
 
-                $filename = $request['sessionId'] . '_' . $request['studentId'] . '_' . time() . '.pdf';
+                $filename = $request['sessionId'] . '_' . $report['studentId'] . '_' . time() . '.pdf';
                 $filenames[] = $filename;
                 $filelink = storage_path('pdf') . '/' . $filename;
                 $mpdf->Output($filelink, 'F');
-
-                ReportsModel::create([
-                    'sessionId' => $request['sessionId'],
-                    'studentId' => $report['studentId'],
-                    'filename' => $filename,
-                    'type' => 'pdf',
-                    'created_time' => gmdate("Y-m-d\TH:i:s", time())
-                ]);
             }
 
             $filename = $request['sessionId'] . '_' . time() . '.zip';
@@ -780,6 +775,14 @@ class ReportController extends Controller
                 $zip->addFile(storage_path('pdf') . '/' . $file, $file);
             }
             $zip->close();
+
+            ReportsModel::create([
+                'sessionId' => $request['sessionId'],
+                'studentId' => $report['studentId'],
+                'filename' => $filename,
+                'type' => 'zip',
+                'created_time' => gmdate("Y-m-d\TH:i:s", time())
+            ]);
 
             return response()->json(["success" => true, "filename" => $filename]);
         } else
@@ -791,5 +794,21 @@ class ReportController extends Controller
             return response()->download(storage_path('zip' . '/' . $file), null, ['Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0']);
         else
             return 'File does not exist!';
+    }
+
+    public function delReport(Request $request){
+        if(!empty($request['id'])){
+            $report = ReportsModel::where('id', $request['id'])->first();
+            if($report){
+                if($report->filename){
+                    if(file_exists(storage_path($report->type) . '/' . $report->filename))
+                        unlink(storage_path($report->type) . '/' . $report->filename);
+                    $report->delete();
+                    return response()->json(["success" => true]);
+                }
+            } else 
+                return response()->json(["success" => false, "message" => "Cannot find the report."]);
+        } else
+            return response()->json(["success" => false, "message" => "Empty Parameter."]);
     }
 }

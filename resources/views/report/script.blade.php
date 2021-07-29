@@ -1228,9 +1228,38 @@ async function downloadAllReports(){
         });
     } else
         swal.fire({ title: "Warning", text: "No students at the moment.", icon: "info", confirmButtonText: `OK` });
-    console.log(postdata);
 
     $("#overviewPane").css("display", "block");
+}
+
+function delReport(id){
+    swal.fire({
+        title: "Warning",
+        html: "Are you sure delete this template?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: `Yes`,
+        cancelButtonText: `No`,
+    })
+    .then(( result ) => {
+        if ( result.value ){
+            $.ajax({
+                url: 'delReport',
+                method: 'post',
+                data: {id: id},
+                success: function(res) {
+                    if(res.success){
+                        notification('Successfully deleted.', 1);
+                        $('#historic-table').DataTable().ajax.reload();
+                    } else
+                        notification(res.message, 2);
+                },
+                error: function(err) {
+                    notification("Sorry, You have an error!", 2);
+                }
+            });
+        }
+    });
 }
 
 </script>
