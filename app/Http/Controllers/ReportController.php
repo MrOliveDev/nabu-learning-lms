@@ -195,7 +195,7 @@ class ReportController extends Controller
                 
                 $nestedData['actions'] = "
                 <div class='text-center'>
-                    <a href='" .env('APP_URL').'/'.$report->type.'/'.$report->filename."' class='btn btn-primary mr-3' style='border-radius: 5px' target='_blank'>
+                    <a href='" .url('/').'/'.$report->filename."' class='btn btn-primary mr-3' style='border-radius: 5px' target='_blank'>
                         <i class='fa fa-download'></i>
                     </a>
                     <button type='button' class='js-swal-confirm btn btn-danger mr-3' onclick='delReport({$nestedData['id']})' style='border-radius: 5px'>
