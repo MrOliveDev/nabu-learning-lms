@@ -1,4 +1,4 @@
-<table style="width:100%;" cellpadding='0' cellspacing='0' border="0" id="training_complete">
+<table style="width:100%; margin-bottom: 15px;" cellpadding='0' cellspacing='0' border="0" id="training_complete">
     <tr>
         <td colspan="2" style="color:#000000; background: #ffc107; border:1px solid #000000;" id="lesson_title"><b> Name of Lesson 1 </b></td>
     </tr>
@@ -31,10 +31,7 @@
         <td style="width:20%;color:#000000; border:1px solid #000000; background: lightgreen;" id="eval_score">80% (Succeed)</td>
     </tr>
 </table> 
-
-<br>
-
-<table style="width:100%;" id="training_complete_screens">
+<table style="width:100%;margin-bottom: 15px;" id="training_complete_screens">
     <tr>
         <td style="width: 50%; color:#000000; border:1px solid #000000;" ><b> Name of Screen </b></td>
         <td style="width: 15%; color:#000000; border:1px solid #000000;" ><b> Score </b></td>

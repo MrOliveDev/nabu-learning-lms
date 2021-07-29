@@ -697,9 +697,9 @@ class ReportController extends Controller
             // $html2pdf->Output($filelink, 'F');
 
             $mpdf = new MPdf(['mode' => 'utf-8', 'format' => 'A4', 'tempDir'=>storage_path('tempdir')]);
-            $mpdf->SetHTMLHeader(str_replace("<br>", "<br />", $request['header']));
-            $mpdf->SetHTMLFooter(str_replace("<br>", "<br />", $request['footer']));
-            $mpdf->writeHTML(str_replace("<br>", "<br />", $request['content']));
+            $mpdf->SetHTMLHeader(str_replace("<br>", "<wbr> </wbr>", $request['header']));
+            $mpdf->SetHTMLFooter(str_replace("<br>", "<wbr> </wbr>", $request['footer']));
+            $mpdf->writeHTML(str_replace("<br>", "<wbr> </wbr>", '<style> td { padding-left: 5px; } </style>' . $request['content']));
 
             $filename = $request['sessionId'] . '_' . $request['studentId'] . '_' . time() . '.pdf';
             $filelink = storage_path('pdf') . '/' . $filename;
@@ -731,28 +731,38 @@ class ReportController extends Controller
             // ini_set('memory_limit', '-1');
             $filenames = array();
             foreach($request['data'] as $report){
-                $rep = '
-                    <page backtop="20mm" backbottom="20mm" backleft="10mm" backright="10mm">
-                    <page_header> 
-                         ' . $report['header'] . '
-                    </page_header> 
-                    <page_footer> 
-                         ' . $report['footer'] . ' 
-                    </page_footer> 
-                    <style>
-                        td { padding-left: 5px; }
-                    </style>
+                // $rep = '
+                //     <page backtop="20mm" backbottom="20mm" backleft="10mm" backright="10mm">
+                //     <page_header> 
+                //          ' . $report['header'] . '
+                //     </page_header> 
+                //     <page_footer> 
+                //          ' . $report['footer'] . ' 
+                //     </page_footer> 
+                //     <style>
+                //         td { padding-left: 5px; }
+                //     </style>
 
-                    ';
-                $rep .= $report['content'];
-                $rep .= '</page>';
+                //     ';
+                // $rep .= $report['content'];
+                // $rep .= '</page>';
 
-                $filename = $request['sessionId'] . '_' . $report['studentId'] . '_' . time() . '.pdf';
+                // $filename = $request['sessionId'] . '_' . $report['studentId'] . '_' . time() . '.pdf';
+                // $filenames[] = $filename;
+                // $filelink = storage_path('pdf') . '/' . $filename;
+                // $html2pdf = new HTML2PDF('P', 'A4', 'fr', true, 'UTF-8');
+                // $html2pdf->writeHTML($rep);
+                // $html2pdf->Output($filelink, 'F');
+
+                $mpdf = new MPdf(['mode' => 'utf-8', 'format' => 'A4', 'tempDir'=>storage_path('tempdir')]);
+                $mpdf->SetHTMLHeader(str_replace("<br>", "<wbr> </wbr>", $report['header']));
+                $mpdf->SetHTMLFooter(str_replace("<br>", "<wbr> </wbr>", $report['footer']));
+                $mpdf->writeHTML(str_replace("<br>", "<wbr> </wbr>", '<style> td { padding-left: 5px; } </style>' . $report['content']));
+
+                $filename = $request['sessionId'] . '_' . $request['studentId'] . '_' . time() . '.pdf';
                 $filenames[] = $filename;
                 $filelink = storage_path('pdf') . '/' . $filename;
-                $html2pdf = new HTML2PDF('P', 'A4', 'fr', true, 'UTF-8');
-                $html2pdf->writeHTML($rep);
-                $html2pdf->Output($filelink, 'F');
+                $mpdf->Output($filelink, 'F');
 
                 ReportsModel::create([
                     'sessionId' => $request['sessionId'],

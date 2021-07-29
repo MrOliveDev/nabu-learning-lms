@@ -1,4 +1,4 @@
-<table style="width:100%;" cellpadding='0' cellspacing='0' border="0" id="training_evaluation">
+<table style="width:100%;margin-bottom: 15px;" cellpadding='0' cellspacing='0' border="0" id="training_evaluation">
     <tr>
         <td colspan="2" style="color:#000000; background: #ffc107; border:1px solid #000000;" id="lesson_title"><b> Name of Lesson 1 </b></td>
     </tr>
@@ -31,10 +31,7 @@
         <td style="width:20%;color:#000000; border:1px solid #000000; background: lightgreen;" id="eval_score">80% (Succeed)</td>
     </tr>
 </table> 
-
-<br>
-
-<table style="width:100%;" cellpadding='0' cellspacing='0' border="0" id="evaluation_details">
+<table style="width:100%;margin-bottom: 15px;" cellpadding='0' cellspacing='0' border="0" id="evaluation_details">
     <tr>
         <td style="width: 30%; background: lightgrey; color:#000000; border:1px solid #000000;" ><b> Question text </b></td>
         <td colspan="3" style="width: 70%; background: lightgrey; color:#000000; border:1px solid #000000;" id="question_title"><b> Text of the question </b></td>
@@ -62,10 +59,7 @@
         <td colspan="3" style="width: 70%; background: lightgreen; color:#000000; border:1px solid #000000;" >Correct or wrong answer</td>
     </tr>
 </table> 
-
-<br>
-
-<table style="width:100%;" cellpadding='0' cellspacing='0' border="0" id="evaluation_details_removable">
+<table style="width:100%;margin-bottom: 15px;" cellpadding='0' cellspacing='0' border="0" id="evaluation_details_removable">
     <tr>
         <td style="width: 30%; background: lightgrey; color:#000000; border:1px solid #000000;" ><b> Question text </b></td>
         <td colspan="3" style="width: 70%; background: lightgrey; color:#000000; border:1px solid #000000;" ><b> Text of the question </b></td>

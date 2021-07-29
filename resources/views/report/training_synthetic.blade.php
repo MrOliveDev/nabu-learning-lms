@@ -1,4 +1,4 @@
-<table style="width:100%;" cellpadding='0' cellspacing='0' border="0" id="training_synthetic">
+<table style="width:100%;margin-bottom: 15px;" cellpadding='0' cellspacing='0' border="0" id="training_synthetic">
     <tr>
         <td colspan="2" style="color:#000000; background: #ffc107; border:1px solid #000000;" id="lesson_title"><b> Name of Lesson 1 </b></td>
     </tr>

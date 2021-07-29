@@ -1,4 +1,4 @@
-<table style="width:100%;" cellpadding='0' cellspacing='0' border="0" id="training_lessons">
+<table style="width:100%;margin-bottom: 15px;" cellpadding='0' cellspacing='0' border="0" id="training_lessons">
     <colgroup>
         <col width="660">
     </colgroup>
