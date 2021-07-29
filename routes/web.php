@@ -313,6 +313,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('downloadReportZip', '\App\Http\Controllers\ReportController@downloadReportZip')->name('downloadReportZip');
     Route::get('/pdf/{file}', '\App\Http\Controllers\ReportController@downloadFile');
     Route::get('/zip/{file}', '\App\Http\Controllers\ReportController@downloadZip');
+    Route::post('delReport', '\App\Http\Controllers\ReportController@delReport')->name('delReport');
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
