@@ -1235,7 +1235,7 @@ async function downloadAllReports(){
 function delReport(id){
     swal.fire({
         title: "Warning",
-        html: "Are you sure delete this template?",
+        html: "Are you sure delete this report?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: `Yes`,
