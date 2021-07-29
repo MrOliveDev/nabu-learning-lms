@@ -696,7 +696,7 @@ class ReportController extends Controller
             // $html2pdf->writeHTML($rep);
             // $html2pdf->Output($filelink, 'F');
 
-            $mpdf = new MPdf(['mode' => 'utf-8', 'format' => 'A4']);
+            $mpdf = new MPdf(['mode' => 'utf-8', 'format' => 'A4', 'tempDir'=>storage_path('tempdir')]);
             $mpdf->SetHTMLHeader($request['header']);
             $mpdf->SetHTMLFooter($request['footer']);
             $mpdf->writeHTML($request['content']);
