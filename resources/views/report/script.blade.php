@@ -1151,6 +1151,7 @@ async function downloadReport(studentId){
             swal.close();
             if(res.success && res.filename){
                 download("{{ url('pdf') }}" + "/" + res.filename, res.filename);
+                $('#historic-table').DataTable().ajax.reload();
             } else
                 notification(res.message, 2);
         },
@@ -1218,6 +1219,7 @@ async function downloadAllReports(){
                 swal.close();
                 if(res.success && res.filename){
                     download("{{ url('zip') }}" + "/" + res.filename, res.filename);
+                    $('#historic-table').DataTable().ajax.reload();
                 } else
                     notification(res.message, 2);
             },
