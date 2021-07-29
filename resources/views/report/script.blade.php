@@ -760,7 +760,7 @@ function buildTemplateInfo(info, template){
                             else
                                 $(`#overviewPane #training_synthetic_${i} #synthetic_eval_score`).remove();
                             
-                            if(i != 0) html.prepend('<br>');
+                            // if(i != 0) html.prepend('<br>');
                             i ++;
                         } else {
                             console.log('Empty lesson data:', lessonData);
@@ -826,7 +826,7 @@ function buildTemplateInfo(info, template){
                                 let progress_details = (lessonData.optim && lessonData.optim.progress_details_screen_optim) ? JSON.parse(lessonData.optim.progress_details_screen_optim) : {};
                                 let screen_titles = (lessonData.lessonCourse.screens_titles ? JSON.parse(lessonData.lessonCourse.screens_titles) : []);
                                 if(structure && structure.length > 0){
-                                    html.append('<br>');
+                                    // html.append('<br>');
                                     let screensHtml = $("#overviewPane #training_complete_screens").clone();
                                     screensHtml.attr('id', `training_complete_screens_${i}`);
                                     screensHtml.insertAfter(lastHtmlId);
@@ -857,7 +857,7 @@ function buildTemplateInfo(info, template){
                                     console.log('Empty lessonCourse data:', lessonData.lessonCourse);
                             }
                             
-                            if(i != 0) html.prepend('<br>');
+                            // if(i != 0) html.prepend('<br>');
                             i ++;
                         } else {
                             console.log('Empty lesson data:', lessonData);
@@ -922,7 +922,7 @@ function buildTemplateInfo(info, template){
                                 $(`#overviewPane #training_evaluation_${i} #complete_eval_score`).remove();
 
                             if(lessonData.eval_questions && lessonData.eval_questions.length > 0){
-                                html.append('<br>');
+                                // html.append('<br>');
                                 lessonData.eval_questions.forEach((questionData, j) => {
                                     let questionHtml = $("#overviewPane #evaluation_details").clone();
                                     questionHtml.attr('id', "evaluation_details_" + j);
@@ -944,11 +944,11 @@ function buildTemplateInfo(info, template){
                                             `<td colspan="3" style="width: 70%; color:#000000; border:1px solid #000000; background: ` + (questionData.result ? 'lightgreen' : 'red') + `;">` + (questionData.result ? 'Correct Answer' : 'Wrong Answer') + `</td>` +
                                         "</tr>");
                                     }
-                                    if(j != 0) questionHtml.prepend('<br>');
+                                    // if(j != 0) questionHtml.prepend('<br>');
                                 })
                             }
                             
-                            if(i != 0) html.prepend('<br>');
+                            // if(i != 0) html.prepend('<br>');
                             i ++;
                         } else {
                             console.log('Empty lesson data:', lessonData);
@@ -1017,7 +1017,7 @@ function buildTemplateInfo(info, template){
                                 let progress_details = (lessonData.optim && lessonData.optim.progress_details_screen_optim) ? JSON.parse(lessonData.optim.progress_details_screen_optim) : {};
                                 let screen_titles = (lessonData.lessonCourse.screens_titles ? JSON.parse(lessonData.lessonCourse.screens_titles) : []);
                                 if(structure && structure.length > 0){
-                                    html.append('<br>');
+                                    // html.append('<br>');
                                     let screensHtml = $("#overviewPane #complete_evalscreens").clone();
                                     screensHtml.attr('id', `complete_evalscreens_${i}`);
                                     screensHtml.insertAfter(lastHtmlId);
@@ -1049,7 +1049,7 @@ function buildTemplateInfo(info, template){
                             }
 
                             if(lessonData.eval_questions && lessonData.eval_questions.length > 0){
-                                $(lastHtmlId).append('<br>');
+                                // $(lastHtmlId).append('<br>');
                                 lessonData.eval_questions.forEach((questionData, j) => {
                                     let questionHtml = $("#overviewPane #complete_evaldetails").clone();
                                     questionHtml.attr('id', "complete_evaldetails_" + j);
@@ -1071,11 +1071,11 @@ function buildTemplateInfo(info, template){
                                             `<td colspan="3" style="width: 70%; color:#000000; border:1px solid #000000; background: ` + (questionData.result ? 'lightgreen' : 'red') + `;">` + (questionData.result ? 'Correct Answer' : 'Wrong Answer') + `</td>` +
                                         "</tr>");
                                     }
-                                    if(j != 0) questionHtml.prepend('<br>');
+                                    // if(j != 0) questionHtml.prepend('<br>');
                                 })
                             }
                             
-                            if(i != 0) html.prepend('<br>');
+                            // if(i != 0) html.prepend('<br>');
                             i ++;
                         } else {
                             console.log('Empty lesson data:', lessonData);
