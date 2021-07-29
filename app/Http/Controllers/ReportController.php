@@ -17,7 +17,8 @@ use App\Models\EvaluationQuestions;
 use App\Models\InterfaceCfgModel;
 
 use Illuminate\Support\Facades\DB;
-use Spipu\Html2Pdf\Html2Pdf;
+use Mpdf\Mpdf;
+// use Spipu\Html2Pdf\Html2Pdf;
 
 use Auth;
 use Exception;
@@ -671,29 +672,34 @@ class ReportController extends Controller
 
     public function downloadReportPDF(Request $request){
         if(isset($request['sessionId']) && isset($request['studentId'])){
-            set_time_limit(0);
+            //set_time_limit(0);
             // ini_set('memory_limit', '-1');
-            $rep = '
-                    <page backtop="20mm" backbottom="20mm" backleft="10mm" backright="10mm">
-                    <page_header> 
-                         ' . $request['header'] . '
-                    </page_header> 
-                    <page_footer> 
-                         ' . $request['footer'] . ' 
-                    </page_footer> 
-                    <style>
-                        td { padding-left: 5px; }
-                    </style>
+            // $rep = '
+            //         <page backtop="20mm" backbottom="20mm" backleft="10mm" backright="10mm">
+            //         <page_header> 
+            //              ' . $request['header'] . '
+            //         </page_header> 
+            //         <page_footer> 
+            //              ' . $request['footer'] . ' 
+            //         </page_footer> 
+            //         <style>
+            //             td { padding-left: 5px; }
+            //         </style>
 
-                    ';
-            $rep .= $request['content'];
-            $rep .= '</page>';
+            //         ';
+            // $rep .= $request['content'];
+            // $rep .= '</page>';
 
-            $filename = $request['sessionId'] . '_' . $request['studentId'] . '_' . time() . '.pdf';
-            $filelink = storage_path('pdf') . '/' . $filename;
-            $html2pdf = new HTML2PDF('P', 'A4', 'fr', true, 'UTF-8');
-            $html2pdf->writeHTML($rep);
-            $html2pdf->Output($filelink, 'F');
+            // $filename = $request['sessionId'] . '_' . $request['studentId'] . '_' . time() . '.pdf';
+            // $filelink = storage_path('pdf') . '/' . $filename;
+            // $html2pdf = new HTML2PDF('P', 'A4', 'fr', true, 'UTF-8');
+            // $html2pdf->writeHTML($rep);
+            // $html2pdf->Output($filelink, 'F');
+
+            $mpdf = new MPdf(['mode' => 'utf-8', 'format' => 'A4']);
+            $mpdf->SetHTMLHeader($request['header']);
+            $mpdf->SetHTMLFooter($request['footer']);
+            $mpdf->writeHTML($request['content']);
 
             ReportsModel::create([
                 'sessionId' => $request['sessionId'],
@@ -702,6 +708,10 @@ class ReportController extends Controller
                 'type' => 'pdf',
                 'created_time' => gmdate("Y-m-d\TH:i:s", time())
             ]);
+
+            $filename = $request['sessionId'] . '_' . $request['studentId'] . '_' . time() . '.pdf';
+            $filelink = storage_path('pdf') . '/' . $filename;
+            $mpdf->Output($filelink, 'F');
 
             return response()->json(["success" => true, "filename" => $filename]);
         } else
