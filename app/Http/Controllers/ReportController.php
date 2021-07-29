@@ -696,7 +696,7 @@ class ReportController extends Controller
             // $html2pdf->writeHTML($rep);
             // $html2pdf->Output($filelink, 'F');
 
-            $mpdf = new MPdf(['mode' => 'utf-8', 'format' => 'A4', 'tempDir'=>storage_path('tempdir'), 'setAutoBottomMargin' => 'stretch']);
+            $mpdf = new MPdf(['mode' => 'utf-8', 'format' => 'A4', 'tempDir'=>storage_path('tempdir'), 'setAutoTopMargin' => 'stretch', 'setAutoBottomMargin' => 'stretch']);
             $mpdf->SetHTMLHeader(str_replace("<br>", "<wbr> </wbr>", $request['header']));
             $mpdf->SetHTMLFooter(str_replace("<br>", "<wbr> </wbr>", $request['footer']));
             $mpdf->writeHTML(str_replace("<br>", "<wbr> </wbr>", '<style> td { padding-left: 5px; } </style>' . $request['content']));
@@ -754,7 +754,7 @@ class ReportController extends Controller
                 // $html2pdf->writeHTML($rep);
                 // $html2pdf->Output($filelink, 'F');
 
-                $mpdf = new MPdf(['mode' => 'utf-8', 'format' => 'A4', 'tempDir'=>storage_path('tempdir'), 'setAutoBottomMargin' => 'stretch']);
+                $mpdf = new MPdf(['mode' => 'utf-8', 'format' => 'A4', 'tempDir'=>storage_path('tempdir'), 'setAutoTopMargin' => 'stretch', 'setAutoBottomMargin' => 'stretch']);
                 $mpdf->SetHTMLHeader(str_replace("<br>", "<wbr> </wbr>", $report['header']));
                 $mpdf->SetHTMLFooter(str_replace("<br>", "<wbr> </wbr>", $report['footer']));
                 $mpdf->writeHTML(str_replace("<br>", "<wbr> </wbr>", '<style> td { padding-left: 5px; } </style>' . $report['content']));
