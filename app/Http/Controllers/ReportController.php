@@ -697,9 +697,9 @@ class ReportController extends Controller
             // $html2pdf->Output($filelink, 'F');
 
             $mpdf = new MPdf(['mode' => 'utf-8', 'format' => 'A4', 'tempDir'=>storage_path('tempdir')]);
-            $mpdf->SetHTMLHeader($request['header']);
-            $mpdf->SetHTMLFooter($request['footer']);
-            $mpdf->writeHTML($request['content']);
+            $mpdf->SetHTMLHeader(str_replace("<br>", "<br />", $request['header']));
+            $mpdf->SetHTMLFooter(str_replace("<br>", "<br />", $request['footer']));
+            $mpdf->writeHTML(str_replace("<br>", "<br />", $request['content']));
 
             $filename = $request['sessionId'] . '_' . $request['studentId'] . '_' . time() . '.pdf';
             $filelink = storage_path('pdf') . '/' . $filename;
