@@ -701,6 +701,10 @@ class ReportController extends Controller
             $mpdf->SetHTMLFooter($request['footer']);
             $mpdf->writeHTML($request['content']);
 
+            $filename = $request['sessionId'] . '_' . $request['studentId'] . '_' . time() . '.pdf';
+            $filelink = storage_path('pdf') . '/' . $filename;
+            $mpdf->Output($filelink, 'F');
+
             ReportsModel::create([
                 'sessionId' => $request['sessionId'],
                 'studentId' => $request['studentId'],
@@ -708,10 +712,6 @@ class ReportController extends Controller
                 'type' => 'pdf',
                 'created_time' => gmdate("Y-m-d\TH:i:s", time())
             ]);
-
-            $filename = $request['sessionId'] . '_' . $request['studentId'] . '_' . time() . '.pdf';
-            $filelink = storage_path('pdf') . '/' . $filename;
-            $mpdf->Output($filelink, 'F');
 
             return response()->json(["success" => true, "filename" => $filename]);
         } else
