@@ -766,6 +766,14 @@ class ReportController extends Controller
                 $filenames[] = $filename;
                 $filelink = storage_path('pdf') . '/' . $filename;
                 $mpdf->Output($filelink, 'F');
+
+                ReportsModel::create([
+                    'sessionId' => $request['sessionId'],
+                    'studentId' => $report['studentId'],
+                    'filename' => $filename,
+                    'type' => 'pdf',
+                    'created_time' => gmdate("Y-m-d\TH:i:s", time())
+                ]);
             }
 
             $filename = $request['sessionId'] . '_' . time() . '.zip';
@@ -778,7 +786,7 @@ class ReportController extends Controller
 
             ReportsModel::create([
                 'sessionId' => $request['sessionId'],
-                'studentId' => $report['studentId'],
+                'studentId' => 0,
                 'filename' => $filename,
                 'type' => 'zip',
                 'created_time' => gmdate("Y-m-d\TH:i:s", time())
