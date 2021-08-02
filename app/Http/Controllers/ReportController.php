@@ -248,6 +248,7 @@ class ReportController extends Controller
             }
             else{
                 $template = ReportTemplateModel::create([
+                    'creatorId' => Auth::user()->id,
                     'name' => $request['name'],
                     'data' => $request['data'],
                     'created_time' => gmdate("Y-m-d\TH:i:s", time())
