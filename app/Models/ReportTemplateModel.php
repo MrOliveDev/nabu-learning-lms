@@ -10,7 +10,7 @@ class ReportTemplateModel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id', 'name', 'data', 'created_time'
+        'id', 'creatorId', 'name', 'data', 'created_time'
     ];
 
     protected $table = 'tb_report_model';
