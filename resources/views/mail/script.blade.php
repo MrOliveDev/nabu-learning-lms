@@ -375,7 +375,14 @@ async function overviewMail(userId){
     }
     
     if(info && info.contact_info){
-        let contact = JSON.parse(info.contact_info);
+        let contact;
+        try {
+            contact = JSON.parse(info.contact_info);
+        } catch(e) {
+            console.log(e);
+            $("#to-address").val('');
+        }
+        
         if(contact && contact.email)
             $("#to-address").val(contact.email);
         else
@@ -434,7 +441,13 @@ async function sendMail(userId){
     
     var contact;
     if(info && info.contact_info){
-        contact = JSON.parse(info.contact_info);
+        try {
+            contact = JSON.parse(info.contact_info);
+        } catch(e) {
+            console.log(e);
+            $("#to-address").val('');
+        }
+
         if(contact && contact.email)
             $("#to-address").val(contact.email);
         else{
@@ -531,7 +544,12 @@ async function sendToAll(){
         
         var contact;
         if(info && info.contact_info){
-            contact = JSON.parse(info.contact_info);
+            try {
+                contact = JSON.parse(info.contact_info);
+            } catch(e) {
+                console.log(e);
+            }
+
             if(!contact || !contact.email)
                 break;
         } else
