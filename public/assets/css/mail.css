@@ -1,0 +1,247 @@
+.ui-tabs-active > .nav-link, .ui-tabs-active > .model-tab-item{
+    background-color: #362f81;
+}
+
+.nav-link:hover, .model-tab-item:hover{
+    background-color:#191b75;
+    color: white;
+}
+
+.nav-link{
+    background-color: #c8c7c7;
+    width: 120px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.model-tab-item{
+    background-color: #c8c7c7;
+    text-align: center;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    color: white;
+    padding: 5px 20px;
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+#type-filter{
+    width: 280px;
+    outline: none;
+}
+.learner-filter{
+    width: 340px;
+    outline: none;
+}
+
+.mailTbl table, .mailTbl th, .mailTbl tr, .mailTbl td{
+    border: 1px solid #7e3e98 !important;
+}
+
+.mailTbl th{
+    background-color: #362f81;
+    color: white;
+}
+
+.mailTbl tr{
+    background-color: #9c9b9b;
+}
+.mailTbl tr:hover td{
+    background-color: #6f6e6e;
+    cursor: pointer;
+}
+
+.mailTbl tr.active td{
+    background-color: #6f6e6e;
+}
+
+.mailTbl td{
+    color: white;
+    background-color: #9c9b9b;
+}
+
+.dataTables_info{
+    color: white;
+}
+
+#genererLeft, #modelLeft{
+    width: 50%;
+    float: left;
+}
+
+#genererRight, #modelRight{
+    width:calc(50% - 20px);
+    float: right;
+}
+
+#verticalSplit1{
+    margin-left: 8px;
+}
+
+.doc-type-item, .model-item{
+    border-radius: 5px;
+    background-color: #9d9b9b;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    padding: 5px 20px;
+    align-items: center;
+    font-size: 20px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.doc-type-item:hover{
+    background-color: #6f6e6e;
+}
+
+.doc-type-item.active{
+    background-color: #6f6e6e;
+}
+
+.model-item:hover{
+    background-color:#191b75;
+    color: white;
+}
+
+.sliderStyle{
+    overflow-y: auto;
+    overflow-x: auto;
+}
+.sliderStyle::-webkit-scrollbar
+{
+    width: 8px;
+}
+
+
+/* Track */
+
+
+/* Handle */
+
+.sliderStyle::-webkit-scrollbar-thumb{
+    background: #2e3092;
+    border-radius: 8px;
+}
+
+
+/* Handle on hover */
+
+#div_A::-webkit-scrollbar-thumb:hover{
+    background: #191b75;
+}
+
+.userName{
+    background-color: #d0ac7e;
+    border: 1px solid #7e3e98 !important;
+    color: white;
+}
+.userName:hover{
+    background-color: #e5921d;
+}
+
+.userAction{
+    background-color: #362f81 !important;
+    border: 1px solid #7e3e98 !important;
+    color: white;
+}
+.userAction:hover{
+    color: #d52f72;
+    background-color: #362f81;
+    cursor: pointer;
+}
+
+.downloadBtn, .modelActBtn{
+    background-color: #191b75;
+    color: white;
+    border-radius: 3px;
+    font-size: 20px;
+    border: 1px solid #191b75;
+}
+.addModelBtn{
+    color: white;
+    font-size: 24px;
+}
+.addModelBtn:hover{
+    color:#d52f72;
+}
+
+#modelDragItems {
+    float: left;
+}
+
+.model-drag-item{
+    color: black;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.model-drag-item.active{
+    color: white;
+}
+
+.model-name-input{
+    outline: none;
+    width: 350px;
+}
+
+.actionBtn, .dangerBtn{
+    cursor: pointer;
+}
+
+.actionBtn:hover{
+    color: green;
+}
+
+.dangerBtn:hover{
+    color: red;
+}
+
+#imagePreviews{
+    display: flex;
+}
+
+.previewImg{
+    margin: 20px;
+}
+
+.previewImg.active{
+    border: 3px solid red;
+}
+
+#drop {
+    min-height: 150px;
+    min-width: 250px;
+    max-width: 100%;
+    border: 1px dashed blue;
+    margin: 10px;
+    padding: 10px;
+}
+
+.dropover {
+    background-color: #2e6dea70;
+}
+
+.modal_dropover {
+    background-color: #a6c1f4;
+}
+
+.cropper-view-box {
+    border-radius: 50%;
+}
+
+.swal2-container .btn, .modal .btn {
+    border-radius: 3px;
+}
+
+#overviewPane{
+    min-height: 450px;
+    border-radius: 5px;
+    background-color: white;
+    max-height: 1122px;
+    overflow: auto;
+}
+
+#overviewPane td{
+    padding-left: 5px;
+}

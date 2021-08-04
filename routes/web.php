@@ -314,6 +314,15 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::get('/pdf/{file}', '\App\Http\Controllers\ReportController@downloadFile');
     Route::get('/zip/{file}', '\App\Http\Controllers\ReportController@downloadZip');
     Route::post('delReport', '\App\Http\Controllers\ReportController@delReport')->name('delReport');
+
+    Route::get('sendmail', '\App\Http\Controllers\SendmailController@index')->name('sendmail');
+    Route::post('getMailHistories', '\App\Http\Controllers\SendmailController@getMailHistories')->name('getMailHistories');
+    Route::post('getMailTemplate', '\App\Http\Controllers\SendmailController@getMailTemplate')->name('getMailTemplate');
+    Route::post('saveMailTemplate', '\App\Http\Controllers\SendmailController@saveMailTemplate')->name('saveMailTemplate');
+    Route::post('delMailTemplate', '\App\Http\Controllers\SendmailController@delMailTemplate')->name('delMailTemplate');
+    Route::post('saveMailImg', '\App\Http\Controllers\SendmailController@saveMailImg')->name('saveMailImg');
+    Route::post('getUserInfo', '\App\Http\Controllers\SendmailController@getUserInfo')->name('getUserInfo');
+    Route::post('mailsend', '\App\Http\Controllers\SendmailController@mailsend')->name('mailsend');
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
