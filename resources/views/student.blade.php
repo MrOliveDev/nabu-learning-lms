@@ -216,6 +216,9 @@
                                 <div class="btn-group float-right">
                                     <span
                                         class=" p-2 font-weight-bolder item-lang">{{ strtoupper($student->language_iso) }}</span>
+                                    <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?studentId={{$student->id}}')">
+                                        <i class="px-2 fa fa-envelope"></i>
+                                    </button>
                                     <button class="btn  item-show" data-content='student'>
                                         <i class="px-2 fa fa-eye"></i>
                                     </button>
@@ -255,7 +258,9 @@
                                 <div class="btn-group float-right">
                                     <span
                                         class=" p-2 font-weight-bolder item-lang">{{ strtoupper($teacher->language_iso) }}</span>
-
+                                    <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?teacherId={{$teacher->id}}')">
+                                        <i class="px-2 fa fa-envelope"></i>
+                                    </button>
                                     <button class="btn  item-show" data-content='teacher'>
                                         <i class="px-2 fa fa-eye"></i>
                                     </button>
@@ -295,7 +300,9 @@
                                 <div class="btn-group float-right">
                                     <span
                                         class=" p-2 font-weight-bolder item-lang">{{ strtoupper($author->language_iso) }}</span>
-
+                                    <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?authorId={{$author->id}}')">
+                                        <i class="px-2 fa fa-envelope"></i>
+                                    </button>
                                     <button class="btn  item-show" data-content='author'>
                                         <i class="px-2 fa fa-eye"></i>
                                     </button>
@@ -624,6 +631,9 @@
                                 <input type="hidden" name="item-name" value="{{ $group->name }}">
                             </div>
                             <div class="btn-group float-right">
+                                <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?groupId={{$group->id}}')">
+                                    <i class="px-2 fa fa-envelope"></i>
+                                </button>
                                 <button class="btn  toggle1-btn  item-show" data-content="group">
                                     <i class="px-2 fa fa-eye"></i>
                                 </button>
@@ -652,6 +662,9 @@
                                 <input type="hidden" name="item-name" value="{{ $company->name }}">
                             </div>
                             <div class="btn-group float-right">
+                                <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?companyId={{$company->id}}')">
+                                    <i class="px-2 fa fa-envelope"></i>
+                                </button>
                                 <button class="btn  toggle1-btn  item-show" data-content='company'>
                                     <i class="px-2 fa fa-eye"></i>
                                 </button>
@@ -810,4 +823,10 @@
     style="display:none">
     Top Right
 </button>
+
+<script>
+    function redirectPage(link){
+        window.location.href = link;
+    }
+</script>
 @endsection

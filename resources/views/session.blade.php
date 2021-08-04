@@ -203,11 +203,14 @@
                                 </div>
                                 <div class="btn-group float-right">
                                     <span
-                                        class=" p-2 font-weight-bolder item-lang">{{ strtoupper($session->language_iso) }}</span>
+                                        class=" p-2 font-weight-bolder item-lang">{{ strtoupper($session->language_iso) }}
+                                    </span>
+                                    <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?sessionId={{$session->id}}')">
+                                        <i class="px-2 fa fa-envelope"></i>
+                                    </button>
                                     <button class="btn item-delete" data-content='session'>
                                         <i class="px-2 fa fa-trash-alt"></i>
                                     </button>
-
                                 </div>
                             </a>
                         @endforeach
@@ -367,6 +370,9 @@
                                         <span
                                             class=" p-2 font-weight-bolder item-lang">{{ strtoupper($student->language_iso) }}
                                         </span>
+                                        <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?studentId={{$student->id}}')">
+                                            <i class="px-2 fa fa-envelope"></i>
+                                        </button>
                                     </div>
                                 </a>
                             @endforeach
@@ -399,6 +405,9 @@
                                     <div class="btn-group float-right">
                                         <span
                                             class=" p-2 font-weight-bolder item-lang">{{ strtoupper($teacher->language_iso) }}</span>
+                                        <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?teacherId={{$teacher->id}}')">
+                                            <i class="px-2 fa fa-envelope"></i>
+                                        </button>
                                     </div>
                                 </a>
                             @endforeach
@@ -425,6 +434,9 @@
                                     <div class="btn-group float-right">
                                         <button class="btn  toggle2-btn" data-content="group">
                                             <i class="px-2 fas fa-check-circle"></i>
+                                        </button>
+                                        <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?groupId={{$group->id}}')">
+                                            <i class="px-2 fa fa-envelope"></i>
                                         </button>
                                     </div>
                                 </a>
@@ -606,6 +618,10 @@
     Top Right
 </button>
 <script>
-    $('#sessions').addClass('active')
+    $('#sessions').addClass('active');
+
+    function redirectPage(link){
+        window.location.href = link;
+    }
 </script>
 @endsection

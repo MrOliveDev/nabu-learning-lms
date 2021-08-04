@@ -175,7 +175,7 @@
                                 <hr>
 
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{ route('dash') }}" id="outil">
+                                    <a class="nav-main-link" href="{{ route('sendmail') }}" id="outil">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item">
                                             <i class="nav-main-link-icon far fa-envelope"></i>
