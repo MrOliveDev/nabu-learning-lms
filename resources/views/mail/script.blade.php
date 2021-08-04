@@ -504,6 +504,7 @@ async function sendMail(userId){
             },
             error: function(err) {
                 notification("Sorry, You have an error!", 2);
+                swal.close();
             }
         });
     }
@@ -590,7 +591,7 @@ async function sendToAll(){
             }
         });        
     }
-
+    swal.close();
 }
 
 function delHistory(id){
