@@ -75,7 +75,7 @@ $(document).ready(function(){
         dom: "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-6'i><'col-sm-6'p>>",
         "columnDefs": [ {
-            "targets": 5,
+            "targets": 4,
             "orderable": false
         } ]
     });

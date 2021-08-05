@@ -320,6 +320,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('getMailTemplate', '\App\Http\Controllers\SendmailController@getMailTemplate')->name('getMailTemplate');
     Route::post('saveMailTemplate', '\App\Http\Controllers\SendmailController@saveMailTemplate')->name('saveMailTemplate');
     Route::post('delMailTemplate', '\App\Http\Controllers\SendmailController@delMailTemplate')->name('delMailTemplate');
+    Route::post('delMailHistory', '\App\Http\Controllers\SendmailController@delMailHistory')->name('delMailHistory');
     Route::post('saveMailImg', '\App\Http\Controllers\SendmailController@saveMailImg')->name('saveMailImg');
     Route::post('getUserInfo', '\App\Http\Controllers\SendmailController@getUserInfo')->name('getUserInfo');
     Route::post('mailsend', '\App\Http\Controllers\SendmailController@mailsend')->name('mailsend');

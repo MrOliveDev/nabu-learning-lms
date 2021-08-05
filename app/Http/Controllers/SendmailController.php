@@ -240,7 +240,7 @@ class SendmailController extends Controller
                 
                 $nestedData['actions'] = "
                 <div class='text-center'>
-                    <button type='button' class='js-swal-confirm btn btn-danger mr-3' onclick='delHistory({$history['id']})' style='border-radius: 5px'>
+                    <button type='button' class='js-swal-confirm btn btn-danger' onclick='delHistory({$history['id']})' style='border-radius: 5px'>
                         <i class='fa fa-trash'></i>
                     </button>
                 </div>";
