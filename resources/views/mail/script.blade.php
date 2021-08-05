@@ -1,6 +1,6 @@
 <script>
 $(document).ready(function(){
-    $("#ReportPanel").tabs({ active: 0 });
+    $("#MailPanel").tabs({ active: "{{ $activeTab }}" });
 
     Dashmix.helpers(['notify']);
 
@@ -26,6 +26,18 @@ $(document).ready(function(){
     $("#modelDragItems").tabs({ active: 0 });
 
     $("#model-trumb-pane").trumbowyg({
+        plugins: {
+          resizimg: {
+              minSize: 64,
+              step: 16,
+          }
+        },
+        semantic: {
+            'div': 'div'
+        }
+    });
+
+    $("#overviewPane").trumbowyg({
         plugins: {
           resizimg: {
               minSize: 64,
@@ -184,6 +196,7 @@ async function editTemplate(id){
                 trumbowygChanged = -1;
                 modelSelectedId = id;
                 $('#model-name').val(res.name);
+                $('#mail-subject').val(res.subject);
                 $('#model-trumb-pane').trumbowyg('html', res.data);
             } else
                 notification(res.message, 2);
@@ -199,11 +212,15 @@ function saveTemplate(){
         swal.fire({ title: "Warning", text: "Please input the model name.", icon: "info", confirmButtonText: `OK` });
         return;
     }
+    if($("#mail-subject").val() == ''){
+        swal.fire({ title: "Warning", text: "Please input the subject.", icon: "info", confirmButtonText: `OK` });
+        return;
+    }
 
     $.ajax({
         url: 'saveMailTemplate',
         method: 'post',
-        data: {id: modelSelectedId, data: $('#model-trumb-pane').trumbowyg('html'), name: $("#model-name").val()},
+        data: {id: modelSelectedId, data: $('#model-trumb-pane').trumbowyg('html'), name: $("#model-name").val(), subject: $("#mail-subject").val()},
         success: function(res) {
             if(res.success){
                 if(modelSelectedId == -1){
@@ -244,6 +261,7 @@ async function addTemplate(){
     modelSelectedId = -1;
     trumbowygChanged = -1;
     $('#model-name').val('');
+    $('#mail-subject').val('');
     $('#model-trumb-pane').trumbowyg('html', '');
 }
 
@@ -271,6 +289,7 @@ function delTemplate(id){
                             modelSelectedId = -1;
                             trumbowygChanged = -1;
                             $("#model-name").val('');
+                            $("#mail-subject").val('');
                             $('#model-trumb-pane').trumbowyg('html', '');
                         }
                     } else
@@ -293,6 +312,7 @@ async function cancelTemplate(){
     modelSelectedId = -1;
     trumbowygChanged = -1;
     $('#model-name').val('');
+    $('#mail-subject').val('');
     $('#model-trumb-pane').trumbowyg('html', '');
 }
 
@@ -304,11 +324,11 @@ function selectModel(templateId){
     });
     $("#doc-type-item-" + templateId).addClass("active");
     if(curModel && curUser){
-        overviewMail(curUser);
+        sendMail(curUser);
     }
 }
 
-function getTemplateData(){
+function getTemplateData(showSubject = false){
     return new Promise((resolve, reject) => {
         $.ajax({
             url: 'getMailTemplate',
@@ -317,6 +337,8 @@ function getTemplateData(){
             success: function(res) {
                 if(res.success){
                     resolve(res.data);
+                    if(showSubject)
+                        $("#send-subject").val(res.subject);
                 } else{
                     notification(res.message, 2);
                     resolve(null);
@@ -352,70 +374,70 @@ function getUserInfo(userId = null){
     })
 }
 
-async function overviewMail(userId){
-    curUser = userId;
-    if(!curModel){
-        swal.fire({ title: "Warning", text: "Please select template type.", icon: "info", confirmButtonText: `OK` });
-        return;
-    }
+// async function overviewMail(userId){
+//     curUser = userId;
+//     if(!curModel){
+//         swal.fire({ title: "Warning", text: "Please select template type.", icon: "info", confirmButtonText: `OK` });
+//         return;
+//     }
 
-    swal.fire({ title: "Please wait...", showConfirmButton: false });
-    swal.showLoading();
+//     swal.fire({ title: "Please wait...", showConfirmButton: false });
+//     swal.showLoading();
 
-    var template = await getTemplateData();
-    if(template == null){
-        swal.fire({ title: "Warning", text: "Error while getting template data.", icon: "error", confirmButtonText: `OK` });
-        return;
-    }
+//     var template = await getTemplateData(true);
+//     if(template == null){
+//         swal.fire({ title: "Warning", text: "Error while getting template data.", icon: "error", confirmButtonText: `OK` });
+//         return;
+//     }
 
-    var info = await getUserInfo();
-    if(info == null){
-        swal.fire({ title: "Warning", text: "Error while getting user info.", icon: "error", confirmButtonText: `OK` });
-        return;
-    }
+//     var info = await getUserInfo();
+//     if(info == null){
+//         swal.fire({ title: "Warning", text: "Error while getting user info.", icon: "error", confirmButtonText: `OK` });
+//         return;
+//     }
     
-    if(info && info.contact_info){
-        let contact;
-        try {
-            contact = JSON.parse(info.contact_info);
-        } catch(e) {
-            console.log(e);
-            $("#to-address").val('');
-        }
+//     if(info && info.contact_info){
+//         let contact;
+//         try {
+//             contact = JSON.parse(info.contact_info);
+//         } catch(e) {
+//             console.log(e);
+//             $("#to-address").val('');
+//         }
         
-        if(contact && contact.email)
-            $("#to-address").val(contact.email);
-        else
-            $("#to-address").val('');
-    } else
-        $("#to-address").val('');
+//         if(contact && contact.email)
+//             $("#to-address").val(contact.email);
+//         else
+//             $("#to-address").val('');
+//     } else
+//         $("#to-address").val('');
     
-    if(template.includes('#last_name')){
-        if(info && info.last_name)
-            template = template.split('#last_name').join(info.last_name);
-        else
-            template = template.split('#last_name').join('');
-    }
-    if(template.includes('#first_name')){
-        if(info && info.last_name)
-            template = template.split('#first_name').join(info.first_name);
-        else
-            template = template.split('#first_name').join('');
-    }
-    if(template.includes('#password')){
-        template = template.split('#password').join('XXXXXXXX');
-    }
-    if(template.includes('#username')){
-        if(info && info.login)
-            template = template.split('#username').join(info.login);
-        else
-            template = template.split('#username').join('');
-    }
+//     if(template.includes('#last_name')){
+//         if(info && info.last_name)
+//             template = template.split('#last_name').join(info.last_name);
+//         else
+//             template = template.split('#last_name').join('');
+//     }
+//     if(template.includes('#first_name')){
+//         if(info && info.last_name)
+//             template = template.split('#first_name').join(info.first_name);
+//         else
+//             template = template.split('#first_name').join('');
+//     }
+//     if(template.includes('#password')){
+//         template = template.split('#password').join('XXXXXXXX');
+//     }
+//     if(template.includes('#username')){
+//         if(info && info.login)
+//             template = template.split('#username').join(info.login);
+//         else
+//             template = template.split('#username').join('');
+//     }
 
-    $("#overviewPane").html(template);
+//     $('#overviewPane').trumbowyg('html', template);
 
-    swal.close();
-}
+//     swal.close();
+// }
 
 async function sendMail(userId){
     curUser = userId;
@@ -427,7 +449,7 @@ async function sendMail(userId){
     swal.fire({ title: "Please wait...", showConfirmButton: false });
     swal.showLoading();
 
-    var template = await getTemplateData();
+    var template = await getTemplateData(true);
     if(template == null){
         swal.fire({ title: "Warning", text: "Error while getting template data.", icon: "error", confirmButtonText: `OK` });
         return;
@@ -478,36 +500,46 @@ async function sendMail(userId){
             template = template.split('#username').join('');
     }
 
-    $("#overviewPane").html(template);
+    $('#overviewPane').trumbowyg('html', template);
 
+    swal.close();
+}
+
+function sendNow(){
     if($("#from-address").val() == ""){
         swal.fire({ title: "Warning", text: "From Address cannot be empty.", icon: "error", confirmButtonText: `OK` });
         return;
     }
-    if($("#mail-subject").val() == ""){
+    if($("#to-address").val() == ""){
+        swal.fire({ title: "Warning", text: "To Address cannot be empty.", icon: "error", confirmButtonText: `OK` });
+        return;
+    }
+    if($("#send-subject").val() == ""){
         swal.fire({ title: "Warning", text: "Mail Subject cannot be empty.", icon: "error", confirmButtonText: `OK` });
         return;
     }
 
-    if(contact && contact.email && $("#from-address").val() != "" && $("#mail-subject").val() != ""){
-        $.ajax({
-            url: 'mailsend',
-            method: 'post',
-            data: {from: $("#from-address").val(), to: contact.email, subject: $("#mail-subject").val(), content: template, userId: curUser},
-            success: function(res) {
-                if(res.success){
-                    notification("Successfully sent!", 1);
-                } else{
-                    notification(res.message, 2);
-                }
-                swal.close();
-            },
-            error: function(err) {
-                notification("Sorry, You have an error!", 2);
-                swal.close();
+    swal.fire({ title: "Please wait...", showConfirmButton: false });
+    swal.showLoading();
+
+    $.ajax({
+        url: 'mailsend',
+        method: 'post',
+        data: {from: $("#from-address").val(), to: $("#to-address").val(), subject: $("#send-subject").val(), content: $("#overviewPane").trumbowyg('html'), userId: curUser},
+        success: function(res) {
+            if(res.success){
+                notification("Successfully sent!", 1);
+            } else{
+                notification(res.message, 2);
             }
-        });
-    }
+            swal.close();
+        },
+        error: function(err) {
+            notification("Sorry, You have an error!", 2);
+            swal.close();
+        }
+    });
+    
 }
 
 async function sendToAll(){
@@ -528,10 +560,6 @@ async function sendToAll(){
     }
     if($("#from-address").val() == ""){
         swal.fire({ title: "Warning", text: "From Address cannot be empty.", icon: "error", confirmButtonText: `OK` });
-        return;
-    }
-    if($("#mail-subject").val() == ""){
-        swal.fire({ title: "Warning", text: "Mail Subject cannot be empty.", icon: "error", confirmButtonText: `OK` });
         return;
     }
 
@@ -578,7 +606,7 @@ async function sendToAll(){
         $.ajax({
             url: 'mailsend',
             method: 'post',
-            data: {from: $("#from-address").val(), to: contact.email, subject: $("#mail-subject").val(), content: content, userId: ids[i]},
+            data: {from: $("#from-address").val(), to: contact.email, subject: template.subject, content: content, userId: ids[i]},
             success: function(res) {
                 if(res.success){
                     notification("Successfully sent!", 1);

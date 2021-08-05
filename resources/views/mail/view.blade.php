@@ -13,7 +13,7 @@
 @section('con')
 <div class="">
     
-<fieldset id="ReportPanel">
+<fieldset id="MailPanel">
     <ul class="nav nav-tabs border-0 mb-2 mx-4">
         <li class="nav-item">
             <a class="nav-link m-1 rounded-1 border-0" id="histories-tab"
@@ -112,9 +112,6 @@
                 </div>
                 <div class="input-container mb-2 mt-5 p-2">
                     <span style="color: white;">List of receivers </span>
-                    <a href="#" class="toolkit-show-filter">
-                        <i class="fas fa-sliders-h icon p-2  text-white"></i>
-                    </a>
                     <span class="bg-white text-black p-2 rounded">
                         <input class="input-field border-0 mw-100 user-filter" type="text" name="user-filter">
                         <i class="fa fa-search icon p-2"></i>
@@ -125,8 +122,7 @@
                         <colgroup>
                             <col span="1" style="width: 10%;">
                             <col span="1" style="width: 60%;">
-                            <col span="1" style="width: 5%;">
-                            <col span="1" style="width: 25%;">
+                            <col span="1" style="width: 30%;">
                         </colgroup>
                         <tbody id="usersList">
                             <tr style="border: 1px solid #7e3e98; cursor: pointer;">
@@ -138,8 +134,8 @@
                             <tr class="user-item">
                                 <td class="text-center userAction"><input type="checkbox" id="sendcheck_{{$user['id']}}" class="sendcheck" style="cursor:pointer;" checked></td>
                                 <td class="font-w600 userName">{{ $user['first_name']. ' ' . $user['last_name'] }}</td>
-                                <td class="font-w600 text-center userAction" onclick="sendMail({{ $user['id'] }})"><i class="fa fa-envelope"></i></td>
-                                <td class="font-w600 text-center userAction" onclick="overviewMail({{ $user['id'] }})">Overview <i class="fa fa-eye"></i></td>
+                                <!-- <td class="font-w600 text-center userAction" onclick="sendMail({{ $user['id'] }})"><i class="fa fa-envelope"></i></td> -->
+                                <td class="font-w600 text-center userAction" onclick="sendMail({{ $user['id'] }})">Send <i class="fa fa-envelope"></i></td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -176,11 +172,14 @@
                 <div class="mb-3">
                     <span class="text-white mr-1">Subject *</span>
                     <span class="bg-white text-black p-2 rounded">
-                        <input class="input-field border-0 mw-100 model-name-input" type="text" style="width: 350px;" id="mail-subject">
+                        <input class="input-field border-0 mw-100 model-name-input" type="text" style="width: 350px;" id="send-subject">
                     </span>
                 </div>
                 <div class="w-100 p-2" id="overviewPane">
                 </div>
+                <button class="downloadBtn mt-2" onclick="sendNow()">
+                    Send <i class="fa fa-envelope"></i>
+                </button>
             </fieldset>
         </div>
         
@@ -249,10 +248,16 @@
             </div>
 
             <fieldset id="modelRight">
-                <div class="mb-3">
+                <div class="mb-4">
                     <span class="text-white mr-3">Name * </span>
                     <span class="bg-white text-black p-2 rounded">
                         <input class="input-field border-0 mw-100 model-name-input" type="text" style="width: 350px;" id="model-name">
+                    </span>
+                </div>
+                <div class="mb-3">
+                    <span class="text-white mr-1">Subject *</span>
+                    <span class="bg-white text-black p-2 rounded">
+                        <input class="input-field border-0 mw-100 model-name-input" type="text" style="width: 350px;" id="mail-subject">
                     </span>
                 </div>
                 <div class="w-100" style="height: 600px; background-color: white;" id="model-trumb-pane">

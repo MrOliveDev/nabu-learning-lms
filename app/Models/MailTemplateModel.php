@@ -10,7 +10,7 @@ class MailTemplateModel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id', 'creatorId', 'name', 'data', 'created_time'
+        'id', 'creatorId', 'name', 'subject', 'data', 'created_time'
     ];
 
     protected $table = 'tb_mail_model';
