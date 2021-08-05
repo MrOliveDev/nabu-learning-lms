@@ -328,7 +328,7 @@ function selectModel(templateId){
     }
 }
 
-function getTemplateData(showSubject = false){
+function getTemplateData(){
     return new Promise((resolve, reject) => {
         $.ajax({
             url: 'getMailTemplate',
@@ -336,9 +336,7 @@ function getTemplateData(showSubject = false){
             data: {id: curModel},
             success: function(res) {
                 if(res.success){
-                    resolve(res.data);
-                    if(showSubject)
-                        $("#send-subject").val(res.subject);
+                    resolve(res);
                 } else{
                     notification(res.message, 2);
                     resolve(null);
@@ -449,11 +447,13 @@ async function sendMail(userId){
     swal.fire({ title: "Please wait...", showConfirmButton: false });
     swal.showLoading();
 
-    var template = await getTemplateData(true);
+    var data = await getTemplateData();
+    var template = data.data;
     if(template == null){
         swal.fire({ title: "Warning", text: "Error while getting template data.", icon: "error", confirmButtonText: `OK` });
         return;
     }
+    $("#send-subject").val(data.subject);
 
     var info = await getUserInfo();
     if(info == null){
@@ -553,7 +553,8 @@ async function sendToAll(){
     swal.fire({ title: "Please wait...", showConfirmButton: false });
     swal.showLoading();
 
-    var template = await getTemplateData();
+    var data = await getTemplateData();
+    var template = data.data;
     if(template == null){
         swal.fire({ title: "Warning", text: "Error while getting template data.", icon: "error", confirmButtonText: `OK` });
         return;
@@ -606,7 +607,7 @@ async function sendToAll(){
         $.ajax({
             url: 'mailsend',
             method: 'post',
-            data: {from: $("#from-address").val(), to: contact.email, subject: template.subject, content: content, userId: ids[i]},
+            data: {from: $("#from-address").val(), to: contact.email, subject: data.subject, content: content, userId: ids[i]},
             success: function(res) {
                 if(res.success){
                     notification("Successfully sent!", 1);
