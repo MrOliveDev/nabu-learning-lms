@@ -1,11 +1,11 @@
-<header id="page-header">
+<header id="page-header" data-client="{{session("client")}}">
     <div class="content-header">
         <div>
-            @if (auth()->user()->type === 0)
-                <button type="button" class="btn btn-rounded btn-dual mr-1" id="sidebar-control">
-                    <!-- <i class="fa fa-fw fa-bars"></i> -->
-                    <i class="fa fa-fw fa-bars"></i>
-                </button>
+            <button type="button" class="btn btn-rounded btn-dual mr-1" id="sidebar-control">
+                <!-- <i class="fa fa-fw fa-bars"></i> -->
+                <i class="fa fa-fw fa-bars"></i>
+            </button>
+            @if (isset(session('permission')->superadmin))
                 <button type="button" class="btn btn-rounded btn-dual" style="margin-right: 10px;">
                     <a href="{{ route('superadminsettings') }}"><i class="fas fa-cogs"></i></a>
                 </button>
@@ -64,89 +64,30 @@
                     <button type="button" class="btn btn-dual btn-rounded" id="page-header-notifications-dropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-fw fa-bell"></i>
-                        <span class="badge badge-secondary badge-pill">6</span>
+                        {{-- <span class="badge badge-secondary badge-pill">6</span> --}}
                     </button>
                     <div class="dropdown-menu dropdown-menu-lg p-0"
                         aria-labelledby="page-header-notifications-dropdown">
                         <div class="bg-primary-darker rounded-top font-w600 text-white text-center p-3">
-                            {{ $translation->l('Notifications') }}
+                            Clients
                         </div>
                         <ul class="nav-items my-2">
+                            @foreach ($clients as $client)
                             <li>
-                                <a class="text-dark media py-2" href="javascript:void(0)">
+                                <a class="text-dark media py-2 client-item" href="javascript:void(0)" id="client_{{$client['id']}}">
                                     <div class="mx-3">
-                                        <i class="fa fa-fw fa-user-plus text-primary"></i>
+                                        <i class="fa fa-fw fa-user text-primary"></i>
                                     </div>
                                     <div class="media-body font-size-sm pr-2">
                                         <div class="font-w600">
-                                            {{ $translation->l('John Doe send you a friend request!') }}
+                                            {{$client["first_name"]}}&nbsp;{{$client["last_name"]}}
                                         </div>
-                                        <div class="text-muted font-italic">6 min ago</div>
+                                        <div class="text-muted font-italic"></div>
                                     </div>
                                 </a>
                             </li>
-                            <li>
-                                <a class="text-dark media py-2" href="javascript:void(0)">
-                                    <div class="mx-3">
-                                        <i class="fa fa-fw fa-user-plus text-primary"></i>
-                                    </div>
-                                    <div class="media-body font-size-sm pr-2">
-                                        <div class="font-w600">
-                                            {{ $translation->l('Elisa Doe send you a friend request!') }}
-                                        </div>
-                                        <div class="text-muted font-italic">10 min ago</div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="text-dark media py-2" href="javascript:void(0)">
-                                    <div class="mx-3">
-                                        <i class="fa fa-check-circle text-success"></i>
-                                    </div>
-                                    <div class="media-body font-size-sm pr-2">
-                                        <div class="font-w600">{{ $translation->l('Backup completed successfully!') }}
-                                        </div>
-                                        <div class="text-muted font-italic">2 hours ago</div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="text-dark media py-2" href="javascript:void(0)">
-                                    <div class="mx-3">
-                                        <i class="fa fa-fw fa-user-plus text-primary"></i>
-                                    </div>
-                                    <div class="media-body font-size-sm pr-2">
-                                        <div class="font-w600">
-                                            {{ $translation->l('George Smith send you a friend request!') }}</div>
-                                        <div class="text-muted font-italic">3 hours ago</div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="text-dark media py-2" href="javascript:void(0)">
-                                    <div class="mx-3">
-                                        <i class="fa fa-exclamation-circle text-warning"></i>
-                                    </div>
-                                    <div class="media-body font-size-sm pr-2">
-                                        <div class="font-w600">
-                                            {{ $translation->l('You are running out of space. Please consider upgrading your plan.') }}
-                                        </div>
-                                        <div class="text-muted font-italic">1 day ago</div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="text-dark media py-2" href="javascript:void(0)">
-                                    <div class="mx-3">
-                                        <i class="fa fa-envelope-open text-info"></i>
-                                    </div>
-                                    <div class="media-body font-size-sm pr-2">
-                                        <div class="font-w600">You have a new message!</div>
-                                        <div class="text-muted font-italic">2 days ago</div>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
+                            @endforeach
+                            
                         <div class="p-2 border-top">
                             <a class="btn btn-light btn-block text-center" href="#">
                                 <i class="fa fa-fw fa-eye mr-1"></i> {{ $translation->l('View All') }}
@@ -184,49 +125,5 @@
             </div>
         </div>
     </div>
-    <script>
-        $('#sidebar-control').click(function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            console.log($(".simplebar-content").find(".nav-main-link-name").css('display'));
-            if ($(".simplebar-content").find(".nav-main-link-name").css('display') == "none") {
-
-                $("#page-header, #page-container").addClass("page-header-trigger");
-
-                $(".simplebar-content").find(".nav-main-link-name").css({
-                    'display': 'inline-block'
-                });
-                $(".simplebar-content").css({
-                    'width': '300px'
-                });
-                $("#sidebar-content-header").css({
-                    'width': '300px',
-                    'flex-direction': 'row'
-                });
-
-                $('.sidetitle').removeClass('pb-4');
-
-            } else {
-                $("#page-header, #page-container").removeClass("page-header-trigger");
-
-                $(".simplebar-content").find(".nav-main-link-name").css({
-                    'display': 'none'
-                });
-                $(".simplebar-content").css({
-                    'width': '150px'
-                });
-                $("#sidebar-content-header").css({
-                    'width': '150px',
-                    'flex-direction': 'column'
-                });
-                $('.sidetitle').addClass('pb-4');
-            }
-
-            $("#RightPanel").css({
-                "width": $("#content").width() - $("#LeftPanel").width() - $("#div_vertical").width() + "px"
-                // "width": $("#RightPanel").width() - 150 + "px"
-            });
-
-        })
-    </script>
+    <script src="{{asset("assets/js/headerPage.js")}}"></script>
 </header>

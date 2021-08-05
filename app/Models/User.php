@@ -34,7 +34,8 @@ class User extends Authenticatable
         "id_config",
         "change_pw",
         "type",
-        'expired_date'
+        'expired_date',
+        'permission_id'
     ];
 
     /**
@@ -66,8 +67,12 @@ class User extends Authenticatable
 
     public function scopeGetUserPageInfoFromId($query, $id)
     {
+        if(session("client")!=null){
+            $user_table = session("client");
+        }
+        
         $result = $query->select(
-            'tb_users.*',
+            $user_table.'.*',
             'tb_interface_config.interface_color as interface_color',
             'tb_interface_config.interface_icon as interface_icon',
             'tb_interface_config.id as interface_id',
@@ -141,5 +146,10 @@ class User extends Authenticatable
         ->where('tb_groups.id', '=', $id)->get();
         // print_r($result->toArray());
         return $result;
+    }
+
+    public function scopeGetClients($query) {
+        $clients = $query->where('type', '1')->get()->toArray();
+        return $clients;
     }
 }

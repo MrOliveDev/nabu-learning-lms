@@ -71,7 +71,8 @@ class RegisterController extends Controller
             'last_name' => $data['lastname'],
             'contact_info' => json_encode(['email' => $data['email'], 'address' => '']),
             'password' => Hash::make($data['password']),
-            'type'=> 4
+            'type'=> 4,
+            'permission_id'=>4
         ]);
     }
 }

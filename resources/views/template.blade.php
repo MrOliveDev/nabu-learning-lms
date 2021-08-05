@@ -52,16 +52,31 @@
         });
     </script>
 @endsection
-<div id="content">
+<div id="content"
+data-template-display="{{isset(session("permission")->template->template->display)}}"
+data-template-edit="{{isset(session("permission")->template->template->edit)}}"
+data-template-create="{{isset(session("permission")->template->template->create)}}"
+data-template-delete="{{isset(session("permission")->template->template->delete)}}"
+data-template-copy="{{isset(session("permission")->template->template->copy)}}"
+data-training-display="{{isset(session("permission")->template->training->display)}}"
+data-training-edit="{{isset(session("permission")->template->training->edit)}}"
+data-training-create="{{isset(session("permission")->template->training->create)}}"
+data-training-delete="{{isset(session("permission")->template->training->delete)}}"
+data-training-show="{{isset(session("permission")->template->training->show)}}"
+data-search-template="{{isset(session("permission")->template->search->template)}}"
+data-search-training="{{isset(session("permission")->template->search->training)}}"
+>
     <fieldset id="LeftPanel">
         <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4"
             id="template-toolkit">
             <div class="w-100 p-2">
                 <span style="font-size:16pt">TEMPLATES</span>
                 <div class="input-container float-right">
+                    @if (isset(session("permission")->template->template->create))
                     <a href="#" class="toolkit-add-item">
                         <i class="fa fa-plus icon p-2 text-white"></i>
                     </a>
+                    @endif
                     <span class="bg-white text-black p-2 rounded">
                         <input class="input-field border-0 mw-100 search-filter" type="text" name="search-filter">
                         <i class="fa fa-search icon p-2"></i>
@@ -96,6 +111,7 @@
             <div class="clear-fix mx-4">
 
                 <div class="list-group" id="template-list-tab" role="tablist">
+                    @if (isset(session("permission")->template->template->display))
                     @foreach ($templates as $template)
                         <a class="list-group-item list-group-item-action p-0 border-transparent border-5x template_{{ $template->id }}"
                             id="template_{{ $template->id }}" data-date="{{ $template->creation_date }}">
@@ -111,26 +127,34 @@
                                 <input type="hidden" name="item-name" value="{{ $template->name }}">
                             </div>
                             <div class="btn-group float-right">
+                                @if (isset(session("permission")->template->template->edit))
                                 <button class="btn item-edit" data-content='template'
                                     data-item-id="{{ $template->id }}">
                                     <i class="px-2 fa fa-edit"></i>
                                 </button>
+                                @endif
+                                @if (isset(session("permission")->template->template->delete))
                                 <button class="btn item-delete" data-content='template'
                                     data-item-id="{{ $template->id }}">
                                     <i class="px-2 fa fa-trash-alt"></i>
                                 </button>
+                                @endif
+                                @if (isset(session("permission")->template->template->play))
                                 <button class="btn item-template" data-content='template'
                                     data-template="#/template-generator/{{ $template->alpha_id }}">
                                     <i class="px-2 fa fa-cube"></i>
                                 </button>
+                                @endif
+                                @if (isset(session("permission")->template->template->copy))
                                 <button class="btn item-duplicate" data-content='template'
                                     data-item-id="{{ $template->id }}">
                                     <i class="px-2 far fa-copy"></i>
                                 </button>
+                                @endif
                             </div>
                         </a>
                     @endforeach
-
+                    @endif
                 </div>
 
             </div>
@@ -218,18 +242,24 @@
     </div>
     <fieldset id="RightPanel">
         <ul class="nav nav-tabs border-0 mb-2 mx-4">
+            @if (isset(session("permission")->template->training->display))
             <li class="nav-item">
                 <a class="nav-link active m-1 rounded-1 border-0" id="training-tab"
                     href="#training">{{ $translation->l('TRAININGS') }}</a>
             </li>
+            @endif
+            @if (isset(session("permission")->template->company->display))
             <li class="nav-item">
                 <a class="nav-link m-1 rounded-1 border-0" id="company-tab"
                     href="#company">{{ $translation->l('COMPANIES') }}</a>
             </li>
+            @endif
+            @if (isset(session("permission")->template->session->display))
             <li class="nav-item">
                 <a class="nav-link m-1 rounded-1 border-0" id="session-tab"
                     href="#session">{{ $translation->l('SESSIONS') }}</a>
             </li>
+            @endif
         </ul>
         <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4"
             id="cate-toolkit">
@@ -273,6 +303,7 @@
 
             <div id="training">
                 <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
+                    @if (isset(session("permission")->template->training->display))
                     @foreach ($trainings as $training)
                         <a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_{{ $training->id }}"
                             id="training_{{ $training->id }}" data-date="{{ $training->creation_date }}">
@@ -288,25 +319,33 @@
                                 <input type="hidden" name="item-name" value="{{ $training->name }}">
                             </div>
                             <div class="btn-group float-right">
+                                @if (isset(session("permission")->template->training->show))
                                 <button class="btn  toggle1-btn  item-show" data-content='training'
                                     data-item-id="{{ $training->id }}">
                                     <i class="px-2 fa fa-eye"></i>
                                 </button>
+                                @endif
+                                @if (isset(session("permission")->template->training->edit))
                                 <button class="btn item-edit toggle1-btn" data-content='training'
                                     data-item-id="{{ $training->id }}">
                                     <i class="px-2 fa fa-edit"></i>
                                 </button>
+                                @endif
+                                @if (isset(session("permission")->template->training->delete))
                                 <button class="btn item-delete toggle1-btn" data-content='training'
                                     data-item-id="{{ $training->id }}">
                                     <i class="px-2 fa fa-trash-alt"></i>
                                 </button>
+                                @endif
                             </div>
                         </a>
                     @endforeach
+                    @endif
                 </div>
             </div>
             <div id="company">
                 <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
+                    @if (isset(session("permission")->template->company->display))
                     @foreach ($companies as $company)
                         <a class="list-group-item list-group-item-action p-0 border-transparent border-5x company_{{ $company->id }}"
                             id="company_{{ $company->id }}" data-date="{{ $company->creation_date }}">
@@ -315,25 +354,33 @@
                                 <input type="hidden" name="item-name" value="{{ $company->name }}">
                             </div>
                             <div class="btn-group float-right">
+                                @if (isset(session("permission")->template->company->show))
                                 <button class="btn  toggle1-btn  item-show" data-content='company'
                                     data-item-id="{{ $company->id }}">
                                     <i class="px-2 fa fa-eye"></i>
                                 </button>
+                                @endif
+                                @if (isset(session("permission")->template->company->edit))
                                 <button class="btn item-edit toggle1-btn" data-content='company'
                                     data-item-id="{{ $company->id }}">
                                     <i class="px-2 fa fa-edit"></i>
                                 </button>
+                                @endif
+                                @if (isset(session("permission")->template->company->delete))
                                 <button class="btn item-delete toggle1-btn" data-content='company'
                                     data-item-id="{{ $company->id }}">
                                     <i class="px-2 fa fa-trash-alt"></i>
                                 </button>
+                                @endif
                             </div>
                         </a>
                     @endforeach
+                    @endif
                 </div>
             </div>
             <div id="session">
                 <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
+                    @if (isset(session("permission")->template->session->display))
                     @foreach ($sessions as $session)
                         <a class="list-group-item list-group-item-action p-0 border-transparent border-5x session_{{ $session->id }}"
                             id="session_{{ $session->id }}" data-date="{{ $session->creation_date }}">
@@ -342,21 +389,28 @@
                                 <input type="hidden" name="item-name" value="{{ $session->name }}">
                             </div>
                             <div class="btn-group float-right">
+                                @if (isset(session("permission")->template->session->show))
                                 <button class="btn  toggle1-btn item-show" data-content='session'
                                     data-item-id="{{ $session->id }}">
                                     <i class="px-2 fa fa-eye"></i>
                                 </button>
+                                @endif
+                                @if (isset(session("permission")->template->session->edit))
                                 <button class="btn item-edit toggle1-btn" data-content='session'
                                     data-item-id="{{ $session->id }}">
                                     <i class="px-2 fa fa-edit"></i>
                                 </button>
+                                @endif
+                                @if (isset(session("permission")->template->session->delete))
                                 <button class="btn item-delete toggle1-btn" data-content='session'
                                     data-item-id="{{ $session->id }}">
                                     <i class="px-2 fa fa-trash-alt"></i>
                                 </button>
+                                @endif
                             </div>
                         </a>
                     @endforeach
+                    @endif
                 </div>
             </div>
 

@@ -93,8 +93,8 @@
 
 </style>
 
-    <link rel="stylesheet" href="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.min.css') }}" />
-    <link rel="stylesheet" href="{{asset("assets/css/admindashPage.css")}}">
+<link rel="stylesheet" href="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.min.css') }}" />
+<link rel="stylesheet" href="{{asset("assets/css/admindashPage.css")}}">
 <script src="{{asset("assets/js/admindashPage.js")}}"></script>
 {{-- <script src="{{asset("assets/")}}"></script>
 <script src="{{asset("assets/")}}"></script> --}}
@@ -106,7 +106,7 @@
         Dashmix.helpers(['notify', 'summernote']);
     });
 </script>
-<div id="admindash">
+<div id="admindash" data-permission="{{isset(session('permission')->admindash)}}">
 
     <div class="tab-row">
         <div class="tab-item">
@@ -178,7 +178,8 @@
         </div>
     </div>
 
-    <table class="session-table">
+    <table class="session-table" data-report-permission="{{isset(session('permission')->admindash->report->display)}}" data-report-disconnect="{{isset(session('permission')->admindash->report->disconnect)}}" data-training-permission="{{isset(session('permission')->admindash->training->display)}}" data-training-disconnect="{{isset(session('permission')->admindash->training->disconnect)}}"  data-participant-permission="{{isset(session('permission')->admindash->participant->display)}}" data-participant-disconnect="{{isset(session('permission')->admindash->participant->disconnect)}}" data-participant-edit="{{isset(session('permission')->admindash->participant->edit)}}"
+        data-report-download="{{isset(session('permission')->admindash->report->download)}}">
         <tr>
             <th>
                 <div>
@@ -251,174 +252,65 @@
                                     </a>
                                 </div>
                                 <ul class="nav nav-tabs border-0 mb-2">
+
+                                    @if(isset(session('permission')->admindash->participant->display))
                                     <li class="nav-item">
                                         <a class="nav-link active m-1 rounded-1 border-0 table-participant-tab" id="table-participant-tab_{{$session['id']}}"
                                             href="#table-participant_{{$session['id']}}">Participants</a>
                                     </li>
+                                    @endif
+                                    @if(isset(session('permission')->admindash->training->display))
                                     <li class="nav-item">
-                                        <a class="nav-link m-1 rounded-1 border-0 table-training-tab" id="table-training-tab_{{$session['id']}}" href="#table-training_{{$session['id']}}">
+                                        <a class="nav-link m-1 rounded-1 border-0 table-training-tab" id="table-training-tab_{{$session['id']}}" href="#table-training_{{$session['id']}}" >
                                             Trainings</a>
                                     </li>
+                                    @endif
+                                    @if(isset(session('permission')->admindash->report->display))
                                     <li class="nav-item">
-                                        <a class="nav-link m-1 rounded-1 border-0 table-report-tab" id="table-report-tab_{{$session['id']}}" href="#table-reports_{{$session['id']}}">
+                                        <a class="nav-link m-1 rounded-1 border-0 table-report-tab" id="table-report-tab_{{$session['id']}}" href="#table-reports_{{$session['id']}}" >
                                             Reports</a>
                                     </li>
+                                    @endif
                                 </ul>
-
 
                             </div>
                             <!-- Tab panes -->
+                            @if(isset(session('permission')->admindash->participant->display))
+                                                                
                             <div id="table-participant_{{$session['id']}}" class="table-participant">
                                 <div class="list-group" id="list-tab" role="tablist" data-src=''>
         
                                 </div>
                             </div>
+                            @endif
+                                                                
+                            
+                            @if(isset(session('permission')->admindash->training->display))
                             <div id="table-training_{{$session['id']}}" class="table-training">
                                 <div class="list-group" id="list-tab" role="tablist" data-src=''>
         
                                 </div>
                             </div>
+                            @endif
+                                                                
+                            
+                            @if(isset(session('permission')->admindash->report->display))
                             <div id="table-report_{{$session['id']}}" class="table-report">
                                 <div class="list-group" id="list-tab" role="tablist" data-src=''>
         
                                 </div>
                             </div>
+                            @endif
+                                                                
                         </div>
                         <div class="col-md-3">
-                            {{-- <div class="card w-100 text-left bg-white">
-                                <img src="{{asset('assets/media/17.jpg')}}" alt="" class="card-img-top">
-                                <div class="card-body border-0">
-                                    <span>
-                                        <strong>{{$translation->l('Objectifs')}}</strong>
-                                        <p>
-                                            {{$translation->l('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eleifend
-                                            magna dignissim nunc maximus
-                                            maximus. Nunc eget laoreet purus.
-                                            Proin interdum, felis non malesuada
-                                            vehicula, est ante ornare tortor, blandit')}}
-                                        </p>
-
-                                    </span>
-                                    <span>
-                                        <b>
-                                            {{$translation->l('Durée')}} :
-                                        </b>25 minutes
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="card w-100 text-left bg-white" id="menu1">
-                                <div class="card-body border-0">
-                                    <div class="border-0">
-                                        <img src="{{asset('assets/media/user.jpg')}}" alt="" class="rounded-circle w-100">
-                                        <i class="fa fa-alpha align-text-bottom"></i>
-                                    </div>
-                                    <div class="p-4 border-0">
-                                    <span>
-                                        <b>{{$translation->l('Sandrine Mourand')}}
-                                        </b>
-                                        s.mourand@gmail.com
-                                    </span>
-                                    <br>
-                                    <span class=""><b>{{$translation->l('Société')}} : </b>{{$translation->l('INNOTHERA')}}</span><br>
-                                    <span><b>{{$translation->l('Status')}} : </b>{{$translation->l('actif')}}</span>
-                                    <div class="border-0 ">
-                                        <p class="text-wrap mb-3"><i class="fas fa-file-pdf font-size-h1 text-pink-2 pr-2"></i>
-                                        {{$translation->l('Attestation de formation')}}
-                                        </p>
-
-                                        <p class="text-wrap mb-3"><i class="far fa-file-pdf font-size-h1 text-second pr-2"></i>
-                                        {{$translation->l('Rapport complet de formation')}}</p>
-                                    </div>
-                                    </div>
-                                </div>
-                            </div> --}}
+                            
                         </div>
                     </div>
                 </div>
             </td>
         </tr>
         @endforeach
-        {{-- <tr>
-            <td>
-                <div>
-                    {{$translation->l('Les Bonnes Pratiques de Fabrication Dans l’Industrie Pharmaceutique')}}
-                </div>
-            </td>
-            <td>
-                <div>
-                    {{$translation->l('Français - FR')}}
-                </div>
-            </td>
-            <td>
-                <div>
-                    {{$translation->l('En cours')}}
-                </div>
-            </td>
-            <td>
-                <div>
-                    23/04/2021
-                </div>
-            </td>
-            <td>
-                <div>
-                    23/04/2021
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div>
-                    {{$translation->l('Les Bonnes Pratiques de Fabrication Dans l’Industrie Pharmaceutique')}}
-                </div>
-            </td>
-            <td>
-                <div>
-                    {{$translation->l('Français - FR')}}
-                </div>
-            </td>
-            <td>
-                <div>
-                    {{$translation->l('En cours')}}
-                </div>
-            </td>
-            <td>
-                <div>
-                    23/04/2021
-                </div>
-            </td>
-            <td>
-                <div>
-                    23/04/2021
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div>
-                    {{$translation->l('Les Bonnes Pratiques de Fabrication Dans l’Industrie Pharmaceutique')}}
-                </div>
-            </td>
-            <td>
-                <div>
-                    {{$translation->l('Français - FR')}}
-                </div>
-            </td>
-            <td>
-                <div>
-                    {{$translation->l('En cours')}}
-                </div>
-            </td>
-            <td>
-                <div>
-                    23/04/2021
-                </div>
-            </td>
-            <td>
-                <div>
-                    23/04/2021
-                </div>
-            </td>
-        </tr> --}}
 
     </table>
 <script>

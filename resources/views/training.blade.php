@@ -66,7 +66,24 @@
 
 @endsection
 
-<div id="content">
+<div id="content"
+data-training-display="{{isset(session("permission")->training->training->display)}}"
+data-training-edit="{{isset(session("permission")->training->training->edit)}}"
+data-training-create="{{isset(session("permission")->training->training->create)}}"
+data-training-delete="{{isset(session("permission")->training->training->delete)}}"
+data-training-show="{{isset(session("permission")->training->training->show)}}"
+data-training-type="{{isset(session("permission")->training->training->type)}}"
+data-lesson-display="{{isset(session("permission")->training->lesson->display)}}"
+data-lesson-edit="{{isset(session("permission")->training->lesson->edit)}}"
+data-lesson-create="{{isset(session("permission")->training->lesson->create)}}"
+data-lesson-delete="{{isset(session("permission")->training->lesson->delete)}}"
+data-lesson-show="{{isset(session("permission")->training->lesson->show)}}"
+data-lesson-play="{{isset(session("permission")->training->lesson->play)}}"
+data-lesson-refresh="{{isset(session("permission")->training->lesson->refresh)}}"
+data-lesson-fabrique="{{isset(session("permission")->training->lesson->fabrique)}}"
+data-search-lesson="{{isset(session("permission")->training->search->lesson)}}"
+data-search-training="{{isset(session("permission")->training->search->training)}}"
+>
     <fieldset id="LeftPanel">
         <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4"
             id="lesson-toolkit">
@@ -74,9 +91,11 @@
                 <span style="font-size:16pt">LESSON</span>
 
                 <div class="input-container float-right">
+                    @if(isset(session("permission")->training->lesson->display))
                     <a href="#" class="toolkit-add-item">
                         <i class="fa fa-plus icon p-2 text-white"></i>
                     </a>
+                    @endif
                     <span class="bg-white text-black p-2 rounded">
                         <input class="input-field border-0 mw-100 search-filter" type="text" name="search-filter">
                         <i class="fa fa-search icon p-2"></i>
@@ -125,6 +144,7 @@
         <div id="div_A" class="window top">
             <div class="clear-fix mx-4">
                 <div class="list-group" id="list-tab" role="tablist" data-src=''>
+                    @if (isset(session("permission")->training->lesson->display))
                     @foreach ($lessons as $lesson)
                         <a class="list-group-item list-group-item-action p-0 border-transparent border-5x lesson_{{ $lesson['id'] }}"
                             id="lesson_{{ $lesson['id'] }}" data-date="{{ $lesson['creation_date'] }}"
@@ -159,35 +179,47 @@
                                 <input type="hidden" name="item-name" value="{{ $lesson['name'] }}">
                             </div>
                             <div class="btn-group float-right">
-                                <span
-                                    class=" p-2 font-weight-bolder item-lang">{{ strtoupper($lesson['language_iso']) }}</span>
+                                <span class=" p-2 font-weight-bolder item-lang">{{ strtoupper($lesson['language_iso']) }}</span>
+                                @if (isset(session("permission")->training->lesson->show))
                                 <button class="btn  item-show" data-content='lesson'
                                     data-item-id="{{ $lesson['id'] }}">
                                     <i class="px-2 fa fa-eye"></i>
                                 </button>
+                                @endif
+                                @if (isset(session("permission")->training->lesson->edit))
                                 <button class="btn item-edit" data-content='lesson'
                                     data-item-id="{{ $lesson['id'] }}">
                                     <i class="px-2 fa fa-edit"></i>
                                 </button>
+                                @endif
+                                @if (isset(session("permission")->training->lesson->delete))
                                 <button class="btn item-delete" data-content='lesson'
                                     data-item-id="{{ $lesson['id'] }}">
                                     <i class="px-2 fa fa-trash-alt"></i>
                                 </button>
+                                @endif
+                                @if (isset(session("permission")->training->lesson->play))
                                 <button class="btn item-play" data-content='lesson'
                                     data-fabrica="{{ $lesson['idFabrica'] }}">
                                     <i class="px-2 fa fa-play"></i>
                                 </button>
+                                @endif
+                                @if (isset(session("permission")->training->lesson->fabrique))
                                 <button class="btn item-template" data-content='lesson'
                                     data-template="{{ $lesson['template_player_id'] }}">
                                     <i class="px-2 fa fa-cube"></i>
                                 </button>
+                                @endif
+                                @if (isset(session("permission")->training->lesson->refresh))
                                 <button class="btn item-refresh" data-content='lesson'
                                     data-item-id="{{ $lesson['id'] }}">
                                     <i class="px-2 fa fa-sync-alt"></i>
                                 </button>
+                                @endif
                             </div>
                         </a>
                     @endforeach
+                    @endif
                 </div>
             </div>
         </div>
@@ -313,9 +345,11 @@
             <div class="w-100 p-2">
                 <span style="font-size:16pt">TRAININGS</span>
                 <div class="input-container float-right">
+                    @if (isset(session("permission")->training->training->display))
                     <a href="#" class="toolkit-add-item">
                         <i class="fa fa-plus icon p-2 text-white"></i>
                     </a>
+                    @endif
                     <span class="bg-white text-black p-2 rounded">
                         <input class="input-field border-0 mw-100 search-filter" type="text" name="search-filter">
                         <i class="fa fa-search icon p-2"></i>
@@ -349,6 +383,7 @@
         <div id="div_C" class="window top">
             <div class="clear-fix mx-4">
                 <div class="list-group" id="list-tab" role="tablist" data-src=''>
+                    @if(isset(session("permission")->training->training->display))
                     @foreach ($trainings as $training)
                         <a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_{{ $training->id }}"
                             id="training_{{ $training->id }}" data-date="{{ $training->creation_date }}"
@@ -376,21 +411,28 @@
                                         <i class="px-2 fas fa-sort-amount-down-alt"></i>
                                     @endif
                                 </button>
+                                @if(isset(session("permission")->training->training->show))
                                 <button class="btn item-show" data-content='training'
                                     data-item-id="{{ $training->id }}">
                                     <i class="px-2 fa fa-eye"></i>
                                 </button>
+                                @endif
+                                @if(isset(session("permission")->training->training->edit))
                                 <button class="btn item-edit" data-content='training'
                                     data-item-id="{{ $training->id }}">
                                     <i class="px-2 fa fa-edit"></i>
                                 </button>
+                                @endif
+                                @if(isset(session("permission")->training->training->delete))
                                 <button class="btn item-delete" data-content='training'
                                     data-item-id="{{ $training->id }}">
                                     <i class="px-2 fa fa-trash-alt"></i>
                                 </button>
+                                @endif
                             </div>
                         </a>
                     @endforeach
+                    @endif
                 </div>
             </div>
         </div>

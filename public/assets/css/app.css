@@ -179,6 +179,14 @@ main#main-container {
     display: block !important;
 }
 
+header .dropdown-menu li>a:hover {
+    background: gray;
+}
+
+header .dropdown-menu li>a.active {
+    background: pink;
+}
+
 #page-header {
     transition: width .1s;
 }
@@ -223,7 +231,7 @@ div#sidebar-content-header {
 }
 
 img {
-    /* display: block; */
+    display: block;
     max-width: 100%;
 }
 
@@ -374,7 +382,7 @@ main.main-container {
     margin-bottom: 40px;
 }
 
-.tab-avatar i.fa.fa-users {
+.tab-avatar i {
     font-size: 20pt;
 }
 
@@ -432,7 +440,7 @@ table.session-table {
 
 table.session-table th {
     color: white;
-    font-size: 20pt;
+    font-size: 16pt;
     font-weight: 100;
 }
 
@@ -448,7 +456,7 @@ table.session-table th i {
 .session-table td>div {
     color: black;
     background-color: #a7acd6;
-    padding-top: 19px;
+    /*     padding-top: 19px; */
 }
 
 .session-table tr:nth-child(even) div {

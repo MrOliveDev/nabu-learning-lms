@@ -260,6 +260,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::get('template_editor', '\App\Http\Controllers\TemplateEditorController@index')->name('template_editor');
     Route::get('player_editor', '\App\Http\Controllers\PlayerController@index')->name('player_editor');
     Route::get('fabrique_editor', '\App\Http\Controllers\FabriqueController@index')->name('fabrique_editor');
+    Route::post('switchclient', '\App\Http\Controllers\PermissionController@switchClient');
     Route::get('changeLanuguage', function (Request $request) {
         session(['language' => $request->language]);
     })->name('changeLanguage');
