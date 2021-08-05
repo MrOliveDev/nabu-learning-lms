@@ -26,6 +26,7 @@ class SendmailController extends Controller
         $templates = MailTemplateModel::get();
         $images = MailImages::where('userId', Auth::user()->id)->get();
         
+        $activeTab = 0;
         if($request['sessionId']){
             $users = array();
             $session = SessionModel::find($request['sessionId']);
@@ -42,25 +43,31 @@ class SendmailController extends Controller
                             $users[] = $teacher;
                 }
             }
+            $activeTab = 1;
         } else if($request['groupId']){
             $users = User::getUserFromGroup($request['id']);
+            $activeTab = 1;
         } else if($request['companyId']){
             $users = User::where('company', $request['companyId'])->get();
+            $activeTab = 1;
         } else if($request['studentId']){
             $users = array();
             $user = User::find($request['studentId']);
             if($user)
                 $users[] = $user;
+            $activeTab = 1;
         } else if($request['teacherId']){
             $users = array();
             $user = User::find($request['teacherId']);
             if($user)
                 $users[] = $user;
+            $activeTab = 1;
         } else if($request['authorId']){
             $users = array();
             $user = User::find($request['authorId']);
             if($user)
                 $users[] = $user;
+            $activeTab = 1;
         } else
             $users = User::get();
 
@@ -70,7 +77,7 @@ class SendmailController extends Controller
             if($contact && $contact->email)
                 $fromAddress = $contact->email;
         }
-        return view('mail.view')->with('templates', $templates)->with('images', $images)->with('users', $users)->with('fromAddress', $fromAddress);
+        return view('mail.view')->with('templates', $templates)->with('images', $images)->with('users', $users)->with('fromAddress', $fromAddress)->with('activeTab', $activeTab);
     }
 
     /**
@@ -259,7 +266,7 @@ class SendmailController extends Controller
         if(!empty($request['id'])){
             $template = MailTemplateModel::where('id', $request['id'])->first();
             if($template)
-                return response()->json(["success" => true, "data" => $template->data, "name" => $template->name]);
+                return response()->json(["success" => true, "data" => $template->data, "name" => $template->name, "subject" => $template->subject]);
             else
                 return response()->json(["success" => false, "message" => "Cannot find template."]);
         } else
@@ -273,11 +280,12 @@ class SendmailController extends Controller
      * @return JSON
      */
     function saveMailTemplate(Request $request){
-        if(!empty($request['id']) && !empty($request['name'])){
+        if(!empty($request['id']) && !empty($request['name']) && !empty($request['subject'])){
             $template = MailTemplateModel::where('id', $request['id'])->first();
             if($template){
                 $template->name = $request['name'];
                 $template->data = $request['data'];
+                $template->subject = $request['subject'];
                 $template->save();
                 return response()->json(["success" => true]);
             }
@@ -285,6 +293,7 @@ class SendmailController extends Controller
                 $template = MailTemplateModel::create([
                     'creatorId' => Auth::user()->id,
                     'name' => $request['name'],
+                    'subject' => $request['subject'],
                     'data' => $request['data'],
                     'created_time' => gmdate("Y-m-d\TH:i:s", time())
                 ]);
@@ -380,6 +389,14 @@ class SendmailController extends Controller
                 ->subject($data['subject'])
                 ->setBody($data['content'], 'text/html');
             });
+
+            MailHistories::create([
+                'senderId' => Auth::user()->id,
+                'receiverId' => $request['userId'],
+                'detail' => $request['subject'],
+                'created_time' => gmdate("Y-m-d\TH:i:s", time())
+            ]);
+
             return response()->json(["success" => true]);
         } else
             return response()->json(["success" => false, "message" => "Missing Parameters."]);
