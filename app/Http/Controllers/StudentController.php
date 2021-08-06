@@ -12,6 +12,7 @@ use App\Models\CompanyModel;
 use App\Models\ConfigModel;
 use App\Models\LanguageModel;
 // use App\Models\SessionModel;
+use App\Models\PermissionModel;
 
 use Hackzilla\PasswordGenerator\Generator\RequirementPasswordGenerator;
 
@@ -28,8 +29,9 @@ class StudentController extends Controller
         $positions = PositionModel::all();
         $companies = CompanyModel::all();
         $languages = LanguageModel::all();
+        $permissions = PermissionModel::all();
 
-        return view('student', compact(['authors', 'teachers', 'students', 'groups', 'positions', 'companies', 'languages']));
+        return view('student', compact(['authors', 'teachers', 'students', 'groups', 'positions', 'companies', 'languages', 'permissions']));
     }
 
     /**
@@ -99,7 +101,8 @@ class StudentController extends Controller
             'id_config' => $interfaceCfg->id,
             'status' => $request->input('user-status-icon'),
             'type' => $request->post('type'),
-            'expired_date'=>$request->post('expired_date')
+            'expired_date'=>$request->post('expired_date'),
+            'permission_id'=>$request->post('type')
         ]);
 
         if ($request->post('company') != null) {
@@ -115,6 +118,9 @@ class StudentController extends Controller
         }
         if ($request->post('generatepassword') != null) {
             $user->auto_generate = $request->post('generatepassword');
+        }
+        if ($request->post('permission') != null) {
+            $user->permission_id = $request->post('permission');
         }
         $user->update();
 
@@ -218,6 +224,9 @@ class StudentController extends Controller
             );
             $user->contact_info = json_encode($contact_info);
         }
+        if ($request->post('permission') != null) {
+            $user->permission_id = $request->post('permission');
+        }
         $user->expired_date=$request->post('expired_date');
 
         $user->update();
@@ -244,14 +253,6 @@ class StudentController extends Controller
 
     public function userJoinToGroup(Request $request)
     {
-        // foreach ($variable as $key => $value) {
-        //     # code...
-        // }
-        // foreach ($request->post("data") as $key => $value) {
-        //     print_r(json_decode($value->id));
-        //     print_r(json_decode($value->));
-        // }
-        // print_r();
         $responseData = [];
         $data = json_decode($request->post('data'));
         if (count($data) != 0) {

@@ -18,6 +18,7 @@ use Auth;
 
 use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNull;
+use App\Http\Controllers\PermissionController;
 
 class LoginController extends Controller
 {
@@ -41,14 +42,17 @@ class LoginController extends Controller
      */
     protected $redirectTo = "dash";
 
+    protected $PermissionController;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(PermissionController $permissionController)
     {
         $this->middleware('guest')->except('logout');
+        $this->PermissionController = $permissionController;
     }
 
     protected function attemptLogin(Request $request)
@@ -103,10 +107,10 @@ class LoginController extends Controller
                 $user->last_session = session()->getID();
 
                 $user->save();
-                //session_start();
-                //$request->session()->put('user_id', auth()->user()->id);
-                //$request->session()->put('user_name', auth()->user()->login);
-                //$_SESSION['config_id'] = auth()->user()->id_config;
+                session_start();
+                $request->session()->put('user_id', auth()->user()->id);
+                $request->session()->put('user_name', auth()->user()->login);
+                $_SESSION['config_id'] = auth()->user()->id_config;
                 //                 session(['user_id' => auth()->user()->id]);
                 //minimized sliderbar
                 session(['slider-control' => true]);
@@ -135,14 +139,20 @@ class LoginController extends Controller
     {
 
         $this->clearLoginAttempts($request);
-        if (auth()->user()->type === 0) {
+        if (auth()->user()->type != 4 || auth()->user()->type != 3) {
             $this->redirectTo = 'admindash';
+            $client = User::getClients();
+            if(count($client)!=0 && $client!=null){
+                session(["client" => $client[0]]);
+            }
+        } else if(auth()->user()->type == 3) {
+            $this->redirectTo = "student";
         } else {
             $this->redirectTo = 'dash';
         }
         session(['language' => 'en']);
 
-
+        $this->PermissionController->setPermission();
 
         return $this->authenticated($request, $this->guard()->user())
             ?: redirect()->intended($this->redirectPath());

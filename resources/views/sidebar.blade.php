@@ -19,8 +19,8 @@
                         <!-- Side Header -->
                         <div class="bg-primary">
                             <div class="content-header">
-                                <div class="font-size-lg font-w300 text-white">
-                                    <i class="fa fa-users mr-1"></i>
+                                <div class="text-white font-size-lg font-w300">
+                                    <i class="mr-1 fa fa-users"></i>
                                 </div>
 
                                 <!-- Close Side Overlay -->
@@ -87,13 +87,13 @@
                 <div class="simplebar-content-wrapper" style="height: 100%;">
                     <div class="simplebar-content" style="padding: 0px;">
                         <!-- Side Header -->
-                        <div class="content-header mx-auto w-100 mt-3" id="sidebar-content-header">
+                        <div class="mx-auto mt-3 content-header w-100" id="sidebar-content-header">
                             <div class="">
                                 <a class="img-link d-inline-block" href="javascript:void(0)">
                                     <img class="" src="{{ asset('assets/media/light.png') }}" alt="">
                                 </a>
                             </div>
-                            <div class="sidetitle pb-4">
+                            <div class="pb-4 sidetitle">
                                 <img class="" src="{{ asset('assets/media/letter.png') }}">
                             </div>
                         </div>
@@ -107,8 +107,8 @@
 
                         <!-- Side Navigation -->
                         <div class="content-side content-side-full">
-                            @if (auth()->user()->type === 0)
                             <ul class="nav-main">
+                                @if (isset(session('permission')->admindash))
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{ route('admin.dash') }}" id="tableau">
                                         <!-- <div class="nav-cover"> -->
@@ -121,6 +121,8 @@
                                         </span>
                                     </a>
                                 </li>
+                                @endif
+                                @if (isset(session('permission')->session))
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{ route('session') }}" id="sessions">
                                         <!-- <div class="nav-cover"> -->
@@ -133,6 +135,8 @@
                                         </span>
                                     </a>
                                 </li>
+                                @endif
+                                @if (isset(session('permission')->student))
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{ route('student') }}" id="utilisateurs">
                                         <!-- <div class="nav-cover"> -->
@@ -145,8 +149,10 @@
                                         </span>
                                     </a>
                                 </li>
+                                @endif
                                 <hr>
 
+                                @if (isset(session('permission')->training))
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{ route('training') }}" id="parcours">
                                         <!-- <div class="nav-cover"> -->
@@ -159,6 +165,8 @@
                                         </span>
                                     </a>
                                 </li>
+                                @endif
+                                @if (isset(session('permission')->template))
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{ route('template') }}" id="templates">
                                         <!-- <div class="nav-cover"> -->
@@ -171,9 +179,11 @@
                                         </span>
                                     </a>
                                 </li>
+                                @endif
 
                                 <hr>
 
+                                @if (isset(session('permission')->report))
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{ route('sendmail') }}" id="outil">
                                         <!-- <div class="nav-cover"> -->
@@ -186,6 +196,9 @@
                                         </span>
                                     </a>
                                 </li>
+                                @endif
+
+                                @if (isset(session('permission')->report))
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{ route('report') }}" id="rapports">
                                         <!-- <div class="nav-cover"> -->
@@ -198,8 +211,8 @@
                                         </span>
                                     </a>
                                 </li>
+                                @endif
                             </ul>
-                            @endif
                         </div>
                         <!-- END Side Navigation -->
                     </div>
