@@ -139,8 +139,14 @@ class LoginController extends Controller
     {
 
         $this->clearLoginAttempts($request);
-        if (auth()->user()->type === 0) {
+        if (auth()->user()->type != 4 || auth()->user()->type != 3) {
             $this->redirectTo = 'admindash';
+            $client = User::getClients();
+            if(count($client)!=0 && $client!=null){
+                session(["client" => $client[0]]);
+            }
+        } else if(auth()->user()->type == 3) {
+            $this->redirectTo = "student";
         } else {
             $this->redirectTo = 'dash';
         }
