@@ -114,10 +114,11 @@ class ReportController extends Controller
     public function getReportList(Request $request){
         $columns = array( 
             0 =>'session', 
-            1 =>'filename',
-            2 =>'type',
-            3 =>'detail',
-            4 =>'created_time'
+            1 =>'first_name',
+            2 =>'filename',
+            3 =>'type',
+            4 =>'detail',
+            5 =>'created_time'
         );
         $totalData = ReportsModel::count();
         $totalFiltered = $totalData; 
@@ -129,6 +130,7 @@ class ReportController extends Controller
 
         $handler = new ReportsModel;
         $handler = $handler->leftjoin('tb_session', "tb_session.id", "=", "tb_reports.sessionId");
+        $handler = $handler->leftjoin('tb_users', "tb_users.id", "=", "tb_reports.studentId");
 
         if(empty($request->input('search.value')))
         {            
@@ -140,6 +142,8 @@ class ReportController extends Controller
                     array(
                         'tb_reports.id as id',
                         'tb_session.name as session',
+                        'tb_users.first_name as first_name',
+                        'tb_users.last_name as last_name',
                         'tb_reports.filename as filename',
                         'tb_reports.type as type',
                         'tb_reports.detail as detail',
@@ -163,6 +167,8 @@ class ReportController extends Controller
                             array(
                                 'tb_reports.id as id',
                                 'tb_session.name as session',
+                                'tb_users.first_name as first_name',
+                                'tb_users.last_name as last_name',
                                 'tb_reports.filename as filename',
                                 'tb_reports.type as type',
                                 'tb_reports.detail as detail',
@@ -188,6 +194,7 @@ class ReportController extends Controller
             {
                 $nestedData['id'] = $report->id;
                 $nestedData['session'] = $report->session;
+                $nestedData['student'] = $report->first_name . ' ' . $report->last_name;
                 $nestedData['filename'] = $report->filename;
                 $nestedData['type'] = $report->type;
                 $nestedData['detail'] = $report->detail;

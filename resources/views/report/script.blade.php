@@ -52,6 +52,7 @@ $(document).ready(function(){
             },
         "columns": [
             { "data": "session" },
+            { "data": "student" },
             { "data": "filename" },
             { "data": "type" },
             { "data": "detail" },
