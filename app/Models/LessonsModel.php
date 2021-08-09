@@ -95,4 +95,10 @@ class LessonsModel extends Model
             ->first();
         return $result;
     }
+
+    public function scopeGetLessonByClient($scope) {
+        $client = session("client");
+        $lessons = $query->leftjoin("tb_users", 'tb_lesson.idCreator', "=", 'tb_users.id')->where("tb_lesson.idCreator", $client)->orWhere('tb_user.creator', $client)->get();
+        return $lesson;
+    }
 }

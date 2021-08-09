@@ -84,6 +84,7 @@ class User extends Authenticatable
             ->leftjoin('tb_languages', 'tb_users.lang', '=', 'tb_languages.language_id')
             // ->leftjoin('tb_companies', 'tb_users.company', '=', 'tb_companies.id')
             // ->leftjoin('tb_position', 'tb_users.function', '=', 'tb_position.id')
+            ->where("tb_users.id_creator", session("client"))
             ->where('tb_users.id', $id)
             ->first();
         return $result;
@@ -91,6 +92,7 @@ class User extends Authenticatable
 
     public function scopeGetUserPageInfo($query, $type)
     {
+        $client = session("client");
         $result = $query->select(
             'tb_users.*',
             'tb_interface_config.interface_color as interface_color',
@@ -98,10 +100,11 @@ class User extends Authenticatable
             'tb_interface_config.id as interface_id',
             'tb_languages.language_iso as language_iso'
         )
-            ->leftjoin('tb_interface_config', 'tb_interface_config.id', '=', 'tb_users.id_config')
-            ->leftjoin('tb_languages', 'tb_users.lang', 'tb_languages.language_id')
-            ->where('tb_users.type', $type)
-            ->get();
+        ->leftjoin('tb_interface_config', 'tb_interface_config.id', '=', 'tb_users.id_config')
+        ->leftjoin('tb_languages', 'tb_users.lang', 'tb_languages.language_id')
+        ->where("tb_users.id_creator", $client)
+        ->where('tb_users.type', $type)
+        ->get();
         return $result;
     }
 
@@ -130,6 +133,7 @@ class User extends Authenticatable
             $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT(tb_groups.id, '_%')"));
             $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT('%_', tb_groups.id)"));
         })
+        ->where('tb_users.id_creator', session("client"))
         ->where('tb_groups.id', '=', $id)->get();
         // print_r($result->toArray());
         return $result->toArray();
@@ -143,6 +147,7 @@ class User extends Authenticatable
             $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT(tb_groups.id, '_%')"));
             $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT('%_', tb_groups.id)"));
         })
+        ->where("tb_users.id_creator", session("client"))
         ->where('tb_groups.id', '=', $id)->get();
         // print_r($result->toArray());
         return $result;
@@ -151,5 +156,10 @@ class User extends Authenticatable
     public function scopeGetClients($query) {
         $clients = $query->where('type', '1')->get()->toArray();
         return $clients;
+    }
+
+    public function scopeGetUserByClient($query) {
+        $users = $query->where('id_creator', session("client"))->get();
+        return $users;
     }
 }

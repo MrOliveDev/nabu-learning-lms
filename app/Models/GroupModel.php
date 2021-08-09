@@ -15,4 +15,11 @@ class GroupModel extends Model
 
     protected $table = 'tb_groups';
     public $timestamps = false;
+
+    public function scopeGetGroupByClient($query) {
+        $client = session("client");
+
+        $groups = $query->where("id_creator", $client)->get();
+        return $groups;
+    }
 }

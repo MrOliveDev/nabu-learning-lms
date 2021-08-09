@@ -366,7 +366,7 @@ data-search-category="{{isset(session("permission")->session->search->category)}
 
 
                         <div class="list-group" id="list-tab" role="tablist" data-src=''>
-                            @if(isset(sessin("permission")->session->student->display))
+                            @if(isset(session("permission")->session->student->display))
                             @foreach ($students as $student)
                                 <a class="list-group-item list-group-item-action p-0 border-transparent border-5x student_{{ $student->id }}"
                                     id="student_{{ $student->id }}" data-date="{{ $student->creation_date }}">
@@ -651,4 +651,4 @@ data-search-category="{{isset(session("permission")->session->search->category)}
         window.location.href = link;
     }
 </script>
-@endsection
+@endsection 
