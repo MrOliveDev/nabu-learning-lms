@@ -296,9 +296,31 @@
                             
                             @if(isset(session('permission')->admindash->report->display))
                             <div id="table-report_{{$session['id']}}" class="table-report">
-                                <div class="list-group" id="list-tab" role="tablist" data-src=''>
-        
-                                </div>
+                                <table class="table table-striped table-vcenter reportTbl" id="historic-table" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 15%;">{{ $translation->l('Session') }}</th>
+                                            <th style="width: 15%;">{{ $translation->l('Student') }}</th>
+                                            <th style="width: 15%;">{{ $translation->l('FileName') }}</th>
+                                            <th style="width: 10%;">{{ $translation->l('FileType') }}</th>
+                                            <th style="width: 40%;">{{ $translation->l('Details') }}</th>
+                                            <th style="width: 10%;">{{ $translation->l('Date') }}</th>
+                                            <th style="width: 10%;" class="text-center">{{ $translation->l('Actions') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- <tr>
+                                            <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
+                                            <td class="font-w600">Name of File</td>
+                                            <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
+                                            <td class="font-w600">Details</td>
+                                            <td class="font-w600">Date</td>
+                                            <td style="background-color: #7e3e98; cursor: pointer;">
+                                                <i class="far fa-trash-alt"></i>
+                                            </td>
+                                        </tr> -->
+                                    </tbody>
+                                </table>
                             </div>
                             @endif
                                                                 

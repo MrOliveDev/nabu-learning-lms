@@ -34,5 +34,9 @@ class AppServiceProvider extends ServiceProvider
         view()->share('interfaceCfg', $interfaceCfg);
         $clients = User::getClients();
         view()->share('clients', $clients);
+        // foreach ($clients as $client) {
+        // }
+        // dd($clients);
+        // exit;
     }
 }

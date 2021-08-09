@@ -15,7 +15,7 @@ class DashController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->type === 0) {
+        if (auth()->user()->type === 0 || auth()->user()->type === 1) {
         
             // PAUSED = a session in progress that is set OFFLINE
             // FINISHED = end date passed
@@ -48,14 +48,15 @@ class DashController extends Controller
             $sessionsInProgress = SessionModel::where('begin_date', "<", today())->where(function ($query) {
                 $query->where('end_date', ">", today())
                       ->orWhere('end_date', '=', null);
-            })->where('status', 1)->count();
+            })
+            ->where('status', 1)
+            ->where("id_creator", session("client"))->count();
 
             $createdLessons = LessonsModel::all()->count();
 
-            $finishedSessions = SessionModel::where('end_date', "<", today())->count();
+            $finishedSessions = SessionModel::where('end_date', "<", today())->where("id_creator", session("client"))->count();
 
             $generatedReports = ReportsModel::all()->count();
-
 
             return view('admindash', compact(['sessions', 'registeredUsers', 'activedStudents', 'sessionsInProgress', 'createdLessons', 'finishedSessions', 'generatedReports']));
 
@@ -75,8 +76,8 @@ class DashController extends Controller
         // dd(array('contents'=>$content, 'participants'=>$participant, "session_info"=>$session->toArray()));
         // dd(User::getUserIDFromGroup(2));
         if ($contentData == null) {
-            print_r('abc');
-            exit;
+            // print_r('abc');
+            // exit;
             return;
         }
 

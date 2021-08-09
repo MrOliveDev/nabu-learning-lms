@@ -24,6 +24,7 @@ class SessionModel extends Model
         'participants',
         'contents',
         'end_date',
+        'creator_id'
     ];
 
     protected $table = 'tb_session';
@@ -46,11 +47,15 @@ class SessionModel extends Model
 
     public function scopeGetSessionPageInfo($query)
     {
+
+        $client = session("client");
+
         $result = $query->select(
             'tb_session.*',
             'tb_languages.language_iso as language_iso'
         )
             ->leftjoin('tb_languages', 'tb_session.language_iso', 'tb_languages.language_id')
+            ->where("tb_session.id_creator", $client)
             ->get();
         return $result;
     }
@@ -74,7 +79,7 @@ class SessionModel extends Model
         // }
         // return $array;
         if (isset($content_data) || $content_data != "") {
-            $training = TrainingsModel::where('id', $content_data)->get();
+            $training = TrainingsModel::where('id', $content_data)->where("id_creator", session("client"))->get();
             if ($training->count() != 0) {
                 return $training;
             } else {
@@ -332,17 +337,67 @@ class SessionModel extends Model
     }
 
     public function scopeGetSessionFromUser($query, $user_id){
-        $sessions = $query->get();
+        $sessions = SessionModel::all();
         $result = array();
         foreach ($sessions as $session) {
-            $participants = $session->participants;
-            if(isset($participants)&&$participants!="{}") {
-                $participant_array = json_decode($participants);
-                $teacher = $participants->t;
-                $group = $participants->g;
-                $student = $participants->s;
+            $participant_data = $session->participants;
+            $groupData = array();
+            $studentData = array();
+            $teacherData = array();
+            if (isset($participant_data) || $participant_data != "") {
+                $participant = json_decode($participant_data);
+                $groupList = isset($participant->g) ? $participant->g : array();
+                $studentList = isset($participant->s) ? $participant->s : array();
+                $teacherList = isset($participant->t) ? $participant->t : array();
+                if (isset($groupList) || $groupList != "") {
+                    // var_dump($groupList);
+                    // var_dump($studentList);
+                    // var_dump($teacherList);
+                    if (count($groupList) != 0) {
+                        foreach ($groupList as $groupValue) {
+                            $groupSubData = array();
+                            $groupSubData = User::getUserFromGroup($groupValue->value);
+                            if(isset($groupSubData))
+                            if(in_array($user_id, $groupSubData))
+                            array_push($result, $session);
+                        }
+                    }
+                }
+                if (isset($studentList) || $studentList != "") {
+                    if (count($studentList) != 0) {
+                        foreach ($studentList as $studentValue) {
+                            // print_r($studentValue);
+                            $studentItem = User::find($studentValue);
+                            if($studentItem != NULL && $studentItem->id == $user_id) {
+                                array_push($result, $session);
+                            }
+                        }
+                    }
+                }
+                if (isset($teacherList) || $teacherList != "") {
+                    if (count($teacherList) != 0) {
+                        foreach ($teacherList as $teacherValue) {
+                            // var_dump($teacherValue);
+                            // exit;
+                            $teacherItem = User::find($teacherValue);
+                           if($teacherItem != NULL && $teacherItem->id == $user_id)
+                            if(in_array($user_id, $teacherItem))
+                            array_push($result, $session);
+                        }
+                    }
+                }
             }
         }
+        return $result;
+    }
+
+    public function scopeGetStudentFromOwnedTeacher($query, $teacher_id) {
+        $sessions = SessionModel::getSessionFromUser($teacher_id);
+        $result = array();
+        foreach ($sessions as $session) {
+            array_push($result, ...SessionModel::getStudentsFromSession($session->participants));
+        }
+        return $result;
     }
 
 }

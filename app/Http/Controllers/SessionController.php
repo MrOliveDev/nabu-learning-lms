@@ -85,8 +85,8 @@ class SessionController extends Controller
         // dd(array('contents'=>$content, 'participants'=>$participant, "session_info"=>$session->toArray()));
         // dd(User::getUserIDFromGroup(2));
         if ($contentData == null) {
-            print_r('abc');
-            exit;
+            // print_r('abc');
+            // exit;
             return;
         }
         return response()->json(['contents' => $contentData, 'participants' => $participant, "session_info" => $session->toArray()]);

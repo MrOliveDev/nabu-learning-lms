@@ -13,6 +13,8 @@ use Illuminate\Contracts\Session\Session;
 use App\Http\core\Language;
 use App\Models\LanguageModel;
 use App\Models\InterfaceCfgModel;
+use Illuminate\Support\Facades\DB;
+
 
 use Auth;
 
@@ -57,12 +59,23 @@ class LoginController extends Controller
 
     protected function attemptLogin(Request $request)
     {
+
+        // $tables = DB::select('SHOW TABLES');
+        // foreach($tables as $table)
+        // {
+        //     if(str_contains(array_values((array)$table)[0], "tb_admin_")){
+        //         $tableName = array_values((array)$table)[0];
+        //     echo $table->Tables_in_db_name;
+        //     print_r("<br>");
+        //     }
+        // }
+        // exit;
+
         $user = User::where('email', $request->email)
             ->where('password', $request->password)
             ->first();
 
         // var_dump($user->password);die;
-
 
         $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         $user = User::where($fieldType, '=', $request->input['username'])->first();
@@ -88,16 +101,46 @@ class LoginController extends Controller
 
     protected function login(Request $request)
     {
+
         $input = $request->all();
 
         $validator = Validator::make($request->all(), [
             'username' => 'required',
             'password' => 'required',
         ]);
+        
+        // $tables = DB::select('SHOW TABLES');
+        // $result = array();
+        // foreach($tables as $table)
+        // {
+        //     if(str_contains(array_values((array)$table)[0], "tb_admin_")){
+        //         $tableName = array_values((array)$table)[0];
+        //         $result = DB::table($tableName)->where('login', '=', $input['username'])->orWhere('contact_info', 'like', "%" . $input['username'] . "%")->get();
+        //         foreach ($result as $user) {
+        //             if (Hash::check($input['password'], $user->password)) {
+        
+        //                 $request->session()->regenerate();
+        //                 // var_dump(session()->getID());die;
+        //                 auth()->login($user);
+        //                 dd(auth()->user());
+        //                 exit;
+        
+        //                 DB::table($tableName)->where('id', '=', $user->id)->update(['last_session'=> session()->getID()]);
+        //                 session_start();
+        //                 $request->session()->put('user_id', auth()->user()->id);
+        //                 $request->session()->put('user_name', auth()->user()->login);
+        //                 $_SESSION['config_id'] = auth()->user()->id_config;
+        //                 session(['slider-control' => true]);
+        //                 return $this->sendLoginResponse($request);
+        //             }
+        //         }
+        //     }
+        // }
 
         // $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'login';
-        $users = User::where('login', '=', $input['username'])->orWhere('contact_info', 'like', "%" . $input['username'] . "%")->get();
-        foreach ($users as $user) {
+        $result = User::where('login', '=', $input['username'])->orWhere('contact_info', 'like', "%" . $input['username'] . "%")->get();
+
+        foreach ($result as $user) {
             if (Hash::check($input['password'], $user->password)) {
 
                 $request->session()->regenerate();
@@ -116,9 +159,9 @@ class LoginController extends Controller
                 session(['slider-control' => true]);
                 return $this->sendLoginResponse($request);
             }
-            $validator->errors()->add('username', 'These credentials do not match our records.');
-            return redirect()->route('login')->withErrors($validator)->withInput();
         }
+        $validator->errors()->add('username', 'These credentials do not match our records.');
+        return redirect()->route('login')->withErrors($validator)->withInput();
     }
 
     protected function logout()
@@ -137,24 +180,37 @@ class LoginController extends Controller
 
     protected function sendLoginResponse(Request $request)
     {
-
+        
         $this->clearLoginAttempts($request);
-        if (auth()->user()->type != 4 || auth()->user()->type != 3) {
+        if (auth()->user()->type == 0 || auth()->user()->type == 1) {
             $this->redirectTo = 'admindash';
             $client = User::getClients();
             if(count($client)!=0 && $client!=null){
-                session(["client" => $client[0]]);
+                session(["client" => $client[0]["id"]]);
             }
+
         } else if(auth()->user()->type == 3) {
             $this->redirectTo = "student";
+
+        } else if(auth()->user()->type == 2) {
+            $this->redirectTo = "template";
+
         } else {
             $this->redirectTo = 'dash';
+            
         }
         session(['language' => 'en']);
-
         $this->PermissionController->setPermission();
 
-        return $this->authenticated($request, $this->guard()->user())
-            ?: redirect()->intended($this->redirectPath());
+
+        if ($this->guard()->user()!=NULL) {
+            return redirect()->intended($this->redirectPath());
+
+        } else {
+            echo "False";
+        }
+
+        // return $this->authenticated($request, $this->guard()->user())
+        //     ?: redirect()->intended($this->redirectPath());
     }
 }

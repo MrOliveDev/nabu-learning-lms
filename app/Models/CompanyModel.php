@@ -18,4 +18,12 @@ class CompanyModel extends Model
 
     public $timestamps = false;
 
+    public function scopeGetCompanyByClient($query) {
+
+        $client = session("client");   
+
+        $company = $query->where("id_creator", $client)->get();
+        return $company;
+    }
+
 }
