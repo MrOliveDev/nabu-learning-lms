@@ -68,9 +68,10 @@
                 <thead>
                     <tr>
                         <th style="width: 15%;">{{ $translation->l('Session') }}</th>
+                        <th style="width: 15%;">{{ $translation->l('Student') }}</th>
                         <th style="width: 15%;">{{ $translation->l('FileName') }}</th>
                         <th style="width: 10%;">{{ $translation->l('FileType') }}</th>
-                        <th style="width: 40%;">{{ $translation->l('Details') }}</th>
+                        <th style="width: 25%;">{{ $translation->l('Details') }}</th>
                         <th style="width: 10%;">{{ $translation->l('Date') }}</th>
                         <th style="width: 10%;" class="text-center">{{ $translation->l('Actions') }}</th>
                     </tr>
