@@ -526,13 +526,7 @@ $(document).ready(function(){
             pageLength: 5,
             lengthMenu: false,
             searching: false,
-            autoWidth: false,
-            dom: "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-6'i><'col-sm-6'p>>",
-            "columnDefs": [ {
-                "targets": 5,
-                "orderable": false
-            } ]
+            autoWidth: false
         });
     });
 });
