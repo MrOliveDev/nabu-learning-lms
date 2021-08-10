@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ConfigModel;
 use App\Models\InterfaceCfgModel;
-use App\Models\AdminModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use PhpParser\JsonDecoder;
 use App\Models\LanguageModel;
@@ -18,7 +18,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clientsListArray = AdminModel::get_clientsInfo();
+        $clientsListArray = User::get_clientsInfo();
         $clientsList = array();
         foreach ($clientsListArray as $key => $client) {
             $test = $client->toArray();
@@ -94,7 +94,7 @@ class ClientController extends Controller
             "email" => $request->input('email')
         );
 
-        $client = AdminModel::create([
+        $client = User::create([
             'login' => $request->input('login'),
             'password' => $request->input('password'),
             'company' => $request->input('company'),
@@ -104,11 +104,12 @@ class ClientController extends Controller
             'lang' => $request->input('lang'),
             'pack' => $request->input('pack'),
             'id_config' => $interfaceCfg->id,
-            'type' => 1
+            'type' => 1,
+            'id_creator' => 0
         ]);
         // var_dump($client->id);
         // exit;
-        AdminModel::create_admin_table($client->id);
+        User::create_admin_table($client->id);
 
         return redirect('/clients')->with('success', 'Client has been added');
     }
@@ -176,7 +177,7 @@ class ClientController extends Controller
         // print_r($request->input('pack')."\n".'pack');
         //  exit;
 
-        $client = AdminModel::find($id);
+        $client = User::find($id);
 
         $interfaceCfg = InterfaceCfgModel::find($client->id_config);
         $interfaceCfg->interface_color = $request->input('interface_color');
@@ -224,10 +225,10 @@ class ClientController extends Controller
         // print_r($client);exit;
         // var_dump($client->id);
         // exit;
-        $client = AdminModel::find($id);
+        $client = User::find($id);
         InterfaceCfgModel::where('id', $client->id_config)->delete();
         ConfigModel::where('id', $client->id_config)->delete();
-        AdminModel::drop_admin_table($id);
+        User::drop_admin_table($id);
         $client->delete();
         return response('Deleted Successfully', 200);
     }

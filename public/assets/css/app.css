@@ -456,7 +456,7 @@ table.session-table th i {
 .session-table td>div {
     color: black;
     background-color: #a7acd6;
-    /*     padding-top: 19px; */
+    padding-top: 19px;
 }
 
 .session-table tr:nth-child(even) div {
@@ -468,6 +468,10 @@ table.session-table th i {
 
 .flesible-colum {
     /* padding: 10px; */
+}
+
+table.table[role="grid"] tr {
+    background: #9595ff;
 }
 
 .collespe-header div {

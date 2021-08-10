@@ -1,6 +1,6 @@
 
-var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
-// var baseURL = window.location.protocol + "//" + window.location.host;
+// var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
+var baseURL = window.location.protocol + "//" + window.location.host;
 
 var notification = function(str, type) {
     switch (type) {
@@ -498,6 +498,41 @@ $(document).ready(function(){
           step: function () {
             $this.html(Math.ceil(this.Counter));
           }
+        });
+    });
+    
+    $('.table-report>table').map(function(){
+            $(this).DataTable({
+            "processing": true,
+            "serverSide": true,
+            "responsive": true,
+            "orderCellsTop": true,
+            "pageLength" : 50,
+            "ajax":{
+                    "url": baseURL+"/getReportListBySession",
+                    "dataType": "json",
+                    "type": "POST",
+                    "data":{
+                            _token: $('meta[name="csrf-token"]').attr('content'),
+                            session_id:$(this).parents(".table-report").attr('id').split('_')[1]
+                        }
+                },
+            "columns": [
+                { "data": "session" },
+                { "data": "student" },
+                { "data": "filename" },
+                { "data": "actions", "orderable": false }
+            ],
+            pageLength: 5,
+            lengthMenu: false,
+            searching: false,
+            autoWidth: false,
+            dom: "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-6'i><'col-sm-6'p>>",
+            "columnDefs": [ {
+                "targets": 5,
+                "orderable": false
+            } ]
         });
     });
 });

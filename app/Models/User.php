@@ -72,7 +72,7 @@ class User extends Authenticatable
         }
         
         $result = $query->select(
-            $user_table.'.*',
+            'tb_users.*',
             'tb_interface_config.interface_color as interface_color',
             'tb_interface_config.interface_icon as interface_icon',
             'tb_interface_config.id as interface_id',

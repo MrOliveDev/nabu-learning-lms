@@ -125,6 +125,11 @@ class SessionController extends Controller
         if ($request->post("language") != NULL) {
             $session->language_iso = $request->post('language');
         }
+        if (auth()->user()->type !== 0) {
+            $session->id_creator = auth()->user()->id;
+        } else {
+            $session->id_creator = session("client");
+        }
         $session->update();
         return response()->json(SessionModel::getSessionPageInfoFromId($session->id)->toArray());
     }
