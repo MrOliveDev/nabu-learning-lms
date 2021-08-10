@@ -111,6 +111,110 @@ class ReportController extends Controller
      * @param  Request  $request
      * @return JSON
      */
+    public function getReportListBySession(Request $request){
+        $columns = array( 
+            0 =>'session', 
+            1 =>'first_name',
+            2 =>'filename',
+            3 =>'type',
+            4 =>'detail',
+            5 =>'created_time'
+        );
+        $totalData = ReportsModel::count();
+        $totalFiltered = $totalData; 
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        $handler = new ReportsModel;
+        $handler = $handler->leftjoin('tb_session', "tb_session.id", "=", "tb_reports.sessionId");
+        $handler = $handler->leftjoin('tb_users', "tb_users.id", "=", "tb_reports.studentId");
+        $handler = $handler->where("sessionId", $request->post('session_id'));
+
+        if(empty($request->input('search.value')))
+        {            
+            $totalFiltered = $handler->count();
+            $reports = $handler->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->get(
+                    array(
+                        'tb_reports.id as id',
+                        'tb_session.name as session',
+                        'tb_users.first_name as first_name',
+                        'tb_users.last_name as last_name',
+                        'tb_reports.filename as filename',
+                        'tb_reports.type as type',
+                        'tb_reports.detail as detail',
+                        'tb_reports.created_time as created_time',
+                    )
+                );
+        }
+        else {
+            $search = $request->input('search.value'); 
+            $reports =  $handler->where(function ($q) use ($search) {
+                            $q->where('tb_reports.id','LIKE',"%{$search}%")
+                            ->orWhere('tb_reports.filename', 'LIKE',"%{$search}%");
+                        })
+                        ->offset($start)
+                        ->limit($limit)
+                        ->orderBy($order,$dir)
+                        ->get(
+                            array(
+                                'tb_reports.id as id',
+                                'tb_session.name as session',
+                                'tb_users.first_name as first_name',
+                                'tb_users.last_name as last_name',
+                                'tb_reports.filename as filename'
+                            )
+                        );
+
+            $totalFiltered = $handler->where(function ($q) use ($search) {
+                                $q->where('tb_reports.id','LIKE',"%{$search}%")
+                                ->orWhere('tb_reports.filename', 'LIKE',"%{$search}%");
+                            })
+                        ->count();
+        }
+
+        $data = array();
+
+        if(!empty($reports))
+        {
+            foreach ($reports as $report)
+            {
+                $nestedData['id'] = $report->id;
+                $nestedData['session'] = $report->session;
+                $nestedData['student'] = $report->first_name . ' ' . $report->last_name;
+                $nestedData['filename'] = $report->filename;
+                
+                $nestedData['actions'] = "
+                <div class='text-center d-flex'>
+                    <a href='" .url('/').'/'.$report->filename."' class='btn btn-primary mr-3' style='border-radius: 5px' target='_blank'>
+                        <i class='fa fa-download'></i>
+                    </a>
+                    <button type='button' class='js-swal-confirm btn btn-danger mr-3' onclick='delReport({$nestedData['id']})' style='border-radius: 5px'>
+                        <i class='fa fa-trash'></i>
+                    </button>
+                </div>";
+                $data[] = $nestedData;
+            }
+        }
+        $json_data = array(
+            "draw"            => intval($request->input('draw')),  
+            "recordsTotal"    => intval($totalData),  
+            "recordsFiltered" => intval($totalFiltered), 
+            "data"            => $data   
+            );
+        echo json_encode($json_data);
+    }
+    /**
+     * Return server-side rendered table list.
+     *
+     * @param  Request  $request
+     * @return JSON
+     */
     public function getReportList(Request $request){
         $columns = array( 
             0 =>'session', 
@@ -733,98 +837,4 @@ class ReportController extends Controller
         if(file_exists(storage_path('pdf') . '/' . $file))
             return response()->download(storage_path('pdf' . '/' . $file), null, ['Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0']);
         else
-            return 'File does not exist!';
-    }
-
-    public function downloadReportZip(Request $request){
-        if(isset($request['sessionId']) && isset($request['data'])){
-            set_time_limit(0);
-            // ini_set('memory_limit', '-1');
-            $filenames = array();
-            foreach($request['data'] as $report){
-                // $rep = '
-                //     <page backtop="20mm" backbottom="20mm" backleft="10mm" backright="10mm">
-                //     <page_header> 
-                //          ' . $report['header'] . '
-                //     </page_header> 
-                //     <page_footer> 
-                //          ' . $report['footer'] . ' 
-                //     </page_footer> 
-                //     <style>
-                //         td { padding-left: 5px; }
-                //     </style>
-
-                //     ';
-                // $rep .= $report['content'];
-                // $rep .= '</page>';
-
-                // $filename = $request['sessionId'] . '_' . $report['studentId'] . '_' . time() . '.pdf';
-                // $filenames[] = $filename;
-                // $filelink = storage_path('pdf') . '/' . $filename;
-                // $html2pdf = new HTML2PDF('P', 'A4', 'fr', true, 'UTF-8');
-                // $html2pdf->writeHTML($rep);
-                // $html2pdf->Output($filelink, 'F');
-
-                $mpdf = new MPdf(['mode' => 'utf-8', 'format' => 'A4', 'tempDir'=>storage_path('tempdir'), 'setAutoTopMargin' => 'stretch', 'setAutoBottomMargin' => 'stretch']);
-                $mpdf->SetHTMLHeader(str_replace("<br>", "<wbr> </wbr>", $report['header']));
-                $mpdf->SetHTMLFooter(str_replace("<br>", "<wbr> </wbr>", $report['footer']));
-                $mpdf->writeHTML(str_replace("<br>", "<wbr> </wbr>", '<style> td { padding-left: 5px; } </style>' . $report['content']));
-
-                $filename = $request['sessionId'] . '_' . $report['studentId'] . '_' . time() . '.pdf';
-                $filenames[] = $filename;
-                $filelink = storage_path('pdf') . '/' . $filename;
-                $mpdf->Output($filelink, 'F');
-
-                ReportsModel::create([
-                    'sessionId' => $request['sessionId'],
-                    'studentId' => $report['studentId'],
-                    'filename' => $filename,
-                    'type' => 'pdf',
-                    'created_time' => gmdate("Y-m-d\TH:i:s", time())
-                ]);
-            }
-
-            $filename = $request['sessionId'] . '_' . time() . '.zip';
-            $zip = new ZipArchive();
-            $zip->open(storage_path('zip') . '/' . $filename, ZipArchive::CREATE);
-            foreach($filenames as $file){
-                $zip->addFile(storage_path('pdf') . '/' . $file, $file);
-            }
-            $zip->close();
-
-            ReportsModel::create([
-                'sessionId' => $request['sessionId'],
-                'studentId' => 0,
-                'filename' => $filename,
-                'type' => 'zip',
-                'created_time' => gmdate("Y-m-d\TH:i:s", time())
-            ]);
-
-            return response()->json(["success" => true, "filename" => $filename]);
-        } else
-            return response()->json(["success" => false, "message" => "Wrong Parameters."]);
-    }
-
-    public function downloadZip($file){
-        if(file_exists(storage_path('zip') . '/' . $file))
-            return response()->download(storage_path('zip' . '/' . $file), null, ['Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0']);
-        else
-            return 'File does not exist!';
-    }
-
-    public function delReport(Request $request){
-        if(!empty($request['id'])){
-            $report = ReportsModel::where('id', $request['id'])->first();
-            if($report){
-                if($report->filename){
-                    if(file_exists(storage_path($report->type) . '/' . $report->filename))
-                        unlink(storage_path($report->type) . '/' . $report->filename);
-                    $report->delete();
-                    return response()->json(["success" => true]);
-                }
-            } else 
-                return response()->json(["success" => false, "message" => "Cannot find the report."]);
-        } else
-            return response()->json(["success" => false, "message" => "Empty Parameter."]);
-    }
-}
+            retur                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        

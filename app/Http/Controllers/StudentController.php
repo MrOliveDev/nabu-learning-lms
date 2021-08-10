@@ -122,6 +122,11 @@ class StudentController extends Controller
         if ($request->post('permission') != null) {
             $user->permission_id = $request->post('permission');
         }
+        if (auth()->user()->type !== 0) {
+            $user->id_creator = auth()->user()->id;
+        } else {
+            $user->id_creator = session("client");
+        }
         $user->update();
 
         $lang= LanguageModel::where('language_id', $user->lang)->first();

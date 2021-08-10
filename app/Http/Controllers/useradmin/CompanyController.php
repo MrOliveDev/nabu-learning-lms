@@ -52,6 +52,11 @@ class CompanyController extends Controller
         if ($request->post("description") != NULL) {
             $company->description = $request->input('description');
         }
+        if (auth()->user()->type !== 0) {
+            $company->id_creator = auth()->user()->id;
+        } else {
+            $company->id_creator = session("client");
+        }
         $company->status = 1;
         $company->save();
         return response()->json($company);

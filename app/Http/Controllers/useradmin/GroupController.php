@@ -37,12 +37,15 @@ class GroupController extends Controller
     public function store(Request $request)
     {
 
-        $group = GroupModel::create([
-            'name'=>$request->input('category_name'),
-            'description'=>$request->post('category_description'),
-            'status'=>$request->input('cate-status-icon')
-        ]);
-
+        $group = new GroupModel();
+        $group->name = $request->input('category_name');
+        $group->description= $request->post('category_description');
+        $group->status= $request->input('cate-status-icon');
+        if(auth()->user()->type != 0) {
+            $group->id_creator = auth()->user()->id;
+        } else {
+            $group->id_creator = session("client");
+        }
         return response()->json($group);
         //
     }

@@ -95,6 +95,15 @@
 
 <link rel="stylesheet" href="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.min.css') }}" />
 <link rel="stylesheet" href="{{asset("assets/css/admindashPage.css")}}">
+<link rel="stylesheet" href="{{ asset('assets/js/plugins/datatables/dataTables.bootstrap4.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
+<script src="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.print.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.flash.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/datatables/buttons/buttons.colVis.min.js') }}"></script>
 <script src="{{asset("assets/js/admindashPage.js")}}"></script>
 {{-- <script src="{{asset("assets/")}}"></script>
 <script src="{{asset("assets/")}}"></script> --}}
@@ -267,7 +276,7 @@
                                     @endif
                                     @if(isset(session('permission')->admindash->report->display))
                                     <li class="nav-item">
-                                        <a class="nav-link m-1 rounded-1 border-0 table-report-tab" id="table-report-tab_{{$session['id']}}" href="#table-reports_{{$session['id']}}" >
+                                        <a class="nav-link m-1 rounded-1 border-0 table-report-tab" id="table-report-tab_{{$session['id']}}" href="#table-report_{{$session['id']}}" >
                                             Reports</a>
                                     </li>
                                     @endif
@@ -275,55 +284,54 @@
 
                             </div>
                             <!-- Tab panes -->
-                            @if(isset(session('permission')->admindash->participant->display))
-                                                                
-                            <div id="table-participant_{{$session['id']}}" class="table-participant">
-                                <div class="list-group" id="list-tab" role="tablist" data-src=''>
-        
+                            <div class="div-tab">
+                                @if(isset(session('permission')->admindash->participant->display))
+                                                                    
+                                <div id="table-participant_{{$session['id']}}" class="table-participant">
+                                    <div class="list-group" id="list-tab" role="tablist" data-src=''>
+            
+                                    </div>
                                 </div>
-                            </div>
-                            @endif
-                                                                
-                            
-                            @if(isset(session('permission')->admindash->training->display))
-                            <div id="table-training_{{$session['id']}}" class="table-training">
-                                <div class="list-group" id="list-tab" role="tablist" data-src=''>
-        
+                                @endif
+                                                                    
+                                
+                                @if(isset(session('permission')->admindash->training->display))
+                                <div id="table-training_{{$session['id']}}" class="table-training">
+                                    <div class="list-group" id="list-tab" role="tablist" data-src=''>
+            
+                                    </div>
                                 </div>
+                                @endif
+                                                                    
+                                
+                                @if(isset(session('permission')->admindash->report->display))
+                                <div id="table-report_{{$session['id']}}" class="table-report">
+                                    <table class="table table-striped table-vcenter reportTbl" id="historic-table_{{$session['id']}}" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 25%;">{{ $translation->l('Session') }}</th>
+                                                <th style="width: 25%;">{{ $translation->l('Student') }}</th>
+                                                <th style="width: 25%;">{{ $translation->l('FileName') }}</th>
+                                                <th style="width: 25%;" class="text-center">{{ $translation->l('Actions') }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- <tr>
+                                                <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
+                                                <td class="font-w600">Name of File</td>
+                                                <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
+                                                <td class="font-w600">Details</td>
+                                                <td class="font-w600">Date</td>
+                                                <td style="background-color: #7e3e98; cursor: pointer;">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </td>
+                                            </tr> -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                @endif
+                                                    
                             </div>
-                            @endif
-                                                                
-                            
-                            @if(isset(session('permission')->admindash->report->display))
-                            <div id="table-report_{{$session['id']}}" class="table-report">
-                                <table class="table table-striped table-vcenter reportTbl" id="historic-table" style="width:100%;">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 15%;">{{ $translation->l('Session') }}</th>
-                                            <th style="width: 15%;">{{ $translation->l('Student') }}</th>
-                                            <th style="width: 15%;">{{ $translation->l('FileName') }}</th>
-                                            <th style="width: 10%;">{{ $translation->l('FileType') }}</th>
-                                            <th style="width: 40%;">{{ $translation->l('Details') }}</th>
-                                            <th style="width: 10%;">{{ $translation->l('Date') }}</th>
-                                            <th style="width: 10%;" class="text-center">{{ $translation->l('Actions') }}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- <tr>
-                                            <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                                            <td class="font-w600">Name of File</td>
-                                            <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
-                                            <td class="font-w600">Details</td>
-                                            <td class="font-w600">Date</td>
-                                            <td style="background-color: #7e3e98; cursor: pointer;">
-                                                <i class="far fa-trash-alt"></i>
-                                            </td>
-                                        </tr> -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            @endif
-                                                                
                         </div>
                         <div class="col-md-3">
                             
@@ -343,4 +351,5 @@
     Top Right
 </button>
 </div>
+
 @endsection
