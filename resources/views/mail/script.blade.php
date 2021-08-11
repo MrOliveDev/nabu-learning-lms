@@ -317,7 +317,7 @@ async function cancelTemplate(){
 }
 
 var curModel = 0, curUser = 0;
-function selectModel(templateId){
+async function selectModel(templateId){
     curModel = templateId;
     $(".doc-type-item").each(function(){
         $(this).removeClass("active");
@@ -325,6 +325,11 @@ function selectModel(templateId){
     $("#doc-type-item-" + templateId).addClass("active");
     if(curModel && curUser){
         sendMail(curUser);
+    } else if(curModel) {
+        var data = await getTemplateData();
+        var template = data.data;
+
+        $('#overviewPane').trumbowyg('html', template);
     }
 }
 
@@ -499,6 +504,9 @@ async function sendMail(userId){
         else
             template = template.split('#username').join('');
     }
+    if(template.includes('#password')){
+        template = template.split('#password').join('########');
+    }
 
     $('#overviewPane').trumbowyg('html', template);
 
@@ -543,12 +551,21 @@ function sendNow(){
 }
 
 async function sendToAll(){
+    if(!curModel){
+        swal.fire({ title: "Warning", text: "Please select template type.", icon: "info", confirmButtonText: `OK` });
+        return;
+    }
+    
     var ids = [];
     $(".sendcheck").each(function(){
         if($(this)[0].checked){
             ids.push($(this).attr('id').split('sendcheck_').join(''));
         }
     });
+    if(ids.length == 0){
+        swal.fire({ title: "Warning", text: "Please select students.", icon: "info", confirmButtonText: `OK` });
+        return;
+    }
     
     swal.fire({ title: "Please wait...", showConfirmButton: false });
     swal.showLoading();
