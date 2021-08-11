@@ -127,15 +127,17 @@
                         <tbody id="usersList">
                             <tr style="border: 1px solid #7e3e98; cursor: pointer;">
                                 <td class="text-center" style="padding: 0; background-color: #7e3e98; border: 0px;">
-                                    <input style="cursor: pointer;" type="checkbox" id="sendcheck_all" checked>
+                                    <input style="cursor: pointer; filter: hue-rotate(120deg); transform: scale(1.3);" type="checkbox" id="sendcheck_all" checked>
                                 </td>
                             </tr>
                             @forelse($users as $user)
                             <tr class="user-item">
-                                <td class="text-center userAction"><input type="checkbox" id="sendcheck_{{$user['id']}}" class="sendcheck" style="cursor:pointer;" checked></td>
+                                <td class="text-center userAction">
+                                    <input type="checkbox" id="sendcheck_{{$user['id']}}" class="sendcheck" style="cursor:pointer; filter: hue-rotate(120deg); transform: scale(1.3);" checked>
+                                </td>
                                 <td class="font-w600 userName">{{ $user['first_name']. ' ' . $user['last_name'] }}</td>
                                 <!-- <td class="font-w600 text-center userAction" onclick="sendMail({{ $user['id'] }})"><i class="fa fa-envelope"></i></td> -->
-                                <td class="font-w600 text-center userAction" onclick="sendMail({{ $user['id'] }})">Send <i class="fa fa-envelope"></i></td>
+                                <td class="font-w600 text-center userAction" onclick="sendMail({{ $user['id'] }})">Preview <i class="fa fa-envelope"></i></td>
                             </tr>
                             @endforeach
                         </tbody>
