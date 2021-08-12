@@ -11,7 +11,7 @@ class MailHistories extends Model
 
 
     protected $fillable = [
-        'id', 'senderId', 'receiverId', 'detail', 'created_time'
+        'id', 'senderId', 'detail', 'modelId', 'result', 'created_time'
     ];
 
     protected $table = 'tb_mail_history';

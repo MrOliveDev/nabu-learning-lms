@@ -8,11 +8,13 @@ use App\Models\MailTemplateModel;
 use App\Models\MailHistories;
 use App\Models\User;
 use App\Models\SessionModel;
+use App\Models\GroupModel;
 
 use Auth;
 use Exception;
 use ZipArchive;
 use Mail;
+use Mpdf\Mpdf;
 
 class SendmailController extends Controller
 {
@@ -27,6 +29,7 @@ class SendmailController extends Controller
         $images = MailImages::where('userId', Auth::user()->id)->get();
         
         $activeTab = 0;
+        $process = 'List of users';
         if($request['sessionId']){
             $users = array();
             $session = SessionModel::find($request['sessionId']);
@@ -44,30 +47,40 @@ class SendmailController extends Controller
                 }
             }
             $activeTab = 1;
+            $process = 'List of members of the Session ' . $session->name;
         } else if($request['groupId']){
             $users = User::getUserFromGroup($request['id']);
             $activeTab = 1;
+            $group = GroupModel::find($request['id']);
+            if($group)
+                $process = 'List of members of the Group ' . $group->name;
         } else if($request['companyId']){
             $users = User::where('company', $request['companyId'])->get();
             $activeTab = 1;
+            $company = CompanyModel::find($request['id']);
+            if($company)
+                $process = 'List of members of the Company ' . $company->name;
         } else if($request['studentId']){
             $users = array();
             $user = User::find($request['studentId']);
             if($user)
                 $users[] = $user;
             $activeTab = 1;
+            $process = 'Email to a Student';
         } else if($request['teacherId']){
             $users = array();
             $user = User::find($request['teacherId']);
             if($user)
                 $users[] = $user;
             $activeTab = 1;
+            $process = 'Email to a Teacher';
         } else if($request['authorId']){
             $users = array();
             $user = User::find($request['authorId']);
             if($user)
                 $users[] = $user;
             $activeTab = 1;
+            $process = 'Email to an Author';
         } else
             $users = User::get();
 
@@ -77,7 +90,7 @@ class SendmailController extends Controller
             if($contact && $contact->email)
                 $fromAddress = $contact->email;
         }
-        return view('mail.view')->with('templates', $templates)->with('images', $images)->with('users', $users)->with('fromAddress', $fromAddress)->with('activeTab', $activeTab);
+        return view('mail.view')->with('templates', $templates)->with('images', $images)->with('users', $users)->with('fromAddress', $fromAddress)->with('activeTab', $activeTab)->with('process', $process);
     }
 
     /**
@@ -155,9 +168,9 @@ class SendmailController extends Controller
     public function getMailHistories(Request $request){
         $columns = array( 
             0 =>'sender_first',
-            1 =>'receiver_first',
-            2 =>'detail',
-            3 =>'created_time'
+            1 =>'detail',
+            2 =>'model',
+            2 =>'created_time'
         );
         $totalData = MailHistories::count();
         $totalFiltered = $totalData; 
@@ -168,7 +181,7 @@ class SendmailController extends Controller
         $dir = $request->input('order.0.dir');
 
         $handler = new MailHistories;
-        $handler = $handler->leftjoin('tb_users as senders', "senders.id", "=", "tb_mail_history.senderId")->leftjoin('tb_users as receivers', 'receivers.id', '=', 'tb_mail_history.receiverId');
+        $handler = $handler->leftjoin('tb_users as senders', "senders.id", "=", "tb_mail_history.senderId")->leftjoin('tb_mail_model', 'tb_mail_model.id', "=", "tb_mail_history.modelId");
 
         if(empty($request->input('search.value')))
         {            
@@ -181,8 +194,7 @@ class SendmailController extends Controller
                         'tb_mail_history.id as id',
                         'senders.first_name as sender_first',
                         'senders.last_name as sender_last',
-                        'receivers.first_name as receiver_first',
-                        'receivers.last_name as receiver_last',
+                        'tb_mail_model.name as model',
                         'tb_mail_history.detail as detail',
                         'tb_mail_history.created_time as created_time',
                     )
@@ -194,8 +206,7 @@ class SendmailController extends Controller
                             $q->where('tb_mail_history.id','LIKE',"%{$search}%")
                             ->orWhere('senders.first_name', 'LIKE',"%{$search}%")
                             ->orWhere('senders.last_name', 'LIKE',"%{$search}%")
-                            ->orWhere('receivers.first_name', 'LIKE',"%{$search}%")
-                            ->orWhere('receivers.last_name', 'LIKE',"%{$search}%")
+                            ->orWhere('tb_mail_model.name', 'LIKE',"%{$search}%")
                             ->orWhere('tb_mail_history.detail', 'LIKE',"%{$search}%")
                             ->orWhere('tb_mail_history.created_time', 'LIKE',"%{$search}%");
                         })
@@ -207,8 +218,7 @@ class SendmailController extends Controller
                                 'tb_mail_history.id as id',
                                 'senders.first_name as sender_first',
                                 'senders.last_name as sender_last',
-                                'receivers.first_name as receiver_first',
-                                'receivers.last_name as receiver_last',
+                                'tb_mail_model.name as model',
                                 'tb_mail_history.detail as detail',
                                 'tb_mail_history.created_time as created_time',
                             )
@@ -218,8 +228,7 @@ class SendmailController extends Controller
                             $q->where('tb_mail_history.id','LIKE',"%{$search}%")
                             ->orWhere('senders.first_name', 'LIKE',"%{$search}%")
                             ->orWhere('senders.last_name', 'LIKE',"%{$search}%")
-                            ->orWhere('receivers.first_name', 'LIKE',"%{$search}%")
-                            ->orWhere('receivers.last_name', 'LIKE',"%{$search}%")
+                            ->orWhere('tb_mail_model.name', 'LIKE',"%{$search}%")
                             ->orWhere('tb_mail_history.detail', 'LIKE',"%{$search}%")
                             ->orWhere('tb_mail_history.created_time', 'LIKE',"%{$search}%");
                             })
@@ -234,12 +243,15 @@ class SendmailController extends Controller
             {
                 $nestedData['id'] = $history->id;
                 $nestedData['sender'] = $history->sender_first . ' ' . $history->sender_last;
-                $nestedData['receiver'] = $history->receiver_first . ' ' . $history->receiver_last;
                 $nestedData['detail'] = $history->detail;
+                $nestedData['model'] = $history->model;
                 $nestedData['created_time'] = $history->created_time;
                 
                 $nestedData['actions'] = "
                 <div class='text-center'>
+                    <a href='" .url('/').'/pdf/mail_result_'.$history->id.".pdf' class='btn btn-primary mr-3' style='border-radius: 5px' target='_blank'>
+                        <i class='fa fa-download'></i>
+                    </a>
                     <button type='button' class='js-swal-confirm btn btn-danger' onclick='delHistory({$history['id']})' style='border-radius: 5px'>
                         <i class='fa fa-trash'></i>
                     </button>
@@ -390,15 +402,42 @@ class SendmailController extends Controller
                 ->setBody($data['content'], 'text/html');
             });
 
-            MailHistories::create([
-                'senderId' => Auth::user()->id,
-                'receiverId' => $request['userId'],
-                'detail' => $request['subject'],
-                'created_time' => gmdate("Y-m-d\TH:i:s", time())
-            ]);
-
             return response()->json(["success" => true]);
         } else
             return response()->json(["success" => false, "message" => "Missing Parameters."]);
+    }
+
+    /**
+     * Insert mail send history.
+     *
+     * @param  Request  $request
+     * @return JSON
+     */
+    public function insertMailHistory(Request $request){
+        if(!empty($request['from']) && !empty($request['model']) && !empty($request['process']) && !empty($request['result'])){
+            $history = MailHistories::create([
+                'senderId' => Auth::user()->id,
+                'detail' => $request['process'],
+                'modelId' => $request['model'],
+                'result' => $request['result'],
+                'created_time' => gmdate("Y-m-d\TH:i:s", time())
+            ]);
+
+            $mpdf = new MPdf(['mode' => 'utf-8', 'format' => 'A4', 'tempDir'=>storage_path('tempdir'), 'setAutoTopMargin' => 'stretch', 'setAutoBottomMargin' => 'stretch']);
+            $mpdf->writeHTML('<p><b>Email process report : </b> '. $request['process'] . ' </p>');
+            
+            $model = MailTemplateModel::find($request['model']);
+            $mpdf->writeHTML('<p><b>Email model : </b> '. ($model ? $model->name : '') . ' </p>');
+
+            $mpdf->writeHTML('<p><b>Sender : </b> '. $request['from'] . ' </p>');
+
+            $mpdf->writeHTML('<p><b>Recipient : </b></p>');
+            $mpdf->writeHTML(str_replace("\n", "<wbr> </wbr>", $request['result']));
+            $filelink = storage_path('pdf') . '/' . 'mail_result_' . $history->id . '.pdf';
+            $mpdf->Output($filelink, 'F');
+
+            return response()->json(["succes" => true]);
+        } else
+            return response()->json(["succes" => false]);
     }
 }

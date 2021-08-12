@@ -326,6 +326,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('saveMailImg', '\App\Http\Controllers\SendmailController@saveMailImg')->name('saveMailImg');
     Route::post('getUserInfo', '\App\Http\Controllers\SendmailController@getUserInfo')->name('getUserInfo');
     Route::post('mailsend', '\App\Http\Controllers\SendmailController@mailsend')->name('mailsend');
+    Route::post('insertMailHistory', '\App\Http\Controllers\SendmailController@insertMailHistory')->name('insertMailHistory');
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
