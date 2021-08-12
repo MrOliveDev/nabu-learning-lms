@@ -129,6 +129,9 @@
 @endsection
 
 <div id="content"
+data-log-user-id="{{auth()->user()->id}}"
+data-log-user-type="{{auth()->user()->type}}"
+data-student-limited="{{isset(session('permission')->limited)}}"
 data-student-display="{{isset(session('permission')->student->student->display)}}"
 data-student-edit="{{isset(session('permission')->student->student->edit)}}"
 data-student-delete="{{isset(session('permission')->student->student->delete)}}"
@@ -268,20 +271,22 @@ data-search-showtable="{{isset(session('permission')->student->search->showtable
                                         <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?studentId={{$student->id}}')">
                                             <i class="px-2 fa fa-envelope"></i>
                                         </button>
-                                    @if(isset(session('permission')->student->student->show))
-                                    <button class="btn item-show" data-content='student'>
-                                        <i class="px-2 fa fa-eye"></i>
-                                    </button>
-                                    @endif
-                                    @if(isset(session("permission")->student->student->edit))
-                                    <button class="btn item-edit" data-content='student'>
-                                        <i class="px-2 fa fa-edit"></i>
-                                    </button>
-                                    @endif
-                                    @if(isset(session("permission")->student->student->delete))
-                                    <button class="btn item-delete" data-content='student'>
-                                        <i class="px-2 fa fa-trash-alt"></i>
-                                    </button>
+                                    @if(!isset(session("permission")->limited) || (auth()->user()->type == 3 && auth()->user()->id == $student->id_creator))
+                                        @if(isset(session('permission')->student->student->show))
+                                        <button class="btn item-show" data-content='student'>
+                                            <i class="px-2 fa fa-eye"></i>
+                                        </button>
+                                        @endif
+                                        @if(isset(session("permission")->student->student->edit))
+                                        <button class="btn item-edit" data-content='student'>
+                                            <i class="px-2 fa fa-edit"></i>
+                                        </button>
+                                        @endif
+                                        @if(isset(session("permission")->student->student->delete))
+                                        <button class="btn item-delete" data-content='student'>
+                                            <i class="px-2 fa fa-trash-alt"></i>
+                                        </button>
+                                        @endif
                                     @endif
                                 </div>
                             </a>
@@ -318,23 +323,25 @@ data-search-showtable="{{isset(session('permission')->student->search->showtable
                                         <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?teacherId={{$teacher->id}}')">
                                             <i class="px-2 fa fa-envelope"></i>
                                         </button>
-                                @if(isset(session('permission')->student->teacher->show))
+                                @if(!isset(session("permission")->limited) || (auth()->user()->type == 3 && auth()->user()->id == $teacher->id_creator))
+                                    @if(isset(session('permission')->student->teacher->show))
 
-                                    <button class="btn item-show" data-content='teacher'>
-                                        <i class="px-2 fa fa-eye"></i>
-                                    </button>
-                                @endif
+                                        <button class="btn item-show" data-content='teacher'>
+                                            <i class="px-2 fa fa-eye"></i>
+                                        </button>
+                                    @endif
 
-                                @if(isset(session("permission")->student->teacher->edit))
-                                    <button class="btn item-edit" data-content='teacher'>
-                                        <i class="px-2 fa fa-edit"></i>
-                                    </button>
-                                @endif
+                                    @if(isset(session("permission")->student->teacher->edit))
+                                        <button class="btn item-edit" data-content='teacher'>
+                                            <i class="px-2 fa fa-edit"></i>
+                                        </button>
+                                    @endif
 
-                                @if(isset(session("permission")->student->teacher->delete))
-                                    <button class="btn item-delete" data-content='teacher'>
-                                        <i class="px-2 fa fa-trash-alt"></i>
-                                    </button>
+                                    @if(isset(session("permission")->student->teacher->delete))
+                                        <button class="btn item-delete" data-content='teacher'>
+                                            <i class="px-2 fa fa-trash-alt"></i>
+                                        </button>
+                                    @endif
                                 @endif
                                 </div>
                             </a>
@@ -371,22 +378,24 @@ data-search-showtable="{{isset(session('permission')->student->search->showtable
                                         <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?authorId={{$author->id}}')">
                                             <i class="px-2 fa fa-envelope"></i>
                                         </button>
-                                    @if(isset(session('permission')->student->author->show))
-                                    <button class="btn item-show" data-content='author'>
-                                        <i class="px-2 fa fa-eye"></i>
-                                    </button>
-                                    @endif
-
-                                    @if(isset(session("permission")->student->author->edit))
-                                    <button class="btn item-edit" data-content='author'>
-                                            <i class="px-2 fa fa-edit"></i>
+                                    @if(!isset(session("permission")->limited) || (auth()->user()->type == 3 && auth()->user()->id == $author->id_creator))
+                                        @if(isset(session('permission')->student->author->show))
+                                        <button class="btn item-show" data-content='author'>
+                                            <i class="px-2 fa fa-eye"></i>
                                         </button>
-                                    @endif
+                                        @endif
 
-                                    @if(isset(session("permission")->student->author->delete))
-                                    <button class="btn item-delete" data-content='author'>
-                                            <i class="px-2 fa fa-trash-alt"></i>
-                                        </button>
+                                        @if(isset(session("permission")->student->author->edit))
+                                        <button class="btn item-edit" data-content='author'>
+                                                <i class="px-2 fa fa-edit"></i>
+                                            </button>
+                                        @endif
+
+                                        @if(isset(session("permission")->student->author->delete))
+                                        <button class="btn item-delete" data-content='author'>
+                                                <i class="px-2 fa fa-trash-alt"></i>
+                                            </button>
+                                        @endif
                                     @endif
                                 </div>
                             </a>
@@ -734,20 +743,22 @@ data-search-showtable="{{isset(session('permission')->student->search->showtable
                                 <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?groupId={{$group->id}}')">
                                     <i class="px-2 fa fa-envelope"></i>
                                 </button>
-                                @if (isset(session("permission")->student->group->show))
-                                <button class="btn toggle1-btn item-show" data-content="group">
-                                    <i class="px-2 fa fa-eye"></i>
-                                </button>
-                                @endif
-                                @if (isset(session("permission")->student->group->edit))
-                                <button class="btn item-edit toggle1-btn" data-content="group">
-                                    <i class="px-2 fa fa-edit"></i>
-                                </button>
-                                @endif
-                                @if (isset(session("permission")->student->group->delete))
-                                <button class="btn item-delete toggle1-btn" data-content="group">
-                                    <i class="px-2 fa fa-trash-alt"></i>
-                                </button>
+                                @if(!isset(session("permission")->limited) || (auth()->user()->type == 3 && auth()->user()->id == $group->id_creator))
+                                    @if (isset(session("permission")->student->group->show))
+                                    <button class="btn toggle1-btn item-show" data-content="group">
+                                        <i class="px-2 fa fa-eye"></i>
+                                    </button>
+                                    @endif
+                                    @if (isset(session("permission")->student->group->edit))
+                                    <button class="btn item-edit toggle1-btn" data-content="group">
+                                        <i class="px-2 fa fa-edit"></i>
+                                    </button>
+                                    @endif
+                                    @if (isset(session("permission")->student->group->delete))
+                                    <button class="btn item-delete toggle1-btn" data-content="group">
+                                        <i class="px-2 fa fa-trash-alt"></i>
+                                    </button>
+                                    @endif
                                 @endif
                                 <button class="btn toggle2-btn" data-content="group">
                                     <i class="px-2 fas fa-check-circle"></i>
@@ -773,20 +784,22 @@ data-search-showtable="{{isset(session('permission')->student->search->showtable
                                 <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?companyId={{$company->id}}')">
                                     <i class="px-2 fa fa-envelope"></i>
                                 </button>
-                                @if(isset(session("permission")->student->company->show))
-                                <button class="btn toggle1-btn item-show" data-content='company'>
-                                    <i class="px-2 fa fa-eye"></i>
-                                </button>
-                                @endif
-                                @if(isset(session("permission")->student->company->edit))
-                                <button class="btn item-edit toggle1-btn" data-content='company'>
-                                    <i class="px-2 fa fa-edit"></i>
-                                </button>
-                                @endif
-                                @if(isset(session("permission")->student->company->display))
-                                <button class="btn item-delete toggle1-btn" data-content='company'>
-                                    <i class="px-2 fa fa-trash-alt"></i>
-                                </button>
+                                @if(!isset(session("permission")->limited) || (auth()->user()->type == 3 && auth()->user()->id == $company->id_creator))
+                                    @if(isset(session("permission")->student->company->show))
+                                    <button class="btn toggle1-btn item-show" data-content='company'>
+                                        <i class="px-2 fa fa-eye"></i>
+                                    </button>
+                                    @endif
+                                    @if(isset(session("permission")->student->company->edit))
+                                    <button class="btn item-edit toggle1-btn" data-content='company'>
+                                        <i class="px-2 fa fa-edit"></i>
+                                    </button>
+                                    @endif
+                                    @if(isset(session("permission")->student->company->display))
+                                    <button class="btn item-delete toggle1-btn" data-content='company'>
+                                        <i class="px-2 fa fa-trash-alt"></i>
+                                    </button>
+                                    @endif
                                 @endif
                                 <button class="btn toggle2-btn" data-content='company'>
                                     <i class="px-2 fas fa-check-circle"></i>
@@ -810,20 +823,22 @@ data-search-showtable="{{isset(session('permission')->student->search->showtable
                                 <input type="hidden" name="item-name" value="{{ $position->name }}">
                             </div>
                             <div class="float-right btn-group">
-                                @if(isset(session("permission")->student->position->show))
-                                <button class="btn toggle1-btn item-show" data-content='position'>
-                                    <i class="px-2 fa fa-eye"></i>
-                                </button>
-                                @endif
-                                @if(isset(session("permission")->student->position->edit))
-                                <button class="btn item-edit toggle1-btn" data-content='position'>
-                                    <i class="px-2 fa fa-edit"></i>
-                                </button>
-                                @endif
-                                @if(isset(session("permission")->student->position->display))
-                                <button class="btn item-delete toggle1-btn" data-content='position'>
-                                    <i class="px-2 fa fa-trash-alt"></i>
-                                </button>
+                                @if(!isset(session("permission")->limited) || (auth()->user()->type == 3 && auth()->user()->id == $position->id_creator))
+                                    @if(isset(session("permission")->student->position->show))
+                                    <button class="btn toggle1-btn item-show" data-content='position'>
+                                        <i class="px-2 fa fa-eye"></i>
+                                    </button>
+                                    @endif
+                                    @if(isset(session("permission")->student->position->edit))
+                                    <button class="btn item-edit toggle1-btn" data-content='position'>
+                                        <i class="px-2 fa fa-edit"></i>
+                                    </button>
+                                    @endif
+                                    @if(isset(session("permission")->student->position->display))
+                                    <button class="btn item-delete toggle1-btn" data-content='position'>
+                                        <i class="px-2 fa fa-trash-alt"></i>
+                                    </button>
+                                    @endif
                                 @endif
                                 <button class="btn toggle2-btn" data-content='position'>
                                     <i class="px-2 fas fa-check-circle"></i>

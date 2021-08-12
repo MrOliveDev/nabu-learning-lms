@@ -72,7 +72,7 @@ class LoginController extends Controller
         // exit;
 
         $user = User::where('email', $request->email)
-            ->where('password', $request->password)
+            ->where('password', base64_encode($request->password))
             ->first();
 
         // var_dump($user->password);die;
@@ -141,7 +141,7 @@ class LoginController extends Controller
         $result = User::where('login', '=', $input['username'])->orWhere('contact_info', 'like', "%" . $input['username'] . "%")->get();
 
         foreach ($result as $user) {
-            if (Hash::check($input['password'], $user->password)) {
+            if (base64_encode($input['password']) == $user->password) {
 
                 $request->session()->regenerate();
                 // var_dump(session()->getID());die;
@@ -191,7 +191,7 @@ class LoginController extends Controller
 
         } else if(auth()->user()->type == 3) {
             $this->redirectTo = "student";
-
+            session(["client" => auth()->user()->id_creator]);
         } else if(auth()->user()->type == 2) {
             $this->redirectTo = "template";
 
