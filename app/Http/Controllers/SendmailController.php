@@ -432,7 +432,9 @@ class SendmailController extends Controller
             $mpdf->writeHTML('<p><b>Sender : </b> '. $request['from'] . ' </p>');
 
             $mpdf->writeHTML('<p><b>Recipient : </b></p>');
-            $mpdf->writeHTML(str_replace("<br>", "<wbr> </wbr>", $request['result']));
+            foreach($request['result'] as $line)
+                $mpdf->writeHTML('<p>' . $line . '</p>');
+                
             $filelink = storage_path('pdf') . '/' . 'mail_result_' . $history->id . '.pdf';
             $mpdf->Output($filelink, 'F');
 

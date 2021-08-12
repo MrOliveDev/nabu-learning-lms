@@ -662,6 +662,7 @@ async function sendToAll(){
     }
 
     insertHistory($("#process").val(), $("#statusNotes").val());
+    swal.fire({ title: "All done.", text: "Sending mails finished.", icon: "success", confirmButtonText: `OK` });
 
     $(document)
         .ajaxStart(function() {
@@ -681,7 +682,7 @@ function insertHistory(process, result){
     $.ajax({
         url: 'insertMailHistory',
         method: 'post',
-        data: {from: $("#from-address").val(), model: curModel, process: process, result: result.split('\n').join('<br>')},
+        data: {from: $("#from-address").val(), model: curModel, process: process, result: result.split('\n')},
         success: function(res) {
             $('#historic-table').DataTable().ajax.reload();
         },
