@@ -419,7 +419,7 @@ class SendmailController extends Controller
                 'senderId' => Auth::user()->id,
                 'detail' => $request['process'],
                 'modelId' => $request['model'],
-                'result' => $request['result'],
+                'result' => implode("\n", $request['result']),
                 'created_time' => gmdate("Y-m-d\TH:i:s", time())
             ]);
 
@@ -434,7 +434,7 @@ class SendmailController extends Controller
             $mpdf->writeHTML('<p><b>Recipient : </b></p>');
             foreach($request['result'] as $line)
                 $mpdf->writeHTML('<p>' . $line . '</p>');
-                
+
             $filelink = storage_path('pdf') . '/' . 'mail_result_' . $history->id . '.pdf';
             $mpdf->Output($filelink, 'F');
 
