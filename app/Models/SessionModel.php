@@ -421,7 +421,7 @@ class SessionModel extends Model
     }
 
     public function scopeGetUserFromSessionByType($query, $type) {
-        $sessions = SessionModel::getSessionFromUser($teacher_id);
+        $sessions = SessionModel::getSessionFromUser(session("client"));
         $result = array();
         foreach($sessions as $session) {
             if($type==4){
