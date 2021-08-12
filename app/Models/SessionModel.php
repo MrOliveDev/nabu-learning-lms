@@ -391,6 +391,27 @@ class SessionModel extends Model
         return $result;
     }
 
+    public function scopeGetTeachersFromSession($query, $session_id) {
+        $teacherData = array();
+        if (isset($participant_data) || $participant_data != "") {
+            $participant = json_decode($participant_data);
+            $teacherList = isset($participant->t) ? $participant->t : array();
+
+            if (isset($teacherList) || $teacherList != "") {
+                if (count($teacherList) != 0) {
+                    foreach ($teacherList as $teacherValue) {
+                        // print_r($studentValue);
+                        $studentItem = User::find($teacherValue);
+                        if($studentItem)
+                            array_push($teacherData, $studentItem->toArray());
+                    }
+                }
+            }
+
+        }
+        return $teacherData;
+    }
+
     public function scopeGetStudentFromOwnedTeacher($query, $teacher_id) {
         $sessions = SessionModel::getSessionFromUser($teacher_id);
         $result = array();
@@ -400,4 +421,16 @@ class SessionModel extends Model
         return $result;
     }
 
+    public function scopeGetUserFromSessionByType($query, $type) {
+        $sessions = SessionModel::getSessionFromUser($teacher_id);
+        $result = array();
+        foreach($sessions as $session) {
+            if($type==4){
+                array_push($result, ...SessionModel::getStudentsFromSession($session->participants));
+            } else {
+                array_push($result, ...SessionModel::getTeachersFromSession($session->participants));
+            }
+        }
+        return $result;
+    }
 }

@@ -150,8 +150,9 @@
                                     </a>
                                 </li>
                                 @endif
+                                @if(isset(session('permission')->training)||isset(session('permission')->template))
                                 <hr>
-
+                                @endif
                                 @if (isset(session('permission')->training))
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{ route('training') }}" id="parcours">
@@ -180,9 +181,9 @@
                                     </a>
                                 </li>
                                 @endif
-
+                                @if(isset(session('permission')->report)||isset(session('permission')->report))
                                 <hr>
-
+                                @endif
                                 @if (isset(session('permission')->report))
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{ route('sendmail') }}" id="outil">

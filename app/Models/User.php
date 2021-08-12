@@ -101,8 +101,15 @@ class User extends Authenticatable
             'tb_languages.language_iso as language_iso'
         )
         ->leftjoin('tb_interface_config', 'tb_interface_config.id', '=', 'tb_users.id_config')
-        ->leftjoin('tb_languages', 'tb_users.lang', 'tb_languages.language_id')
-        ->where("tb_users.id_creator", $client)
+        ->leftjoin('tb_languages', 'tb_users.lang', 'tb_languages.language_id');
+        if(session("client")!=null) {
+            $result = $result
+            ->where("tb_users.id_creator", $client);
+        } elseif(session("limited")!=null) {
+            $result = $result
+            ->where("tb_users.id_creator", $client);
+        }
+        $result = $result
         ->where('tb_users.type', $type)
         ->get();
         return $result;
@@ -161,5 +168,22 @@ class User extends Authenticatable
     public function scopeGetUserByClient($query) {
         $users = $query->where('id_creator', session("client"))->get();
         return $users;
+    }
+
+    public function scopeGet_clientsInfo($query)
+    {
+        $clientlist = $query
+            ->select(
+                'tb_users.*',
+                'tb_interface_config.interface_color as interface_color',
+                'tb_interface_config.interface_icon as interface_icon',
+                'tb_interface_config.id as interface_id',
+                'tb_config.config as config'
+            )
+            ->leftjoin('tb_interface_config', 'tb_interface_config.id', '=', 'tb_users.id_config')
+            ->leftjoin('tb_config', 'tb_config.id', "=", 'tb_users.id_config')
+            ->where('type', '=', 1)->get();
+
+        return $clientlist;
     }
 }

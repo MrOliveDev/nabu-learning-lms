@@ -49,8 +49,13 @@ class DashController extends Controller
                 $query->where('end_date', ">", today())
                       ->orWhere('end_date', '=', null);
             })
-            ->where('status', 1)
-            ->where("id_creator", session("client"))->count();
+            ->where('status', 1);
+            if(session("client")!=null){
+                $sessionsInProgress = $sessionsInProgress
+                ->where("id_creator", session("client"));
+            }
+            $sessionsInProgress = $sessionsInProgress
+            ->count();
 
             $createdLessons = LessonsModel::all()->count();
 

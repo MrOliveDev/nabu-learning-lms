@@ -11,7 +11,7 @@ use App\Models\PositionModel;
 use App\Models\CompanyModel;
 use App\Models\ConfigModel;
 use App\Models\LanguageModel;
-// use App\Models\SessionModel;
+use App\Models\SessionModel;
 use App\Models\PermissionModel;
 
 use Hackzilla\PasswordGenerator\Generator\RequirementPasswordGenerator;
@@ -22,12 +22,18 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $students = User::getUserPageInfo(4);
-        $authors = User::getUserPageInfo(2);
-        $teachers = User::getUserPageInfo(3);
-        $groups = GroupModel::all();
+        if(auth()->user()->type != 3){
+            $students = User::getUserPageInfo(4);
+            $teachers = User::getUserPageInfo(3);
+            $authors = User::getUserPageInfo(2);
+        } else {
+            $students = SessionModel::scopeGetUserFromSessionByType(4);
+            $teachers = SessionModel::scopeGetUserFromSessionByType(3);
+            $authors = SessionModel::getUserPageInfo(2);
+        }
+        $groups = GroupModel::getGroupByClient();
         $positions = PositionModel::all();
-        $companies = CompanyModel::all();
+        $companies = CompanyModel::getCompanyByClient();
         $languages = LanguageModel::all();
         $permissions = PermissionModel::all();
 
@@ -94,7 +100,7 @@ class StudentController extends Controller
 
         $user = User::create([
             'login' => $request->post('login'),
-            'password' => $request->post('password'),
+            'password' => base64_encode($request->post('password')),
             'first_name' => $request->post('first_name'),
             'last_name' => $request->post('last_name'),
             'contact_info' => json_encode($contact_info),
@@ -215,7 +221,7 @@ class StudentController extends Controller
         }
         $user->status = $request->input('user-status-icon');
         if ($request->input('password') != null) {
-            $user->password = $request->input('password');
+            $user->password = base64_encode($request->input('password'));
         }
         if ($user->contact_info != null) {
             $address = json_decode($user->contact_info);

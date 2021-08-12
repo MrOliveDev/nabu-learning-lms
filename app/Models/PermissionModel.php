@@ -18,8 +18,7 @@ class PermissionModel extends Model
     public $timestamps = false;
 
     public function scopeGetPermission($query, $id) {
-        $permissionItem = $query->where('id', $id)->first();
-        
-        return json_decode($permissionItem->permission);
+        $permissionItem = PermissionModel::where('id', $id)->get();
+        return $permissionItem[0]->permission!=null ? json_decode($permissionItem[0]->permission) : null;
     }
 }

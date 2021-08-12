@@ -30,7 +30,7 @@ class ClientController extends Controller
             $clientsList[$client->id]['interface_color'] = json_decode($clientsList[$client->id]["interface_color"]);
             $clientsList[$client->id]['email'] = json_decode($clientsList[$client->id]["contact_info"])->email;
             $clientsList[$client->id]['contact_info'] = json_decode($clientsList[$client->id]["contact_info"])->address;
-            $clientsList[$client->id]['pptimport'] = json_decode($clientsList[$client->id]["config"])->PPTImport;
+            $clientsList[$client->id]['pptimport'] = $clientsList[$client->id]["config"]!=null?json_decode($clientsList[$client->id]["config"])->PPTImport:null;
             $clientsList[$client->id]['config'] = "";
         }
         $languages=LanguageModel::all();
@@ -96,7 +96,7 @@ class ClientController extends Controller
 
         $client = User::create([
             'login' => $request->input('login'),
-            'password' => $request->input('password'),
+            'password' => base64_encode($request->input('password')),
             'company' => $request->input('company'),
             'first_name' => $request->input('firstname'),
             'last_name' => $request->input('lastname'),
@@ -199,7 +199,7 @@ class ClientController extends Controller
         $client->login = $request->input('login');
         $client->company = $request->input('company');
         if ($request->input('password')!=null) {
-            $client->password = md5($request->input('password'));
+            $client->password = base64_encode($request->input('password'));
         }
         $client->first_name = $request->input('firstname');
         $client->last_name = $request->input('lastname');
