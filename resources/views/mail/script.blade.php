@@ -681,14 +681,12 @@ function insertHistory(process, result){
     $.ajax({
         url: 'insertMailHistory',
         method: 'post',
-        data: {from: $("#from-address").val(), model: curModel, process: process, result: result},
+        data: {from: $("#from-address").val(), model: curModel, process: process, result: result.split('\n').join('<br>')},
         success: function(res) {
-            if(res.success){
-                $('#historic-table').DataTable().ajax.reload();
-            } 
+            $('#historic-table').DataTable().ajax.reload();
         },
         error: function(err) {
-            resolve("Error(API Failed)");
+            $('#historic-table').DataTable().ajax.reload();
         }
     });
 }
