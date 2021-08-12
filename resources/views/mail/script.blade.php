@@ -63,7 +63,7 @@ $(document).ready(function(){
             },
         "columns": [
             { "data": "sender" },
-            { "data": "receiver" },
+            { "data": "model" },
             { "data": "detail" },
             { "data": "created_time" },
             { "data": "actions", "orderable": false }
@@ -324,7 +324,7 @@ async function selectModel(templateId){
     });
     $("#doc-type-item-" + templateId).addClass("active");
     if(curModel && curUser){
-        sendMail(curUser);
+        previewMail(curUser);
     } else if(curModel) {
         var data = await getTemplateData();
         var template = data.data;
@@ -442,7 +442,7 @@ function getUserInfo(userId = null){
 //     swal.close();
 // }
 
-async function sendMail(userId){
+async function previewMail(userId){
     curUser = userId;
     if(!curModel){
         swal.fire({ title: "Warning", text: "Please select template type.", icon: "info", confirmButtonText: `OK` });
@@ -454,6 +454,7 @@ async function sendMail(userId){
 
     var data = await getTemplateData();
     var template = data.data;
+
     if(template == null){
         swal.fire({ title: "Warning", text: "Error while getting template data.", icon: "error", confirmButtonText: `OK` });
         return;
@@ -537,20 +538,46 @@ function sendNow(){
         success: function(res) {
             if(res.success){
                 notification("Successfully sent!", 1);
+                insertHistory($("#process").val(), $("#to-address").val() + ' -------- Success\n');
             } else{
                 notification(res.message, 2);
+                insertHistory($("#process").val(), $("#to-address").val() + ' -------- Error(' + res.message + ')\n');
             }
             swal.close();
         },
         error: function(err) {
             notification("Sorry, You have an error!", 2);
             swal.close();
+            insertHistory($("#process").val(), $("#to-address").val() + ' -------- Error(API Failed)\n');
         }
     });
     
 }
 
+function mailsend(from, to, subject, content, userId){
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: 'mailsend',
+            method: 'post',
+            data: {from: from, to: to, subject: subject, content: content, userId: userId},
+            success: function(res) {
+                if(res.success){
+                    resolve('Success');
+                } else{
+                    let msg = 'Error(' + res.message + ')';
+                    resolve(msg);
+                }
+            },
+            error: function(err) {
+                resolve("Error(API Failed)");
+            }
+        });   
+    })
+}
+
 async function sendToAll(){
+    $(document).ajaxStart(function() { $('body').waitMe("hide"); });
+
     if(!curModel){
         swal.fire({ title: "Warning", text: "Please select template type.", icon: "info", confirmButtonText: `OK` });
         return;
@@ -566,12 +593,10 @@ async function sendToAll(){
         swal.fire({ title: "Warning", text: "Please select students.", icon: "info", confirmButtonText: `OK` });
         return;
     }
-    
-    swal.fire({ title: "Please wait...", showConfirmButton: false });
-    swal.showLoading();
 
     var data = await getTemplateData();
     var template = data.data;
+
     if(template == null){
         swal.fire({ title: "Warning", text: "Error while getting template data.", icon: "error", confirmButtonText: `OK` });
         return;
@@ -581,7 +606,11 @@ async function sendToAll(){
         return;
     }
 
+    $("#statusNotes").val('');
+    $("#statusNumbers").html(`0 / ${ids.length}`);
+    $("#progressModal").modal({ backdrop: 'static', keyboard: false });
     for(let i = 0; i < ids.length; i ++){
+        $("#statusNotes").val($("#statusNotes").val() + $("#user-name-" + ids[i]).html());
         var info = await getUserInfo(ids[i]);
         var content = template;
         if(info == null){
@@ -597,10 +626,15 @@ async function sendToAll(){
                 console.log(e);
             }
 
-            if(!contact || !contact.email)
+            if(!contact || !contact.email){
+                $("#statusNotes").val($("#statusNotes").val() + ' -------- Error(No Email)\n');
                 break;
-        } else
+            } else
+                $("#statusNotes").val($("#statusNotes").val() + `(${contact.email}) -------- `);
+        } else {
+            $("#statusNotes").val($("#statusNotes").val() + ' -------- Error(No Contact Info)\n');
             break;
+        }
         
         if(content.includes('#last_name')){
             if(info && info.last_name)
@@ -621,23 +655,42 @@ async function sendToAll(){
                 content = content.split('#username').join('');
         }
 
-        $.ajax({
-            url: 'mailsend',
-            method: 'post',
-            data: {from: $("#from-address").val(), to: contact.email, subject: data.subject, content: content, userId: ids[i]},
-            success: function(res) {
-                if(res.success){
-                    notification("Successfully sent!", 1);
-                } else{
-                    notification(res.message, 2);
-                }
-            },
-            error: function(err) {
-                notification("Sorry, You have an error!", 2);
-            }
-        });        
+        var status = await mailsend($("#from-address").val(), contact.email, data.subject, content, ids[i]);
+        $("#statusNotes").val($("#statusNotes").val() + `${status}\n`);
+
+        $("#statusNumbers").html(`${i + 1} / ${ids.length}`);
     }
-    swal.close();
+
+    insertHistory($("#process").val(), $("#statusNotes").val());
+
+    $(document)
+        .ajaxStart(function() {
+            $('body').waitMe({
+                effect: 'bounce',
+                text: 'Loading...',
+                bg: 'rgba(255, 255, 255, 0.7)',
+                color: '#000'
+            });
+        })
+        .ajaxStop(function() {
+            $('body').waitMe("hide");
+        });
+}
+
+function insertHistory(process, result){
+    $.ajax({
+        url: 'insertMailHistory',
+        method: 'post',
+        data: {from: $("#from-address").val(), model: curModel, process: process, result: result},
+        success: function(res) {
+            if(res.success){
+                $('#historic-table').DataTable().ajax.reload();
+            } 
+        },
+        error: function(err) {
+            resolve("Error(API Failed)");
+        }
+    });
 }
 
 function delHistory(id){

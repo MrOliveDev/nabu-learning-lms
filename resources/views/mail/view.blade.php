@@ -67,11 +67,11 @@
             <table class="table table-striped table-vcenter mailTbl" id="historic-table" style="width:100%;">
             <thead>
                 <tr>
-                    <th style="width: 20%;">{{ $translation->l('Sender') }}</th>
-                    <th style="width: 20%;">{{ $translation->l('Receiver') }}</th>
-                    <th style="width: 40%;">{{ $translation->l('Details') }}</th>
-                    <th style="width: 10%;">{{ $translation->l('Date') }}</th>
-                    <th style="width: 10%;" class="text-center">{{ $translation->l('Actions') }}</th>
+                    <th style="width: 15%;">{{ $translation->l('Sender') }}</th>
+                    <th style="width: 20%;">{{ $translation->l('Model Name') }}</th>
+                    <th style="width: 30%;">{{ $translation->l('Details') }}</th>
+                    <th style="width: 15%;">{{ $translation->l('Date') }}</th>
+                    <th style="width: 20%;" class="text-center">{{ $translation->l('Actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -135,9 +135,9 @@
                                 <td class="text-center userAction">
                                     <input type="checkbox" id="sendcheck_{{$user['id']}}" class="sendcheck" style="cursor:pointer; filter: hue-rotate(120deg); transform: scale(1.3);" checked>
                                 </td>
-                                <td class="font-w600 userName">{{ $user['first_name']. ' ' . $user['last_name'] }}</td>
+                                <td class="font-w600 userName" id="user-name-{{$user['id']}}">{{ $user['first_name']. ' ' . $user['last_name'] }}</td>
                                 <!-- <td class="font-w600 text-center userAction" onclick="sendMail({{ $user['id'] }})"><i class="fa fa-envelope"></i></td> -->
-                                <td class="font-w600 text-center userAction" onclick="sendMail({{ $user['id'] }})">Preview <i class="fa fa-envelope"></i></td>
+                                <td class="font-w600 text-center userAction" onclick="previewMail({{ $user['id'] }})">Preview <i class="fa fa-envelope"></i></td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -271,6 +271,7 @@
             </fieldset>
         </div>
 
+        <input type="hidden" id="process" value="{{ $process }}">
     </div>
     
     <div class="modal myModal fade" id="image-crop-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
@@ -286,6 +287,32 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary" id="crop">Crop</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="modal-block-popout" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-popout" role="document">
+            <div class="modal-content">
+                <div class="block block-themed block-transparent mb-0">
+                    <div class="block-header bg-primary-dark">
+                        <h3 class="block-title">Progress</h3>
+                        <div class="block-options">
+                            <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                                <i class="fa fa-fw fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <p class="text-center" id="statusNumbers">0 / 0</p>
+                        <textarea style="width: 100%; height: 350px; resize: none;" id="statusNotes" readonly>
+                        </textarea>
+                    </div>
+                    <div class="block-content block-content-full text-right bg-light">
+                        <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Done</button>
+                    </div>
                 </div>
             </div>
         </div>
