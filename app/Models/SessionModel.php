@@ -142,7 +142,6 @@ class SessionModel extends Model
 
     public function scopeGetTrainingsForStudent($query, $id)
     {
-
         $user = User::find($id);
         $sessionList = $query->get();
         $sessions = array();
@@ -228,7 +227,7 @@ class SessionModel extends Model
 
                                     array_push($temp_trainings, $new_training);
                                     if(!$repeat){
-                                        $score_data = DB::connection('mysql_reports')->select('select AVG(progress_screen_optim) as progress_screen_optim, AVG(last_eval_id_screen_optim) as last_eval_id_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.$user_id.'"');
+                                        $score_data = DB::connection('mysql_reports')->select('select AVG(progress_screen_optim) as progress_screen_optim, AVG(last_eval_id_screen_optim) as last_eval_id_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.session("user_id").'"');
                                         $progress = $score_data==NULL?0:(count($score_data)==0?0:($score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0));
                                         $eval = $score_data==NULL?0:(count($score_data)==0?0:($score_data[0]->last_eval_id_screen_optim?$score_data[0]->last_eval_id_screen_optim:0));
                                         array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval]);
