@@ -170,7 +170,7 @@ class SendmailController extends Controller
             0 =>'sender_first',
             1 =>'detail',
             2 =>'model',
-            2 =>'created_time'
+            3 =>'created_time'
         );
         $totalData = MailHistories::count();
         $totalFiltered = $totalData; 
