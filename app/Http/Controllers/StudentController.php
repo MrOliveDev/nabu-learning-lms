@@ -27,8 +27,8 @@ class StudentController extends Controller
             $teachers = User::getUserPageInfo(3);
             $authors = User::getUserPageInfo(2);
         } else {
-            $students = SessionModel::scopeGetUserFromSessionByType(4);
-            $teachers = SessionModel::scopeGetUserFromSessionByType(3);
+            $students = SessionModel::getUserFromSessionByType(4);
+            $teachers = SessionModel::getUserFromSessionByType(3);
             $authors = SessionModel::getUserPageInfo(2);
         }
         $groups = GroupModel::getGroupByClient();
