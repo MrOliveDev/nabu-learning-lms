@@ -594,6 +594,9 @@ async function sendToAll(){
         return;
     }
 
+    swal.fire({ title: "Please wait...", showConfirmButton: false });
+    swal.showLoading();
+
     var data = await getTemplateData();
     var template = data.data;
 
@@ -605,6 +608,8 @@ async function sendToAll(){
         swal.fire({ title: "Warning", text: "From Address cannot be empty.", icon: "error", confirmButtonText: `OK` });
         return;
     }
+
+    swal.close();
 
     $("#statusNotes").val('');
     $("#statusNumbers").html(`0 / ${ids.length}`);
