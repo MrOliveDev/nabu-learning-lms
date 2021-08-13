@@ -594,6 +594,9 @@ async function sendToAll(){
         return;
     }
 
+    swal.fire({ title: "Please wait...", showConfirmButton: false });
+    swal.showLoading();
+
     var data = await getTemplateData();
     var template = data.data;
 
@@ -605,6 +608,8 @@ async function sendToAll(){
         swal.fire({ title: "Warning", text: "From Address cannot be empty.", icon: "error", confirmButtonText: `OK` });
         return;
     }
+
+    swal.close();
 
     $("#statusNotes").val('');
     $("#statusNumbers").html(`0 / ${ids.length}`);
@@ -662,6 +667,7 @@ async function sendToAll(){
     }
 
     insertHistory($("#process").val(), $("#statusNotes").val());
+    swal.fire({ title: "All done.", text: "Sending mails finished.", icon: "success", confirmButtonText: `OK` });
 
     $(document)
         .ajaxStart(function() {
@@ -681,14 +687,12 @@ function insertHistory(process, result){
     $.ajax({
         url: 'insertMailHistory',
         method: 'post',
-        data: {from: $("#from-address").val(), model: curModel, process: process, result: result},
+        data: {from: $("#from-address").val(), model: curModel, process: process, result: result.split('\n')},
         success: function(res) {
-            if(res.success){
-                $('#historic-table').DataTable().ajax.reload();
-            } 
+            $('#historic-table').DataTable().ajax.reload();
         },
         error: function(err) {
-            resolve("Error(API Failed)");
+            $('#historic-table').DataTable().ajax.reload();
         }
     });
 }

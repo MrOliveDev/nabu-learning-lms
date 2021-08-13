@@ -170,7 +170,7 @@ class SendmailController extends Controller
             0 =>'sender_first',
             1 =>'detail',
             2 =>'model',
-            2 =>'created_time'
+            3 =>'created_time'
         );
         $totalData = MailHistories::count();
         $totalFiltered = $totalData; 
@@ -419,7 +419,7 @@ class SendmailController extends Controller
                 'senderId' => Auth::user()->id,
                 'detail' => $request['process'],
                 'modelId' => $request['model'],
-                'result' => $request['result'],
+                'result' => implode("\n", $request['result']),
                 'created_time' => gmdate("Y-m-d\TH:i:s", time())
             ]);
 
@@ -432,7 +432,9 @@ class SendmailController extends Controller
             $mpdf->writeHTML('<p><b>Sender : </b> '. $request['from'] . ' </p>');
 
             $mpdf->writeHTML('<p><b>Recipient : </b></p>');
-            $mpdf->writeHTML(str_replace("\n", "<wbr> </wbr>", $request['result']));
+            foreach($request['result'] as $line)
+                $mpdf->writeHTML('<p>' . $line . '</p>');
+
             $filelink = storage_path('pdf') . '/' . 'mail_result_' . $history->id . '.pdf';
             $mpdf->Output($filelink, 'F');
 
