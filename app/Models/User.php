@@ -103,14 +103,34 @@ class User extends Authenticatable
         ->leftjoin('tb_interface_config', 'tb_interface_config.id', '=', 'tb_users.id_config')
         ->leftjoin('tb_languages', 'tb_users.lang', 'tb_languages.language_id');
         if(session("client")!=null) {
-            $result = $result
-            ->where("tb_users.id_creator", $client);
-        } elseif(session("limited")!=null) {
-            $result = $result
-            ->where("tb_users.id_creator", $client);
+            switch ($type) {
+                case '2':
+                    $result = $result
+                    ->where('tb_users.type', $type);
+                    break;
+                    
+                case '3':
+                    $result = $result
+                    ->where('tb_users.type', $type)
+                    ->where("tb_users.id_creator", $client);
+                    break;
+                    
+                case '4':
+                    $result = $result
+                    ->leftjoin("tb_users as ctb", 'tb_users.id_creator', '=', 'ctb.id')
+                    ->where('tb_users.type', $type)
+                    ->where("tb_users.id_creator", $client)
+                    ->orWhere('ctb.id_creator', '=', session("client"));
+
+                    break;
+                
+                default:
+
+                break;
+            }
+
         }
         $result = $result
-        ->where('tb_users.type', $type)
         ->get();
         return $result;
     }

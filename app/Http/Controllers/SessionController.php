@@ -20,8 +20,14 @@ class SessionController extends Controller
      */
     public function index()
     {
-        $students = User::getUserPageInfo(4);
-        $teachers = User::getUserPageInfo(3);
+        if(auth()->user()->type == 3){
+            $students = SessionModel::getUserFromSessionByType(4);
+            $teachers = SessionModel::getUserFromSessionByType(3);
+        } else {
+            $students = User::getUserPageInfo(4);
+            $teachers = User::getUserPageInfo(3);
+        }
+
         $groups = GroupModel::all();
         $trainings = TrainingsModel::all();
         $positions = PositionModel::all();

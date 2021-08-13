@@ -193,7 +193,7 @@ class LoginController extends Controller
             $this->redirectTo = "student";
             session(["client" => auth()->user()->id_creator]);
         } else if(auth()->user()->type == 2) {
-            $this->redirectTo = "template";
+            $this->redirectTo = "training";
 
         } else {
             $this->redirectTo = 'dash';
