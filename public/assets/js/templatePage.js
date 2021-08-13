@@ -1432,6 +1432,42 @@ function dropEnd(event, item) {
 
 $(document).ready(function() {
 
+    var permission = {
+        "template":{
+            "display":$("#content").attr("data-template-display"),
+            "edit":$("#content").attr("data-template-edit"),
+            "create":$("#content").attr("data-template-create"),
+            "play":$("#content").attr("data-template-play"),
+            "delete":$("#content").attr("data-template-delete"),
+            "copy":$("#content").attr("data-template-copy"),
+            "link":$("#content").attr("data-template-link")
+        },
+        "training":{
+            "display":$("#content").attr("data-training-display"),
+            "edit":$("#content").attr("data-training-edit"),
+            "create":$("#content").attr("data-training-create"),
+            "delete":$("#content").attr("data-training-delete"),
+            "show":$("#content").attr("data-training-show")
+        },
+        "company":{
+            "display":$("#content").attr("data-company-display"),
+            "edit":$("#content").attr("data-company-edit"),
+            "create":$("#content").attr("data-company-create"),
+            "delete":$("#content").attr("data-company-delete"),
+            "show":$("#content").attr("data-company-show")
+        },
+        "session":{
+            "display":$("#content").attr("data-session-display"),
+            "edit":$("#content").attr("data-session-edit"),
+            "create":$("#content").attr("data-session-create"),
+            "delete":$("#content").attr("data-session-delete"),
+            "show":$("#content").attr("data-session-show")
+        },
+        "search":{
+            "template":$("#content").attr("data-search-template"),
+            "training":$("#content").attr("data-search-training")
+        }
+    };
     $('#RightPanel').tabs();
     $('#LeftPanel .toolkit>div').css('background-color', 'var(--template-c)');
     $('#RightPanel .toolkit:first>div').css('background-color', 'var(--training-c)');

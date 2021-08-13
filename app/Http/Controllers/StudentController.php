@@ -22,14 +22,14 @@ class StudentController extends Controller
 {
     public function index()
     {
-        if(auth()->user()->type != 3){
+        if(auth()->user()->type == 3){
+            $students = SessionModel::getUserFromSessionByType(4);
+            $teachers = SessionModel::getUserFromSessionByType(3);
+            $authors = User::getUserPageInfo(2);
+        } else {
             $students = User::getUserPageInfo(4);
             $teachers = User::getUserPageInfo(3);
             $authors = User::getUserPageInfo(2);
-        } else {
-            $students = SessionModel::getUserFromSessionByType(4);
-            $teachers = SessionModel::getUserFromSessionByType(3);
-            $authors = SessionModel::getUserPageInfo(2);
         }
         $groups = GroupModel::getGroupByClient();
         $positions = PositionModel::all();
