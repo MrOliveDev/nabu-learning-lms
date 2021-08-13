@@ -89,7 +89,7 @@ class PermissionController extends Controller
     public function setPermission() {
         $user_permission = auth()->user()->permission_id;
         if(!isset($user_permission)) {
-            $permissionItem = PermissionModel::where('id', auth()->user()->type)->get();
+            $permissionItem = PermissionModel::where('id', session("user_type"))->get();
         } else {
             $permissionItem = PermissionModel::where('id', $user_permission)->get();
         }

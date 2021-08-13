@@ -438,6 +438,37 @@ table.session-table {
     padding: 6px;
 }
 
+
+.table.table[role="grid"], .table.table[role="grid"] th, .table.table[role="grid"] tr, .table.table[role="grid"] td{
+    border: 1px solid #7e3e98 !important;
+}
+
+.table.table[role="grid"] th{
+    background-color: #362f81;
+    color: white;
+}
+
+.table.table[role="grid"] tr{
+    background-color: #9c9b9b;
+}
+.table.table[role="grid"] tr:hover td{
+    background-color: #6f6e6e;
+    cursor: pointer;
+}
+
+.table.table[role="grid"] tr.active td{
+    background-color: #6f6e6e;
+}
+
+.table.table[role="grid"] td{
+    color: white;
+    background-color: #9c9b9b;
+}
+
+.dataTables_info{
+    color: white;
+}
+
 table.session-table th {
     color: white;
     font-size: 16pt;

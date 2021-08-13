@@ -427,11 +427,9 @@ class SessionModel extends Model
             if($type==4){
                 array_push($result, ...SessionModel::getStudentsFromSession($session->participants));
                 //students:created by teacher
-                $students = User::where("id_creator", auth()->user()->id)->get();
-                if($student->count()!=0) {
-                    foreach ($student as $student) {
-                        array_push($result, $student);
-                    }
+                $students = User::where("id_creator", session("user_id"))->where("type", $type)->get();
+                foreach ($students as $student) {
+                    array_push($result, $student);
                 }
             } else {
                 array_push($result, ...SessionModel::getTeachersFromSession($session->participants));
