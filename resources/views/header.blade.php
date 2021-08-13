@@ -1,3 +1,4 @@
+<script src="{{asset("assets/js/headerPage.js?v=12")}}"></script>
 <header id="page-header" data-client="{{session("client")}}">
     <div class="content-header">
         <div>
@@ -125,5 +126,4 @@
             </div>
         </div>
     </div>
-    <script src="{{asset("assets/js/headerPage.js?v=12")}}"></script>
 </header>
