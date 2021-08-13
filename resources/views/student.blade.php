@@ -555,7 +555,7 @@ data-search-showtable="{{isset(session('permission')->student->search->showtable
                                         required>
                                 </div>
                             </div>
-
+                            @if(auth()->user()->type<3)
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -571,7 +571,7 @@ data-search-showtable="{{isset(session('permission')->student->search->showtable
                                     </select>
                                 </div>
                             </div>
-
+                            @endif
                             <div class="form-group" id="expired_date_input">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -963,8 +963,4 @@ data-search-showtable="{{isset(session('permission')->student->search->showtable
 </button>
 
 <script>
-    function redirectPage(link){
-        window.location.href = link;
-    }
-</script>
-@endsection
+    funct                                                                                         

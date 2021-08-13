@@ -20,7 +20,7 @@ class SessionController extends Controller
      */
     public function index()
     {
-        if(auth()->user()->type == 3){
+        if(session("user_type") == 3){
             $students = SessionModel::getUserFromSessionByType(4);
             $teachers = SessionModel::getUserFromSessionByType(3);
         } else {
@@ -131,8 +131,8 @@ class SessionController extends Controller
         if ($request->post("language") != NULL) {
             $session->language_iso = $request->post('language');
         }
-        if (auth()->user()->type !== 0) {
-            $session->id_creator = auth()->user()->id;
+        if (session("user_type") !== 0) {
+            $session->id_creator = session("user_id");
         } else {
             $session->id_creator = session("client");
         }
