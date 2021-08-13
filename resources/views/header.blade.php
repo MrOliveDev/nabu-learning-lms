@@ -125,5 +125,5 @@
             </div>
         </div>
     </div>
-    <script src="{{asset("assets/js/headerPage.js")}}"></script>
+    <script src="{{asset("assets/js/headerPage.js?v=12")}}"></script>
 </header>
