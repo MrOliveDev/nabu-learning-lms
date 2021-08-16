@@ -250,7 +250,7 @@ class SendmailController extends Controller
                 $nestedData['actions'] = "
                 <div class='text-center'>
                     <a href='" .url('/').'/pdf/mail_result_'.$history->id.".pdf' class='btn btn-primary mr-3' style='border-radius: 5px' target='_blank'>
-                        <i class='fa fa-download'></i>
+                        <i class='fa fa-eye'></i>
                     </a>
                     <button type='button' class='js-swal-confirm btn btn-danger' onclick='delHistory({$history['id']})' style='border-radius: 5px'>
                         <i class='fa fa-trash'></i>

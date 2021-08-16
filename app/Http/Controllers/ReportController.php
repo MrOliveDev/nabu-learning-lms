@@ -23,6 +23,7 @@ use Mpdf\Mpdf;
 use Auth;
 use Exception;
 use ZipArchive;
+use Response;
 
 class ReportController extends Controller
 {
@@ -833,9 +834,15 @@ class ReportController extends Controller
             return response()->json(["success" => false, "message" => "Wrong Parameters."]);
     }
 
-    public function downloadFile($file){
-        if(file_exists(storage_path('pdf') . '/' . $file))
-            return response()->download(storage_path('pdf' . '/' . $file), null, ['Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0']);
+    public function getPDFContents($file){
+        if(file_exists(storage_path('pdf') . '/' . $file)){
+            $file = Storage::disk('pdf')->get(storage_path('pdf') . '/' . $file);
+            $type = Storage::disk('pdf')->mimeType(storage_path('pdf') . '/' . $file);
+
+            $response = Response::make($file, 200);
+            $response->header("Content-Type", $type);
+            // return response()->download(storage_path('pdf' . '/' . $file), null, ['Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0']);
+        }
         else
             return 'File does not exist!';
     }
