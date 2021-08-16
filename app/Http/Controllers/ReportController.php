@@ -837,8 +837,8 @@ class ReportController extends Controller
 
     public function getPDFContents($file){
         if(file_exists(storage_path('pdf') . '/' . $file)){
-            $file = Storage::disk('pdf')->get(storage_path('pdf') . '/' . $file);
-            $type = Storage::disk('pdf')->mimeType(storage_path('pdf') . '/' . $file);
+            $file = Storage::disk('pdf')->get($file);
+            $type = Storage::disk('pdf')->mimeType($file);
 
             $response = Response::make($file, 200);
             $response->header("Content-Type", $type);
