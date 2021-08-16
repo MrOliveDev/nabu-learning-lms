@@ -964,4 +964,8 @@ data-search-showtable="{{isset(session('permission')->student->search->showtable
 </button>
 
 <script>
-    func                                                                                          
+    function redirectPage(link){
+        window.location.href = link;
+    }
+</script>
+@endsection
