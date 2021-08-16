@@ -1151,7 +1151,9 @@ async function downloadReport(studentId){
         success: function(res) {
             swal.close();
             if(res.success && res.filename){
-                download("{{ url('pdf') }}" + "/" + res.filename, res.filename);
+                // download("{{ url('pdf') }}" + "/" + res.filename, res.filename);
+                let link = "{{ url('pdf') }}" + "/" + res.filename;
+                window.open(link, '_blank');
                 $('#historic-table').DataTable().ajax.reload();
             } else
                 notification(res.message, 2);

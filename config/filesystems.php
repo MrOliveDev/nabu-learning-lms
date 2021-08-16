@@ -52,6 +52,11 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'pdf' => [
+            'driver' => 'local',
+            'root' => storage_path('pdf'),
+        ],
+
     ],
 
     /*
