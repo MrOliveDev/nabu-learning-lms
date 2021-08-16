@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\ReportsModel;
 use App\Models\ReportTemplateModel;
@@ -193,7 +194,7 @@ class ReportController extends Controller
                 $nestedData['actions'] = "
                 <div class='text-center d-flex'>
                     <a href='" .url('/').'/'. $report->type. '/'.$report->filename."' class='btn btn-primary mr-3' style='border-radius: 5px' target='_blank'>
-                        <i class='fa fa-download'></i>
+                        <i class='fa fa-eye'></i>
                     </a>
                     <button type='button' class='js-swal-confirm btn btn-danger mr-3' onclick='delReport({$nestedData['id']})' style='border-radius: 5px'>
                         <i class='fa fa-trash'></i>
