@@ -840,7 +840,7 @@ class ReportController extends Controller
             $file = Storage::disk('pdf')->get($file);
 
             $response = Response::make($file, 200);
-            $response->header("Content-Type", 'pdf');
+            $response->header("Content-Type", 'application/pdf');
 
             return $response;
             // return response()->download(storage_path('pdf' . '/' . $file), null, ['Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0']);
