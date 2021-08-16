@@ -836,12 +836,14 @@ class ReportController extends Controller
     }
 
     public function getPDFContents($file){
-        if(file_exists(storage_path('pdf') . '/' . $file)){
+        if(Storage::disk('pdf')->exists($file)){
             $file = Storage::disk('pdf')->get($file);
             $type = Storage::disk('pdf')->mimeType($file);
 
             $response = Response::make($file, 200);
             $response->header("Content-Type", $type);
+
+            return $response;
             // return response()->download(storage_path('pdf' . '/' . $file), null, ['Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0']);
         }
         else
