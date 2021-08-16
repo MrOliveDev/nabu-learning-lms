@@ -1,5 +1,4 @@
 @extends('layout')
-
 @section('js_after')
     <script src="{{ asset('assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/flatpickr/flatpickr.min.js') }}"></script>
@@ -964,4 +963,4 @@ data-search-showtable="{{isset(session('permission')->student->search->showtable
 </button>
 
 <script>
-    func                                                                                          
+    funct                                                                                         
