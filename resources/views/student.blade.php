@@ -1,5 +1,39 @@
 @extends('layout')
 
+@section('js_after')
+    <script src="{{ asset('assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/flatpickr/flatpickr.min.js') }}"></script>
+
+    <script src="{{ asset('assets/js/cropper.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/ion-rangeslider/js/ion.rangeSlider.js') }}"></script>
+    <script src="{{ asset('assets/js/cropperModal.js') }}"></script>
+
+    <script src="{{ asset('assets/js/plugins/select2/js/select2.full.min.js') }}"></script>
+
+    <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
+    <script
+        src="{{ asset('assets/js/plugins/jquery-password-validation-while-typing/js/jquery.passwordRequirements.min.js') }}">
+    </script>
+    <script src="{{ asset('assets/js/userPage.js') }}"></script>
+
+    <script src="{{ asset('assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
+
+    <script>
+        $(function() {
+            $(" #LeftPanel, #RightPanel").tabs();
+            $(".second-table").tabs();
+        });
+
+    </script>
+    <script>
+        $('#utilisateurs').addClass('active');
+        jQuery(function() {
+            Dashmix.helpers(['select2', 'rangeslider', 'notify', 'summernote', 'flatpickr', 'datepicker']);
+        });
+
+    </script>
+@endsection
 @section('con')
 
     <link rel="stylesheet" href="{{ asset('assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
@@ -93,40 +127,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/userPage.css') }}">
 
 
-@section('js_after')
-    <script src="{{ asset('assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins/flatpickr/flatpickr.min.js') }}"></script>
 
-    <script src="{{ asset('assets/js/cropper.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins/ion-rangeslider/js/ion.rangeSlider.js') }}"></script>
-    <script src="{{ asset('assets/js/cropperModal.js') }}"></script>
-
-    <script src="{{ asset('assets/js/plugins/select2/js/select2.full.min.js') }}"></script>
-
-    <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
-    <script
-        src="{{ asset('assets/js/plugins/jquery-password-validation-while-typing/js/jquery.passwordRequirements.min.js') }}">
-    </script>
-    <script src="{{ asset('assets/js/userPage.js') }}"></script>
-
-    <script src="{{ asset('assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
-
-    <script>
-        $(function() {
-            $(" #LeftPanel, #RightPanel").tabs();
-            $(".second-table").tabs();
-        });
-
-    </script>
-    <script>
-        $('#utilisateurs').addClass('active');
-        jQuery(function() {
-            Dashmix.helpers(['select2', 'rangeslider', 'notify', 'summernote', 'flatpickr', 'datepicker']);
-        });
-
-    </script>
-@endsection
 
 <div id="content"
 data-log-user-id="{{auth()->user()->id}}"
@@ -963,4 +964,4 @@ data-search-showtable="{{isset(session('permission')->student->search->showtable
 </button>
 
 <script>
-    funct                                                                                         
+    func                                                                                          
