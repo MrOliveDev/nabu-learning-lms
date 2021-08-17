@@ -13,6 +13,8 @@ class ReportTemplateModel extends Model
         'id', 'creatorId', 'name', 'data', 'created_time'
     ];
 
+    protected $connection= 'mysql_reports';
+    
     protected $table = 'tb_report_model';
 
     public $timestamps = false;

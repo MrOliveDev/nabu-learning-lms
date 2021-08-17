@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\ReportsModel;
 use App\Models\ReportTemplateModel;
@@ -23,6 +24,7 @@ use Mpdf\Mpdf;
 use Auth;
 use Exception;
 use ZipArchive;
+use Response;
 
 class ReportController extends Controller
 {
@@ -129,8 +131,8 @@ class ReportController extends Controller
         $dir = $request->input('order.0.dir');
 
         $handler = new ReportsModel;
-        $handler = $handler->leftjoin('tb_session', "tb_session.id", "=", "tb_reports.sessionId");
-        $handler = $handler->leftjoin('tb_users', "tb_users.id", "=", "tb_reports.studentId");
+        $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_session as tb_session', "tb_session.id", "=", "tb_reports.sessionId");
+        $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_users as tb_users', "tb_users.id", "=", "tb_reports.studentId");
         $handler = $handler->where("sessionId", $request->post('session_id'));
 
         if(empty($request->input('search.value')))
@@ -192,7 +194,7 @@ class ReportController extends Controller
                 $nestedData['actions'] = "
                 <div class='text-center d-flex'>
                     <a href='" .url('/').'/'. $report->type. '/'.$report->filename."' class='btn btn-primary mr-3' style='border-radius: 5px' target='_blank'>
-                        <i class='fa fa-download'></i>
+                        <i class='fa fa-eye'></i>
                     </a>
                     <button type='button' class='js-swal-confirm btn btn-danger mr-3' onclick='delReport({$nestedData['id']})' style='border-radius: 5px'>
                         <i class='fa fa-trash'></i>
@@ -233,8 +235,8 @@ class ReportController extends Controller
         $dir = $request->input('order.0.dir');
 
         $handler = new ReportsModel;
-        $handler = $handler->leftjoin('tb_session', "tb_session.id", "=", "tb_reports.sessionId");
-        $handler = $handler->leftjoin('tb_users', "tb_users.id", "=", "tb_reports.studentId");
+        $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_session as tb_session', "tb_session.id", "=", "tb_reports.sessionId");
+        $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_users as tb_users', "tb_users.id", "=", "tb_reports.studentId");
 
         if(empty($request->input('search.value')))
         {            
@@ -833,9 +835,16 @@ class ReportController extends Controller
             return response()->json(["success" => false, "message" => "Wrong Parameters."]);
     }
 
-    public function downloadFile($file){
-        if(file_exists(storage_path('pdf') . '/' . $file))
-            return response()->download(storage_path('pdf' . '/' . $file), null, ['Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0']);
+    public function getPDFContents($file){
+        if(Storage::disk('pdf')->exists($file)){
+            $file = Storage::disk('pdf')->get($file);
+
+            $response = Response::make($file, 200);
+            $response->header("Content-Type", 'application/pdf');
+
+            return $response;
+            // return response()->download(storage_path('pdf' . '/' . $file), null, ['Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0']);
+        }
         else
             return 'File does not exist!';
     }

@@ -131,8 +131,8 @@
                         <tbody>
                             @foreach($sessions as $session)
                             <tr class="session-item" onclick="selectSession({{ $session['id'] }})" id="session-{{ $session['id'] }}">
-                                <td class="font-w600">{{ $session['name'] }}</td>
-                                <td class="font-w600">{{ $session['create_date'] }}</td>
+                                <td class="font-w600" style="border-radius: 10px;">{{ $session['name'] }}</td>
+                                <td class="font-w600" style="border-radius: 10px;">{{ $session['create_date'] }}</td>
                             </tr>
                             @endforeach
                         </tbody>

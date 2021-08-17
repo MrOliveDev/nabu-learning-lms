@@ -270,7 +270,7 @@ data-authed-user-type="{{session("user_type")}}"
                                 </div>
                                 <div class="float-right btn-group">
                                     <span
-                                        class="p-2  font-weight-bolder item-lang">{{ strtoupper($student->language_iso) }}</span>
+                                        class="p-2 font-weight-bolder item-lang">{{ strtoupper($student->language_iso) }}</span>
                                         <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?studentId={{$student->id}}')">
                                             <i class="px-2 fa fa-envelope"></i>
                                         </button>
@@ -322,7 +322,7 @@ data-authed-user-type="{{session("user_type")}}"
                                 </div>
                                 <div class="float-right btn-group">
                                     <span
-                                        class="p-2  font-weight-bolder item-lang">{{ strtoupper($teacher->language_iso) }}</span>
+                                        class="p-2 font-weight-bolder item-lang">{{ strtoupper($teacher->language_iso) }}</span>
                                         <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?teacherId={{$teacher->id}}')">
                                             <i class="px-2 fa fa-envelope"></i>
                                         </button>
@@ -377,7 +377,7 @@ data-authed-user-type="{{session("user_type")}}"
                                 </div>
                                 <div class="float-right btn-group">
                                     <span
-                                        class="p-2  font-weight-bolder item-lang">{{ strtoupper($author->language_iso) }}</span>
+                                        class="p-2 font-weight-bolder item-lang">{{ strtoupper($author->language_iso) }}</span>
                                         <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?authorId={{$author->id}}')">
                                             <i class="px-2 fa fa-envelope"></i>
                                         </button>

@@ -41,6 +41,7 @@
 .mailTbl th{
     background-color: #362f81;
     color: white;
+    border-radius: 6px;
 }
 
 .mailTbl tr{
@@ -58,6 +59,7 @@
 .mailTbl td{
     color: white;
     background-color: #9c9b9b;
+    border-radius: 6px;
 }
 
 .dataTables_info{
