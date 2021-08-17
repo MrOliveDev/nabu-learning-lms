@@ -14,6 +14,8 @@ class ReportsModel extends Model
         'id', 'sessionId', 'studentId', 'filename', 'type', 'detail', 'created_time'
     ];
 
+    protected $connection= 'mysql_reports';
+    
     protected $table = 'tb_reports';
 
     public $timestamps = false;
