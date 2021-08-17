@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\SessionModel;
 
 class SessionModel extends Model
 {
@@ -326,7 +327,7 @@ class SessionModel extends Model
                         // print_r($studentValue);
                         $studentItem = User::find($studentValue);
                         if($studentItem)
-                            array_push($studentData, $studentItem->toArray());
+                            array_push($studentData, $studentItem);
                     }
                 }
             }
@@ -355,7 +356,12 @@ class SessionModel extends Model
                     if (count($groupList) != 0) {
                         foreach ($groupList as $groupValue) {
                             $groupSubData = array();
-                            $groupSubData = User::getUserFromGroup($groupValue->value);
+                            $groupSubData = User::getUserFromGroup(intval($groupValue->value));
+                            foreach($groupSubData as $groupSubItem){
+                                if($groupSubItem['id']==$user_id){
+                                    array_push($result, $session);
+                                }
+                            }
                             if(isset($groupSubData))
                             if(in_array($user_id, $groupSubData))
                             array_push($result, $session);
@@ -367,7 +373,7 @@ class SessionModel extends Model
                         foreach ($studentList as $studentValue) {
                             // print_r($studentValue);
                             $studentItem = User::find($studentValue);
-                            if($studentItem != NULL && $studentItem->id == $user_id) {
+                            if($studentItem != NULL && strval($studentItem->id) == $user_id) {
                                 array_push($result, $session);
                             }
                         }
@@ -379,7 +385,7 @@ class SessionModel extends Model
                             // var_dump($teacherValue);
                             // exit;
                             $teacherItem = User::find($teacherValue);
-                           if($teacherItem != NULL && $teacherItem->id == $user_id)
+                           if($teacherItem != NULL && strval($teacherItem->id) == $user_id)
                             if(in_array($user_id, $teacherItem))
                             array_push($result, $session);
                         }
@@ -387,10 +393,13 @@ class SessionModel extends Model
                 }
             }
         }
+        // var_dump($result);
+        // exit;
         return $result;
     }
 
     public function scopeGetTeachersFromSession($query, $session_id) {
+        $participant_data = SessionModel::find("session_id")!=null?SessionModel::find('session_id')->participants:null;
         $teacherData = array();
         if (isset($participant_data) || $participant_data != "") {
             $participant = json_decode($participant_data);
@@ -421,20 +430,36 @@ class SessionModel extends Model
     }
 
     public function scopeGetUserFromSessionByType($query, $type) {
-        $sessions = SessionModel::getSessionFromUser(session("client"));
+        $sessions = SessionModel::where("id_creator", session("client"))->get();
         $result = array();
         foreach($sessions as $session) {
             if($type==4){
-                array_push($result, ...SessionModel::getStudentsFromSession($session->participants));
+                $studentInSession = SessionModel::getStudentsFromSession($session->participants);
+                foreach ($studentInSession as $studentSession) {
+                    if(!in_array($studentSession, $result)){
+                        array_push($result, $studentSession);
+                    }
+                }
                 //students:created by teacher
                 $students = User::where("id_creator", session("user_id"))->where("type", $type)->get();
                 foreach ($students as $student) {
-                    array_push($result, $student);
+                    if(!in_array($student, $result)){
+                        array_push($result, $student);
+                    }
                 }
             } else {
-                array_push($result, ...SessionModel::getTeachersFromSession($session->participants));
+                $teachers = SessionModel::getTeachersFromSession($session->participants);
+                foreach($teachers as $teacher){
+                    if(!in_array($teacher, $result)){
+                        array_push($result, $teacher);
+                    }
+                }
             }
         }
+        // foreach($result as $r){
+        //     var_dump($r->id);
+        // }
+        // exit;
         return $result;
     }
 }

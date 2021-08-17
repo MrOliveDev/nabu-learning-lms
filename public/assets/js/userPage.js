@@ -430,6 +430,14 @@ var divBDshow = function(event) {
 var divACshow = function(event) {
     var parent = $(this).parents('fieldset');
     toggleFormOrTable(parent, false);
+    var userItem = $(this).closest(".list-group-item");
+    $.post({url:baseURL+"/getSessionFromUser", data:{data:userItem.attr("id").split("_")[1]}}).done(function(data){
+        data.map(function(item, i){
+            $("#table-session .list-group").append(createSessionItem(item[0]));
+        })
+    }).fail(function(err){
+        notification("You got error during getting data of session.", 2);
+    })
 };
 
 var toolkitAddItem = function(event) {
@@ -1337,6 +1345,25 @@ var submitBtn = function(event) {
     }
 
 };
+
+var createSessionItem = function(data) {
+    var status_temp = data.status == 1?
+        '<i class="fa fa-circle m-2" style="color:green"></i>'+
+        '<input type="hidden" name="item-status" class="status-notification" value="1">':
+        '<i class="fa fa-circle m-2" style="color:red"></i>'+
+        '<input type="hidden" name="item-status" class="status-notification" value="0">';
+    var session_item = $('<a class="list-group-item list-group-item-action p-1 border-0 session_'+data.id+'" id="session_'+data.id+' data-date="'+data.create_date+'"">'+
+        '<div class="float-left">' +
+        status_temp +
+        '<span class="item-name">' + data.name + '</span>' +
+        '<input type="hidden" name="item-name" value="' + data.name + '">' +
+        '</div>' +
+        '<div class="btn-group float-right">' +
+        '</div>' +
+        '</a>');
+
+    return session_item;
+}
 
 var createUserData = function(data, category) {
 
@@ -2361,9 +2388,11 @@ $(document).ready(function() {
     });
 
     $("#LeftPanel .list-group-item").each(function(i, elem) {
-        elem.addEventListener('dragstart', dragStart);
-        elem.addEventListener('dragend', dragEnd);
-        $(elem).attr('draggable', true);
+        if(($(elem).attr('data-creator')==$("#content").attr("data-authed-user")&&$("#content").attr("data-authed-user-type")==3)||($("#content").attr("data-authed-user-type")!=3)){
+            elem.addEventListener('dragstart', dragStart);
+            elem.addEventListener('dragend', dragEnd);
+            $(elem).attr('draggable', true);
+        }
     });
 
     $(".filter-company-btn").on('drop', companyDropEnd);
