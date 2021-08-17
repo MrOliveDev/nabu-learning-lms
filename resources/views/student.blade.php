@@ -174,6 +174,9 @@ data-position-create="{{isset(session('permission')->student->position->create)}
 data-search-member="{{isset(session('permission')->student->search->member)}}"
 data-search-category="{{isset(session('permission')->student->search->category)}}"
 data-search-showtable="{{isset(session('permission')->student->search->showtable)}}"
+
+data-authed-user="{{session("user_id")}}"
+data-authed-user-type="{{session("user_type")}}"
 >
     <fieldset id="LeftPanel">
         <ul class="mx-4 mb-2 border-0 nav nav-tabs">
@@ -248,7 +251,7 @@ data-search-showtable="{{isset(session('permission')->student->search->showtable
                         @if(isset(session('permission')->student->student->display))
                         @foreach ($students as $student)
                             <a class="list-group-item list-group-item-action p-0 border-transparent border-5x student_{{ $student->id }}"
-                                id="student_{{ $student->id }}" data-date="{{ $student->creation_date }}">
+                                id="student_{{ $student->id }}" data-date="{{ $student->creation_date }}" data-creator="{{$student->id_creator}}">
                                 <div class="float-left">
                                     @if ($student->status == 1)
                                         <i class="m-2 fa fa-circle" style="color:green;"></i>
@@ -300,7 +303,7 @@ data-search-showtable="{{isset(session('permission')->student->search->showtable
                         @if(isset(session("permission")->student->teacher->display))
                         @foreach ($teachers as $teacher)
                             <a class="list-group-item list-group-item-action p-0 border-transparent border-5x teacher_{{ $teacher->id }}"
-                                id="teacher_{{ $teacher->id }}" data-date="{{ $teacher->creation_date }}">
+                                id="teacher_{{ $teacher->id }}" data-date="{{ $teacher->creation_date }}" data-creator="{{ $teacher->id_creator }}">
                                 <div class="float-left">
                                     @if ($teacher->status == 1)
                                         <i class="m-2 fa fa-circle" style="color:green;"></i>
@@ -355,7 +358,7 @@ data-search-showtable="{{isset(session('permission')->student->search->showtable
                         @if(isset(session("permission")->student->author->display))
                         @foreach ($authors as $author)
                             <a class="list-group-item list-group-item-action p-0 border-transparent border-5x author_{{ $author->id }}"
-                                id="author_{{ $author->id }}" data-date="{{ $author->creation_date }}">
+                                id="author_{{ $author->id }}" data-date="{{ $author->creation_date }}" data-creator="{{ $author->id_creator }}">
                                 <div class="float-left">
                                     @if ($author->status == 1)
                                         <i class="m-2 fa fa-circle" style="color:green;"></i>
@@ -963,4 +966,8 @@ data-search-showtable="{{isset(session('permission')->student->search->showtable
 </button>
 
 <script>
-    funct                                                                                         
+    function redirectPage(link){
+        window.location.href = link;
+    }
+</script>
+@endsection

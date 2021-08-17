@@ -311,4 +311,17 @@ class StudentController extends Controller
 
         return response()->json($user);
     }
+
+    public function getSessionFromUser(Request $request) {
+        $sessions = SessionModel::getSessionFromUser($request->post("data"));
+        
+        $sessionArray = array();
+        foreach($sessions as $session) {
+            $sessionItem = SessionModel::find($session);
+            if(isset($sessionItem)){
+                array_push($sessionArray, $sessionItem);
+            }
+        }
+        return response()->json($sessionArray);
+    }
 }

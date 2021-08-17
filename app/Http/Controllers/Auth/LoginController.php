@@ -182,6 +182,7 @@ class LoginController extends Controller
     {
         
         $this->clearLoginAttempts($request);
+        session(["user_type"=>auth()->user()->type]);
         if (auth()->user()->type == 0 || auth()->user()->type == 1) {
             $this->redirectTo = 'admindash';
             $client = User::getClients();
