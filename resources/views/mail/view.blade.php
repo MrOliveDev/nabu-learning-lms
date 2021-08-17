@@ -13,7 +13,7 @@
 @section('con')
 <div class="">
     
-<fieldset id="ReportPanel">
+<fieldset id="MailPanel">
     <ul class="nav nav-tabs border-0 mb-2 mx-4">
         <li class="nav-item">
             <a class="nav-link m-1 rounded-1 border-0" id="histories-tab"
@@ -67,11 +67,11 @@
             <table class="table table-striped table-vcenter mailTbl" id="historic-table" style="width:100%;">
             <thead>
                 <tr>
-                    <th style="width: 20%;">{{ $translation->l('Sender') }}</th>
-                    <th style="width: 20%;">{{ $translation->l('Receiver') }}</th>
-                    <th style="width: 40%;">{{ $translation->l('Details') }}</th>
-                    <th style="width: 10%;">{{ $translation->l('Date') }}</th>
-                    <th style="width: 10%;" class="text-center">{{ $translation->l('Actions') }}</th>
+                    <th style="width: 15%;">{{ $translation->l('Sender') }}</th>
+                    <th style="width: 20%;">{{ $translation->l('Model Name') }}</th>
+                    <th style="width: 30%;">{{ $translation->l('Details') }}</th>
+                    <th style="width: 15%;">{{ $translation->l('Date') }}</th>
+                    <th style="width: 20%;" class="text-center">{{ $translation->l('Actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -112,9 +112,6 @@
                 </div>
                 <div class="input-container mb-2 mt-5 p-2">
                     <span style="color: white;">List of receivers </span>
-                    <a href="#" class="toolkit-show-filter">
-                        <i class="fas fa-sliders-h icon p-2  text-white"></i>
-                    </a>
                     <span class="bg-white text-black p-2 rounded">
                         <input class="input-field border-0 mw-100 user-filter" type="text" name="user-filter">
                         <i class="fa fa-search icon p-2"></i>
@@ -125,21 +122,22 @@
                         <colgroup>
                             <col span="1" style="width: 10%;">
                             <col span="1" style="width: 60%;">
-                            <col span="1" style="width: 5%;">
-                            <col span="1" style="width: 25%;">
+                            <col span="1" style="width: 30%;">
                         </colgroup>
                         <tbody id="usersList">
                             <tr style="border: 1px solid #7e3e98; cursor: pointer;">
                                 <td class="text-center" style="padding: 0; background-color: #7e3e98; border: 0px;">
-                                    <input style="cursor: pointer;" type="checkbox" id="sendcheck_all" checked>
+                                    <input style="cursor: pointer; filter: hue-rotate(120deg); transform: scale(1.3);" type="checkbox" id="sendcheck_all" checked>
                                 </td>
                             </tr>
                             @forelse($users as $user)
                             <tr class="user-item">
-                                <td class="text-center userAction"><input type="checkbox" id="sendcheck_{{$user['id']}}" class="sendcheck" style="cursor:pointer;" checked></td>
-                                <td class="font-w600 userName">{{ $user['first_name']. ' ' . $user['last_name'] }}</td>
-                                <td class="font-w600 text-center userAction" onclick="sendMail({{ $user['id'] }})"><i class="fa fa-envelope"></i></td>
-                                <td class="font-w600 text-center userAction" onclick="overviewMail({{ $user['id'] }})">Overview <i class="fa fa-eye"></i></td>
+                                <td class="text-center userAction">
+                                    <input type="checkbox" id="sendcheck_{{$user['id']}}" class="sendcheck" style="cursor:pointer; filter: hue-rotate(120deg); transform: scale(1.3);" checked>
+                                </td>
+                                <td class="font-w600 userName" id="user-name-{{$user['id']}}">{{ $user['first_name']. ' ' . $user['last_name'] }}</td>
+                                <!-- <td class="font-w600 text-center userAction" onclick="sendMail({{ $user['id'] }})"><i class="fa fa-envelope"></i></td> -->
+                                <td class="font-w600 text-center userAction" onclick="previewMail({{ $user['id'] }})">Preview <i class="fa fa-envelope"></i></td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -176,11 +174,14 @@
                 <div class="mb-3">
                     <span class="text-white mr-1">Subject *</span>
                     <span class="bg-white text-black p-2 rounded">
-                        <input class="input-field border-0 mw-100 model-name-input" type="text" style="width: 350px;" id="mail-subject">
+                        <input class="input-field border-0 mw-100 model-name-input" type="text" style="width: 350px;" id="send-subject">
                     </span>
                 </div>
                 <div class="w-100 p-2" id="overviewPane">
                 </div>
+                <button class="downloadBtn mt-2" onclick="sendNow()">
+                    Send <i class="fa fa-envelope"></i>
+                </button>
             </fieldset>
         </div>
         
@@ -249,10 +250,16 @@
             </div>
 
             <fieldset id="modelRight">
-                <div class="mb-3">
+                <div class="mb-4">
                     <span class="text-white mr-3">Name * </span>
                     <span class="bg-white text-black p-2 rounded">
                         <input class="input-field border-0 mw-100 model-name-input" type="text" style="width: 350px;" id="model-name">
+                    </span>
+                </div>
+                <div class="mb-3">
+                    <span class="text-white mr-1">Subject *</span>
+                    <span class="bg-white text-black p-2 rounded">
+                        <input class="input-field border-0 mw-100 model-name-input" type="text" style="width: 350px;" id="mail-subject">
                     </span>
                 </div>
                 <div class="w-100" style="height: 600px; background-color: white;" id="model-trumb-pane">
@@ -264,6 +271,7 @@
             </fieldset>
         </div>
 
+        <input type="hidden" id="process" value="{{ $process }}">
     </div>
     
     <div class="modal myModal fade" id="image-crop-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
@@ -279,6 +287,32 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary" id="crop">Crop</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="modal-block-popout" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-popout" role="document">
+            <div class="modal-content">
+                <div class="block block-themed block-transparent mb-0">
+                    <div class="block-header bg-primary-dark">
+                        <h3 class="block-title">Progress</h3>
+                        <div class="block-options">
+                            <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                                <i class="fa fa-fw fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <p class="text-center" id="statusNumbers">0 / 0</p>
+                        <textarea style="width: 100%; height: 350px; resize: none;" id="statusNotes" readonly>
+                        </textarea>
+                    </div>
+                    <div class="block-content block-content-full text-right bg-light">
+                        <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Done</button>
+                    </div>
                 </div>
             </div>
         </div>

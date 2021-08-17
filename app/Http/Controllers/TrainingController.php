@@ -64,6 +64,11 @@ class TrainingController extends Controller
         if ($request->post('cate-status-icon') != NULL) {
             $training->status = $request->post('cate-status-icon');
         }
+        if (auth()->user()->type !== 0) {
+            $training->id_creator = auth()->user()->id;
+        } else {
+            $training->id_creator = session("client");
+        }
         $training->save();
         return response()->json(TrainingsModel::getTrainingForTrainingpage($training->id));
         //

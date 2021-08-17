@@ -20,8 +20,14 @@ class SessionController extends Controller
      */
     public function index()
     {
-        $students = User::getUserPageInfo(4);
-        $teachers = User::getUserPageInfo(3);
+        if(session("user_type") == 3){
+            $students = SessionModel::getUserFromSessionByType(4);
+            $teachers = SessionModel::getUserFromSessionByType(3);
+        } else {
+            $students = User::getUserPageInfo(4);
+            $teachers = User::getUserPageInfo(3);
+        }
+
         $groups = GroupModel::all();
         $trainings = TrainingsModel::all();
         $positions = PositionModel::all();
@@ -85,8 +91,8 @@ class SessionController extends Controller
         // dd(array('contents'=>$content, 'participants'=>$participant, "session_info"=>$session->toArray()));
         // dd(User::getUserIDFromGroup(2));
         if ($contentData == null) {
-            print_r('abc');
-            exit;
+            // print_r('abc');
+            // exit;
             return;
         }
         return response()->json(['contents' => $contentData, 'participants' => $participant, "session_info" => $session->toArray()]);
@@ -124,6 +130,11 @@ class SessionController extends Controller
         }
         if ($request->post("language") != NULL) {
             $session->language_iso = $request->post('language');
+        }
+        if (session("user_type") !== 0) {
+            $session->id_creator = session("user_id");
+        } else {
+            $session->id_creator = session("client");
         }
         $session->update();
         return response()->json(SessionModel::getSessionPageInfoFromId($session->id)->toArray());

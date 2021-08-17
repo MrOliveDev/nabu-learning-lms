@@ -54,6 +54,11 @@ class TemplateController extends Controller
         } else {
             $template->status = 1;
         }
+        if (session("user_type") !== 0) {
+            $template->id_creator = session("user_id");
+        } else {
+            $template->id_creator = session("client");
+        }
         $template->alpha_id = md5(uniqid());
         $template->id_creator = TemplateModel::first()->id_creator;
         $template->style = TemplateModel::first()->style;

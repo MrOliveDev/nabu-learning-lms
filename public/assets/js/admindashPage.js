@@ -500,4 +500,33 @@ $(document).ready(function(){
           }
         });
     });
+    
+    $('.table-report>table').map(function(){
+            $(this).DataTable({
+            "processing": true,
+            "serverSide": true,
+            "responsive": true,
+            "orderCellsTop": true,
+            "pageLength" : 50,
+            "ajax":{
+                    "url": baseURL+"/getReportListBySession",
+                    "dataType": "json",
+                    "type": "POST",
+                    "data":{
+                            _token: $('meta[name="csrf-token"]').attr('content'),
+                            session_id:$(this).parents(".table-report").attr('id').split('_')[1]
+                        }
+                },
+            "columns": [
+                { "data": "session" },
+                { "data": "student" },
+                { "data": "filename" },
+                { "data": "actions", "orderable": false }
+            ],
+            pageLength: 5,
+            lengthMenu: false,
+            searching: false,
+            autoWidth: false
+        });
+    });
 });

@@ -57,11 +57,9 @@ class TrainingsModel extends Model
         $teacherData = array();
         if (isset($content_data)) {
             $content = json_decode($content_data);
-            dd($content);
             $groupList = $content["s"];
             $studentList = $content["t"];
             $teacherList = $content["g"];
-            exit;
             if (count($groupList) != 0) {
                 foreach ($groupList as $groupValue) {
                     $groupSubData = array();
@@ -97,5 +95,16 @@ class TrainingsModel extends Model
         $teacherList = $ItemList['teacher'];
         $result = json_encode(array("s" => $studentList, "t" => array(array("value"=>234, "item"=>array(123,24)), array("value"=>234, "item"=>array(123,24)))));
         return $result;
+    }
+
+    public function scopeGetTrainingByClient($query) {
+        $client = session('client');
+        $trainings = $query->leftjoin("tb_users", 'tb_users.id', '=', 'tb_trainings.idCreator')->where('tb_trainings.idCreator', $client)->orWhere('tb_user.id_creator', $client)->get();
+        return $trainings;
+    }
+
+    public function scopeGetTrainingByCreator($query, $id) {
+        $trainings = $query->where('idCreator', $id)->get();
+        return $trainings;
     }
 }

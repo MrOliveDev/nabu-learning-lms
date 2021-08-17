@@ -52,6 +52,7 @@ $(document).ready(function(){
             },
         "columns": [
             { "data": "session" },
+            { "data": "student" },
             { "data": "filename" },
             { "data": "type" },
             { "data": "detail" },
@@ -65,7 +66,7 @@ $(document).ready(function(){
         dom: "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-6'i><'col-sm-6'p>>",
         "columnDefs": [ {
-            "targets": 5,
+            "targets": 6,
             "orderable": false
         } ]
     });
@@ -1150,7 +1151,9 @@ async function downloadReport(studentId){
         success: function(res) {
             swal.close();
             if(res.success && res.filename){
-                download("{{ url('pdf') }}" + "/" + res.filename, res.filename);
+                // download("{{ url('pdf') }}" + "/" + res.filename, res.filename);
+                let link = "{{ url('pdf') }}" + "/" + res.filename;
+                window.open(link, '_blank');
                 $('#historic-table').DataTable().ajax.reload();
             } else
                 notification(res.message, 2);

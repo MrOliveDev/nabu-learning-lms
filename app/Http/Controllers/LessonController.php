@@ -53,6 +53,11 @@ class LessonController extends Controller
         if ($request->post('lesson_status')) {
             $lesson->status = $request->post('lesson_status');
         }
+        if (session("user_type") !== 0) {
+            $lesson->idCreator = session("user_type");
+        } else {
+            $lesson->idCreator = session("client");
+        }
         $lesson->idFabrica = $this->randomGenerate();
         $lesson->save();
 

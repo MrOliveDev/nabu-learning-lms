@@ -260,6 +260,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::get('template_editor', '\App\Http\Controllers\TemplateEditorController@index')->name('template_editor');
     Route::get('player_editor', '\App\Http\Controllers\PlayerController@index')->name('player_editor');
     Route::get('fabrique_editor', '\App\Http\Controllers\FabriqueController@index')->name('fabrique_editor');
+    Route::post('switchclient', '\App\Http\Controllers\PermissionController@switchClient');
     Route::get('changeLanuguage', function (Request $request) {
         session(['language' => $request->language]);
     })->name('changeLanguage');
@@ -302,6 +303,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
 
     Route::get('report', '\App\Http\Controllers\ReportController@index')->name('report');
     Route::post('getReportList', '\App\Http\Controllers\ReportController@getReportList')->name('getReportList');
+    Route::post('getReportListBySession', '\App\Http\Controllers\ReportController@getReportListBySession')->name('getReportListBySession');
     Route::post('getTemplateData', '\App\Http\Controllers\ReportController@getTemplateData')->name('getTemplateData');
     Route::post('saveTemplateData', '\App\Http\Controllers\ReportController@saveTemplateData')->name('saveTemplateData');
     Route::post('delTemplate', '\App\Http\Controllers\ReportController@delTemplate')->name('delTemplate');
@@ -311,7 +313,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('getReportData', '\App\Http\Controllers\ReportController@getReportData')->name('getReportData');
     Route::post('downloadReportPDF', '\App\Http\Controllers\ReportController@downloadReportPDF')->name('downloadReportPDF');
     Route::post('downloadReportZip', '\App\Http\Controllers\ReportController@downloadReportZip')->name('downloadReportZip');
-    Route::get('/pdf/{file}', '\App\Http\Controllers\ReportController@downloadFile');
+    Route::get('/pdf/{file}', '\App\Http\Controllers\ReportController@getPDFContents');
     Route::get('/zip/{file}', '\App\Http\Controllers\ReportController@downloadZip');
     Route::post('delReport', '\App\Http\Controllers\ReportController@delReport')->name('delReport');
 
@@ -320,9 +322,11 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('getMailTemplate', '\App\Http\Controllers\SendmailController@getMailTemplate')->name('getMailTemplate');
     Route::post('saveMailTemplate', '\App\Http\Controllers\SendmailController@saveMailTemplate')->name('saveMailTemplate');
     Route::post('delMailTemplate', '\App\Http\Controllers\SendmailController@delMailTemplate')->name('delMailTemplate');
+    Route::post('delMailHistory', '\App\Http\Controllers\SendmailController@delMailHistory')->name('delMailHistory');
     Route::post('saveMailImg', '\App\Http\Controllers\SendmailController@saveMailImg')->name('saveMailImg');
     Route::post('getUserInfo', '\App\Http\Controllers\SendmailController@getUserInfo')->name('getUserInfo');
     Route::post('mailsend', '\App\Http\Controllers\SendmailController@mailsend')->name('mailsend');
+    Route::post('insertMailHistory', '\App\Http\Controllers\SendmailController@insertMailHistory')->name('insertMailHistory');
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

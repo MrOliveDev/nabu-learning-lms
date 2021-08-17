@@ -11,7 +11,8 @@ use App\Models\PositionModel;
 use App\Models\CompanyModel;
 use App\Models\ConfigModel;
 use App\Models\LanguageModel;
-// use App\Models\SessionModel;
+use App\Models\SessionModel;
+use App\Models\PermissionModel;
 
 use Hackzilla\PasswordGenerator\Generator\RequirementPasswordGenerator;
 
@@ -21,15 +22,22 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $students = User::getUserPageInfo(4);
-        $authors = User::getUserPageInfo(2);
-        $teachers = User::getUserPageInfo(3);
-        $groups = GroupModel::all();
+        if(session("user_type") == 3){
+            $students = SessionModel::getUserFromSessionByType(4);
+            $teachers = SessionModel::getUserFromSessionByType(3);
+            $authors = User::getUserPageInfo(2);
+        } else {
+            $students = User::getUserPageInfo(4);
+            $teachers = User::getUserPageInfo(3);
+            $authors = User::getUserPageInfo(2);
+        }
+        $groups = GroupModel::getGroupByClient();
         $positions = PositionModel::all();
-        $companies = CompanyModel::all();
+        $companies = CompanyModel::getCompanyByClient();
         $languages = LanguageModel::all();
+        $permissions = PermissionModel::all();
 
-        return view('student', compact(['authors', 'teachers', 'students', 'groups', 'positions', 'companies', 'languages']));
+        return view('student', compact(['authors', 'teachers', 'students', 'groups', 'positions', 'companies', 'languages', 'permissions']));
     }
 
     /**
@@ -92,14 +100,15 @@ class StudentController extends Controller
 
         $user = User::create([
             'login' => $request->post('login'),
-            'password' => $request->post('password'),
+            'password' => base64_encode($request->post('password')),
             'first_name' => $request->post('first_name'),
             'last_name' => $request->post('last_name'),
             'contact_info' => json_encode($contact_info),
             'id_config' => $interfaceCfg->id,
             'status' => $request->input('user-status-icon'),
             'type' => $request->post('type'),
-            'expired_date'=>$request->post('expired_date')
+            'expired_date'=>$request->post('expired_date'),
+            'permission_id'=>$request->post('type')
         ]);
 
         if ($request->post('company') != null) {
@@ -115,6 +124,14 @@ class StudentController extends Controller
         }
         if ($request->post('generatepassword') != null) {
             $user->auto_generate = $request->post('generatepassword');
+        }
+        if ($request->post('permission') != null) {
+            $user->permission_id = $request->post('permission');
+        }
+        if (session("user_type") !== 0) {
+            $user->id_creator = session("user_id");
+        } else {
+            $user->id_creator = session("client");
         }
         $user->update();
 
@@ -204,7 +221,7 @@ class StudentController extends Controller
         }
         $user->status = $request->input('user-status-icon');
         if ($request->input('password') != null) {
-            $user->password = $request->input('password');
+            $user->password = base64_encode($request->input('password'));
         }
         if ($user->contact_info != null) {
             $address = json_decode($user->contact_info);
@@ -217,6 +234,9 @@ class StudentController extends Controller
                 "email" => $request->input('user-email')
             );
             $user->contact_info = json_encode($contact_info);
+        }
+        if ($request->post('permission') != null) {
+            $user->permission_id = $request->post('permission');
         }
         $user->expired_date=$request->post('expired_date');
 
@@ -244,14 +264,6 @@ class StudentController extends Controller
 
     public function userJoinToGroup(Request $request)
     {
-        // foreach ($variable as $key => $value) {
-        //     # code...
-        // }
-        // foreach ($request->post("data") as $key => $value) {
-        //     print_r(json_decode($value->id));
-        //     print_r(json_decode($value->));
-        // }
-        // print_r();
         $responseData = [];
         $data = json_decode($request->post('data'));
         if (count($data) != 0) {

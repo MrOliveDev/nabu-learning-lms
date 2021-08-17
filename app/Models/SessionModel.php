@@ -24,6 +24,7 @@ class SessionModel extends Model
         'participants',
         'contents',
         'end_date',
+        'creator_id'
     ];
 
     protected $table = 'tb_session';
@@ -46,11 +47,15 @@ class SessionModel extends Model
 
     public function scopeGetSessionPageInfo($query)
     {
+
+        $client = session("client");
+
         $result = $query->select(
             'tb_session.*',
             'tb_languages.language_iso as language_iso'
         )
             ->leftjoin('tb_languages', 'tb_session.language_iso', 'tb_languages.language_id')
+            ->where("tb_session.id_creator", $client)
             ->get();
         return $result;
     }
@@ -74,7 +79,7 @@ class SessionModel extends Model
         // }
         // return $array;
         if (isset($content_data) || $content_data != "") {
-            $training = TrainingsModel::where('id', $content_data)->get();
+            $training = TrainingsModel::where('id', $content_data)->where("id_creator", session("client"))->get();
             if ($training->count() != 0) {
                 return $training;
             } else {
@@ -146,7 +151,7 @@ class SessionModel extends Model
                 // var_dump($participant);
                 if ($user->type == 3) {
                     $teachers = $participant->t;
-                    
+                    // var_dump($teachers);
                     if ($teachers != NULL && count($teachers) != 0) {
                         foreach ($teachers as $teacher) {
                             if ($teacher == $id) {
@@ -188,18 +193,18 @@ class SessionModel extends Model
         $temp_trainings = array();
         foreach ($sessions as $session) {
             DB::connection('mysql_reports')->unprepared('CREATE TABLE IF NOT EXISTS `tb_screen_optim_'.$session->id.'` (
-            `id_screen_optim` int(11) NOT NULL AUTO_INCREMENT,
-            `id_fabrique_screen_optim` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-            `id_curso_screen_optim` int(11) NOT NULL,
-            `id_user_screen_optim` int(11) NOT NULL,
-            `progress_details_screen_optim` text COLLATE utf8_unicode_ci NOT NULL,
-            `progress_screen_optim` float(5,2) NOT NULL,
-            `last_date_screen_optim` datetime NOT NULL,
-            `first_eval_id_screen_optim` int(11) NOT NULL,
-            `last_eval_id_screen_optim` int(11) NOT NULL,
-            PRIMARY KEY (id_screen_optim) 
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-            ');
+                `id_screen_optim` int(11) NOT NULL AUTO_INCREMENT,
+                `id_fabrique_screen_optim` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+                `id_curso_screen_optim` int(11) NOT NULL,
+                `id_user_screen_optim` int(11) NOT NULL,
+                `progress_details_screen_optim` text COLLATE utf8_unicode_ci NOT NULL,
+                `progress_screen_optim` float(5,2) NOT NULL,
+                `last_date_screen_optim` datetime NOT NULL,
+                `first_eval_id_screen_optim` int(11) NOT NULL,
+                `last_eval_id_screen_optim` int(11) NOT NULL,
+                PRIMARY KEY (id_screen_optim) 
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+                ');    
             if ($session->contents != NULL && $session->contents != '') {
                 $new_training = TrainingsModel::find(intval($session->contents));
                 if($new_training->lesson_content!=NULL&&$new_training->lesson_content!=''&&$new_training->lesson_content!='[]'){
@@ -219,10 +224,10 @@ class SessionModel extends Model
                                         }
                                         // if($training_item['training']!=$new_training)
                                     }
-                                   
+
                                     array_push($temp_trainings, $new_training);
                                     if(!$repeat){
-                                        $score_data = DB::connection('mysql_reports')->select('select AVG(progress_screen_optim) as progress_screen_optim, AVG(last_eval_id_screen_optim) as last_eval_id_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.$user_id.'"');
+                                        $score_data = DB::connection('mysql_reports')->select('select AVG(progress_screen_optim) as progress_screen_optim, AVG(last_eval_id_screen_optim) as last_eval_id_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.session("user_id").'"');
                                         $progress = $score_data==NULL?0:(count($score_data)==0?0:($score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0));
                                         $eval = $score_data==NULL?0:(count($score_data)==0?0:($score_data[0]->last_eval_id_screen_optim?$score_data[0]->last_eval_id_screen_optim:0));
                                         array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval]);
@@ -314,7 +319,7 @@ class SessionModel extends Model
         if (isset($participant_data) || $participant_data != "") {
             $participant = json_decode($participant_data);
             $studentList = isset($participant->s) ? $participant->s : array();
-            
+
             if (isset($studentList) || $studentList != "") {
                 if (count($studentList) != 0) {
                     foreach ($studentList as $studentValue) {
@@ -325,8 +330,111 @@ class SessionModel extends Model
                     }
                 }
             }
-            
+
         }
         return $studentData;
+    }
+
+    public function scopeGetSessionFromUser($query, $user_id){
+        $sessions = SessionModel::all();
+        $result = array();
+        foreach ($sessions as $session) {
+            $participant_data = $session->participants;
+            $groupData = array();
+            $studentData = array();
+            $teacherData = array();
+            if (isset($participant_data) || $participant_data != "") {
+                $participant = json_decode($participant_data);
+                $groupList = isset($participant->g) ? $participant->g : array();
+                $studentList = isset($participant->s) ? $participant->s : array();
+                $teacherList = isset($participant->t) ? $participant->t : array();
+                if (isset($groupList) || $groupList != "") {
+                    // var_dump($groupList);
+                    // var_dump($studentList);
+                    // var_dump($teacherList);
+                    if (count($groupList) != 0) {
+                        foreach ($groupList as $groupValue) {
+                            $groupSubData = array();
+                            $groupSubData = User::getUserFromGroup($groupValue->value);
+                            if(isset($groupSubData))
+                            if(in_array($user_id, $groupSubData))
+                            array_push($result, $session);
+                        }
+                    }
+                }
+                if (isset($studentList) || $studentList != "") {
+                    if (count($studentList) != 0) {
+                        foreach ($studentList as $studentValue) {
+                            // print_r($studentValue);
+                            $studentItem = User::find($studentValue);
+                            if($studentItem != NULL && $studentItem->id == $user_id) {
+                                array_push($result, $session);
+                            }
+                        }
+                    }
+                }
+                if (isset($teacherList) || $teacherList != "") {
+                    if (count($teacherList) != 0) {
+                        foreach ($teacherList as $teacherValue) {
+                            // var_dump($teacherValue);
+                            // exit;
+                            $teacherItem = User::find($teacherValue);
+                           if($teacherItem != NULL && $teacherItem->id == $user_id)
+                            if(in_array($user_id, $teacherItem))
+                            array_push($result, $session);
+                        }
+                    }
+                }
+            }
+        }
+        return $result;
+    }
+
+    public function scopeGetTeachersFromSession($query, $session_id) {
+        $teacherData = array();
+        if (isset($participant_data) || $participant_data != "") {
+            $participant = json_decode($participant_data);
+            $teacherList = isset($participant->t) ? $participant->t : array();
+
+            if (isset($teacherList) || $teacherList != "") {
+                if (count($teacherList) != 0) {
+                    foreach ($teacherList as $teacherValue) {
+                        // print_r($studentValue);
+                        $studentItem = User::find($teacherValue);
+                        if($studentItem)
+                            array_push($teacherData, $studentItem->toArray());
+                    }
+                }
+            }
+
+        }
+        return $teacherData;
+    }
+
+    public function scopeGetStudentFromOwnedTeacher($query, $teacher_id) {
+        $sessions = SessionModel::getSessionFromUser($teacher_id);
+        $result = array();
+        foreach ($sessions as $session) {
+            array_push($result, ...SessionModel::getStudentsFromSession($session->participants));
+        }
+        return $result;
+    }
+
+    public function scopeGetUserFromSessionByType($query, $type) {
+        $sessions = SessionModel::getSessionFromUser(session("client"));
+        $result = array();
+        foreach($sessions as $session) {
+            if($type==4){
+                array_push($result, ...SessionModel::getStudentsFromSession($session->participants));
+                //students:created by teacher
+                $students = User::where("id_creator", session("user_id"))->where("type", $type)->get();
+                foreach ($students as $student) {
+                    array_push($result, $student);
+                }
+            } else {
+                array_push($result, ...SessionModel::getTeachersFromSession($session->participants));
+            }
+        }
+        return $result;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\admin\DashController;
 
 class HomeController extends Controller
 {
@@ -23,7 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admindash');
+        // $admindashController = new DashController;
+        // return $admindashController->index();
+        return app('App\Http\Controllers\admin\DashController')->index();
     }
 
 }

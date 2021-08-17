@@ -1,6 +1,7 @@
 .table-training,
 .table-paticiaptn,
-.table-training {
+.table-training,
+.table-report {
     display:none;
 }
 
