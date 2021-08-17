@@ -128,7 +128,7 @@ class ReportController extends Controller
         $dir = $request->input('order.0.dir');
 
         $handler = new ReportsModel;
-        $handler = $handler->leftjoin('tb_session', "tb_session.id", "=", "tb_reports.sessionId");
+        $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_session as tb_session', "tb_session.id", "=", "tb_reports.sessionId");
 
         if(empty($request->input('search.value')))
         {            
