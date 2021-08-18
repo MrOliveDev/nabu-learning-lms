@@ -113,33 +113,33 @@
             });
         })
 
-        $(".content-side.content-side-full").hover(
-            function() {
-                if ($(".simplebar-content").css('width') == '150px') {
+        // $(".content-side.content-side-full").hover(
+        //     function() {
+        //         if ($(".simplebar-content").css('width') == '150px') {
 
-                    $("#page-header, #page-container").addClass("page-header-trigger");
-                    $("#RightPanel").css({
-                        "width": $("#content").width() - $("#LeftPanel").width() - $(
-                                "#div_vertical")
-                            .width() - 10 + "px"
-                        // "width": $("#RightPanel").width() - 150 + "px"
-                    });
-                }
-            },
-            function() {
-                if ($(".simplebar-content").css('width') == '150px') {
+        //             $("#page-header, #page-container").addClass("page-header-trigger");
+        //             $("#RightPanel").css({
+        //                 "width": $("#content").width() - $("#LeftPanel").width() - $(
+        //                         "#div_vertical")
+        //                     .width() - 10 + "px"
+        //                 // "width": $("#RightPanel").width() - 150 + "px"
+        //             });
+        //         }
+        //     },
+        //     function() {
+        //         if ($(".simplebar-content").css('width') == '150px') {
 
-                    $("#page-header, #page-container").removeClass("page-header-trigger");
-                    if ($('#content').width() > ($('#RightPanel').width() + $('#LeftPanel').width())) {
-                        $("#RightPanel").css({
-                            "width": $("#content").width() - $("#LeftPanel").width() - $(
-                                    "#div_vertical")
-                                .width() - 10 + "px"
-                        });
-                    }
-                }
-            }
-        )
+        //             $("#page-header, #page-container").removeClass("page-header-trigger");
+        //             if ($('#content').width() > ($('#RightPanel').width() + $('#LeftPanel').width())) {
+        //                 $("#RightPanel").css({
+        //                     "width": $("#content").width() - $("#LeftPanel").width() - $(
+        //                             "#div_vertical")
+        //                         .width() - 10 + "px"
+        //                 });
+        //             }
+        //         }
+        //     }
+        // )
         $(document).ready(function() {
             window.onresize = resize;
             resize();

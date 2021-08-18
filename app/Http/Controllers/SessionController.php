@@ -168,11 +168,6 @@ class SessionController extends Controller
                 }
             } else if ($cate == 'content') {
                 if ($contentData != NULL) {
-                    // $tempSession = SessionModel::where('contents', $contentData)->first();
-
-                    // if ($tempSession) {
-                    //     return response()->json(['success' => false, 'message' => "This content is already exist."]);
-                    // }
                     $session->contents = $contentData;
                     $session->update();
                     return response()->json(["success" => true]);
