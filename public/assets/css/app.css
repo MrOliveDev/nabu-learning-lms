@@ -244,9 +244,9 @@ img {
 .simplebar-content:not(:hover) .nav-main-cover-item {
 } */
 
-.simplebar-content {
+/* .simplebar-content {
     z-index: 1032;
-}
+} */
 
 .nav-main-item span.nav-main-link-name {
     font-size: 16pt;
@@ -357,7 +357,7 @@ main.main-container {
     height: 100%;
     padding-top: 100px;
     padding-right: 20px;
-    z-index: 1;
+    /* z-index: 1; */
 }
 
 .page-header-trigger {
