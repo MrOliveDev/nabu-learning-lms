@@ -175,6 +175,7 @@ data-search-member="{{isset(session('permission')->student->search->member)}}"
 data-search-category="{{isset(session('permission')->student->search->category)}}"
 data-search-showtable="{{isset(session('permission')->student->search->showtable)}}"
 
+data-session-edit="{{isset(session('permission')->session)}}"
 data-authed-user="{{session("user_id")}}"
 data-authed-user-type="{{session("user_type")}}"
 >
@@ -559,7 +560,7 @@ data-authed-user-type="{{session("user_type")}}"
                                 </div>
                             </div>
                             @if(auth()->user()->type<3)
-                            <div class="form-group">
+                            <div class="form-group" id="permission_input">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
