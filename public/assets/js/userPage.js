@@ -734,7 +734,15 @@ var item_edit = function(element) {
         $('#status-form-group').css('display', 'none');
     }
 
-
+    if(parent.parents(".window").is("#div_A")||parent.parents(".window").is("#div_D")){
+        if($("#permission_input").length!=0) {
+            if(parent.attr('id').split('_')[0]=="student"||parent.attr("id").split("_")[0]=="author"){
+                $("#permission_input").toggle(false);
+            } else {
+                $("#permission_input").toggle(true);
+            }
+        }
+    }
 
     switch (element.attr('data-content')) {
         case 'student':
@@ -1361,7 +1369,15 @@ var createSessionItem = function(data) {
         '<div class="btn-group float-right">' +
         '</div>' +
         '</a>');
-
+    var editBtn = $('<button class="btn  item-session-button" data-content="session_' + '">' +
+    '<i class="px-2 fa fa-edit"></i>' +
+    '</button>');
+    editBtn.click(function(e){
+        if($("#content").attr("data-session-edit")==1){
+            window.open(baseURL+"/session", '_blank');
+        }
+    })
+    session_item.find(".btn-group").append(editBtn);
     return session_item;
 }
 

@@ -50,6 +50,20 @@ class TrainingsModel extends Model
         return $result;
     }
 
+    // public function scopeGetActivedTrainingForTrainingpage($query, $id)
+    // {
+    //     $result = $query->select(
+    //         'tb_trainings.*',
+    //         'tb_languages.language_iso as language_iso'
+    //     )
+    //         ->leftjoin('tb_languages', 'tb_trainings.lang', '=', 'tb_languages.language_id')
+    //         ->join('tb_lesson')
+    //         ->whereNotNull(DB::raw("JSON_SEARCH(tb_trainings.contents, 'one', tb_lesson.id)"))
+    //         ->where('tb_trainings.id', $id)
+    //         ->first();
+    //     return $result;
+    // }
+
     public function scopeGetContentData($query, $content_data)
     {
         $groupData = array();

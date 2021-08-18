@@ -66,7 +66,7 @@ class LessonsModel extends Model
             'tb_languages.language_iso as language_iso'
         )
             ->leftjoin('tb_languages', 'tb_lesson.lang', '=', 'tb_languages.language_id')
-            ->where('id', $id)
+            ->where('tb_lesson.id', $id)
             ->first();
 
         $test = $lesson->toArray();
