@@ -128,7 +128,7 @@ class ContentsCourse {
             $id = (int)$action->attributes()->id;
             $actions = array();
             $actions['type'] = (string)$action->attributes()->type;
-            if($this->resourcesArray[(string)$action->src]){
+            if($action->src && $this->resourcesArray[(string)$action->src]){
                 $actions['src'] = $this->resourcesArray[(string)$action->src];
             }else{
                 $actions['src'] = null;
