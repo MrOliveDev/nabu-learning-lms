@@ -264,7 +264,7 @@ function processor($content, $config)
         } else {
             $contentXml = generateXml($fileUrl, "content");
             $form_data  = json_decode(file_get_contents('php://input'));
-            if ($form_data->preview) {
+            if ($form_data && $form_data->preview) {
                 $preview = $form_data->preview;
             }
             if ($config['scorm']) {
