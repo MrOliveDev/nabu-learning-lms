@@ -411,6 +411,10 @@ data-search-training="{{isset(session("permission")->training->search->training)
                                         <i class="px-2 fas fa-sort-amount-down-alt"></i>
                                     @endif
                                 </button>
+                                <button class="btn item-scorm" data-content='training'
+                                    data-item-id="{{ $training->id }}">
+                                    <i class="px-2 fa fa-cogs"></i>
+                                </button>
                                 @if(isset(session("permission")->training->training->show))
                                 <button class="btn item-show" data-content='training'
                                     data-item-id="{{ $training->id }}">
@@ -562,6 +566,62 @@ data-search-training="{{isset(session("permission")->training->search->training)
 
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             <button type="button" class="btn btn-primary" id="crop">Crop</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="scormModal" tabindex="-1" role="dialog" aria-labelledby="modal-block-popout" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-popout" role="document">
+                    <div class="modal-content" style="width: 600px;">
+                        <div class="block block-themed block-transparent mb-0">
+                            <div class="block-header bg-primary-dark">
+                                <h3 class="block-title">Scorm Generator</h3>
+                                <div class="block-options">
+                                    <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                                        <i class="fa fa-fw fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="block-content">
+                                <p>Cette fonction vous permet d'exporter la totalité de la formation au format ZIP compatible SCORM 2004 3em édition. Cette opération peut prendre plusieurs dizaines de minutes. Une fois terminée, vous recevrez un email avec un lien pour télécharger le fichier zip. Cliquez sur le bouton Exportation SCORM pour confirmer ou Annuler pour revenir à l'écran formation</p>
+                                <div class="row mb-3">
+                                    <div class="col-3">
+                                        Template
+                                    </div>
+                                    <div class="col-9">
+                                        <select id="scorm-template" class="form-control">
+                                            @foreach ($templates as $template)
+                                            <option value="{{ $template->id }}">{{ $template->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-3" style="vertical-align: center;">
+                                        Threshold score
+                                    </div>
+                                    <div class="col-9 input-group">
+                                        <input type="text" class="form-control" id="scorm-threshold-score" value="80">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                %
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3" style="vertical-align: center;">
+                                        Eval Attempts
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="scorm-eval-attempt" value="5">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="block-content block-content-full text-right bg-light">
+                                <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal" onclick="generateScorm()">Generate</button>
+                            </div>
                         </div>
                     </div>
                 </div>
