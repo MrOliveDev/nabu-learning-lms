@@ -159,7 +159,8 @@ class SessionController extends Controller
         $contentData = $request->content;
         $id = $request->id;
         $cate = $request->cate;
-        if (($session = SessionModel::find($id)) != NULL) {
+        $session = SessionModel::find($id);
+        if ($session != NULL) {
             if ($cate == 'participant') {
                 if ($participantData != NULL) {
                     $session->participants = $participantData;

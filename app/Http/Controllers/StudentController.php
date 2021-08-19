@@ -35,7 +35,7 @@ class StudentController extends Controller
         $positions = PositionModel::all();
         $companies = CompanyModel::getCompanyByClient();
         $languages = LanguageModel::all();
-        $permissions = PermissionModel::all();
+        $permissions = PermissionModel::where('show', 1)->get();
 
         return view('student', compact(['authors', 'teachers', 'students', 'groups', 'positions', 'companies', 'languages', 'permissions']));
     }

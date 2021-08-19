@@ -29,14 +29,12 @@ class AppServiceProvider extends ServiceProvider
         $translation = new Language;
         view()->share('translation', $translation);
         $languageModel = LanguageModel::all();
-        view()->share('language', $languageModel);
+        view()->share('screen_language', $languageModel);
         $interfaceCfg = InterfaceCfgModel::get_interface_color_byuser(1);
         view()->share('interfaceCfg', $interfaceCfg);
         $clients = User::getClients();
         view()->share('clients', $clients);
-        // foreach ($clients as $client) {
-        // }
-        // dd($clients);
-        // exit;
+        // foreach ($language as $languages) {
+        // }exit;
     }
 }

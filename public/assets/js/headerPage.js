@@ -1,5 +1,5 @@
-// var baseURL = window.location.protocol+"//"+window.location.host;
-var baseURL = window.location.protocol+"//"+window.location.host+"/newlms";
+// var baseURLHeader = window.location.protocol+"//"+window.location.host;
+var baseURLHeader = window.location.protocol+"//"+window.location.host+"/newlms";
 
 
 $(document).ready(function(e){
@@ -54,7 +54,23 @@ $(document).ready(function(e){
             item = $(this).parents(".client-item");
         }
         var id = item.attr("id").split("_")[1];
-        $.post({url:baseURL + "/switchclient", data:{id}})
+        $.post({url:baseURLHeader + "/switchclient", data:{id}})
+        .done(function(data){
+            console.log("Successed");
+            location.reload();
+        })
+        .fail(function(err){
+            console.log("You have an error", err);
+        })
+    });
+    $(".language-item").click(function(event){
+        event.preventDefault();
+        var item = $(this);
+        if(!$(this).is(".language-item")) {
+            item = $(this).parents(".language-item");
+        }
+        var id = item.attr("id").split("_")[1];
+        $.post({url:baseURLHeader + "/updatelanguage", data:{id}})
         .done(function(data){
             console.log("Successed");
             location.reload();

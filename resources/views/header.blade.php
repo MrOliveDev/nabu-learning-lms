@@ -97,6 +97,40 @@
                     </div>
                 </div>
             @endif
+
+            <div class="dropdown d-inline-block">
+                <button type="button" class="btn btn-dual btn-rounded" id="page-header-notifications-dropdown"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Language : 
+                    @if (session("language")!=null)
+                    <span class="badge badge-secondary badge-pill">{{strtoupper(session("language"))}}</span>                        
+                    @else
+                    <span class="badge badge-secondary badge-pill">{{strtoupper("en")}}</span>                        
+                    @endif
+                </button>
+                <div class="dropdown-menu dropdown-menu-lg p-0"
+                    aria-labelledby="page-header-notifications-dropdown">
+                    <ul class="nav-items my-2">
+                        @if (isset($screen_language))
+                            @foreach ($screen_language as $screen_lang)                           
+                                <div class="mx-3">
+                                    <i class="fa fa-fw fa-check-circle text-success"></i>
+                                </div>
+                                <li>
+                                    <a class="text-dark media py-2 language-item" href="javascript:void(0)" id="language_{{$screen_lang->language_id}}">
+                                        <div class="media-body font-size-sm pr-2">
+                                            <div class="font-w600">
+                                                {{$screen_lang->language_name}}
+                                            </div>
+                                            <div class="text-muted font-italic"></div>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endforeach
+                        @endif
+                    </ul>
+                </div>
+            </div>
         </div>
 
 

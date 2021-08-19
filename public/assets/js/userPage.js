@@ -783,7 +783,9 @@ var item_edit = function(element) {
                     }
 
                     $('#login').val(data.user_info.login);
-                    $('#expired_date').val(data.user_info.expired_date);
+                    var expired_date = data.user.expired_date?data.user.expired_date:(()=>{var date = new Date().toLocaleDateString("ja").split("/");date[0]=parseInt(date[0])+1;return date.join("-")})();
+
+                    $('#expired_date').val(expired_date);
                     $('#password').attr('placeholder', "Private password");
                     $('#generatepassword').prop('checked', false);
                     $('#firstname').val(data.user_info.first_name);
@@ -1168,7 +1170,6 @@ var submitBtn = function(event) {
     var password = $('#password').val();
     if (formname == 'user_form') {
         validate = validate && $("#login")[0].checkValidity();
-        validate = validate && $("#contact_info")[0].checkValidity();
         validate = validate && $("#user-email")[0].checkValidity();
         validate = validate && $("#lastname")[0].checkValidity();
         validate = validate && $("#firstname")[0].checkValidity();

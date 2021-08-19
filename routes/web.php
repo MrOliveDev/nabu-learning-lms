@@ -329,6 +329,8 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('getUserInfo', '\App\Http\Controllers\SendmailController@getUserInfo')->name('getUserInfo');
     Route::post('mailsend', '\App\Http\Controllers\SendmailController@mailsend')->name('mailsend');
     Route::post('insertMailHistory', '\App\Http\Controllers\SendmailController@insertMailHistory')->name('insertMailHistory');
+    Route::post('updatelanguage', '\App\Http\Controllers\LanguageManageController@updateLanguage');
+
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
