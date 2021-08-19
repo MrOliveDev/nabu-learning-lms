@@ -584,6 +584,14 @@ var itemTemplate = function(event) {
 var itemRefresh = function(event) {
     var parent = $(this).parents('.list-group-item');
 };
+
+var curTrainingId = -1;
+
+var itemScorm = function(event){
+    curTrainingId = $(this).attr('data-item-id');
+    $("#scormModal").modal({ backdrop: 'static', keyboard: false });
+};
+
 var itemType = function(event) {
     var parent = $(this).parents('.list-group-item');
     var id = parent.attr('id').split('_')[1];
@@ -875,7 +883,6 @@ var createLessonData = function(data) {
         '<i class="px-2 fa fa-sync-alt"></i>' +
         '</button>');
 
-
     btnShow.click(btnClick).click(itemShow);
 
     btnEdit.click(btnClick).click(itemEdit);
@@ -933,6 +940,9 @@ var createTrainingData = function(data) {
         $('<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
             '<i class="px-2 fas fa-sort-amount-down-alt"></i></button>');
 
+    var btnScorm = $('<button class="btn item-scorm" data-content="training" data-item-id = "' + data['id'] + '">' +
+        '<i class="px-2 fa fa-cogs"></i>' +
+        '</button>');
     var btnShow = $('<button class="btn  item-show" data-content="training" data-item-id="' + data['id'] + '">' +
         '<i class="px-2 fa fa-eye"></i>' +
         '</button>');
@@ -951,8 +961,11 @@ var createTrainingData = function(data) {
 
     btnDelete.click(btnClick).click(itemDelete);
 
+    btnScorm.click(btnClick).click(itemScorm);
+
     trainingItem.find('.btn-group')
         .append(btnType)
+        .append(btnScorm)
         .append(btnShow)
         .append(btnEdit)
         .append(btnDelete);
@@ -1487,6 +1500,28 @@ function dropEnd(event, item) {
     });
 }
 
+function generateScorm(){
+    swal.fire({ title: "Please wait...", showConfirmButton: false });
+    swal.showLoading();
+    $.ajax({
+        url: 'generateScorm',
+        method: 'post',
+        data: {trainingId: curTrainingId, template_player: $("#scorm-template").val(), threshold_score: $("#scorm-threshold-score").val(), eval_attempts: $("#scorm-eval-attempt").val()},
+        success: function(res) {
+            if(res.success){
+                
+            } else{
+                
+            }
+            swal.close();
+        },
+        error: function(err) {
+            notification("Sorry, You have an error!", 2);
+            swal.close();
+        }
+    });
+}
+
 $(document).ready(function() {
 
     $("#RightPanel .list-group-item").each(function(i, elem) {
@@ -1547,6 +1582,7 @@ $('.item-show').click(itemShow);
 $('.item-play').click(itemPlay);
 $('.item-template').click(itemTemplate);
 $('.item-refresh').click(itemRefresh);
+$('.item-scorm').click(itemScorm);
 $('.item-type').click(itemType);
 
 $('.toolkit-add-item').click(toolkitAddItem);
