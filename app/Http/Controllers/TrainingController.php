@@ -14,6 +14,8 @@ define("PRODUCTS_ONLINE_PATH", "/home/sites/default/www/export_online/");
 use Auth;
 use ZipArchive;
 use Mail;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 class TrainingController extends Controller
 {
