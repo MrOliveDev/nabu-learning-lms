@@ -403,7 +403,7 @@ class TrainingController extends Controller
         $files = new RecursiveIteratorIterator($dIterator, RecursiveIteratorIterator::SELF_FIRST);
         foreach ($files as $file) {
             if($file->getBasename()==='.' || $file->getBasename()==='..') continue;
-            if($file->isDir) continue;
+            if($file->isDir()) continue;
 
             // Ignore xml, flv files
             $extension = $file->getExtension();
