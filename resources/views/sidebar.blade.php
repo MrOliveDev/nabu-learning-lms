@@ -35,17 +35,17 @@
                         <!-- END Side Header -->
 
                         <!-- Side Content -->
-                        <div class="content-side">
+                        {{-- <div class="content-side">
                             <form class="push" action="db_social.html" method="POST" onsubmit="return false;">
                                 <div class="input-group">
                                     <select class="form-control" id="val-language" name="val-language">
                                         <option value="">{{ $translation->l('Select your language') }}</option>
-                                        {{-- @isset($language)
+                                        @isset($language)
                                             @foreach ($language as $languageItem)
                                                 <option value="{{ $languageItem->language_iso }}">
                                                     {{ $languageItem->language_name }}</option>
                                             @endforeach
-                                        @endisset --}}
+                                        @endisset
                                     </select>
                                 </div>
                                 <br>
@@ -60,7 +60,7 @@
                                 </div>
                             </form>
 
-                        </div>
+                        </div> --}}
                         <!-- END Side Content -->
                     </div>
                 </div>

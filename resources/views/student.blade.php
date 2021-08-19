@@ -540,11 +540,11 @@ data-authed-user-type="{{session("user_type")}}"
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Address<span class="text-danger">*</span>
+                                            Address
                                         </span>
                                     </div>
                                     <input type="text" class="form-control" id="contact_info" name="contact_info"
-                                        value="" required>
+                                        value="">
                                 </div>
                             </div>
 

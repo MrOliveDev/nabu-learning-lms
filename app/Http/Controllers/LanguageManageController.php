@@ -105,4 +105,10 @@ class LanguageManageController extends Controller
         $language = LanguageModel::find($id);
         $language->delete();
     }
+
+    public function updateLanguage(Request $request){
+        $language = LanguageModel::where("language_id", $request->post('id'))->first();
+        session(['language'=>$language->language_iso]);
+        return true;
+    }
 }

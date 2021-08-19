@@ -11,7 +11,7 @@ class PermissionModel extends Model
 
     
     protected $fillable = [
-        'id', 'name', 'permission'
+        'id', 'name', 'permission', 'show'
     ];
 
     protected $table = 'tb_permission';
