@@ -70,6 +70,7 @@ class SessionController extends Controller
         if ($request->post("language") != NULL) {
             $session->language_iso = $request->post('language');
         }
+        $session->id_creator = session("client");
         // if(){
 
         // }
@@ -131,6 +132,7 @@ class SessionController extends Controller
         if ($request->post("language") != NULL) {
             $session->language_iso = $request->post('language');
         }
+        $session->id_creator = session("client");
         if (session("user_type") !== 0) {
             $session->id_creator = session("user_id");
         } else {

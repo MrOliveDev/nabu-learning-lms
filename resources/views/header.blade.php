@@ -21,7 +21,11 @@
                     <!-- <i class="fa fa-fw fa-user d-sm-none"></i> -->
                     <span class="d-none d-sm-inline-block">
                         {{-- {{ $translation->l('Admin') }} --}}
-                        {{Session::get('user_name')}}
+                        @if(Session::get("user_type")!=0)
+                            {{Session::get('user_name')}}
+                        @else
+                            Super Admin
+                        @endif
                     </span>
                     <i class="fa fa-fw fa-user"></i>
                 </button>
@@ -113,20 +117,30 @@
                     <ul class="nav-items my-2">
                         @if (isset($screen_language))
                             @foreach ($screen_language as $screen_lang)                           
+
+                            <li>                                
+                                <a class="text-dark media py-2 language-item" href="javascript:void(0)" id="language_{{$screen_lang->language_id}}">
+                                    <div class="mx-3">
+                                        <i class="fa fa-fw fa-check-circle text-success"></i>
+                                    </div>
+                                    <div class="media-body font-size-sm pr-2">
+                                        <div class="font-w600">
+                                            {{$screen_lang->language_name}}
+                                        </div>
+                                        <div class="text-muted font-italic"></div>
+                                    </div>
+                                </a>
+                            </li>
+                            @endforeach
+                            {{-- <a class="text-dark media py-2" href="javascript:void(0)">
                                 <div class="mx-3">
                                     <i class="fa fa-fw fa-check-circle text-success"></i>
                                 </div>
-                                <li>
-                                    <a class="text-dark media py-2 language-item" href="javascript:void(0)" id="language_{{$screen_lang->language_id}}">
-                                        <div class="media-body font-size-sm pr-2">
-                                            <div class="font-w600">
-                                                {{$screen_lang->language_name}}
-                                            </div>
-                                            <div class="text-muted font-italic"></div>
-                                        </div>
-                                    </a>
-                                </li>
-                            @endforeach
+                                <div class="media-body font-size-sm pr-2">
+                                    <div class="font-w600">App was updated to v5.6!</div>
+                                    <div class="text-muted font-italic">3 min ago</div>
+                                </div>
+                            </a> --}}
                         @endif
                     </ul>
                 </div>
