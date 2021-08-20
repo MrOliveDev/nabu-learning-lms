@@ -262,6 +262,22 @@ class StudentController extends Controller
         //
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function multiDestroy(Request $request)
+    {
+        $ids = $request->post("data");
+        
+        User::whereIn("id", explode(",", $ids))->delete();
+
+        return response('successfully deleted!', 200);
+        //
+    }
+
     public function userJoinToGroup(Request $request)
     {
         $responseData = [];

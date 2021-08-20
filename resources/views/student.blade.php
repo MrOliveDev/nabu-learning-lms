@@ -201,6 +201,7 @@ data-authed-user-type="{{session("user_type")}}"
             @endif
         </ul>
         <div class="mx-4 mb-3 text-white clear-fix toolkit d-flex justify-content-lg-start flex-column"
+            data-target="#div_A"
             id="user-toolkit">
             <div class="p-2 w-100">
                 <div class="input-container">
@@ -213,6 +214,9 @@ data-authed-user-type="{{session("user_type")}}"
                     </span>
                     <a href="#" class="float-right toolkit-show-filter">
                         <i class="p-2 text-white fas fa-sliders-h icon"></i>
+                    </a>
+                    <a href="#" class="float-right toolkit-multi-delete">
+                        <i class="p-2 text-white fa fa-trash-alt icon"></i>
                     </a>
                 </div>
             </div>
