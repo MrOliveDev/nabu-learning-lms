@@ -135,7 +135,7 @@ class StudentController extends Controller
         }
         $user->update();
 
-        $lang= LanguageModel::where('language_id', $user->lang)->first();
+        $lang= LanguageModel::where('language_id', $user->lang)->first(); 
         return response()->json(['user'=>$user, 'lang'=>$lang->language_iso]);
     }
 
