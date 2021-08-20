@@ -43,6 +43,6 @@
         <resource identifier="resource_{{ $lesson['idFabrica'] }}" type="webcontent" adlcp:scormType="sco" href="{{ $lesson['indexfile'] }}">
             <file href="{{ $lesson['indexfile'] }}" />
         </resource>
-        {/foreach}
+        @endforeach
     </resources>
 </manifest>
