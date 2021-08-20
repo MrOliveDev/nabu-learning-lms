@@ -301,6 +301,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
 
     Route::post('trainingshow/{id}', '\App\Http\Controllers\TrainingController@getLessonFromTraining')->name('trainingshow');
     Route::post('generateScorm', '\App\Http\Controllers\TrainingController@generateScorm')->name('generateScorm');
+    Route::get('/scorm/{file}', '\App\Http\Controllers\TrainingController@downloadScorm');
     Route::post('lessonshow/{id}', '\App\Http\Controllers\LessonController@getTrainingFromLesson')->name('lessonshow');
 
     Route::get('session', '\App\Http\Controllers\SessionController@index')->name('session');

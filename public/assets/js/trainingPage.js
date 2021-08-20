@@ -1508,12 +1508,12 @@ function generateScorm(){
         method: 'post',
         data: {trainingId: curTrainingId, template_player: $("#scorm-template").val(), threshold_score: $("#scorm-threshold-score").val(), eval_attempts: $("#scorm-eval-attempt").val()},
         success: function(res) {
+            swal.close();
             if(res.success){
                 swal.fire({ title: "Success", text: "Scorm Zip is created. An email with link will be sent to you.", icon: "success", confirmButtonText: `OK` });
             } else{
                 swal.fire({ title: "Warning", text: res.message, icon: "error", confirmButtonText: `OK` });
             }
-            swal.close();
         },
         error: function(err) {
             notification("Sorry, You have an error!", 2);
