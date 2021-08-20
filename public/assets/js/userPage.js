@@ -783,7 +783,7 @@ var item_edit = function(element) {
                     }
 
                     $('#login').val(data.user_info.login);
-                    var expired_date = data.user.expired_date?data.user.expired_date:(()=>{var date = new Date().toLocaleDateString("ja").split("/");date[0]=parseInt(date[0])+1;return date.join("-")})();
+                    var expired_date = data.user_info.expired_date?data.user_info.expired_date:(()=>{var date = new Date().toLocaleDateString("ja").split("/");date[0]=parseInt(date[0])+1;return date.join("-")})();
 
                     $('#expired_date').val(expired_date);
                     $('#password').attr('placeholder', "Private password");
