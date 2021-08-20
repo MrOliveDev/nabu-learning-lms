@@ -35,7 +35,8 @@ class User extends Authenticatable
         "change_pw",
         "type",
         'expired_date',
-        'permission_id'
+        'permission_id',
+        'auto_generate'
     ];
 
     /**
