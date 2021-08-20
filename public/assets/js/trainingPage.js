@@ -1509,9 +1509,9 @@ function generateScorm(){
         data: {trainingId: curTrainingId, template_player: $("#scorm-template").val(), threshold_score: $("#scorm-threshold-score").val(), eval_attempts: $("#scorm-eval-attempt").val()},
         success: function(res) {
             if(res.success){
-                
+                swal.fire({ title: "Success", text: "Scorm Zip is created. An email with link will be sent to you.", icon: "success", confirmButtonText: `OK` });
             } else{
-                
+                swal.fire({ title: "Warning", text: res.message, icon: "error", confirmButtonText: `OK` });
             }
             swal.close();
         },

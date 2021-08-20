@@ -263,6 +263,7 @@ class TrainingController extends Controller
      * @return JSON
      */
     public function generateScorm(Request $request){
+        error_reporting(0);
         $zip = NULL;
         try{
             // Check the parameters
@@ -390,7 +391,7 @@ class TrainingController extends Controller
             if($zip !== NULL) {
                 $zip->close();
             }
-            return response()->json(['success' => false, 'error'=>$e->getMessage()]);
+            return response()->json(['success' => false, 'message'=>$e->getMessage()]);
         }
     }
 
@@ -554,5 +555,12 @@ class TrainingController extends Controller
                 $zip->addFromString('assets/'.$productId.'/courses/'.$lang.'.json', json_encode($return));
             }
         }
+    }
+
+    public function downloadScorm($file){
+        if(file_exists(env('EXPORT_SCORM_PATH') . $file))
+            return response()->download(env('EXPORT_SCORM_PATH') . $file, null, ['Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0']);
+        else
+            return 'File does not exist!';
     }
 }
