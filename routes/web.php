@@ -291,6 +291,9 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('userjointogroup', '\App\Http\Controllers\StudentController@userJoinToGroup')->name('userjointogroup');
     Route::post('userjointocompany', '\App\Http\Controllers\StudentController@userJoinToCompany')->name('userjointocompany');
     Route::post('userjointofunction', '\App\Http\Controllers\StudentController@userJoinToPosition')->name('userjointofunction');
+    Route::post('student/multidelete', '\App\Http\Controllers\StudentController@multiDestroy');
+    Route::post('teacher/multidelete', '\App\Http\Controllers\StudentController@multiDestroy');
+    Route::post('author/multidelete', '\App\Http\Controllers\StudentController@multiDestroy');
 
     Route::get('training', '\App\Http\Controllers\TrainingController@index')->name('training');
     Route::post('traininglinkfromlesson', '\App\Http\Controllers\TrainingController@trainingLinkFromLesson')->name('traininglinkfromlesson');
