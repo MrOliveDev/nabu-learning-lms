@@ -1,6 +1,4 @@
 
-var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
-// var baseURL = window.location.protocol + "//" + window.location.host;
 
 var notification = function(str, type) {
     switch (type) {

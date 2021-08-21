@@ -85,9 +85,11 @@ class User extends Authenticatable
             ->leftjoin('tb_languages', 'tb_users.lang', '=', 'tb_languages.language_id')
             // ->leftjoin('tb_companies', 'tb_users.company', '=', 'tb_companies.id')
             // ->leftjoin('tb_position', 'tb_users.function', '=', 'tb_position.id')
-            ->where("tb_users.id_creator", session("client"))
-            ->where('tb_users.id', $id)
-            ->first();
+            ->where("tb_users.id_creator", session("client"));
+            if(session("user_type")!=2){
+                $result = $result->where('tb_users.id', $id);
+            }
+            $result = $result->first();
         return $result;
     }
 

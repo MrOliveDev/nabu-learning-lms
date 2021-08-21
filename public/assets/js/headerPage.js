@@ -1,7 +1,3 @@
-// var baseURLHeader = window.location.protocol+"//"+window.location.host;
-var baseURLHeader = window.location.protocol+"//"+window.location.host+"/newlms";
-
-
 $(document).ready(function(e){
     $("header #client_"+$("header").attr("data-client")).toggleClass("active", true);
     $('#sidebar-control').click(function(event) {
@@ -54,7 +50,7 @@ $(document).ready(function(e){
             item = $(this).parents(".client-item");
         }
         var id = item.attr("id").split("_")[1];
-        $.post({url:baseURLHeader + "/switchclient", data:{id}})
+        $.post({url:baseURL + "/switchclient", data:{id}})
         .done(function(data){
             console.log("Successed");
             location.reload();
@@ -70,7 +66,7 @@ $(document).ready(function(e){
             item = $(this).parents(".language-item");
         }
         var id = item.attr("id").split("_")[1];
-        $.post({url:baseURLHeader + "/updatelanguage", data:{id}})
+        $.post({url:baseURL + "/updatelanguage", data:{id}})
         .done(function(data){
             console.log("Successed");
             location.reload();

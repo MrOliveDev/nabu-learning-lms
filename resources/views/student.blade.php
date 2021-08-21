@@ -535,6 +535,9 @@ data-authed-user-type="{{session("user_type")}}"
                                     <select class="form-control" id="language" name="language">
                                         <option value="" selected>No Langauge</option>
                                         @foreach ($languages as $language)
+                                            @if ($loop->first)
+                                                <option value="{{ $language->language_id }}" selected>{{ $language->language_name }}</option>
+                                            @endif
                                             <option value="{{ $language->language_id }}">{{ $language->language_name }}</option>
                                         @endforeach
                                     </select>
