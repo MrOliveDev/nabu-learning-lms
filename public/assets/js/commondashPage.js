@@ -1,5 +1,4 @@
-var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
-// var baseURL = window.location.protocol + "//" + window.location.host;
+
 var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document.body.clientHeight));
 
 var clearRightField = function() {

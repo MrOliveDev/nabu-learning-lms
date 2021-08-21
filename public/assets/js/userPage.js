@@ -6,8 +6,6 @@
 
 var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document.body.clientHeight));
 
-// var baseURL = window.location.protocol + "//" + window.location.host;
-var baseURL = window.location.protocol + "//" + window.location.host + '/newlms';
 var filteritem = null;
 var grouptab = null,
     detailtags = null;
@@ -18,7 +16,6 @@ var window_level = 1;
 
 var input_group_position = null,
     expired_date = $('#expired_date_input .input-group');
-
 var heightToggleLeft = false;
 var heightToggleRight = false;
 
@@ -559,7 +556,12 @@ var toolkitAddItem = function(event) {
         $('#password').attr('placeholder', '');
         $('#preview').attr('src', baseURL + '/assets/media/default.png');
         $('#generatepassword').prop('checked', false);
-
+        var expired_date_val = (()=>{
+            var date = new Date().toLocaleDateString("ja").split("/");
+            date[0]=parseInt(date[0])+1;
+            return date.join("-");
+        })();
+        $("#expired_date").val(expired_date_val);
         switch (activeTagName) {
             case '#students':
                 $('#user_type').val('4');
@@ -568,24 +570,26 @@ var toolkitAddItem = function(event) {
                 if ($('#expired_date_input .input-group').length == 0) {
                     expired_date.appendTo($('#expired_date_input'));
                 }
-                break;
+
+                $("#permission_input").toggle(false);
+            break;
             case '#teachers':
                 $('#user_type').val('3');
                 $('#login-label').html('Login Teacher');
-
-                if ($('#expired_date_input .input-group').length == 0) {
-                    expired_date.appendTo($('#expired_date_input'));
+                
+                if ($('#expired_date_input .input-group').length != 0) {
+                    expired_date.detach();
                 }
+                $("#permission_input").toggle(true);
                 break;
             case '#authors':
                 $('#user_type').val('2');
                 $('#login-label').html('Login Author');
 
-                if ($('#expired_date_input .input-group').length != 0) {
-                    expired_date = $('#expired_date_input .input-group');
-                    expired_date.appendTo($('#expired_date_input'));
+                if ($('#expired_date_input .input-group').length != 0) {     
+                    expired_date.detach();
                 }
-
+                $("#permission_input").toggle(false);
                 break;
 
             default:
@@ -2555,10 +2559,4 @@ $('#generatepassword').change(function(event) {
             },
             error: function(err) {
                 notification('You have a problem getting new password!');
-            }
-        });
-        // $('#password').attr('disabled', true);
-    } else {
-        // $('#password').attr('disabled', false);
-    }
-});
+                                                                                                                                                      
