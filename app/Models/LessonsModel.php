@@ -36,6 +36,8 @@ class LessonsModel extends Model
             'tb_languages.language_iso as language_iso'
         )
             ->leftjoin('tb_languages', 'tb_lesson.lang', '=', 'tb_languages.language_id')
+            ->where("tb_lesson.idCreator", "=", session("client"))
+            ->orWhere("tb_lesson.idCreator", "=", session("user_id"))
             ->get();
         $test = array(array());
         foreach ($lessons as $key => $lesson) {
