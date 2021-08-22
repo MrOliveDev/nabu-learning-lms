@@ -395,6 +395,7 @@ class SessionModel extends Model
         }
         // var_dump($result);
         // exit;
+        $result = array_unique($result);
         return $result;
     }
 

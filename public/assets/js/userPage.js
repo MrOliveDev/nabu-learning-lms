@@ -429,7 +429,7 @@ var divACshow = function(event) {
     toggleFormOrTable(parent, false);
     var userItem = $(this).closest(".list-group-item");
     $.post({url:baseURL+"/getSessionFromUser", data:{data:userItem.attr("id").split("_")[1]}}).done(function(data){
-        data.map(function(item, i){
+        data.map?.(function(item, i){
             $("#table-session .list-group").append(createSessionItem(item[0]));
         })
     }).fail(function(err){
