@@ -28,12 +28,12 @@ class SessionController extends Controller
             $teachers = User::getUserPageInfo(3);
         }
 
-        $groups = GroupModel::all();
-        $trainings = TrainingsModel::all();
-        $positions = PositionModel::all();
-        $companies = CompanyModel::all();
-        $languages = LanguageModel::all();
+        $groups = GroupModel::getGroupByClient();
+        $trainings = TrainingsModel::getTrainingByClient();
+        $companies = CompanyModel::getCompanyByClient();
         $sessions = SessionModel::getSessionPageInfo();
+        $positions = PositionModel::all();
+        $languages = LanguageModel::all();
         return view('session', compact([/* 'authors',  */'teachers', 'students', 'groups', 'positions', 'companies', 'languages', 'sessions', 'trainings']));
     }
 
@@ -157,11 +157,12 @@ class SessionController extends Controller
 
     public function sessionJoinTo(Request $request)
     {
-        $participantData = $request->participant;
-        $contentData = $request->content;
-        $id = $request->id;
-        $cate = $request->cate;
+        $participantData = $request->post("participant");
+        $contentData = $request->post("content");
+        $id = $request->post("id");
+        $cate = $request->post("cate");
         $session = SessionModel::find($id);
+
         if ($session != NULL) {
             if ($cate == 'participant') {
                 if ($participantData != NULL) {
