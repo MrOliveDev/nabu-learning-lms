@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class TrainingsModel extends Model
 {
@@ -113,7 +114,11 @@ class TrainingsModel extends Model
 
     public function scopeGetTrainingByClient($query) {
         $client = session('client');
-        $trainings = $query->leftjoin("tb_users", 'tb_users.id', '=', 'tb_trainings.idCreator')->where('tb_trainings.idCreator', $client)->orWhere('tb_user.id_creator', $client)->get();
+        if(session("user_type")==3){
+            $trainings = DB::table("tb_trainings")->leftjoin('tb_languages', "tb_languages.language_id", "=", "tb_trainings.lang")->orWhere('id_creator', session("user_id"))->where("id_creator", $user->id)->get();
+        } else {
+            $trainings = DB::table("tb_trainings")->leftjoin('tb_languages', "tb_languages.language_id", "=", "tb_trainings.lang")->where('tb_trainings.id_creator', $client)->get();
+        }
         return $trainings;
     }
 

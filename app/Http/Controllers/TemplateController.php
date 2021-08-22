@@ -18,9 +18,9 @@ class TemplateController extends Controller
     public function index()
     {
         $templates = TemplateModel::all();
-        $sessions = SessionModel::all();
-        $trainings = TrainingsModel::all();
-        $companies = CompanyModel::all();
+        $sessions = SessionModel::getSessionPageInfo();
+        $trainings = TrainingsModel::getTrainingByClient();
+        $companies = CompanyModel::getCompanyByClient();
 
         return view('template', compact('templates', 'sessions', 'trainings', 'companies'));
     }

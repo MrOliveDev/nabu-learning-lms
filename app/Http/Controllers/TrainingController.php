@@ -26,7 +26,7 @@ class TrainingController extends Controller
      */
     public function index()
     {
-        $trainings = TrainingsModel::getAllTrainings();
+        $trainings = TrainingsModel::getTrainingByClient();
         $lessons = LessonsModel::getLessonsContainedTraining();
         $languages = LanguageModel::all();
         $templates = TemplateModel::all();
