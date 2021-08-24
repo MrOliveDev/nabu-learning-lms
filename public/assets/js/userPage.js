@@ -1360,7 +1360,7 @@ var submitBtn = function(event) {
                             $('#groups .list-group').append(createGroupData(data, 'group'));
                             break;
                         case 'company':
-                            var email_btn = $('<button class="btn item-mail toggle1-btn" data-content="' + category + '" data-id="'+data.id+'">'+
+                            var email_btn = $('<button class="btn item-mail toggle1-btn" data-content="company" data-id="'+data.id+'">'+
                             '<i class="px-2 fa fa-envelope"></i>'+
                             '</button>');
                             email_btn.click(btnClick);
@@ -1473,7 +1473,7 @@ var createUserData = function(data, category) {
         '<span class=" p-2 font-weight-bolder item-lang">' + data.lang.toUpperCase() + '</span>' +
         '</div>' +
         '</a>');
-    var email_btn = $('<button class="btn item-mail toggle1-btn" data-content="' + category + '" data-id="'+data.id+'">'+
+    var email_btn = $('<button class="btn item-mail toggle1-btn" data-content="' + category + '" data-id="'+data.user.id+'">'+
         '<i class="px-2 fa fa-envelope"></i>'+
         '</button>');
 
