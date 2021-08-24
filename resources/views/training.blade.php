@@ -457,7 +457,7 @@ data-search-training="{{isset(session("permission")->training->search->training)
                                     id="upload_button">
                                     <input type="file" name="image" class="image" accept="image/*" hidden>
                                 </i>
-                                <img src="" alt="" id="preview-rect" width="100%" height="300px" name="preview" />
+                                <img src="" alt="" id="preview-rect" width="480px" height="270px" name="preview" style = "margin-left:auto;margin-right:auto;margin-top:20px;border:1px solid black;padding:5px;"/>
                                 <input type="hidden" name="base64_img_data" id="base64_img_data">
                             </div>
                         </div>

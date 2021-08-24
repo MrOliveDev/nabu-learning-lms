@@ -462,7 +462,7 @@ data-authed-user-type="{{session("user_type")}}"
                             <div class="float-right pl-3 form-group">
                                 6 characters minimum, at least 1 number, 1 lowercase, 1 uppercase, 1 special character (@ # $% ^ + = ._)
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="password-input">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
@@ -471,6 +471,11 @@ data-authed-user-type="{{session("user_type")}}"
                                     </div>
                                     <input type="password" class="form-control pr-password" id="password"
                                         name="password" data-password="">
+                                    <div class="input-group-append"> 
+                                        <span class="input-group-text input-group-text-alt" style="min-width: 0px; cursor: pointer;">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -533,12 +538,13 @@ data-authed-user-type="{{session("user_type")}}"
                                         </span>
                                     </div>
                                     <select class="form-control" id="language" name="language">
-                                        <option value="" selected>No Langauge</option>
+                                        <option value="">No Langauge</option>
                                         @foreach ($languages as $language)
                                             @if ($loop->first)
                                                 <option value="{{ $language->language_id }}" selected>{{ $language->language_name }}</option>
+                                            @else
+                                                <option value="{{ $language->language_id }}">{{ $language->language_name }}</option>
                                             @endif
-                                            <option value="{{ $language->language_id }}">{{ $language->language_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -751,7 +757,7 @@ data-authed-user-type="{{session("user_type")}}"
                                 <input type="hidden" name="item-name" value="{{ $group->name }}">
                             </div>
                             <div class="float-right btn-group">
-                                <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?groupId={{$group->id}}')">
+                                <button class="btn item-mail toggle1-btn" onclick="redirectPage('{{route('sendmail')}}?groupId={{$group->id}}')">
                                     <i class="px-2 fa fa-envelope"></i>
                                 </button>
                                 @if(!isset(session("permission")->limited) || (auth()->user()->type == 3 && auth()->user()->id == $group->id_creator))
@@ -792,7 +798,7 @@ data-authed-user-type="{{session("user_type")}}"
                                 <input type="hidden" name="item-name" value="{{ $company->name }}">
                             </div>
                             <div class="float-right btn-group">
-                                <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?companyId={{$company->id}}')">
+                                <button class="btn item-mail toggle1-btn" onclick="redirectPage('{{route('sendmail')}}?companyId={{$company->id}}')">
                                     <i class="px-2 fa fa-envelope"></i>
                                 </button>
                                 @if(!isset(session("permission")->limited) || (auth()->user()->type == 3 && auth()->user()->id == $company->id_creator))

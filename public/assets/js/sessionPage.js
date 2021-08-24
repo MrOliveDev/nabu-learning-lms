@@ -122,6 +122,12 @@ var goTab = function(name) {
     $('#' + name + '-tab').click();
 };
 
+var emailBtn = function(event) {
+    var item = $(event.target).closest("btn");
+    var id = item.attr("data-id");
+    window.location.href = baseURL+"/sendemail?sessionId="+id;
+}
+
 var filterToggleShow = function(event) {
     var parent = $(this).parents('.toolkit');
     parent.children(".toolkit-filter").toggle();
@@ -352,6 +358,12 @@ var createSessionData = function(data) {
         '</button>' +
         '</div>' +
         '</a>');
+
+    var email_btn = $('<button class="btn item-mail" data-id="'+data.id+'">'+
+    '<i class="px-2 fa fa-envelope"></i>'+
+    '</button>');
+    email_btn.click(emailBtn);
+    email_btn.insertAfter(element.find(".btn-group>span"));
     element.click(sessionItemClick);
     element.attr('draggable', false);
     element.on('drop', dropEnd);
