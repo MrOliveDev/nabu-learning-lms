@@ -224,7 +224,7 @@ data-search-category="{{isset(session("permission")->session->search->category)}
                                     </span>
                                     @if(isset(session("permission")->session->session->delete))
 
-                                    <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?sessionId={{$session->id}}')">
+                                    <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?sessionId={{$session->id}}')" data-id="{{$session->id}}">
                                         <i class="px-2 fa fa-envelope"></i>
                                     </button>
                                     <button class="btn item-delete" data-content='session'>

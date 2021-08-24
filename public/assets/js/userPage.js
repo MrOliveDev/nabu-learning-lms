@@ -972,6 +972,12 @@ var item_edit = function(element) {
     }
 };
 
+var emailBtn = function(event) {
+    var category = $(event.target).attr("data-content");
+    var id = $(event.target).attr("data-id");
+    window.location.href = baseURL+"/sendmail?"+category+"Id="+id;
+}
+
 var itemEdit = function(event) {
     item_edit($(this));
 };
@@ -1354,8 +1360,15 @@ var submitBtn = function(event) {
                             $('#groups .list-group').append(createGroupData(data, 'group'));
                             break;
                         case 'company':
+                            var email_btn = $('<button class="btn item-mail toggle1-btn" data-content="' + category + '" data-id="'+data.id+'">'+
+                            '<i class="px-2 fa fa-envelope"></i>'+
+                            '</button>');
+                            email_btn.click(btnClick);
+                            email_btn.click(emailBtn);
                             notification('The company has been saved sucessfully!', 1);
-                            $('#companies .list-group').append(createCategoryData(data, 'company'));
+                            var company_item = createCategoryData(data, 'company');
+                            company_item.append(email_btn);
+                            $('#companies .list-group').append(company_item);
                             $('#company').append('<option value="' + data.id + '">' + data.name + '</option>');
                             break;
                         case 'function':
@@ -1460,6 +1473,10 @@ var createUserData = function(data, category) {
         '<span class=" p-2 font-weight-bolder item-lang">' + data.lang.toUpperCase() + '</span>' +
         '</div>' +
         '</a>');
+    var email_btn = $('<button class="btn item-mail toggle1-btn" data-content="' + category + '" data-id="'+data.id+'">'+
+        '<i class="px-2 fa fa-envelope"></i>'+
+        '</button>');
+
     var showbtn = $('<button class="btn  item-show" data-content="' + category + '">' +
         '<i class="px-2 fa fa-eye"></i>' +
         '</button>');
@@ -1471,7 +1488,11 @@ var createUserData = function(data, category) {
     var deletebtn = $('<button class="btn item-delete" data-content="' + category + '">' +
         '<i class="px-2 fa fa-trash-alt"></i>' +
         '</button>');
-    showbtn.attr('drag', false);
+
+    email_btn.click(btnClick);
+    email_btn.click(emailBtn);
+
+    userItem.attr('drag', false);
 
     showbtn.click(btnClick);
     showbtn.click(divACshow);
@@ -1485,7 +1506,7 @@ var createUserData = function(data, category) {
     deletebtn.click(itemDelete);
 
     userItem.dblclick(itemDBClick);
-    userItem.find('.btn-group').append(showbtn).append(editbtn).append(deletebtn);
+    userItem.find('.btn-group').append(email_btn).append(showbtn).append(editbtn).append(deletebtn);
     userItem.click(leftItemClick);
 
     userItem.find('.item-name').val(data.user.first_name + data.user.last_name);
@@ -1510,6 +1531,9 @@ var createGroupData = function(data, category) {
         '<input type="hidden" name="item-name" value="' + data.name + '">' +
         '</div>' +
         '<div class="btn-group float-right">' +
+        '<button class="btn item-mail toggle1-btn" data-content="' + category + '" data-id="'+data.id+'">'+
+        '<i class="px-2 fa fa-envelope"></i>'+
+        '</button>'+
         '<button class="btn  toggle1-btn  item-show" data-content="' + category + '">' +
         '<i class="px-2 fa fa-eye"></i>' +
         '</button>' +
@@ -1529,7 +1553,8 @@ var createGroupData = function(data, category) {
     groupItem.on('drop', dropEnd);
     groupItem.on('dragover', dragOver);
     groupItem.on('dragleave', dragLeave);
-
+    
+    groupItem.find(".item-mail").click(emailBtn);
     groupItem.find('button.btn').click(btnClick);
     groupItem.find('.item-edit').click(itemEdit);
     groupItem.find('.item-edit').click(divACedit);
@@ -2566,3 +2591,16 @@ $('#generatepassword').change(function(event) {
         // $('#password').attr('disabled', false);
     }
 });
+
+$("#password-input .input-group-append>span.input-group-text").click(function(event){
+    var item = $(event.target).closest("span.input-group-text").find("i");
+    var target_elem = item.parents(".form-group").find('.pr-password');
+    var type = target_elem.attr("type");
+    if(type=="password") {
+        target_elem.attr("type", "text");
+        item.toggleClass("fa-eye-slash", true).toggleClass("fa-eye", false);
+    } else {
+        target_elem.attr("type", "password");
+        item.toggleClass("fa-eye-slash", false).toggleClass("fa-eye", true);
+    }
+})

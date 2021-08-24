@@ -36,8 +36,8 @@
 #table-participant .list-group-item.active,
 #students .list-group-item:hover,
 #table-participant .list-group-item:hover,
-#table-participant-tab.ui-state-active,
-#table-participant-tab:hover {
+.ui-state-active #table-participant-tab,
+.ui-state-hover #table-participant-tab {
     background-color: var(--student-h);
 }
 
@@ -123,23 +123,23 @@
 #trainings .list-group-item,
 #table-content .list-group-item,
 #table-content-tab {
-    background-color: var(--training-c);
+    background-color: var(--training-h);
 }
 
 #trainings .list-group-item.active,
 #trainings .list-group-item:hover,
 #table-content .list-group-item:hover,
 #table-content-tab:hover,
-#table-content-tab.ui-state-active {
-    background-color: var(--training-h);
+.ui-state-active #table-content-tab {
+    background-color: var(--training-c);
 }
 
 .nav-link#students-tab {
     background-color: var(--student-c);
 }
 
-.nav-item.ui-state-hover .nav-link#students-tab,
-.nav-item.ui-state-active .nav-link#students-tab {
+.ui-state-hover .nav-link#students-tab,
+.ui-state-active .nav-link#students-tab {
     background-color: var(--student-h);
 }
 

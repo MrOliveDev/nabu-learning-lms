@@ -19,7 +19,7 @@ select:focus {
 
 .table-participant .list-group-item.active,
 .table-participant .list-group-item:hover,
-.table-participant-tab.ui-state-active,
+.ui-state-active .table-participant-tab,
 .table-participant-tab:hover {
     background-color: var(--student-h) !important;
 }
@@ -43,24 +43,24 @@ select:focus {
 
 .table-training .list-group-item,
 .table-training-tab {
-    background-color: var(--training-c) !important;
+    background-color: var(--training-h) !important;
 }
 .table-training .list-group-item:hover,
 .table-training-tab:hover,
-.table-training-tab.ui-state-active {
-    background-color: var(--training-h) !important;
+.ui-state-active .table-training-tab {
+    background-color: var(--training-c) !important;
 }
 
 
 .table-report .list-group-item,
 .table-report-tab {
-    background-color: var(--training-c) !important;
+    background-color: var(--training-h) !important;
 }
 .table-report .list-group-item.active,
 .table-report .list-group-item:hover,
 .table-report-tab:hover,
-.table-report-tab.ui-state-active {
-    background-color: var(--training-h) !important;
+.ui-state-active .table-report-tab {
+    background-color: var(--training-c) !important;
 }
 
 .session-table tr:nth-child(4n+2) div {
@@ -73,13 +73,13 @@ select:focus {
 
 .table-training .list-group-item,
 .table-training-tab {
-    background-color: var(--training-c);
+    background-color: var(--training-h);
 }
 .table-training .list-group-item.active,
 .table-training .list-group-item:hover,
 .table-training-tab:hover,
-.table-training-tab.ui-state-active {
-    background-color: var(--training-h);
+.ui-state-active .table-training-tab {
+    background-color: var(--training-c);
 }
 
 .session-table td .list-group-item>div {

@@ -414,18 +414,18 @@ var createUserCard = function(data){
     '<p>'+
     '<span>'+
     '<b>Address : '+
-    '</b>'+address+
+    '</b>'+(address==""||address==undefined?"undefined":address)+
     ''+
     '</span>'+
     '</p>'+
     '<p>'+
     '<span>'+
     '<b>E-mail : '+
-    '</b>'+ email +
+    '</b>'+ (email==""||email==undefined?"undefined":email) +
     ''+
     '</span>'+
     '</p>'+
-    '<p><span class=""><b>Company : </b>'+(data.user_info.comany?data.user_info.company:"")+'</span></p>'+
+    '<p><span class=""><b>Company : </b>'+(data.user_info.comany?data.user_info.company:"undefined")+'</span></p>'+
     '<p><span><b>Status : </b>'+(data.user_info.status==1?"Online":"Offline")+'</span></p>'+
     '<div class="border-0 ">'+
     (data.reports?
