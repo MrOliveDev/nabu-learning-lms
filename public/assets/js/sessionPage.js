@@ -123,7 +123,7 @@ var goTab = function(name) {
 };
 
 var emailBtn = function(event) {
-    var item = $(event.target).closest("btn");
+    var item = $(event.target).closest(".btn");
     var id = item.attr("data-id");
     window.location.href = baseURL+"/sendemail?sessionId="+id;
 }
@@ -1383,4 +1383,4 @@ $("#table-content .list-group").sortable({
     }
 });
 $('.cancel-btn').click(cancelBtn);
-$('#session-status-icon').click(statusBtn);
+$('#session-status-icon').click(statusBtn) 

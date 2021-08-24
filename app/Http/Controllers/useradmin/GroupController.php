@@ -46,6 +46,7 @@ class GroupController extends Controller
         } else {
             $group->id_creator = session("client");
         }
+        $group->save();
         return response()->json($group);
         //
     }
