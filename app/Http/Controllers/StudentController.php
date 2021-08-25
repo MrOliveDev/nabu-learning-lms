@@ -13,7 +13,7 @@ use App\Models\ConfigModel;
 use App\Models\LanguageModel;
 use App\Models\SessionModel;
 use App\Models\PermissionModel;
-
+use Mail;
 use Hackzilla\PasswordGenerator\Generator\RequirementPasswordGenerator;
 
 
@@ -134,8 +134,26 @@ class StudentController extends Controller
             $user->id_creator = session("client");
         }
         $user->update();
+        $lang= LanguageModel::where('language_id', $user->lang)->first();
 
-        $lang= LanguageModel::where('language_id', $user->lang)->first(); 
+        if($request->post("send_email")){
+            $client = User::find(session("client"));
+            $mail = $request->post('user-email');
+            $content = "<p>Welcome to nabu learning</p>";
+
+            if(!empty($client) && !empty($mail)){
+
+                $data = array("from" => $client, "to" => $mail, "content" => $content, "subject" => "Welcome");
+                Mail::send(array(), array(), function ($message) use ($data) {
+                    $message->to($data['to'])->from($data['from'], 'Nabu Learning')
+                    ->subject($data['subject'])
+                    ->setBody($data['content'], 'text/html');
+                });
+                return response()->json(['user'=>$user, 'lang'=>$lang->language_iso, 'mail_success'=>true]);
+            } else {
+                return response()->json(['user'=>$user, 'lang'=>$lang->language_iso, 'mail_success'=>false]);
+            }
+        }
         return response()->json(['user'=>$user, 'lang'=>$lang->language_iso]);
     }
 
@@ -271,7 +289,7 @@ class StudentController extends Controller
     public function multiDestroy(Request $request)
     {
         $ids = $request->post("data");
-        
+
         User::whereIn("id", explode(",", $ids))->delete();
 
         return response('successfully deleted!', 200);
@@ -330,7 +348,7 @@ class StudentController extends Controller
 
     public function getSessionFromUser(Request $request) {
         $sessions = SessionModel::getSessionFromUser($request->post("data"));
-        
+
         $sessionArray = array();
         foreach($sessions as $session) {
             $sessionItem = SessionModel::find($session);

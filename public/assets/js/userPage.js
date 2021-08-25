@@ -544,6 +544,7 @@ var toolkitAddItem = function(event) {
 
 
     } else {
+        $("#send-email-input").toggle(true);
         activeTagName = $('#LeftPanel').find('.ui-state-active:first a').attr('href');
         $('#div_A').find('.list-group-item').each(clearClassName);
         $('#user_form').attr('action', baseURL + '/user');
@@ -806,6 +807,7 @@ var item_edit = function(element) {
         case 'student':
         case 'teacher':
         case 'author':
+            $("#send-email-input").toggle(false);
             $('#user_form .method-select').val('PUT');
             // $('#password').attr('disabled', false);
             toggleFormOrTable($('#LeftPanel'), true);
@@ -1553,7 +1555,7 @@ var createGroupData = function(data, category) {
     groupItem.on('drop', dropEnd);
     groupItem.on('dragover', dragOver);
     groupItem.on('dragleave', dragLeave);
-    
+
     groupItem.find(".item-mail").click(emailBtn);
     groupItem.find('button.btn').click(btnClick);
     groupItem.find('.item-edit').click(itemEdit);
@@ -2518,18 +2520,6 @@ $(document).ready(function() {
                 break;
         }
     }
-    // var divHight = 20 + parseInt($("#div_left").height()) + parseInt($('.content-header').height());
-    // $('#div_D').prev().css('height', (h - parseInt($('.toolkit').css('height')) - divHight) / 2 - 90 + 'px');
-    // $('#div_B').prev().css('height', (h - parseInt($('.toolkit').css('height')) - divHight) / 2 - 90 + 'px');
-    // $(".filter-function-btn").on('dragstart', dragStart);
-    // $(".filter-company-btn").on('dragstart', dragStart);
-
-    // $(".filter-company-btn").on('dragover', dragOver);
-    // $(".filter-company-btn").on('dragleave', dragLeave);
-
-    // $(".filter-function-btn").on('dragover', dragOver);
-    // $(".filter-function-btn").on('dragleave', dragLeave);
-
 });
 $('input[name=status], input.search-filter, button.filter-company-btn, button.filter-function-btn').change(searchfilter);
 $('input.search-filter').on('keydown change keyup', searchfilter);
@@ -2591,7 +2581,6 @@ $('#generatepassword').change(function(event) {
         // $('#password').attr('disabled', false);
     }
 });
-
 $("#password-input .input-group-append>span.input-group-text").click(function(event){
     var item = $(event.target).closest("span.input-group-text").find("i");
     var target_elem = item.parents(".form-group").find('.pr-password');
@@ -2603,4 +2592,4 @@ $("#password-input .input-group-append>span.input-group-text").click(function(ev
         target_elem.attr("type", "password");
         item.toggleClass("fa-eye-slash", false).toggleClass("fa-eye", true);
     }
-})
+});

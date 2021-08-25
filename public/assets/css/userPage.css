@@ -352,17 +352,17 @@ textarea:focus,
 select:focus {
     outline: none;
 }
-
 .btn-group button.btn:active,
 .btn-group button.btn:focus {
     outline: none;
 }
-
 #teachers .item-show,
 #authors .item-show {
     display: none;
 }
-
 .list-group-item.border-transparent {
     border-color: transparent;
+}
+#send-email-input {
+    display:none;
 }
