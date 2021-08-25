@@ -1273,56 +1273,58 @@ var submitBtn = function(event) {
             submit_data[$(e).attr('name')] = $(e).val();
         });
 
-        console.log($('#' + formname).serializeArray());
-        var serialval = $('#' + formname).serializeArray().map(function(item) {
-            var arr = {};
-            if (item.name == 'user-status-icon') {
-                item.value = $('#user-status-icon').prop('checked') == true ? 1 : 0;
-            } else if (item.name == 'cate-status-icon') {
-                item.value = $('#cate-status-icon').prop("checked") == true ? 1 : 0;
-            } else if (item.name == 'generatepassword') {
-                item.value = $('#generatepassword').prop("checked") == true ? 1 : 0;
-            }
-            return item;
-        });
-        if (!serialval.filter(function(em, t, arr) {
-                return em.name == 'user-status-icon' || em.name == 'cate-status-icon';
-            }).length) {
-            if (formname == 'user_form') {
-                serialval.push({
-                    name: 'user-status-icon',
-                    value: $('#user-status-icon').prop('checked') == true ? 1 : 0
-                });
-                serialval.push({
-                    name: 'generatepassword',
-                    value: $('#generatepassword').prop('checked') == true ? 1 : 0
-                });
-            } else if (formname == 'cate_form') {
-                serialval.push({
-                    name: 'cate-status-icon',
-                    value: $('#cate-status-icon').prop('checked') == true ? 1 : 0
-                });
-            }
-        }
-        if (!$("#" + formname).find('input[type=checkbox]').prop('checked')) {
-            if (formname == 'user_form') {
-                serialval.push({
-                    name: 'user-status-icon',
-                    value: 0
-                });
-                if ($('#generatepassword').prop('checked') == false) {
-                    serialval.push({
-                        name: 'generatepassword',
-                        value: 0
-                    });
-                }
-            } else if (formname == 'cate_form') {
-                serialval.push({
-                    name: 'cate-status-icon',
-                    value: 0
-                });
-            }
-        }
+        // console.log($('#' + formname).serializeArray());
+        // var serialval = $('#' + formname).serializeArray().map(function(item) {
+        //     var arr = {};
+        //     if (item.name == 'user-status-icon') {
+        //         item.value = $('#user-status-icon').prop('checked') == true ? 1 : 0;
+        //     } else if (item.name == 'cate-status-icon') {
+        //         item.value = $('#cate-status-icon').prop("checked") == true ? 1 : 0;
+        //     } else if (item.name == 'generatepassword') {
+        //         item.value = $('#generatepassword').prop("checked") == true ? 1 : 0;
+        //     }
+        //     return item;
+        // });
+        // if (!serialval.filter(function(em, t, arr) {
+        //         return em.name == 'user-status-icon' || em.name == 'cate-status-icon';
+        //     }).length) {
+        //     if (formname == 'user_form') {
+        //         serialval.push({
+        //             name: 'user-status-icon',
+        //             value: $('#user-status-icon').prop('checked') == true ? 1 : 0
+        //         });
+        //         serialval.push({
+        //             name: 'generatepassword',
+        //             value: $('#generatepassword').prop('checked') == true ? 1 : 0
+        //         });
+        //     } else if (formname == 'cate_form') {
+        //         serialval.push({
+        //             name: 'cate-status-icon',
+        //             value: $('#cate-status-icon').prop('checked') == true ? 1 : 0
+        //         });
+        //     }
+        // }
+        // if (!$("#" + formname).find('input[type=checkbox]').prop('checked')) {
+        //     if (formname == 'user_form') {
+        //         serialval.push({
+        //             name: 'user-status-icon',
+        //             value: 0
+        //         });
+        //         if ($('#generatepassword').prop('checked') == false) {
+        //             serialval.push({
+        //                 name: 'generatepassword',
+        //                 value: 0
+        //             });
+        //         }
+        //     } else if (formname == 'cate_form') {
+        //         serialval.push({
+        //             name: 'cate-status-icon',
+        //             value: 0
+        //         });
+        //     }
+        // }
+        
+        var serialval = $("#user_form").find("select, input").map(function(){return {name:this.name, value:$(this).is(":checkbox")?this.checked?1:0:this.value}});
         console.log(serialval);
         $.ajax({
             url: $('#' + formname).attr('action'),
@@ -2584,12 +2586,4 @@ $('#generatepassword').change(function(event) {
 $("#password-input .input-group-append>span.input-group-text").click(function(event){
     var item = $(event.target).closest("span.input-group-text").find("i");
     var target_elem = item.parents(".form-group").find('.pr-password');
-    var type = target_elem.attr("type");
-    if(type=="password") {
-        target_elem.attr("type", "text");
-        item.toggleClass("fa-eye-slash", true).toggleClass("fa-eye", false);
-    } else {
-        target_elem.attr("type", "password");
-        item.toggleClass("fa-eye-slash", false).toggleClass("fa-eye", true);
-    }
-});
+    var typ                                                                                                                                                                                                                                                                                                                                  
