@@ -223,3 +223,8 @@ a.list-group-item:not([href]) {
 #category_cancel_button {
     z-index: 6;
 }
+
+
+#send-email-input {
+    display:none;
+}

@@ -366,3 +366,7 @@ select:focus {
 .list-group-item.border-transparent {
     border-color: transparent;
 }
+
+#send-email-input {
+    display:none;
+}

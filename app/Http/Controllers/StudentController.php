@@ -135,6 +135,23 @@ class StudentController extends Controller
         }
         $user->update();
 
+        $client = User::find(session("client"));
+        $mail = $request->post('user-email');
+        $content = "<p>Welcome to nabu learning</p>";
+
+        if(!empty($client) && !empty($mail)){
+
+            $data = array("from" => $client, "to" => $mail, "content" => $content, "subject" => "Welcome");
+            Mail::send(array(), array(), function ($message) use ($data) {
+                $message->to($data['to'])->from($data['from'], 'Nabu Learning')
+                ->subject($data['subject'])
+                ->setBody($data['content'], 'text/html');
+            });
+
+            return response()->json(["success" => true]);
+        } else
+            return response()->json(["success" => false, "message" => "Missing Parameters."]);
+
         $lang= LanguageModel::where('language_id', $user->lang)->first(); 
         return response()->json(['user'=>$user, 'lang'=>$lang->language_iso]);
     }

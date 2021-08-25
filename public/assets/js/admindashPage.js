@@ -401,7 +401,10 @@ var createReportItem = function(data) {
 }
 
 var createUserCard = function(data){
-    var contact = data.contact_info;
+    var contact = data.user_info.contact_info;
+    if(contact){
+        contact = JSON.parse(contact);
+    }
     var email = contact?contact.email:"";
     var address = contact?contact.address:"";
     var userCard = $('<div class="card w-100 text-left bg-white" id="menu1">'+

@@ -179,6 +179,7 @@ var toolkitAddItem = function(event) {
     $("#session_form .method-select").val('POST');
     $("#language").val(1);
     $("#session_form").attr('action', baseURL + '/session');
+    
 };
 
 
@@ -1187,7 +1188,6 @@ async function dropEnd(event, item) {
     };
     var contentData = $(this).attr('data-content');
     var content = contentData ? JSON.parse(contentData) : [];
-
     var rowData;
     if (dragitem != null) {
         var droppeditem_cate = dragitem[0].split('_')[0];
@@ -1383,4 +1383,4 @@ $("#table-content .list-group").sortable({
     }
 });
 $('.cancel-btn').click(cancelBtn);
-$('#session-status-icon').click(statusBtn) 
+$('#session-status-icon').click(status     

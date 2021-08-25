@@ -544,6 +544,7 @@ var toolkitAddItem = function(event) {
 
 
     } else {
+        $("#send-email-input").toggle(true);
         activeTagName = $('#LeftPanel').find('.ui-state-active:first a').attr('href');
         $('#div_A').find('.list-group-item').each(clearClassName);
         $('#user_form').attr('action', baseURL + '/user');
@@ -806,6 +807,7 @@ var item_edit = function(element) {
         case 'student':
         case 'teacher':
         case 'author':
+            $("#send-email-input").toggle(false);
             $('#user_form .method-select').val('PUT');
             // $('#password').attr('disabled', false);
             toggleFormOrTable($('#LeftPanel'), true);
@@ -2600,7 +2602,4 @@ $("#password-input .input-group-append>span.input-group-text").click(function(ev
         target_elem.attr("type", "text");
         item.toggleClass("fa-eye-slash", true).toggleClass("fa-eye", false);
     } else {
-        target_elem.attr("type", "password");
-        item.toggleClass("fa-eye-slash", false).toggleClass("fa-eye", true);
-    }
-})
+        target_elem.attr("type", "passw                                                                                                 
