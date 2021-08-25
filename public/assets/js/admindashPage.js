@@ -407,11 +407,11 @@ var createUserCard = function(data){
     }
     var email = contact?contact.email:"";
     var address = contact?contact.address:"";
-    var userCard = $('<div class="card w-100 text-left bg-white" id="menu1">'+
+    var userCard = $('<div class="card w-100 text-left bg-white" id="menu1" data-id="'+data.user_info.id+'" data-type="'+data.user_info.type+'">'+
     '<div class="card-body border-0">'+
     '<div class="border-0">'+
     '<img src='+(data.user_info.interface_icon?data.user_info.interface_icon:'"public/assets/media/user.jpg"')+' alt="" class="rounded-circle w-100">'+
-    '<i class="fa fa-alpha align-text-bottom"></i>'+
+    '<a class="email-btn" href="javascript:void(0)"><i class="far fa-envelope align-text-bottom" style="font-size: 20pt; position: absolute;"></i></a>'+
     '</div>'+
     '<div class="p-4 border-0">'+
     '<p>'+
@@ -428,7 +428,7 @@ var createUserCard = function(data){
     ''+
     '</span>'+
     '</p>'+
-    '<p><span class=""><b>Company : </b>'+(data.user_info.comany?data.user_info.company:"undefined")+'</span></p>'+
+    '<p><span class=""><b>Company : </b>'+(data.user_info.company_name?data.user_info.company_name:"undefined")+'</span></p>'+
     '<p><span><b>Status : </b>'+(data.user_info.status==1?"Online":"Offline")+'</span></p>'+
     '<div class="border-0 ">'+
     (data.reports?
@@ -441,6 +441,15 @@ var createUserCard = function(data){
     '</div>'+
     '</div>'+
     '</div>');
+    userCard.find(".email-btn").click(function(event){
+        var id = $(event.target).parents(".card").attr("data-id");
+        var usertype=$(event.target).parents(".card").attr("data-type");
+        if(usertype=="4"){
+            window.location.href=baseURL+"/sendmail?studentId="+id;
+        } else if(usertype=="3") {
+            window.location.href=baseURL+"/sendmail?teacherId="+id;
+        }
+    })
     return userCard;
 }
 
