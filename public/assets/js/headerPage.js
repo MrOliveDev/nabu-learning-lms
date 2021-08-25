@@ -1,4 +1,6 @@
 $(document).ready(function(e){
+    $("#sidebar .nav-main-link").hover(function(event){$("#sidebar").css("zIndex", "10000000")}, function(){$("#sidebar").css("zIndex", "none")});
+    $("main").css("zIndex", "300");
     $("header #client_"+$("header").attr("data-client")).toggleClass("active", true);
     $('#sidebar-control').click(function(event) {
         event.preventDefault();
