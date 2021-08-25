@@ -179,6 +179,7 @@ var toolkitAddItem = function(event) {
     $("#session_form .method-select").val('POST');
     $("#language").val(1);
     $("#session_form").attr('action', baseURL + '/session');
+
 };
 
 
@@ -208,7 +209,7 @@ var sessionItemClick = function(e) {
                 //                     if(content_item!=null){
                 //                         var newItem = createContentItem(content_item);
                 //                         newItem.attr('data-src', id);
-                //                         $('#table-content .list-group').append(newItem);                        
+                //                         $('#table-content .list-group').append(newItem);
                 //                     }
                 //                 });
                 if (data.contents != null && Object.keys(data.contents).length != 0) {
@@ -260,7 +261,6 @@ var sessionItemClick = function(e) {
         }
     });
 };
-
 var createUserItem = function(data) {
     var status_temp = data.status == '1' ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
@@ -282,7 +282,6 @@ var createUserItem = function(data) {
     element.find('.btn-group').append(unlinkbtn);
     return $(element);
 };
-
 var createGroupItem = function(data) {
     var status_temp = data.value.status == '1' ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
@@ -317,7 +316,6 @@ var createGroupItem = function(data) {
     })
     return element;
 };
-
 var createContentItem = function(data) {
     var status_temp = data.status == '1' ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
@@ -1187,7 +1185,6 @@ async function dropEnd(event, item) {
     };
     var contentData = $(this).attr('data-content');
     var content = contentData ? JSON.parse(contentData) : [];
-
     var rowData;
     if (dragitem != null) {
         var droppeditem_cate = dragitem[0].split('_')[0];
@@ -1383,4 +1380,4 @@ $("#table-content .list-group").sortable({
     }
 });
 $('.cancel-btn').click(cancelBtn);
-$('#session-status-icon').click(statusBtn) 
+$('#session-status-icon').click(statusBtn);

@@ -218,8 +218,10 @@ a.list-group-item:not([href]) {
 .list-group-item .btn.active {
     color: white;
 }
-
 #category_save_button,
 #category_cancel_button {
     z-index: 6;
+}
+#send-email-input {
+    display:none;
 }
