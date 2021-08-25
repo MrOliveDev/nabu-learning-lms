@@ -604,8 +604,8 @@ data-authed-user-type="{{session("user_type")}}"
 
                             <div class="form-group" id="send-email-input">
                                 <div class="custom-control custom-checkbox custom-control-primary custom-control-lg mb-1 ml-5">
-                                    <input type="checkbox" class="custom-control-input" id="example-cb-custom-primary-lg2" name="example-cb-custom-primary-lg2" checked="">
-                                    <label class="custom-control-label" for="example-cb-custom-primary-lg2">Send email</label>
+                                    <input type="checkbox" class="custom-control-input" id="send_email" name="send_email" checked="">
+                                    <label class="custom-control-label" for="send_email">Send email</label>
                                 </div>
                             </div>
 
