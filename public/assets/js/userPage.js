@@ -1337,7 +1337,11 @@ var submitBtn = function(event) {
                     var groupName = arr_url[arr_url.length - 1];
                     switch (groupName) {
                         case 'user':
-
+                            if(data?.mail_success) {
+                                notification('Success to send mail to User!', 1);
+                            } else if(data?.mail_success==false){
+                                notification('Fail to send mail to User!', 2);
+                            }
                             notification('User added successfully!', 1);
                             switch ($("#user_type").val()) {
                                 case '4':
