@@ -366,3 +366,25 @@ select:focus {
 #send-email-input {
     display:none;
 }
+#csv-import-form{
+    display: none;
+    padding: 20px;
+}
+#import-file{
+    display: none;
+}
+#csv-import-cancel{
+    display: none;
+}
+#csv-import-open{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+#csv-user-list{
+    display: none;
+    padding: 20px;
+}
+#csv-user-tbl td{
+    border: 1px solid #C4BC96;
+    text-align: center;
+}

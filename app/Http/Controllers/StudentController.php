@@ -363,4 +363,187 @@ class StudentController extends Controller
         }
         return response()->json($sessionArray);
     }
+
+    /**
+     * Analyze CSV file and return content as array 
+     *
+     * @param  Request $request
+     * @return JSON
+     */
+    public function getCSV(Request $request){
+        $temp_path = $_FILES["import-file"]["tmp_name"];
+        
+        $separator  = $request['separator_man']!="" ? $request['separator_man']:"";
+        $separator  = $separator=="" ? $request['separator']:$separator;
+        $header     = $request['header'];
+        
+        $file_datas = $this->csvToArray($temp_path, $separator, !$header);
+        if($file_datas == false)
+            return response()->json(["success" => false, "message" => "Error while parsing csv file."]);
+        else
+            return response()->json(["success" => true, "data" => $file_datas]);
+    }
+
+    /**
+     * 
+     * @param string $file
+     * @param string $separator 
+     * @param boolean $header If the file's firstline conntains titles
+     * @return type
+     * @throws Exception
+     */
+    private function csvToArray($file, $separator, $header) {
+        $rows = array();
+        $headers = array();
+        if (file_exists($file) && is_readable($file)) {
+            $handle = fopen($file, 'r');
+            while (!feof($handle)) {
+                $row = fgetcsv($handle, 10240, $separator, '"');
+                if ($header && empty($headers)) {
+                    $headers = $row;
+                } else if (is_array($row)) {
+                    foreach ($row as $key => $value) {                        
+                        $row[$key] = utf8_encode($value);
+                    }
+                    if ($header){
+                        array_splice($row, count($headers));
+                        $rows[] = array_combine($headers, $row);
+                    } else {
+                        $rows[] = $row;
+                    }
+                }
+            }
+            fclose($handle);
+        } else {
+            return false;
+        }
+        return $rows;
+    }
+
+    /**
+     * Import CSV Users to DB
+     *
+     * @param  Request $request
+     * @return JSON
+     */
+    public function importCSV(Request $request){
+        if(!empty($request['fields']) && !empty($request['users']) && !empty($request['options'])){
+            $fields = $request['fields'];
+            $loginIdx = array_search('login', $fields);
+
+            $check = false;
+            foreach($request['users'] as $values){
+                $idx = 0;
+                if($loginIdx === false){
+                    $user = new User;
+                } else {
+                    $login = $values[$loginIdx];
+                    $user = User::where('login', $login)->first();
+                    if(!$user)
+                        $user = new User;
+                    else if($request['forceupdate'] == "false"){
+                        $check = true;
+                        break;
+                    }
+                }
+
+                foreach($values as $fieldvalue){
+                    if($fields[$idx] == 'login'){
+                        $user->login = $fieldvalue;
+                    } else if($fields[$idx] == 'password'){
+                        $user->password = base64_encode($fieldvalue);
+                    } else if($fields[$idx] == 'name'){
+                        $user->first_name = $fieldvalue;
+                    } else if($fields[$idx] == 'surname'){
+                        $user->last_name = $fieldvalue;
+                    } else if($fields[$idx] == 'email'){
+                        if($user->contact_info){
+                            $contact_info = json_decode($user->contact_info);
+                            $contact_info->email = $fieldvalue;
+                            $user->contact_info = json_encode($contact_info);
+                        } else {
+                            $user->contact_info = json_encode(array("email" => $fieldvalue));
+                        }
+                    } else if($fields[$idx] == 'address'){
+                        if($user->contact_info){
+                            $contact_info = json_decode($user->contact_info);
+                            $contact_info->address = $fieldvalue;
+                            $user->contact_info = json_encode($contact_info);
+                        } else {
+                            $user->contact_info = json_encode(array("address" => $fieldvalue));
+                        }
+                    }
+
+                    $idx ++;
+                }
+
+                if($request['options']['generate'] == "1"){
+                    $user->login = $this->generateLogin($user->first_name, $user->last_name);
+                    $user->password = base64_encode($this->randomGenerate());
+                }
+                if($request['options']['pw'])
+                    $user->change_pw = 1;
+                if($request['options']['language'])
+                    $user->lang = $request['options']['language'];
+                if($request['options']['group']){
+                    if($user->linked_groups){
+                        $groups = explode("_", $user->linked_groups);
+                        $groups[] = $request['options']['group'];
+                        $user->linked_groups = implode("_", $groups);
+                    } else{
+                        $groups = array($request['options']['group']);
+                        $user->linked_groups = implode("_", $groups);
+                    }
+                }
+                if($request['options']['company'])
+                    $user->company = $request['options']['company'];
+                if($request['options']['position'])
+                    $user->function = $request['options']['position'];
+
+                $user->save();
+            }
+
+            if($check)
+                return response()->json(["success" => true, "message" => "Some logins are already exist. Others are imported successfully."]);
+            else
+                return response()->json(["success" => true]);
+        } else
+            return response()->json(["success" => false, "message" => "Wrong Paramters."]);
+    }
+
+    /**
+     * 
+     * @param string $name
+     * @param string $surname
+     * @return string
+     */
+    public function generateLogin($name, $surname) {
+        //echo "name:".$name." | surname:".$surname."\n";
+            $login_name     = substr($name, 0, 3);
+            $login_surname  = substr($surname, 0, 3);
+            $login          = $login_name.$login_surname;
+            $login_clean    = preg_replace('/\s+/', '', $login);
+            $login_cod      = $login_clean.$this->randomGenerate(4);
+            $check = User::where('login', $login_cod)->first();
+            if(!$check){
+                return $login_cod;
+            } else {
+                return $this->generateLogin($name,$surname);
+            }
+        }
+
+    /**
+     * 
+     * @param int $car
+     * @return string
+     */
+    public function randomGenerate($car=8) {
+        $string = "";
+        $chaine = "ABCDEFGHIJQLMNOPQRSTUVWXYZabcdefghijqlmnopqrstuvwxyz0123456789";
+        srand((double) microtime() * 1000000);
+        for ($i = 0; $i < $car; $i++) {
+            $string .= $chaine[rand() % strlen($chaine)];
+        }
+        return $string;
+    }    
 }

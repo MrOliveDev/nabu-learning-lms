@@ -294,6 +294,8 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('student/multidelete', '\App\Http\Controllers\StudentController@multiDestroy');
     Route::post('teacher/multidelete', '\App\Http\Controllers\StudentController@multiDestroy');
     Route::post('author/multidelete', '\App\Http\Controllers\StudentController@multiDestroy');
+    Route::post('getCSV', '\App\Http\Controllers\StudentController@getCSV');
+    Route::post('importCSV', '\App\Http\Controllers\StudentController@importCSV');
 
     Route::get('training', '\App\Http\Controllers\TrainingController@index')->name('training');
     Route::post('traininglinkfromlesson', '\App\Http\Controllers\TrainingController@trainingLinkFromLesson')->name('traininglinkfromlesson');

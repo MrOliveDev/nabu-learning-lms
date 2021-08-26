@@ -495,6 +495,7 @@ var toolkitAddItem = function(event) {
     event.preventDefault();
     event.stopPropagation();
     toggleFormOrTable($(this).parents('fieldset'), true);
+    $("#csv-import-form").css("display", "none");
     if ($('#groups-tab').parents('li').hasClass('ui-state-active')) {
         $('#status-form-group').css('display', 'block');
         $('#cate-status-icon').val('true');
@@ -611,6 +612,215 @@ var toolkitAddItem = function(event) {
         // })
     }
 };
+
+var csvImportItem = function(event){
+    toggleFormOrTable($("#div_B"), null, false);
+    $("#csv-import-form").css('display', 'block');
+    $("#csv-user-list").css('display', 'none');
+}
+
+function csvImportOpen(){
+    $("#import-file").trigger('click');
+}
+
+$("#import-file").on('change', function(){
+    $("#import-file-name").val($(this).val().split('\\').pop());
+    $("#csv-import-cancel").css("display", "block");
+});
+
+$("input[name=separator_man]").on("keyup", function () {
+    if ($(this).val() != "") {
+        $.each($("input[name=separator]"), function (i) {
+            $(this).prop("checked", false);
+        });
+    } else {
+        var already = false;
+        $.each($("input[name=separator]"), function (i) {
+            if ($(this).prop("checked") == true) {
+                already = true;
+            }
+        });
+        if (!already) {
+            $("input[name=separator][value=auto]").prop("checked", true);
+        }
+    }
+});
+
+$("#csv-import-cancel").click(function(){
+    $("#import-file").val('');
+    $("#import-file-name").val('');
+    $("#csv-import-cancel").css("display", "none");
+})
+
+$("input[name=separator]").on("click", function () {
+    $("input[name=separator_man]").val("");
+});
+
+$("input[name=changepw]").on("change", function(){
+    var changepw = $(this);
+    if(changepw.val()==1){
+        $.each($("input[name=generate]"), function(){
+            var generate = $(this);
+            if(generate.val()==1) {
+                generate.prop("checked", true)
+            } else {
+                generate.prop("checked", false);
+            }
+        });
+    }
+});
+
+var csvSubmitBtn = function(event){
+    if($("#import-file").val() == "")
+    {
+        swal.fire({ title: "Warning", text: "Please select file.", icon: "warning", confirmButtonText: `OK` });
+        return;
+    }
+    
+    var datas = {};
+    
+    var separator = $("input[name=separator_man]").val();
+    datas.separator = separator == "" ? $("input[name=separator]:checked").attr('data-value') : separator;
+    // datas.codage = $("#codage option:selected").text();
+    datas.pw = $("input[name=changepw]:checked").attr('data-value');
+    datas.generate = $("input[name=generate]:checked").attr('data-value');
+    datas.header = $("input[name=header]:checked").attr('data-value');
+
+    // datas.importtype = $("select[name=import-type]").val()
+    datas.language = $("select[name=import-tongue]").val();
+    datas.group = $("select[name=import-group]").val();
+    datas.company = $("select[name=import-company]").val();
+    datas.position = $("select[name=import-position]").val();
+    console.log(datas);
+    
+    $("#csv-import-form").ajaxSubmit({
+        type: "POST",
+        url: "getCSV",
+        data: datas,
+        dataType: 'json',
+        success: function (res) { 
+            if(res.success){
+                $("#csv-import-form").css("display", "none");
+
+                $("#csv-user-tbl").html('');
+                if(res.data){
+                    if(res.data[0]){
+                        let html = '<thead>';
+                        html += '<th></th>';
+                        for(let i = 0; i < res.data[0].length; i ++)
+                        {
+                            html += ('<th>\
+                                <div class="form-group mb-0">\
+                                    <select class="select-col form-control">\
+                                        <option value="-1">Do not import</option>\
+                                        <option value="login">Login</option>\
+                                        <option value="password">Password</option>\
+                                        <option value="name">First Name</option>\
+                                        <option value="surname">Last Name</option>\
+                                        <option value="address">Address</option>\
+                                        <option value="email">Email</option>\
+                                    </select>\
+                                </div>\
+                                </th>');
+                        }
+                        html += '</thead>';
+                        $("#csv-user-tbl").append(html);
+                    }
+                    $("#csv-user-tbl").append('<tbody>');
+                    res.data.forEach((line, index) => {
+                        if(index != 0 || datas.header == "0"){
+                            let html = '<tr>';
+                            html += `<td class='line-index'>${datas.header == "0" ? index + 1 : index}</td>`;
+                            if(Array.isArray(line)){
+                                line.forEach(field => {
+                                    html += `<td>${field}</td>`;
+                                })
+                            }
+                            html += '</tr>';
+                            $("#csv-user-tbl").append(html);
+                        }
+                    });
+                    $("#csv-user-tbl").append('</tbody>');
+                }
+                $("#csv-user-list").css("display", "block");
+
+            } else {
+                swal.fire({ title: "Error", text: res.message, icon: "error", confirmButtonText: `OK` });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log("status:" + status);
+            console.log("xhr.status:" + xhr.status);
+        }
+    });
+}
+
+$("#import_cancel_button").click(function(){
+    $("#csv-user-list").css('display', 'none');
+});
+
+var csvImportBtn = function(event){
+    var fields = [];
+    $(".select-col").each(function(){
+        fields.push($(this).val());
+    });
+    
+    if(fields.indexOf('name') == -1){
+        swal.fire({ title: "Warning", text: "Please select First Name field.", icon: "warning", confirmButtonText: `OK` });
+        return;
+    }
+    if(fields.indexOf('surname') == -1){
+        swal.fire({ title: "Warning", text: "Please select Last Name field.", icon: "warning", confirmButtonText: `OK` });
+        return;
+    }
+    if(fields.indexOf('email') == -1){
+        swal.fire({ title: "Warning", text: "Please select Email field.", icon: "warning", confirmButtonText: `OK` });
+        return;
+    }
+
+    var userdatas = [];
+    $("#csv-user-tbl tbody tr").each(function(){
+        let user = [];
+        $(this).children('td').each(function(){
+            if($(this).attr('class') != 'line-index')
+                user.push($(this).html());
+        });
+        userdatas.push(user);
+    });
+
+    var datas = {};
+    datas.pw = $("input[name=changepw]:checked").attr('data-value');
+    datas.generate = $("input[name=generate]:checked").attr('data-value');
+    datas.header = $("input[name=header]:checked").attr('data-value');
+
+    // datas.importtype = $("select[name=import-type]").val()
+    datas.language = $("select[name=import-tongue]").val();
+    datas.group = $("select[name=import-group]").val();
+    datas.company = $("select[name=import-company]").val();
+    datas.position = $("select[name=import-position]").val();
+    
+    $.ajax({
+        type: "POST",
+        url: "importCSV",
+        data: {fields: fields, users: userdatas, forceupdate: $("#force-update")[0].checked, options: datas},
+        dataType: 'json',
+        success: function (res) { 
+            if(res.success){
+                if(res.message)
+                    swal.fire({ title: "Warning", text: res.message, icon: "info", confirmButtonText: `OK` });
+                else
+                    swal.fire({ title: "Success", text: "Users are imported successfully.", icon: "success", confirmButtonText: `OK` });
+                $("#csv-user-list").css('display', 'none');
+            } else {
+                swal.fire({ title: "Error", text: res.message, icon: "error", confirmButtonText: `OK` });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log("status:" + status);
+            console.log("xhr:" + xhr);
+        }
+    });
+}
 
 var divACedit = function(event) {
     // event.stopPropagation();
@@ -2548,12 +2758,15 @@ $('#div_A .item-show').click(divAshow);
 $('#div_C .item-show').click(divCshow);
 
 $('.toolkit-add-item').click(toolkitAddItem);
+$('.csv-import-item').click(csvImportItem);
 $('.toolkit-multi-delete').click(toolkitMultiDelete);
 $('form').submit(submitFunction);
 $('form input, form select').change(formInputChange);
 $('#user-status-icon, #cate-status-icon').change(formStatusChange);
 $('.submit-btn').click(submitBtn);
 $('.cancel-btn').click(cancelBtn);
+$('.csv-submit-btn').click(csvSubmitBtn);
+$('.user-import-btn').click(csvImportBtn);
 
 $(".toolkit-show-filter").click(filterToggleShow);
 $('.filter-company-btn').click(filterCompanyBtn);
