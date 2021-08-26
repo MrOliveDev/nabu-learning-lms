@@ -15,6 +15,7 @@
         src="{{ asset('assets/js/plugins/jquery-password-validation-while-typing/js/jquery.passwordRequirements.min.js') }}">
     </script>
     <script src="{{ asset('assets/js/userPage.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.form.js') }}"></script>
 
     <script src="{{ asset('assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
 
@@ -207,6 +208,9 @@ data-authed-user-type="{{session("user_type")}}"
                 <div class="input-container">
                     <a href="#" class="toolkit-add-item">
                         <i class="p-2 text-white fa fa-plus icon"></i>
+                    </a>
+                    <a href="#" class="csv-import-item">
+                        <i class="p-2 text-white fa fa-file-csv icon"></i>
                     </a>
                     <span class="p-2 text-black bg-white rounded">
                         <input class="border-0 input-field mw-100 search-filter" type="text" name="search-filter">
@@ -642,6 +646,149 @@ data-authed-user-type="{{session("user_type")}}"
                         <div class="list-group" id="list-tab" role="tablist" data-src=''>
 
                         </div>
+                    </div>
+                </div>
+
+                <form id="csv-import-form" class="card mb-2">
+                    <div class="col-12 no-padding">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="import-file-name" name="import-file-name" placeholder="Max. 3Mb | *.csv">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-danger" id="csv-import-cancel">Cancel</button>
+                                    <button type="button" class="btn btn-dark" id="csv-import-open" onclick="csvImportOpen()">Open</button>
+                                </div>
+                                <input type="file" class="form-control" id="import-file" name="import-file">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 mb-2" style="display: flex; justify-content: space-between; align-items: center; ">
+                        <label>Choose the separator</label>
+                        <div>
+                            <input type="radio" name="separator" id="seperator-semicolon" checked="true" data-value=";">
+                            <label for="seperator-semicolon" style="cursor: pointer;">;(semicolon)</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="separator" id="comma-semicolon" data-value=",">
+                            <label for="comma-semicolon" style="cursor: pointer;">,(comma)</label>
+                        </div>
+                        <input style="width:200px;" type="text" placeholder="Manual" class="form-control" name="separator_man">
+                    </div>
+
+                    <div class="col-9 mb-2" style="display: flex; justify-content: space-between; align-items: center; ">
+                        <label>Consider the first line as a header</label>
+                        <div>
+                            <input type="radio" name="header" id="header-no" data-value="0">
+                            <label for="header-no" style="cursor: pointer;">No</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="header" id="header-yes" data-value="1" checked="true">
+                            <label for="header-yes" style="cursor: pointer;">Yes</label>
+                        </div>
+                    </div>
+
+                    <div class="col-9 mb-2" style="display: flex; justify-content: space-between; align-items: center; ">
+                        <label>Password change at first login &nbsp; &nbsp; &nbsp;</label>
+                        <div>
+                            <input type="radio" name="changepw" id="changepw-no" data-value="0" checked="true">
+                            <label for="changepw-no" style="cursor: pointer;">No</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="changepw" id="changepw-yes" data-value="1">
+                            <label for="changepw-yes" style="cursor: pointer;">Yes</label>
+                        </div>
+                    </div>
+
+                    <div class="col-9 mb-2" style="display: flex; justify-content: space-between; align-items: center; ">
+                        <label>Generate username and password</label>
+                        <div>
+                            <input type="radio" name="generate" id="generate-no" data-value="0" checked="true">
+                            <label for="generate-no" style="cursor: pointer;">No</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="generate" id="generate-yes" data-value="1">
+                            <label for="generate-yes" style="cursor: pointer;">Yes</label>
+                        </div>
+                    </div>
+
+                    {{-- <div class="col-12" style="display: flex; justify-content: space-between; align-items: center; ">
+                        <label class="mr-4">Import User Type</label>
+                        <select class="form-control" name="user-type" disabled>
+                            <option value="0" selected> Student </option>
+                        </select>
+                    </div>
+
+                    <div class="col-12" style="display: flex; justify-content: space-between; align-items: center; ">
+                        <label>Character tables file</label>
+                        <select class="form-control" name="codage" disabled>
+                            <option value="1" selected> UTF-8 </option>
+                        </select>
+                    </div> --}}
+
+                    <div class="row mb-5">
+                        <div class="col-3">
+                            <select class="form-control" name="import-tongue">
+                                <option value="" selected>Tongue</option>
+                                @foreach ($languages as $language)
+                                    <option value="{{ $language->language_id }}">{{ $language->language_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <select class="form-control" name="import-group">
+                                <option value="" selected>Group</option>
+                                @foreach ($groups as $group)
+                                    <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <select class="form-control" name="import-company">
+                                <option value="" selected>Company</option>
+                                @foreach ($companies as $company)
+                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <select class="form-control" name="import-position">
+                                <option value="" selected>Position</option>
+                                @foreach ($positions as $position)
+                                    <option value="{{ $position->id }}">{{ $position->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="clearfix form-group">
+                        <button type="submit" class="float-right mx-1 btn btn-hero-primary csv-submit-btn"
+                            id="csv_submit_button">SUBMIT</button>
+                        <button type="button" class="float-right mx-1 btn btn-hero-warning cancel-btn"
+                            id="csv_cancel_button">CANCEL</button>
+                    </div>
+                    
+                </form>
+
+                <div class="card" id="csv-user-list">
+                    <div class="col-9 mb-2" style="display: flex; align-items: center; ">
+                        <label class="mr-2">Option &nbsp; &nbsp; &nbsp;</label>
+                        <div>
+                            <label style="cursor: pointer;">
+                                <input type="checkbox" id="force-update" value="1" class="mr-2">Update user information
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12 text-center">
+                        <h4>Assign fields<br /><small>You must assign at least: First name, Last name, Email</small></h4>
+                    </div>
+                    <table style="width:100%" id="csv-user-tbl" class="mb-2">
+                    </table>
+                    <div class="clearfix form-group">
+                        <button type="submit" class="float-right mx-1 btn btn-hero-primary user-import-btn"
+                            id="import_submit_button">IMPORT</button>
+                        <button type="button" class="float-right mx-1 btn btn-hero-warning cancel-btn"
+                            id="import_cancel_button">CANCEL</button>
                     </div>
                 </div>
 
