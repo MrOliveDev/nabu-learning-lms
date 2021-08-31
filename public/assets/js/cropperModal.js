@@ -225,11 +225,11 @@ if (window.FileReader) {
                     aspectRatio: 1,
                     "container": {
                         "width": "100%",
-                        "height": 400
+                        "height": 500
                     },
                     "viewport": {
-                        "width": 200,
-                        "height": 200,
+                        "width": 500,
+                        "height": 500,
                         "type": "circle",
                         "border": {
                             "width": 2,
