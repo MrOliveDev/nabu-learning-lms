@@ -60,12 +60,18 @@ class User extends Authenticatable
 
     protected $table = 'tb_users';
 
+    /**
+     * Get clients that has type 1 from tb_users
+     */
     public function scopeGet_clients($query)
     {
         $clients = $query->where('type', 1)->get();
         return $clients;
     }
 
+    /**
+     * Get info that contained to user for student page with interface info, language info and company info.
+     */
     public function scopeGetUserPageInfoFromId($query, $id)
     {
         if(session("client")!=null){
@@ -83,9 +89,9 @@ class User extends Authenticatable
         )
             ->leftjoin('tb_interface_config', 'tb_interface_config.id', '=', 'tb_users.id_config')
             ->leftjoin('tb_languages', 'tb_users.lang', '=', 'tb_languages.language_id')
-            ->leftjoin('tb_companies', 'tb_users.company', '=', 'tb_companies.id')
+            ->leftjoin('tb_companies', 'tb_users.company', '=', 'tb_companies.id');
             // ->leftjoin('tb_position', 'tb_users.function', '=', 'tb_position.id')
-            ->where("tb_users.id_creator", session("client"));
+            // ->where("tb_users.id_creator", session("client"))
             if(session("user_type")!=2){
                 $result = $result->where('tb_users.id', $id);
             }
@@ -93,6 +99,9 @@ class User extends Authenticatable
         return $result;
     }
 
+    /**
+     * Get the user info that has any specified type.
+     */
     public function scopeGetUserPageInfo($query, $type)
     {
         $client = session("client");
@@ -138,6 +147,12 @@ class User extends Authenticatable
         return $result;
     }
 
+    /**
+     * Add user for session
+     * 
+     * @param int $id: session id
+     * @param array $data:user items
+     */
     public function scopeAddUserSession($query, $id, $data)
     {
         $result = $query->find($id);
@@ -155,6 +170,11 @@ class User extends Authenticatable
         return false;
     }
 
+    /**
+     * Get user data from any group
+     * 
+     * @param int @id:group id
+     */
     public function scopeGetUserFromGroup($query, $id)
     {
         $result = $query->select("tb_users.*")
@@ -169,6 +189,9 @@ class User extends Authenticatable
         return $result->toArray();
     }
 
+    /**
+     * Get user id from group id
+     */
     public function scopeGetUserIDFromGroup($query, $id)
     {
         $result = $query->select("tb_users.id")
@@ -183,16 +206,25 @@ class User extends Authenticatable
         return $result;
     }
 
+    /**
+     * Get Client data
+     */
     public function scopeGetClients($query) {
         $clients = $query->where('type', '1')->get()->toArray();
         return $clients;
     }
 
+    /**
+     * Get user data that created by client
+     */
     public function scopeGetUserByClient($query) {
         $users = $query->where('id_creator', session("client"))->get();
         return $users;
     }
 
+    /**
+     * Get client info with language & interface info
+     */
     public function scopeGet_clientsInfo($query)
     {
         $clientlist = $query

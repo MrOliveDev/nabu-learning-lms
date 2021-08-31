@@ -28,6 +28,11 @@ var userDateSort = false,
 
 // Dashmix.helpers('notify', {message: 'Your message!'});
 
+/**
+ * notification for every actions.
+ * @param {*} str 
+ * @param {*} type 
+ */
 var notification = function(str, type) {
     switch (type) {
         case 1:
@@ -52,10 +57,19 @@ var notification = function(str, type) {
 
 };
 
+/**
+ * show div_D count of items
+ * @param {*} event 
+ */
 var countDisplayUser = function(event) {
     $('#member-count').html($(this).find('.list-group-item').length + " members");
 };
 
+/**
+ * clear active class in the item list
+ * @param {*} i 
+ * @param {*} highlighted 
+ */
 var clearClassName = function(i, highlighted) {
     $(highlighted).find(".btn").each(function(index, btnelement) {
         $(btnelement).removeClass("active");
@@ -65,12 +79,18 @@ var clearClassName = function(i, highlighted) {
     }
 };
 
+/**
+ * toggle button change
+ */
 var toggleBtnChange = function() {
     $(this).find('.toggle2-btn').toggle(false);
     $(this).find('.toggle1-btn').toggle(true);
     $(this).removeClass('select-active');
 };
 
+/**
+ * remove actived item when dbclick on one item
+ */
 var itemDBClick = function() {
     $(this).parents('.list-group').children(".list-group-item").each(function(i, e) {
         if ($(e).hasClass("active")) {
@@ -88,6 +108,10 @@ var itemDBClick = function() {
 //     $(this).addClass('active');
 // });
 
+/**
+ * user item click
+ * @param {*} e 
+ */
 var leftItemClick = function(e) {
     // e.stopPropagation();
     if (!$(this).hasClass("active")) {
@@ -100,6 +124,10 @@ var leftItemClick = function(e) {
 
 };
 
+/**
+ * item button click actions
+ * @param {*} e 
+ */
 var btnClick = function(e) {
     if (!$(this).hasClass('toggle2-btn')) {
         e.stopPropagation();
@@ -159,6 +187,10 @@ var btnClick = function(e) {
     $(this).addClass("active");
 };
 
+/**
+ * clear table data
+ * @param {*} element 
+ */
 var clearTable = function(element) {
     element.each(function(i, em) {
         if ($(em).find('.list-group-item').length != 0) {
@@ -167,6 +199,10 @@ var clearTable = function(element) {
     });
 };
 
+/**
+ * clear form data
+ * @param {*} element 
+ */
 var clearFrom = function(element) {
     element.find('input, select').each(function(i, forminput) {
         if ($(forminput).attr('name') != '_token' && $(forminput).attr('name') != '_method') {
@@ -180,6 +216,13 @@ var clearFrom = function(element) {
 };
 
 //@param : div_b | div_d
+/**
+ * toggle form or table 
+ * @param {*} element 
+ * @param {*} flag 
+ * @param {*} flag1 
+ * @returns 
+ */
 var toggleFormOrTable = function(element, flag = null, flag1 = true) {
     var form = element.find('form');
     var table = element.find('.second-table');
@@ -232,6 +275,10 @@ var toggleFormOrTable = function(element, flag = null, flag1 = true) {
 
 };
 
+/**
+ * force to move to any tab
+ * @param {*} name 
+ */
 var goTab = function(name) {
     // console.log($('#' + name + '-tab')[0]);
     $('#' + name + '-tab').click();
@@ -260,6 +307,11 @@ var goTab = function(name) {
 //         });;
 
 // };
+
+/**
+ * toolkit expand or collaspe
+ * @param {*} event 
+ */
 var filterToggleShow = function(event) {
     var parent = $(this).parents('.toolkit');
     parent.children(".toolkit-filter").toggle();
@@ -311,6 +363,10 @@ var filterToggleShow = function(event) {
     parent.find('.filter-date-btn i').toggleClass('fa-sort-numeric-down', false);
 };
 
+/**
+ * company | function filter mode when we click toolkit filter button
+ * @param {*} event 
+ */
 var secondShow1 = function(event) {
     var parent = $(this).parents('.list-group-item');
     var id = parent.attr('id').split('_')[1];
@@ -411,6 +467,10 @@ var secondShow1 = function(event) {
     }
 };
 
+/**
+ * div_B |div_D show button action
+ * @param {} event 
+ */
 var divBDshow = function(event) {
     event.preventDefault();
     var parent = $(this).parents('fieldset');
@@ -424,6 +484,10 @@ var divBDshow = function(event) {
     }
 };
 
+/**
+ * div_A | div_C show button action
+ * @param {*} event 
+ */
 var divACshow = function(event) {
     var parent = $(this).parents('fieldset');
     toggleFormOrTable(parent, false);
@@ -437,6 +501,10 @@ var divACshow = function(event) {
     })
 };
 
+/**
+ * toolkit multi delete button action
+ * @param {} event 
+ */
 var toolkitMultiDelete = function(event) {
     var parent = $(event.target).parents(".toolkit");
     var target = parent.attr("data-target");
@@ -491,11 +559,14 @@ var toolkitMultiDelete = function(event) {
     }
 }
 
+/**
+ * toolkit add button action
+ * @param {*} event 
+ */
 var toolkitAddItem = function(event) {
     event.preventDefault();
     event.stopPropagation();
     toggleFormOrTable($(this).parents('fieldset'), true);
-    $("#csv-import-form").css("display", "none");
     if ($('#groups-tab').parents('li').hasClass('ui-state-active')) {
         $('#status-form-group').css('display', 'block');
         $('#cate-status-icon').val('true');
@@ -613,221 +684,19 @@ var toolkitAddItem = function(event) {
     }
 };
 
-var csvImportItem = function(event){
-    toggleFormOrTable($("#div_B"), null, false);
-    $("#csv-import-form").css('display', 'block');
-    $("#csv-user-list").css('display', 'none');
-}
-
-function csvImportOpen(){
-    $("#import-file").trigger('click');
-}
-
-$("#import-file").on('change', function(){
-    $("#import-file-name").val($(this).val().split('\\').pop());
-    $("#csv-import-cancel").css("display", "block");
-});
-
-$("input[name=separator_man]").on("keyup", function () {
-    if ($(this).val() != "") {
-        $.each($("input[name=separator]"), function (i) {
-            $(this).prop("checked", false);
-        });
-    } else {
-        var already = false;
-        $.each($("input[name=separator]"), function (i) {
-            if ($(this).prop("checked") == true) {
-                already = true;
-            }
-        });
-        if (!already) {
-            $("input[name=separator][value=auto]").prop("checked", true);
-        }
-    }
-});
-
-$("#csv-import-cancel").click(function(){
-    $("#import-file").val('');
-    $("#import-file-name").val('');
-    $("#csv-import-cancel").css("display", "none");
-})
-
-$("input[name=separator]").on("click", function () {
-    $("input[name=separator_man]").val("");
-});
-
-$("input[name=changepw]").on("change", function(){
-    var changepw = $(this);
-    if(changepw.val()==1){
-        $.each($("input[name=generate]"), function(){
-            var generate = $(this);
-            if(generate.val()==1) {
-                generate.prop("checked", true)
-            } else {
-                generate.prop("checked", false);
-            }
-        });
-    }
-});
-
-var csvSubmitBtn = function(event){
-    if($("#import-file").val() == "")
-    {
-        swal.fire({ title: "Warning", text: "Please select file.", icon: "warning", confirmButtonText: `OK` });
-        return;
-    }
-    
-    var datas = {};
-    
-    var separator = $("input[name=separator_man]").val();
-    datas.separator = separator == "" ? $("input[name=separator]:checked").attr('data-value') : separator;
-    // datas.codage = $("#codage option:selected").text();
-    datas.pw = $("input[name=changepw]:checked").attr('data-value');
-    datas.generate = $("input[name=generate]:checked").attr('data-value');
-    datas.header = $("input[name=header]:checked").attr('data-value');
-
-    // datas.importtype = $("select[name=import-type]").val()
-    datas.language = $("select[name=import-tongue]").val();
-    datas.group = $("select[name=import-group]").val();
-    datas.company = $("select[name=import-company]").val();
-    datas.position = $("select[name=import-position]").val();
-    console.log(datas);
-    
-    $("#csv-import-form").ajaxSubmit({
-        type: "POST",
-        url: "getCSV",
-        data: datas,
-        dataType: 'json',
-        success: function (res) { 
-            if(res.success){
-                $("#csv-import-form").css("display", "none");
-
-                $("#csv-user-tbl").html('');
-                if(res.data){
-                    if(res.data[0]){
-                        let html = '<thead>';
-                        html += '<th></th>';
-                        for(let i = 0; i < res.data[0].length; i ++)
-                        {
-                            html += ('<th>\
-                                <div class="form-group mb-0">\
-                                    <select class="select-col form-control">\
-                                        <option value="-1">Do not import</option>\
-                                        <option value="login">Login</option>\
-                                        <option value="password">Password</option>\
-                                        <option value="name">First Name</option>\
-                                        <option value="surname">Last Name</option>\
-                                        <option value="address">Address</option>\
-                                        <option value="email">Email</option>\
-                                    </select>\
-                                </div>\
-                                </th>');
-                        }
-                        html += '</thead>';
-                        $("#csv-user-tbl").append(html);
-                    }
-                    $("#csv-user-tbl").append('<tbody>');
-                    res.data.forEach((line, index) => {
-                        if(index != 0 || datas.header == "0"){
-                            let html = '<tr>';
-                            html += `<td class='line-index'>${datas.header == "0" ? index + 1 : index}</td>`;
-                            if(Array.isArray(line)){
-                                line.forEach(field => {
-                                    html += `<td>${field}</td>`;
-                                })
-                            }
-                            html += '</tr>';
-                            $("#csv-user-tbl").append(html);
-                        }
-                    });
-                    $("#csv-user-tbl").append('</tbody>');
-                }
-                $("#csv-user-list").css("display", "block");
-
-            } else {
-                swal.fire({ title: "Error", text: res.message, icon: "error", confirmButtonText: `OK` });
-            }
-        },
-        error: function(xhr, status, error) {
-            console.log("status:" + status);
-            console.log("xhr.status:" + xhr.status);
-        }
-    });
-}
-
-$("#import_cancel_button").click(function(){
-    $("#csv-user-list").css('display', 'none');
-});
-
-var csvImportBtn = function(event){
-    var fields = [];
-    $(".select-col").each(function(){
-        fields.push($(this).val());
-    });
-    
-    if(fields.indexOf('name') == -1){
-        swal.fire({ title: "Warning", text: "Please select First Name field.", icon: "warning", confirmButtonText: `OK` });
-        return;
-    }
-    if(fields.indexOf('surname') == -1){
-        swal.fire({ title: "Warning", text: "Please select Last Name field.", icon: "warning", confirmButtonText: `OK` });
-        return;
-    }
-    if(fields.indexOf('email') == -1){
-        swal.fire({ title: "Warning", text: "Please select Email field.", icon: "warning", confirmButtonText: `OK` });
-        return;
-    }
-
-    var userdatas = [];
-    $("#csv-user-tbl tbody tr").each(function(){
-        let user = [];
-        $(this).children('td').each(function(){
-            if($(this).attr('class') != 'line-index')
-                user.push($(this).html());
-        });
-        userdatas.push(user);
-    });
-
-    var datas = {};
-    datas.pw = $("input[name=changepw]:checked").attr('data-value');
-    datas.generate = $("input[name=generate]:checked").attr('data-value');
-    datas.header = $("input[name=header]:checked").attr('data-value');
-
-    // datas.importtype = $("select[name=import-type]").val()
-    datas.language = $("select[name=import-tongue]").val();
-    datas.group = $("select[name=import-group]").val();
-    datas.company = $("select[name=import-company]").val();
-    datas.position = $("select[name=import-position]").val();
-    
-    $.ajax({
-        type: "POST",
-        url: "importCSV",
-        data: {fields: fields, users: userdatas, forceupdate: $("#force-update")[0].checked, options: datas},
-        dataType: 'json',
-        success: function (res) { 
-            if(res.success){
-                if(res.message)
-                    swal.fire({ title: "Warning", text: res.message, icon: "info", confirmButtonText: `OK` });
-                else
-                    swal.fire({ title: "Success", text: "Users are imported successfully.", icon: "success", confirmButtonText: `OK` });
-                $("#csv-user-list").css('display', 'none');
-            } else {
-                swal.fire({ title: "Error", text: res.message, icon: "error", confirmButtonText: `OK` });
-            }
-        },
-        error: function(xhr, status, error) {
-            console.log("status:" + status);
-            console.log("xhr:" + xhr);
-        }
-    });
-}
-
+/** 
+ * div_a edit button action
+ */
 var divACedit = function(event) {
     // event.stopPropagation();
     var parent = $(this).parents('fieldset');
     toggleFormOrTable(parent, true);
 };
 
+/**
+ * B & D item edit
+ * @param {*} event 
+ */
 var divBDedit = function(event) {
     // event.stopPropagation();
     var parent = $(this).parents('fieldset');
@@ -843,6 +712,11 @@ var divBDedit = function(event) {
     }
 };
 
+/**
+ * div a show action
+ *
+ * @param {*} event 
+ */
 var divAshow = function(event) {
     heightToggleLeft = true;
     $('#div_left').dblclick();
@@ -886,6 +760,10 @@ var divAshow = function(event) {
     });
 };
 
+/**
+ * show button action in div c
+ * @param {*} event 
+ */
 var divCshow = function(event) {
     heightToggleRight = true;
     $('#member-count').html("0 members");
@@ -989,10 +867,18 @@ var divCshow = function(event) {
 
 };
 
+/**
+ * form input change action
+ * @param {*} event 
+ */
 var formInputChange = function(event) {
     console.log($(event.target).val());
 };
 
+/**
+ * item edit button action
+ * @param {*} element 
+ */
 var item_edit = function(element) {
     var parent = element.parents('.list-group-item');
     var id = parent.attr('id').split('_')[1];
@@ -1184,20 +1070,35 @@ var item_edit = function(element) {
     }
 };
 
+/**
+ * email button action
+ */
 var emailBtn = function(event) {
     var category = $(event.target).attr("data-content");
     var id = $(event.target).attr("data-id");
     window.location.href = baseURL+"/sendmail?"+category+"Id="+id;
 }
 
+/**
+ * item edit action
+ * @param {*} event 
+ */
 var itemEdit = function(event) {
     item_edit($(this));
 };
 
+/**
+ * form item change action
+ * @param {} e 
+ */
 var formStatusChange = function(e) {
     $(this).val($(this).prop('checked'));
 };
 
+/**
+ * item delete action
+ * @param {*} element 
+ */
 var item_delete = function(element) {
     var parent = element.parents('.list-group-item');
     var id = parent.attr('id').split('_')[1];
@@ -1298,6 +1199,10 @@ var item_delete = function(element) {
     }
 };
 
+/**
+ * item delete action
+ * @param {*} event 
+ */
 var itemDelete = function(event) {
     elem = $(this);
     cate = $(this).attr('data-content');
@@ -1341,6 +1246,11 @@ var itemDelete = function(event) {
 
 };
 
+/**
+ * the action before the submit action
+ * @param {} event 
+ * @returns 
+ */
 var submitFunction = function(event) {
     console.log($(this).attr('action'));
     console.log($("#cate-status").attr("checked"));
@@ -1348,7 +1258,10 @@ var submitFunction = function(event) {
     return false;
 };
 
-
+/**
+ * detach link item 
+ * @param {*} e 
+ */
 var detachLinkTo = function(e) {
     var parent = $(this).parents('.list-group-item');
     var showeditem = parent.attr('data-src');
@@ -1373,6 +1286,10 @@ var detachLinkTo = function(e) {
 
 };
 
+/**
+ * detach button action 
+ * @param {*} e 
+ */
 var detachLinkFrom = function(e) {
     var parent = $(this).parents('.list-group-item');
     var divAitem = $("#div_A #" + parent.attr('id'));
@@ -1396,6 +1313,12 @@ var detachLinkFrom = function(e) {
     }, $(this));
 };
 
+/**
+ * json array combine
+ * @param {*} value 
+ * @param {*} id 
+ * @returns 
+ */
 var combine = function(value, id) {
     var combineArray = value.split('_').filter(function(item, i, d) {
         return item != id && item != null;
@@ -1404,6 +1327,9 @@ var combine = function(value, id) {
     return combineArray;
 };
 
+/**
+ * detach action api call
+ */
 var detachCall = function(cate, connectiondata, element) {
     $.post({
         url: baseURL + '/userjointo' + cate,
@@ -1430,6 +1356,9 @@ var detachCall = function(cate, connectiondata, element) {
     });
 };
 
+/**
+ * "save" button action
+ */
 var submitBtn = function(event) {
     var formname = $(this).attr('data-form');
     var inputpassword = document.getElementById('password');
@@ -1644,6 +1573,11 @@ var submitBtn = function(event) {
 
 };
 
+/**
+ * create session item contained for user
+ * @param {*} data 
+ * @returns 
+ */
 var createSessionItem = function(data) {
     var status_temp = data.status == 1?
         '<i class="fa fa-circle m-2" style="color:green"></i>'+
@@ -1671,6 +1605,13 @@ var createSessionItem = function(data) {
     return session_item;
 }
 
+
+/**
+ * creaet user item data
+ * @param {*} data 
+ * @param {*} category 
+ * @returns 
+ */
 var createUserData = function(data, category) {
 
     var status_temp = data.user.status == '1' ?
@@ -1736,6 +1677,9 @@ var createUserData = function(data, category) {
 
 };
 
+/**
+ * create group item data
+ */
 var createGroupData = function(data, category) {
     var status_temp = data.status == '1' ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
@@ -1783,6 +1727,12 @@ var createGroupData = function(data, category) {
     return groupItem;
 };
 
+/**
+ * create category data (company |position)
+ * @param {} data 
+ * @param {*} category 
+ * @returns 
+ */
 var createCategoryData = function(data, category) {
     var cateItem = $(' <a class="list-group-item list-group-item-action p-1 border-0 ' + category + '_' + data.id + '" id="' + category + '_' + data.id + '" data-date="' + data.creation_date + '">' +
         ' <div class="float-left">' +
@@ -1821,6 +1771,9 @@ var createCategoryData = function(data, category) {
     return cateItem;
 };
 
+/**
+ * update user item data
+ */
 var updateUserData = function(data, target) {
     $('.' + target).each(function(i, im) {
         $(im).find('.item-name').html(data.user.first_name + "&nbsp;" + data.user.last_name);
@@ -1853,6 +1806,9 @@ var updateUserData = function(data, target) {
 
 };
 
+/**
+ * update group item
+ */
 var updateGroupData = function(data, target) {
     $('.' + target).each(function(i, im) {
         $(im).find('.item-name').html(data.name);
@@ -1862,6 +1818,9 @@ var updateGroupData = function(data, target) {
     });
 };
 
+/**
+ * update category data(company | position)
+ */
 var updateCategoryData = function(data, target) {
     $('.' + target).each(function(i, im) {
         $(im).find('.item-name').html(data.name);
@@ -1869,6 +1828,10 @@ var updateCategoryData = function(data, target) {
     });
 };
 
+/**
+ * cancel toggle filter
+ * @param {*} event 
+ */
 var cancelBtn = function(event) {
     var parent = $(this).parents('fieldset');
     if ($(this).parents('form').attr('data-item')) {
@@ -1880,6 +1843,10 @@ var cancelBtn = function(event) {
     toggleFormOrTable(parent, null, false);
 };
 
+/**
+ * toggle filter mode for company
+ * @param {*} event 
+ */
 var filterCompanyBtn = function(event) {
     // var activedTab = $('#RightPanel').find('.ui-state-active a').attr('href');
     switch ($(this).html()) {
@@ -1900,6 +1867,10 @@ var filterCompanyBtn = function(event) {
     }
 };
 
+/**
+ * filter toggle for position button action
+ * @param {*} event 
+ */
 var filterFunctionBtn = function(event) {
     switch ($(this).html()) {
         case 'function +<i></i>':
@@ -1918,6 +1889,12 @@ var filterFunctionBtn = function(event) {
     }
 };
 
+/**
+ * clear filter mode
+ * @param {*} element 
+ * @param {*} category 
+ * @param {*} defaultStr 
+ */
 var clearFilterCategory = function(element, category, defaultStr) {
     $(element).val('');
     $(element).html(defaultStr);
@@ -1927,6 +1904,12 @@ var clearFilterCategory = function(element, category, defaultStr) {
     $('#' + category).find('.toggle2-btn').toggle(false);
 };
 
+/**
+ *  toggle filter mode
+ * @param {*} element 
+ * @param {*} category //company or position 
+ * @param {*} defaultStr //"company X" or "position X": the toggle button inner html
+ */
 var toggleAndSearch = function(element, category, defaultStr) {
     if ($('#' + category).find('.list-group-item.active').length) {
         var items = [],
@@ -1954,6 +1937,11 @@ var toggleAndSearch = function(element, category, defaultStr) {
     }
 };
 
+/**
+ * identify whether the category of filter item is company or position and show the filter items on the right side list with check box
+ * @param {*} element 
+ * @param {*} category 
+ */
 var getFilterCategory = function(element, category) {
     $(activedTab).fadeOut(1);
     $('#' + category).fadeIn(1);
@@ -1968,6 +1956,9 @@ var getFilterCategory = function(element, category) {
     $('#' + category).find('.list-group-item').each(clearClassName);
 };
 
+/**
+ * cancel filter mode of user by company or position
+ */
 var cancelFilterCategoryAll = function() {
     $('.filter-function-btn').each(function(i, e) {
         if ($(e).html() != 'function +<i></i>') {
@@ -1986,7 +1977,11 @@ var cancelFilterCategoryAll = function() {
         }
     });
 };
-//filter
+/**
+ * when we click filter by company or position, we can see the check button at end of company or position item
+ * This is action when that buttons are clicked 
+ * @param {*} evt 
+ */
 var toggle2Btn = function(evt) {
     // evt.stopPropagation();
     var tooltipid = $(this).parents('.list-group').attr('data-filter');
@@ -2003,6 +1998,10 @@ var toggle2Btn = function(evt) {
     $(this).parents('.list-group-item').find('.btn.active').removeClass('active');
 };
 
+/**
+ * Search the data of selected tag
+ * @param {event} event 
+ */
 var searchfilter = function(event) {
     var parent = $(event.target).parents('.toolkit');
     var items = null;
@@ -2084,6 +2083,10 @@ var searchfilter = function(event) {
     }
 };
 
+/**
+ * Sort the items in the selected tag
+ * @param {*} event 
+ */
 var sortfilter = function(event) {
     var parent = $(event.target).parents('.toolkit');
     var $items = null,
@@ -2315,6 +2318,10 @@ var sortfilter = function(event) {
     $(this).siblings('button').toggleClass('.active', false);
 };
 
+/**
+ * Give check item value 1 or 0 
+ * @param {event} e 
+ */
 var cateStateIcon = function(e) {
     var el = $(this);
     if (el.is(':checked')) {
@@ -2324,6 +2331,10 @@ var cateStateIcon = function(e) {
     }
 };
 
+/**
+ * Tag click action
+ * @param {*} event 
+ */
 var tabClick = function(event) {
     if ($(this).parents('fieldset').attr('id') == 'LeftPanel') {
 
@@ -2500,6 +2511,10 @@ var tabClick = function(event) {
     }
 };
 
+/**
+ * action when height controller dbClicked  
+ * @param {} event 
+ */
 var handlerDBClick = function(event) {
     var heightToggle;
     if ($(this).parents('fieldset').attr('id') == 'LeftPanel') {
@@ -2528,6 +2543,10 @@ var handlerDBClick = function(event) {
 
 var dragitem = null;
 
+/**
+ * action when user item started to drag
+ * @param {*} event 
+ */
 function dragStart(event) {
     dragitem = Array();
     $(this).parents(".list-group").children('.active.list-group-item').each(function(i, dragelem) {
@@ -2540,20 +2559,39 @@ function dragStart(event) {
     // console.log(dragitem);
 }
 
+/**
+ * hover action when user item is dragged 
+ * @param {*} event 
+ */
 function dragOver(event) {
     $(event.target).css('opacity', '50%');
     event.preventDefault();
 }
 
+/**
+ * lost hover action when user item is dragged
+ * @param {*} event 
+ */
 function dragLeave(event) {
     $(event.target).css('opacity', '100%');
     event.preventDefault();
 }
 
+
+/**
+ * action when user item drag is over
+ * @param {*} event 
+ */
 function dragEnd(event) {
     $('main').css('cursor', 'default');
 }
 
+/**
+ * action when user item is draged into an category item
+ * api call
+ * @param {*} event 
+ * @param {*} item 
+ */
 function dropEnd(event, item) {
     $(event.target).css('opacity', '100%');
     $('main').css('cursor', 'default');
@@ -2679,7 +2717,9 @@ function functionDropEnd(event, item) {
 
 
 ////
-
+/**
+ * initialization of the user interface and quote the actions
+ */
 $(document).ready(function() {
 
     // var h = (window.innerHeight || (window.document.documentElement.clientHeight || window.document.body.clientHeight));
@@ -2758,15 +2798,12 @@ $('#div_A .item-show').click(divAshow);
 $('#div_C .item-show').click(divCshow);
 
 $('.toolkit-add-item').click(toolkitAddItem);
-$('.csv-import-item').click(csvImportItem);
 $('.toolkit-multi-delete').click(toolkitMultiDelete);
 $('form').submit(submitFunction);
 $('form input, form select').change(formInputChange);
 $('#user-status-icon, #cate-status-icon').change(formStatusChange);
 $('.submit-btn').click(submitBtn);
 $('.cancel-btn').click(cancelBtn);
-$('.csv-submit-btn').click(csvSubmitBtn);
-$('.user-import-btn').click(csvImportBtn);
 
 $(".toolkit-show-filter").click(filterToggleShow);
 $('.filter-company-btn').click(filterCompanyBtn);

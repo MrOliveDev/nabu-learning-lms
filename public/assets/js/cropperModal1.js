@@ -18,11 +18,11 @@ $("body").on("change", ".image", function(e) {
             aspectRatio: 16 / 9,
             "container": {
                 "width": "100%",
-                "height": 400
+                "height": 450
             },
             "viewport": {
-                "width": 200,
-                "height": 200,
+                "width": 800,
+                "height": 450,
                 "border": {
                     "width": 2,
                     "enable": true,
@@ -94,8 +94,8 @@ $("#crop").click(function() {
 
         // $("#img-range-slider").append(range_slider_template);
         canvas = cropper.getCroppedCanvas({
-            width: 150,
-            height: 150,
+            width: 800,
+            height: 450,
         });
         canvas.toBlob(function(blob) {
             url = URL.createObjectURL(blob);
@@ -224,11 +224,11 @@ if (window.FileReader) {
                     aspectRatio: 1,
                     "container": {
                         "width": "100%",
-                        "height": 400
+                        "height": 450
                     },
                     "viewport": {
-                        "width": 200,
-                        "height": 200,
+                        "width": 800,
+                        "height": 450,
                         "type": "circle",
                         "border": {
                             "width": 2,
