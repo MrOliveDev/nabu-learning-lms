@@ -16,7 +16,9 @@ use App\Models\PermissionModel;
 use Mail;
 use Hackzilla\PasswordGenerator\Generator\RequirementPasswordGenerator;
 
-
+/***
+ * Class function: the functions that are contained in "/student" 
+ */
 
 class StudentController extends Controller
 {
@@ -137,16 +139,13 @@ class StudentController extends Controller
         $lang= LanguageModel::where('language_id', $user->lang)->first();
 
         
-        // var_dump($request->post("send_email"));
-        // var_dump($mail);
-        // var_dump($client);
-        // exit;
         
+        $client = !empty(User::find(session("client"))->contact_info)?json_decode(User::find(session("client"))->contact_info)->email:null;
+        $mail = $request->post('user-email');
+        $content = "<p>Welcome to nabu learning</p>";
+
         if($request->post("send_email")=="1"){
             if(!empty($client) && !empty($mail)){
-                $client = !empty(User::find(session("client"))->contact_info)?json_decode(User::find(session("client"))->contact_info)->email:null;
-                $mail = $request->post('user-email');
-                $content = "<p>Welcome to nabu learning</p>";
 
                 $data = array("from" => $client, "to" => $mail, "content" => $content, "subject" => "Welcome");
                 Mail::send(array(), array(), function ($message) use ($data) {
@@ -286,7 +285,7 @@ class StudentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the multiple selected resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -301,6 +300,12 @@ class StudentController extends Controller
         //
     }
 
+    /**
+     * Joing the user item to group 
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\Response 
+     */
     public function userJoinToGroup(Request $request)
     {
         $responseData = [];
@@ -319,6 +324,12 @@ class StudentController extends Controller
         return response()->json($responseData);
     }
 
+    /**
+     * Join the user items to any company
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function userJoinToCompany(Request $request)
     {
         $data = json_decode($request->post('data'));
@@ -335,6 +346,12 @@ class StudentController extends Controller
         return response()->json($user);
     }
 
+    /**
+     * Join the user items to any function(position)
+     * 
+     * @param Request $request
+     * @return \Illumate\Http\Response
+     */
     public function userJoinToPosition(Request $request)
     {
         $data = json_decode($request->post('data'));
@@ -351,6 +368,12 @@ class StudentController extends Controller
         return response()->json($user);
     }
 
+    /**
+     * Get session that contains the selected user
+     * 
+     * @param Request $reqeust
+     * @return \Illuminate\Http\Response
+     */
     public function getSessionFromUser(Request $request) {
         $sessions = SessionModel::getSessionFromUser($request->post("data"));
 
@@ -363,7 +386,7 @@ class StudentController extends Controller
         }
         return response()->json($sessionArray);
     }
-
+    
     /**
      * Analyze CSV file and return content as array 
      *
