@@ -394,8 +394,13 @@ class SendmailController extends Controller
      */
     public function mailsend(Request $request){
         if(!empty($request['from']) && !empty($request['to']) && !empty($request['content']) && !empty($request['userId']) && !empty($request['subject'])){
-
-            $data = array("from" => $request['from'], "to" => $request['to'], "content" => $request['content'], "subject" => $request['subject']);
+            $content = $request['content'];
+            if(str_contains($content, '#password')){
+                $user = User::find($request['userId']);
+                if($user)
+                    $content = str_replace("#password", base64_decode($user->password), $content);
+            }
+            $data = array("from" => $request['from'], "to" => $request['to'], "content" => $content, "subject" => $request['subject']);
             Mail::send(array(), array(), function ($message) use ($data) {
                 $message->to($data['to'])->from($data['from'], 'Nabu Learning')
                 ->subject($data['subject'])

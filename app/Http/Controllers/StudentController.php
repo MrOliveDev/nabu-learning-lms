@@ -542,11 +542,18 @@ class StudentController extends Controller
      */
     public function generateLogin($name, $surname) {
         //echo "name:".$name." | surname:".$surname."\n";
-            $login_name     = substr($name, 0, 3);
-            $login_surname  = substr($surname, 0, 3);
-            $login          = $login_name.$login_surname;
-            $login_clean    = preg_replace('/\s+/', '', $login);
-            $login_cod      = $login_clean.$this->randomGenerate(4);
+            // $login_name     = substr($name, 0, 3);
+            // $login_surname  = substr($surname, 0, 3);
+            // $login          = $login_name.$login_surname;
+            // $login_clean    = preg_replace('/\s+/', '', $login);
+            // $login_cod      = $login_clean.$this->randomGenerate(4);
+            // $check = User::where('login', $login_cod)->first();
+            // if(!$check){
+            //     return $login_cod;
+            // } else {
+            //     return $this->generateLogin($name,$surname);
+            // }
+            $login_cod      = $this->randomGenerate(10);
             $check = User::where('login', $login_cod)->first();
             if(!$check){
                 return $login_cod;
