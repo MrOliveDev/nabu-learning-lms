@@ -1,5 +1,8 @@
 <script>
 $(document).ready(function(){
+    $(".content-side.content-side-full").find(".active").toggleClass("active", false);
+    $("#outil").toggleClass("active", true);
+
     $("#MailPanel").tabs({ active: "{{ $activeTab }}" });
 
     Dashmix.helpers(['notify']);

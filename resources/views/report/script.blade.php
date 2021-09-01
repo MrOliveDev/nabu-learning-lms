@@ -1,5 +1,8 @@
 <script>
 $(document).ready(function(){
+    $(".content-side.content-side-full").find(".active").toggleClass("active", false);
+    $("#rapports").toggleClass("active", true);
+
     $("#ReportPanel").tabs({ active: 0 });
 
     Dashmix.helpers(['notify']);
