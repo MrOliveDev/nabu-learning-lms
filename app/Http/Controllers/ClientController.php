@@ -65,7 +65,6 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        // var_dump($request->all());exit;
         $request->validate([
             'login' => 'required',
             'password' => 'required',
@@ -77,23 +76,23 @@ class ClientController extends Controller
             'lang' => 'required',
             'pack' => 'required'
         ]);
-
+        
         $interfaceCfg = InterfaceCfgModel::create([
             'interface_color' => $request->input('interface_color'),
             'interface_icon' => $request->input('base64_img_data'),
             'admin_id' => '1'
         ]);
-
+        
         $config = ConfigModel::create([
             "id"=>$interfaceCfg->id,
             "config"=>json_encode(array("PPTImport"=>$request->input('pptimport')))
         ]);
-
+        
         $contact_info = array(
             "address" => $request->input('contact_info'),
             "email" => $request->input('email')
         );
-
+        
         $client = User::create([
             'login' => $request->input('login'),
             'password' => base64_encode($request->input('password')),
@@ -109,9 +108,9 @@ class ClientController extends Controller
         ]);
         // var_dump($client->id);
         // exit;
-        User::create_admin_table($client->id);
-
-        return redirect('/clients')->with('success', 'Client has been added');
+        
+        // return response()->json(['success'=>'Client has been added']);
+        return redirect("/clients")->with("success", 'Client has been added');
     }
 
     /**
@@ -123,9 +122,6 @@ class ClientController extends Controller
     public function show(Request $request, $id)
     {
 
-        //
-        // return view('student.view',compact('student'));
-
     }
 
     /**
@@ -136,9 +132,7 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
-        // return view('student.edit',compact('student'));
 
-        //
     }
 
     /**
@@ -150,7 +144,6 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // print_r($request->all());exit;
         $request->validate([
             'login' => 'required',
             'company' => 'required',
@@ -161,40 +154,28 @@ class ClientController extends Controller
             'lang' => 'required',
             'pack' => 'required'
         ]);
-
+        
         $contact_info = array(
             'address' => $request->input('contact_info'),
             'email' => $request->input('email')
         );
-        // print_r($request->input('login')."\n".'login');
-        // print_r($request->input('company')."\n".'company');
-        // print_r($request->input('password')."\n".'password');
-        // print_r($request->input('firstname')."\n".'firstname');
-        // print_r($request->input('lastname')."\n".'lastname');
-        // print_r($request->input('address')."\n".'address');
-        // print_r($request->input('email')."\n".'email');
-        // print_r($request->input('lang')."\n".'lang');
-        // print_r($request->input('pack')."\n".'pack');
-        //  exit;
-
+        
         $client = User::find($id);
-
+        
         $interfaceCfg = InterfaceCfgModel::find($client->id_config);
         $interfaceCfg->interface_color = $request->input('interface_color');
-        // if ($request->input('base64_img_data') != null) {
         $interfaceCfg->interface_icon = $request->input('base64_img_data');
-        // }
-
+            
         $interfaceCfg->update();
-
+        
         $config = ConfigModel::find($client->id_config);
-        $tempconfig = json_decode($config->config);
-        $tempconfig->PPTImport = $request->input('pptimport');
+        if($config!=null) {
+            $tempconfig = json_decode($config->config);
+            $tempconfig->PPTImport = $request->input('pptimport');
+            $config->config = json_encode($tempconfig);
+            $config->update();
+        }
         // var_dump($tempconfig);exit;
-
-        $config->config = json_encode($tempconfig);
-
-        $config->update();
 
         $client->login = $request->input('login');
         $client->company = $request->input('company');
@@ -210,7 +191,8 @@ class ClientController extends Controller
 
         $client->update();
 
-        return redirect('/clients')->with('success', 'Client updated successfully');
+        // return response()->json(['success'=>'Client updated successfully']);
+        return redirect("/clients")->with("success", 'client updated successfully');
     }
 
     /**

@@ -86,7 +86,7 @@
                     <a class="list-group-item list-group-item-action  p-1 border-0" id="client_{{$key}}" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
-                            {{$client['company']}}
+                            {{$client['first_name']}} &nbsp {{$client["last_name"]}}
                         </div>
                         <div class="btn-group float-right">
                             <button class="btn text-white px-2 edit-button" data-idx="{{$key}}">
