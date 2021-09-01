@@ -505,9 +505,9 @@ async function previewMail(userId){
         else
             template = template.split('#username').join('');
     }
-    if(template.includes('#password')){
-        template = template.split('#password').join('########');
-    }
+    // if(template.includes('#password')){
+    //     template = template.split('#password').join('########');
+    // }
 
     $('#overviewPane').trumbowyg('html', template);
 

@@ -16,12 +16,12 @@
 <fieldset id="MailPanel">
     <ul class="nav nav-tabs border-0 mb-2 mx-4">
         <li class="nav-item">
-            <a class="nav-link m-1 rounded-1 border-0" id="histories-tab"
-                href="#historique">{{ $translation->l('Historic') }}</a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link m-1 rounded-1 border-0" id="send-tab"
                 href="#generer">{{ $translation->l('Send Mail') }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link m-1 rounded-1 border-0" id="histories-tab"
+                href="#historique">{{ $translation->l('Historic') }}</a>
         </li>
         <li class="nav-item">
             <a class="nav-link m-1 rounded-1 border-0" id="models-tab"
