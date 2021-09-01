@@ -563,4 +563,253 @@ class TrainingController extends Controller
         else
             return 'File does not exist!';
     }
+
+    /**
+     * Move the exported contents from fabrique to online.
+     *
+     * @param  Request  $request
+     * @return JSON
+     */
+    public function putOnline(Request $request )
+    {
+        $id = $request['id'];
+        $templesson = LessonsModel::where('id', $id)->first();
+        $productId = $templesson->idFabrica;
+        
+        $dir2copy = env('PRODUCTS_FABRIQUE_PATH') . $productId . "/";
+        $dir_paste = env('PRODUCTS_ONLINE_PATH') . $productId . "/";
+        $folder_courses = "courses/";
+        
+        $list_fichiers = $this->list_fichiers($dir2copy);
+
+        foreach ($list_fichiers as $file) {
+            $file_path = $folder_courses . $file;
+            if (file_exists($dir_paste . $file_path)) {
+                //On supprime dans screenstat les id supprimer dans l'xml
+                $listeIds = $this->getItemDeleted($dir2copy . $file_path, $dir_paste . $file_path);
+                
+                //$this->deleteItemsFormScreenStat($listeIds);
+            }
+        }
+
+        $put = $this->putCourseOnline($dir2copy, $dir_paste,$id, $productId);
+
+        return response()->json(["success" => true, "product_id" => $productId]);
+    }
+
+    public function clearDir($folder) {
+        $ouverture = @opendir($folder);
+        if (!$ouverture) {
+            return;
+        }
+        while ($file = readdir($ouverture)) {
+            if ($file == '.' || $file == '..') {
+                continue;
+            }
+            if (is_dir($folder . "/" . $file)) {
+                $r = $this->clearDir($folder . "/" . $file);
+                if (!$r) {
+                    return false;
+                }
+            } else {
+                $r = @unlink($folder . "/" . $file);
+                if (!$r) {
+                    return false;
+                }
+            }
+        }
+        closedir($ouverture);
+
+        $r = @rmdir($folder);
+        if (!$r) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function list_fichiers($dirname) {
+        $dir = opendir($dirname);
+        $return = array();
+        while ($file = readdir($dir)) {
+            if ($file != '.' && $file != '..' && !is_dir($dirname . $file)) {
+                $return [] = $file;
+            }
+        }
+        closedir($dir);
+        return ($return);
+    }
+
+    public function putCourseOnline($dir2copy, $dir_paste,$curso_id, $idFabrica,$database = false){
+        $count = 0;
+        $error = "";
+        if (is_dir($dir_paste)) {
+            $clear = $this->clearDir($dir_paste);
+            if (!$clear) {
+                return $clear;
+            }
+        }
+        if (is_dir($dir2copy)) {
+            // Si oui, on l'ouvre
+            $dh = opendir($dir2copy);
+            if ($dh) {
+                while (($file = readdir($dh)) !== false) {
+                    if (!is_dir($dir_paste) && !$database) {
+                        $result = mkdir($dir_paste, 0777);
+                        if(!$result) {
+                            $error = array("error"=>"nt> Unable to create $dir_paste");
+                        }
+                    }
+                    if (is_dir($dir2copy . $file) && $file != '..' && $file != '.') {
+                        $this->putCourseOnline($dir2copy.$file.'/', $dir_paste.$file.'/', $curso_id, $idFabrica, $database);
+                    } else if ($file != '..' && $file != '.') {
+                        if(!$database) {
+                            $result = copy($dir2copy . $file, $dir_paste . $file);
+                            if(!$result) {
+                                $error = array("error"=>"nt> Unable to copy $file in $dir_paste");
+                            }
+                        }
+                        if(strpos($file, "course_")>-1) {
+                            $count++;
+                            $result = $this->insertCourseXMLDatas($dir_paste.$file, $curso_id, $idFabrica, $database);
+                            if(!$result) {
+                                $error = array("error"=>"nt> Entry couldn't be created in database for $file");
+                            }
+                        }
+                    }
+                }
+                closedir($dh);
+            } else {
+                $error = array("error"=>"nt> opendir $dir2copy failed !");
+            }
+        }
+        return array("success"=>$result, "count"=>$count, "error"=>$error);
+    }
+
+    public function getItemDeleted($file1, $file2) {
+        return array_diff($this->XMLtoArray($file1), $this->XMLtoArray($file2));
+    }
+
+    public function deleteItemsFormScreenStat($arrayIds) {
+        $result = true;
+        /*foreach ($arrayIds as $id) {
+            $sql = "DELETE FROM screen_stats WHERE id_screen = $id";
+            $result = $this->getDatas($sql);
+            if (!$result) {
+                break;
+            }
+        }*/
+        return $result;
+    }
+
+    public function insertCourseXMLDatas($url, $curso_id, $product_id, $database=false) {
+        $this->module_structure = array();
+        $this->screens_titles = array();
+        $xml = new SimpleXMLElement($url, null, true);
+        $test = "";
+        $error = "";
+        if ($xml === false) {
+            echo "Failed loading XML: ";
+            foreach (libxml_get_errors() as $error) {
+                echo "<br>", $error->message;
+                $error .= $error->message."\n";
+            }
+            return array("error"=>$error);
+        } else {
+            $lang = (string) $xml->attributes()->lang;
+            $xml_ref = explode("_", $xml->attributes()->ref);
+            $course_id = $xml_ref[1];
+            $datas_bdd = array();
+            $datas_bdd["lang"] = $lang;
+            $datas_bdd["course_id"] = $course_id;
+            $datas_bdd["curso_id"] = $curso_id;
+            $datas_bdd["product_id"] = $product_id;
+            $datas_bdd["profile"] = $xml_ref[3];
+            $datas_bdd["screens_total"] = (string) $xml->statistics->screens->attributes()->total;
+            $datas_bdd["xml_src"] = json_encode($xml);
+            $this->getLessonsDatas($xml->children()->group, $lang, $product_id);
+            $datas_bdd["module_structure"] = json_encode($this->module_structure);
+            $datas_bdd["screens_titles"] = json_encode($this->screens_titles);
+
+            $count = LessonCourses::where('course_id', $course_id)->where('curso_id', $curso_id)->count();
+            if ($count > 0) {
+                $lessonCourse = LessonCourses::where('course_id', $course_id)->where('curso_id', $curso_id)->first();
+                foreach($datas_bdd as $column => $value){
+                    $lessonCourse[$column] = $value;
+                }
+                $lessonCourse->save();
+            } else {
+                LessonCourses::create($datas_bdd);
+
+            }
+        }
+    }
+
+    public function getLessonsDatas($xml, $lang, $product_id, $parent = null) {
+        foreach ($xml->children() as $child) {
+            $type = (string) $child->getName();
+            if ($type == "group" || $type == "item") {
+
+                $id = (string) $child->attributes()->id;
+                $item = array();
+                $item['id'] = $id;
+                $item['nav'] = (string) $child->attributes()->nav;
+                $item['type'] = $type;
+                $item['title'] = (string) $child->title->$lang;
+                $item['parent'] = $parent;
+                $item['ref'] = (string) $child->attributes()->nav;
+                if ($type == "item" && $child->attributes()->hasEvaluation) {
+                    $item['hasevaluation'] = (string) $child->attributes()->hasEvaluation;
+                }
+                if ($child->attributes()->ref) {
+                    $item['ref'] = (string) $child->attributes()->ref;
+                    $groupnames = $this->getPoolDatas($product_id, $item['ref'], $lang);
+                    if (count($groupnames) > 0) {
+                        $item['groupnames'] = $groupnames;
+                    }
+                }
+
+                array_push($this->module_structure, $item);
+
+                array_push($this->screens_titles, array("id" => $item['id'], "title" => $item['title']));
+
+                $children = $child->children();
+                if (count($children) > 1) {
+                    $sub = $this->getLessonsDatas($child, $lang, $product_id, $item['id']);
+                }
+
+            }
+        }
+    }
+
+    public function getPoolDatas($product_id, $ref, $lang) {
+        $url = env('PRODUCTS_FABRIQUE_PATH') . "$product_id/content/$ref/" . $ref . "_" . $lang . ".xml";
+        $pools_arr = array();
+
+        $xml = new SimpleXMLElement($url, null, true);
+
+        if ($xml === false) {
+            echo "Failed loading XML at $xml: ";
+            foreach (libxml_get_errors() as $error) {
+                echo "<br>", $error->message;
+            }
+        } else {
+            $zone1 = $xml->children()->content->children()->zone1;
+            if($zone1 && $zone1->children() && $zone1->children()->evaluation) {
+                $pools = $zone1->children()->evaluation->children()->pools;
+                if (count($pools) > 0) {
+                    foreach ($pools->children() as $pool) {
+                        $pool_item = array();
+                        $pool_item['id'] = $pool->attributes()->id;
+                        if ($pool->attributes()->name) {
+                            $pool_item['name'] = $pool->attributes()->name;
+                        }
+                        $pools_arr[] = $pool_item;
+                    }
+                }
+            }
+        }
+
+        return $pools_arr;
+    }
 }

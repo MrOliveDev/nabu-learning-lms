@@ -580,7 +580,25 @@ var itemTemplate = function(event) {
     window.open(baseURL + "/fabrique_editor" + "/#/open/" + parent.find('.item-play').attr('data-fabrica') + "/dae8efee8afc1994204d76ee963bcfb1");
 };
 var itemRefresh = function(event) {
-    var parent = $(this).parents('.list-group-item');
+    event.preventDefault();
+
+    $.ajax({
+        url: 'putOnline',
+        method: 'post',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {id:$(this).attr('data-item-id')},
+        success: function(res) {
+            if(res.success){
+                notification("Successfully Refreshed", 1);
+            } else
+                notification(res.message, 2);
+        },
+        error: function(err) {
+            notification("Sorry, You have an error!", 2);
+        }
+    });
 };
 
 var curTrainingId = -1;
