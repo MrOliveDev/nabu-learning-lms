@@ -21,6 +21,11 @@ var userDateSort = false,
     showDateSort = false,
     showNameSort = false;
 
+/**
+ * notification action
+ * @param {*} str 
+ * @param {*} type 
+ */
 var notification = function(str, type) {
     switch (type) {
         case 1:
@@ -45,6 +50,11 @@ var notification = function(str, type) {
 
 };
 
+/**
+ * clear class Name
+ * @param {*} i 
+ * @param {*} highlighted 
+ */
 var clearClassName = function(i, highlighted) {
     $(highlighted).find(".btn").each(function(index, btnelement) {
         $(btnelement).removeClass("active");
@@ -54,6 +64,9 @@ var clearClassName = function(i, highlighted) {
     }
 };
 
+/**
+ * item on the list db click action
+ */
 var itemDBClick = function() {
     $(this).parents('.list-group').children(".list-group-item").each(function(i, e) {
         if ($(e).hasClass("active")) {
@@ -62,7 +75,10 @@ var itemDBClick = function() {
     });
 };
 
-
+/**
+ * action for right list item
+ * @param {*} e 
+ */
 var rightItemClick = function(e) {
     var parent = $(event.target);
     if (!parent.is('.list-group-item')) {
@@ -76,6 +92,10 @@ var rightItemClick = function(e) {
 
 };
 
+/**
+ * action for item button
+ * @param {*} e 
+ */
 var btnClick = function(e) {
     if (!$(this).hasClass('toggle2-btn')) {
         e.stopPropagation();
@@ -102,6 +122,10 @@ var btnClick = function(e) {
     $(this).addClass("active");
 };
 
+/**
+ * clear list 
+ * @param {*} element 
+ */
 var clearTable = function(element) {
     element.each(function(i, em) {
         if ($(em).find('.list-group-item').length != 0) {
@@ -110,6 +134,10 @@ var clearTable = function(element) {
     });
 };
 
+/**
+ * action that clear the form inputs
+ * @param {*} element 
+ */
 var clearFrom = function(element) {
     element.find('input, select').each(function(i, forminput) {
         if ($(forminput).attr('name') != '_token' && $(forminput).attr('name') != '_method') {
@@ -118,16 +146,28 @@ var clearFrom = function(element) {
     });
 };
 
+/**
+ * force any tab in the tab-nav
+ * @param {*} name 
+ */
 var goTab = function(name) {
     $('#' + name + '-tab').click();
 };
 
+/**
+ * email button action
+ * @param {*} event 
+ */
 var emailBtn = function(event) {
     var item = $(event.target).closest(".btn");
     var id = item.attr("data-id");
     window.location.href = baseURL+"/sendemail?sessionId="+id;
 }
 
+/**
+ * toggle show of the filter
+ * @param {*} event 
+ */
 var filterToggleShow = function(event) {
     var parent = $(this).parents('.toolkit');
     parent.children(".toolkit-filter").toggle();
@@ -168,6 +208,10 @@ var filterToggleShow = function(event) {
     parent.find('.filter-date-btn i').toggleClass('fa-sort-numeric-down', false);
 };
 
+/**
+ * toolkit add item action
+ * @param {*} event 
+ */
 var toolkitAddItem = function(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -182,7 +226,10 @@ var toolkitAddItem = function(event) {
 
 };
 
-
+/**
+ * action when the session item clicked show the linked training(content) | participant(users) and session info
+ * @param {*} e 
+ */
 var sessionItemClick = function(e) {
     $('#session_form').toggle(true);
     $('#div_A .list-group-item').removeClass('active');
@@ -261,6 +308,12 @@ var sessionItemClick = function(e) {
         }
     });
 };
+
+/**
+ * action to create the user item
+ * @param {*} data 
+ * @returns 
+ */
 var createUserItem = function(data) {
     var status_temp = data.status == '1' ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
@@ -282,6 +335,11 @@ var createUserItem = function(data) {
     element.find('.btn-group').append(unlinkbtn);
     return $(element);
 };
+/**
+ * action when group item is created
+ * @param {*} data 
+ * @returns 
+ */
 var createGroupItem = function(data) {
     var status_temp = data.value.status == '1' ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
@@ -316,6 +374,12 @@ var createGroupItem = function(data) {
     })
     return element;
 };
+
+/**
+ * action when training item is created
+ * @param {*} data 
+ * @returns 
+ */
 var createContentItem = function(data) {
     var status_temp = data.status == '1' ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
@@ -337,6 +401,12 @@ var createContentItem = function(data) {
     element.find('.btn-group').append(unlinkbtn);
     return element;
 }
+
+/**
+ * action that display the new session
+ * @param {*} data 
+ * @returns 
+ */
 var createSessionData = function(data) {
     var status_temp = data.status == '1' ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
@@ -371,6 +441,11 @@ var createSessionData = function(data) {
     return element;
 }
 
+/**
+ * update session item action
+ * @param {*} data 
+ * @param {*} target 
+ */
 var updateSessionData = function(data, target) {
     $('#' + target + " .item-lang").html(data.language_iso.toUpperCase());
     $('#' + target + " input[name='item-name']").val(data.name);
@@ -383,14 +458,27 @@ var refreshGroupBtn = function(e) {
     //     ajax
 }
 
+/**
+ * action when form input item changed 
+ * @param {*} event 
+ */
 var formInputChange = function(event) {
     console.log($(event.target).val());
 };
 
+/**
+ * form checkbox changed action
+ * @param {*} e 
+ */
 var formStatusChange = function(e) {
     $(this).val($(this).prop('checked'));
 };
 
+/**
+ * prevent the submit action
+ * @param {*} event 
+ * @returns 
+ */
 var submitFunction = function(event) {
     console.log($(this).attr('action'));
     console.log($("#cate-status").attr("checked"));
@@ -398,6 +486,11 @@ var submitFunction = function(event) {
     return false;
 };
 
+/**
+ * action when the submit button is clicked
+ * @param {*} event 
+ * @returns 
+ */
 var submitBtn = function(event) {
     var formname = $(this).attr('data-form');
     if ($('#' + formname).attr('action')) {
@@ -463,12 +556,20 @@ var submitBtn = function(event) {
     }
 };
 
+/**
+ * cancel form action 
+ * @param {*} event 
+ */
 var cancelBtn = function(event) {
     var parent = $(event.target).parents('form');
     parent.toggle(false);
     clearFrom($('#session_form'));
 };
 
+/**
+ * item remove action
+ * @param {*} element 
+ */
 var item_delete = function(element) {
     var parent = element.parents('.list-group-item');
     var id = parent.attr('id').split('_')[1];
@@ -493,6 +594,10 @@ var item_delete = function(element) {
     });
 };
 
+/**
+ * item remove action 
+ * @param {*} event 
+ */
 var itemDelete = function(event) {
     elem = $(this);
     cate = $(this).attr('data-content');
@@ -534,6 +639,10 @@ var itemDelete = function(event) {
     }));
 };
 
+/**
+ * button action for detatch item from the session item
+ * @param {*} e 
+ */
 var detachLinkTo = function(e) {
     var parent = $(this).parents('.list-group-item');
     var isSubItem = parent.attr('data-sub');
@@ -596,6 +705,10 @@ var detachLinkTo = function(e) {
     }, $(this));
 };
 
+/**
+ * 
+ * @param {*} event 
+ */
 var refreshGroupBtn = function(event) {
     var parent = $(this).parents('.list-group-item');
     var id = parent.attr('id');
@@ -608,6 +721,12 @@ var refreshGroupBtn = function(event) {
 
 }
 
+/**
+ * combine session item to participant | content item
+ * @param {*} value 
+ * @param {*} id 
+ * @returns 
+ */
 var combine = function(value, id) {
     var combineArray = value.split('_').filter(function(item, i, d) {
         return item != id && item != null;
@@ -616,6 +735,11 @@ var combine = function(value, id) {
     return combineArray;
 };
 
+/**
+ * api call to disconnect participant | content item from session item
+ * @param {*} connectiondata 
+ * @param {*} element 
+ */
 var detachCall = function(connectiondata, element) {
     $.post({
         url: baseURL + '/sessionjointo',
@@ -639,6 +763,10 @@ var detachCall = function(connectiondata, element) {
     });
 };
 
+/**
+ * filter button in the filter bar in toolkit
+ * @param {*} event 
+ */
 var filterCompanyBtn = function(event) {
     // var activedTab = $('#RightPanel').find('.ui-state-active a').attr('href');
     switch ($(this).html()) {
@@ -659,6 +787,10 @@ var filterCompanyBtn = function(event) {
     }
 };
 
+/**
+ * when click filter bar button in the toolkit
+ * @param {*} event 
+ */
 var filterFunctionBtn = function(event) {
     switch ($(this).html()) {
         case 'function +<i></i>':
@@ -677,6 +809,12 @@ var filterFunctionBtn = function(event) {
     }
 };
 
+/**
+ * initialize the filter bar
+ * @param {*} element 
+ * @param {*} category 
+ * @param {*} defaultStr 
+ */
 var clearFilterCategory = function(element, category, defaultStr) {
     $(element).val('');
     $(element).html(defaultStr);
@@ -686,6 +824,12 @@ var clearFilterCategory = function(element, category, defaultStr) {
     $('#' + category).find('.toggle2-btn').toggle(false);
 };
 
+/**
+ * filter bar toggle search 
+ * @param {*} element 
+ * @param {*} category 
+ * @param {*} defaultStr 
+ */
 var toggleAndSearch = function(element, category, defaultStr) {
     if ($('#' + category).find('.list-group-item.active').length) {
         var items = [],
@@ -713,6 +857,11 @@ var toggleAndSearch = function(element, category, defaultStr) {
     }
 };
 
+/**
+ * get the filter category of the toolkit
+ * @param {*} element 
+ * @param {*} category 
+ */
 var getFilterCategory = function(element, category) {
     $(activedTab).fadeOut(1);
     $('#' + category).fadeIn(1);
@@ -727,6 +876,9 @@ var getFilterCategory = function(element, category) {
     $('#' + category).find('.list-group-item').each(clearClassName);
 };
 
+/**
+ * cancel the filter mode of the filter bar
+ */
 var cancelFilterCategoryAll = function() {
     $('.filter-function-btn').each(function(i, e) {
         if ($(e).html() != 'function +<i></i>') {
@@ -745,6 +897,11 @@ var cancelFilterCategoryAll = function() {
         }
     });
 };
+
+/**
+ * toggle show about the checkbox in the filter list
+ * @param {*} evt 
+ */
 var toggle2Btn = function(evt) {
     // evt.stopPropagation();
     var tooltipid = $(this).parents('.list-group').attr('data-filter');
@@ -761,6 +918,10 @@ var toggle2Btn = function(evt) {
     $(this).parents('.list-group-item').find('.btn.active').removeClass('active');
 };
 
+/**
+ * search action for actived tab items
+ * @param {*} event 
+ */
 var searchfilter = function(event) {
     var parent = $(event.target).parents('.toolkit');
     var items = null;
@@ -844,6 +1005,10 @@ var searchfilter = function(event) {
     }
 };
 
+/**
+ * sort filter by company | position(function)
+ * @param {*} event 
+ */
 var sortfilter = function(event) {
     var parent = $(event.target).parents('.toolkit');
     var $items = null,
@@ -1015,6 +1180,10 @@ var sortfilter = function(event) {
     $(this).siblings('button').toggleClass('.active', false);
 };
 
+/**
+ * action when user clicked the any tab
+ * @param {*} event 
+ */
 var tabClick = function(event) {
     if ($(this).parents('fieldset').attr('id') == 'LeftPanel') {
         switch ($(this).attr('id')) {
@@ -1068,6 +1237,10 @@ var tabClick = function(event) {
     }
 };
 
+/**
+ * action when participant | training item dbclicked 
+ * @param {*} event 
+ */
 var handlerDBClick = function(event) {
     var heightToggle;
     if ($(this).parents('fieldset').attr('id') == 'LeftPanel') {
@@ -1096,6 +1269,11 @@ var handlerDBClick = function(event) {
     }
 };
 
+/**
+ * action when we toggle the checkbox of status of session.
+ * if out of date, session can't be online
+ * @param {*} event 
+ */
 var statusBtn = function(event) {
     var today = $('meta[name="date"]').attr('content');
     if($(event.target).prop('checked')==true){
@@ -1109,6 +1287,10 @@ var statusBtn = function(event) {
 
 var dragitem = null;
 
+/**
+ * action when session item started to drag
+ * @param {*} event 
+ */
 function dragStart(event) {
     dragitem = Array();
     $(this).parents(".list-group").children('.active.list-group-item').each(function(i, dragelem) {
@@ -1121,23 +1303,47 @@ function dragStart(event) {
     // console.log(dragitem);
 }
 
+/**
+ * action when drag point forcused in any item
+ * @param {*} event 
+ */
 function dragOver(event) {
     $(event.target).css('opacity', '50%');
     event.preventDefault();
 }
 
+/**
+ * action when drag forcus leave
+ * @param {*} event 
+ */
 function dragLeave(event) {
     $(event.target).css('opacity', '100%');
     event.preventDefault();
 }
 
+/**
+ * action when drag end
+ * @param {*} event 
+ */
 function dragEnd(event) {
     $('main').css('cursor', 'default');
 }
 
+/**
+ * api to connect item to session item 
+ * @param {*} parent 
+ * @param {*} sendData 
+ * @returns 
+ */
 var sessionLinkTo = function(parent, sendData) {
     return new Promise((resolve, reject) => {
         $.post({
+            url: baseURL + '/sessionjointo',
+            url: baseURL + '/sessionjointo',
+            url: baseURL + '/sessionjointo',
+            url: baseURL + '/sessionjointo',
+            url: baseURL + '/sessionjointo',
+            url: baseURL + '/sessionjointo',
             url: baseURL + '/sessionjointo',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1164,6 +1370,11 @@ var sessionLinkTo = function(parent, sendData) {
     })
 }
 
+/**
+ * action when item dropped to the session item
+ * @param {*} event 
+ * @param {*} item 
+ */
 async function dropEnd(event, item) {
     $(event.target).css('opacity', '100%');
     var parent = $(event.target);
@@ -1247,16 +1458,16 @@ async function dropEnd(event, item) {
                     cate = 'participant';
                     break;
                 case "training":
-                    //                     if(content.length!=0){
-                    //                        var repeat = content.filter(function(contentItem){
-                    //                            return contentItem == droppeditem_id;
-                    //                        })
-                    //                        if(repeat.length==0){
-                    //                            content.push(droppeditem_id);
-                    //                        }
-                    //                     } else {
-                    //                         content.push(droppeditem_id);
-                    //                     }
+//                     if(content.length!=0){
+//                        var repeat = content.filter(function(contentItem){
+//                            return contentItem == droppeditem_id;
+//                        })
+//                        if(repeat.length==0){
+//                            content.push(droppeditem_id);
+//                        }
+//                     } else {
+//                         content.push(droppeditem_id);
+//                     }
 
                     content = droppeditem_id;
                     $(event.target).attr('data-content', content);
@@ -1285,6 +1496,10 @@ async function dropEnd(event, item) {
 
 }
 
+/**
+ * participant tab click action
+ * @param {*} e 
+ */
 var participateClick = function(e) {
     $('#paticipant-group').toggle(true);
     $('#content-group').toggle(false);
@@ -1292,6 +1507,10 @@ var participateClick = function(e) {
     goTab('students');
 }
 
+/**
+ * content tab click action
+ * @param {*} e 
+ */
 var contentClick = function(e) {
     $('#paticipant-group').toggle(false);
     $('#content-group').toggle(true);
@@ -1301,7 +1520,9 @@ var contentClick = function(e) {
     $('#cate-toolkit .filter-company-btn').toggle(false);
 }
 
-
+/**
+ * when page is ready to use, actions
+ */
 $(document).ready(function() {
 
     $('#LeftPanel .toolkit>div').css('background-color', 'var(--session-h)');
@@ -1353,6 +1574,9 @@ $('#table-content-tab').click(contentClick);
 
 $('#session .list-group-item').click(sessionItemClick);
 $('.refresh-group').click(refreshGroupBtn);
+/**
+ * update sequence of training items
+ */
 $("#table-content .list-group").sortable({
     update: function(event, ui) {
         var src = $(this).find('.list-group-item:first').attr('data-src');

@@ -155,6 +155,12 @@ class SessionController extends Controller
         return response()->json(["success" => true]);
     }
 
+    /**
+     * Join session to participant(user | group) | content(training)
+     * 
+     * @param Request $request
+     * @return Response Json data | false(fail)
+     */
     public function sessionJoinTo(Request $request)
     {
         $participantData = $request->post("participant");

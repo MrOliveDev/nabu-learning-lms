@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\SessionModel;
 
+
+/**
+ * Model that concentrated with session table
+ */
 class SessionModel extends Model
 {
     use HasFactory;
@@ -32,6 +36,11 @@ class SessionModel extends Model
 
     public $timestamps = false;
 
+    /**
+     * get detailed session info by session id
+     * @param int $id: session id
+     * @return model item
+     */
     public function scopeGetSessionPageInfoFromId($query, $id)
     {
         $result = $query->select(
@@ -46,6 +55,9 @@ class SessionModel extends Model
         return $result;
     }
 
+    /**
+     * get the whole session info for session manage page.
+     */
     public function scopeGetSessionPageInfo($query)
     {
 
@@ -61,6 +73,10 @@ class SessionModel extends Model
         return $result;
     }
 
+    /**
+     * get training data for session item
+     * @param encoded_json $content_data: training info that contained to session
+     */
     public function scopeGetContentDataFromSession($query, $content_data)
     {
         // $array = [];
@@ -89,6 +105,12 @@ class SessionModel extends Model
         }
         return null;
     }
+
+    /**
+     * get participant data from session
+     * @param encoded_json $participant_data 
+     * @return array list 
+     */
     public function scopeGetParticipantDataFromSession($query, $participant_data)
     {
         $groupData = array();
@@ -141,6 +163,11 @@ class SessionModel extends Model
         return array('group' => $groupData, 'student' => $studentData, 'teacher' => $teacherData);
     }
 
+    /**
+     * get the session info that contains the student.
+     * @param int $id:student id
+     * @return training array list
+     */
     public function scopeGetTrainingsForStudent($query, $id)
     {
         // $user = User::find($id);
@@ -245,6 +272,12 @@ class SessionModel extends Model
         return $trainings;
     }
 
+    /**
+     * get participant list from session item for admindash page.
+     * @param encoded_json $participant_data
+     * @param int $session_id
+     * @return item_list
+     */
     public function scopeGetParticipantListFromSessionForDash($query, $participant_data, $session_id)
     {
         DB::connection('mysql_reports')->unprepared('CREATE TABLE IF NOT EXISTS `tb_screen_optim_'.$session_id.'` (
@@ -327,6 +360,11 @@ class SessionModel extends Model
         return array('group' => $groupData, 'student' => $studentData, 'teacher' => $teacherData);
     }
 
+    /**
+     * get students from session 
+     * @param encoded_json $participant_data
+     * @return item list
+     */
     public function scopeGetStudentsFromSession($query, $participant_data)
     {
         $studentData = array();
@@ -349,6 +387,11 @@ class SessionModel extends Model
         return $studentData;
     }
 
+    /**
+     * get session from user id
+     * @param int $user_id
+     * @return session item list
+     */
     public function scopeGetSessionFromUser($query, $user_id){
         $sessions = SessionModel::all();
         $result = array();
@@ -412,6 +455,11 @@ class SessionModel extends Model
         return $result;
     }
 
+    /**
+     * get teacher data from session
+     * @param int $session_id
+     * @return teacher array list
+     */
     public function scopeGetTeachersFromSession($query, $session_id) {
         $participant_data = SessionModel::find("session_id")!=null?SessionModel::find('session_id')->participants:null;
         $teacherData = array();
@@ -434,6 +482,10 @@ class SessionModel extends Model
         return $teacherData;
     }
 
+    /**
+     * get student from teacher who is joined same session.
+     * @param int $teacher_id
+     */
     public function scopeGetStudentFromOwnedTeacher($query, $teacher_id) {
         $sessions = SessionModel::getSessionFromUser($teacher_id);
         $result = array();
@@ -443,6 +495,11 @@ class SessionModel extends Model
         return $result;
     }
 
+    /**
+     * get user from session by user type
+     * @param int $type
+     * @return item list
+     */
     public function scopeGetUserFromSessionByType($query, $type) {
         $sessions = SessionModel::where("id_creator", session("client"))->get();
         $result = array();
