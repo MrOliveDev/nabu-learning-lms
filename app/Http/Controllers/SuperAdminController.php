@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TranslateModel;
+use App\Models\User;
 
 class SuperAdminController extends Controller
 {
@@ -20,7 +21,8 @@ class SuperAdminController extends Controller
      */
     public function index()
     {
-        return view('superadminsettings', ['sidebardata' => $this->sidebarData]);
+        $password = base64_decode(auth()->user()->password);
+        return view('changepassword')->with(compact('password'));
     }
 
 
@@ -88,5 +90,20 @@ class SuperAdminController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function changePassword(Request $request) {
+        $authed_user = User::find(session("user_id"));
+
+        if($authed_user!=null){
+            $authed_user->password = base64_encode($request->post("new_password"));
+
+            $authed_user->update();
+            // return redirect()->route('changepassword', ['success' => 1]);
+            return redirect("/changepassword")->with("success", "Change password successed!");
+        }
+        
+        // return redirect()->route('changepassword', ['success' => 0]);
+        return redirect("/changepassword")->with("success", "");
     }
 }

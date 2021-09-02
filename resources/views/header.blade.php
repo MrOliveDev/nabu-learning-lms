@@ -56,6 +56,9 @@
                         <!-- END Side Overlay -->
 
                         <!-- <div role="separator" class="dropdown-divider"></div> -->
+                        <a class="dropdown-item" href="{{ url('/changepassword') }}">
+                            <i class="fa fa-fw fa-key mr-1"></i> {{ $translation->l('Change password') }}
+                        </a>
                         <a class="dropdown-item" href="{{ url('/logout') }}">
                             <i class="far fa-fw fa-arrow-alt-circle-left mr-1"></i> {{ $translation->l('Sign Out') }}
                         </a>
