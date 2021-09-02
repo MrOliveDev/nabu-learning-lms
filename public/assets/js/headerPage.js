@@ -78,4 +78,23 @@ $(document).ready(function(e){
             console.log("You have an error", err);
         })
     });
+    if($("header").attr("data-user-type")=="1") {
+        var menuBackground = $("header").attr("data-menuBackground");
+        var pageBackground = $("header").attr("data-pageBackground");
+        var iconOverColor = $("header").attr("data-iconOverColor");
+        var iconDefaultColor = $("header").attr("data-iconDefaultColor");
+
+        $(".simplebar-content").css("background-color", menuBackground);
+        $("body").css("background-color", pageBackground);
+        $(".nav-main-link").hover(function(){
+            $(this).css("color", iconOverColor);
+            $(this).css("background-color", menuBackground);
+        }, function() {
+            $(this).css("color", iconDefaultColor);
+        });
+        $(".nav-main-link.active").css("color", iconOverColor)
+
+        $(".nav-main-link").css("color", iconDefaultColor);
+
+    }
 })

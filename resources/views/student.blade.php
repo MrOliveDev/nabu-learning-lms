@@ -13,6 +13,7 @@
     <script
         src="{{ asset('assets/js/plugins/jquery-password-validation-while-typing/js/jquery.passwordRequirements.min.js') }}">
     </script>
+    <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
     <script src="{{ asset('assets/js/userPage.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.form.js') }}"></script>
 

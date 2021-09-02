@@ -26,6 +26,8 @@ var userDateSort = false,
     showDateSort = false,
     showNameSort = false;
 
+var selectStart = null;
+
 // Dashmix.helpers('notify', {message: 'Your message!'});
 
 /**
@@ -114,11 +116,45 @@ var itemDBClick = function() {
  */
 var leftItemClick = function(e) {
     // e.stopPropagation();
-    if (!$(this).hasClass("active")) {
-        $(this).addClass("active");
+    var target = $(e.target).closest(".list-group-item");
+    var category = target.attr("id").split("_")[0];
+    if (!target.hasClass("active")) {
+        if(selectStart=="" || selectStart == null){
+            if(e.shiftKey) {
+                selectStart = target.attr("id").split("_")[1];
+            } else {
+                selectStart = null;
+            }
+        } else {
+            if(e.shiftKey){
+                var itemList = target.parents(".list-group").find(".list-group-item").map(function(){
+                    return $(this).attr("id").split("_")[1];
+                }).toArray();
+                if(itemList.indexOf(selectStart)!=-1) {
+                    var selectEnd = target.attr("id").split("_")[1];
+                    var startIndex = itemList.indexOf(selectEnd);
+                    var endIndex = itemList.indexOf(selectStart);
+                    if(endIndex >= startIndex) {
+                        for(let i = startIndex ; i <= endIndex ; i++) {
+                            $("#"+category+"_"+itemList[i]).toggleClass("active", true);
+                        }
+                    } else {
+                        for(let i = endIndex ; i <= startIndex ; i++) {
+                            $("#"+category+"_"+itemList[i]).toggleClass("active", true);
+                        }
+                    }
+
+                    selectStart=null;
+                    
+                }
+            } else {
+                selectStart = null;
+            }
+        }
+        target.addClass("active");
         // $(this).attr('draggable', true);
     } else {
-        $(this).removeClass("active");
+        target.removeClass("active");
         // $(this).attr('draggable', false);
     }
 
@@ -2986,6 +3022,14 @@ $(document).ready(function() {
                 break;
         }
     }
+
+    
+    // $('#students .list-group').multiSelect({
+    //     unselectOn: 'body',
+    //     keepSelection: false,
+    //     filter:" > .list-group-item"
+    // });
+
 });
 $('input[name=status], input.search-filter, button.filter-company-btn, button.filter-function-btn').change(searchfilter);
 $('input.search-filter').on('keydown change keyup', searchfilter);
@@ -3062,3 +3106,124 @@ $("#password-input .input-group-append>span.input-group-text").click(function(ev
         item.toggleClass("fa-eye-slash", false).toggleClass("fa-eye", true);
     }
 });
+
+
+
+// $.fn.multiSelect = function(o) {
+//     var defaults = {
+//         multiselect: true,
+//         selected: 'active',
+//         filter:        ' > *',
+//         unselectOn:    false,
+//         keepSelection: true,
+//         list:            $(this).selector,
+//         e:                null,
+//         element:    null,
+//         start: false,
+//         stop: false,
+//         unselecting: false
+//     }
+//     return this.each(function(k,v) {
+//         var options = $.extend({}, defaults, o || {});
+//         // selector - parent, assign listener to children only
+//         $(document).on('mousedown', options.list+options.filter, function(e) {
+//             if (e.which == 1){
+//                 if (options.handle != undefined && !$(e.target).is(options.handle)) {
+//                     // TODO:
+//                     // keep propagation?
+//                     // return true;
+//                 }
+//                 options.e = e;
+//                 options.element = $(this);
+//                 multiSelect(options);
+//             }
+//             return true;
+//         });
+
+//         if (options.unselectOn) {
+//             // event to unselect
+           
+//             $(document).on('mousedown', options.unselectOn, function(e) {
+//                 if (!$(e.target).parents().is(options.list) && e.which != 3) {
+//                     $(options.list+' .'+options.selected).removeClass(options.selected);
+//                     if (options.unselecting != false) {
+//                         options.unselecting();
+//                     }
+//                 }
+//             });
+
+//         }
+
+//     });
+
+
+// }
+
+// function multiSelect(o) {
+    
+//     var target = o.e.target;
+//     var element = o.element;
+//     var list = o.list;
+
+//     if ($(element).hasClass('ui-sortable-helper')) {
+//         return false;
+//     }
+
+//     if (o.start != false) {
+//         var start = o.start(o.e, $(element));
+//         if (start == false) {
+//             return false;
+//         }
+//     }
+
+//     if (o.e.shiftKey && o.multiselect) {
+//         // get one already selected row
+//         $(element).addClass(o.selected);
+//         first = $(o.list).find('.'+o.selected).first().index();
+//         last = $(o.list).find('.'+o.selected).last().index();
+
+//         // if we hold shift and try to select last element that is upper in the list
+//         if (last < first) {
+//             firstHolder = first;
+//             first = last;
+//             last = firstHolder;
+//         }
+
+//         if (first == -1 || last == -1) {
+//             return false;
+//         }
+        
+//         $(o.list).find('.'+o.selected).removeClass(o.selected);
+
+//         var num = last - first;
+//         var x = first;
+
+//         for (i=0;i<=num;i++) {
+//             $(list).find(o.filter).eq(x).addClass(o.selected);
+//             x++;
+//         }
+//     } else if ((o.e.ctrlKey || o.e.metaKey) && o.multiselect) {
+//         // reset selection
+//         if ($(element).hasClass(o.selected)) {
+//             $(element).removeClass(o.selected);
+//         } else {
+//             $(element).addClass(o.selected);
+//         }
+//     } else {
+//         // reset selection
+//         if (o.keepSelection && !$(element).hasClass(o.selected)) {
+//            $(list).find('.'+o.selected).removeClass(o.selected);
+//            $(element).addClass(o.selected);
+//         } else {
+//            $(list).find('.'+o.selected).removeClass(o.selected);
+//            $(element).addClass(o.selected);
+//         }
+        
+//     }
+    
+//     if (o.stop != false) {
+//         o.stop($(list).find('.'+o.selected), $(element));
+//     }
+
+// }
+

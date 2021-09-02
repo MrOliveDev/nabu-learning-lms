@@ -1,5 +1,10 @@
 <script src="{{asset("assets/js/headerPage.js?v=12")}}"></script>
-<header id="page-header" data-client="{{session("client")}}">
+<header id="page-header" data-client="{{session("client")}}" data-user-type="{{session("user_type")}}"
+data-menuBackground="{{session('menuBackground')}}"
+data-pageBackground="{{session('pageBackground')}}"
+data-iconOverColor="{{session('iconOverColor')}}"
+data-iconDefaultColor="{{session('iconDefaultColor')}}"
+>
     <div class="content-header">
         <div>
             <button type="button" class="btn btn-rounded btn-dual mr-1" id="sidebar-control">

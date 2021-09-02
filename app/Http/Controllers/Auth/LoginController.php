@@ -189,7 +189,26 @@ class LoginController extends Controller
             if(count($client)!=0 && $client!=null){
                 session(["client" => $client[0]["id"]]);
             }
-
+            if(auth()->user()->type == 1) {
+                if(auth()->user()->id_config){
+                    $interface = InterfaceCfgModel::find(auth()->user()->id_config);
+                    if($interface->interface_color!=null) {
+                        $interfaceColorList = json_decode($interface->interface_color);
+                        if($interfaceColorList->menuBackground != null) {
+                            session(["menuBackground" => $interfaceColorList->menuBackground]);
+                        }
+                        if($interfaceColorList->pageBackground != null) {
+                            session(["pageBackground" => $interfaceColorList->pageBackground]);
+                        }
+                        if($interfaceColorList->iconOverColor != null) {
+                            session(["iconOverColor" => $interfaceColorList->iconOverColor]);
+                        }
+                        if($interfaceColorList->iconDefaultColor != null) {
+                            session(["iconDefaultColor" => $interfaceColorList->iconDefaultColor]);
+                        }
+                    }
+                }
+            }
         } else if(auth()->user()->type == 3) {
             $this->redirectTo = "student";
             session(["client" => auth()->user()->id_creator]);
@@ -197,8 +216,8 @@ class LoginController extends Controller
             $this->redirectTo = "training";
 
         } else {
+
             $this->redirectTo = 'dash';
-            
         }
         session(['language' => 'en']);
         $this->PermissionController->setPermission();
