@@ -250,6 +250,8 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], function () {
     Route::get('/', '\App\Http\Controllers\admin\DashController@index');
+    Route::get('changepassword', '\App\Http\Controllers\SuperAdminController@index');
+    Route::post('changepassword', '\App\Http\Controllers\SuperAdminController@changePassword');
     Route::get('admindash_getdata/{id}', '\App\Http\Controllers\admin\DashController@sessionForAdminDashboard');
     Route::post('getlessonsforstudent/{id}/{session_id}', '\App\Http\Controllers\common\DashController@getLessonsForStudent');
     Route::get('home', '\App\Http\Controllers\HomeController@index')->name('home');

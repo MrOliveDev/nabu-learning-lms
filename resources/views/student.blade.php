@@ -10,7 +10,6 @@
 
     <script src="{{ asset('assets/js/plugins/select2/js/select2.full.min.js') }}"></script>
 
-    <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
     <script
         src="{{ asset('assets/js/plugins/jquery-password-validation-while-typing/js/jquery.passwordRequirements.min.js') }}">
     </script>
