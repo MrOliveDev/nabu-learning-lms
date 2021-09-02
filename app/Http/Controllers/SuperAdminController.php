@@ -107,3 +107,4 @@ class SuperAdminController extends Controller
         return redirect("/changepassword")->with("success", "");
     }
 }
+
