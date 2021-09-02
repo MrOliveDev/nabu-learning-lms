@@ -1709,7 +1709,12 @@ var submitBtn = function(event) {
         //     }
         // }
 
-        var serialval = $("#user_form").find("select, input").map(function(){return {name:this.name, value:$(this).is(":checkbox")?this.checked?1:0:this.value}});
+        if($(event.target).parents("form").attr("id")=="user_form") {
+            var serialval = $("#user_form").find("select, input").map(function(){return {name:this.name, value:$(this).is(":checkbox")?this.checked?1:0:this.value}});
+        } else {
+            var serialval = $("#category_form").find("select, input").map(function(){return {name:this.name, value:$(this).is(":checkbox")?this.checked?1:0:this.value}});
+        }
+        
         console.log(serialval);
         $.ajax({
             url: $('#' + formname).attr('action'),
