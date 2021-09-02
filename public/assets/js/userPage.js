@@ -1765,7 +1765,7 @@ var submitBtn = function(event) {
                             email_btn.click(emailBtn);
                             notification('The company has been saved sucessfully!', 1);
                             var company_item = createCategoryData(data, 'company');
-                            company_item.append(email_btn);
+                            company_item.find(".btn-group").append(email_btn);
                             $('#companies .list-group').append(company_item);
                             $('#company').append('<option value="' + data.id + '">' + data.name + '</option>');
                             break;
