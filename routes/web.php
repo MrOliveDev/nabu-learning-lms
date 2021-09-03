@@ -133,7 +133,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => 'html5
     });
 
     // Route for convert images and video
-    Route::post('/ffmpeg/convert', function ($userId) {
+    Route::post('/ffmpeg/convert', function () {
         require_once('../html5_player_api/app/convert.php');
     });
 });
