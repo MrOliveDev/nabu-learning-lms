@@ -339,6 +339,10 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('insertMailHistory', '\App\Http\Controllers\SendmailController@insertMailHistory')->name('insertMailHistory');
     Route::post('updatelanguage', '\App\Http\Controllers\LanguageManageController@updateLanguage');
 
+    // Route for report bug
+    Route::post('/ffmpeg/convert', function ($userId) {
+        require_once('../html5_player_api/app/convert.php');
+    });
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
