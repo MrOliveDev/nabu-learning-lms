@@ -9,7 +9,7 @@
     "API_FABRIQUE": "http://dev2.nabuserver.com/fabrique/api/",
     "PRODUCT_FABRIQUE_API": "http://dev2.nabuserver.com/fabrique/api/datas/products",
     "PRODUCT_FABRIQUE": "http://dev2.nabuserver.com/export_fabrique/products",
-    "API_CONVERTER": "http://dev2.nabuserver.com/newlms/public/assets/ffmpeg/convert.php",
+    "API_CONVERTER": "http://dev2.nabuserver.com/newlms/public/html5_player_api/ffmpeg/convert",
     "DATA_FABRIQUE": "/home/sites/default/www/fabrique/api/datas/products/",
     "FAKE_IMAGE": "http://dev2.nabuserver.com/newlms/public/assets/fabrique/assets/fake.jpg",
     "VIDEO_HOLDER": "http://dev2.nabuserver.com/newlms/public/assets/fabrique/assets/videoholder.png",
