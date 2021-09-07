@@ -360,9 +360,13 @@ class SendmailController extends Controller
      */
     public function saveMailImg(Request $request){
         if(!empty($request['data'])){
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request['data']));
+            $imageName = time() . '.png';
+            file_put_contents(public_path() . '/images/' . $imageName, $data);
+            
             MailImages::create([
                 'userId' => Auth::user()->id,
-                'data' => $request['data']
+                'data' => env('APP_URL') . '/public/images/' . $imageName
             ]);
             return response()->json(["success" => true]);
         } else
@@ -404,7 +408,7 @@ class SendmailController extends Controller
             Mail::send(array(), array(), function ($message) use ($data) {
                 $message->to($data['to'])->from($data['from'], 'Nabu Learning')
                 ->subject($data['subject'])
-                ->setBody($data['content'], 'text/html');
+                ->setBody('<style> p { margin: 0; } </style>' . $data['content'], 'text/html');
             });
 
             return response()->json(["success" => true]);

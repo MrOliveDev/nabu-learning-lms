@@ -86,11 +86,22 @@ $(document).ready(function(){
     $("#model-trumb-pane").on("click", function(){
         $(".model-drag-item").each(function() {
             if($(this).hasClass("active")){
-                $('#model-trumb-pane').trumbowyg('execCmd', {
-                    cmd: 'insertText',
-                    param: $(this).html(),
-                    forceCss: false,
-                });
+                if($(this).is('img')){
+                    if($(this).attr('src') != ''){
+                        $('#model-trumb-pane').trumbowyg('execCmd', {
+                            cmd: 'insertImage',
+                            param: $(this).attr('src'),
+                            forceCss: false,
+                            skipTrumbowyg: true
+                        });
+                    }
+                } else {
+                    $('#model-trumb-pane').trumbowyg('execCmd', {
+                        cmd: 'insertText',
+                        param: $(this).html(),
+                        forceCss: false,
+                    });
+                }
 
                 $(this).removeClass("active");
             }
