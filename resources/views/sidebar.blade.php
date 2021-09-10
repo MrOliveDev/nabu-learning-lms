@@ -5,7 +5,29 @@
 
 <!-- <link rel='stylesheet' href="{{ asset('assets/css/jquery-ui.css') }}"></link> -->
 <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
-
+@if(session("iconOverColor")!=null ||
+session("menuBackground")!=null)
+<style>
+    .nav-main-dark .nav-main-link.active,
+     .nav-main-dark .nav-main-link:hover,
+     .page-header-dark #page-header .nav-main-link.active,
+     .page-header-dark #page-header .nav-main-link:hover,
+     .sidebar-dark #sidebar .nav-main-link.active, 
+    .sidebar-dark #sidebar .nav-main-link:hover {
+        color: <?php echo session("iconOverColor") ?>;
+        background-color:none;
+    }
+    .nav-main-link:hover {
+        border: solid 1px black;
+        border-radius: 5px;
+        width: 253px;
+        background-color:  <?php echo session("menuBackground") ?> !important;
+    }
+    .nav-main-item .nav-main-link:hover i.nav-main-link-icon, .nav-main-link:hover .nav-main-link-name {
+        color: <?php echo session("iconOverColor") ?>;
+    }
+</style>
+@endif
 <aside id="side-overlay" data-simplebar="init">
 
     <div class="simplebar-wrapper" style="margin: 0px;">
@@ -15,7 +37,7 @@
         <div class="simplebar-mask">
             <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
                 <div class="simplebar-content-wrapper" style="height: 100%;">
-                    <div class="simplebar-content" style="padding: 0px;">
+                    <div class="simplebar-content p-0" style="background-color:{{session("menuBackground")}}">
                         <!-- Side Header -->
                         <div class="bg-primary">
                             <div class="content-header">
@@ -112,8 +134,8 @@
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{ route('admin.dash') }}" id="tableau">
                                         <!-- <div class="nav-cover"> -->
-                                        <div class="nav-main-cover-item">
-                                            <i class="nav-main-link-icon fas fa-tachometer-alt"></i>
+                                        <div class="nav-main-cover-item mr-2">
+                                            <i class="nav-main-link-icon fas fa-tachometer-alt" @if(session("iconDefaultColor") != null && session("iconDefaultColor") != "") style="color:{{session("iconDefaultColor")}}" @endif></i>
                                         </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">
@@ -126,8 +148,8 @@
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{ route('session') }}" id="sessions">
                                         <!-- <div class="nav-cover"> -->
-                                        <div class="nav-main-cover-item">
-                                            <i class="nav-main-link-icon fas fa-cogs"></i>
+                                        <div class="nav-main-cover-item mr-2">
+                                            <i class="nav-main-link-icon fas fa-cogs" @if(session("iconDefaultColor") != null && session("iconDefaultColor") != "") style="color:{{session("iconDefaultColor")}}" @endif></i>
                                         </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">
@@ -138,10 +160,10 @@
                                 @endif
                                 @if (isset(session('permission')->student))
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{ route('student') }}" id="utilisateurs">
+                                    <a class="nav-main-link" href="{{ route('student') }}" id="utilisateurs" @if(session("iconDefaultColor") != null && session("iconDefaultColor") != "") style="color:{{session("iconDefaultColor")}}" @endif>
                                         <!-- <div class="nav-cover"> -->
-                                        <div class="nav-main-cover-item">
-                                            <i class="nav-main-link-icon fas fa-user"></i>
+                                        <div class="nav-main-cover-item mr-2">
+                                            <i class="nav-main-link-icon fas fa-user" @if(session("iconDefaultColor") != null && session("iconDefaultColor") != "") style="color:{{session("iconDefaultColor")}}" @endif></i>
                                         </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">
@@ -157,8 +179,8 @@
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{ route('training') }}" id="parcours">
                                         <!-- <div class="nav-cover"> -->
-                                        <div class="nav-main-cover-item">
-                                            <i class="nav-main-link-icon fas fa-cubes"></i>
+                                        <div class="nav-main-cover-item mr-2">
+                                            <i class="nav-main-link-icon fas fa-cubes" @if(session("iconDefaultColor") != null && session("iconDefaultColor") != "") style="color:{{session("iconDefaultColor")}}" @endif></i>
                                         </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">
@@ -171,8 +193,8 @@
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{ route('template') }}" id="templates">
                                         <!-- <div class="nav-cover"> -->
-                                        <div class="nav-main-cover-item">
-                                            <i class="nav-main-link-icon fas fa-newspaper"></i>
+                                        <div class="nav-main-cover-item mr-2">
+                                            <i class="nav-main-link-icon fas fa-newspaper" @if(session("iconDefaultColor") != null && session("iconDefaultColor") != "") style="color:{{session("iconDefaultColor")}}" @endif></i>
                                         </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">
@@ -188,8 +210,8 @@
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{ route('sendmail') }}" id="outil">
                                         <!-- <div class="nav-cover"> -->
-                                        <div class="nav-main-cover-item">
-                                            <i class="nav-main-link-icon far fa-envelope"></i>
+                                        <div class="nav-main-cover-item mr-2">
+                                            <i class="nav-main-link-icon far fa-envelope" @if(session("iconDefaultColor") != null && session("iconDefaultColor") != "") style="color:{{session("iconDefaultColor")}}" @endif></i>
                                         </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">
@@ -203,8 +225,8 @@
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{ route('report') }}" id="rapports">
                                         <!-- <div class="nav-cover"> -->
-                                        <div class="nav-main-cover-item">
-                                            <i class="nav-main-link-icon fas fa-chart-pie"></i>
+                                        <div class="nav-main-cover-item mr-2">
+                                            <i class="nav-main-link-icon fas fa-chart-pie" @if(session("iconDefaultColor") != null && session("iconDefaultColor") != "") style="color:{{session("iconDefaultColor")}}" @endif onmouseover="this.style='color:#000000;'"></i>
                                         </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">

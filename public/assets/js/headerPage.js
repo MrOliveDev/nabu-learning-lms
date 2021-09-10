@@ -87,12 +87,15 @@ $(document).ready(function(e){
         $(".simplebar-content").css("background-color", menuBackground);
         $("body").css("background-color", pageBackground);
         $(".nav-main-link").hover(function(){
-            $(this).css("color", iconOverColor);
-            $(this).css("background-color", menuBackground);
+            $(this).find(".nav-main-link-icon").css("color", iconOverColor);
+            $(this).find(".nav-main-link-name").css("color", iconOverColor);
+            $(this).find(".nav-main-link-icon").css("background-color", menuBackground);
+            $(this).find(".nav-main-link-name").css("background-color", menuBackground);
         }, function() {
-            $(this).css("color", iconDefaultColor);
+            $(this).find(".nav-main-link-icon").css("color", iconDefaultColor);
+            $(this).find(".nav-main-link-name").css("color", iconDefaultColor);
         });
-        $(".nav-main-link.active").css("color", iconOverColor)
+        $(".sidebar-dark #sidebar .nav-main-link.active").css("color", iconOverColor)
 
         $(".nav-main-link").css("color", iconDefaultColor);
 

@@ -184,8 +184,11 @@ class TrainingController extends Controller
             if ($lessonList != NULL) {
                 foreach ($lessonList as $value) {
                     if (LessonsModel::find($value['item'])) {
-                        if (!in_array(LessonsModel::getLessonContainedTraining($value['item']), $lessons)) {
-                            array_push($lessons, LessonsModel::getLessonContainedTraining($value['item']));
+                        $lessonContained = LessonsModel::getLessonContainedTraining($value['item']);
+                        if($lessonContained!=null){
+                            if (!in_array($lessonContained, $lessons)) {
+                                array_push($lessons, $lessonContained);
+                            }
                         }
                     }
                 }

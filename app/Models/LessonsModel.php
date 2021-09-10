@@ -69,21 +69,29 @@ class LessonsModel extends Model
         )
             ->leftjoin('tb_languages', 'tb_lesson.lang', '=', 'tb_languages.language_id')
             ->where('tb_lesson.id', $id)
+            ->where(function($query){
+                return $query
+                ->where("tb_lesson.idCreator", session("client"))
+                ->orWhere("tb_lesson.idCreator", "=", session("user_id"));
+            })
             ->first();
-
-        $test = $lesson->toArray();
-        $test['training'] = array();
-        foreach ($trainings as $training) {
-            $lessonList = json_decode($training->lesson_content, true);
-            if ($lessonList != NULL) {
-                foreach ($lessonList as $lessonItem) {
-                    if ($lessonItem['item'] == $lesson->id) {
-                        array_push($test['training'], $training->id);
+            if(isset($lesson)){
+                $test = $lesson->toArray();
+                $test['training'] = array();
+                foreach ($trainings as $training) {
+                    $lessonList = json_decode($training->lesson_content, true);
+                    if ($lessonList != NULL) {
+                        foreach ($lessonList as $lessonItem) {
+                            if ($lessonItem['item'] == $lesson->id) {
+                                array_push($test['training'], $training->id);
+                            }
+                        }
                     }
                 }
+                return $test;
+            } else {
+                return null;
             }
-        }
-        return $test;
     }
 
     public function scopeGetLessonForTrainingpage($query, $id)

@@ -2587,6 +2587,8 @@ var cateStateIcon = function(e) {
  * @param {*} event 
  */
 var tabClick = function(event) {
+    $(this).parents(".nav.nav-tabs").find(".ui-state-active").toggleClass("ui-state-active", false);
+    $(this).parents(".nav-item").toggleClass("ui-state-active", true);
     if ($(this).parents('fieldset').attr('id') == 'LeftPanel') {
 
         var nameIcon = $('#user-toolkit').find('.filter-name-btn i');
@@ -2718,8 +2720,11 @@ var tabClick = function(event) {
             $(this).removeClass("active");
         });
         cancelFilterCategoryAll();
-        $('#user-toolkit .search-filter').val('');
-        $('#user-toolkit .search-filter').change();
+        if($('#cate-toolkit .search-filter').val()==''){
+            $('#user-toolkit .search-filter').change();
+        } else {
+            $('#user-toolkit .search-filter').val('');
+        }
         $('#user-toolkit input[name="status"]:checked').prop('checked', false);
     } else if ($(this).parents('fieldset').attr('id') == 'RightPanel') {
         switch ($(this).attr('id')) {
@@ -2750,8 +2755,11 @@ var tabClick = function(event) {
             $(this).removeClass("active");
         });
         $('#div_C').find('.list-group-item').each(clearClassName);
-        $('#cate-toolkit .search-filter').val('');
-        $('#cate-toolkit .search-filter').change();
+        if($('#cate-toolkit .search-filter').val()==''){
+            $('#cate-toolkit .search-filter').change();
+        } else {
+            $('#cate-toolkit .search-filter').val('');
+        }
         var nameIcon = $('#cate-toolkit').find('.filter-name-btn i');
         var dateIcon = $('#cate-toolkit').find('.filter-date-btn i');
         nameIcon.toggleClass('fa-sort-alpha-down', false);
@@ -2779,7 +2787,7 @@ var handlerDBClick = function(event) {
     if (heightToggle) {
         $(this).prev().css('height', (h - parseInt($('.toolkit').css('height')) - divHight) - 90 + 'px');
     } else {
-        var activeTabHeight = parseInt($($(this).parents('fieldset').find('.ui-state-active a').first().attr('href')).find('.list-group').css('height'));
+        var activeTabHeight = parseInt($($(this).parents('fieldset').find('.ui-state-active a').first().attr('href')).innerHeight());
         var newHeight = (h - parseInt($('.toolkit').css('height')) - divHight) / 2 - 90;
         if (newHeight > activeTabHeight) {
             $(this).prev().css('height', activeTabHeight + "px");

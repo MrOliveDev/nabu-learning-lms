@@ -1273,6 +1273,8 @@ var cateStateIcon = function(e) {
 };
 
 var tabClick = function(event) {
+    $(this).parents(".nav.nav-tabs").find(".ui-state-active").toggleClass("ui-state-active", false);
+    $(this).parents(".nav-item").toggleClass("ui-state-active", true);
     switch ($(this).attr('id')) {
         case 'training-tab':
             $('#RightPanel .toolkit:first>div').css('background-color', 'var(--training-c)');
@@ -1328,7 +1330,7 @@ var handlerDBClick = function(event) {
     if (heightToggle) {
         $(this).prev().css('height', (h - parseInt($('.toolkit').css('height')) - divHight) - 90 + 'px');
     } else {
-        var activeTabHeight = parseInt($($(this).parents('fieldset').find('.ui-state-active a').first().attr('href')).find('.list-group').css('height'));
+        var activeTabHeight = parseInt($($(this).parents('fieldset').find('.ui-state-active a').first().attr('href')).innerHeight());
         var newHeight = (h - parseInt($('.toolkit').css('height')) - divHight) / 2 - 90;
         if (newHeight > activeTabHeight) {
             $(this).prev().css('height', activeTabHeight + "px");

@@ -256,7 +256,7 @@ img {
 
 .nav-main-item .nav-main-link i.nav-main-link-icon {
     font-size: 23pt;
-    color: white !important;
+    color: white;
     margin-left: auto;
     /* padding-right: 20px; */
     margin-right: auto;
@@ -264,12 +264,12 @@ img {
 
 .nav-main-item .nav-main-link.active i.nav-main-link-icon,
 .nav-main-link:hover .nav-main-link-name {
-    color: #be0f2d !important;
+    color: #be0f2d;
 }
 
 .nav-main-item .nav-main-link:hover i.nav-main-link-icon,
 .nav-main-link:hover .nav-main-link-name {
-    color: #be0f2d !important;
+    color: #be0f2d;
 }
 
 #page-header button.btn {
