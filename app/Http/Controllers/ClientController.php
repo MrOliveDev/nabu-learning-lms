@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use PhpParser\JsonDecoder;
 use App\Models\LanguageModel;
+use App\Models\TranslateModel;
 
 class ClientController extends Controller
 {
@@ -16,7 +17,7 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $clientsListArray = User::get_clientsInfo();
         $clientsList = array();
@@ -34,6 +35,20 @@ class ClientController extends Controller
             $clientsList[$client->id]['config'] = "";
         }
         $languages=LanguageModel::all();
+        $q = count($request->all())!=0?$request->post("search"):null;
+        if(empty($q)){
+            $translates = TranslateModel::select('tb_translations.*', 'tb_languages.language_iso as lang_iso')
+            ->leftjoin('tb_languages', 'tb_languages.language_id', '=', 'tb_translations.language_id')
+            ->paginate(8);
+        } else {
+            $translates = TranslateModel::select('tb_translations.*', 'tb_languages.language_iso as lang_iso')
+            ->leftjoin('tb_languages', 'tb_languages.language_id', '=', 'tb_translations.language_id')
+            ->where('translation_value', 'LIKE', '%' . $q . '%')
+            ->orWhere('translation_string', 'LIKE', '%' . $q . '%')
+            ->paginate(8)
+            ->appends(['search' => $q]);
+            return response()->json(["result"=>$translates]);
+        }
         // print_r(json_decode($clientsList[$client->id]["pptimport"])->PPTImport); exit;
         // print_r($clientsList[$client->id]['interface_color']);
         // exit;
@@ -41,8 +56,9 @@ class ClientController extends Controller
         // $a = json_decode($clientsList['6667']['interface_color']);
         // print_r($clientsList);
         // exit;
+        // dd($translates);exit;
 
-        return view('clients.layout', compact('clientsList', 'languages'));
+        return view('clients.layout', compact('clientsList', 'languages', 'translates'));
     }
 
     /**
@@ -210,8 +226,19 @@ class ClientController extends Controller
         $client = User::find($id);
         InterfaceCfgModel::where('id', $client->id_config)->delete();
         ConfigModel::where('id', $client->id_config)->delete();
-        User::drop_admin_table($id);
+        // User::drop_admin_table($id);
         $client->delete();
         return response('Deleted Successfully', 200);
     }
+
+    // public function searchTranslate(Request $request) {
+    //     $q = $request->post("search");
+    //     $page = $request->post("page");
+    //     $translates = TranslateModel::select('tb_translations.*', 'tb_languages.language_iso as lang_iso')
+    //     ->leftjoin('tb_languages', 'tb_languages.language_id', '=', 'tb_translations.language_id')
+    //     ->where('translation_value', 'LIKE', '%' . $q . '%')
+    //     ->orWhere('translation_string', 'LIKE', '%' . $q . '%')
+    //     ->paginate(8);
+    //     return response()->json(["result"=>$translates->appends(['search' => $q])]);
+    // }
 }

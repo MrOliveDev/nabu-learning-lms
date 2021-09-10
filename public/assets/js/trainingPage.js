@@ -546,21 +546,25 @@ var itemShow = function(event) {
                 if (cate == "lesson") {
                     if (JSON.parse(data).data != []) {
                         JSON.parse(data).data.forEach(e => {
-                            detachIcon = $('<button class="btn toggle1-btn" data-content="training"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLink);
-                            addedbutton = createTrainingData(e);
-                            addedbutton.find(".btn-group").append(detachIcon);
-                            addedbutton.attr('data-src', id);
-                            $("#div_B .list-group").append(addedbutton);
+                            if(e && Object.keys(e).length === 0 && e.constructor === Object){}else {
+                                detachIcon = $('<button class="btn toggle1-btn" data-content="training"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLink);
+                                addedbutton = createTrainingData(e);
+                                addedbutton.find(".btn-group").append(detachIcon);
+                                addedbutton.attr('data-src', id);
+                                $("#div_B .list-group").append(addedbutton);
+                            }
                         });
                     }
                 } else if (cate == "training") {
                     if (JSON.parse(data).data != []) {
                         JSON.parse(data).data.forEach(e => {
-                            detachIcon = $('<button class="btn toggle1-btn" data-content="lesson"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLink);
-                            addedbutton = createLessonData(e);
-                            addedbutton.find(".btn-group").append(detachIcon);
-                            addedbutton.attr('data-src', id);
-                            $("#div_D .list-group").append(addedbutton);
+                            if(e && Object.keys(e).length === 0 && e.constructor === Object){}else {
+                                detachIcon = $('<button class="btn toggle1-btn" data-content="lesson"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLink);
+                                addedbutton = createLessonData(e);
+                                addedbutton.find(".btn-group").append(detachIcon);
+                                addedbutton.attr('data-src', id);
+                                $("#div_D .list-group").append(addedbutton);
+                            }
                         });
                     }
                 }
@@ -1384,7 +1388,7 @@ var handlerDBClick = function(event) {
     if (heightToggle) {
         $(this).prev().css('height', (h - parseInt($('.toolkit').css('height')) - divHight) - 90 + 'px');
     } else {
-        var activeTabHeight = parseInt($($(this).parents('fieldset').find('.ui-state-active a').first().attr('href')).find('.list-group').css('height'));
+        var activeTabHeight = parseInt($($(this).parents('fieldset').find('.ui-state-active a').first().attr('href')).innerHeight());
         var newHeight = (h - parseInt($('.toolkit').css('height')) - divHight) / 2 - 90;
         if (newHeight > activeTabHeight) {
             $(this).prev().css('height', activeTabHeight + "px");

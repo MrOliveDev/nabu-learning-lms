@@ -13,6 +13,8 @@ use App\Http\Controllers\useradmin\GroupController;
 use App\Http\Controllers\useradmin\CompanyController;
 use App\Http\Controllers\useradmin\PositionController;
 use App\Http\Controllers\TemplateController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\TranslateController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -288,6 +290,8 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
         'training' => TrainingController::class,
         'template' => TemplateController::class,
         'session' => SessionController::class,
+        'language' =>LanguageManageController::class,
+        'clientmanage'=>TranslateController::class,
     ]);
     Route::get('template', '\App\Http\Controllers\TemplateController@index')->name('template');
     Route::post('templatelinktocate', '\App\Http\Controllers\TemplateController@templateLinkTo');
@@ -345,6 +349,15 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('mailsend', '\App\Http\Controllers\SendmailController@mailsend')->name('mailsend');
     Route::post('insertMailHistory', '\App\Http\Controllers\SendmailController@insertMailHistory')->name('insertMailHistory');
     Route::post('updatelanguage', '\App\Http\Controllers\LanguageManageController@updateLanguage');
+    // Route::get('searchtranslate', '\App\Http\Controllers\ClientController@searchTranslate');
+
+    Route::get('clear_cache', function () {
+
+        \Artisan::call('cache:clear');
+        \Artisan::call('view:clear');
+    
+        dd("Cache is cleared");
+    });
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

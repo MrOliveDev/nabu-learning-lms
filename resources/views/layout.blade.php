@@ -63,7 +63,7 @@
     <!-- END Stylesheets -->
 </head>
 
-<body>
+<body @if(session("pageBackground") != null && session("pageBackground") != "") style="background:{{session("pageBackground")}}" @endif>
     <div id="page-container"
         class="sidebar-dark enable-page-overlay side-scroll page-header-fixed page-header-dark page-header-glass main-content-boxed side-trans-enabled sidebar-o-xs sidebar-o">
         @include('sidebar')

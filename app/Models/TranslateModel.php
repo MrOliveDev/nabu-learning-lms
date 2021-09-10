@@ -18,6 +18,8 @@ class TranslateModel extends Model
 
     public $timestamps = false;
 
+    protected $primaryKey = 'translation_id';
+
     public function scopeIstranslationexist($query, $translation_string, $language_id)
     {
 
