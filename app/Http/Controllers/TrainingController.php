@@ -8,6 +8,8 @@ use App\Models\TrainingsModel;
 use App\Models\LanguageModel;
 use App\Models\TemplateModel;
 
+use SimpleXMLElement;
+
 define("PRODUCTS_FABRIQUE_PATH", "/home/sites/default/www/export_fabrique/products/");
 define("PRODUCTS_ONLINE_PATH", "/home/sites/default/www/export_online/");
 
