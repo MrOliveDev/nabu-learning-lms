@@ -147,7 +147,7 @@ class StudentController extends Controller
         if($request->post("send_email")=="1"){
             if(!empty($client) && !empty($mail)){
 
-                $data = array("from" => $client, "to" => $mail, "content" => $content, "subject" => "Welcome");
+                $data = array("from" => env("MAIL_FROM_ADDRESS"), "to" => $mail, "content" => $content, "subject" => "Welcome");
                 Mail::send(array(), array(), function ($message) use ($data) {
                     $message->to($data['to'])->from($data['from'], 'Nabu Learning')
                     ->subject($data['subject'])
