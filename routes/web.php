@@ -133,6 +133,11 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => 'html5
     Route::post('/report/{userId}', function ($userId) {
         require_once('../html5_player_api/app/user/userReport.php');
     });
+
+    // Route for convert images and video
+    Route::post('/ffmpeg/convert', function () {
+        require_once('../html5_player_api/app/convert.php');
+    });
 });
 
 Route::group(['prefix' => 'html5_player_api_'], function () {
