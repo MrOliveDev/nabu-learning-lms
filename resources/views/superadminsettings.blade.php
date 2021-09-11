@@ -204,20 +204,20 @@ $icon = asset("assets/media/part.png"); ?>
                                 {{-- Previous Page Link --}}
                                 @if ($translates->onFirstPage())
                                     <li class="disabled page-item">
-                                        <a href="" class="page-link">
+                                        <a href="javascript:void(0)" data-href="" class="page-link">
                                             <span>«</span>
                                         </a>
                                     </li>
                                 @else
-                                    <li class="page-item"><a class="page-link" href="{{ $translates->previousPageUrl() }}" rel="prev">«</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:void(0)" data-href="{{ $translates->previousPageUrl() }}" rel="prev">«</a></li>
                                 @endif
 
                                 @if($translates->currentPage() > 3)
-                                    <li class="page-item"><a class="page-link" href="{{ $translates->url(1) }}">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:void(0)" data-href="{{ $translates->url(1) }}">1</a></li>
                                 @endif
                                 @if($translates->currentPage() > 4)
                                     <li class="page-item">
-                                        <a href="" class="page-link">
+                                        <a href="javascript:void(0)" data-href="" class="page-link">
                                             <span>...</span>
                                         </a>
                                     </li>
@@ -226,32 +226,32 @@ $icon = asset("assets/media/part.png"); ?>
                                     @if($i >= $translates->currentPage() - 2 && $i <= $translates->currentPage() + 2)
                                         @if ($i == $translates->currentPage())
                                             <li class="active page-item">
-                                                <a href="" class="page-link">
+                                                <a href="javascript:void(0)" data-href="" class="page-link">
                                                     <span>{{ $i }}</span>
                                                 </a>
                                             </li>
                                         @else
-                                            <li class="page-item"><a class="page-link" href="{{ $translates->url($i) }}">{{ $i }}</a></li>
+                                            <li class="page-item"><a class="page-link" href="javascript:void(0)" data-href="{{ $translates->url($i) }}">{{ $i }}</a></li>
                                         @endif
                                     @endif
                                 @endforeach
                                 @if($translates->currentPage() < $translates->lastPage() - 3)
                                     <li class="page-item">
-                                        <a href="" class="page-link">
+                                        <a href="javascript:void(0)" data-href="" class="page-link">
                                             <span>...</span>
                                         </a>
                                     </li>
                                 @endif
                                 @if($translates->currentPage() < $translates->lastPage() - 2)
-                                    <li class="page-item"><a class="page-link" href="{{ $translates->url($translates->lastPage()) }}">{{ $translates->lastPage() }}</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:void(0)" data-href="{{ $translates->url($translates->lastPage()) }}">{{ $translates->lastPage() }}</a></li>
                                 @endif
 
                                 {{-- Next Page Link --}}
                                 @if ($translates->hasMorePages())
-                                    <li class="page-item"><a class="page-link" href="{{ $translates->nextPageUrl() }}" rel="next">»</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:void(0)" data-href="{{ $translates->nextPageUrl() }}" rel="next">»</a></li>
                                 @else
                                     <li class="disabled page-item">
-                                        <a href="" class="page-link">
+                                        <a href="javascript:void(0)" data-href="" class="page-link">
                                             <span>»</span>
                                         </a>
                                     </li>
@@ -303,7 +303,7 @@ $icon = asset("assets/media/part.png"); ?>
                                                 Current Language
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control" id="currenLanguage" name="currenLanguage" required>
+                                        <input type="text" class="form-control" id="translation_string" name="translation_string" required>
                                     </div>
                                 </div>
 
@@ -314,7 +314,7 @@ $icon = asset("assets/media/part.png"); ?>
                                                 Interface Language
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control" id="interfaceLanguage" name="interfaceLanguage" required>
+                                        <input type="text" class="form-control" id="translation_value" name="translation_value" required>
                                     </div>
                                 </div>
 

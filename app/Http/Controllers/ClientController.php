@@ -31,23 +31,30 @@ class ClientController extends Controller
             $clientsList[$client->id]['interface_color'] = json_decode($clientsList[$client->id]["interface_color"]);
             $clientsList[$client->id]['email'] = json_decode($clientsList[$client->id]["contact_info"])->email;
             $clientsList[$client->id]['contact_info'] = json_decode($clientsList[$client->id]["contact_info"])->address;
-            $clientsList[$client->id]['pptimport'] = $clientsList[$client->id]["config"]!=null?json_decode($clientsList[$client->id]["config"])->PPTImport:null;
+            $clientsList[$client->id]['pptimport'] = $clientsList[$client->id]["config"];
             $clientsList[$client->id]['config'] = "";
         }
         $languages=LanguageModel::all();
-        $q = count($request->all())!=0?$request->post("search"):null;
+        $q = count($request->all())!=0?$request->input("search"):null;
         if(empty($q)){
             $translates = TranslateModel::select('tb_translations.*', 'tb_languages.language_iso as lang_iso')
             ->leftjoin('tb_languages', 'tb_languages.language_id', '=', 'tb_translations.language_id')
             ->paginate(8);
         } else {
             $translates = TranslateModel::select('tb_translations.*', 'tb_languages.language_iso as lang_iso')
-            ->leftjoin('tb_languages', 'tb_languages.language_id', '=', 'tb_translations.language_id')
-            ->where('translation_value', 'LIKE', '%' . $q . '%')
-            ->orWhere('translation_string', 'LIKE', '%' . $q . '%')
-            ->paginate(8)
-            ->appends(['search' => $q]);
-            return response()->json(["result"=>$translates]);
+            ->leftjoin('tb_languages', 'tb_languages.language_id', '=', 'tb_translations.language_id');
+            if($q!="undefined"){
+                $translates = $translates->where('translation_value', 'LIKE', '%' . $q . '%')
+                ->orWhere('translation_string', 'LIKE', '%' . $q . '%');
+            }
+            $data=$translates
+            ->offset($request->input("page")?$request->input("page")*8:0)
+            ->limit(8)
+            ->get()
+            ->toArray();
+            $links = $translates
+            ->paginate(8);
+            return response()->json(["result"=>$data, 'link'=>$links]);
         }
         // print_r(json_decode($clientsList[$client->id]["pptimport"])->PPTImport); exit;
         // print_r($clientsList[$client->id]['interface_color']);
@@ -101,7 +108,7 @@ class ClientController extends Controller
         
         $config = ConfigModel::create([
             "id"=>$interfaceCfg->id,
-            "config"=>json_encode(array("PPTImport"=>$request->input('pptimport')))
+            "config"=>$request->input('pptimport')
         ]);
         
         $contact_info = array(
@@ -186,9 +193,8 @@ class ClientController extends Controller
         
         $config = ConfigModel::find($client->id_config);
         if($config!=null) {
-            $tempconfig = json_decode($config->config);
-            $tempconfig->PPTImport = $request->input('pptimport');
-            $config->config = json_encode($tempconfig);
+            if(isset($config->config))
+            $config->config = $request->input('pptimport');
             $config->update();
         }
         // var_dump($tempconfig);exit;

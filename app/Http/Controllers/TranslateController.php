@@ -29,11 +29,11 @@ class TranslateController extends Controller
         //
         if(count($request->all())!=0){
             $translate = new TranslateModel();
-            if($request->input("currenLanguage")) {
-                $translate->translation_value = $request->input("currenLanguage");
+            if($request->input("translation_value")) {
+                $translate->translation_value = $request->input("translation_value");
             }
-            if($request->input("interfaceLanguage")) {
-                $translate->translation_string = $request->input("interfaceLanguage");
+            if($request->input("translation_string")) {
+                $translate->translation_string = $request->input("translation_string");
             }
             if($request->input("selectLanguage")) {
                 $translate->language_id = $request->input("selectLanguage");
@@ -70,11 +70,11 @@ class TranslateController extends Controller
         if(count($request->all())!=0) {
             $translate = TranslateModel::find($id)->first();
             if(isset($translate)){
-                if($request->input("currenLanguage")) {
-                    $translate->translation_value = $request->input("currenLanguage");
+                if($request->input("translation_string")) {
+                    $translate->translation_string = $request->input("translation_string");
                 }
-                if($request->input("interfaceLanguage")) {
-                    $translate->translation_string = $request->input("interfaceLanguage");
+                if($request->input("translation_value")) {
+                    $translate->translation_value = $request->input("translation_value");
                 }
                 if($request->input("selectLanguage")) {
                     $translate->language_id = $request->input("selectLanguage");

@@ -1,3 +1,4 @@
+var searchValue = "";
 $(document).ready(function() {
     $(".item-edit").click(itemEdit);
 
@@ -8,7 +9,16 @@ $(document).ready(function() {
     $("#translate_save_btn").click(submitBtn);
     // $("translate_cancel_btn").click(cancelBtn);
     $("#LeftPanel1 .toolkit-add-item").click(toolkitAddItem);
+    $("#page-nav a.page-link").click(pageNavClick);
 });
+
+var pageNavClick = function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    url = $(this).attr("data-href");
+    if(url)
+    fetchData(url+"&search="+searchValue);
+}
 
 var toolkitAddItem = function(event) {
     formClear();
@@ -42,103 +52,110 @@ var submitBtn = function(event) {
 
 var searchTranslate = function(event){
     if(event.key === 'Enter') {
-        var searchVal = $(event.target).val();        
-        $.get({url:baseURL+"/superadminsettings", data:{search:searchVal}}).done(function(data){
-            console.log(data);
-            $("#translate-list-group").empty();
-            data.result.data.map(function(item_data) {
-                var translateItem = createTranslate(item_data);
-                $("#translate-list-group").append(translateItem);
-            })
-            $(".pagination.pagination").empty().append(createPageNav(data));
-            $(".page_nav").attr("data-last", data.result.last_page);
-        }).fail(function(err) {
-            console.log(err);
-        })
+        searchValue = $(event.target).val();        
+        fetchData(baseURL+"/superadminsettings?search="+searchValue+"&page=1");
     }
 };
 
+var fetchData = function(url) {
+    $.get({url}).done(function(data){
+        console.log(data);
+        $("#translate-list-group").empty();
+        data.result?.map(function(item_data) {
+            var translateItem = createTranslate(item_data);
+            $("#translate-list-group").append(translateItem);
+        })
+        $(".pagination.pagination").empty().append(createPageNav(data.link));
+        $("#page-nav a.page-link").click(pageNavClick);
+        $(".page_nav").attr("data-last", data.result.last_page);
+    }).fail(function(err) {
+        console.log(err);
+        alert("You have an error!");
+    });
+}
+
 var createPageNav = function(data) {
     var pageNav = "";
-    var urlArr = data.result.first_page_url.split('=');
+    var urlArr = data.first_page_url.split('=');
     urlArr.splice(-1);
     var url = urlArr.join("=");
     if (data.last_page>1)
         pageNav+='<ul class="pagination pagination">';
-            if (data.result.current_page==1) { 
+            if (data.current_page==1) { 
                 pageNav +='<li class="disabled page-item">'+
-                    '<a href="" class="page-link">'+
+                    '<a href="javascript:void(0)" data-href="" class="page-link">'+
                         '<span>«</span>'+
                     '</a>'+
                 '</li>';
             }
             else {
                 pageNav +='<li class="page-item">'+
-                '<a class="page-link" href="'+url+'='+(data.result.current_page-1)+'" rel="prev">«</a>'+
+                '<a class="page-link" href="javascript:void(0)" data-href="'+url+'='+(data.current_page-1)+'" rel="prev">«</a>'+
                 '</li>';
             }
-            if(data.result.current_page > 3){
+            if(data.current_page > 3){
                 pageNav +='<li class="page-item">'+
-                '<a class="page-link" href="'+data.result.first_page_url+'">1</a>'+
+                '<a class="page-link" href="javascript:void(0)" data-href="'+data.first_page_url+'">1</a>'+
                 '</li>';
             }
-            if(data.result.current_page > 4){
+            if(data.current_page > 4){
                 pageNav +='<li class="page-item">'+
-                    '<a href="" class="page-link">'+
+                    '<a href="javascript:void(0)" data-href="" class="page-link">'+
                         '<span>...</span>'+
                     '</a>'+
                 '</li>';
             }
-            for(var i=1; i<=data.result.last_page; i++) {
-                if(i >= data.result.current_page - 2 && i <= data.result.current_page + 2){
-                    if (i == data.result.current_page) {
+            for(var i=1; i<=data.last_page; i++) {
+                if(i >= data.current_page - 2 && i <= data.current_page + 2){
+                    if (i == data.current_page) {
                         pageNav +='<li class="active page-item">'+
-                            '<a href="" class="page-link">'+
+                            '<a href="javascript:void(0)" data-href="" class="page-link">'+
                                 '<span>'+i+'</span>'+
                             '</a>'+
                         '</li>';
                     }
                     else {
-                        pageNav +='<li class="page-item"><a class="page-link" href="'+url+'='+i+'">'+i+'</a></li>';
+                        pageNav +='<li class="page-item"><a class="page-link" href="javascript:void(0)" data-href="'+url+'='+i+'">'+i+'</a></li>';
                     }
                 }
             }
-            if(data.result.current_page < data.result.last_page - 3) {
+            if(data.current_page < data.last_page - 3) {
                 pageNav +='<li class="page-item">'+
-                    '<a href="" class="page-link">'+
+                    '<a href="javascript:void(0)" data-href="" class="page-link">'+
                         '<span>...</span>'+
                     '</a>'+
                 '</li>';
             }
-            if(data.result.current_page < data.result.last_page - 2) {
+            if(data.current_page < data.last_page - 2) {
                 pageNav +='<li class="page-item">'+
-                '<a class="page-link" href="'+data.result.last_page_url+'">'+data.result.last_page+'</a>';
+                '<a class="page-link" href="javascript:void(0)" data-href="'+data.last_page_url+'">'+data.last_page+'</a>';
                 '</li>';
             }
 
-            if (data.result.current_page < data.result.last_page) {
-                pageNav +='<li class="page-item"><a class="page-link" href="'+url+'='+(data.result.current_page+1)+'" rel="next">»</a></li>';
+            if (data.current_page < data.last_page) {
+                pageNav +='<li class="page-item"><a class="page-link" href="javascript:void(0)" data-href="'+url+'='+(data.current_page+1)+'" rel="next">»</a></li>';
             }
             else {
                 pageNav +='<li class="disabled page-item">'+
-                    '<a href="" class="page-link">'+
+                    '<a href="javascript:void(0)" data-href="" class="page-link">'+
                         '<span>»</span>'+
                     '</a>'+
                 '</li>';
             }
         pageNav+='</ul>';
+        $(pageNav).find("a.page-link").click(pageNavClick);
     return pageNav;
 };
 
 var createTranslate = function(data) {
     var translateItem = 
-        $('<a class="list-group-item list-group-item-action p-1 border-0" id="translate_'+data.translation_id+'" data-toggle="list" href="#list-home" role="tab" aria-controls="home"  data-value="'+data.translation_value+'" data-lang-iso="'+data.language_id+'" data-string="'+data.translation_string+'">'+
+        $('<a class="list-group-item list-group-item-action p-1 border-0" id="translate_'+data.translation_id+'" data-toggle="list"  role="tab" aria-controls="home"  data-value="'+data.translation_value=="null"?"":data.translation_value+'" data-lang-iso="'+data.language_id+'" data-string="'+data.translation_string+'">'+
         '<div class="float-left">'+
         data.translation_string+
         '</div>'+
         '<div class="btn-group float-right">'+
         '<span class="language_span text-white p-1">'+data.lang_iso.toUpperCase()+'</span>'+
-        '<button class="btn text-white px-2 item-edit" data-id="'+data.translation_id+'" href="#list-home">'+
+        '<button class="btn text-white px-2 item-edit" data-id="'+data.translation_id+'" >'+
         '<i class="fa fa-edit"></i>'+
         '</button>'+
         '<button class="btn text-white px-2 item-delete" data-id="'+data.translation_id+'">'+
@@ -154,10 +171,10 @@ return translateItem;
 var updateTranslate = function(data) {
     if($("#translateForm").attr("data-id")){
         var id = $("#translateForm").attr("data-id");
-        $("#translate_"+id).attr("data-string", data.result.translation_value);
+        $("#translate_"+id).attr("data-string", data.result.translation_string);
         $("#translate_"+id).attr("data-lang-iso", data.result.language_id);
-        $("#translate_"+id).attr("data-value", data.result.translation_string);
-        $("#translate_"+id).find(".float-left").html(data.result.translation_value);
+        $("#translate_"+id).attr("data-value", data.result.translation_value);
+        $("#translate_"+id).find(".float-left").html(data.result.translation_string);
         $("#translate_"+id).find(".language_span").html(data.lang_iso.toUpperCase());
     }
 }
@@ -172,8 +189,8 @@ var itemEdit = function(event) {
     var translate_value = item.attr("data-value");
     var translate_string = item.attr("data-string");
     var lang_iso = item.attr("data-lang-iso");
-    $("#currenLanguage").val(translate_string);
-    $("#interfaceLanguage").val(translate_value);
+    $("#translation_string").val(translate_string);
+    $("#translation_value").val(translate_value);
     $("#selectLanguage").val(lang_iso);
     $("#translateForm").attr("method", "put");
     $("#translateForm").attr("action", baseURL+"/clientmanage/"+id);
