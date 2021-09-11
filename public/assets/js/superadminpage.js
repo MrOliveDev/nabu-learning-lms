@@ -149,7 +149,7 @@ var createPageNav = function(data) {
 
 var createTranslate = function(data) {
     var translateItem = 
-        $('<a class="list-group-item list-group-item-action p-1 border-0" id="translate_'+data.translation_id+'" data-toggle="list"  role="tab" aria-controls="home"  data-value="'+data.translation_value=='null'?'':data.translation_value+'" data-lang-iso="'+data.language_id+'" data-string="'+data.translation_string+'">'+
+        $('<a class="list-group-item list-group-item-action p-1 border-0" id="translate_'+data.translation_id+'" data-toggle="list"  role="tab" aria-controls="home"  data-value="'+data.translation_value+'" data-lang-iso="'+data.language_id+'" data-string="'+data.translation_string+'">'+
         '<div class="float-left">'+
         data.translation_string+
         '</div>'+
