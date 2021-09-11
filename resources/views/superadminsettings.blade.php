@@ -122,7 +122,7 @@ $icon = asset("assets/media/part.png"); ?>
 @section('js_after')
 <script src="{{asset('assets/js/plugins/summernote/summernote-bs4.min.js')}}"></script>
 <script src="{{asset('assets/js/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
-<script src="{{asset('assets/js/superadminpage.js')}}"></script>
+<script src="{{asset('assets/js/superadminpage.js?v=1.0')}}"></script>
 <script>
     jQuery(function() {
         // Dashmix.helpers(['colorpicker', 'summernote']);
