@@ -36,8 +36,12 @@ class LessonsModel extends Model
             'tb_languages.language_iso as language_iso'
         )
             ->leftjoin('tb_languages', 'tb_lesson.lang', '=', 'tb_languages.language_id')
-            ->where("tb_lesson.idCreator", "=", session("client"))
-            ->orWhere("tb_lesson.idCreator", "=", session("user_id"))
+            ->where("tb_lesson.idCreator", "=", session("client"));
+            if(session("user_type") != 0) {
+                $lessons = $lessons
+                ->orWhere("tb_lesson.idCreator", "=", session("user_id"));
+            }
+            $lessons = $lessons
             ->get();
         $test = array(array());
         foreach ($lessons as $key => $lesson) {
@@ -70,9 +74,19 @@ class LessonsModel extends Model
             ->leftjoin('tb_languages', 'tb_lesson.lang', '=', 'tb_languages.language_id')
             ->where('tb_lesson.id', $id)
             ->where(function($query){
-                return $query
-                ->where("tb_lesson.idCreator", session("client"))
-                ->orWhere("tb_lesson.idCreator", "=", session("user_id"));
+                if(session("user_type") != 0){
+                    if(session("user_type") == 3){
+                        return $query
+                        ->where("tb_lesson.idCreator", "=", session("user_id"));
+                    } else {
+                        return $query
+                        ->where("tb_lesson.idCreator", session("client"))
+                        ->orWhere("tb_lesson.idCreator", "=", session("user_id"));
+                    }
+                } else {
+                    return $query
+                    ->where("tb_lesson.idCreator", session("client"));
+                }
             })
             ->first();
             if(isset($lesson)){
@@ -90,7 +104,7 @@ class LessonsModel extends Model
                 }
                 return $test;
             } else {
-                return null;
+                return [];
             }
     }
 
@@ -106,9 +120,28 @@ class LessonsModel extends Model
         return $result;
     }
 
-    public function scopeGetLessonByClient($scope) {
+    public function scopeGetLessonByClient($query) {
         $client = session("client");
-        $lessons = $query->leftjoin("tb_users", 'tb_lesson.idCreator', "=", 'tb_users.id')->where("tb_lesson.idCreator", $client)->orWhere('tb_user.creator', $client)->get();
-        return $lesson;
+        if(auth()->user()->type!=0){
+            if(auth()->user()->type==3) {
+                $lessons = $query->leftjoin("tb_users", 'tb_lesson.idCreator', "=", 'tb_users.id')
+                    ->where("tb_lesson.idCreator", auth()->user()->id)
+                    ->orWhere('tb_users.id_creator', auth()->user()->id)
+                    ->get();
+            } else {
+                $lessons = $query->leftjoin("tb_users", 'tb_lesson.idCreator', "=", 'tb_users.id')
+                    ->where("tb_lesson.idCreator", $client)
+                    ->orWhere('tb_users.id_creator', $client)
+                    ->orWhere('tb_users.id_creator', auth()->user()->id)
+                    ->orWhere('tb_lesson.idCreator', auth()->user()->id)
+                    ->get();
+            }
+        } else {
+            $lessons = $query->leftjoin("tb_users", 'tb_lesson.idCreator', "=", 'tb_users.id')
+                    ->where("tb_lesson.idCreator", $client)
+                    ->orWhere('tb_users.id_creator', $client)
+                    ->get();
+        }
+        return $lessons;
     }
 }

@@ -28,7 +28,6 @@ class TrainingsModel extends Model
     protected $table = 'tb_trainings';
     public $timestamps = false;
     use HasFactory;
-
     public function scopeGetAllTrainings($query)
     {
         return $query->select(
@@ -46,7 +45,18 @@ class TrainingsModel extends Model
             'tb_languages.language_iso as language_iso'
         )
             ->leftjoin('tb_languages', 'tb_trainings.lang', '=', 'tb_languages.language_id')
-            ->where('tb_trainings.id', $id)
+            ->where('tb_trainings.id', $id);
+            if(session("user_type") != 0) {
+                if(session("user_type") ==3) {
+                    $result = $result->where("tb_trainings.id_creator", session("user_id"));
+                } else {
+                    $result = $result->where("tb_trainings.id_creator", session("client"))
+                        ->orWhere("tb_trainings.id_creator", auth()->user()->id);
+                }
+            } else {
+                $result = $result->where("tb_trainings.id_creator", session("client"));
+            }
+            $result = $result
             ->first();
         return $result;
     }
@@ -81,7 +91,14 @@ class TrainingsModel extends Model
                     $groupSubList = $groupValue['item'];
                     if (count($groupSubList) != 0) {
                         foreach ($groupSubList as $groupSubItemValue) {
-                            array_push($groupSubItem, User::find($groupSubItemValue));
+                            $userItem = User::find($groupSubItemValue);
+                            if(isset($userItem)){
+                                if(session("user_type")==0 && $userItem->id_creator == session("client")) {
+                                    array_push($groupSubItem, $userItem);
+                                }  else if($userItem->id_creator == session("client") || $userItem->id_creator == session("user_id")){
+                                    array_push($groupSubItem, $userItem);
+                                }
+                            }
                         }
                     }
                     array_push($groupData, array("value" => $query->find($groupValue['value']), "items"=>$groupSubData));
@@ -89,12 +106,28 @@ class TrainingsModel extends Model
             }
             if (count($studentList) != 0) {
                 foreach ($groupList as $studentValue) {
-                    array_push($studentData, User::find($studentValue));
+                    $userItem = User::find($studentValue);
+                    if(isset($userItem)){
+                        if(session("user_type")==0 && $userItem->id_creator == session("client"))
+                        {
+                            array_push($studentData, $userItem);
+                        } else if($userItem->id_creator == session("client") || $userItem->id_creator == session("user_id")){
+                            array_push($studentData, $userItem);
+                        }
+                    }
                 }
             }
             if (count($teacherList) != 0) {
                 foreach ($groupList as $teacherValue) {
-                    array_push($teacherData, User::find($teacherValue));
+                    $userItem = User::find($teacherValue);
+                    if(isset($userItem)){
+                        if(session("user_type")==0 && $userItem->id_creator == session("client"))
+                        {
+                            array_push($teacherData, $userItem);
+                        } else if($userItem->id_creator == session("client") || $userItem->id_creator == session("user_id")){
+                            array_push($teacherData, $userItem);
+                        }
+                    }
                 }
             }
         }
@@ -114,16 +147,15 @@ class TrainingsModel extends Model
 
     public function scopeGetTrainingByClient($query) {
         $client = session('client');
-        if(session("user_type")==3){
-            $trainings = DB::table("tb_trainings")->leftjoin('tb_languages', "tb_languages.language_id", "=", "tb_trainings.lang")->orWhere('id_creator', session("user_id"))->where("id_creator", $user->id)->get();
+        if(session("user_type") != 0){
+            if(session("user_type") ==3) {
+                $trainings = DB::table("tb_trainings")->leftjoin('tb_languages', "tb_languages.language_id", "=", "tb_trainings.lang")->where("id_creator", session("user_id"))->get();
+            } else {
+                $trainings = DB::table("tb_trainings")->leftjoin('tb_languages', "tb_languages.language_id", "=", "tb_trainings.lang")->where("id_creator", session("user_id"))->orWhere('id_creator', session("client"))->get();
+            }
         } else {
             $trainings = DB::table("tb_trainings")->leftjoin('tb_languages', "tb_languages.language_id", "=", "tb_trainings.lang")->where('tb_trainings.id_creator', $client)->get();
         }
-        return $trainings;
-    }
-
-    public function scopeGetTrainingByCreator($query, $id) {
-        $trainings = $query->where('idCreator', $id)->get();
         return $trainings;
     }
 }

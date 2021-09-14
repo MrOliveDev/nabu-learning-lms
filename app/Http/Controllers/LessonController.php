@@ -16,7 +16,7 @@ class LessonController extends Controller
      */
     public function index()
     {
-        $lessons = LessonsModel::all();
+        $lessons = LessonsModel::getLessonByClient();
 
         return response()->json($lessons);
         //
@@ -54,7 +54,7 @@ class LessonController extends Controller
             $lesson->status = $request->post('lesson_status');
         }
         if (session("user_type") !== 0) {
-            $lesson->idCreator = session("user_type");
+            $lesson->idCreator = session("user_id");
         } else {
             $lesson->idCreator = session("client");
         }
@@ -84,6 +84,8 @@ class LessonController extends Controller
         // $curso->idFabrica = $lesson->idFabrica;
         // $curso->idCriador = 1;
         // $curso->save();
+
+
 
         return response()->json(LessonsModel::getLessonContainedTraining($lesson->id));
         //
@@ -185,8 +187,19 @@ class LessonController extends Controller
             $trainingList = [];
             foreach ($templesson['training'] as $trainingId) {
                 if (TrainingsModel::find($trainingId)) {
-                    if (!in_array(TrainingsModel::getTrainingForTrainingpage($trainingId), $trainingList)) {
-                        array_push($trainingList, TrainingsModel::getTrainingForTrainingpage($trainingId));
+                    $trainingItem = TrainingsModel::getTrainingForTrainingpage($trainingId);
+                    if(!empty($trainingItem)) {
+                        if (!in_array($trainingItem, $trainingList)) {
+                            if(auth()->user()->type == 0){
+                                if($trainingItem->id_creator == session("client")) {
+                                    array_push($trainingList, $trainingItem);
+                                }
+                            } else {
+                                if($trainingItem->id_creator == session("client") || $trainingItem->id_creator == user()->auth()->id) {
+                                    array_push($trainingList, $trainingItem);
+                                }
+                            }
+                        }
                     }
                 }
             }

@@ -47,6 +47,8 @@
     <script src="{{ asset('assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
     <script>
         $('#templates').addClass('active');
+        $('#templates .nav-main-link-icon').css('color', '<?php echo session("iconOverColor") ?>');
+
         jQuery(function() {
             Dashmix.helpers(['notify']);
         });

@@ -144,7 +144,7 @@ data-search-training="{{isset(session("permission")->training->search->training)
         <div id="div_A" class="window top">
             <div class="clear-fix mx-4">
                 <div class="list-group" id="list-tab" role="tablist" data-src=''>
-                    @if (isset(session("permission")->training->lesson->display))
+                    @if (isset(session("permission")->training->lesson->display) && !empty($lessons[0]))
                     @foreach ($lessons as $lesson)
                         <a class="list-group-item list-group-item-action p-0 border-transparent border-5x lesson_{{ $lesson['id'] }}"
                             id="lesson_{{ $lesson['id'] }}" data-date="{{ $lesson['creation_date'] }}"
@@ -631,6 +631,7 @@ data-search-training="{{isset(session("permission")->training->search->training)
 </div>
 <script>
     $('#parcours').addClass('active');
+    $('#parcours .nav-main-link-icon').css('color', '<?php echo session("iconOverColor") ?>');
 
 </script>
 @endsection

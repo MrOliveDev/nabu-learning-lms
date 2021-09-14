@@ -101,11 +101,11 @@ data-iconDefaultColor="{{session('iconDefaultColor')}}"
                             </li>
                             @endforeach
                             
-                        <div class="p-2 border-top">
+                        {{-- <div class="p-2 border-top">
                             <a class="btn btn-light btn-block text-center" href="#">
                                 <i class="fa fa-fw fa-eye mr-1"></i> {{ $translation->l('View All') }}
                             </a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             @endif

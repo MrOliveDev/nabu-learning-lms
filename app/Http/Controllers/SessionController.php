@@ -32,7 +32,7 @@ class SessionController extends Controller
         $trainings = TrainingsModel::getTrainingByClient();
         $companies = CompanyModel::getCompanyByClient();
         $sessions = SessionModel::getSessionPageInfo();
-        $positions = PositionModel::all();
+        $positions = PositionModel::getPositionByClient();
         $languages = LanguageModel::all();
         return view('session', compact([/* 'authors',  */'teachers', 'students', 'groups', 'positions', 'companies', 'languages', 'sessions', 'trainings']));
     }

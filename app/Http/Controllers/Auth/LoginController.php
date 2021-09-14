@@ -185,10 +185,6 @@ class LoginController extends Controller
         session(["user_type"=>auth()->user()->type]);
         if (auth()->user()->type == 0 || auth()->user()->type == 1) {
             $this->redirectTo = 'admindash';
-            $client = User::getClients();
-            if(count($client)!=0 && $client!=null){
-                session(["client" => $client[0]["id"]]);
-            }
             if(auth()->user()->type == 1) {
                 if(auth()->user()->id_config){
                     $interface = InterfaceCfgModel::find(auth()->user()->id_config);
@@ -207,6 +203,12 @@ class LoginController extends Controller
                             session(["iconDefaultColor" => $interfaceColorList->iconDefaultColor]);
                         }
                     }
+                }
+                session(["client" => auth()->user()->id]);
+            } else {
+                $client = User::getClients();
+                if(count($client)!=0 && $client!=null){
+                    session(["client" => $client[0]["id"]]);
                 }
             }
         } else if(auth()->user()->type == 3) {

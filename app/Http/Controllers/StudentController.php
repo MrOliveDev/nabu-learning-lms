@@ -34,7 +34,7 @@ class StudentController extends Controller
             $authors = User::getUserPageInfo(2);
         }
         $groups = GroupModel::getGroupByClient();
-        $positions = PositionModel::all();
+        $positions = PositionModel::getPositionByClient();
         $companies = CompanyModel::getCompanyByClient();
         $languages = LanguageModel::all();
         $permissions = PermissionModel::where('show', 1)->get();

@@ -19,7 +19,19 @@ class GroupModel extends Model
     public function scopeGetGroupByClient($query) {
         $client = session("client");
 
-        $groups = $query->where("id_creator", $client)->get();
+        if(auth()->user()->type != 0) {
+            if(auth()->user()->type ==3 ){
+                $groups = $query
+                ->where("id_creator", auth()->user()->id)
+                ->get();
+            } else {
+                $groups = $query->where("id_creator", $client)
+                ->orWhere("id_creator", auth()->user()->id)
+                ->get();
+            }
+        } else {
+            $groups = $query->where("id_creator", $client)->get();
+        }
         return $groups;
     }
 }

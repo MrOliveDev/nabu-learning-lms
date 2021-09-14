@@ -937,6 +937,7 @@ var divACedit = function(event) {
     // event.stopPropagation();
     var parent = $(this).parents('fieldset');
     toggleFormOrTable(parent, true);
+    $("#csv-import-form").toggle(false);
 };
 
 /**

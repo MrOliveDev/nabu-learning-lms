@@ -345,6 +345,7 @@
     </table>
 <script>
     $('#tableau').addClass('active');
+    $('#tableau .nav-main-link-icon').css('color', '<?php echo session("iconOverColor") ?>');
 </script>
 <button type="button" id="notificator" class="js-notify btn btn-secondary push" data-message="Your message!<br>"
     style="display:none">

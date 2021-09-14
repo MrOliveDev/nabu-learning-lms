@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
         view()->share('screen_language', $languageModel);
         $interfaceCfg = InterfaceCfgModel::get_interface_color_byuser(1);
         view()->share('interfaceCfg', $interfaceCfg);
-        $clients = User::getClients();
+        $clients = User::where('type', "<", "2")->get();
         view()->share('clients', $clients);
         // foreach ($language as $languages) {
         // }exit;

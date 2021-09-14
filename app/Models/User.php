@@ -118,7 +118,9 @@ class User extends Authenticatable
             switch ($type) {
                 case '2':
                     $result = $result
-                    ->where('tb_users.type', $type);
+                    ->where('tb_users.type', $type)
+                    ->where("tb_users.id_creator", $client);
+
                     break;
                     
                 case '3':

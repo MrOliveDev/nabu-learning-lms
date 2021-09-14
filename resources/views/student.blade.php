@@ -28,6 +28,7 @@
     </script>
     <script>
         $('#utilisateurs').addClass('active');
+        $('#utilisateurs .nav-main-link-icon').css('color', '<?php echo session("iconOverColor") ?>');
         jQuery(function() {
             Dashmix.helpers(['select2', 'rangeslider', 'notify', 'summernote', 'flatpickr', 'datepicker']);
         });
