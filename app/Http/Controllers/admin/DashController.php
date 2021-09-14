@@ -43,9 +43,11 @@ class DashController extends Controller
             $authedUserId = auth()->user()->id;
             
             $activedStudents = User::getUserPageInfo(4)->count();
-
-            $registeredUsers = User::where('id_creator', $authedUserId)->count()+$activedStudents;
-
+            if(auth()->user()->type == 1){
+                $registeredUsers = User::where('id_creator', $authedUserId)->count()+$activedStudents;
+            } else {
+                $registeredUsers = User::where('id_creator', session("client"))->count()+$activedStudents;
+            }
             $sessionsInProgress = SessionModel::where('begin_date', "<", today())->where(function ($query) {
                 $query->where('end_date', ">", today())
                       ->orWhere('end_date', '=', null);
