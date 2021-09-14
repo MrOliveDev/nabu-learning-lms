@@ -1616,3 +1616,4 @@ $(".toolkit-show-filter").click(filterToggleShow);
 $('.filter-name-btn').click(sortfilter);
 $('.filter-date-btn').click(sortfilter);
 $('.handler_horizontal').dblclick(handlerDBClick);
+$("fieldset").on("DOMSubtreeModified", function() {$(this).find(".handler_horizontal").dblclick();$(this).find(".handler_horizontal").dblclick();})
