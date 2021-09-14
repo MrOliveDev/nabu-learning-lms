@@ -77,7 +77,7 @@ class DashController extends Controller
         $session = SessionModel::find($id);
         $participant = SessionModel::getParticipantListFromSessionForDash($session->participants, $id);
         $contentData = SessionModel::getContentDataFromSession($session->contents);
-        $reports = ReportsModel::where("sessionId", $id)->get()->toArray();
+        $reports = ReportsModel::where("sessionId", $id)->where("id_creator", session("client"))->get()->toArray();
         // dd(array('contents'=>$content, 'participants'=>$participant, "session_info"=>$session->toArray()));
         // dd(User::getUserIDFromGroup(2));
         if ($contentData == null) {
@@ -91,7 +91,7 @@ class DashController extends Controller
 
     public function getUserData($id, $session_id){
         $user_info = User::getUserPageInfoFromId($id);
-        $reports = ReportsModel::where('sessionId', $session_id)->get();
+        $reports = ReportsModel::where('sessionId', $session_id)->where("id_creator", session("client"))->get();
         return response()->json(["user_info"=>$user_info, "reports"=>$reports]);
     }
 }

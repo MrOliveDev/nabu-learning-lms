@@ -237,7 +237,9 @@ class ReportController extends Controller
         $handler = new ReportsModel;
         $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_session as tb_session', "tb_session.id", "=", "tb_reports.sessionId");
         $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_users as tb_users', "tb_users.id", "=", "tb_reports.studentId");
-
+        if(session("user_type") == 1) {
+            $handler = $handler->where("tb_reports.id_creator", session("client"));
+        }
         if(empty($request->input('search.value')))
         {            
             $totalFiltered = $handler->count();
@@ -356,6 +358,8 @@ class ReportController extends Controller
             if($template){
                 $template->name = $request['name'];
                 $template->data = $request['data'];
+                $template->id_creator = session("client");
+
                 $template->save();
                 return response()->json(["success" => true]);
             }
@@ -364,7 +368,8 @@ class ReportController extends Controller
                     'creatorId' => Auth::user()->id,
                     'name' => $request['name'],
                     'data' => $request['data'],
-                    'created_time' => gmdate("Y-m-d\TH:i:s", time())
+                    'created_time' => gmdate("Y-m-d\TH:i:s", time()),
+                    'id_creator' => session("client")
                 ]);
                 return response()->json(["success" => true, "id" => $template->id]);
             }
