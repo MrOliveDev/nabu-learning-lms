@@ -637,6 +637,8 @@
         $(".image")[0].click();
         }
     })
+
+    $("#rapports .nav-main-link-icon").css('color', "<?php echo session("iconOverColor") ?>");
 </script>
 @endsection
 

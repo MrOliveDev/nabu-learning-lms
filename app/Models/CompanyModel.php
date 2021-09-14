@@ -11,7 +11,7 @@ class CompanyModel extends Model
 
 
     protected $fillable = [
-        'id', 'name','description', 'creation_date', 'templateformation'
+        'id', 'name','description', 'creation_date', 'templateformation', 'id_creator'
     ];
 
     protected $table = 'tb_companies';
@@ -21,9 +21,25 @@ class CompanyModel extends Model
     public function scopeGetCompanyByClient($query) {
 
         $client = session("client");   
+        if(auth()->user()->type != 0) {
+            if(auth()->user()->type == 3) {
+                $company = $query
+                ->where("id_creator", auth()->user()->id)
+                ->get();
+                
+            } else {
+                $company = $query->where("id_creator", $client)
+                ->orWhere("id_creator", auth()->user()->id)
+                ->get();
+            }
+        } else {
+            $company = $query->where("id_creator", $client)
+            ->orWhere("id_creator", session("client"))
+            ->get();
+        }
 
-        $company = $query->where("id_creator", $client)->get();
         return $company;
     }
+
 
 }

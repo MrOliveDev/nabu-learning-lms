@@ -8,13 +8,15 @@
 @if(session("iconOverColor")!=null ||
 session("menuBackground")!=null)
 <style>
-    .nav-main-dark .nav-main-link.active,
+    .nav-main-dark .nav-main-link.active .nav-main-link-icon,
      .nav-main-dark .nav-main-link:hover,
-     .page-header-dark #page-header .nav-main-link.active,
+     .page-header-dark #page-header .nav-main-link.active .nav-main-link-icon,
      .page-header-dark #page-header .nav-main-link:hover,
+     .sidebar-dark #sidebar .nav-main-link.active .nav-main-link-icon, 
+     .sidebar-dark #sidebar .nav-main-link.active .nav-main-link-name, 
      .sidebar-dark #sidebar .nav-main-link.active, 
     .sidebar-dark #sidebar .nav-main-link:hover {
-        color: <?php echo session("iconOverColor") ?>;
+        color: <?php echo session("iconOverColor") ?> !important;
         background-color:none;
     }
     .nav-main-link:hover {
@@ -24,7 +26,12 @@ session("menuBackground")!=null)
         background-color:  <?php echo session("menuBackground") ?> !important;
     }
     .nav-main-item .nav-main-link:hover i.nav-main-link-icon, .nav-main-link:hover .nav-main-link-name {
-        color: <?php echo session("iconOverColor") ?>;
+        color: <?php echo session("iconOverColor") ?> !important;
+    }
+
+    #page-container.sidebar-dark #sidebar .simplebar-content {
+        background-color: <?php echo session("menuBackground") ?> !important;
+        /* background-color: #2e3092; */
     }
 </style>
 @endif
@@ -226,7 +233,7 @@ session("menuBackground")!=null)
                                     <a class="nav-main-link" href="{{ route('report') }}" id="rapports">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item mr-2">
-                                            <i class="nav-main-link-icon fas fa-chart-pie" @if(session("iconDefaultColor") != null && session("iconDefaultColor") != "") style="color:{{session("iconDefaultColor")}}" @endif onmouseover="this.style='color:#000000;'"></i>
+                                            <i class="nav-main-link-icon fas fa-chart-pie" @if(session("iconDefaultColor") != null && session("iconDefaultColor") != "") style="color:{{session("iconDefaultColor")}}" @endif></i>
                                         </div>
                                         <!-- </div> -->
                                         <span class="nav-main-link-name">

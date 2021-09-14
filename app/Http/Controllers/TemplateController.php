@@ -17,7 +17,7 @@ class TemplateController extends Controller
      */
     public function index()
     {
-        $templates = TemplateModel::all();
+        $templates = TemplateModel::getTemplateByClient();
         $sessions = SessionModel::getSessionPageInfo();
         $trainings = TrainingsModel::getTrainingByClient();
         $companies = CompanyModel::getCompanyByClient();
@@ -60,7 +60,6 @@ class TemplateController extends Controller
             $template->id_creator = session("client");
         }
         $template->alpha_id = md5(uniqid());
-        $template->id_creator = TemplateModel::first()->id_creator;
         $template->style = TemplateModel::first()->style;
         $template->published = TemplateModel::first()->published;
         $template->save();

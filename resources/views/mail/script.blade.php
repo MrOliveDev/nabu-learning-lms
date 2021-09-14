@@ -2,6 +2,7 @@
 $(document).ready(function(){
     $(".content-side.content-side-full").find(".active").toggleClass("active", false);
     $("#outil").toggleClass("active", true);
+    $("#outil .nav-main-link-icon").css('color', '<?php echo session("iconOverColor") ?>');;
 
     $("#MailPanel").tabs({ active: "{{ $activeTab }}" });
 

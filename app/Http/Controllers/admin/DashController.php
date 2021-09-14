@@ -57,11 +57,11 @@ class DashController extends Controller
             }
             $sessionsInProgress = $sessionsInProgress->count();
 
-            $createdLessons = LessonsModel::all()->count();
+            $createdLessons = LessonsModel::getLessonByClient()->count();
 
             $finishedSessions = SessionModel::where('end_date', "<", today())->where("id_creator", session("client"))->count();
 
-            $generatedReports = ReportsModel::all()->count();
+            $generatedReports = ReportsModel::getReportByClient()->count();
 
             return view('admindash', compact(['sessions', 'registeredUsers', 'activedStudents', 'sessionsInProgress', 'createdLessons', 'finishedSessions', 'generatedReports']));
 

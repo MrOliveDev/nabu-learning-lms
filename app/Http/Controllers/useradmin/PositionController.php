@@ -26,10 +26,15 @@ class PositionController extends Controller
      */
     public function store(Request $request)
     {
-        $position = PositionModel::create([
-            'name'=>$request->input('category_name'),
-            'description'=>$request->input('category_description'),
-        ]);
+        $position = new PositionModel();
+        $position->name=$request->input('category_name');
+        $position->description=$request->input('category_description');
+        if(auth()->user()->type != 0) {
+            $position->id_creator = session("client");
+        } else {
+            $position->id_creator = auth()->user()->id;
+        }
+        $position->save();
 
         return response()->json($position);
         //

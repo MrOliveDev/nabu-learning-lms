@@ -541,10 +541,10 @@ var itemShow = function(event) {
             },
         }).done(function(data) {
             console.log(data);
-            if (data) {
+            if (data && data.length != 0) {
                 var detachIcon, addedbutton;
                 if (cate == "lesson") {
-                    if (JSON.parse(data).data != []) {
+                    if (JSON.parse(data).data != [] && Object.keys(data).length !== 0) {
                         JSON.parse(data).data.forEach(e => {
                             if(e && Object.keys(e).length === 0 && e.constructor === Object){}else {
                                 detachIcon = $('<button class="btn toggle1-btn" data-content="training"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLink);
@@ -556,7 +556,7 @@ var itemShow = function(event) {
                         });
                     }
                 } else if (cate == "training") {
-                    if (JSON.parse(data).data != []) {
+                    if (JSON.parse(data).data != [] && Object.keys(data).length !== 0) {
                         JSON.parse(data).data.forEach(e => {
                             if(e && Object.keys(e).length === 0 && e.constructor === Object){}else {
                                 detachIcon = $('<button class="btn toggle1-btn" data-content="lesson"><i class="px-2 fas fa-unlink"></i></button>').on('click', detachLink);
@@ -803,24 +803,26 @@ var submitBtn = function(event) {
             data: serialval,
             success: function(data) {
                 console.log(data);
-                if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
-                    var arr_url = $('#' + formname).attr('action').split('/');
-                    var groupName = arr_url[arr_url.length - 1];
-                    if (formname == "lesson_form") {
-                        notification('The lesson has been saved sucessfully!', 1);
-                        $('#div_A .list-group').append(createLessonData(data));
-                    } else if (formname == "training_form") {
-                        notification('The training has been saved sucessfully!', 1);
-                        $('#div_C .list-group').append(createTrainingData(data));
-                    }
-                } else {
-                    var target = $("#" + formname).attr('data-item');
-                    if (formname == "lesson_form") {
-                        notification('The lesson has been saved sucessfully!', 1);
-                        updateLessonData(data, target);
-                    } else if (formname == "training_form") {
-                        notification('The training has been saved sucessfully!', 1);
-                        updateTrainingData(data, target);
+                if( Object.keys(data).length !== 0){
+                    if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
+                        var arr_url = $('#' + formname).attr('action').split('/');
+                        var groupName = arr_url[arr_url.length - 1];
+                        if (formname == "lesson_form") {
+                            notification('The lesson has been saved sucessfully!', 1);
+                            $('#div_A .list-group').append(createLessonData(data));
+                        } else if (formname == "training_form") {
+                            notification('The training has been saved sucessfully!', 1);
+                            $('#div_C .list-group').append(createTrainingData(data));
+                        }
+                    } else {
+                        var target = $("#" + formname).attr('data-item');
+                        if (formname == "lesson_form") {
+                            notification('The lesson has been saved sucessfully!', 1);
+                            updateLessonData(data, target);
+                        } else if (formname == "training_form") {
+                            notification('The training has been saved sucessfully!', 1);
+                            updateTrainingData(data, target);
+                        }
                     }
                 }
             },

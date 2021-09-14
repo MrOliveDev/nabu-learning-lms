@@ -32,7 +32,7 @@ class TrainingController extends Controller
         $trainings = TrainingsModel::getTrainingByClient();
         $lessons = LessonsModel::getLessonsContainedTraining();
         $languages = LanguageModel::all();
-        $templates = TemplateModel::all();
+        $templates = TemplateModel::getTemplateByClient();
         return view('training')->with(compact('trainings', 'lessons', 'languages', 'templates'));
     }
 
