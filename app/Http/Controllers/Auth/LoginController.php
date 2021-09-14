@@ -15,7 +15,6 @@ use App\Models\LanguageModel;
 use App\Models\InterfaceCfgModel;
 use Illuminate\Support\Facades\DB;
 
-
 use Auth;
 
 use function PHPUnit\Framework\isEmpty;
@@ -167,6 +166,7 @@ class LoginController extends Controller
     protected function logout()
     {
         Auth::logout();
+        session()->flush();
         return redirect('login');
     }
 
