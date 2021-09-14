@@ -1605,3 +1605,4 @@ $("#table-content .list-group").sortable({
 });
 $('.cancel-btn').click(cancelBtn);
 $('#session-status-icon').click(statusBtn);
+$("fieldset").on("DOMSubtreeModified", function() {$(this).find(".handler_horizontal").dblclick();$(this).find(".handler_horizontal").dblclick();})
