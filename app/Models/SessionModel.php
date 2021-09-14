@@ -216,7 +216,7 @@ class SessionModel extends Model
         //         }
         //     }
         // }
-        $sessions = array_unique($this->scopeGetSessionFromUser($id));
+        $sessions = array_unique($this->getSessionFromUser($id));
         $trainings = array();
         $temp_trainings = array();
         foreach ($sessions as $session) {
@@ -392,7 +392,7 @@ class SessionModel extends Model
      * @param int $user_id
      * @return session item list
      */
-    public function scopeGetSessionFromUser($query, $user_id){
+    public function getSessionFromUser($user_id){
         $sessions = SessionModel::all();
         $result = array();
         foreach ($sessions as $session) {

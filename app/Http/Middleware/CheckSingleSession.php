@@ -19,8 +19,9 @@ class CheckSingleSession
     public function handle(Request $request, Closure $next)
     {
         if(session()->getID() != Auth::user()->last_session){
-            Auth::logout();
+            // Auth::logout();
             // var_dump(session()->getID());die;
+            session()->put(["alert", "Someone is going to join with your credential!"]);
             return redirect('login');
          }
         return $next($request);
