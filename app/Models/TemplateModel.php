@@ -219,7 +219,7 @@ class TemplateModel extends Model
                 ->get();
             }
         } else {
-            $template = $query->where()
+            $template = $query->where("id_creator", session("client"))
             ->get();
         }
     }
