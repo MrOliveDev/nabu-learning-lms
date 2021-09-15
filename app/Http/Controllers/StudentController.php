@@ -395,7 +395,8 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getSessionFromUser(Request $request) {
-        $sessions = SessionModel::getSessionFromUser($request->post("data"));
+        $sessionModel = new SessionModel;
+        $sessions = $sessionModel->getSessionFromUser($request->post("data"));
 
         $sessionArray = array();
         foreach($sessions as $session) {
