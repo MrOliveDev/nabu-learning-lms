@@ -21,8 +21,9 @@ class CheckSingleSession
         if(session()->getID() != Auth::user()->last_session){
             // Auth::logout();
             // var_dump(session()->getID());die;
-            session()->put(["alert", "Someone is going to join with your credential!"]);
-            return redirect('login');
+            // session()->put(["alert"=>"Someone is going to join with your credential!"]);
+            return $next($request);
+
          }
         return $next($request);
     }
