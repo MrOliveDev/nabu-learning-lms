@@ -141,7 +141,10 @@ class LoginController extends Controller
 
         foreach ($result as $user) {
             if (base64_encode($input['password']) == $user->password) {
-
+                if(!empty($user->last_session)) {
+                    $validator->errors()->add('username', 'Unable to log in. You are already loged in in another location');
+                    return redirect()->route('login')->withErrors($validator)->withInput();
+                }
                 $request->session()->regenerate();
                 // var_dump(session()->getID());die;
                 auth()->loginUsingId($user->id, true);
@@ -159,12 +162,18 @@ class LoginController extends Controller
                 return $this->sendLoginResponse($request);
             }
         }
+
+
         $validator->errors()->add('username', 'These credentials do not match our records.');
         return redirect()->route('login')->withErrors($validator)->withInput();
     }
 
     protected function logout()
     {
+        $user = User::find(session("user_id"));
+        $user->last_session = "";
+        $user->update();
+
         Auth::logout();
         session()->flush();
         return redirect('login');

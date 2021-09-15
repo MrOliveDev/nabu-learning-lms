@@ -657,7 +657,7 @@ var toolkitAddItem = function(event) {
         activeTagName = $('#LeftPanel').find('.ui-state-active:first a').attr('href');
         $('#div_A').find('.list-group-item').each(clearClassName);
         $('#user_form').attr('action', baseURL + '/user');
-
+        $("#send_email").prop("checked", false);
         $('#user_form').attr('data-item', '');
 
         $("#user_form .method-select").val('POST');
@@ -1151,6 +1151,7 @@ var item_edit = function(element) {
         case 'teacher':
         case 'author':
             $("#send-email-input").toggle(false);
+            $("#send-email-template").toggle(false);
             $('#user_form .method-select').val('PUT');
             // $('#password').attr('disabled', false);
             toggleFormOrTable($('#LeftPanel'), true);
@@ -1625,6 +1626,9 @@ var submitBtn = function(event) {
         validate = validate && $("#user-email")[0].checkValidity();
         validate = validate && $("#lastname")[0].checkValidity();
         validate = validate && $("#firstname")[0].checkValidity();
+        if($("#send-email-template").is(":visible")) {
+            validate = validate && $("#email_template")[0].checkValidity();
+        }
         if (password == '' || password == null) {
             if ($('#password').attr('placeholder') == '') {
                 validate = false;
@@ -2991,6 +2995,8 @@ $(document).ready(function() {
     //     $('#div_A, #div_C').css('height', $('#content').css('height') * 0.7);
     // }
 
+    $("#send-email-template").toggle(false);
+
     $('#LeftPanel .toolkit>div').css('background-color', 'var(--student-h)');
     $('#RightPanel .toolkit:first>div').css('background-color', 'var(--group-h)');
     $('.second-table .toolkit>div').css('background-color', 'var(--student-h)');
@@ -3120,8 +3126,10 @@ $("#password-input .input-group-append>span.input-group-text").click(function(ev
         item.toggleClass("fa-eye-slash", false).toggleClass("fa-eye", true);
     }
 });
-$("fieldset").on("DOMSubtreeModified", function() {$(this).find(".handler_horizontal").dblclick();$(this).find(".handler_horizontal").dblclick();})
-
+$("fieldset").on("DOMSubtreeModified", function() {$(this).find(".handler_horizontal").dblclick();$(this).find(".handler_horizontal").dblclick();});
+$("#send-email-input").click(function(event){
+    $("#send-email-template").toggle($(event.target).prop('checked'));
+});
 
 // $.fn.multiSelect = function(o) {
 //     var defaults = {

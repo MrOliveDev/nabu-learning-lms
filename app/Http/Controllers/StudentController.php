@@ -13,6 +13,8 @@ use App\Models\ConfigModel;
 use App\Models\LanguageModel;
 use App\Models\SessionModel;
 use App\Models\PermissionModel;
+use App\Models\MailTemplateModel;
+
 use Mail;
 use Hackzilla\PasswordGenerator\Generator\RequirementPasswordGenerator;
 
@@ -39,7 +41,9 @@ class StudentController extends Controller
         $languages = LanguageModel::all();
         $permissions = PermissionModel::where('show', 1)->get();
 
-        return view('student', compact(['authors', 'teachers', 'students', 'groups', 'positions', 'companies', 'languages', 'permissions']));
+        $templates = MailTemplateModel::get();
+
+        return view('student', compact(['authors', 'teachers', 'students', 'groups', 'positions', 'companies', 'languages', 'permissions', 'templates']));
     }
 
     /**
@@ -142,17 +146,33 @@ class StudentController extends Controller
         
         $client = !empty(User::find(session("client"))->contact_info)?json_decode(User::find(session("client"))->contact_info)->email:null;
         $mail = $request->post('user-email');
-        $content = "<p>Welcome to nabu learning</p>";
-
+        $template = MailTemplateModel::find($request->input("email_template"));
+        $content = $template->data;
+        $arr = explode("#first_name", $content);
+        $content = implode($request->input("first_name"), $arr);
+        $arr = explode("#last_name", $content);
+        $content = implode($request->input("last_name"), $arr);
+        $arr = explode("#username", $content);
+        $content = implode($request->input("login"), $arr);
+        $arr = explode("#password", $content);
+        $content = implode($request->input("password"), $arr);
         if($request->post("send_email")=="1"){
             if(!empty($client) && !empty($mail)){
 
                 $data = array("from" => env("MAIL_FROM_ADDRESS"), "to" => $mail, "content" => $content, "subject" => "Welcome");
-                Mail::send(array(), array(), function ($message) use ($data) {
-                    $message->to($data['to'])->from($data['from'], 'Nabu Learning')
-                    ->subject($data['subject'])
-                    ->setBody($data['content'], 'text/html');
-                });
+                try {
+                    Mail::send(array(), array(), function ($message) use ($data) {
+                        $message->to($data['to'])->from($data['from'], 'Nabu Learning')
+                        ->subject($data['subject'])
+                        ->setBody($data['content'], 'text/html');
+                    });
+                } catch (\Swift_TransportException  $e) {
+                    return response()->json(['user'=>$user, 'lang'=>$lang->language_iso, 'mail_success'=>false]);
+                } finally {
+                    // print_r("this is f");
+                    // return response()->json(['user'=>$user, 'lang'=>$lang->language_iso, 'mail_success'=>"f"]);
+                }
+
                 return response()->json(['user'=>$user, 'lang'=>$lang->language_iso, 'mail_success'=>true]);
             } else {
                 return response()->json(['user'=>$user, 'lang'=>$lang->language_iso, 'mail_success'=>false]);
