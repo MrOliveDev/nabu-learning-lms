@@ -657,7 +657,7 @@ var toolkitAddItem = function(event) {
         activeTagName = $('#LeftPanel').find('.ui-state-active:first a').attr('href');
         $('#div_A').find('.list-group-item').each(clearClassName);
         $('#user_form').attr('action', baseURL + '/user');
-
+        $("#send_email").prop("checked", false);
         $('#user_form').attr('data-item', '');
 
         $("#user_form .method-select").val('POST');

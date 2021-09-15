@@ -148,11 +148,19 @@ class StudentController extends Controller
             if(!empty($client) && !empty($mail)){
 
                 $data = array("from" => env("MAIL_FROM_ADDRESS"), "to" => $mail, "content" => $content, "subject" => "Welcome");
-                Mail::send(array(), array(), function ($message) use ($data) {
-                    $message->to($data['to'])->from($data['from'], 'Nabu Learning')
-                    ->subject($data['subject'])
-                    ->setBody($data['content'], 'text/html');
-                });
+                try {
+                    Mail::send(array(), array(), function ($message) use ($data) {
+                        $message->to($data['to'])->from($data['from'], 'Nabu Learning')
+                        ->subject($data['subject'])
+                        ->setBody($data['content'], 'text/html');
+                    });
+                } catch (\Swift_TransportException  $e) {
+                    return response()->json(['user'=>$user, 'lang'=>$lang->language_iso, 'mail_success'=>false]);
+                } finally {
+                    // print_r("this is f");
+                    // return response()->json(['user'=>$user, 'lang'=>$lang->language_iso, 'mail_success'=>"f"]);
+                }
+
                 return response()->json(['user'=>$user, 'lang'=>$lang->language_iso, 'mail_success'=>true]);
             } else {
                 return response()->json(['user'=>$user, 'lang'=>$lang->language_iso, 'mail_success'=>false]);
