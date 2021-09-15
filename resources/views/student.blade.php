@@ -614,6 +614,25 @@ data-authed-user-type="{{session("user_type")}}"
                                 </div>
                             </div>
 
+                            <div class="form-group" id="send-email-template">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Template
+                                        </span>
+                                    </div>
+                                    <select class="form-control" id="email_template" name="email_template">
+                                        @foreach ($templates as $template)
+                                            @if ($loop->first)
+                                                <option value="{{ $template->id }}" selected>{{ $template->name }}</option>
+                                            @else
+                                                <option value="{{ $template->id }}">{{ $template->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="clearfix form-group">
                                 <button type="submit" class="float-right mx-1 btn btn-hero-primary submit-btn"
                                     id="user_save_button" data-form="user_form">SAVE</button>
