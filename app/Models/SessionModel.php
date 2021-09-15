@@ -487,7 +487,7 @@ class SessionModel extends Model
      * @param int $teacher_id
      */
     public function scopeGetStudentFromOwnedTeacher($query, $teacher_id) {
-        $sessions = SessionModel::getSessionFromUser($teacher_id);
+        $sessions = $this->getSessionFromUser($teacher_id);
         $result = array();
         foreach ($sessions as $session) {
             array_push($result, ...SessionModel::getStudentsFromSession($session->participants));
