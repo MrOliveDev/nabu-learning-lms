@@ -170,7 +170,7 @@ class LoginController extends Controller
 
     protected function logout()
     {
-        $user = User::find(session("user_id"));
+        $user = User::find(auth()->user()->id);
         $user->last_session = "";
         $user->update();
 
