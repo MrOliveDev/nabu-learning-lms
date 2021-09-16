@@ -14,5 +14,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'html5_player_api/*',
         'html5_player_api_/*',
+        'getPPTConfig/*'
     ];
 }
