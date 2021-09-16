@@ -597,4 +597,19 @@ class StudentController extends Controller
         }
         return $string;
     }    
+
+    public function getPPTConfig(Request $request, $id) {
+        $user = User::find($id);
+        if(isset($user->id_config)){
+            $config = ConfigModel::find($user->id_config);
+            if(isset($config)){
+                return response()->json(["success"=>true, "allowed"=>($config->config==1)]);
+            } else {
+                return response()->json(["success"=>false, "allowed"=>false]);
+            }
+
+        } else {
+            return response()->json(["success"=>false, "allowed"=>false]);
+        }
+    }
 }
