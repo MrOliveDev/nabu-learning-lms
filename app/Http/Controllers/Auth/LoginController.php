@@ -143,9 +143,11 @@ class LoginController extends Controller
         $dbLoginSetting = SiteSettingModel::where("name", "doublelogin")->first("value");
         foreach ($result as $user) {
             if (base64_encode($input['password']) == $user->password) {
-                if(!empty($user->last_session) && $dbLoginSetting->value==1) {
-                    $validator->errors()->add('username', 'Unable to log in. You are already loged in another location');
-                    return redirect()->route('login')->withErrors($validator)->withInput();
+                if($user->type != 0) {
+                    if(!empty($user->last_session) && $dbLoginSetting->value==1) {
+                        $validator->errors()->add('username', 'Unable to log in. You are already loged in another location');
+                        return redirect()->route('login')->withErrors($validator)->withInput();
+                    }
                 }
                 $request->session()->regenerate();
                 // var_dump(session()->getID());die;

@@ -582,6 +582,7 @@ var toolkitMultiDelete = function(event) {
                 .done(function(){
                     e.fire('Deleted!', 'Your ' + category + ' has been deleted.', 'success');
                     selectedItem.map(function(i, item){
+                        if(!$(item).is(".drag-disable"))
                         $(item).remove();
                     });
                 })
@@ -1770,7 +1771,7 @@ var submitBtn = function(event) {
                             email_btn.click(emailBtn);
                             notification('The company has been saved sucessfully!', 1);
                             var company_item = createCategoryData(data, 'company');
-                            company_item.find(".btn-group").append(email_btn);
+                            company_item.find(".btn-group").prepend(email_btn);
                             $('#companies .list-group').append(company_item);
                             $('#company').append('<option value="' + data.id + '">' + data.name + '</option>');
                             break;
@@ -2814,9 +2815,11 @@ var dragitem = null;
 function dragStart(event) {
     dragitem = Array();
     $(this).parents(".list-group").children('.active.list-group-item').each(function(i, dragelem) {
+        if(!$(dragelem).is(".drag-disable"))
         dragitem.push($(dragelem).attr("id"));
     });
     if (dragitem.indexOf($(this).attr('id')) == -1) {
+        if(!$(dragitem).is(".drag-disable"))
         dragitem.push($(this).attr('id'));
     }
     console.log($(this).css('cursor'));
