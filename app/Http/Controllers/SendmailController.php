@@ -26,7 +26,7 @@ class SendmailController extends Controller
     public function index(Request $request)
     {
         $templates = MailTemplateModel::get();
-        $images = MailImages::where('userId', Auth::user()->id)->get();
+        $images = MailImages::where('userId', session('client'))->get();
         
         $activeTab = 0;
         $process = 'List of users';
@@ -364,11 +364,11 @@ class SendmailController extends Controller
             $imageName = time() . '.png';
             file_put_contents(public_path() . '/images/' . $imageName, $data);
             
-            MailImages::create([
+            $image = MailImages::create([
                 'userId' => Auth::user()->id,
                 'data' => env('APP_URL') . '/public/images/' . $imageName
             ]);
-            return response()->json(["success" => true]);
+            return response()->json(["success" => true, "src" => $image->data]);
         } else
             return response()->json(["success" => false, "message" => "Missing id."]);
     }
