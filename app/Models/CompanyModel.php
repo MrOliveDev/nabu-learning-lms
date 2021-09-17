@@ -21,22 +21,20 @@ class CompanyModel extends Model
     public function scopeGetCompanyByClient($query) {
 
         $client = session("client");   
-        if(auth()->user()->type != 0) {
-            if(auth()->user()->type == 3) {
-                $company = $query
-                ->where("id_creator", auth()->user()->id)
+        // if(isset(session("permission")->limited)) {
+        //     $company = $query
+        //     ->where("id_creator", auth()->user()->id)
+        //     ->get();
+        // } else {
+            if(auth()->user()->type < 2) {
+                $company = $query->where("id_creator", $client)
                 ->get();
-                
             } else {
                 $company = $query->where("id_creator", $client)
                 ->orWhere("id_creator", auth()->user()->id)
                 ->get();
             }
-        } else {
-            $company = $query->where("id_creator", $client)
-            ->orWhere("id_creator", session("client"))
-            ->get();
-        }
+        // }
 
         return $company;
     }

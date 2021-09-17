@@ -229,10 +229,12 @@ var sessionItemClick = function(e) {
                     if (data.participants.group) {
                         data.participants.group.map(function(participant_item) {
                             if (participant_item) {
-                                var newItem = createGroupItem(participant_item);
-                                newItem.attr('data-src', id);
-                                $('#table-participant_'+id+' .list-group').append(newItem);
-                                $(newItem[1]).find(".list-group-item").toggle(false);
+                                if(participant_item.value) {
+                                    var newItem = createGroupItem(participant_item);
+                                    newItem.attr('data-src', id);
+                                    $('#table-participant_'+id+' .list-group').append(newItem);
+                                    $(newItem[1]).find(".list-group-item").toggle(false);
+                                }
                             }
                         });
                     }

@@ -10,7 +10,7 @@ class GroupModel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id', 'name', 'status', 'description', 'creation_date'
+        'id', 'name', 'status', 'description', 'creation_date', 'id_creator'
     ];
 
     protected $table = 'tb_groups';
@@ -19,19 +19,20 @@ class GroupModel extends Model
     public function scopeGetGroupByClient($query) {
         $client = session("client");
 
-        if(auth()->user()->type != 0) {
-            if(auth()->user()->type ==3 ){
-                $groups = $query
-                ->where("id_creator", auth()->user()->id)
+        // if(isset(session("permission")->limited)) {
+        //     $groups = $query
+        //     ->where("id_creator", auth()->user()->id)
+        //     ->get();
+        // } else {
+            if(auth()->user()->type < 2) {
+                $groups = $query->where("id_creator", $client)
                 ->get();
             } else {
                 $groups = $query->where("id_creator", $client)
                 ->orWhere("id_creator", auth()->user()->id)
                 ->get();
             }
-        } else {
-            $groups = $query->where("id_creator", $client)->get();
-        }
+        // }
         return $groups;
     }
 }

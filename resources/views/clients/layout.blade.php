@@ -146,7 +146,17 @@
                         <label class="custom-control-label" for="example-sw-custom-lg2"><i></i></label>
                     </div>
                 </div>
-
+                <br>
+                <hr>
+                <div class="clearfix mb-3">
+                    <label class="px-2 py-1 bg-blue-4 text-white" style="width:150px; font-size:18pt; background-color:rgb(97, 25, 25);">
+                        Double Login
+                    </label>
+                    <div class="custom-control custom-switch custom-control-lg custom-control-inline pl-2">
+                        <input type="checkbox" class="custom-control-input" id="flag" name="flag" data-flag="{{$doublelogin}}">
+                        <label class="custom-control-label" for="flag"><i></i></label>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -584,6 +594,23 @@
         $('#email').prop('disabled', true);
         $('#lang').prop('disabled', true);
         $('#pack').prop('disabled', true);
+        $("#flag").prop("checked", $("#flag").attr("data-flag")=="1");
+        $("#flag").click(function(event){
+            $.post({
+                url:baseURL+"/updatedoublelogin", 
+                data:{
+                    // flag:$(this).prop("checked")
+                    flag:$(this).prop("checked")?1:0
+                },
+            })
+            .done(function(data){
+                // $("#flag").prop("checked", data)
+                console.log("success");
+            })
+            .fail(function(err) {
+                console.log("error");
+            });
+        })
     });
 
     formclear = function() {

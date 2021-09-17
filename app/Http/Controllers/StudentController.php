@@ -143,20 +143,19 @@ class StudentController extends Controller
         $lang= LanguageModel::where('language_id', $user->lang)->first();
 
         
-        
-        $client = !empty(User::find(session("client"))->contact_info)?json_decode(User::find(session("client"))->contact_info)->email:null;
-        $mail = $request->post('user-email');
-        $template = MailTemplateModel::find($request->input("email_template"));
-        $content = $template->data;
-        $arr = explode("#first_name", $content);
-        $content = implode($request->input("first_name"), $arr);
-        $arr = explode("#last_name", $content);
-        $content = implode($request->input("last_name"), $arr);
-        $arr = explode("#username", $content);
-        $content = implode($request->input("login"), $arr);
-        $arr = explode("#password", $content);
-        $content = implode($request->input("password"), $arr);
         if($request->post("send_email")=="1"){
+            $client = !empty(User::find(session("client"))->contact_info)?json_decode(User::find(session("client"))->contact_info)->email:null;
+            $mail = $request->post('user-email');
+            $template = MailTemplateModel::find($request->input("email_template"));
+            $content = $template->data;
+            $arr = explode("#first_name", $content);
+            $content = implode($request->input("first_name"), $arr);
+            $arr = explode("#last_name", $content);
+            $content = implode($request->input("last_name"), $arr);
+            $arr = explode("#username", $content);
+            $content = implode($request->input("login"), $arr);
+            $arr = explode("#password", $content);
+            $content = implode($request->input("password"), $arr);
             if(!empty($client) && !empty($mail)){
 
                 $data = array("from" => env("MAIL_FROM_ADDRESS"), "to" => $mail, "content" => $content, "subject" => "Welcome");

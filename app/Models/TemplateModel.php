@@ -208,19 +208,19 @@ class TemplateModel extends Model
     }
     /******* DORIAN *******/
     public function scopeGetTemplateByClient($query) {
-        if(auth()->user()->type != 0) {
-            if(auth()->user()->type ==3) {
-                $template = $query
-                ->orWhere("id_creator", auth()->user()->id)
+        if(isset(session("permission")->limited)) {
+            $template = $query
+            ->orWhere("id_creator", auth()->user()->id)
+            ->get();
+        } else {
+            if(auth()->user()->type < 2) {
+                $template = $query->where("id_creator", session("client"))
                 ->get();
             } else {
                 $template = $query->where("id_creator", session("client"))
                 ->orWhere("id_creator", auth()->user()->id)
                 ->get();
             }
-        } else {
-            $template = $query->where("id_creator", session("client"))
-            ->get();
         }
     }
 }
