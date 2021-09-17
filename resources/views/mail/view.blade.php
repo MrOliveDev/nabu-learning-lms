@@ -453,7 +453,7 @@
                         data: {data: base64data},
                         success: function(res) {
                             if(res.success){
-                                $("#imagePreviews").append('<img src="' + base64data + '" alt="image" class="model-drag-item previewImg" width="100" height="100" onclick="toggleActive(this)">');
+                                $("#imagePreviews").append('<img src="' + res.src + '" alt="image" class="model-drag-item previewImg" width="100" height="100" onclick="toggleActive(this)">');
                             } else
                                 Dashmix.helpers('notify', {type: 'danger', icon: 'fa fa-times mr-1', message: res.message });
                         },
