@@ -269,7 +269,7 @@ var sessionItemClick = function(e) {
             if (data.participants) {
                 if (data.participants.group) {
                     data.participants.group.map(function(participant_item) {
-                        if (participant_item) {
+                        if (participant_item?.value) {
                             var newItem = createGroupItem(participant_item);
                             newItem.attr('data-src', id);
                             $('#table-participant .list-group').append(newItem);

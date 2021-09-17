@@ -19,19 +19,19 @@ class PositionModel extends Model
     public $timestamps = false;
 
     public function scopeGetPositionByClient($query) {
-        if(auth()->user()->type != 0) {
-            if(auth()->user()->type == 3) {
-                $position = $query
-                ->where("id_creator", auth()->user()->id)
-                ->get();
+        // if(isset(session("client")->limited)){
+        //     $position = $query
+        //     ->where("id_creator", auth()->user()->id)
+        //     ->get();
+        // } else {
+            if(auth()->user()->type < 2) {
+                $position = $query->where('id_creator', session("client"))->get();
             } else {
                 $position = $query->where('id_creator', session("client"))
                 ->orWhere("id_creator", auth()->user()->id)
                 ->get();
             }
-        } else {
-            $position = $query->where('id_creator', session("client"))->get();
-        }
+        // }
         return $position;
     }
 }

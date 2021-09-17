@@ -260,7 +260,7 @@ data-authed-user-type="{{session("user_type")}}"
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @if(isset(session('permission')->student->student->display))
                         @foreach ($students as $student)
-                            <a class="list-group-item list-group-item-action p-0 border-transparent border-5x student_{{ $student->id }}"
+                            <a class="list-group-item list-group-item-action p-0 border-transparent border-5x student_{{ $student->id }} <?php if(isset(session("permission")->limited) && auth()->user()->id != $student->id_creator) echo "drag-disable"?>"
                                 id="student_{{ $student->id }}" data-date="{{ $student->creation_date }}" data-creator="{{$student->id_creator}}">
                                 <div class="float-left">
                                     @if ($student->status == 1)
@@ -284,23 +284,36 @@ data-authed-user-type="{{session("user_type")}}"
                                         <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?studentId={{$student->id}}')">
                                             <i class="px-2 fa fa-envelope"></i>
                                         </button>
-                                    @if(!isset(session("permission")->limited) || (auth()->user()->type == 3 && auth()->user()->id == $student->id_creator))
                                         @if(isset(session('permission')->student->student->show))
                                         <button class="btn item-show" data-content='student'>
                                             <i class="px-2 fa fa-eye"></i>
                                         </button>
                                         @endif
-                                        @if(isset(session("permission")->student->student->edit))
-                                        <button class="btn item-edit" data-content='student'>
-                                            <i class="px-2 fa fa-edit"></i>
-                                        </button>
+                                        @if(isset(session("permission")->limited))
+                                            @if( auth()->user()->id == $student->id_creator)
+                                                @if(isset(session("permission")->student->student->edit))
+                                                <button class="btn item-edit" data-content='student'>
+                                                    <i class="px-2 fa fa-edit"></i>
+                                                </button>
+                                                @endif
+                                                @if(isset(session("permission")->student->student->delete))
+                                                <button class="btn item-delete" data-content='student'>
+                                                    <i class="px-2 fa fa-trash-alt"></i>
+                                                </button>
+                                                @endif
+                                            @endif
+                                        @else
+                                            @if(isset(session("permission")->student->student->edit))
+                                            <button class="btn item-edit" data-content='student'>
+                                                <i class="px-2 fa fa-edit"></i>
+                                            </button>
+                                            @endif
+                                            @if(isset(session("permission")->student->student->delete))
+                                            <button class="btn item-delete" data-content='student'>
+                                                <i class="px-2 fa fa-trash-alt"></i>
+                                            </button>
+                                            @endif
                                         @endif
-                                        @if(isset(session("permission")->student->student->delete))
-                                        <button class="btn item-delete" data-content='student'>
-                                            <i class="px-2 fa fa-trash-alt"></i>
-                                        </button>
-                                        @endif
-                                    @endif
                                 </div>
                             </a>
                         @endforeach
@@ -312,7 +325,7 @@ data-authed-user-type="{{session("user_type")}}"
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @if(isset(session("permission")->student->teacher->display))
                         @foreach ($teachers as $teacher)
-                            <a class="list-group-item list-group-item-action p-0 border-transparent border-5x teacher_{{ $teacher->id }}"
+                            <a class="list-group-item list-group-item-action p-0 border-transparent border-5x teacher_{{ $teacher->id }} <?php if(isset(session("permission")->limited) && auth()->user()->id != $teacher->id_creator) echo "drag-disable"?>"
                                 id="teacher_{{ $teacher->id }}" data-date="{{ $teacher->creation_date }}" data-creator="{{ $teacher->id_creator }}">
                                 <div class="float-left">
                                     @if ($teacher->status == 1)
@@ -336,26 +349,39 @@ data-authed-user-type="{{session("user_type")}}"
                                         <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?teacherId={{$teacher->id}}')">
                                             <i class="px-2 fa fa-envelope"></i>
                                         </button>
-                                @if(!isset(session("permission")->limited) || (auth()->user()->type == 3 && auth()->user()->id == $teacher->id_creator))
-                                    @if(isset(session('permission')->student->teacher->show))
+                                        @if(isset(session('permission')->student->teacher->show))
 
-                                        <button class="btn item-show" data-content='teacher'>
-                                            <i class="px-2 fa fa-eye"></i>
-                                        </button>
-                                    @endif
+                                            <button class="btn item-show" data-content='teacher'>
+                                                <i class="px-2 fa fa-eye"></i>
+                                            </button>
+                                        @endif
+                                        @if(isset(session("permission")->limited))
+                                            @if( (auth()->user()->id == $teacher->id_creator))
+                                                @if(isset(session("permission")->student->teacher->edit))
+                                                    <button class="btn item-edit" data-content='teacher'>
+                                                        <i class="px-2 fa fa-edit"></i>
+                                                    </button>
+                                                @endif
 
-                                    @if(isset(session("permission")->student->teacher->edit))
-                                        <button class="btn item-edit" data-content='teacher'>
-                                            <i class="px-2 fa fa-edit"></i>
-                                        </button>
-                                    @endif
+                                                @if(isset(session("permission")->student->teacher->delete))
+                                                    <button class="btn item-delete" data-content='teacher'>
+                                                        <i class="px-2 fa fa-trash-alt"></i>
+                                                    </button>
+                                                @endif
+                                            @endif
+                                        @else 
+                                            @if(isset(session("permission")->student->teacher->edit))
+                                                <button class="btn item-edit" data-content='teacher'>
+                                                    <i class="px-2 fa fa-edit"></i>
+                                                </button>
+                                            @endif
 
-                                    @if(isset(session("permission")->student->teacher->delete))
-                                        <button class="btn item-delete" data-content='teacher'>
-                                            <i class="px-2 fa fa-trash-alt"></i>
-                                        </button>
-                                    @endif
-                                @endif
+                                            @if(isset(session("permission")->student->teacher->delete))
+                                                <button class="btn item-delete" data-content='teacher'>
+                                                    <i class="px-2 fa fa-trash-alt"></i>
+                                                </button>
+                                            @endif
+                                        @endif
                                 </div>
                             </a>
                         @endforeach
@@ -367,7 +393,7 @@ data-authed-user-type="{{session("user_type")}}"
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @if(isset(session("permission")->student->author->display))
                         @foreach ($authors as $author)
-                            <a class="list-group-item list-group-item-action p-0 border-transparent border-5x author_{{ $author->id }}"
+                            <a class="list-group-item list-group-item-action p-0 border-transparent border-5x author_{{ $author->id }} <?php if(isset(session("permission")->limited) && auth()->user()->id != $author->id_creator) echo "drag-disable"?>"
                                 id="author_{{ $author->id }}" data-date="{{ $author->creation_date }}" data-creator="{{ $author->id_creator }}">
                                 <div class="float-left">
                                     @if ($author->status == 1)
@@ -391,26 +417,40 @@ data-authed-user-type="{{session("user_type")}}"
                                         <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?authorId={{$author->id}}')">
                                             <i class="px-2 fa fa-envelope"></i>
                                         </button>
-                                    @if(!isset(session("permission")->limited) || (auth()->user()->type == 3 && auth()->user()->id == $author->id_creator))
-                                        @if(isset(session('permission')->student->author->show))
-                                        <button class="btn item-show" data-content='author'>
-                                            <i class="px-2 fa fa-eye"></i>
-                                        </button>
+                                        @if(isset(session('permission')->student->teacher->show))
+                                            <button class="btn item-show" data-content='author'>
+                                                <i class="px-2 fa fa-eye"></i>
+                                            </button>
                                         @endif
+   
+                                        @if(isset(session("permission")->limited))
+                                            @if( (auth()->user()->id == $author->id_creator))
+                                                @if(isset(session('permission')->student->author->show))                                      
+                                                <button class="btn item-edit" data-content='author'>
+                                                    <i class="px-2 fa fa-edit"></i>
+                                                </button>
+                                                @endif
 
-                                        @if(isset(session("permission")->student->author->edit))
-                                        <button class="btn item-edit" data-content='author'>
+                                                @if(isset(session("permission")->student->author->delete))
+                                                <button class="btn item-delete" data-content='author'>
+                                                    <i class="px-2 fa fa-trash-alt"></i>
+                                                </button>
+                                                @endif
+                                            @endif
+                                        @else 
+                                            @if(isset(session('permission')->student->author->show))                                      
+                                            <button class="btn item-edit" data-content='author'>
                                                 <i class="px-2 fa fa-edit"></i>
                                             </button>
-                                        @endif
-
-                                        @if(isset(session("permission")->student->author->delete))
-                                        <button class="btn item-delete" data-content='author'>
+                                            @endif
+                                            
+                                            @if(isset(session("permission")->student->author->delete))
+                                            <button class="btn item-delete" data-content='author'>
                                                 <i class="px-2 fa fa-trash-alt"></i>
                                             </button>
+                                            @endif
                                         @endif
-                                    @endif
-                                </div>
+                                </div>             
                             </a>
                         @endforeach
                         @endif
@@ -917,8 +957,8 @@ data-authed-user-type="{{session("user_type")}}"
                 <div class="mx-4 list-group " id="list-tab" role="tablist" data-src=''>
                     @if (isset(session("permission")->student->group->display))
                     @foreach ($groups as $group)
-                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x group_{{ $group->id }}"
-                            id="group_{{ $group->id }}" data-date="{{ $group->creation_date }}">
+                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x group_{{ $group->id }} <?php if(isset(session("permission")->limited) && auth()->user()->id != $group->id_creator) echo "drag-disable"?>"
+                            id="group_{{ $group->id }}" data-date="{{ $group->creation_date }}" data-creator="{{ $group->id_creator }}">
                             <div class="float-left">
                                 @if ($group->status == 1)
                                     <i class="m-2 fa fa-circle" style="color:green;"></i>
@@ -934,12 +974,20 @@ data-authed-user-type="{{session("user_type")}}"
                                 <button class="btn item-mail toggle1-btn" onclick="redirectPage('{{route('sendmail')}}?groupId={{$group->id}}')">
                                     <i class="px-2 fa fa-envelope"></i>
                                 </button>
-                                @if(!isset(session("permission")->limited) || (auth()->user()->type == 3 && auth()->user()->id == $group->id_creator))
-                                    @if (isset(session("permission")->student->group->show))
-                                    <button class="btn toggle1-btn item-show" data-content="group">
-                                        <i class="px-2 fa fa-eye"></i>
-                                    </button>
+                                @if(isset(session("permission")->limited) )
+                                    @if (auth()->user()->id == $group->id_creator)
+                                        @if (isset(session("permission")->student->group->edit))
+                                        <button class="btn item-edit toggle1-btn" data-content="group">
+                                            <i class="px-2 fa fa-edit"></i>
+                                        </button>
+                                        @endif
+                                        @if (isset(session("permission")->student->group->delete))
+                                        <button class="btn item-delete toggle1-btn" data-content="group">
+                                            <i class="px-2 fa fa-trash-alt"></i>
+                                        </button>
+                                        @endif
                                     @endif
+                                @else 
                                     @if (isset(session("permission")->student->group->edit))
                                     <button class="btn item-edit toggle1-btn" data-content="group">
                                         <i class="px-2 fa fa-edit"></i>
@@ -965,7 +1013,7 @@ data-authed-user-type="{{session("user_type")}}"
                 <div class="mx-4 list-group" id="list-tab" role="tablist" data-src=''>
                     @if (isset(session("permission")->student->company->display))
                     @foreach ($companies as $company)
-                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x company_{{ $company->id }}"
+                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x company_{{ $company->id }} <?php if(isset(session("permission")->limited) && auth()->user()->id != $company->id_creator) echo "drag-disable"?>"
                             id="company_{{ $company->id }}" data-date="{{ $company->creation_date }}">
                             <div class="float-left">
                                 <span class="item-name">{{ $company->name }}</span>
@@ -975,12 +1023,25 @@ data-authed-user-type="{{session("user_type")}}"
                                 <button class="btn item-mail toggle1-btn" onclick="redirectPage('{{route('sendmail')}}?companyId={{$company->id}}')">
                                     <i class="px-2 fa fa-envelope"></i>
                                 </button>
-                                @if(!isset(session("permission")->limited) || (auth()->user()->type == 3 && auth()->user()->id == $company->id_creator))
-                                    @if(isset(session("permission")->student->company->show))
-                                    <button class="btn toggle1-btn item-show" data-content='company'>
-                                        <i class="px-2 fa fa-eye"></i>
-                                    </button>
+                                @if(isset(session("permission")->student->company->show))
+                                <button class="btn toggle1-btn item-show" data-content='company'>
+                                    <i class="px-2 fa fa-eye"></i>
+                                </button>
+                                @endif
+                                @if(isset(session("permission")->limited))
+                                    @if((auth()->user()->id == $company->id_creator))
+                                        @if(isset(session("permission")->student->company->edit))
+                                        <button class="btn item-edit toggle1-btn" data-content='company'>
+                                            <i class="px-2 fa fa-edit"></i>
+                                        </button>
+                                        @endif
+                                        @if(isset(session("permission")->student->company->display))
+                                        <button class="btn item-delete toggle1-btn" data-content='company'>
+                                            <i class="px-2 fa fa-trash-alt"></i>
+                                        </button>
+                                        @endif
                                     @endif
+                                @else 
                                     @if(isset(session("permission")->student->company->edit))
                                     <button class="btn item-edit toggle1-btn" data-content='company'>
                                         <i class="px-2 fa fa-edit"></i>
@@ -1006,7 +1067,7 @@ data-authed-user-type="{{session("user_type")}}"
                 <div class="mx-4 list-group" id="list-tab" role="tablist" data-src=''>
                     @if (isset(session("permission")->student->position->display))
                     @foreach ($positions as $position)
-                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x function_{{ $position->id }}"
+                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x function_{{ $position->id }} <?php if(isset(session("permission")->limited) && auth()->user()->id != $position->id_creator) echo "drag-disable"?>"
                             id="function_{{ $position->id }}">
                             <div class="float-left">
                                 <!-- <i class="m-2 fa fa-circle text-danger"></i> -->
@@ -1014,12 +1075,25 @@ data-authed-user-type="{{session("user_type")}}"
                                 <input type="hidden" name="item-name" value="{{ $position->name }}">
                             </div>
                             <div class="float-right btn-group">
-                                @if(!isset(session("permission")->limited) || (auth()->user()->type == 3 && auth()->user()->id == $position->id_creator))
-                                    @if(isset(session("permission")->student->position->show))
-                                    <button class="btn toggle1-btn item-show" data-content='position'>
-                                        <i class="px-2 fa fa-eye"></i>
-                                    </button>
+                                @if(isset(session("permission")->student->position->show))
+                                <button class="btn toggle1-btn item-show" data-content='position'>
+                                    <i class="px-2 fa fa-eye"></i>
+                                </button>
+                                @endif
+                                @if(isset(session("permission")->limited))
+                                    @if((auth()->user()->id == $position->id_creator))
+                                        @if(isset(session("permission")->student->position->edit))
+                                        <button class="btn item-edit toggle1-btn" data-content='position'>
+                                            <i class="px-2 fa fa-edit"></i>
+                                        </button>
+                                        @endif
+                                        @if(isset(session("permission")->student->position->display))
+                                        <button class="btn item-delete toggle1-btn" data-content='position'>
+                                            <i class="px-2 fa fa-trash-alt"></i>
+                                        </button>
+                                        @endif
                                     @endif
+                                @else
                                     @if(isset(session("permission")->student->position->edit))
                                     <button class="btn item-edit toggle1-btn" data-content='position'>
                                         <i class="px-2 fa fa-edit"></i>

@@ -10,19 +10,19 @@ class LessonsModel extends Model
     use HasFactory;
 
     protected $fillable = [
-'id',
-'name',
-'description',
-'publicAudio',
-'creation_date',
-'status',
-'idFabrica',
-'idCreator',
-'threshold_score',
-'template_player_id',
-'lang',
-'date_end',
-'duration'
+        'id',
+        'name',
+        'description',
+        'publicAudio',
+        'creation_date',
+        'status',
+        'idFabrica',
+        'idCreator',
+        'threshold_score',
+        'template_player_id',
+        'lang',
+        'date_end',
+        'duration'
     ];
 
     protected $table = 'tb_lesson';
@@ -122,11 +122,16 @@ class LessonsModel extends Model
 
     public function scopeGetLessonByClient($query) {
         $client = session("client");
-        if(auth()->user()->type!=0){
-            if(auth()->user()->type==3) {
+        if(isset(session("permission")->limited)) {
+            $lessons = $query->leftjoin("tb_users", 'tb_lesson.idCreator', "=", 'tb_users.id')
+                ->where("tb_lesson.idCreator", auth()->user()->id)
+                ->orWhere('tb_users.id_creator', auth()->user()->id)
+                ->get();
+        } else {
+            if(auth()->user()->type < 2) {
                 $lessons = $query->leftjoin("tb_users", 'tb_lesson.idCreator', "=", 'tb_users.id')
-                    ->where("tb_lesson.idCreator", auth()->user()->id)
-                    ->orWhere('tb_users.id_creator', auth()->user()->id)
+                    ->where("tb_lesson.idCreator", $client)
+                    ->orWhere('tb_users.id_creator', $client)
                     ->get();
             } else {
                 $lessons = $query->leftjoin("tb_users", 'tb_lesson.idCreator', "=", 'tb_users.id')
@@ -136,12 +141,7 @@ class LessonsModel extends Model
                     ->orWhere('tb_lesson.idCreator', auth()->user()->id)
                     ->get();
             }
-        } else {
-            $lessons = $query->leftjoin("tb_users", 'tb_lesson.idCreator', "=", 'tb_users.id')
-                    ->where("tb_lesson.idCreator", $client)
-                    ->orWhere('tb_users.id_creator', $client)
-                    ->get();
-        }
+        }   
         return $lessons;
     }
 }

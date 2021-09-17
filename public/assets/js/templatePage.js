@@ -1348,9 +1348,11 @@ var dragitem = null;
 function dragStart(event) {
     dragitem = Array();
     $(this).parents(".list-group").children('.active.list-group-item').each(function(i, dragelem) {
+        if(!$(dragitem).is(".drag-disable"))
         dragitem.push($(dragelem).attr("id"));
     });
     if (dragitem.indexOf($(this).attr('id')) == -1) {
+        if(!$(dragitem).is(".drag-disable"))
         dragitem = [$(this).attr('id')];
     }
     console.log($(this).css('cursor'));

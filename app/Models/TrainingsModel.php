@@ -147,14 +147,21 @@ class TrainingsModel extends Model
 
     public function scopeGetTrainingByClient($query) {
         $client = session('client');
-        if(session("user_type") != 0){
-            if(session("user_type") ==3) {
-                $trainings = DB::table("tb_trainings")->leftjoin('tb_languages', "tb_languages.language_id", "=", "tb_trainings.lang")->where("id_creator", session("user_id"))->get();
-            } else {
-                $trainings = DB::table("tb_trainings")->leftjoin('tb_languages', "tb_languages.language_id", "=", "tb_trainings.lang")->where("id_creator", session("user_id"))->orWhere('id_creator', session("client"))->get();
-            }
+        if(isset(session("permission")->limited)) {
+                $trainings = DB::table("tb_trainings")->leftjoin('tb_languages', "tb_languages.language_id", "=", "tb_trainings.lang")
+                ->where("id_creator", auth()->user()->id)
+                ->get();
         } else {
-            $trainings = DB::table("tb_trainings")->leftjoin('tb_languages', "tb_languages.language_id", "=", "tb_trainings.lang")->where('tb_trainings.id_creator', $client)->get();
+            if(auth()->user()->type < 2) {
+                $trainings = DB::table("tb_trainings")->leftjoin('tb_languages', "tb_languages.language_id", "=", "tb_trainings.lang")
+                ->where("id_creator", $client)
+                ->get();
+            } else {
+                $trainings = DB::table("tb_trainings")->leftjoin('tb_languages', "tb_languages.language_id", "=", "tb_trainings.lang")
+                ->where('tb_trainings.id_creator', $client)
+                ->orWhere('id_creator', auth()->user()->id)
+                ->get();
+            }
         }
         return $trainings;
     }
