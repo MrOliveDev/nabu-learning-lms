@@ -14,6 +14,7 @@ use App\Http\core\Language;
 use App\Models\LanguageModel;
 use App\Models\InterfaceCfgModel;
 use Illuminate\Support\Facades\DB;
+use App\Models\SiteSettingModel;
 
 use Auth;
 
@@ -139,11 +140,14 @@ class LoginController extends Controller
         // $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'login';
         $result = User::where('login', '=', $input['username'])->orWhere('contact_info', 'like', "%" . $input['username'] . "%")->get();
 
+        $dbLoginSetting = SiteSettingModel::where("name", "doublelogin")->first("value");
         foreach ($result as $user) {
             if (base64_encode($input['password']) == $user->password) {
-                if(!empty($user->last_session)) {
-                    $validator->errors()->add('username', 'Unable to log in. You are already loged in in another location');
-                    return redirect()->route('login')->withErrors($validator)->withInput();
+                if($user->type != 0) {
+                    if(!empty($user->last_session) && $dbLoginSetting->value==1) {
+                        $validator->errors()->add('username', 'Unable to log in. You are already loged in another location');
+                        return redirect()->route('login')->withErrors($validator)->withInput();
+                    }
                 }
                 $request->session()->regenerate();
                 // var_dump(session()->getID());die;
@@ -170,7 +174,7 @@ class LoginController extends Controller
 
     protected function logout()
     {
-        $user = User::find(session("user_id"));
+        $user = User::find(auth()->user()->id);
         $user->last_session = "";
         $user->update();
 
@@ -244,4 +248,6 @@ class LoginController extends Controller
         // return $this->authenticated($request, $this->guard()->user())
         //     ?: redirect()->intended($this->redirectPath());
     }
+
+    
 }

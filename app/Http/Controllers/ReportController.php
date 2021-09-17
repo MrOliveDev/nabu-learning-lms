@@ -35,7 +35,7 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $templates = ReportTemplateModel::get();
+        $templates = ReportTemplateModel::getTemplateModelByClient();
         $images = ReportImages::where('userId', Auth::user()->id)->get();
         $sessions = SessionModel::getSessionPageInfo();
         return view('report.view')->with('templates', $templates)->with('images', $images)->with('sessions', $sessions);
@@ -122,7 +122,7 @@ class ReportController extends Controller
             4 =>'detail',
             5 =>'created_time'
         );
-        $totalData = ReportsModel::count();
+        $totalData = ReportsModel::getReportByClient()->count();
         $totalFiltered = $totalData; 
 
         $limit = $request->input('length');
@@ -134,7 +134,18 @@ class ReportController extends Controller
         $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_session as tb_session', "tb_session.id", "=", "tb_reports.sessionId");
         $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_users as tb_users', "tb_users.id", "=", "tb_reports.studentId");
         $handler = $handler->where("sessionId", $request->post('session_id'));
-
+        if(isset(session("permission")->limited)) {
+            $handler = $handler->where("tb_reports.id_creator", auth()->user()->id);
+        } else {
+            if(auth()->user()->type < 2) {
+                $handler = $handler
+                ->where("tb_reports.id_creator", session("client"));
+            } else {
+                $handler = $handler
+                ->where("tb_reports.id_creator", session("client"))
+                ->orWhere("tb_reports.id_creator", auth()->user()->id);
+            }
+        }
         if(empty($request->input('search.value')))
         {            
             $totalFiltered = $handler->count();
@@ -226,7 +237,7 @@ class ReportController extends Controller
             4 =>'detail',
             5 =>'created_time'
         );
-        $totalData = ReportsModel::count();
+        $totalData = ReportsModel::getReportByClient()->count();
         $totalFiltered = $totalData; 
 
         $limit = $request->input('length');
@@ -237,8 +248,15 @@ class ReportController extends Controller
         $handler = new ReportsModel;
         $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_session as tb_session', "tb_session.id", "=", "tb_reports.sessionId");
         $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_users as tb_users', "tb_users.id", "=", "tb_reports.studentId");
-        if(session("user_type") == 1) {
-            $handler = $handler->where("tb_reports.id_creator", session("client"));
+        if(isset(session("permission")->limited)){
+            $handler = $handler->where("id_creator", auth()->user()->id);
+        } else {
+            if(auth()->user()->type < 2) {
+                $handler = $handler->where("tb_reports.id_creator", session("client"));
+            } else {
+                $handler = $handler->where("tb_reports.id_creator", session("client"))
+                ->orWhere("id_creator", auth()->user()->id);
+            }
         }
         if(empty($request->input('search.value')))
         {            
@@ -337,7 +355,23 @@ class ReportController extends Controller
      */
     function getTemplateData(Request $request){
         if(!empty($request['id'])){
-            $template = ReportTemplateModel::where('id', $request['id'])->first();
+            $template = ReportTemplateModel::where('id', $request['id']);
+            if(isset(session("permission")->limited)) {
+                $template = $template
+                ->where("id_creator", auth()->user()->id)
+                ->first();
+            } else {
+                if(auth()->user()->type < 2) {
+                    $template = $template
+                    ->where("id_creator", session("client"))
+                    ->first();
+                } else {
+                    $template = $template
+                    ->where("id_creator", session("client"))
+                    ->orWhere("id_creator", auth()->user()->id)
+                    ->first();
+                }
+            }
             if($template)
                 return response()->json(["success" => true, "data" => $template->data, "name" => $template->name]);
             else
@@ -354,7 +388,23 @@ class ReportController extends Controller
      */
     function saveTemplateData(Request $request){
         if(!empty($request['id']) && !empty($request['name'])){
-            $template = ReportTemplateModel::where('id', $request['id'])->first();
+            $template = ReportTemplateModel::where('id', $request['id']);
+            if(isset(session("permission")->limited)) {
+                $template = $template
+                ->where("id_creator", auth()->user()->id)
+                ->first();
+            } else {
+                if(auth()->user()->type < 2) {
+                    $template = $template
+                    ->where("id_creator", session("client"))
+                    ->first();
+                } else {
+                    $template = $template
+                    ->where("id_creator", session("client"))
+                    ->orWhere("id_creator", auth()->user()->id)
+                    ->first();
+                }
+            }
             if($template){
                 $template->name = $request['name'];
                 $template->data = $request['data'];
@@ -385,7 +435,23 @@ class ReportController extends Controller
      */
     function delTemplate(Request $request){
         if(!empty($request['id'])){
-            $template = ReportTemplateModel::where('id', $request['id'])->first();
+            $template = ReportTemplateModel::where('id', $request['id']);
+            if(isset(session("permission")->limited)) {
+                $template = $template
+                ->where("id_creator", auth()->user()->id)
+                ->first();
+            } else {
+                if(auth()->user()->type < 2) {
+                    $template = $template
+                    ->where("id_creator", session("client"))
+                    ->first();
+                } else {
+                    $template = $template
+                    ->where("id_creator", session("client"))
+                    ->orWhere("id_creator", auth()->user()->id)
+                    ->first();
+                }
+            }
             if($template){
                 $template->delete();
                 return response()->json(["success" => true]);
@@ -694,7 +760,7 @@ class ReportController extends Controller
     }
 
     public function getScreenOptim($sessionId, $studentId, $idFabrica){
-        DB::connection('mysql_reports')->unprepared('CREATE TABLE IF NOT EXISTS `tb_screen_optim_'.$sessionId.'` (
+        DB::connection('mysql_reports')->unprepared("CREATE TABLE IF NOT EXISTS `tb_screen_optim_".$sessionId."` (
             `id_screen_optim` int(11) NOT NULL AUTO_INCREMENT,
             `id_fabrique_screen_optim` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
             `id_curso_screen_optim` int(11) NOT NULL,
@@ -704,9 +770,10 @@ class ReportController extends Controller
             `last_date_screen_optim` datetime NOT NULL,
             `first_eval_id_screen_optim` int(11) NOT NULL,
             `last_eval_id_screen_optim` int(11) NOT NULL,
+            `id_creator` int(11) NOT NULL DEFAULT '1',
             PRIMARY KEY (id_screen_optim) 
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-        ');
+        ");
         $optim = DB::connection('mysql_reports')->selectOne('select * from tb_screen_optim_' . $sessionId . ' where id_user_screen_optim="'.$studentId.'" AND id_fabrique_screen_optim="'.$idFabrica.'"');
         return $optim;
 	}
@@ -726,6 +793,7 @@ class ReportController extends Controller
         . "`progression` int(11) NOT NULL DEFAULT '0',"
         . "`note` varchar(11) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',"
         . "`status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "`id_creator` int(11) DEFAULT NULL DEFAULT '1',"
         . "PRIMARY KEY (id) "
         . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
         );
@@ -748,6 +816,7 @@ class ReportController extends Controller
         . "`progression` int(11) NOT NULL DEFAULT '0',"
         . "`note` varchar(11) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',"
         . "`status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "`id_creator` int(11) NOT NULL DEFAULT '1',"
         . "PRIMARY KEY (id) "
         . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
         );
@@ -771,6 +840,7 @@ class ReportController extends Controller
         . "`expected_response` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
         . "`reply` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
         . "`points` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+        . "`id_creator` int(11) DEFAULT '1',"
         . "PRIMARY KEY (id) "
       . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
         );
@@ -832,7 +902,8 @@ class ReportController extends Controller
                 'studentId' => $request['studentId'],
                 'filename' => $filename,
                 'type' => 'pdf',
-                'created_time' => gmdate("Y-m-d\TH:i:s", time())
+                'created_time' => gmdate("Y-m-d\TH:i:s", time()),
+                'id_creator' =>session("client")
             ]);
 
             return response()->json(["success" => true, "filename" => $filename]);
@@ -898,7 +969,8 @@ class ReportController extends Controller
                     'studentId' => $report['studentId'],
                     'filename' => $filename,
                     'type' => 'pdf',
-                    'created_time' => gmdate("Y-m-d\TH:i:s", time())
+                    'created_time' => gmdate("Y-m-d\TH:i:s", time()),
+                    'id_creator' => session("client")
                 ]);
             }
 
@@ -915,7 +987,8 @@ class ReportController extends Controller
                 'studentId' => 0,
                 'filename' => $filename,
                 'type' => 'zip',
-                'created_time' => gmdate("Y-m-d\TH:i:s", time())
+                'created_time' => gmdate("Y-m-d\TH:i:s", time()),
+                'id_creator' => session("client")
             ]);
 
             return response()->json(["success" => true, "filename" => $filename]);
@@ -932,7 +1005,23 @@ class ReportController extends Controller
 
     public function delReport(Request $request){
         if(!empty($request['id'])){
-            $report = ReportsModel::where('id', $request['id'])->first();
+            $report = ReportsModel::where('id', $request['id']);
+            if(isset(session("permission")->limited)) {
+                $report = $report
+                ->where("id_creator", auth()->user()->id)
+                ->first();
+            } else {
+                if(auth()->user()->type < 2) {
+                    $report = $report
+                    ->where("id_creator", session("client"))
+                    ->first();
+                } else {
+                    $report = $report
+                    ->where("id_creator", session("client"))
+                    ->orWhere("id_creator", auth()->user()->id)
+                    ->first();
+                }
+            }
             if($report){
                 if($report->filename){
                     if(file_exists(storage_path($report->type) . '/' . $report->filename))

@@ -120,7 +120,7 @@ data-search-training="{{isset(session("permission")->template->search->training)
                 <div class="list-group" id="template-list-tab" role="tablist">
                     @if (isset(session("permission")->template->template->display))
                     @foreach ($templates as $template)
-                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x template_{{ $template->id }}"
+                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x template_{{ $template->id }} <?php if(isset(session("permission")->limited) && auth()->user()->id != $template->id_creator) echo "drag-disable"?>"
                             id="template_{{ $template->id }}" data-date="{{ $template->creation_date }}">
                             <div class="float-left">
                                 @if ($template->status != 0)
@@ -134,29 +134,58 @@ data-search-training="{{isset(session("permission")->template->search->training)
                                 <input type="hidden" name="item-name" value="{{ $template->name }}">
                             </div>
                             <div class="btn-group float-right">
-                                @if (isset(session("permission")->template->template->edit))
-                                <button class="btn item-edit" data-content='template'
-                                    data-item-id="{{ $template->id }}">
-                                    <i class="px-2 fa fa-edit"></i>
-                                </button>
-                                @endif
-                                @if (isset(session("permission")->template->template->delete))
-                                <button class="btn item-delete" data-content='template'
-                                    data-item-id="{{ $template->id }}">
-                                    <i class="px-2 fa fa-trash-alt"></i>
-                                </button>
-                                @endif
-                                @if (isset(session("permission")->template->template->play))
-                                <button class="btn item-template" data-content='template'
-                                    data-template="#/template-generator/{{ $template->alpha_id }}">
-                                    <i class="px-2 fa fa-cube"></i>
-                                </button>
-                                @endif
-                                @if (isset(session("permission")->template->template->copy))
-                                <button class="btn item-duplicate" data-content='template'
-                                    data-item-id="{{ $template->id }}">
-                                    <i class="px-2 far fa-copy"></i>
-                                </button>
+                                @if(!isset(session("permission")->limited))
+                                    @if( auth()->user()->id == $template->id_creator)
+                                        @if (isset(session("permission")->template->template->edit))
+                                        <button class="btn item-edit" data-content='template'
+                                            data-item-id="{{ $template->id }}">
+                                            <i class="px-2 fa fa-edit"></i>
+                                        </button>
+                                        @endif
+                                        @if (isset(session("permission")->template->template->delete))
+                                        <button class="btn item-delete" data-content='template'
+                                            data-item-id="{{ $template->id }}">
+                                            <i class="px-2 fa fa-trash-alt"></i>
+                                        </button>
+                                        @endif
+                                        @if (isset(session("permission")->template->template->play))
+                                        <button class="btn item-template" data-content='template'
+                                            data-template="#/template-generator/{{ $template->alpha_id }}">
+                                            <i class="px-2 fa fa-cube"></i>
+                                        </button>
+                                        @endif
+                                        @if (isset(session("permission")->template->template->copy))
+                                        <button class="btn item-duplicate" data-content='template'
+                                            data-item-id="{{ $template->id }}">
+                                            <i class="px-2 far fa-copy"></i>
+                                        </button>
+                                        @endif
+                                    @endif
+                                @else
+                                    @if (isset(session("permission")->template->template->edit))
+                                    <button class="btn item-edit" data-content='template'
+                                        data-item-id="{{ $template->id }}">
+                                        <i class="px-2 fa fa-edit"></i>
+                                    </button>
+                                    @endif
+                                    @if (isset(session("permission")->template->template->delete))
+                                    <button class="btn item-delete" data-content='template'
+                                        data-item-id="{{ $template->id }}">
+                                        <i class="px-2 fa fa-trash-alt"></i>
+                                    </button>
+                                    @endif
+                                    @if (isset(session("permission")->template->template->play))
+                                    <button class="btn item-template" data-content='template'
+                                        data-template="#/template-generator/{{ $template->alpha_id }}">
+                                        <i class="px-2 fa fa-cube"></i>
+                                    </button>
+                                    @endif
+                                    @if (isset(session("permission")->template->template->copy))
+                                    <button class="btn item-duplicate" data-content='template'
+                                        data-item-id="{{ $template->id }}">
+                                        <i class="px-2 far fa-copy"></i>
+                                    </button>
+                                    @endif
                                 @endif
                             </div>
                         </a>
@@ -312,7 +341,7 @@ data-search-training="{{isset(session("permission")->template->search->training)
                 <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
                     @if (isset(session("permission")->template->training->display))
                     @foreach ($trainings as $training)
-                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_{{ $training->id }}"
+                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_{{ $training->id }} <?php if(isset(session("permission")->limited) && auth()->user()->id != $training->id_creator) echo "drag-disable"?>"
                             id="training_{{ $training->id }}" data-date="{{ $training->creation_date }}">
                             <div class="float-left">
                                 @if ($training->status != 0)
@@ -326,23 +355,46 @@ data-search-training="{{isset(session("permission")->template->search->training)
                                 <input type="hidden" name="item-name" value="{{ $training->name }}">
                             </div>
                             <div class="btn-group float-right">
-                                @if (isset(session("permission")->template->training->show))
-                                <button class="btn  toggle1-btn  item-show" data-content='training'
-                                    data-item-id="{{ $training->id }}">
-                                    <i class="px-2 fa fa-eye"></i>
-                                </button>
-                                @endif
-                                @if (isset(session("permission")->template->training->edit))
-                                <button class="btn item-edit toggle1-btn" data-content='training'
-                                    data-item-id="{{ $training->id }}">
-                                    <i class="px-2 fa fa-edit"></i>
-                                </button>
-                                @endif
-                                @if (isset(session("permission")->template->training->delete))
-                                <button class="btn item-delete toggle1-btn" data-content='training'
-                                    data-item-id="{{ $training->id }}">
-                                    <i class="px-2 fa fa-trash-alt"></i>
-                                </button>
+                                @if(isset(session("permission")->limited))
+                                    @if(auth()->user()->id == $training->id_creator)
+                                        @if (isset(session("permission")->template->training->show))
+                                        <button class="btn  toggle1-btn  item-show" data-content='training'
+                                            data-item-id="{{ $training->id }}">
+                                            <i class="px-2 fa fa-eye"></i>
+                                        </button>
+                                        @endif
+                                        @if (isset(session("permission")->template->training->edit))
+                                        <button class="btn item-edit toggle1-btn" data-content='training'
+                                            data-item-id="{{ $training->id }}">
+                                            <i class="px-2 fa fa-edit"></i>
+                                        </button>
+                                        @endif
+                                        @if (isset(session("permission")->template->training->delete))
+                                        <button class="btn item-delete toggle1-btn" data-content='training'
+                                            data-item-id="{{ $training->id }}">
+                                            <i class="px-2 fa fa-trash-alt"></i>
+                                        </button>
+                                        @endif
+                                    @endif
+                                @else
+                                    @if (isset(session("permission")->template->training->show))
+                                    <button class="btn  toggle1-btn  item-show" data-content='training'
+                                        data-item-id="{{ $training->id }}">
+                                        <i class="px-2 fa fa-eye"></i>
+                                    </button>
+                                    @endif
+                                    @if (isset(session("permission")->template->training->edit))
+                                    <button class="btn item-edit toggle1-btn" data-content='training'
+                                        data-item-id="{{ $training->id }}">
+                                        <i class="px-2 fa fa-edit"></i>
+                                    </button>
+                                    @endif
+                                    @if (isset(session("permission")->template->training->delete))
+                                    <button class="btn item-delete toggle1-btn" data-content='training'
+                                        data-item-id="{{ $training->id }}">
+                                        <i class="px-2 fa fa-trash-alt"></i>
+                                    </button>
+                                    @endif
                                 @endif
                             </div>
                         </a>
@@ -354,30 +406,53 @@ data-search-training="{{isset(session("permission")->template->search->training)
                 <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
                     @if (isset(session("permission")->template->company->display))
                     @foreach ($companies as $company)
-                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x company_{{ $company->id }}"
+                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x company_{{ $company->id }} <?php if(isset(session("permission")->limited) && auth()->user()->id != $company->id_creator) echo "drag-disable"?>"
                             id="company_{{ $company->id }}" data-date="{{ $company->creation_date }}">
                             <div class="float-left">
                                 <span class="item-name">{{ $company->name }}</span>
                                 <input type="hidden" name="item-name" value="{{ $company->name }}">
                             </div>
                             <div class="btn-group float-right">
-                                @if (isset(session("permission")->template->company->show))
-                                <button class="btn  toggle1-btn  item-show" data-content='company'
+                                @if(isset(session("permission")->limited))
+                                    @if(auth()->user()->id == $company->id_creator)
+                                        @if (isset(session("permission")->template->company->show))
+                                        <button class="btn  toggle1-btn  item-show" data-content='company'
+                                        data-item-id="{{ $company->id }}">
+                                        <i class="px-2 fa fa-eye"></i>
+                                        </button>
+                                        @endif
+                                        @if (isset(session("permission")->template->company->edit))
+                                        <button class="btn item-edit toggle1-btn" data-content='company'
+                                        data-item-id="{{ $company->id }}">
+                                        <i class="px-2 fa fa-edit"></i>
+                                        </button>
+                                        @endif
+                                        @if (isset(session("permission")->template->company->delete))
+                                        <button class="btn item-delete toggle1-btn" data-content='company'
+                                        data-item-id="{{ $company->id }}">
+                                        <i class="px-2 fa fa-trash-alt"></i>
+                                        </button>
+                                        @endif
+                                    @endif
+                                @else
+                                    @if (isset(session("permission")->template->company->show))
+                                    <button class="btn  toggle1-btn  item-show" data-content='company'
                                     data-item-id="{{ $company->id }}">
                                     <i class="px-2 fa fa-eye"></i>
-                                </button>
-                                @endif
-                                @if (isset(session("permission")->template->company->edit))
-                                <button class="btn item-edit toggle1-btn" data-content='company'
+                                    </button>
+                                    @endif
+                                    @if (isset(session("permission")->template->company->edit))
+                                    <button class="btn item-edit toggle1-btn" data-content='company'
                                     data-item-id="{{ $company->id }}">
                                     <i class="px-2 fa fa-edit"></i>
-                                </button>
-                                @endif
-                                @if (isset(session("permission")->template->company->delete))
-                                <button class="btn item-delete toggle1-btn" data-content='company'
+                                    </button>
+                                    @endif
+                                    @if (isset(session("permission")->template->company->delete))
+                                    <button class="btn item-delete toggle1-btn" data-content='company'
                                     data-item-id="{{ $company->id }}">
                                     <i class="px-2 fa fa-trash-alt"></i>
-                                </button>
+                                    </button>
+                                    @endif
                                 @endif
                             </div>
                         </a>
@@ -389,30 +464,53 @@ data-search-training="{{isset(session("permission")->template->search->training)
                 <div class="list-group mx-4" id="list-tab" role="tablist" data-src=''>
                     @if (isset(session("permission")->template->session->display))
                     @foreach ($sessions as $session)
-                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x session_{{ $session->id }}"
+                        <a class="list-group-item list-group-item-action p-0 border-transparent border-5x session_{{ $session->id }} <?php if(isset(session("permission")->limited) && auth()->user()->id != $session->id_creator) echo "drag-disable"?>"
                             id="session_{{ $session->id }}" data-date="{{ $session->creation_date }}">
                             <div class="float-left">
                                 <span class="item-name">{{ $session->name }}</span>
                                 <input type="hidden" name="item-name" value="{{ $session->name }}">
                             </div>
                             <div class="btn-group float-right">
-                                @if (isset(session("permission")->template->session->show))
-                                <button class="btn  toggle1-btn item-show" data-content='session'
-                                    data-item-id="{{ $session->id }}">
-                                    <i class="px-2 fa fa-eye"></i>
-                                </button>
-                                @endif
-                                @if (isset(session("permission")->template->session->edit))
-                                <button class="btn item-edit toggle1-btn" data-content='session'
-                                    data-item-id="{{ $session->id }}">
-                                    <i class="px-2 fa fa-edit"></i>
-                                </button>
-                                @endif
-                                @if (isset(session("permission")->template->session->delete))
-                                <button class="btn item-delete toggle1-btn" data-content='session'
-                                    data-item-id="{{ $session->id }}">
-                                    <i class="px-2 fa fa-trash-alt"></i>
-                                </button>
+                                @if(isset(session("permission")->limited))
+                                    @if(auth()->user()->id == $session->id_creator)
+                                        @if (isset(session("permission")->template->session->show))
+                                        <button class="btn  toggle1-btn item-show" data-content='session'
+                                            data-item-id="{{ $session->id }}">
+                                            <i class="px-2 fa fa-eye"></i>
+                                        </button>
+                                        @endif
+                                        @if (isset(session("permission")->template->session->edit))
+                                        <button class="btn item-edit toggle1-btn" data-content='session'
+                                            data-item-id="{{ $session->id }}">
+                                            <i class="px-2 fa fa-edit"></i>
+                                        </button>
+                                        @endif
+                                        @if (isset(session("permission")->template->session->delete))
+                                        <button class="btn item-delete toggle1-btn" data-content='session'
+                                            data-item-id="{{ $session->id }}">
+                                            <i class="px-2 fa fa-trash-alt"></i>
+                                        </button>
+                                        @endif
+                                    @endif
+                                @else 
+                                    @if (isset(session("permission")->template->session->show))
+                                    <button class="btn  toggle1-btn item-show" data-content='session'
+                                        data-item-id="{{ $session->id }}">
+                                        <i class="px-2 fa fa-eye"></i>
+                                    </button>
+                                    @endif
+                                    @if (isset(session("permission")->template->session->edit))
+                                    <button class="btn item-edit toggle1-btn" data-content='session'
+                                        data-item-id="{{ $session->id }}">
+                                        <i class="px-2 fa fa-edit"></i>
+                                    </button>
+                                    @endif
+                                    @if (isset(session("permission")->template->session->delete))
+                                    <button class="btn item-delete toggle1-btn" data-content='session'
+                                        data-item-id="{{ $session->id }}">
+                                        <i class="px-2 fa fa-trash-alt"></i>
+                                    </button>
+                                    @endif
                                 @endif
                             </div>
                         </a>

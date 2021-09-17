@@ -10,7 +10,7 @@ class ReportTemplateModel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id', 'creatorId', 'name', 'data', 'created_time'
+        'id', 'creatorId', 'name', 'data', 'created_time', 'id_creator'
     ];
 
     protected $connection= 'mysql_reports';
@@ -19,4 +19,21 @@ class ReportTemplateModel extends Model
 
     public $timestamps = false;
 
+    public function scopeGetTemplateModelByClient($query) {
+        // if(isset(session("permission")->limited)){
+            // $result = $query
+            //     ->where("id_creator", auth()->user()->id)->get();
+        // } else {
+            if(auth()->user()->type < 2) {
+                $result = $query
+                ->where("id_creator", session("client"))->get();
+            } else {
+                $result = $query
+                    ->where("id_creator", session("client"))
+                    ->orWhere("id_creator", auth()->user()->id)
+                    ->get();
+            }
+        // }
+        return $result;
+    }
 }

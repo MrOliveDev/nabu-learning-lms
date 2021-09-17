@@ -21,18 +21,18 @@ class ReportsModel extends Model
     public $timestamps = false;
 
     public function scopeGetReportByClient($query) {
-        if(auth()->user()->type !=0 ) {
-            if(auth()->user()->type == 3 ) {
-                $report = $query->where('id_creator', auth()->user()->id)->get();
+        // if(isset(session("permission")->limited)){
+        //     $report = $query->where('id_creator', auth()->user()->id)->get();
+        // } else {
+            if(auth()->user()->type < 2) {
+                $report = $query->where('id_creator', session("client"))->get();
             } else {
                 $report = $query
                 ->where('id_creator', auth()->user()->id)
                 ->orWhere('id_creator', session("client"))
                 ->get();
             }
-        } else {
-            $report = $query->where('id_creator', session("client"))->get();
-        }
+        // }
         return $report;
     }
 }

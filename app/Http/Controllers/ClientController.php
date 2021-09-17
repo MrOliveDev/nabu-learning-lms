@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use PhpParser\JsonDecoder;
 use App\Models\LanguageModel;
 use App\Models\TranslateModel;
+use App\Models\SiteSettingModel;
 
 class ClientController extends Controller
 {
@@ -19,6 +20,7 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
+        $doublelogin = SiteSettingModel::where("name", "doublelogin")->first()->value;
         $clientsListArray = User::get_clientsInfo();
         $clientsList = array();
         foreach ($clientsListArray as $key => $client) {
@@ -65,7 +67,7 @@ class ClientController extends Controller
         // exit;
         // dd($translates);exit;
 
-        return view('clients.layout', compact('clientsList', 'languages', 'translates'));
+        return view('clients.layout', compact('clientsList', 'languages', 'translates', 'doublelogin'));
     }
 
     /**

@@ -256,6 +256,7 @@ Route::get('/', '\App\Http\Controllers\HomeController@index');
 Auth::routes();
 
 Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], function () {
+    Route::post('updatedoublelogin', '\App\Http\Controllers\SiteSettingController@updateDoubleLogin');
     Route::get('/', '\App\Http\Controllers\admin\DashController@index');
     Route::get('changepassword', '\App\Http\Controllers\SuperAdminController@index');
     Route::post('changepassword', '\App\Http\Controllers\SuperAdminController@changePassword');
@@ -351,6 +352,8 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('mailsend', '\App\Http\Controllers\SendmailController@mailsend')->name('mailsend');
     Route::post('insertMailHistory', '\App\Http\Controllers\SendmailController@insertMailHistory')->name('insertMailHistory');
     Route::post('updatelanguage', '\App\Http\Controllers\LanguageManageController@updateLanguage');
+    
+
     // Route::get('searchtranslate', '\App\Http\Controllers\ClientController@searchTranslate');
 
     Route::get('clear_cache', function () {
@@ -363,3 +366,4 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
