@@ -956,7 +956,7 @@ var searchfilter = function(event) {
 
         // console.log(item_name);
 
-        if (str == null || str == '' || item_name.toLowerCase().indexOf(str.replace(/\s+/g, '')) >= 0) {
+        if (str == null || str == '' || item_name.toLowerCase().indexOf(str.toLowerCase().replace(/\s+/g, '')) >= 0) {
             if (ctgc == '' || ctgc.split("_").filter(function(iem, i, d) {
                     return iem == item_company;
                 }).length) {
@@ -1605,4 +1605,4 @@ $("#table-content .list-group").sortable({
 });
 $('.cancel-btn').click(cancelBtn);
 $('#session-status-icon').click(statusBtn);
-$("fieldset").on("DOMSubtreeModified", function() {$(this).find(".handler_horizontal").dblclick();$(this).find(".handler_horizontal").dblclick();})
+$("#RightPanel").on("DOMSubtreeModified", function() {$(this).find(".handler_horizontal").dblclick();$(this).find(".handler_horizontal").dblclick();})

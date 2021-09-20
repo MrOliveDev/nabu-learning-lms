@@ -390,7 +390,7 @@ var item_edit = function(element) {
                     $("#lesson_status").val(data.status);
                     $("#lesson_language").val(data.lang);
                     $("#lesson_description").val(data.description);
-                    $("#threshold-score").ionRangeSlider({
+                    $("#threshold-score").data("ionRangeSlider").update({
                         from: data.threshold_score
                     });
                 },
@@ -792,6 +792,11 @@ var submitBtn = function(event) {
                 name: 'lesson_description',
                 value: $('#lesson_description').val()
             });
+            serialval.map(function(){
+                if($(this).name=="threshold_score")                 {
+                    $(this).value = $("#threshold-score").data("ionRangeSlider").result.from;
+                }
+            })
         }
         console.log(serialval);
         $.ajax({
@@ -1140,7 +1145,7 @@ var searchfilter = function(event) {
 
         // console.log(item_name);
 
-        if (str == null || str == '' || item_name.toLowerCase().indexOf(str.replace(/\s+/g, '')) >= 0) {
+        if (str == null || str == '' || item_name.toLowerCase().indexOf(str.toLowerCase().replace(/\s+/g, '')) >= 0) {
 
             switch (opt) {
                 case 'on':

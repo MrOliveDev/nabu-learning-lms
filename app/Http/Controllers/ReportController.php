@@ -36,7 +36,7 @@ class ReportController extends Controller
     public function index()
     {
         $templates = ReportTemplateModel::getTemplateModelByClient();
-        $images = ReportImages::where('userId', Auth::user()->id)->get();
+        $images = ReportImages::where('userId', session("client"))->get();
         $sessions = SessionModel::getSessionPageInfo();
         return view('report.view')->with('templates', $templates)->with('images', $images)->with('sessions', $sessions);
     }
@@ -484,7 +484,7 @@ class ReportController extends Controller
     function saveReportImg(Request $request){
         if(!empty($request['data'])){
             ReportImages::create([
-                'userId' => Auth::user()->id,
+                'userId' => session("client"),
                 'data' => $request['data']
             ]);
             return response()->json(["success" => true]);
