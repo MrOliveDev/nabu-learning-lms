@@ -518,19 +518,7 @@ class SendmailController extends Controller
             $mpdf = new MPdf(['mode' => 'utf-8', 'format' => 'A4', 'tempDir'=>storage_path('tempdir'), 'setAutoTopMargin' => 'stretch', 'setAutoBottomMargin' => 'stretch']);
             $mpdf->writeHTML('<p><b>Email process report : </b> '. $request['process'] . ' </p>');
             
-            $model = MailTemplateModel::where('id', $request['model']);
-            if(isset(session("permission")->limited)) {
-                $model = $model->where("id_creator", auth()->user()->id)->get();
-            } else {
-                if(auth()->user()->type < 2) {
-                    $model =$model->where("id_creator", session("client"))
-                    ->get();
-                } else {
-                    $model = $model->where("id_creator", session("client"))
-                    ->orWhere("id_creator", auth()->user()->id)
-                    ->get();
-                }
-            }
+            $model = MailTemplateModel::find('id', $request['model']);
             $mpdf->writeHTML('<p><b>Email model : </b> '. ($model ? $model->name : '') . ' </p>');
 
             $mpdf->writeHTML('<p><b>Sender : </b> '. $request['from'] . ' </p>');
