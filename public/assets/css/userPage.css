@@ -358,7 +358,7 @@ select:focus {
 }
 #teachers .item-show,
 #authors .item-show {
-    display: none;
+    /* display: none; */
 }
 .list-group-item.border-transparent {
     border-color: transparent;
