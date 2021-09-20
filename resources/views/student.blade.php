@@ -284,11 +284,9 @@ data-authed-user-type="{{session("user_type")}}"
                                         <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?studentId={{$student->id}}')">
                                             <i class="px-2 fa fa-envelope"></i>
                                         </button>
-                                        @if(isset(session('permission')->student->student->show))
                                         <button class="btn item-show" data-content='student'>
                                             <i class="px-2 fa fa-eye"></i>
                                         </button>
-                                        @endif
                                         @if(isset(session("permission")->limited))
                                             @if( auth()->user()->id == $student->id_creator)
                                                 @if(isset(session("permission")->student->student->edit))
@@ -349,12 +347,9 @@ data-authed-user-type="{{session("user_type")}}"
                                         <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?teacherId={{$teacher->id}}')">
                                             <i class="px-2 fa fa-envelope"></i>
                                         </button>
-                                        @if(isset(session('permission')->student->teacher->show))
-
-                                            <button class="btn item-show" data-content='teacher'>
-                                                <i class="px-2 fa fa-eye"></i>
-                                            </button>
-                                        @endif
+                                        <button class="btn item-show" data-content='teacher'>
+                                            <i class="px-2 fa fa-eye"></i>
+                                        </button>
                                         @if(isset(session("permission")->limited))
                                             @if( (auth()->user()->id == $teacher->id_creator))
                                                 @if(isset(session("permission")->student->teacher->edit))
@@ -417,11 +412,9 @@ data-authed-user-type="{{session("user_type")}}"
                                         <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?authorId={{$author->id}}')">
                                             <i class="px-2 fa fa-envelope"></i>
                                         </button>
-                                        @if(isset(session('permission')->student->teacher->show))
                                             <button class="btn item-show" data-content='author'>
                                                 <i class="px-2 fa fa-eye"></i>
                                             </button>
-                                        @endif
    
                                         @if(isset(session("permission")->limited))
                                             @if( (auth()->user()->id == $author->id_creator))
@@ -974,6 +967,9 @@ data-authed-user-type="{{session("user_type")}}"
                                 <button class="btn item-mail toggle1-btn" onclick="redirectPage('{{route('sendmail')}}?groupId={{$group->id}}')">
                                     <i class="px-2 fa fa-envelope"></i>
                                 </button>
+                                <button class="btn toggle1-btn item-show" data-content='group'>
+                                    <i class="px-2 fa fa-eye"></i>
+                                </button>
                                 @if(isset(session("permission")->limited) )
                                     @if (auth()->user()->id == $group->id_creator)
                                         @if (isset(session("permission")->student->group->edit))
@@ -1023,11 +1019,9 @@ data-authed-user-type="{{session("user_type")}}"
                                 <button class="btn item-mail toggle1-btn" onclick="redirectPage('{{route('sendmail')}}?companyId={{$company->id}}')">
                                     <i class="px-2 fa fa-envelope"></i>
                                 </button>
-                                @if(isset(session("permission")->student->company->show))
                                 <button class="btn toggle1-btn item-show" data-content='company'>
                                     <i class="px-2 fa fa-eye"></i>
                                 </button>
-                                @endif
                                 @if(isset(session("permission")->limited))
                                     @if((auth()->user()->id == $company->id_creator))
                                         @if(isset(session("permission")->student->company->edit))
@@ -1075,11 +1069,9 @@ data-authed-user-type="{{session("user_type")}}"
                                 <input type="hidden" name="item-name" value="{{ $position->name }}">
                             </div>
                             <div class="float-right btn-group">
-                                @if(isset(session("permission")->student->position->show))
                                 <button class="btn toggle1-btn item-show" data-content='position'>
                                     <i class="px-2 fa fa-eye"></i>
                                 </button>
-                                @endif
                                 @if(isset(session("permission")->limited))
                                     @if((auth()->user()->id == $position->id_creator))
                                         @if(isset(session("permission")->student->position->edit))

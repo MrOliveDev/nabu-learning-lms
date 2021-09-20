@@ -1055,7 +1055,7 @@ var searchfilter = function(event) {
         var item_name = $(e).find('input[name="item-name"]').val();
         var item_status = $(e).find('input[name="item-status"]').val();
 
-        if (str == null || str == '' || item_name.toLowerCase().indexOf(str.replace(/\s+/g, '')) >= 0) {
+        if (str == null || str == '' || item_name.toLowerCase().indexOf(str.toLowerCase().replace(/\s+/g, '')) >= 0) {
 
             switch (opt) {
                 case 'all':

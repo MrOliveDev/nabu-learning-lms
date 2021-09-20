@@ -480,7 +480,7 @@ var searchfilter = function(e){
     var activeTabSelector = $(e.target).parents("tr.session-content").find(".ui-state-active a").attr("href");
     $(activeTabSelector).find(".list-group>.list-group-item").map(function(i, item){
         var item_name = $(item).find("input[name='item-name']").val();
-        item_name.toLowerCase().indexOf(value.replace(/\s+/g, ''))==-1?$(item).css('display', "none"):$(item).css('display', "block");
+        item_name.toLowerCase().indexOf(value.toLowerCase().replace(/\s+/g, ''))==-1?$(item).css('display', "none"):$(item).css('display', "block");
     })
 }
 

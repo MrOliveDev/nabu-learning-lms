@@ -20,7 +20,7 @@ session("menuBackground")!=null)
         background-color:none;
     }
     .nav-main-link:hover {
-        border: solid 1px black;
+        border: solid 1px transparent;
         border-radius: 5px;
         width: 253px;
         background-color:  <?php echo session("menuBackground") ?> !important;

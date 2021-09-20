@@ -433,7 +433,7 @@ table.session-table {
 
 .session-table th div,
 .session-table td div {
-    border: 1px solid #7e3e98;
+    border: 1px solid transparent;
     border-radius: 6px;
     padding: 6px;
 }

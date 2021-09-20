@@ -2289,7 +2289,7 @@ var searchfilter = function(event) {
 
         // console.log(item_name);
 
-        if (str == null || str == '' || item_name.toLowerCase().indexOf(str.replace(/\s+/g, '')) >= 0) {
+        if (str == null || str == '' || item_name.toLowerCase().indexOf(str.toLowerCase().replace(/\s+/g, '')) >= 0) {
             if (ctgc == '' || ctgc.split("_").filter(function(iem, i, d) {
                     return iem == item_company;
                 }).length) {
