@@ -25,7 +25,7 @@ class GroupModel extends Model
         //     ->get();
         // } else {
             if(auth()->user()->type < 2) {
-                $groups = $query->where("id_creator", $client)
+                $groups = $query->whereIn("id_creator", User::get_members())
                 ->get();
             } else {
                 $groups = $query->where("id_creator", $client)

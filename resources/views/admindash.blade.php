@@ -193,7 +193,7 @@
             <th>
                 <div>
                     {{$translation->l('Mes dernières SESSIONS')}}
-                    <i class="fa fal fa-sliders-h"></i>
+                    <i class="fa fal fa-sliders-h p-1"></i>
                 </div>
             </th>
             <th>

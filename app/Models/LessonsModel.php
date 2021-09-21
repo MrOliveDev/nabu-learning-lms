@@ -35,12 +35,22 @@ class LessonsModel extends Model
             'tb_lesson.*',
             'tb_languages.language_iso as language_iso'
         )
-            ->leftjoin('tb_languages', 'tb_lesson.lang', '=', 'tb_languages.language_id')
-            ->where("tb_lesson.idCreator", "=", session("client"));
-            if(session("user_type") != 0) {
+            ->leftjoin('tb_languages', 'tb_lesson.lang', '=', 'tb_languages.language_id');
+            
+            if(isset(session("permission")->limited)) {
                 $lessons = $lessons
-                ->orWhere("tb_lesson.idCreator", "=", session("user_id"));
-            }
+                ->where("tb_lesson.idCreator", auth()->user()->id);
+            } else {
+                if(auth()->user()->type < 2) {
+                    $lessons = $lessons
+                    ->whereIn("tb_lesson.idCreator", User::get_members());
+                } else {
+                    $lessons = $lessons
+                    ->where("tb_lesson.idCreator", session("client"))
+                    ->orWhere("tb_lesson.idCreator", auth()->user()->id);
+                }
+            }   
+    
             $lessons = $lessons
             ->get();
         $test = array(array());
@@ -74,19 +84,19 @@ class LessonsModel extends Model
             ->leftjoin('tb_languages', 'tb_lesson.lang', '=', 'tb_languages.language_id')
             ->where('tb_lesson.id', $id)
             ->where(function($query){
-                if(session("user_type") != 0){
-                    if(session("user_type") == 3){
-                        return $query
-                        ->where("tb_lesson.idCreator", "=", session("user_id"));
-                    } else {
-                        return $query
-                        ->where("tb_lesson.idCreator", session("client"))
-                        ->orWhere("tb_lesson.idCreator", "=", session("user_id"));
-                    }
+                if(isset(session("permission")->limited)) {
+                    $lessons = $lessons
+                    ->where("tb_lesson.idCreator", auth()->user()->id);
                 } else {
-                    return $query
-                    ->where("tb_lesson.idCreator", session("client"));
-                }
+                    if(auth()->user()->type < 2) {
+                        $lessons = $lessons
+                        ->whereIn("tb_lesson.idCreator", User::get_members());
+                    } else {
+                        $lessons = $lessons
+                        ->where("tb_lesson.idCreator", session("client"))
+                        ->orWhere("tb_lesson.idCreator", auth()->user()->id);
+                    }
+                }   
             })
             ->first();
             if(isset($lesson)){
@@ -130,7 +140,7 @@ class LessonsModel extends Model
         } else {
             if(auth()->user()->type < 2) {
                 $lessons = $query->leftjoin("tb_users", 'tb_lesson.idCreator', "=", 'tb_users.id')
-                    ->where("tb_lesson.idCreator", $client)
+                    ->whereIn("tb_lesson.idCreator", User::get_members())
                     ->orWhere('tb_users.id_creator', $client)
                     ->get();
             } else {

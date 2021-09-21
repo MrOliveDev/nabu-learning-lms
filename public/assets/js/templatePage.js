@@ -254,6 +254,7 @@ var filterToggleShow = function(event) {
     parent.find('.filter-name-btn i').toggleClass('fa-sort-alpha-up', false);
     parent.find('.filter-date-btn i').toggleClass('fa-sort-numeric-up', false);
     parent.find('.filter-date-btn i').toggleClass('fa-sort-numeric-down', false);
+    // parent.parents("fieldset").find(".handler_horizontal").dblclick();
 };
 
 var divACshow = function(event) {
@@ -858,7 +859,7 @@ var createTemplateData = function(data, category) {
     duplicatebtn.click(btnClick);
     duplicatebtn.click(itemDuplicate);
 
-    templateItem.dblclick(itemDBClick);
+    // templateItem.dblclick(itemDBClick);
     templateItem.find('.btn-group')
         .append(editbtn)
         .append(deletebtn)
@@ -1088,10 +1089,10 @@ var searchfilter = function(event) {
     });
     if ($(this).parents('fieldset').attr('id') == "LeftPanel") {
         heightToggleLeft = true;
-        $('#div_left').dblclick();
+        // $('#div_left').dblclick();
     } else if ($(this).parents('fieldset').attr('id') == "RightPanel") {
         heightToggleRight = true;
-        $('#div_right').dblclick();
+        // $('#div_right').dblclick();
     }
 };
 

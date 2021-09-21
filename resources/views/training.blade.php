@@ -187,7 +187,7 @@ data-search-training="{{isset(session("permission")->training->search->training)
                                 </button>
                                 @endif
                                 @if(isset(session("permission")->limited))
-                                    @if(auth()->user()->id == $lesson->idCreator)
+                                    @if(auth()->user()->id == $lesson["idCreator"])
                                         @if (isset(session("permission")->training->lesson->edit))
                                         <button class="btn item-edit" data-content='lesson'
                                             data-item-id="{{ $lesson['id'] }}">
@@ -371,6 +371,7 @@ data-search-training="{{isset(session("permission")->training->search->training)
             </div>
         </div>
     </fieldset>
+    @if(auth()->user()->type != 2)
     <div id="div_vertical" class="handler_vertical width-controller">
         <i class="fas fa-grip-lines-vertical text-white"></i>
     </div>
@@ -692,6 +693,7 @@ data-search-training="{{isset(session("permission")->training->search->training)
             </div>
         </div>
     </fieldset>
+    @endif
 </div>
 <script>
     $('#parcours').addClass('active');
