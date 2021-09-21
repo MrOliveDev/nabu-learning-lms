@@ -25,7 +25,7 @@ class ReportsModel extends Model
         //     $report = $query->where('id_creator', auth()->user()->id)->get();
         // } else {
             if(auth()->user()->type < 2) {
-                $report = $query->where('id_creator', session("client"))->get();
+                $report = $query->whereIn('id_creator', User::get_members())->get();
             } else {
                 $report = $query
                 ->where('id_creator', auth()->user()->id)

@@ -1921,7 +1921,7 @@ var createUserData = function(data, category) {
     deletebtn.click(btnClick);
     deletebtn.click(itemDelete);
 
-    userItem.dblclick(itemDBClick);
+    // userItem.dblclick(itemDBClick);
     userItem.find('.btn-group').append(email_btn).append(showbtn).append(editbtn).append(deletebtn);
     userItem.click(leftItemClick);
 
@@ -2333,10 +2333,10 @@ var searchfilter = function(event) {
     });
     if ($(this).parents('fieldset').attr('id') == "LeftPanel") {
         heightToggleLeft = true;
-        $('#div_left').dblclick();
+        // $('#div_left').dblclick();
     } else if ($(this).parents('fieldset').attr('id') == "RightPanel") {
         heightToggleRight = true;
-        $('#div_right').dblclick();
+        // $('#div_right').dblclick();
     }
 };
 
@@ -3129,7 +3129,10 @@ $("#password-input .input-group-append>span.input-group-text").click(function(ev
         item.toggleClass("fa-eye-slash", false).toggleClass("fa-eye", true);
     }
 });
-$("fieldset").on("DOMSubtreeModified", function() {$(this).find(".handler_horizontal").dblclick();$(this).find(".handler_horizontal").dblclick();});
+$("fieldset").on("DOMSubtreeModified", function() {
+    $(this).find(".handler_horizontal").dblclick();
+    $(this).find(".handler_horizontal").dblclick();
+});
 $("#send-email-input").click(function(event){
     $("#send-email-template").toggle($(event.target).prop('checked'));
 });

@@ -154,7 +154,7 @@ class TrainingsModel extends Model
         } else {
             if(auth()->user()->type < 2) {
                 $trainings = DB::table("tb_trainings")->leftjoin('tb_languages', "tb_languages.language_id", "=", "tb_trainings.lang")
-                ->where("id_creator", $client)
+                ->whereIn("id_creator", User::get_members())
                 ->get();
             } else {
                 $trainings = DB::table("tb_trainings")->leftjoin('tb_languages', "tb_languages.language_id", "=", "tb_trainings.lang")

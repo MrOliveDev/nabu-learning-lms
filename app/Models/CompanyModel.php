@@ -27,7 +27,7 @@ class CompanyModel extends Model
         //     ->get();
         // } else {
             if(auth()->user()->type < 2) {
-                $company = $query->where("id_creator", $client)
+                $company = $query->whereIn("id_creator", User::get_members())
                 ->get();
             } else {
                 $company = $query->where("id_creator", $client)

@@ -26,6 +26,7 @@ class StudentController extends Controller
 {
     public function index()
     {
+
         if(session("user_type") == 3){
             $students = SessionModel::getUserFromSessionByType(4);
             $teachers = SessionModel::getUserFromSessionByType(3);
@@ -104,18 +105,19 @@ class StudentController extends Controller
             $position = $request->post('position');
         }
 
-        $user = User::create([
-            'login' => $request->post('login'),
-            'password' => base64_encode($request->post('password')),
-            'first_name' => $request->post('first_name'),
-            'last_name' => $request->post('last_name'),
-            'contact_info' => json_encode($contact_info),
-            'id_config' => $interfaceCfg->id,
-            'status' => $request->input('user-status-icon'),
-            'type' => $request->post('type'),
-            'expired_date'=>$request->post('expired_date'),
-            'permission_id'=>$request->post('type')
-        ]);
+        $user = new User();
+        // ::create([
+        //     'login' => $request->post('login'),
+        //     'password' => base64_encode($request->post('password')),
+        //     'first_name' => $request->post('first_name'),
+        //     'last_name' => $request->post('last_name'),
+        //     'contact_info' => json_encode($contact_info),
+        //     'id_config' => $interfaceCfg->id,
+        //     'status' => $request->input('user-status-icon'),
+        //     'type' => $request->post('type'),
+        //     'expired_date'=>$request->post('expired_date'),
+        //     'permission_id'=>$request->post('permission')?$request->post('permission'):$request->post('type')
+        // ]);
 
         if ($request->post('company') != null) {
             $user->company = $request->post('company');
@@ -132,7 +134,7 @@ class StudentController extends Controller
             $user->auto_generate = $request->post('generatepassword');
         }
         if ($request->post('permission') != null) {
-            $user->permission_id = $request->post('permission');
+            $user->permission_id = $request->post('permission')?$request->post('permission'):$request->post('type');
         }
         if (session("user_type") !== 0) {
             $user->id_creator = session("user_id");
@@ -277,7 +279,7 @@ class StudentController extends Controller
             $user->contact_info = json_encode($contact_info);
         }
         if ($request->post('permission') != null) {
-            $user->permission_id = $request->post('permission');
+            $user->permission_id = $request->post('permission')?$request->post('permission'):null;
         }
         $user->expired_date=$request->post('expired_date');
 

@@ -136,10 +136,10 @@ class LoginController extends Controller
         //         }
         //     }
         // }
-
+        
         // $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'login';
         $result = User::where('login', '=', $input['username'])->orWhere('contact_info', 'like', "%" . $input['username'] . "%")->get();
-
+        
         $dbLoginSetting = SiteSettingModel::where("name", "doublelogin")->first("value");
         foreach ($result as $user) {
             if (base64_encode($input['password']) == $user->password) {
@@ -152,7 +152,8 @@ class LoginController extends Controller
                 $request->session()->regenerate();
                 // var_dump(session()->getID());die;
                 auth()->loginUsingId($user->id, true);
-
+                $this->PermissionController->setPermission();
+                
                 $user->last_session = session()->getID();
 
                 $user->save();
@@ -182,7 +183,7 @@ class LoginController extends Controller
         session()->flush();
         return redirect('login');
     }
-
+    
     public function authenticate()
     {
         if (Auth::attempt(['email' => $email, 'password' => $password], true)) {
@@ -190,7 +191,7 @@ class LoginController extends Controller
             return redirect()->intended('dashboard');
         }
     }
-
+    
     protected function sendLoginResponse(Request $request)
     {
         
@@ -201,18 +202,18 @@ class LoginController extends Controller
             if(auth()->user()->type == 1) {
                 if(auth()->user()->id_config){
                     $interface = InterfaceCfgModel::find(auth()->user()->id_config);
-                    if($interface->interface_color!=null) {
+                    if(isset($interface->interface_color)) {
                         $interfaceColorList = json_decode($interface->interface_color);
-                        if($interfaceColorList->menuBackground != null) {
+                        if(isset($interfaceColorList->menuBackground)) {
                             session(["menuBackground" => $interfaceColorList->menuBackground]);
                         }
-                        if($interfaceColorList->pageBackground != null) {
+                        if(isset($interfaceColorList->pageBackground)) {
                             session(["pageBackground" => $interfaceColorList->pageBackground]);
                         }
-                        if($interfaceColorList->iconOverColor != null) {
+                        if(isset($interfaceColorList->iconOverColor)) {
                             session(["iconOverColor" => $interfaceColorList->iconOverColor]);
                         }
-                        if($interfaceColorList->iconDefaultColor != null) {
+                        if(isset($interfaceColorList->iconDefaultColor)) {
                             session(["iconDefaultColor" => $interfaceColorList->iconDefaultColor]);
                         }
                     }
@@ -227,6 +228,25 @@ class LoginController extends Controller
         } else if(auth()->user()->type == 3) {
             $this->redirectTo = "student";
             session(["client" => auth()->user()->id_creator]);
+            $client = User::find(auth()->user()->id_creator);
+            if(isset($client->id_config)) {
+                $interface = InterfaceCfgModel::find($client->id_config);
+                if(isset($interface->interface_color )) {
+                    $interfaceColorList = json_decode($interface->interface_color);
+                    if(isset($interfaceColorList->menuBackground )) {
+                        session(["menuBackground" => $interfaceColorList->menuBackground]);
+                    }
+                    if(isset($interfaceColorList->pageBackground )) {
+                        session(["pageBackground" => $interfaceColorList->pageBackground]);
+                    }
+                    if(isset($interfaceColorList->iconOverColor )) {
+                        session(["iconOverColor" => $interfaceColorList->iconOverColor]);
+                    }
+                    if(isset($interfaceColorList->iconDefaultColor )) {
+                        session(["iconDefaultColor" => $interfaceColorList->iconDefaultColor]);
+                    }
+                }
+            }
         } else if(auth()->user()->type == 2) {
             $this->redirectTo = "training";
 
@@ -234,8 +254,13 @@ class LoginController extends Controller
 
             $this->redirectTo = 'dash';
         }
-        session(['language' => 'en']);
-        $this->PermissionController->setPermission();
+        $lang = auth()->user()->lang;
+        $language = LanguageModel::where("language_id", $lang)->first();
+        if(isset($language->language_iso)) {
+            session(['language' => $language->language_iso]);
+        } else {
+            session(['language' => 'en']);
+        }
 
 
         if ($this->guard()->user()!=NULL) {

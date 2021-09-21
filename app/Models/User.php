@@ -243,4 +243,16 @@ class User extends Authenticatable
 
         return $clientlist;
     }
+
+    public function scopeGet_members($query) {
+        $memberlist = $query->where("id_creator", session("client"))->get("id")->toArray();
+        $memberArray = [];
+        foreach($memberlist as $member) {
+            if(isset($member['id']))
+            array_push($memberArray, $member['id']);
+        }
+        array_push($memberArray, session("client"));
+        // var_dump($memberArray);exit;
+        return $memberArray;
+    }
 }

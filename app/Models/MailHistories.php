@@ -24,7 +24,7 @@ class MailHistories extends Model
             ->get();
         } else {
             if(auth()->user()->type < 2 ) {
-                $result = $query->where("id_creator", session("client"))
+                $result = $query->whereIn("id_creator", User::get_members())
                 ->get();
             } else {
                 $result == $query->where("id_creator", session("client"))

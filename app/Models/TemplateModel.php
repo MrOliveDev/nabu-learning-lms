@@ -214,7 +214,7 @@ class TemplateModel extends Model
             ->get();
         } else {
             if(auth()->user()->type < 2) {
-                $template = $query->where("id_creator", session("client"))
+                $template = $query->whereIn("id_creator", User::get_members())
                 ->get();
             } else {
                 $template = $query->where("id_creator", session("client"))

@@ -440,7 +440,7 @@ table.session-table {
 
 
 .table.table[role="grid"], .table.table[role="grid"] th, .table.table[role="grid"] tr, .table.table[role="grid"] td{
-    border: 1px solid #7e3e98 !important;
+    border: 1px solid transparent !important;
 }
 
 .table.table[role="grid"] th{
