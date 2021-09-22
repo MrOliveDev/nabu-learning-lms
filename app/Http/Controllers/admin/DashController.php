@@ -15,7 +15,7 @@ class DashController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->type === 0 || auth()->user()->type === 1) {
+        if (auth()->user()->type === 0 || auth()->user()->type === 1 || auth()->user()->type === 3) {
         
             // PAUSED = a session in progress that is set OFFLINE
             // FINISHED = end date passed
@@ -66,9 +66,7 @@ class DashController extends Controller
             $generatedReports = ReportsModel::getReportByClient()->count();
 
             return view('admindash', compact(['sessions', 'registeredUsers', 'activedStudents', 'sessionsInProgress', 'createdLessons', 'finishedSessions', 'generatedReports']));
-
-        } else if(auth()->user()->type == 3){
-            return redirect('admindash');
+            
         } else if(auth()->user()->type == 2){
             return redirect('training');
         } else if(auth()->user()->type == 4){

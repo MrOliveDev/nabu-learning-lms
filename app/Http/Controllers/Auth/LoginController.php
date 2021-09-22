@@ -226,6 +226,7 @@ class LoginController extends Controller
                 }
             }
         } else if(auth()->user()->type == 3) {
+            $this->redirectTo = "admindash";
             session(["client" => auth()->user()->id_creator]);
             $client = User::find(auth()->user()->id_creator);
             if(isset($client->id_config)) {
@@ -246,12 +247,9 @@ class LoginController extends Controller
                     }
                 }
             }
-            $this->redirectTo = "admindash";
         } else if(auth()->user()->type == 2) {
             $this->redirectTo = "training";
-
         } else {
-
             $this->redirectTo = '/';
         }
         $lang = auth()->user()->lang;
