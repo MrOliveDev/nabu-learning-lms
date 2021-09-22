@@ -259,7 +259,7 @@ class ReportController extends Controller
         $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_session as tb_session', "tb_session.id", "=", "tb_reports.sessionId");
         $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_users as tb_users', "tb_users.id", "=", "tb_reports.studentId");
         if(isset(session("permission")->limited)){
-            $handler = $handler->where("id_creator", auth()->user()->id);
+            $handler = $handler->where("tb_reports.id_creator", auth()->user()->id);
         } else {
             if(auth()->user()->type < 2) {
                 $handler = $handler->whereIn("tb_reports.id_creator", User::get_members());
