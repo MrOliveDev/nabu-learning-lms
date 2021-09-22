@@ -250,7 +250,7 @@ class LoginController extends Controller
         } else if(auth()->user()->type == 2) {
             $this->redirectTo = "training";
         } else {
-            $this->redirectTo = '/';
+            $this->redirectTo = 'dash';
         }
         $lang = auth()->user()->lang;
         $language = LanguageModel::where("language_id", $lang)->first();

@@ -422,6 +422,7 @@ class SessionModel extends Model
     public function getSessionFromUser($user_id){
         $sessions = $this->getSessionByClient();
         $result = array();
+        if(isset($sessions))
         foreach ($sessions as $session) {
             $participant_data = $session->participants;
             $groupData = array();
