@@ -139,7 +139,7 @@ session("menuBackground")!=null)
                             <ul class="nav-main">
                                 @if (isset(session('permission')->admindash))
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="{{ route('admin.dash') }}" id="tableau">
+                                    <a class="nav-main-link" href="{{ route('admindash') }}" id="tableau">
                                         <!-- <div class="nav-cover"> -->
                                         <div class="nav-main-cover-item mr-2">
                                             <i class="nav-main-link-icon fas fa-tachometer-alt" @if(session("iconDefaultColor") != null && session("iconDefaultColor") != "") style="color:{{session("iconDefaultColor")}}" @endif></i>

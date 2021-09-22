@@ -263,7 +263,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::get('admindash_getdata/{id}', '\App\Http\Controllers\admin\DashController@sessionForAdminDashboard');
     Route::post('getlessonsforstudent/{id}/{session_id}', '\App\Http\Controllers\common\DashController@getLessonsForStudent');
     Route::get('home', '\App\Http\Controllers\HomeController@index')->name('home');
-    Route::get('admindash', '\App\Http\Controllers\admin\DashController@index')->name('admin.dash');
+    Route::get('admindash', '\App\Http\Controllers\admin\DashController@index')->name('admindash');
     Route::post('setSessionForUserPage', '\App\Http\Controllers\GlobalSessionController@setToPageSetting');
     Route::post('getSessionFromUser', 'App\Http\Controllers\StudentController@getSessionFromUser');
     Route::get('dash', '\App\Http\Controllers\common\DashController@index')->name('dash');
