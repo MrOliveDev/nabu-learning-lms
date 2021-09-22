@@ -265,7 +265,7 @@ class ReportController extends Controller
                 $handler = $handler->whereIn("tb_reports.id_creator", User::get_members());
             } else {
                 $handler = $handler->where("tb_reports.id_creator", session("client"))
-                ->orWhere("id_creator", auth()->user()->id);
+                ->orWhere("tb_reports.id_creator", auth()->user()->id);
             }
         }
         if(empty($request->input('search.value')))
