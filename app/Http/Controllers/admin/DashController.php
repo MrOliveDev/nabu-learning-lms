@@ -67,11 +67,12 @@ class DashController extends Controller
 
             return view('admindash', compact(['sessions', 'registeredUsers', 'activedStudents', 'sessionsInProgress', 'createdLessons', 'finishedSessions', 'generatedReports']));
 
-        } else {
-
-            // var_dump('abc'.auth()->user()->type);
-            return redirect('/');
-
+        } else if(auth()->user()->type == 3){
+            return redirect('admin.dash');
+        } else if(auth()->user()->type == 2){
+            return redirect('training');
+        } else if(auth()->user()->type == 4){
+            return redirect('dash');
         }
     }
 
