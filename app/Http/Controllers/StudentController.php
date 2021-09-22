@@ -42,7 +42,7 @@ class StudentController extends Controller
         $languages = LanguageModel::all();
         $permissions = PermissionModel::where('show', 1)->get();
 
-        $templates = MailTemplateModel::get();
+        $templates = MailTemplateModel::getMailTemplateByClient();
 
         return view('student', compact(['authors', 'teachers', 'students', 'groups', 'positions', 'companies', 'languages', 'permissions', 'templates']));
     }
@@ -105,19 +105,18 @@ class StudentController extends Controller
             $position = $request->post('position');
         }
 
-        $user = new User();
-        // ::create([
-        //     'login' => $request->post('login'),
-        //     'password' => base64_encode($request->post('password')),
-        //     'first_name' => $request->post('first_name'),
-        //     'last_name' => $request->post('last_name'),
-        //     'contact_info' => json_encode($contact_info),
-        //     'id_config' => $interfaceCfg->id,
-        //     'status' => $request->input('user-status-icon'),
-        //     'type' => $request->post('type'),
-        //     'expired_date'=>$request->post('expired_date'),
-        //     'permission_id'=>$request->post('permission')?$request->post('permission'):$request->post('type')
-        // ]);
+        $user = User::create([
+            'login' => $request->post('login'),
+            'password' => base64_encode($request->post('password')),
+            'first_name' => $request->post('first_name'),
+            'last_name' => $request->post('last_name'),
+            'contact_info' => json_encode($contact_info),
+            'id_config' => $interfaceCfg->id,
+            'status' => $request->input('user-status-icon'),
+            'type' => $request->post('type'),
+            'expired_date'=>$request->post('expired_date'),
+            'permission_id'=>$request->post('permission')?$request->post('permission'):$request->post('type')
+        ]);
 
         if ($request->post('company') != null) {
             $user->company = $request->post('company');

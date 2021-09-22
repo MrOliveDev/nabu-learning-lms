@@ -67,8 +67,21 @@ class SessionModel extends Model
             'tb_session.*',
             'tb_languages.language_iso as language_iso'
         )
-            ->leftjoin('tb_languages', 'tb_session.language_iso', 'tb_languages.language_id')
-            ->where("tb_session.id_creator", $client)
+            ->leftjoin('tb_languages', 'tb_session.language_iso', 'tb_languages.language_id');
+            if(isset(session("permission")->limited)) {
+                $result = $result
+                ->where("tb_session.id_creator", auth()->user()->id);
+            } else {
+                if(auth()->user()->type < 2) {
+                    $result = $result
+                    ->whereIn("tb_session.id_creator", User::get_members());
+                } else {
+                    $result = $result
+                    ->where("tb_session.id_creator", session("client"))
+                    ->orWhere("tb_session.id_creator", auth()->user()->id);
+                }
+            }   
+            $result = $result
             ->get();
         return $result;
     }
@@ -96,7 +109,21 @@ class SessionModel extends Model
         // }
         // return $array;
         if (isset($content_data) || $content_data != "") {
-            $training = TrainingsModel::where('id', $content_data)->where("id_creator", session("client"))->get();
+            $training = TrainingsModel::where('id', $content_data);
+            if(isset(session("permission")->limited)) {
+                $training = $training
+                ->where("id_creator", auth()->user()->id)->get();
+            } else {
+                if(auth()->user()->type < 2) {
+                    $training = $training
+                    ->whereIn("id_creator", User::get_members())->get();
+                } else {
+                    $training = $training
+                    ->where("id_creator", session("client"))
+                    ->where("id_creator", auth()->user()->id)->get();
+                }
+            }   
+
             if ($training->count() != 0) {
                 return $training;
             } else {
@@ -393,7 +420,7 @@ class SessionModel extends Model
      * @return session item list
      */
     public function getSessionFromUser($user_id){
-        $sessions = SessionModel::all();
+        $sessions = $this->getSessionByClient();
         $result = array();
         foreach ($sessions as $session) {
             $participant_data = $session->participants;
@@ -429,7 +456,7 @@ class SessionModel extends Model
                         foreach ($studentList as $studentValue) {
                             // print_r($studentValue);
                             $studentItem = User::find($studentValue);
-                            if($studentItem != NULL && strval($studentItem->id) == $user_id) {
+                            if($studentItem != null && strval($studentItem->id) == $user_id) {
                                 array_push($result, $session);
                             }
                         }
@@ -438,12 +465,14 @@ class SessionModel extends Model
                 if (isset($teacherList) || $teacherList != "") {
                     if (count($teacherList) != 0) {
                         foreach ($teacherList as $teacherValue) {
-                            // var_dump($teacherValue);
                             // exit;
+                            // var_dump($user_id);
                             $teacherItem = User::find($teacherValue);
-                           if($teacherItem != NULL && strval($teacherItem->id) == $user_id)
-                            if(in_array($user_id, $teacherItem))
-                            array_push($result, $session);
+                            if($teacherItem != null && strval($teacherItem->id) == $user_id){
+                                if(in_array($user_id, $teacherItem->toArray())) {
+                                    array_push($result, $session);
+                                }
+                            }
                         }
                     }
                 }
@@ -501,7 +530,17 @@ class SessionModel extends Model
      * @return item list
      */
     public function scopeGetUserFromSessionByType($query, $type) {
-        $sessions = SessionModel::where("id_creator", session("client"))->get();
+        if(isset(session("permission")->limited)) {
+            $sessions = SessionModel::where("id_creator", auth()->user()->id)->get();
+        } else {
+            if(auth()->user()->type < 2) {
+                $sessions = SessionModel::whereIn("id_creator", User::get_members())->get();
+            } else {
+                $sessions = SessionModel::where("id_creator", session("client"))
+                ->orWhere("id_creator", auth()->user()->id)->get();
+            }
+        }
+
         $result = array();
         foreach($sessions as $session) {
             if($type==4){
@@ -512,7 +551,20 @@ class SessionModel extends Model
                     }
                 }
                 //students:created by teacher
-                $students = User::where("id_creator", session("user_id"))->where("type", $type)->get();
+                $students = User::where("type", $type);
+                if(isset(session("permission")->limited)) {
+                    $students = $students
+                    ->where("id_creator", session("user_id"))->get();
+                } else {
+                    if(auth()->user()->type < 2) {
+                        $students = $students
+                        ->whereIn("id_creator", User::get_members())->get();
+                    } else {
+                        $students = $students
+                        ->where("id_creator", session("client"))
+                        ->where("id_creator", session("user_id"))->get();
+                    }
+                }   
                 foreach ($students as $student) {
                     if(!in_array($student, $result)){
                         array_push($result, $student);
@@ -532,5 +584,21 @@ class SessionModel extends Model
         // }
         // exit;
         return $result;
+    }
+
+    public function getSessionByClient() {
+        if(isset(session("permission")->limited)) {
+            $session = $this
+            ->where('id_creator', auth()->user()->id)->get();
+        } else {
+            if(auth()->user()->type < 2) {
+                $session = $this
+                ->whereIn('id_creator', User::get_members())->get();
+            } else {
+                $session = $this
+                ->where('id_creator', session("client"))
+                ->where('id_creator', auth()->user()->id)->get();
+            }
+        }   
     }
 }

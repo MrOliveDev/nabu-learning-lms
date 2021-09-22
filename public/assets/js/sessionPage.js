@@ -5,6 +5,7 @@ var grouptab = null,
     detailtags = null;
 var detailtag1 = null;
 var activedTab = '#students';
+var selectStart=null;
 
 var window_level = 1;
 
@@ -80,14 +81,46 @@ var itemDBClick = function() {
  * @param {*} e 
  */
 var rightItemClick = function(e) {
-    var parent = $(event.target);
-    if (!parent.is('.list-group-item')) {
-        parent = $(event.target).parents('.list-group-item');
-    }
-    if (parent.is('.active')) {
-        parent.removeClass('active');
+    var target = $(e.target).closest(".list-group-item");
+    var category = target.attr("id").split("_")[0];
+    if (!target.hasClass("active")) {
+        if(selectStart=="" || selectStart == null){
+            if(e.shiftKey) {
+                selectStart = target.attr("id").split("_")[1];
+            } else {
+                selectStart = null;
+            }
+        } else {
+            if(e.shiftKey){
+                var itemList = target.parents(".list-group").find(".list-group-item").map(function(){
+                    return $(this).attr("id").split("_")[1];
+                }).toArray();
+                if(itemList.indexOf(selectStart)!=-1) {
+                    var selectEnd = target.attr("id").split("_")[1];
+                    var startIndex = itemList.indexOf(selectEnd);
+                    var endIndex = itemList.indexOf(selectStart);
+                    if(endIndex >= startIndex) {
+                        for(let i = startIndex ; i <= endIndex ; i++) {
+                            $("#"+category+"_"+itemList[i]).toggleClass("active", true);
+                        }
+                    } else {
+                        for(let i = endIndex ; i <= startIndex ; i++) {
+                            $("#"+category+"_"+itemList[i]).toggleClass("active", true);
+                        }
+                    }
+
+                    selectStart=null;
+                    
+                }
+            } else {
+                selectStart = null;
+            }
+        }
+        target.addClass("active");
+        // $(this).attr('draggable', true);
     } else {
-        parent.addClass('active');
+        target.removeClass("active");
+        // $(this).attr('draggable', false);
     }
 
 };
@@ -1605,4 +1638,12 @@ $("#table-content .list-group").sortable({
 });
 $('.cancel-btn').click(cancelBtn);
 $('#session-status-icon').click(statusBtn);
-$("#RightPanel").on("DOMSubtreeModified", function() {$(this).find(".handler_horizontal").dblclick();$(this).find(".handler_horizontal").dblclick();})
+$("#div_A, #div_C").on("DOMSubtreeModified", function() {
+    if($(this).attr("id") == "div_A") {
+        heightToggleLeft = true;
+    } else {
+        heightToggleRight = true;
+    }
+    $(this).find(".handler_horizontal").dblclick();
+    // $(this).find(".handler_horizontal").dblclick();
+});

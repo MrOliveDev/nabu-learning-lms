@@ -32,6 +32,10 @@
             ;
         }
 
+        #template-group {
+            display:none;
+        }
+
         .cropper-view-box {
             border-radius: 0;
         }
@@ -324,7 +328,7 @@ data-search-training="{{isset(session("permission")->training->search->training)
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Language<span class="text-danger">*</span>
+                                            Language
                                         </span>
                                     </div>
                                     <select class="form-control" id="lesson_language" name="lesson_language">
@@ -366,6 +370,59 @@ data-search-training="{{isset(session("permission")->training->search->training)
                 <div class="second-table" id="lesson-table">
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
 
+                    </div>
+                </div>
+
+                <div class="card text-black pt-3" id="template-group">
+                    <div class="card-body  p-3">
+                        <div class="template-select bg-white text-black">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Language
+                                        </span>
+                                    </div>
+                                    <select class="form-control" id="language-select" name="language-select">
+                                        @foreach ($languages as $language)
+                                            @if ($loop->first)
+                                                <option value="{{ $language->language_iso }}" selected="selected">
+                                                    {{ $language->language_name }}</option>
+                                            @else
+                                                <option value="{{ $language->language_iso }}">
+                                                    {{ $language->language_name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Template<span class="text-danger">*</span>
+                                        </span>
+                                    </div>
+                                    <select class="form-control" id="template-select" name="template-select">
+                                        @foreach ($templates as $template)
+                                            @if ($loop->first)
+                                                <option value="{{ $template->id }}" selected="selected">
+                                                    {{ $template->name }}</option>
+                                            @else
+                                                <option value="{{ $template->id }}">
+                                                    {{ $template->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <button type="button" class="btn btn-hero-primary float-right mx-1 template-submit-btn"
+                                    id="template-confirm">PLAY</button>
+                                <button type="button" class="btn btn-hero-primary float-right mx-1 template-cancel-btn"
+                                    id="template-cancel">CANCEL</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

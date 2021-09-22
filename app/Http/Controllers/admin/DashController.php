@@ -70,7 +70,7 @@ class DashController extends Controller
         } else {
 
             // var_dump('abc'.auth()->user()->type);
-            return redirect('dash');
+            return redirect('/');
 
         }
     }
