@@ -418,7 +418,7 @@ class ReportController extends Controller
             if($template){
                 $template->name = $request['name'];
                 $template->data = $request['data'];
-                $template->id_Increator = session("client");
+                $template->id_creator = session("client");
 
                 $template->save();
                 return response()->json(["success" => true]);

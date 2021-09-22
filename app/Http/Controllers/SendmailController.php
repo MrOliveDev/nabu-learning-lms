@@ -30,7 +30,7 @@ class SendmailController extends Controller
             $images = MailImages::where('userId', auth()->user()->id)->get();
         } else {
             if(auth()->user()->type < 2) {
-                $images = MailImages::where('userId', User::get_members())->get();
+                $images = MailImages::whereIn('userId', User::get_members())->get();
             } else {
                 $images = MailImages::where('userId', session('client'))
                 ->orWhere("userId", auth()->user()->id)->get();
@@ -133,7 +133,7 @@ class SendmailController extends Controller
                 if(auth()->user()->type < 2) {
                     $users = User::whereIn("id_creator", User::get_members())->get();
                 } else {
-                    $users = User::whereIn("id_creator", session("client"))
+                    $users = User::where("id_creator", session("client"))
                     ->orWhere("id_creator", auth()->user()->id)->get();
                 }
             }
