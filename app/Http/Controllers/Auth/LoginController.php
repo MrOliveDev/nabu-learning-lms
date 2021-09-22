@@ -42,7 +42,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = "dash";
+    protected $redirectTo = "admin.dash";
 
     protected $PermissionController;
 
@@ -226,7 +226,7 @@ class LoginController extends Controller
                 }
             }
         } else if(auth()->user()->type == 3) {
-            $this->redirectTo = "student";
+            $this->redirectTo = "admindash";
             session(["client" => auth()->user()->id_creator]);
             $client = User::find(auth()->user()->id_creator);
             if(isset($client->id_config)) {
