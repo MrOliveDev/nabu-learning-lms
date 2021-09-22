@@ -119,7 +119,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::get('home', '\App\Http\Controllers\HomeController@index')->name('home');
     Route::get('session', '\App\Http\Controllers\SessionController@index')->name('session');
     Route::get('lesson', '\App\Http\Controllers\LessonController@index')->name('lesson');
-    Route::get('admindash', '\App\Http\Controllers\admin\DashController@index')->name('admin.dash');
+    Route::get('admindash', '\App\Http\Controllers\admin\DashController@index')->name('admindash');
     Route::get('dash', '\App\Http\Controllers\common\DashController@index')->name('dash');
     Route::get('temp', '\App\Http\Controllers\TempController@index')->name('temp');
     Route::get('student', '\App\Http\Controllers\StudentController@index')->name('student');

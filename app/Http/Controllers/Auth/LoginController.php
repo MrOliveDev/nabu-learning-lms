@@ -42,7 +42,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = "admin.dash";
+    protected $redirectTo = "admindash";
 
     protected $PermissionController;
 
@@ -226,7 +226,6 @@ class LoginController extends Controller
                 }
             }
         } else if(auth()->user()->type == 3) {
-            $this->redirectTo = "admindash";
             session(["client" => auth()->user()->id_creator]);
             $client = User::find(auth()->user()->id_creator);
             if(isset($client->id_config)) {
@@ -247,12 +246,13 @@ class LoginController extends Controller
                     }
                 }
             }
+            $this->redirectTo = "admindash";
         } else if(auth()->user()->type == 2) {
             $this->redirectTo = "training";
 
         } else {
 
-            $this->redirectTo = 'dash';
+            $this->redirectTo = '/';
         }
         $lang = auth()->user()->lang;
         $language = LanguageModel::where("language_id", $lang)->first();
