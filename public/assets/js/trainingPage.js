@@ -14,6 +14,8 @@ var activedTab = '#training-table';
 
 var window_level = 1;
 
+var selectStart=null;
+
 var input_group_position = null,
     expired_date = $('#expired_date_input .input-group');
 
@@ -61,12 +63,48 @@ var clearClassName = function(i, highlighted) {
         $(highlighted).removeClass('highlight');
     }
 };
-
 var leftItemClick = function(e) {
-    if (!$(this).hasClass("active")) {
-        $(this).addClass("active");
+    // e.stopPropagation();
+    var target = $(e.target).closest(".list-group-item");
+    var category = target.attr("id").split("_")[0];
+    if (!target.hasClass("active")) {
+        if(selectStart=="" || selectStart == null){
+            if(e.shiftKey) {
+                selectStart = target.attr("id").split("_")[1];
+            } else {
+                selectStart = null;
+            }
+        } else {
+            if(e.shiftKey){
+                var itemList = target.parents(".list-group").find(".list-group-item").map(function(){
+                    return $(this).attr("id").split("_")[1];
+                }).toArray();
+                if(itemList.indexOf(selectStart)!=-1) {
+                    var selectEnd = target.attr("id").split("_")[1];
+                    var startIndex = itemList.indexOf(selectEnd);
+                    var endIndex = itemList.indexOf(selectStart);
+                    if(endIndex >= startIndex) {
+                        for(let i = startIndex ; i <= endIndex ; i++) {
+                            $("#"+category+"_"+itemList[i]).toggleClass("active", true);
+                        }
+                    } else {
+                        for(let i = endIndex ; i <= startIndex ; i++) {
+                            $("#"+category+"_"+itemList[i]).toggleClass("active", true);
+                        }
+                    }
+
+                    selectStart=null;
+                    
+                }
+            } else {
+                selectStart = null;
+            }
+        }
+        target.addClass("active");
+        // $(this).attr('draggable', true);
     } else {
-        $(this).removeClass("active");
+        target.removeClass("active");
+        // $(this).attr('draggable', false);
     }
 
 };
@@ -576,9 +614,26 @@ var itemShow = function(event) {
         });
 };
 var itemPlay = function(event) {
-    var parent = $(this).parents('.list-group-item');
-    window.open(baseURL + "/player_editor" + "/#/open/fr/fabrique/0/" + parent.find('.item-play').attr('data-fabrica') + "/0/dae8efee8afc1994204d76ee963bcfb1");
+    $("#template-group").toggle(true);
+    toggleFormOrTable($("#LeftPanel"), false, false);
 };
+
+var templateConfirm = function(event) {
+    $("#template-group").toggle(true);
+    var languageSelect = $("#language-select").val();
+    if(!languageSelect) {
+        notification("You have to input language!", 2);
+        return;
+    }
+    var templateSelect = $("#template-select").val();
+    if(!templateSelect) {
+        notification("You have to input template!", 2);
+        return;
+    }
+    var parent = $(this).parents('.list-group-item');
+    window.open(baseURL + "/player_editor" + "/#/open/"+languageSelect+"/fabrique/0/" + parent.find('.item-play').attr('data-fabrica') + "/"+templateSelect+"/dae8efee8afc1994204d76ee963bcfb1");
+}
+
 var itemTemplate = function(event) {
     var parent = $(this).parents('.list-group-item');
     window.open(baseURL + "/fabrique_editor" + "/#/open/" + parent.find('.item-play').attr('data-fabrica') + "/dae8efee8afc1994204d76ee963bcfb1");
@@ -1619,8 +1674,23 @@ $('form input, form select').change(formInputChange);
 $('.submit-btn').click(submitBtn);
 $('.cancel-btn').click(cancelBtn);
 
+$('#template-confirm').click(templateConfirm);
+
 $(".toolkit-show-filter").click(filterToggleShow);
 $('.filter-name-btn').click(sortfilter);
 $('.filter-date-btn').click(sortfilter);
 $('.handler_horizontal').dblclick(handlerDBClick);
-$("fieldset").on("DOMSubtreeModified", function() {$(this).find(".handler_horizontal").dblclick();$(this).find(".handler_horizontal").dblclick();})
+$("#div_A, #div_C").on("DOMSubtreeModified", function() {
+    if($(this).attr("id") == "div_A") {
+        heightToggleLeft = true;
+    } else {
+        heightToggleRight = true;
+    }
+    $(this).find(".handler_horizontal").dblclick();
+    // $(this).find(".handler_horizontal").dblclick();
+});
+$("#div_A .btn, #div_D .btn, #LeftPanel .toolkit-add-item").click(function(event) {
+    if(!$(this).is(".item-play")) {
+        $("#template-group").toggle(false);
+    }
+})

@@ -152,10 +152,9 @@ class LoginController extends Controller
                 $request->session()->regenerate();
                 // var_dump(session()->getID());die;
                 auth()->loginUsingId($user->id, true);
-                $this->PermissionController->setPermission();
                 
                 $user->last_session = session()->getID();
-
+                
                 $user->save();
                 session_start();
                 $request->session()->put('user_id', auth()->user()->id);
@@ -167,18 +166,18 @@ class LoginController extends Controller
                 return $this->sendLoginResponse($request);
             }
         }
-
+        
 
         $validator->errors()->add('username', 'These credentials do not match our records.');
         return redirect()->route('login')->withErrors($validator)->withInput();
     }
-
+    
     protected function logout()
     {
         $user = User::find(auth()->user()->id);
         $user->last_session = "";
         $user->update();
-
+        
         Auth::logout();
         session()->flush();
         return redirect('login');
@@ -196,6 +195,7 @@ class LoginController extends Controller
     {
         
         $this->clearLoginAttempts($request);
+        $this->PermissionController->setPermission();
         session(["user_type"=>auth()->user()->type]);
         if (auth()->user()->type == 0 || auth()->user()->type == 1) {
             $this->redirectTo = 'admindash';
@@ -261,18 +261,18 @@ class LoginController extends Controller
         } else {
             session(['language' => 'en']);
         }
-
-
+        
+        
         if ($this->guard()->user()!=NULL) {
             return redirect()->intended($this->redirectPath());
-
+            
         } else {
             echo "False";
         }
-
+        
         // return $this->authenticated($request, $this->guard()->user())
         //     ?: redirect()->intended($this->redirectPath());
     }
-
+    
     
 }

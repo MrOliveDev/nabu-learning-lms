@@ -36,7 +36,17 @@ class ReportController extends Controller
     public function index()
     {
         $templates = ReportTemplateModel::getTemplateModelByClient();
-        $images = ReportImages::where('userId', session("client"))->get();
+        if(isset(session("permission")->limited)) {
+            $images = ReportImages::where('userId', auth()->user()->id)->get();
+        } else {
+            if(auth()->user()->type < 2) {
+                $images = ReportImages::whereIn('userId', User::get_members())->get();
+            } else {
+                $images = ReportImages::where('userId', session("client"))
+                ->orWhere("userId", auth()->user()->id)->get();
+            }
+        }   
+
         $sessions = SessionModel::getSessionPageInfo();
         return view('report.view')->with('templates', $templates)->with('images', $images)->with('sessions', $sessions);
     }
@@ -139,7 +149,7 @@ class ReportController extends Controller
         } else {
             if(auth()->user()->type < 2) {
                 $handler = $handler
-                ->where("tb_reports.id_creator", session("client"));
+                ->whereIn("tb_reports.id_creator", User::get_members());
             } else {
                 $handler = $handler
                 ->where("tb_reports.id_creator", session("client"))
@@ -252,7 +262,7 @@ class ReportController extends Controller
             $handler = $handler->where("id_creator", auth()->user()->id);
         } else {
             if(auth()->user()->type < 2) {
-                $handler = $handler->where("tb_reports.id_creator", session("client"));
+                $handler = $handler->whereIn("tb_reports.id_creator", User::get_members());
             } else {
                 $handler = $handler->where("tb_reports.id_creator", session("client"))
                 ->orWhere("id_creator", auth()->user()->id);
@@ -363,7 +373,7 @@ class ReportController extends Controller
             } else {
                 if(auth()->user()->type < 2) {
                     $template = $template
-                    ->where("id_creator", session("client"))
+                    ->whereIn("id_creator", User::get_members())
                     ->first();
                 } else {
                     $template = $template
@@ -396,7 +406,7 @@ class ReportController extends Controller
             } else {
                 if(auth()->user()->type < 2) {
                     $template = $template
-                    ->where("id_creator", session("client"))
+                    ->whereIn("id_creator", User::get_members())
                     ->first();
                 } else {
                     $template = $template
@@ -419,7 +429,7 @@ class ReportController extends Controller
                     'name' => $request['name'],
                     'data' => $request['data'],
                     'created_time' => gmdate("Y-m-d\TH:i:s", time()),
-                    'id_creator' => session("client")
+                    'id_creator' => auth()->user()->id
                 ]);
                 return response()->json(["success" => true, "id" => $template->id]);
             }
@@ -443,7 +453,7 @@ class ReportController extends Controller
             } else {
                 if(auth()->user()->type < 2) {
                     $template = $template
-                    ->where("id_creator", session("client"))
+                    ->whereIn("id_creator", User::get_members())
                     ->first();
                 } else {
                     $template = $template
@@ -484,7 +494,7 @@ class ReportController extends Controller
     function saveReportImg(Request $request){
         if(!empty($request['data'])){
             ReportImages::create([
-                'userId' => session("client"),
+                'userId' => auth()->user()->id,
                 'data' => $request['data']
             ]);
             return response()->json(["success" => true]);
@@ -903,7 +913,7 @@ class ReportController extends Controller
                 'filename' => $filename,
                 'type' => 'pdf',
                 'created_time' => gmdate("Y-m-d\TH:i:s", time()),
-                'id_creator' =>session("client")
+                'id_creator' =>auth()->user()->type!=0?auth()->user()->id:session("client")
             ]);
 
             return response()->json(["success" => true, "filename" => $filename]);
@@ -970,7 +980,7 @@ class ReportController extends Controller
                     'filename' => $filename,
                     'type' => 'pdf',
                     'created_time' => gmdate("Y-m-d\TH:i:s", time()),
-                    'id_creator' => session("client")
+                    'id_creator' => auth()->user()->type!=0?auth()->user()->id:session("client")
                 ]);
             }
 
@@ -988,7 +998,7 @@ class ReportController extends Controller
                 'filename' => $filename,
                 'type' => 'zip',
                 'created_time' => gmdate("Y-m-d\TH:i:s", time()),
-                'id_creator' => session("client")
+                'id_creator' => auth()->user()->type!=0?auth()->user()->id:session("client")
             ]);
 
             return response()->json(["success" => true, "filename" => $filename]);
@@ -1013,7 +1023,7 @@ class ReportController extends Controller
             } else {
                 if(auth()->user()->type < 2) {
                     $report = $report
-                    ->where("id_creator", session("client"))
+                    ->whereIn("id_creator", User::get_members())
                     ->first();
                 } else {
                     $report = $report

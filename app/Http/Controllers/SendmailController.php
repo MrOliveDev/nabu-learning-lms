@@ -26,7 +26,17 @@ class SendmailController extends Controller
     public function index(Request $request)
     {
         $templates = MailTemplateModel::getMailTemplateByClient();
-        $images = MailImages::where('userId', session('client'))->get();
+        if(isset(session("permission")->limited)) {
+            $images = MailImages::where('userId', auth()->user()->id)->get();
+        } else {
+            if(auth()->user()->type < 2) {
+                $images = MailImages::whereIn('userId', User::get_members())->get();
+            } else {
+                $images = MailImages::where('userId', session('client'))
+                ->orWhere("userId", auth()->user()->id)->get();
+            }
+        }
+
         
         $activeTab = 0;
         $process = 'List of users';
@@ -37,7 +47,7 @@ class SendmailController extends Controller
                 $session = $session->where("id_creator", auth()->user()->id)->first();
             }  else {
                 if(auth()->user()->type < 2) {
-                    $session = $session->where("id_creator", session("client"))->first();
+                    $session = $session->whereIn("id_creator", User::get_members())->first();
                 } else {
                     $session = $session->where("id_creator", session("client"))
                     ->orWhere("id_creator", auth()->user()->id)
@@ -68,18 +78,29 @@ class SendmailController extends Controller
                 ->get();
             } else {
                 if(auth()->user()->type < 2) {
-                    $group = $group->where("id_creator", session("client"))
+                    $group = $group->whereIn("id_creator", User::get_members())
                     ->get();
                 } else {
-                    $group = $group->where("id_creator", auth()->user()->id)
-                    ->orWhere("id_creator", session("client"))
+                    $group = $group
+                    ->where("id_creator", session("client"))
+                    ->orWhere("id_creator", auth()->user()->id)
                     ->get();
                 }
             }
             if($group)
             $process = 'List of members of the Group ' . $group->name;
         } else if($request['companyId']){
-            $users = User::where('company', $request['companyId'])->where("id_creator", session("client"))->get();
+            if(isset(session("permission")->limited)) {
+                $users = User::where('company', $request['companyId'])->where("id_creator", auth()->user()->id)->get();
+            } else {
+                if(auth()->user()->type < 2) {
+                    $users = User::where('company', $request['companyId'])->whereIn("id_creator", User::get_members())->get();
+                } else {
+                    $users = User::where('company', $request['companyId'])->where("id_creator", session("client"))
+                    ->orWhere("id_creator", auth()->user()->id)->get();
+                }
+            }
+
             $activeTab = 1;
             $company = CompanyModel::find($request['id']);
             if($company)
@@ -105,8 +126,19 @@ class SendmailController extends Controller
             $users[] = $user;
             $activeTab = 1;
             $process = 'Email to an Author';
-        } else
-        $users = User::where("id_creator", session("client"))->get();
+        } else{
+            if(isset(session("permission")->limited)) {
+                $users = User::where("id_creator", auth()->user()->id)->get();
+            } else {
+                if(auth()->user()->type < 2) {
+                    $users = User::whereIn("id_creator", User::get_members())->get();
+                } else {
+                    $users = User::where("id_creator", session("client"))
+                    ->orWhere("id_creator", auth()->user()->id)->get();
+                }
+            }
+
+        }
         $fromAddress = '';
         if(Auth::user()->contact_info){
             $contact = json_decode(Auth::user()->contact_info);
@@ -210,7 +242,7 @@ class SendmailController extends Controller
             $handler = $handler->where("tb_mail_history.id_creator", auth()->user()->id);
         } else {
             if(auth()->user()->type < 2) {
-                $handler = $handler->where("tb_mail_history.id_creator", session("client"));
+                $handler = $handler->whereIn("tb_mail_history.id_creator", User::get_members());
             } else {
                 $handler = $handler->where("tb_mail_history.id_creator", session("client"))
                 ->orWhere("tb_mail_history.id_creator", auth()->user()->id);
@@ -314,7 +346,7 @@ class SendmailController extends Controller
                 $template = $template->where("id_creator", auth()->user()->id)->first();
             } else {
                 if(auth()->user()->type < 2) {
-                    $template =$template->where("id_creator", session("client"))
+                    $template =$template->whereIn("id_creator", User::get_members())
                     ->first();
                 } else {
                     $template = $template->where("id_creator", session("client"))
@@ -343,7 +375,7 @@ class SendmailController extends Controller
                 $template = $template->where("id_creator", auth()->user()->id)->first();
             } else {
                 if(auth()->user()->type < 2) {
-                    $template =$template->where("id_creator", session("client"))
+                    $template =$template->whereIn("id_creator", User::get_members())
                     ->first();
                 } else {
                     $template = $template->where("id_creator", session("client"))
@@ -365,7 +397,7 @@ class SendmailController extends Controller
                     'subject' => $request['subject'],
                     'data' => $request['data'],
                     'created_time' => gmdate("Y-m-d\TH:i:s", time()),
-                    'id_creator' => session("client")
+                    'id_creator' => auth()->user()->type!=0?auth()->user()->id:session("client")
                 ]);
                 return response()->json(["success" => true, "id" => $template->id]);
             }
@@ -386,7 +418,7 @@ class SendmailController extends Controller
                 $template = $template->where("id_creator", auth()->user()->id)->first();
             } else {
                 if(auth()->user()->type < 2) {
-                    $template =$template->where("id_creator", session("client"))
+                    $template =$template->whereIn("id_creator", User::get_members())
                     ->first();
                 } else {
                     $template = $template->where("id_creator", session("client"))
@@ -417,7 +449,7 @@ class SendmailController extends Controller
                 $history = $history->where("id_creator", auth()->user()->id)->first();
             } else {
                 if(auth()->user()->type < 2) {
-                    $history =$history->where("id_creator", session("client"))
+                    $history =$history->whereIn("id_creator", User::get_members())
                     ->first();
                 } else {
                     $history = $history->where("id_creator", session("client"))
@@ -512,7 +544,7 @@ class SendmailController extends Controller
                 'modelId' => $request['model'],
                 'result' => implode("\n", $request['result']),
                 'created_time' => gmdate("Y-m-d\TH:i:s", time()),
-                'id_creator' => session("client")
+                'id_creator' => auth()->user()->type!=0?auth()->user()->id:session("client")
             ]);
 
             $mpdf = new MPdf(['mode' => 'utf-8', 'format' => 'A4', 'tempDir'=>storage_path('tempdir'), 'setAutoTopMargin' => 'stretch', 'setAutoBottomMargin' => 'stretch']);

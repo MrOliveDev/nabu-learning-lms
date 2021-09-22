@@ -89,13 +89,13 @@ class PermissionController extends Controller
     public function setPermission() {
         $user_permission = auth()->user()->permission_id;
         if(!isset($user_permission)) {
-            $permissionItem = PermissionModel::where('id', auth()->user()->type)->get();
+            $permissionItem = PermissionModel::where('id', auth()->user()->type)->first();
         } else {
-            $permissionItem = PermissionModel::where('id', $user_permission)->get();
+            $permissionItem = PermissionModel::where('id', $user_permission)->first();
         }
         // $permission = $permissionItem[0]->permission!=null ? json_decode($permissionItem[0]->permission) : null;
-        if($permissionItem[0]->permission!=null) {
-            session(['permission'=>json_decode($permissionItem[0]->permission)]);
+        if(isset($permissionItem->permission)) {
+            session(['permission'=>json_decode($permissionItem->permission)]);
         } else {
             session(['permission'=>null]);
         }

@@ -3129,9 +3129,14 @@ $("#password-input .input-group-append>span.input-group-text").click(function(ev
         item.toggleClass("fa-eye-slash", false).toggleClass("fa-eye", true);
     }
 });
-$("fieldset").on("DOMSubtreeModified", function() {
+$("#div_A, #div_C").on("DOMSubtreeModified", function() {
+    if($(this).attr("id") == "div_A") {
+        heightToggleLeft = true;
+    } else {
+        heightToggleRight = true;
+    }
     $(this).find(".handler_horizontal").dblclick();
-    $(this).find(".handler_horizontal").dblclick();
+    // $(this).find(".handler_horizontal").dblclick();
 });
 $("#send-email-input").click(function(event){
     $("#send-email-template").toggle($(event.target).prop('checked'));
