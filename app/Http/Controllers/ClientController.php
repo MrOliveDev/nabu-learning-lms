@@ -129,8 +129,14 @@ class ClientController extends Controller
             'pack' => $request->input('pack'),
             'id_config' => $interfaceCfg->id,
             'type' => 1,
-            'id_creator' => 0
+            'id_creator' => 1
         ]);
+
+        $defaultTemplate = TemplateModel::where("default_user", 1)->first();
+        $new_defaultTemplate = $defaultTemplate->replicate();
+        $new_defaultTemplate->default_user = $client->id;
+        $new_defaultTemplate->id_creator = auth()->user()->id;
+        $new_defaultTemplate->save();
         // var_dump($client->id);
         // exit;
         

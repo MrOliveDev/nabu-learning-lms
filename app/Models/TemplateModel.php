@@ -19,7 +19,8 @@ class TemplateModel extends Model
         'published',
         'creation_date',
         'status',
-        'description'
+        'description',
+        'default_user'
     ];
 
     protected $table = 'tb_template_html5_edit';
@@ -219,6 +220,7 @@ class TemplateModel extends Model
             } else {
                 $template = $query->where("id_creator", session("client"))
                 ->orWhere("id_creator", auth()->user()->id)
+                ->where("default_template", "!=", null)
                 ->get();
             }
         }
