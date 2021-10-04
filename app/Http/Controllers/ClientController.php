@@ -10,6 +10,7 @@ use PhpParser\JsonDecoder;
 use App\Models\LanguageModel;
 use App\Models\TranslateModel;
 use App\Models\SiteSettingModel;
+use App\Models\TemplateModel;
 
 class ClientController extends Controller
 {
