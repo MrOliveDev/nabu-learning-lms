@@ -136,7 +136,7 @@ class ClientController extends Controller
         $defaultTemplate = TemplateModel::where("default_user", 1)->first();
         $new_defaultTemplate = $defaultTemplate->replicate();
         $new_defaultTemplate->default_user = $client->id;
-        $new_defaultTemplate->id_creator = auth()->user()->id;
+        $new_defaultTemplate->id_creator = $client->id;
         $new_defaultTemplate->save();
         // var_dump($client->id);
         // exit;

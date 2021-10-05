@@ -136,9 +136,35 @@ data-search-training="{{isset(session("permission")->template->search->training)
                                 <input type="hidden" name="item-name" value="{{ $template->name }}">
                             </div>
                             <div class="btn-group float-right">
-                                {{-- {{$template->default_user==null}} --}}
                                 @if(!isset(session("permission")->limited))
-                                @if( auth()->user()->id == $template->id_creator)
+                                    @if( auth()->user()->type < 2)
+                                        @if (isset(session("permission")->template->template->edit))
+                                        <button class="btn item-edit" data-content='template'
+                                            data-item-id="{{ $template->id }}">
+                                            <i class="px-2 fa fa-edit"></i>
+                                        </button>
+                                        @endif
+                                        @if (isset(session("permission")->template->template->delete))
+                                            @if(!isset($template->default_user))
+                                                <button class="btn item-delete" data-content='template'
+                                                    data-item-id="{{ $template->id }}">
+                                                    <i class="px-2 fa fa-trash-alt"></i>
+                                                </button>
+                                            @endif
+                                        @endif
+                                        @if (isset(session("permission")->template->template->play))
+                                        <button class="btn item-template" data-content='template'
+                                            data-template="#/template-generator/{{ $template->alpha_id }}">
+                                            <i class="px-2 fa fa-cube"></i>
+                                        </button>
+                                        @endif
+                                        @if (isset(session("permission")->template->template->copy))
+                                        <button class="btn item-duplicate" data-content='template'
+                                            data-item-id="{{ $template->id }}">
+                                            <i class="px-2 far fa-copy"></i>
+                                        </button>
+                                        @endif
+                                    @elseif (auth()->user()->id == $template->id_creator)
                                         @if (isset(session("permission")->template->template->edit))
                                         <button class="btn item-edit" data-content='template'
                                             data-item-id="{{ $template->id }}">
