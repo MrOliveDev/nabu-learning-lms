@@ -120,87 +120,83 @@ data-search-training="{{isset(session("permission")->template->search->training)
                 <div class="list-group" id="template-list-tab" role="tablist">
                     @if (isset(session("permission")->template->template->display))
                     @foreach ($templates as $template)
+                        @if(!isset($template->default_user) && auth()->user()->type>1)
+                        @else
                         <a class="list-group-item list-group-item-action p-0 border-transparent border-5x template_{{ $template->id }} <?php if(isset(session("permission")->limited) && auth()->user()->id != $template->id_creator) echo "drag-disable"?>"
                             id="template_{{ $template->id }}" data-date="{{ $template->creation_date }}">
                             <div class="float-left">
                                 @if ($template->status != 0)
-                                    <i class="fa fa-circle  m-2" style="color:green;"></i>
-                                    <input type="hidden" name="item-status" class='status-notification' value="1">
+                                <i class="fa fa-circle  m-2" style="color:green;"></i>
+                                <input type="hidden" name="item-status" class='status-notification' value="1">
                                 @else
-                                    <i class="fa fa-circle m-2" style="color:red;"></i>
-                                    <input type="hidden" name="item-status" class='status-notification' value="0">
+                                <i class="fa fa-circle m-2" style="color:red;"></i>
+                                <input type="hidden" name="item-status" class='status-notification' value="0">
                                 @endif
                                 <span class="item-name">{{ $template->name }}</span>
                                 <input type="hidden" name="item-name" value="{{ $template->name }}">
                             </div>
                             <div class="btn-group float-right">
+                                {{-- {{$template->default_user==null}} --}}
                                 @if(!isset(session("permission")->limited))
-									@if($template->default_user && auth()->user()->type>1)
-									@else
-										@if( auth()->user()->id == $template->id_creator)
-											@if (isset(session("permission")->template->template->edit))
-											<button class="btn item-edit" data-content='template'
-												data-item-id="{{ $template->id }}">
-												<i class="px-2 fa fa-edit"></i>
-											</button>
-											@endif
-											@if (isset(session("permission")->template->template->delete))
-												@if(!$template->default_user)
-													<button class="btn item-delete" data-content='template'
-														data-item-id="{{ $template->id }}">
-														<i class="px-2 fa fa-trash-alt"></i>
-													</button>
-												@endif
-											@endif
-											@if (isset(session("permission")->template->template->play))
-											<button class="btn item-template" data-content='template'
-												data-template="#/template-generator/{{ $template->alpha_id }}">
-												<i class="px-2 fa fa-cube"></i>
-											</button>
-											@endif
-											@if (isset(session("permission")->template->template->copy))
-											<button class="btn item-duplicate" data-content='template'
-												data-item-id="{{ $template->id }}">
-												<i class="px-2 far fa-copy"></i>
-											</button>
-											@endif
-										@endif
-									@endif
+                                @if( auth()->user()->id == $template->id_creator)
+                                        @if (isset(session("permission")->template->template->edit))
+                                        <button class="btn item-edit" data-content='template'
+                                            data-item-id="{{ $template->id }}">
+                                            <i class="px-2 fa fa-edit"></i>
+                                        </button>
+                                        @endif
+                                        @if (isset(session("permission")->template->template->delete))
+                                            @if(!isset($template->default_user))
+                                                <button class="btn item-delete" data-content='template'
+                                                    data-item-id="{{ $template->id }}">
+                                                    <i class="px-2 fa fa-trash-alt"></i>
+                                                </button>
+                                            @endif
+                                        @endif
+                                        @if (isset(session("permission")->template->template->play))
+                                        <button class="btn item-template" data-content='template'
+                                            data-template="#/template-generator/{{ $template->alpha_id }}">
+                                            <i class="px-2 fa fa-cube"></i>
+                                        </button>
+                                        @endif
+                                        @if (isset(session("permission")->template->template->copy))
+                                        <button class="btn item-duplicate" data-content='template'
+                                            data-item-id="{{ $template->id }}">
+                                            <i class="px-2 far fa-copy"></i>
+                                        </button>
+                                        @endif
+                                    @endif
                                 @else
-									@if($template->default_user && auth()->user()->type>1)
-									@else
-										@if (isset(session("permission")->template->template->edit))
-										<button class="btn item-edit" data-content='template'
-											data-item-id="{{ $template->id }}">
-											<i class="px-2 fa fa-edit"></i>
-										</button>
-										@endif
-										
-										@if (isset(session("permission")->template->template->delete))
-											@if($template->default_user)
-
-											<button class="btn item-delete" data-content='template'
-												data-item-id="{{ $template->id }}">
-												<i class="px-2 fa fa-trash-alt"></i>
-											</button>
-											@endif
-										@endif
-										@if (isset(session("permission")->template->template->play))
-										<button class="btn item-template" data-content='template'
-											data-template="#/template-generator/{{ $template->alpha_id }}">
-											<i class="px-2 fa fa-cube"></i>
-										</button>
-										@endif
-										@if (isset(session("permission")->template->template->copy))
-										<button class="btn item-duplicate" data-content='template'
-											data-item-id="{{ $template->id }}">
-											<i class="px-2 far fa-copy"></i>
-										</button>
-										@endif
-									@endif
+                                    @if (isset(session("permission")->template->template->edit))
+                                    <button class="btn item-edit" data-content='template'
+                                        data-item-id="{{ $template->id }}">
+                                        <i class="px-2 fa fa-edit"></i>
+                                    </button>
+                                    @endif
+                                    @if (isset(session("permission")->template->template->delete))
+                                        @if(!isset($template->default_user))
+                                        <button class="btn item-delete" data-content='template'
+                                            data-item-id="{{ $template->id }}">
+                                            <i class="px-2 fa fa-trash-alt"></i>
+                                        </button>
+                                        @endif
+                                    @endif
+                                    @if (isset(session("permission")->template->template->play))
+                                    <button class="btn item-template" data-content='template'
+                                        data-template="#/template-generator/{{ $template->alpha_id }}">
+                                        <i class="px-2 fa fa-cube"></i>
+                                    </button>
+                                    @endif
+                                    @if (isset(session("permission")->template->template->copy))
+                                    <button class="btn item-duplicate" data-content='template'
+                                        data-item-id="{{ $template->id }}">
+                                        <i class="px-2 far fa-copy"></i>
+                                    </button>
+                                    @endif
                                 @endif
                             </div>
                         </a>
+                        @endif
                     @endforeach
                     @endif
                 </div>

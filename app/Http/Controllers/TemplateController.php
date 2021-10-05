@@ -18,6 +18,7 @@ class TemplateController extends Controller
     public function index()
     {
         $templates = TemplateModel::getTemplateByClient();
+        // dd($templates);exit;
         $sessions = SessionModel::getSessionPageInfo();
         $trainings = TrainingsModel::getTrainingByClient();
         $companies = CompanyModel::getCompanyByClient();
