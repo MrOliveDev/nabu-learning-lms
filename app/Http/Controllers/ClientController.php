@@ -11,6 +11,21 @@ use App\Models\LanguageModel;
 use App\Models\TranslateModel;
 use App\Models\SiteSettingModel;
 use App\Models\TemplateModel;
+use App\Models\ReportsModel;
+use App\Models\ReportTemplateModel;
+use App\Models\ReportImages;
+use App\Models\CompanyModel;
+use App\Models\GroupModel;
+use App\Models\LessonsModel;
+use App\Models\LessonCourses;
+use App\Models\MailHistories;
+use App\Models\MailTemplateModel;
+use App\Models\PositionModel;
+use App\Models\MailImages;
+use App\Models\SessionModel;
+use App\Models\TrainingsModel;
+
+use DB;
 
 class ClientController extends Controller
 {
@@ -242,6 +257,58 @@ class ClientController extends Controller
         InterfaceCfgModel::where('id', $client->id_config)->delete();
         ConfigModel::where('id', $client->id_config)->delete();
         // User::drop_admin_table($id);
+
+        // Delete Reports
+        $reports = ReportsModel::where('id_creator', $id)->get();
+        foreach($reports as $report){
+            if($report->filename && file_exists(storage_path('pdf') . '/' . $filename))
+                unlink(file_exists(storage_path('pdf') . '/' . $filename));
+        }
+        ReportsModel::where('id_creator', $id)->delete();
+        ReportTemplateModel::where('id_creator', $id)->delete();
+        ReportImages::where('userId', $id)->delete();
+
+        // Delete Companies
+        CompanyModel::where('id_creator', $id)->delete();
+
+        // Delete Groups
+        GroupModel::where('id_creator', $id)->delete();
+
+        // Delete Lessons
+        $lessons = LessonsModel::where('idCreator', $id)->get();
+        foreach($lessons as $lesson){
+            LessonCourses::where('curso_id', $lesson->id)->delete();
+        }
+        LessonsModel::where('idCreator', $id)->delete();
+
+        // Delete Mail Histories
+        $histories = MailHistories::where('id_creator', $id)->get();
+        foreach($histories as $history){
+            if(file_exists(storage_path('pdf') . "/mail_result_${$history->id}.pdf"))
+                unlink(storage_path('pdf') . "/mail_result_${$history->id}.pdf");
+        }
+        MailTemplateModel::where('id_creator', $id)->delete();
+        MailImages::where('userId', $id)->delete();
+
+        // Delete Positions
+        PositionModel::where('id_creator', $id)->delete();
+
+        // Delete Sessions
+        SessionModel::where('id_creator', $id)->delete();
+
+        // Delete Templates
+        $templates = TemplateModel::where('id_creator', $id)->get();
+        foreach($templates as $template){
+            DB::table('tb_template_html5')->where('alpha_id', $template->alpha_id)->delete();
+            $template->delete();
+        }
+
+        // Delete Trainings
+        TrainingsModel::where('id_creator', $id)->delete();
+
+        // Delete users
+        User::where('id_creator', $id)->delete();
+
         $client->delete();
         return response('Deleted Successfully', 200);
     }
