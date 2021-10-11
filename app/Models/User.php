@@ -105,6 +105,7 @@ class User extends Authenticatable
     public function scopeGetUserPageInfo($query, $type)
     {
         $client = session("client");
+        $current_type = User::find(session("client"))->type;
         $result = $query->select(
             'tb_users.*',
             'tb_interface_config.interface_color as interface_color',
@@ -131,10 +132,23 @@ class User extends Authenticatable
                     
                 case '4':
                     $result = $result
-                    ->leftjoin("tb_users as ctb", 'tb_users.id_creator', '=', 'ctb.id')
-                    ->where('tb_users.type', $type)
-                    ->where("tb_users.id_creator", $client)
-                    ->orWhere('ctb.id_creator', '=', session("client"));
+                    ->leftjoin("tb_users as ctb", 'tb_users.id', '=', 'ctb.id_creator')
+                    ->where('tb_users.type', $type);
+
+                    if($current_type == 0) {
+                        $result = $result
+                        ->where(function($query){
+                            // var_dump(auth()->user()->id);exit;
+                            return $query->where('tb_users.id_creator', auth()->user()->id)
+                                    ->orWhere('ctb.id_creator', '=', auth()->user()->id);
+                        });
+                    } else {
+                        $result = $result
+                        ->where(function($query) use ($client){
+                            return $query->where('tb_users.id_creator', session("client"))
+                                    ->orWhere('ctb.id_creator', '=', session("client"));
+                        });
+                    }
 
                     break;
                 
@@ -144,8 +158,7 @@ class User extends Authenticatable
             }
 
         }
-        $result = $result
-        ->get();
+        $result = $result->get();
         return $result;
     }
 
