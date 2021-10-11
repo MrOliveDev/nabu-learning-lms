@@ -254,12 +254,30 @@ class ClientController extends Controller
         // var_dump($client->id);
         // exit;
         $client = User::find($id);
+
+        $sessions = SessionModel::get();
+        foreach($sessions as $session){
+            if(DB::connection('mysql_historic')->getSchemaBuilder()->hasTable("tb_evaluation_{$session->id}")){
+                $evals = DB::connection('mysql_historic')->select("SELECT id FROM `tb_evaluation_{$session->id}` WHERE user_id={$id}");
+                DB::connection('mysql_historic')->delete("DELETE FROM `tb_evaluation_{$session->id}` WHERE user_id={$id}");
+                if(DB::connection('mysql_historic')->getSchemaBuilder()->hasTable("tb_evaluation_question_{$session->id}")){
+                    foreach($evals as $eval){
+                        DB::connection('mysql_historic')->delete("DELETE FROM `tb_evaluation_question_{$session->id}` WHERE id_evaluation={$eval->id}");
+                    }
+                }
+            }
+            if(DB::connection('mysql_historic')->getSchemaBuilder()->hasTable("tb_screen_stats_{$session->id}"))
+                DB::connection('mysql_historic')->delete("DELETE FROM `tb_screen_stats_{$session->id}` WHERE user_id={$id}");
+            if(DB::connection('mysql_reports')->getSchemaBuilder()->hasTable("tb_screen_optim_{$session->id}"))
+                DB::connection('mysql_reports')->delete("DELETE FROM `tb_screen_optim_{$session->id}` WHERE id_user_screen_optim={$id}");
+        }
+
         InterfaceCfgModel::where('id', $client->id_config)->delete();
         ConfigModel::where('id', $client->id_config)->delete();
         // User::drop_admin_table($id);
 
         // Delete Reports
-        $reports = ReportsModel::where('id_creator', $id)->get();
+        $reports = ReportsModel::where('id_creator', $id)->orWhere('studentId', $id)->get();
         foreach($reports as $report){
             if($report->filename && file_exists(storage_path('pdf') . '/' . $filename))
                 unlink(file_exists(storage_path('pdf') . '/' . $filename));
@@ -282,7 +300,7 @@ class ClientController extends Controller
         LessonsModel::where('idCreator', $id)->delete();
 
         // Delete Mail Histories
-        $histories = MailHistories::where('id_creator', $id)->get();
+        $histories = MailHistories::where('id_creator', $id)->orWhere('senderId', $id)->get();
         foreach($histories as $history){
             if(file_exists(storage_path('pdf') . "/mail_result_${$history->id}.pdf"))
                 unlink(storage_path('pdf') . "/mail_result_${$history->id}.pdf");

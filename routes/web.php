@@ -15,6 +15,7 @@ use App\Http\Controllers\useradmin\PositionController;
 use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\TranslateController;
+use App\Http\Controllers\LanguageManageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
