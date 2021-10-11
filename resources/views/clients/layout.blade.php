@@ -83,7 +83,7 @@
             <div class="px-4">
                 <div class="list-group m-0" id="list-tab" role="tablist">
                     @foreach($clientsList as $key => $client)
-                    <a class="list-group-item list-group-item-action  p-1 border-0" id="client_{{$key}}" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                    <a class="list-group-item list-group-item-action  p-1 border-0" id="clientrow_{{$key}}" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
                         <div class="float-left">
                             <i class="fa fa-circle text-danger m-2"></i>
                             {{$client['first_name']}} &nbsp {{$client["last_name"]}}
@@ -544,7 +544,7 @@
         // event.stopPropagation();
         e.fire({
             title: 'Are you sure?',
-            text: 'You will not be able to recover this imaginary file!',
+            text: 'You will not be able to recover this client!',
             icon: 'warning',
             showCancelButton: !0,
             customClass: {
@@ -553,27 +553,19 @@
             },
             confirmButtonText: 'Yes, delete it!',
             html: !1,
-            preConfirm: function(e) {
-                return new Promise((function(e) {
-                    setTimeout((function() {
-                        e()
-                        $.ajax({
-                            "url": "{{ route('clients.destroy', '') }}/" + id,
-                            "type": "DELETE",
-                            success: function(result) {
-                                // alert(result);
-                            }
-                        });
-                    }), 50)
-                }))
-            }
         }).then((function(n) {
             if (n.value) {
-                e.fire('Deleted!', 'Your imaginary file has been deleted.', 'success');
-                console.log(id);
-                $('#client_' + id).remove();
+                $.ajax({
+                    "url": "{{ route('clients.destroy', '') }}/" + id,
+                    "type": "DELETE",
+                    success: function(result) {
+                        e.fire('Deleted!', 'The client has been deleted.', 'success');
+                        console.log(id);
+                        $('#clientrow_' + id).remove();
+                    }
+                });
             } else {
-                'cancel' === n.dismiss && e.fire('Cancelled', 'Your imaginary file is safe :)', 'error');
+                'cancel' === n.dismiss && e.fire('Cancelled', 'The client is safe :)', 'info');
             }
         }))
 
