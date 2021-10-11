@@ -260,6 +260,21 @@ class LoginController extends Controller
             session(['language' => 'en']);
         }
         
+        if(auth()->user()->type == 1){
+            $config = InterfaceCfgModel::where('id', auth()->user()->id_config)->first();
+            if($config && $config->interface_icon)
+                session(['logo' => $config->interface_icon]);
+        } else if(auth()->user()->type != 0) {
+            $creator = User::find(auth()->user()->id_creator);
+            if($creator->type != 0 && $creator->type != 1)
+                $creator = User::find($creator->id_creator);
+
+            if($creator){
+                $config = InterfaceCfgModel::where('id', $creator->id_config)->first();
+                if($config && $config->interface_icon)
+                    session(['logo' => $config->interface_icon]);
+            }
+        }
         
         if ($this->guard()->user()!=NULL) {
             return redirect()->intended($this->redirectPath());

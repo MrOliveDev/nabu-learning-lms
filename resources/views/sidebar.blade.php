@@ -117,9 +117,9 @@ session("menuBackground")!=null)
                     <div class="simplebar-content" style="padding: 0px;">
                         <!-- Side Header -->
                         <div class="mx-auto mt-3 content-header w-100" id="sidebar-content-header">
-                            <div class="">
+                            <div style="width: 100%;">
                                 <a class="img-link d-inline-block" href="javascript:void(0)">
-                                    <img class="" src="{{ asset('assets/media/light.png') }}" alt="">
+                                    <img class="" src="{{ session('logo') ? session('logo') : asset('assets/media/light.png') }}" alt="" style='{{ session('logo') ? "border-radius: 50%;" : ''; }}'>
                                 </a>
                             </div>
                             <div class="pb-4 sidetitle">
