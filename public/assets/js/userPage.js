@@ -605,7 +605,6 @@ var toolkitAddItem = function(event) {
     event.stopPropagation();
     toggleFormOrTable($(this).parents('fieldset'), true);
     if($(this).parents("fieldset").is("#LeftPanel")) {
-        console.log($("#clientlang").val());
         $("#language").val($("#clientlang").val());
     }
     $("#csv-import-form").css("display", "none");

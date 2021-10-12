@@ -133,15 +133,15 @@ class StudentController extends Controller
             'permission_id'=>$request->post('permission')?$request->post('permission'):$request->post('type')
         ]);
 
-        if ($request->post('company') != null) {
+        if (isset($request['company'])) {
             $user->company = $request->post('company');
         }
-        if ($request->post('language') != null) {
+        if (isset($request['language'])) {
             $user->lang = $request->post('language');
         }else {
             $user->lang = 1;
         }
-        if ($request->post('function') != null) {
+        if (isset($request['function'])) {
             $user->function = $request->post('function');
         }
         if ($request->post('generatepassword') != null) {
@@ -264,13 +264,13 @@ class StudentController extends Controller
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
         $user->login = $request->input('login');
-        if (null !== $request->post('position')) {
+        if (isset($request['function'])) {
             $user->function = $request->input('function');
         }
-        if ($request->post('company')) {
+        if (isset($request['company'])) {
             $user->company = $request->post('company');
         }
-        if ($request->post('language')) {
+        if (isset($request['language'])) {
             $user->lang = $request->post('language');
         }
         if ($request->post('generatepassword')) {
