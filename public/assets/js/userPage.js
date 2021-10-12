@@ -2040,10 +2040,9 @@ var updateUserData = function(data, target) {
         $(im).find('.status-notification').val(data.user.status);
         $(im).find('.status-notification').prev().css('color', data.user.status == '1' ? 'green' : 'red');
         $(im).find('input[name="item-name"]').val(data.user.name);
-        $(im).find('input[name="item-group]').val(data.user.linked_groups);
-        $(im).find('input[name="item-company]').val(data.user.company);
-        $(im).find('input[name="item-function]').val(data.user.function);
-        $(im).find('input[name="item-function]').val(data.user.function);
+        $(im).find('input[name="item-group"]').val(data.user.linked_groups);
+        $(im).find('input[name="item-company"]').val(data.user.company);
+        $(im).find('input[name="item-function"]').val(data.user.function);
         $(im).find('.item-lang').html(data.lang.toUpperCase());
         if ($(im).attr('data-src')) {
             switch ($(im).attr('data-src').split('_')[0]) {
