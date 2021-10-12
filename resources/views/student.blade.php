@@ -455,7 +455,7 @@ data-authed-user-type="{{session("user_type")}}"
             <i class="fas fa-grip-lines"></i>
         </div>
         <div id="div_B" class="window bottom">
-
+            <input type="hidden" id="clientlang" value="{{ $clientlang }}">
             <div class="mx-4">
                 <form method="post" id="user_form" enctype="multipart/form-data" class="form" action=""
                     autocomplete="off" data-cate="" data-item="">
@@ -578,11 +578,11 @@ data-authed-user-type="{{session("user_type")}}"
                                     <select class="form-control" id="language" name="language">
                                         <option value="">No Langauge</option>
                                         @foreach ($languages as $language)
-                                            @if ($loop->first)
+                                            {{-- @if ($language->language_id == $clientlang)
                                                 <option value="{{ $language->language_id }}" selected>{{ $language->language_name }}</option>
-                                            @else
+                                            @else --}}
                                                 <option value="{{ $language->language_id }}">{{ $language->language_name }}</option>
-                                            @endif
+                                            {{-- @endif --}}
                                         @endforeach
                                     </select>
                                 </div>
@@ -615,7 +615,7 @@ data-authed-user-type="{{session("user_type")}}"
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            User permission
+                                            User permission<span class="text-danger">*</span>
                                         </span>
                                     </div>
                                     <select class="form-control" id="permission" name="permission">

@@ -604,6 +604,10 @@ var toolkitAddItem = function(event) {
     event.preventDefault();
     event.stopPropagation();
     toggleFormOrTable($(this).parents('fieldset'), true);
+    if($(this).parents("fieldset").is("#LeftPanel")) {
+        console.log($("#clientlang").val());
+        $("#language").val($("#clientlang").val());
+    }
     $("#csv-import-form").css("display", "none");
     if ($('#groups-tab').parents('li').hasClass('ui-state-active')) {
         $('#status-form-group').css('display', 'block');
