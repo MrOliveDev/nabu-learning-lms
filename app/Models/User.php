@@ -105,7 +105,11 @@ class User extends Authenticatable
     public function scopeGetUserPageInfo($query, $type)
     {
         $client = session("client");
-        $current_type = User::find(session("client"))->type;
+        $clientinfo = User::find(session("client"));
+        if($clientinfo)
+            $current_type = $clientinfo->type;
+        else // todo
+            $current_type = 1;
         $result = $query->select(
             'tb_users.*',
             'tb_interface_config.interface_color as interface_color',

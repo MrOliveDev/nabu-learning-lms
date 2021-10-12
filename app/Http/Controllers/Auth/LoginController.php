@@ -262,8 +262,26 @@ class LoginController extends Controller
         
         if(auth()->user()->type == 1){
             $config = InterfaceCfgModel::where('id', auth()->user()->id_config)->first();
-            if($config && $config->interface_icon)
+            if($config && $config->interface_icon){
                 session(['logo' => $config->interface_icon]);
+                if($config->interface_color){
+                    $interfaceColors = json_decode($config->interface_color);
+                    if($interfaceColors->pageBackground){
+                        if(str_contains($interfaceColors->pageBackground, '#')){
+                            list($r, $g, $b) = sscanf($interfaceColors->pageBackground, "#%02x%02x%02x");
+                            session(['paneBack' => "rgb(" . min(255, $r + 90) . ", " . min(255, $g + 90) . ", " . min(255, $b + 90). ")"]);
+                            session(['iconBack' => "rgb(" . min(255, $r + 60) . ", " . min(255, $g + 60) . ", " . min(255, $b + 60). ")"]);
+                            session(['capBack' => "rgb(" . min(255, $r + 30) . ", " . min(255, $g + 30) . ", " . min(255, $b + 30) . ")"]);
+                        } else if(str_contains($interfaceColors->pageBackground, 'rgb')){
+                            $color = str_replace(array('rgb(', ')', ' '), '', $interfaceColors->pageBackground);
+                            list($r, $g, $b) = $color;
+                            session(['paneBack' => "rgb(" . min(255, $r + 90) . ", " . min(255, $g + 90) . ", " . min(255, $b + 90). ")"]);
+                            session(['iconBack' => "rgb(" . min(255, $r + 60) . ", " . min(255, $g + 60) . ", " . min(255, $b + 60). ")"]);
+                            session(['capBack' => "rgb(" . min(255, $r + 30) . ", " . min(255, $g + 30) . ", " . min(255, $b + 30) . ")"]);
+                        }
+                    }
+                }
+            }
         } else if(auth()->user()->type != 0) {
             $creator = User::find(auth()->user()->id_creator);
             if($creator->type != 0 && $creator->type != 1)
