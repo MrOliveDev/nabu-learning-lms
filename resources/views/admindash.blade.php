@@ -118,71 +118,71 @@
 <div id="admindash" data-permission="{{isset(session('permission')->admindash)}}">
 
     <div class="tab-row">
-        <div class="tab-item">
+        <div class="tab-item" style='background-color: {{ session('paneBack') ? session('paneBack') : "#c3aaca" }}'>
             <div class="tab-content">
-                <div class="tab-avatar">
+                <div class="tab-avatar" style='background-color: {{ session('iconBack') ? session('iconBack') : "#912891" }}'>
                     <i class="fa fa-users"></i>
                 </div>
                 <span class="tab-item-value counter">0</span>
                 <input type="hidden" class="store-value" value="{{$registeredUsers}}">
                 <span class="tab-description">Registered<br>Users</span>
-                <div class="tab-link">{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
+                <div class="tab-link" style='background-color: {{ session('capBack') ? session('capBack') : "#946e97" }}'>{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
             </div>
         </div>
 
-        <div class="tab-item">
+        <div class="tab-item" style='background-color: {{ session('paneBack') ? session('paneBack') : "#c3aaca" }}'>
             <div class="tab-content">
-                <div class="tab-avatar">
+                <div class="tab-avatar" style='background-color: {{ session('iconBack') ? session('iconBack') : "#912891" }}'>
                     <i class="fas fa-user-friends"></i>
                 </div>
                 <span class="tab-item-value counter">0</span>
                 <input type="hidden" class="store-value" value="{{$activedStudents}}">
                 <span class="tab-description">Actived <br>Students</span>
-                <div class="tab-link">{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
+                <div class="tab-link" style='background-color: {{ session('capBack') ? session('capBack') : "#946e97" }}'>{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
             </div>
         </div>
-        <div class="tab-item">
+        <div class="tab-item" style='background-color: {{ session('paneBack') ? session('paneBack') : "#c3aaca" }}'>
             <div class="tab-content">
-                <div class="tab-avatar">
+                <div class="tab-avatar" style='background-color: {{ session('iconBack') ? session('iconBack') : "#912891" }}'>
                     <i class="fas fa-laptop-code"></i>
                 </div>
                 <span class="tab-item-value counter">0</span>
                 <input type="hidden" class="store-value" value="{{$sessionsInProgress}}">
                 <span class="tab-description">Sessions <br>in Progress</span>
-                <div class="tab-link">{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
+                <div class="tab-link" style='background-color: {{ session('capBack') ? session('capBack') : "#946e97" }}'>{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
             </div>
         </div>
-        <div class="tab-item">
+        <div class="tab-item" style='background-color: {{ session('paneBack') ? session('paneBack') : "#c3aaca" }}'>
             <div class="tab-content">
-                <div class="tab-avatar">
+                <div class="tab-avatar" style='background-color: {{ session('iconBack') ? session('iconBack') : "#912891" }}'>
                     <i class="fas fa-graduation-cap"></i>
                 </div>
                 <span class="tab-item-value counter">0</span>
                 <input type="hidden" class="store-value" value="{{$createdLessons}}">
                 <span class="tab-description">Created<br>Lessons</span>
-                <div class="tab-link">{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
+                <div class="tab-link" style='background-color: {{ session('capBack') ? session('capBack') : "#946e97" }}'>{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
             </div>
         </div>
-        <div class="tab-item">
+        <div class="tab-item" style='background-color: {{ session('paneBack') ? session('paneBack') : "#c3aaca" }}'>
             <div class="tab-content">
-                <div class="tab-avatar">
+                <div class="tab-avatar" style='background-color: {{ session('iconBack') ? session('iconBack') : "#912891" }}'>
                     <i class="fas fa-file-pdf"></i>
                 </div>
                 <span class="tab-item-value counter">0</span>
                 <input type="hidden" class="store-value" value="{{$finishedSessions}}">
                 <span class="tab-description">Finished <br>Sessions</span>
-                <div class="tab-link">{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
+                <div class="tab-link" style='background-color: {{ session('capBack') ? session('capBack') : "#946e97" }}'>{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
             </div>
         </div>
-        <div class="tab-item">
+        <div class="tab-item" style='background-color: {{ session('paneBack') ? session('paneBack') : "#c3aaca" }}'>
             <div class="tab-content">
-                <div class="tab-avatar">
+                <div class="tab-avatar" style='background-color: {{ session('iconBack') ? session('iconBack') : "#912891" }}'>
                     <i class="fas fa-network-wired"></i>
                 </div>
                 <span class="tab-item-value counter">0</span>
                 <input type="hidden" class="store-value" value="{{$generatedReports}}">
                 <span class="tab-description">Generated <br>Reports</span>
-                <div class="tab-link">{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
+                <div class="tab-link" style='background-color: {{ session('capBack') ? session('capBack') : "#946e97" }}'>{{$translation->l('Consulter')}} <i class="fa fa-arrow-circle-right"></i></div>
             </div>
         </div>
     </div>
@@ -193,7 +193,7 @@
             <th>
                 <div>
                     {{$translation->l('Mes dernières SESSIONS')}}
-                    <i class="fa fal fa-sliders-h p-1"></i>
+                    {{-- <i class="fa fal fa-sliders-h p-1"></i> --}}
                 </div>
             </th>
             <th>
