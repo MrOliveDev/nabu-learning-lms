@@ -155,7 +155,11 @@ class StudentController extends Controller
         } else {
             $user->id_creator = session("client");
         }
+
+        $user->creation_date = date("Y-m-d H:i:s");
         $user->update();
+
+        // var_dump($user);exit;
         $lang= LanguageModel::where('language_id', $user->lang)->first();
 
         
