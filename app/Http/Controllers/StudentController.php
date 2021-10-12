@@ -36,7 +36,6 @@ class StudentController extends Controller
 {
     public function index()
     {
-
         if(session("user_type") == 3){
             $students = SessionModel::getUserFromSessionByType(4);
             $teachers = SessionModel::getUserFromSessionByType(3);
@@ -54,7 +53,13 @@ class StudentController extends Controller
 
         $templates = MailTemplateModel::getMailTemplateByClient();
 
-        return view('student', compact(['authors', 'teachers', 'students', 'groups', 'positions', 'companies', 'languages', 'permissions', 'templates']));
+        $client = User::find(session('client'));
+        if($client)
+            $clientlang = $client->lang;
+        else
+            $clientlang = 1;
+
+        return view('student', compact(['authors', 'teachers', 'students', 'groups', 'positions', 'companies', 'languages', 'permissions', 'templates', 'clientlang']));
     }
 
     /**
