@@ -58,6 +58,7 @@ class CompanyController extends Controller
             $company->id_creator = session("client");
         }
         $company->status = 1;
+        $company->creation_date = date("Y-m-d H:i:s");
         $company->save();
         return response()->json($company);
         //

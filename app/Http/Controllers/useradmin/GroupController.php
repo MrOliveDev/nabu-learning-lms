@@ -36,7 +36,6 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-
         $group = new GroupModel();
         $group->name = $request->input('category_name');
         $group->description= $request->post('category_description');
@@ -46,6 +45,7 @@ class GroupController extends Controller
         } else {
             $group->id_creator = session("client");
         }
+        $group->creation_date = date("Y-m-d H:i:s");
         $group->save();
         return response()->json($group);
         //

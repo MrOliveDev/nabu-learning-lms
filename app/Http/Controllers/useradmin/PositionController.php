@@ -30,10 +30,11 @@ class PositionController extends Controller
         $position->name=$request->input('category_name');
         $position->description=$request->input('category_description');
         if(auth()->user()->type != 0) {
-            $position->id_creator = session("client");
-        } else {
             $position->id_creator = auth()->user()->id;
+        } else {
+            $position->id_creator = session("client");
         }
+        $position->creation_date = date("Y-m-d H:i:s");
         $position->save();
 
         return response()->json($position);

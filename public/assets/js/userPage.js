@@ -1873,13 +1873,12 @@ var createSessionItem = function(data) {
  * @returns 
  */
 var createUserData = function(data, category) {
-
     var status_temp = data.user.status == '1' ?
         '<i class="fa fa-circle m-2"  style="color:green;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var userItem = $('<a class="list-group-item list-group-item-action  p-1 border-0 ' + category + '_' + data.user.id + '" id="' + category + '_' + data.user.id + '" data-date="' + data.user.creation_date + '">' +
+    var userItem = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x ' + category + '_' + data.user.id + '" id="' + category + '_' + data.user.id + '" data-date="' + data.user.creation_date + '">' +
         '<div class="float-left">' +
         status_temp +
         '<span class="item-name">' + data.user.first_name + '&nbsp;' + data.user.last_name + '</span>' +
@@ -1946,7 +1945,7 @@ var createGroupData = function(data, category) {
         '<input type="hidden" name="item-status" class="status-notification" value="1">' :
         '<i class="fa fa-circle m-2"  style="color:red;"></i>' +
         '<input type="hidden" name="item-status" class="status-notification" value="0">';
-    var groupItem = $('<a class="list-group-item list-group-item-action p-1 border-0 ' + category + '_' + data.id + '" id="' + category + '_' + data.id + '" data-date="' + data.creation_date + '">' +
+    var groupItem = $('<a class="list-group-item list-group-item-action p-1 border-0 border-transparent border-5x ' + category + '_' + data.id + '" id="' + category + '_' + data.id + '" data-date="' + data.creation_date + '">' +
         '<div class="float-left">' +
         status_temp +
         '<span class="item-name">' + data.name + '</span>' +
@@ -1994,7 +1993,7 @@ var createGroupData = function(data, category) {
  * @returns 
  */
 var createCategoryData = function(data, category) {
-    var cateItem = $(' <a class="list-group-item list-group-item-action p-1 border-0 ' + category + '_' + data.id + '" id="' + category + '_' + data.id + '" data-date="' + data.creation_date + '">' +
+    var cateItem = $(' <a class="list-group-item list-group-item-action p-1 border-0 border-transparent border-5x ' + category + '_' + data.id + '" id="' + category + '_' + data.id + '" data-date="' + data.creation_date + '">' +
         ' <div class="float-left">' +
         '<span class="item-name">' + data.name + '</span>' +
         '<input type="hidden" name="item-status" value="">' +

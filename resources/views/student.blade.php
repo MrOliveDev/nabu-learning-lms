@@ -1062,7 +1062,7 @@ data-authed-user-type="{{session("user_type")}}"
                     @if (isset(session("permission")->student->position->display))
                     @foreach ($positions as $position)
                         <a class="list-group-item list-group-item-action p-0 border-transparent border-5x function_{{ $position->id }} <?php if(isset(session("permission")->limited) && auth()->user()->id != $position->id_creator) echo "drag-disable"?>"
-                            id="function_{{ $position->id }}">
+                            id="function_{{ $position->id }}" data-date="{{ $position->creation_date }}">
                             <div class="float-left">
                                 <!-- <i class="m-2 fa fa-circle text-danger"></i> -->
                                 <span class="item-name">{{ $position->name }}</span>

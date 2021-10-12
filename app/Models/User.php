@@ -33,6 +33,7 @@ class User extends Authenticatable
         "function",
         "id_config",
         "change_pw",
+        "creation_date",
         "type",
         'expired_date',
         'permission_id',
