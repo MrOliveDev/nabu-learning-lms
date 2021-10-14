@@ -1383,6 +1383,9 @@ var item_delete = function(element) {
                 success: function(result) {
                     console.log(result);
                     parent.detach();
+                    $(`#div_B #group_${id}`).remove();
+                    $(`#div_C #group_${id}`).remove();
+                    toggleFormOrTable($("#RightPanel"), false, false);
                     notification('Successfully deleted!', 1);
                 },
                 error: function(err) {

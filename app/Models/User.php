@@ -263,7 +263,16 @@ class User extends Authenticatable
     }
 
     public function scopeGet_members($query) {
-        $memberlist = $query->where("id_creator", session("client"))->get("id")->toArray();
+        $memberlist = $query
+        ->where("id_creator", session("client"));
+        $client = $query->find(session("client"));
+        if($client && $client->type == 0) {
+            $memberlist = $memberlist
+            ->where("type", "!=", 1);
+        }
+        $memberlist = $memberlist
+        ->get("id")
+        ->toArray();
         $memberArray = [];
         foreach($memberlist as $member) {
             if(isset($member['id']))
