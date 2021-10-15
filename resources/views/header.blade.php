@@ -76,6 +76,7 @@ data-iconDefaultColor="{{session('iconDefaultColor')}}"
                 <div class="dropdown d-inline-block">
                     <button type="button" class="btn btn-dual btn-rounded" id="page-header-notifications-dropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span></span>
                         <i class="fa fa-fw fa-bell"></i>
                         {{-- <span class="badge badge-secondary badge-pill">6</span> --}}
                     </button>
@@ -84,7 +85,7 @@ data-iconDefaultColor="{{session('iconDefaultColor')}}"
                         <div class="bg-primary-darker rounded-top font-w600 text-white text-center p-3">
                             Clients
                         </div>
-                        <ul class="nav-items my-2">
+                        <ul class="nav-items my-2" id="client_item">
                             @foreach ($clients as $client)
                             <li>
                                 <a class="text-dark media py-2 client-item" href="javascript:void(0)" id="client_{{$client['id']}}">
@@ -92,7 +93,7 @@ data-iconDefaultColor="{{session('iconDefaultColor')}}"
                                         <i class="fa fa-fw fa-user text-primary"></i>
                                     </div>
                                     <div class="media-body font-size-sm pr-2">
-                                        <div class="font-w600">
+                                        <div class="font-w600 client_name">
                                             {{$client["first_name"]}}&nbsp;{{$client["last_name"]}}
                                         </div>
                                         <div class="text-muted font-italic"></div>

@@ -295,6 +295,8 @@ data-search-training="{{isset(session("permission")->template->search->training)
                             </div>
                         </div>
                         <div class="form-group clearfix">
+                            {{-- <button type="submit" class="btn btn-hero-primary float-right mx-1 publish-btn"
+                                id="template_publish_button" data-form="template_form">Publish</button> --}}
                             <button type="submit" class="btn btn-hero-primary float-right mx-1 submit-btn"
                                 id="template_save_button" data-form="template_form">SAVE</button>
                             <button type="button" class="btn btn-hero-primary float-right mx-1 cancel-btn"

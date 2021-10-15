@@ -619,9 +619,12 @@ data-authed-user-type="{{session("user_type")}}"
                                         </span>
                                     </div>
                                     <select class="form-control" id="permission" name="permission">
-                                        <option value="" selected>No selection</option>
                                         @foreach ($permissions as $permission)
-                                            <option value="{{ $permission->id }}">{{ $permission->name }}</option>
+                                            @if($permission->id == 3)
+                                                <option selected value="{{ $permission->id }}">{{ $permission->name }}</option>
+                                            @else
+                                                <option value="{{ $permission->id }}">{{ $permission->name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>

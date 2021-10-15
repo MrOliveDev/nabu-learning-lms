@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TemplateModel;
+use App\Models\TemplatePublishModel;
 use Illuminate\Http\Request;
 use App\Models\TrainingsModel;
 use App\Models\CompanyModel;
@@ -61,9 +62,38 @@ class TemplateController extends Controller
             $template->id_creator = session("client");
         }
         $template->alpha_id = md5(uniqid());
-        $template->style = TemplateModel::first()->style;
-        $template->published = TemplateModel::first()->published;
+        $defaultTemplate = TemplateModel::where("default_user", session("client"))->first();
+        if($defaultTemplate){
+            $defaultPublished = TemplatePublishModel::where('alpha_id', $defaultTemplate->alpha_id)->first();
+            if($defaultPublished)
+                $template->style = $defaultPublished->style;
+            else
+                $template->style = TemplatePublishModel::first() ? TemplatePublishModel::first()->style : '';
+        } else {
+            $template->style = TemplatePublishModel::first() ? TemplatePublishModel::first()->style : '';
+        }
+        $template->published = TemplateModel::first() ? TemplateModel::first()->published : '';
         $template->save();
+        
+        $templatePublish = new TemplatePublishModel();
+        $templatePublish->alpha_id = $template->alpha_id;
+        if ($request->post("template_name") != NULL) {
+            $templatePublish->name = $request->post("template_name");
+        } else {
+            $templatePublish->name = '';
+        }
+        if ($request->post("template_name") != NULL) {
+            $templatePublish->code = $request->post("template_name");
+        } else {
+            $templatePublish->code = '';
+        }
+        if (session("user_type") !== 0) {
+            $templatePublish->id_creator = session("user_id");
+        } else {
+            $templatePublish->id_creator = session("client");
+        }
+        $templatePublish->style = '';
+        $templatePublish->save();
         return response()->json($template);
     }
 
@@ -79,6 +109,21 @@ class TemplateController extends Controller
         return response()->json($template);
     }
 
+    // public function publishTemplate($request) {
+    //     if($request->post("id")!=null) {
+    //         $template = TemplateModel::find($request->post("template_name"));
+    //         if($template) {
+    //             $templatePublish = TemplatePublishModel::where("alpha_id", $template->alpha_id);
+    //             if($templatePublish) {
+    //                 $templatePublish->style = $template->style;
+    //                 $templatePublish->update();
+    //                 return response()->json(true);
+    //             }
+    //         }
+    //     }
+        
+    //     return response()->json(false);
+    // }
     /**
      * Update the specified resource in storage.
      *
