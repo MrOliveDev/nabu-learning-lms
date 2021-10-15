@@ -222,7 +222,7 @@ class LoginController extends Controller
             } else {
                 $client = User::getClients();
                 if(count($client)!=0 && $client!=null){
-                    session(["client" => $client[0]["id"]]);
+                    session(["client" => auth()->user()->id]);
                 }
             }
         } else if(auth()->user()->type == 3) {

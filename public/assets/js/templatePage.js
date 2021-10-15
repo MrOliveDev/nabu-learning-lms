@@ -1055,6 +1055,23 @@ var toggleAndSearch = function(element, category, defaultStr) {
     }
 };
 
+var template_publish_button = function(event) {
+    // var id = $("$template_form").attr()
+    // $.post({
+    //     url: baseURL + '/templatelinktocate',
+    //     headers: {
+    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     },
+    //     data: {
+    //         'data': JSON.stringify(requestData)
+    //     }
+    // }).then(function(data) {
+
+    // }).fail(function(err) {
+
+    // })
+}
+
 var getFilterCategory = function(element, category) {
     $(activedTab).fadeOut(1);
     $('#' + category).fadeIn(1);
@@ -1554,7 +1571,7 @@ $(".toolkit-show-filter").click(filterToggleShow);
 $('.filter-name-btn').click(sortfilter);
 $('.filter-date-btn').click(sortfilter);
 $("#cate-status-icon").change(cateStateIcon);
-
+$("#template_publish_button").click(template_publish_button);
 // $('#table-user').on('DOMSubtreeModified', countDisplayUser);
 $('.nav-link').click(tabClick);
 

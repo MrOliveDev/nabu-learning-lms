@@ -354,7 +354,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('insertMailHistory', '\App\Http\Controllers\SendmailController@insertMailHistory')->name('insertMailHistory');
     Route::post('updatelanguage', '\App\Http\Controllers\LanguageManageController@updateLanguage');
     
-
+    // Route::post('publishtemplate', '\App\Http\Controllers\TemplateController@publishTemplate');
     // Route::get('searchtranslate', '\App\Http\Controllers\ClientController@searchTranslate');
 
     Route::get('clear_cache', function () {

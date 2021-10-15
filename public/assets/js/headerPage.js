@@ -100,5 +100,7 @@ $(document).ready(function(e){
         $(".nav-main-link").css("color", iconDefaultColor);
 
     }
+
+    $("#page-header-notifications-dropdown span:first").html($(".client-item.active").find(".client_name").html().trim());
 })
 

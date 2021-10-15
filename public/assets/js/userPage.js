@@ -695,6 +695,7 @@ var toolkitAddItem = function(event) {
                     expired_date.detach();
                 }
                 $("#permission_input").toggle(true);
+                $("#permission").val('3');
                 break;
             case '#authors':
                 $('#user_type').val('2');
@@ -1201,6 +1202,7 @@ var item_edit = function(element) {
                     $('#language').val(data.user_info.lang);
                     $('#company').val(data.user_info.company);
                     $('#position').val(data.user_info.function);
+                    $("#permission").val(data.user_info.permission_id);
                     $("#user_form").attr('action', baseURL + '/user/' + id);
                     $('#status-form-group').css('display', 'block !important');
                     if (data.user_info.auto_generate) {
@@ -1764,10 +1766,12 @@ var submitBtn = function(event) {
                                 default:
                                     break;
                             }
+                            $("#div_A")[0].scrollTop = $("#div_A")[0].scrollHeight;
                             break;
                         case 'group':
                             notification('The group has been saved sucessfully!', 1);
                             $('#groups .list-group').append(createGroupData(data, 'group'));
+                        $("#div_C")[0].scrollTop = $("#div_C")[0].scrollHeight;
                             break;
                         case 'company':
                             var email_btn = $('<button class="btn item-mail toggle1-btn" data-content="company" data-id="'+data.id+'">'+
@@ -1780,11 +1784,13 @@ var submitBtn = function(event) {
                             company_item.find(".btn-group").prepend(email_btn);
                             $('#companies .list-group').append(company_item);
                             $('#company').append('<option value="' + data.id + '">' + data.name + '</option>');
+                            $("#div_C")[0].scrollTop = $("#div_C")[0].scrollHeight;
                             break;
                         case 'function':
                             notification('The position has been saved sucessfully!', 1);
                             $('#positions .list-group').append(createCategoryData(data, 'function'));
                             $('#position').append('<option value="' + data.id + '">' + data.name + '</option>');
+                            $("#div_C")[0].scrollTop = $("#div_C")[0].scrollHeight;
                             break;
 
                         default:
@@ -3139,7 +3145,7 @@ $("#div_A, #div_C").on("DOMSubtreeModified", function() {
     } else {
         heightToggleRight = true;
     }
-    $(this).find(".handler_horizontal").dblclick();
+    $(this).parents("fieldset").find(".handler_horizontal").dblclick();
     // $(this).find(".handler_horizontal").dblclick();
 });
 $("#send-email-input").click(function(event){

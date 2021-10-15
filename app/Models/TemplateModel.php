@@ -56,7 +56,7 @@ class TemplateModel extends Model
     }
     public function getDefaultTemplate()
     {
-        $sql = "SELECT * FROM tb_templates WHERE id=1";
+        $sql = "SELECT * FROM tb_template_html5 WHERE id=1";
         $result = $this->getDatas($sql);
         if (count($result) > 0) {
             return $result;
@@ -76,7 +76,7 @@ class TemplateModel extends Model
     {
         $id_creator = $_SESSION['user_status'] <= 1 || $_SESSION['user_status'] == 3 ? $_SESSION['user_id'] : $_SESSION['user_creator_id'];
 
-        $sql = "SELECT * FROM tb_templates WHERE id_creator = " . $id_creator;
+        $sql = "SELECT * FROM tb_template_html5 WHERE id_creator = " . $id_creator;
 
         $result = $this->getDatas($sql);
 
