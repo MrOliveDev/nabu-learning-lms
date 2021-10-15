@@ -120,11 +120,7 @@ var leftItemClick = function(e) {
     var category = target.attr("id").split("_")[0];
     if (!target.hasClass("active")) {
         if(selectStart=="" || selectStart == null){
-            if(e.shiftKey) {
-                selectStart = target.attr("id").split("_")[1];
-            } else {
-                selectStart = null;
-            }
+            selectStart = target.attr("id").split("_")[1];
         } else {
             if(e.shiftKey){
                 var itemList = target.parents(".list-group").find(".list-group-item").map(function(){
