@@ -293,7 +293,7 @@ data-search-training="{{isset(session("permission")->training->search->training)
                                             Duration
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="lesson_duration" name="lesson_duration"
+                                    <input type="number" class="form-control" id="lesson_duration" name="lesson_duration"
                                         value="" required="">
                                 </div>
                             </div>

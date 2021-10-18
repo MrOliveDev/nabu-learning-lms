@@ -85,14 +85,14 @@ class LessonsModel extends Model
             ->where('tb_lesson.id', $id)
             ->where(function($query){
                 if(isset(session("permission")->limited)) {
-                    $lessons = $lessons
+                    return $query
                     ->where("tb_lesson.idCreator", auth()->user()->id);
                 } else {
                     if(auth()->user()->type < 2) {
-                        $lessons = $lessons
+                        return $query
                         ->whereIn("tb_lesson.idCreator", User::get_members());
                     } else {
-                        $lessons = $lessons
+                        return $query
                         ->where("tb_lesson.idCreator", session("client"))
                         ->orWhere("tb_lesson.idCreator", auth()->user()->id);
                     }
