@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\LessonsModel;
 use App\Models\TrainingsModel;
 
+use SimpleXMLElement;
+
 class LessonController extends Controller
 {
     /**
@@ -85,10 +87,91 @@ class LessonController extends Controller
         // $curso->idCriador = 1;
         // $curso->save();
 
-
+        $this->createCourse($lesson->name, $lesson->idFabrica);
 
         return response()->json(LessonsModel::getLessonContainedTraining($lesson->id));
         //
+    }
+
+    /**
+    * 
+    * @param type $array
+    * @return XML
+    */
+    private function createCourse($name, $productId) {
+        //echo "--createCourse--"."<br>\n";
+        //$course = parent::create ( $array );
+        //echo "createCourse\n";
+        // foreach ($array as $item) {
+        //     if ($item[name] == "nome") {
+        //         $name = $item[value];
+        //     }
+        //     if ($item[name] == "idFabrica") {
+        //         $productId = $item[value];
+        //     }
+        // }
+        //echo "name:".$name;
+        //echo "productId:".$productId;
+ 
+        $config = new SimpleXMLElement('<project></project>');
+        $config->addAttribute('code', $productId);
+        $config->addAttribute('label', $name);
+        $n = $config->addChild('languages');
+        $n->addChild('lang', session('language'));
+        $t = $config->addChild('lessonPlan');
+        $t->addAttribute('id', '0');
+        $n2 = $t->addChild('title');
+        $n2->addChild(session('language'), 'Menu Principal');
+        //    Header('Content-type: text/xml');
+        //    echo $config->asXML();
+ 
+        $values = array('request' => '
+         <request>
+             <method>ProductCreate</method>
+             <params>
+                 <param name="code">' . $productId . '</param>
+                 <param name="label">' . $name . '</param>
+                 <param name="config"><![CDATA[' . $config->asXML() . ']]> </param>
+             </params>
+         </request>');
+ 
+        //var_dump($values);
+        $return = $this->doPostRequest(env('FABRIQUE_URL'), $values);
+ 
+        //var_dump($return);
+        return $return;
+    }
+
+    /**
+     * 
+     * @param type $url
+     * @param type $data
+     * @param type $optional_headers
+     * @return \SimpleXMLElement
+     * @throws Exception
+     */
+    private function doPostRequest($url, $data, $optional_headers = null) {
+        $params = array(
+            "http" => array(
+                "method" => "POST",
+                "content" => http_build_query($data)
+            )
+        );
+        if ($optional_headers !== null) {
+            $params["http"]["header"] = $optional_headers;
+        }
+        $ctx = stream_context_create($params);
+        $fp = @fopen($url, "rb", false, $ctx);
+        if (!$fp) {
+            throw new Exception("Problem with $url, $php_errormsg");
+        }
+        $response = @stream_get_contents($fp);
+        if ($response === false) {
+            throw new Exception("Problem reading data from $url, $php_errormsg");
+        }
+        $xml = new SimpleXMLElement($response);
+        //var_dump($xml);
+        return $xml;
     }
 
     /**
@@ -160,8 +243,62 @@ class LessonController extends Controller
         //     }
         //     $curso->update();
         // }
+
+        $this->updateProduct($lesson->idFabrica, $lesson->name);
+
         return response()->json(LessonsModel::getLessonContainedTraining($lesson->id));
         //
+    }
+
+    private function updateProduct($productId, $name) {
+        $values = array(
+            'request' => '  <request>
+                                <method>ProductRead</method>
+                                <params>
+                                    <param name="code">' . $productId . '</param>
+                                </params>
+                            </request>'
+        );
+
+        $return         = $this->doPostRequest(env('FABRIQUE_URL'), $values);
+        
+        $return_read    = get_object_vars($return);
+        if ($return_read['@attributes']['type'] == "error") {
+            $error = array("error" => "product can't be red > ".$return_read['message']);
+            return $error;
+        } else {
+            $return_vars    = get_object_vars($return);
+            $product        = get_object_vars($return_vars["product"]);
+            $prd_config     = $product["config"];
+            
+            $project = new SimpleXMLElement($prd_config);
+            $project->attributes()->label   = $name;
+            $project->attributes()->code    = $productId;
+            $project->languages->lang ->attributes()->productName = $name;
+    
+            $project->asXML();
+    
+            // Update product infos
+            $values = array(
+                'request' => '  <request>
+                                    <method>ProductUpdate</method>
+                                    <params>
+                                        <param name="code">' . $productId . '</param>
+                                        <param name="label">' . $name . '</param>
+                                        <param name="config"><![CDATA[' . $project->asXML() . ']]> </param>
+                                    </params>
+                                </request>'
+            );
+
+            $return = $this->doPostRequest(env('FABRIQUE_URL'), $values);
+
+            $return_update    = get_object_vars($return);
+            if ($return_update['@attributes']['type'] == "error") {
+                return array("error" => "nt> Product can't be updated > ".$return_update['message']);
+            } else {
+                return true;
+            }
+        }
     }
 
     /**
@@ -219,7 +356,7 @@ class LessonController extends Controller
     public function randomGenerate($car = 8)
     {
         $string = "";
-        $chaine = "ABCDEFGHIJQLMNOPQRSTUVWXYZabcdefghijqlmnopqrstuvwxyz0123456789";
+        $chaine = "ABCDEFGHIJQLMNOPQRSTUVWXYZ0123456789";
         srand((float) microtime() * 1000000);
         for ($i = 0; $i < $car; $i++) {
             $string .= $chaine[rand() % strlen($chaine)];

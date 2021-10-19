@@ -22,7 +22,8 @@ class TrainingsModel extends Model
         'templateformation',
         'lesson_content',
         'type',
-        'training_icon'
+        'training_icon',
+        'duration'
     ];
 
     protected $table = 'tb_trainings';

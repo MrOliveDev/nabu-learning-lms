@@ -67,14 +67,17 @@ class TrainingController extends Controller
         if ($request->post('base64_img_data') != NULL) {
             $training->training_icon = $request->post('base64_img_data');
         }
-        if ($request->post('name') != NULL) {
-            $training->name = $request->post('name');
-        }
-        if ($request->post('description') != NULL) {
-            $training->description = $request->post('description');
-        }
+        // if ($request->post('name') != NULL) {
+        //     $training->name = $request->post('name');
+        // }
+        // if ($request->post('description') != NULL) {
+        //     $training->description = $request->post('description');
+        // }
         if ($request->post('cate-status-icon') != NULL) {
             $training->status = $request->post('cate-status-icon');
+        }
+        if ($request->post('training_duration') != NULL) {
+            $training->duration = $request->post('training_duration');
         }
         if (auth()->user()->type !== 0) {
             $training->id_creator = auth()->user()->id;
@@ -131,11 +134,14 @@ class TrainingController extends Controller
         if ($request->post('base64_img_data')) {
             $training->training_icon = $request->post('base64_img_data');
         }
-        if ($request->post('name')) {
-            $training->name = $request->post('name');
-        }
-        if ($request->post('description')) {
-            $training->description = $request->post('description');
+        // if ($request->post('name')) {
+        //     $training->name = $request->post('name');
+        // }
+        // if ($request->post('description')) {
+        //     $training->description = $request->post('description');
+        // }
+        if ($request->post('training_duration') != NULL) {
+            $training->duration = $request->post('training_duration');
         }
         if ($request->post('cate-status-icon') != NULL) {
             $training->status = $request->post('cate-status-icon');
