@@ -19,6 +19,7 @@ use ZipArchive;
 use Mail;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use Exception;
 
 class TrainingController extends Controller
 {
