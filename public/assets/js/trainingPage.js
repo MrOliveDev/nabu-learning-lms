@@ -69,11 +69,7 @@ var leftItemClick = function(e) {
     var category = target.attr("id").split("_")[0];
     if (!target.hasClass("active")) {
         if(selectStart=="" || selectStart == null){
-            if(e.shiftKey) {
-                selectStart = target.attr("id").split("_")[1];
-            } else {
-                selectStart = null;
-            }
+            selectStart = target.attr("id").split("_")[1];
         } else {
             if(e.shiftKey){
                 var itemList = target.parents(".list-group").find(".list-group-item").map(function(){
@@ -453,7 +449,7 @@ var item_edit = function(element) {
                     $("#base64_img_data").val(data.training_icon);
                     $("#training-status-icon").prop('checked', data.status == 1 ? true : false);
                     $("#training_name").val(data.name);
-                    $("#training_duration").val("");
+                    $("#training_duration").val(data.duration);
                     $("#training_language").val(data.lang);
                     $("#training_type").val(data.type);
                     $("#training_description").val(data.description);
