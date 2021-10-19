@@ -8,6 +8,7 @@ use App\Models\LessonsModel;
 use App\Models\TrainingsModel;
 
 use SimpleXMLElement;
+use Exception;
 
 class LessonController extends Controller
 {
