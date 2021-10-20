@@ -611,6 +611,7 @@ var itemShow = function(event) {
 };
 var itemPlay = function(event) {
     $("#template-group").toggle(true);
+    $("#template-group").attr("item", $(this).parents(".list-group-item").attr("id"));
     toggleFormOrTable($("#LeftPanel"), false, false);
 };
 
@@ -626,8 +627,8 @@ var templateConfirm = function(event) {
         notification("You have to input template!", 2);
         return;
     }
-    var parent = $(this).parents('.list-group-item');
-    window.open(baseURL + "/player_editor" + "/#/open/"+languageSelect+"/fabrique/0/" + parent.find('.item-play').attr('data-fabrica') + "/"+templateSelect+"/dae8efee8afc1994204d76ee963bcfb1");
+    var parent = $("#template-group").attr('item');
+    window.open(baseURL + "/player_editor" + "/#/open/"+languageSelect+"/fabrique/0/" + $("#"+$("#template-group").attr('item')).find('.item-play').attr('data-fabrica') + "/"+templateSelect+"/dae8efee8afc1994204d76ee963bcfb1");
 }
 
 var itemTemplate = function(event) {
