@@ -706,10 +706,13 @@ var detachLink = function(e) {
     var cate = parent.attr('id').split('_')[0];
     var value, result;
     if (cate == 'lesson') {
-        value = parent.attr('data-training');
+        value = parent.attr('data-training').split('_');
         if (value) {
             if (value.indexOf(showeditem) != -1) {
-                $(this).attr('data-training', value.split('_').slice(showeditem).join('_'));
+                let data = value.filter(e => e != showeditem).join('_');
+                console.log(data);
+                $(this).attr('data-training', data);
+                $(`.${parent.attr('id')}`).attr('data-training', data);
             }
         }
         var srcValue = $("#training_" + showeditem).attr('data-lesson');
@@ -727,7 +730,7 @@ var detachLink = function(e) {
             var jsonValue = JSON.parse(value);
             parent.attr('data-lesson', JSON.stringify(jsonRemove(jsonValue, showeditem)));
         }
-        $("#training_" + id).attr('data-training', value.split('_').slice(id).join('_'));
+        $(`.lesson_` + showeditem).attr('data-training', $(`.lesson_` + showeditem).attr("data-training").split("_").filter((e)=>e!=id).join("_"));
         result = parent.attr('data-lesson');
         detachCall(cate, {
             id: id,
@@ -766,7 +769,7 @@ var detachCall = function(cate, connectiondata, element) {
         data: connectiondata
 
     }).done(function(data) {
-        notification('Successfully unliked!', 1);
+        notification('Successfully unlinked!', 1);
         if (element.parents('fieldset').attr('id') == 'RightPanel') {
             toggleFormOrTable($("#LeftPanel"), false, false);
         } else {
@@ -909,23 +912,23 @@ var createLessonData = function(data) {
     var status_temp;
     switch (data['status']) {
         case 1:
-            status_temp = '<i class="fa fa-circle  m-2" style="color:green;"></i>' +
+            status_temp = '<i class="fa fa-circle  m-2" style="color:red;"></i>' +
                 '<input type="hidden" name="item-status" class="status-notification" value="1">';
             break;
         case 2:
-            status_temp = '<i class="fa fa-circle  m-2" style="color:yellow;"></i>' +
+            status_temp = '<i class="fa fa-circle  m-2" style="color:red;"></i>' +
                 '<input type="hidden" name="item-status" class="status-notification" value="2">';
             break;
         case 3:
-            status_temp = '<i class="fa fa-circle  m-2" style="color:pink;"></i>' +
+            status_temp = '<i class="fa fa-circle  m-2" style="color:red;"></i>' +
                 '<input type="hidden" name="item-status" class="status-notification" value="3">';
             break;
         case 4:
-            status_temp = '<i class="fa fa-circle  m-2" style="color:blue;"></i>' +
+            status_temp = '<i class="fa fa-circle  m-2" style="color:red;"></i>' +
                 '<input type="hidden" name="item-status" class="status-notification" value="4">';
             break;
         case 5:
-            status_temp = '<i class="fa fa-circle  m-2" style="color:white;"></i>' +
+            status_temp = '<i class="fa fa-circle  m-2" style="color:green;"></i>' +
                 '<input type="hidden" name="item-status" class="status-notification" value="5">';
             break;
         default:
@@ -1063,11 +1066,11 @@ var updateLessonData = function(data, target) {
         $(im).find('input[name="item-name"]').val(data.name);
         $(im).find('.item-lang').val(data.lesson_language);
         $(im).find('.status-notification').val(data.status);
-        $(im).find('.status-notification').prev().css('color', data.status == '1' ? 'green' :
-            data.status == '2' ? 'yellow' :
-            data.status == '3' ? 'pink' :
-            data.status == '4' ? 'blue' :
-            data.status == '5' ? 'white' : 'red');
+        $(im).find('.status-notification').prev().css('color', data.status == '5' ? 'green' : 'red');
+            // data.status == '2' ? 'yellow' :
+            // data.status == '3' ? 'pink' :
+            // data.status == '4' ? 'blue' :
+            // data.status == '5' ? 'white' : 'red');
     });
 
 };
@@ -1248,10 +1251,10 @@ var searchfilter = function(event) {
                     }
                     break;
                 case 'orphans':
-                    if ($(e).attr('data-training').length) {
-                        $(e).toggle(true);
-                    } else {
+                    if ($(e).attr('data-training').length > 0) {
                         $(e).toggle(false);
+                    } else {
+                        $(e).toggle(true);
                     }
                     break;
                 default:
@@ -1518,7 +1521,7 @@ function dropEnd(event, item) {
             rowData = $("#" + droppeditem).attr('id').split('_')[1];
             if (requestData.length != 0) {
                 if (requestData.filter(function(e) {
-                        return e == parseInt(rowData);
+                        return e.item == parseInt(rowData);
                     }).length == 0)
                     requestData.push({
                         "item": parseInt(rowData)
@@ -1559,7 +1562,9 @@ function dropEnd(event, item) {
             }
             parent.attr('data-lesson', JSON.stringify(requestData));
             dragitem.map(function(droppeditem) {
-                if ($("#" + droppeditem).attr('data-training').split('_').indexOf(cate_id) == -1 && $("#" + droppeditem).attr('data-training')) {
+                console.log(droppeditem);
+                if ($("#" + droppeditem).attr('data-training').split('_').indexOf(cate_id) == -1) {
+                    console.log($("#" + droppeditem).attr('data-training'));
                     var arraytemp = $("#" + droppeditem).attr('data-training').split('_');
                     arraytemp.push(cate_id);
                     $("#" + droppeditem).attr('data-training', arraytemp.join('_'));
