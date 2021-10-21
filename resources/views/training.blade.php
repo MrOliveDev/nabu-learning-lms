@@ -154,7 +154,7 @@ data-search-training="{{isset(session("permission")->training->search->training)
                             id="lesson_{{ $lesson['id'] }}" data-date="{{ $lesson['creation_date'] }}"
                             data-training="{{ implode('_', $lesson['training']) }}">
                             <div class="float-left">
-                                @switch ($lesson['status'])
+                                {{-- @switch ($lesson['status'])
                                     @case (1)
                                         <i class="fa fa-circle  m-2" style="color:green;"></i>
                                         <input type="hidden" name="item-status" class="status-notification" value="1">
@@ -178,7 +178,14 @@ data-search-training="{{isset(session("permission")->training->search->training)
                                     @default
                                         <i class="fa fa-circle  m-2" style="color:red;"></i>
                                         <input type="hidden" name="item-status" class="status-notification" value="2">
-                                @endswitch
+                                @endswitch --}}
+                                @if($lesson['status'] == 5)
+                                <i class="fa fa-circle  m-2" style="color:green;"></i>
+                                <input type="hidden" name="item-status" class="status-notification" value="5">
+                                @else
+                                <i class="fa fa-circle  m-2" style="color:red;"></i>
+                                <input type="hidden" name="item-status" class="status-notification" value="{{ $lesson['status'] }}">
+                                @endif
                                 <span class="item-name">{{ $lesson['name'] }}</span>
                                 <input type="hidden" name="item-name" value="{{ $lesson['name'] }}">
                             </div>
@@ -574,7 +581,7 @@ data-search-training="{{isset(session("permission")->training->search->training)
                     <input name='_method' type='hidden' value='PUT' class='method-select' />
                     <div class="card text-black">
                         <div class="justify-content-center flex-wrap pb-3" style="overflow:hidden;">
-                            <div>
+                            <div style="text-align: center;">
                                 <i class="fa fa-cog float-right p-3 position-absolute ml-auto" style="right:0;"
                                     id="upload_button">
                                     <input type="file" name="image" class="image" accept="image/*" hidden>
