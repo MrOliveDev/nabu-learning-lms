@@ -514,9 +514,10 @@ data-search-training="{{isset(session("permission")->training->search->training)
                                         <button class="btn  item-type" data-content='training'
                                             data-value="{{ $training->type }}" data-item-id="{{ $training->id }}">
                                             @if ($training->type == 1)
-                                                <i class="px-2 fas fa-wave-square"></i>
+                                            <i class="px-2 fas fa-sort-amount-down-alt"></i>
+                                                
                                             @else
-                                                <i class="px-2 fas fa-sort-amount-down-alt"></i>
+                                            <i class="px-2 fas fa-wave-square"></i>
                                             @endif
                                         </button>
                                         <button class="btn item-scorm" data-content='training'
@@ -540,9 +541,10 @@ data-search-training="{{isset(session("permission")->training->search->training)
                                     <button class="btn  item-type" data-content='training'
                                         data-value="{{ $training->type }}" data-item-id="{{ $training->id }}">
                                         @if ($training->type == 1)
-                                            <i class="px-2 fas fa-wave-square"></i>
+                                        <i class="px-2 fas fa-sort-amount-down-alt"></i>
                                         @else
-                                            <i class="px-2 fas fa-sort-amount-down-alt"></i>
+                                        <i class="px-2 fas fa-wave-square"></i>
+                                            
                                         @endif
                                     </button>
                                     <button class="btn item-scorm" data-content='training'

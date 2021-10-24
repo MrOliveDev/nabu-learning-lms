@@ -1018,9 +1018,9 @@ var createTrainingData = function(data) {
         '</a>');
 
     var btnType = data.type == 1 ? $('<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
-            '<i class="px-2 fas fa-wave-square"></i></button>') :
+    '<i class="px-2 fas fa-sort-amount-down-alt"></i></button>') : 
         $('<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
-            '<i class="px-2 fas fa-sort-amount-down-alt"></i></button>');
+            '<i class="px-2 fas fa-wave-square"></i></button>');
 
     var btnScorm = $('<button class="btn item-scorm" data-content="training" data-item-id = "' + data['id'] + '">' +
         '<i class="px-2 fa fa-cogs"></i>' +
@@ -1077,8 +1077,8 @@ var updateLessonData = function(data, target) {
 
 var updateTrainingData = function(data, target) {
     $('.' + target).each(function(i, im) {
-        var btnType = data.type == 1 ? $('<i class="px-2 fas fa-wave-square"></i>') :
-            $('<i class="px-2 fas fa-sort-amount-down-alt"></i>');
+        var btnType = data.type == 1 ? $('<i class="px-2 fas fa-sort-amount-down-alt"></i>') :
+            $('<i class="px-2 fas fa-wave-square"></i>');
 
         $(im).find('.item-type i').remove();
         $(im).find('.item-type').attr('data-value', data.type);
