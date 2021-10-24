@@ -34,6 +34,9 @@
 
         #template-group {
             display:none;
+        }        
+        #fabrique-template {
+            display:none;
         }
 
         .cropper-view-box {
@@ -428,6 +431,39 @@ data-search-training="{{isset(session("permission")->training->search->training)
                                     id="template-confirm">PLAY</button>
                                 <button type="button" class="btn btn-hero-primary float-right mx-1 template-cancel-btn"
                                     id="template-cancel">CANCEL</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card text-black pt-3" id="fabrique-template">
+                    <div class="card-body  p-3">
+                        <div class="template-select bg-white text-black">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Template<span class="text-danger">*</span>
+                                        </span>
+                                    </div>
+                                    <select class="form-control" id="fabrique-template-select" name="fabrique-template-select">
+                                        @foreach ($templates as $template)
+                                            @if ($loop->first)
+                                                <option value="{{ $template->alpha_id }}" selected="selected">
+                                                    {{ $template->name }}</option>
+                                            @else
+                                                <option value="{{ $template->alpha_id }}">
+                                                    {{ $template->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <button type="button" class="btn btn-hero-primary float-right mx-1 template-submit-btn"
+                                    id="fabrique-template-confirm">PLAY</button>
+                                <button type="button" class="btn btn-hero-primary float-right mx-1 template-cancel-btn"
+                                    id="febrique-template-cancel">CANCEL</button>
                             </div>
                         </div>
                     </div>
