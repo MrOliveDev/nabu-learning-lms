@@ -631,9 +631,32 @@ var templateConfirm = function(event) {
     window.open(baseURL + "/player_editor" + "/#/open/"+languageSelect+"/fabrique/0/" + $("#"+$("#template-group").attr('item')).find('.item-play').attr('data-fabrica') + "/"+templateSelect+"/dae8efee8afc1994204d76ee963bcfb1");
 }
 
-var itemTemplate = function(event) {
+var fabriqueTemplateConfirm = function(event) {
+    $("fabrique-template").toggle(true);
+    var templateSelect = $("#fabrique-template-select").val();
+    if(!templateSelect) {
+        notification("You have to input template!", 2);
+        return;
+    }
     var parent = $(this).parents('.list-group-item');
-    window.open(baseURL + "/fabrique_editor" + "/#/open/" + parent.find('.item-play').attr('data-fabrica') + "/dae8efee8afc1994204d76ee963bcfb1");
+    window.open(baseURL + "/fabrique_editor" + "/#/open/" + $("#"+$("#fabrique-template").attr('item')).find('.item-play').attr('data-fabrica') + "/" + templateSelect);
+}
+
+var templateCancel = function(event) {
+    $("#template-group").toggle(false);
+}
+
+var febriqueTemplateCancel = function(event) {
+    console.log('fabrique-cancel');
+    $("#fabrique-template").toggle(false);
+}
+
+var itemTemplate = function(event) {
+    $("#fabrique-template").toggle(true);
+    $("#fabrique-template").attr("item", $(this).parents(".list-group-item").attr("id"));
+    toggleFormOrTable($("#LeftPanel"), false, false);
+    // var parent = $(this).parents('.list-group-item');
+    // window.open(baseURL + "/fabrique_editor" + "/#/open/" + parent.find('.item-play').attr('data-fabrica') + "/dae8efee8afc1994204d76ee963bcfb1");
 };
 var itemRefresh = function(event) {
     event.preventDefault();
@@ -1677,6 +1700,11 @@ $('.submit-btn').click(submitBtn);
 $('.cancel-btn').click(cancelBtn);
 
 $('#template-confirm').click(templateConfirm);
+$('#fabrique-template-confirm').click(fabriqueTemplateConfirm);
+
+$('#template-cancel').click(templateCancel);
+$('#febrique-template-cancel').click(febriqueTemplateCancel);
+
 
 $(".toolkit-show-filter").click(filterToggleShow);
 $('.filter-name-btn').click(sortfilter);
@@ -1695,4 +1723,8 @@ $("#div_A .btn, #div_D .btn, #LeftPanel .toolkit-add-item").click(function(event
     if(!$(this).is(".item-play")) {
         $("#template-group").toggle(false);
     }
+    if(!$(this).is(".item-template")) {
+        $("#fabrique-template").toggle(false);
+    }
 })
+
