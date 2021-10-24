@@ -287,7 +287,6 @@ var secondShow1 = function(event) {
         var arr_group = item_group.split('_');
 
         arr_group.map(function(group) {
-            // console.log(group);
             $('#training-table').find('.list-group-item').each(function(i, e) {
                 if (group == $(this).attr('id').split('_')[1]) {
                     var element = $(e).clone(false);
@@ -339,7 +338,6 @@ var secondShow1 = function(event) {
             var arr_group = $(e).val().split('_');
             var unlinkbtn = null;
             arr_group.map(function(group) {
-                // console.log(group);
                 if (id == group) {
                     var element = $(e).parents('.list-group-item').clone(false);
                     var sectId = $(event.target).parents('.window').attr('id');
@@ -398,9 +396,7 @@ var toolkitAddItem = function(event) {
 };
 
 
-var formInputChange = function(event) {
-    console.log($(event.target).val());
-};
+
 
 var item_edit = function(element) {
     var parent = element.parents('.list-group-item');
@@ -484,7 +480,6 @@ var item_delete = function(element) {
                 type: "DELETE",
                 url: baseURL + '/lesson/' + id,
                 success: function(result) {
-                    console.log(result);
                     parent.detach();
                     notification('Successfully deleted!', 1);
                 },
@@ -500,7 +495,6 @@ var item_delete = function(element) {
                 type: "DELETE",
                 url: baseURL + '/training/' + id,
                 success: function(result) {
-                    console.log(result);
                     parent.detach();
                     notification('Successfully deleted!', 1);
                 },
@@ -549,7 +543,6 @@ var itemDelete = function(event) {
     }).then((function(n) {
         if (n.value) {
             e.fire('Deleted!', 'Your ' + cate + ' has been deleted.', 'success');
-            console.log();
             $(elem).parents('.list-group-item').remove();
         } else {
             'cancel' === n.dismiss && e.fire('Cancelled', 'Your data is safe :)', 'error');
@@ -574,7 +567,7 @@ var itemShow = function(event) {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
         }).done(function(data) {
-            console.log(data);
+            console.log("data",data);
             if (data && data.length != 0) {
                 var detachIcon, addedbutton;
                 if (cate == "lesson") {
@@ -647,7 +640,6 @@ var templateCancel = function(event) {
 }
 
 var febriqueTemplateCancel = function(event) {
-    console.log('fabrique-cancel');
     $("#fabrique-template").toggle(false);
 }
 
@@ -715,8 +707,8 @@ var itemType = function(event) {
 };
 
 var submitFunction = function(event) {
-    console.log($(this).attr('action'));
-    console.log($("#cate-status").attr("checked"));
+    console.log("submit Result",$(this).attr('action'));
+    console.log("submit Result",$("#cate-status").attr("checked"));
 
     return false;
 };
@@ -733,7 +725,6 @@ var detachLink = function(e) {
         if (value) {
             if (value.indexOf(showeditem) != -1) {
                 let data = value.filter(e => e != showeditem).join('_');
-                console.log(data);
                 $(this).attr('data-training', data);
                 $(`.${parent.attr('id')}`).attr('data-training', data);
             }
@@ -778,7 +769,7 @@ var combine = function(value, id) {
     var combineArray = value.split('_').filter(function(item, i, d) {
         return item != id && item != null;
     });
-    console.log(combineArray);
+    console.log("combineArray",combineArray);
     return combineArray;
 };
 
@@ -804,7 +795,7 @@ var detachCall = function(cate, connectiondata, element) {
         notification("Sorry, Your action brocken!", 2);
         return false;
     }).always(function(data) {
-        console.log(data);
+        console.log("detachAll",data);
     });
 };
 
@@ -834,7 +825,6 @@ var submitBtn = function(event) {
             submit_data[$(e).attr('name')] = $(e).val();
         });
 
-        console.log($('#' + formname).serializeArray());
         var serialval = $('#' + formname).serializeArray().map(function(item) {
             if (item.name == 'training-status-icon') {
                 item.value = $('#training-status-icon').prop('checked') == true ? 1 : 0;
@@ -876,7 +866,6 @@ var submitBtn = function(event) {
                 }
             })
         }
-        console.log(serialval);
         $.ajax({
             url: $('#' + formname).attr('action'),
             headers: {
@@ -885,7 +874,7 @@ var submitBtn = function(event) {
             method: $('#' + formname).find('.method-select').val(),
             data: serialval,
             success: function(data) {
-                console.log(data);
+                console.log("after creation",data);
                 if( Object.keys(data).length !== 0){
                     if ($("#" + formname).attr('data-item') == '' || $("#" + formname).attr('data-item') == null) {
                         var arr_url = $('#' + formname).attr('action').split('/');
@@ -1030,7 +1019,7 @@ var createTrainingData = function(data) {
             break;
     }
     var trainingItem = $('<a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_' + data['id'] + '"' +
-        'data-date="' + data['creation_date'] + '" data-lesson = ' + "'" + data.lesson_content + "'" + ' id="training_' + data['id'] + '">' +
+        'data-date="' + data['creation_date'] + '" data-lesson = ' + "''" + ' id="training_' + data['id'] + '">' +
         '<div class="float-left">' +
         status_temp +
         '<span class="item-name">' + data['name'] + '</span>' +
@@ -1076,7 +1065,7 @@ var createTrainingData = function(data) {
         .append(btnDelete);
     trainingItem.on('drop', dropEnd);
     trainingItem.attr('draggable', false);
-    trainingItem.on('drop', dropEnd);
+    // trainingItem.on('drop', dropEnd);
 
     trainingItem.on('dragover', dragOver);
     trainingItem.on('dragleave', dragLeave);
@@ -1206,7 +1195,7 @@ var searchfilter = function(event) {
 
     if ($(event.target).is('input.search-filter')) {
         str = event.target.value;
-        console.log(str);
+        console.log("search",str);
     }
 
     if (parent.attr('id') == 'lesson-toolkit') {
@@ -1215,13 +1204,11 @@ var searchfilter = function(event) {
         items = $("#div_C").find('.list-group .list-group-item');
 
     }
-    // console.log(items);
 
     items.map(function(i, e) {
         var item_name = $(e).find('input[name="item-name"]').val();
         var item_status = $(e).find('input[name="item-status"]').val();
 
-        // console.log(item_name);
 
         if (str == null || str == '' || item_name.toLowerCase().indexOf(str.toLowerCase().replace(/\s+/g, '')) >= 0) {
 
@@ -1498,8 +1485,7 @@ function dragStart(event) {
         if(!$(dragitem).is(".drag-disable"))
         dragitem.push($(this).attr('id'));
     }
-    console.log($(this).css('cursor'));
-    // console.log(dragitem);
+    console.log("dragStart",$(this).css('cursor'));
 }
 
 function dragOver(event) {
@@ -1555,7 +1541,6 @@ function dropEnd(event, item) {
                 });
             }
 
-            // console.log(droppeditem.split('_')[1]);
 
             if ($('#' + droppeditem).hasClass('highlight')) {
                 showItem = droppeditem;
@@ -1573,7 +1558,6 @@ function dropEnd(event, item) {
                 'target': JSON.stringify(requestData)
             }
         }).done(function(data) {
-
             if (showCate) {
                 $('#div_C #' + showCate + " .item-show").click();
             }
@@ -1585,9 +1569,7 @@ function dropEnd(event, item) {
             }
             parent.attr('data-lesson', JSON.stringify(requestData));
             dragitem.map(function(droppeditem) {
-                console.log(droppeditem);
                 if ($("#" + droppeditem).attr('data-training').split('_').indexOf(cate_id) == -1) {
-                    console.log($("#" + droppeditem).attr('data-training'));
                     var arraytemp = $("#" + droppeditem).attr('data-training').split('_');
                     arraytemp.push(cate_id);
                     $("#" + droppeditem).attr('data-training', arraytemp.join('_'));
@@ -1598,7 +1580,6 @@ function dropEnd(event, item) {
             notification("Sorry, You have an error!", 2);
             requestData = [];
         }).always(function(data) {
-            console.log(data);
             dragitem = null;
         });
     }
@@ -1695,7 +1676,6 @@ $('.item-scorm').click(itemScorm);
 $('.item-type').click(itemType);
 
 $('.toolkit-add-item').click(toolkitAddItem);
-$('form input, form select').change(formInputChange);
 $('.submit-btn').click(submitBtn);
 $('.cancel-btn').click(cancelBtn);
 
