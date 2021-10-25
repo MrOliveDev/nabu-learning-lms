@@ -1300,6 +1300,61 @@ var searchfilter = function(event) {
     }
 };
 
+var toolkitLessonMultiDelete = function(event) {
+    var parent = $(event.target).parents(".toolkit");
+    var target = parent.attr("data-target");
+    var selectedItem = $(target).find(".list-group-item.active");
+    if(selectedItem.length != 0){
+        var category = $(selectedItem[0]).attr("id").split("_")[0];
+        var selectedItemStr = selectedItem.map(function(i, item){
+            return $(item).attr("id").split("_")[1];
+        }).toArray().join(",");
+        var e = Swal.mixin({
+                buttonsStyling: !1,
+                customClass: {
+                    confirmButton: 'btn btn-success m-1',
+                    cancelButton: 'btn btn-danger m-1',
+                    input: 'form-control'
+                }
+            });
+        e.fire({
+            title: 'Are you sure you want to delete this item ?',
+            text: ' This user and all his historic and reports will be permanently deleted',
+            icon: 'warning',
+            showCancelButton: !0,
+            customClass: {
+                confirmButton: 'btn btn-danger m-1',
+                cancelButton: 'btn btn-secondary m-1'
+            },
+            confirmButtonText: 'Yes, delete it!',
+            html: !1,
+            preConfirm: function(e) {
+                return new Promise((function(e) {
+                    setTimeout((function() {
+                        e();
+                    }), 50);
+                }));
+            }
+        }).then((function(n) {
+            if (n.value) {
+                $.post({url:baseURL+"/"+category+"/multidelete", data:{data:selectedItemStr}})
+                .done(function(){
+                    e.fire('Deleted!', 'Your ' + category + ' has been deleted.', 'success');
+                    selectedItem.map(function(i, item){
+                        if(!$(item).is(".drag-disable"))
+                        $(item).remove();
+                    });
+                })
+                .fail(function(){
+                    e.fire('Not deleted!', 'You have an error.', 'error');
+                })
+            } else {
+                'cancel' === n.dismiss && e.fire('Cancelled', 'Your data is safe :)', 'error');
+            }
+        }));
+    }
+}
+
 var sortfilter = function(event) {
     var parent = $(event.target).parents('.toolkit');
     var $items = null,
@@ -1690,6 +1745,7 @@ $('.item-refresh').click(itemRefresh);
 $('.item-scorm').click(itemScorm);
 $('.item-type').click(itemType);
 
+$('.toolkit-lesson-multi-delete').click(toolkitLessonMultiDelete);
 $('.toolkit-add-item').click(toolkitAddItem);
 $('.submit-btn').click(submitBtn);
 $('.cancel-btn').click(cancelBtn);

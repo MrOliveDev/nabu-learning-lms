@@ -715,6 +715,22 @@ class TrainingController extends Controller
         }*/
         return $result;
     }
+    /**
+     * Remove the multiple selected resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function multiDestroy(Request $request)
+    {
+        $ids = $request->post("data");
+
+        LessonsModel::whereIn("id", explode(",", $ids))->delete();
+
+        return response('successfully deleted!', 200);
+        //
+    }
+
 
     public function insertCourseXMLDatas($url, $curso_id, $product_id, $database=false) {
         $this->module_structure = array();

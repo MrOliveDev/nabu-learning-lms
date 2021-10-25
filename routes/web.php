@@ -314,6 +314,8 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::get('training', '\App\Http\Controllers\TrainingController@index')->name('training');
     Route::post('traininglinkfromlesson', '\App\Http\Controllers\TrainingController@trainingLinkFromLesson')->name('traininglinkfromlesson');
     Route::post('trainingupdatetype', '\App\Http\Controllers\TrainingController@trainingUpdateType')->name('trainingupdatetype');
+    Route::post('lesson/multidelete', '\App\Http\Controllers\TrainingController@multiDestroy');
+
 
     Route::post('trainingshow/{id}', '\App\Http\Controllers\TrainingController@getLessonFromTraining')->name('trainingshow');
     Route::post('generateScorm', '\App\Http\Controllers\TrainingController@generateScorm')->name('generateScorm');
