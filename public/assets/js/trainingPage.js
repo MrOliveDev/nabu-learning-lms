@@ -603,9 +603,16 @@ var itemShow = function(event) {
         });
 };
 var itemPlay = function(event) {
-    $("#template-group").toggle(true);
-    $("#template-group").attr("item", $(this).parents(".list-group-item").attr("id"));
-    toggleFormOrTable($("#LeftPanel"), false, false);
+    $.get("getlanguagesforlesson/"+$(this).closest(".item-play").attr('data-fabrica'))
+    .done(function(data){
+        $('#div_B #language-section').append(createLanguageData(data));
+        $("#template-group").toggle(true);
+        $("#template-group").attr("item", $(this).parents(".list-group-item").attr("id"));
+        toggleFormOrTable($("#LeftPanel"), false, false);
+    })
+    .fail(function(err){
+        swal.fire({ title: "Warning", text: "This lesson is no version exported", icon: "info", confirmButtonText: `OK` });
+    })
 };
 
 var templateConfirm = function(event) {
@@ -918,6 +925,13 @@ var submitBtn = function(event) {
         $('#' + sourceId + ' .item-edit').toggleClass('active', false);
     }
 
+};
+var createLanguageData = function(datas) {
+    var languageData = $('<select class="form-control" id="language-select" name="language-select">');
+    datas[0].forEach(function(data) {
+        languageData.append('<option value="' + data.iso + '">' + data.name + '</option>');
+    })
+    return languageData;
 };
 
 var createLessonData = function(data) {

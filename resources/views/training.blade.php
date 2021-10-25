@@ -401,14 +401,14 @@ data-search-training="{{isset(session("permission")->training->search->training)
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="input-group">
+                                <div class="input-group" id="language-section">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
                                             Language
                                         </span>
                                     </div>
-                                    <select class="form-control" id="language-select" name="language-select">
-                                        @foreach ($languages as $language)
+                                    {{-- <select class="form-control" id="language-select" name="language-select"> --}}
+                                        {{-- @foreach ($languages as $language)
                                             @if ($loop->first)
                                                 <option value="{{ $language->language_iso }}" selected="selected">
                                                     {{ $language->language_name }}</option>
@@ -416,8 +416,8 @@ data-search-training="{{isset(session("permission")->training->search->training)
                                                 <option value="{{ $language->language_iso }}">
                                                     {{ $language->language_name }}</option>
                                             @endif
-                                        @endforeach
-                                    </select>
+                                        @endforeach --}}
+                                    {{-- </select> --}}
                                 </div>
                             </div>
                             <div class="form-group">

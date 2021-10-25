@@ -16,6 +16,7 @@ use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\TranslateController;
 use App\Http\Controllers\LanguageManageController;
+use App\Http\Controllers\GetLanguageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -364,7 +365,9 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     
         dd("Cache is cleared");
     });
+
 });
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
+Route::get('getlanguagesforlesson/{data}', '\App\Http\Controllers\GetLanguageController@getRouteId');
