@@ -671,8 +671,9 @@ var itemRefresh = function(event) {
         success: function(res) {
             if(res.success){
                 notification("Successfully Refreshed", 1);
-            } else
+            } else {
                 notification(res.message, 2);
+            }
         },
         error: function(err) {
             notification("Sorry, You have an error!", 2);
