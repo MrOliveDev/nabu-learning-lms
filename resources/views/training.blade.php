@@ -386,6 +386,20 @@ data-search-training="{{isset(session("permission")->training->search->training)
                 <div class="card text-black pt-3" id="template-group">
                     <div class="card-body  p-3">
                         <div class="template-select bg-white text-black">
+                            <div class="form-group m-5 text-center" id='status-form'>
+                                <div class="form-check d-inline">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked value="fabrique">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                      Fabrique
+                                    </label>
+                                  </div>
+                                  <div class="form-check d-inline ml-8">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="online">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                      Online
+                                    </label>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -463,7 +477,7 @@ data-search-training="{{isset(session("permission")->training->search->training)
                                 <button type="button" class="btn btn-hero-primary float-right mx-1 template-submit-btn"
                                     id="fabrique-template-confirm">PLAY</button>
                                 <button type="button" class="btn btn-hero-primary float-right mx-1 template-cancel-btn"
-                                    id="febrique-template-cancel">CANCEL</button>
+                                    id="fabrique-template-cancel">CANCEL</button>
                             </div>
                         </div>
                     </div>
