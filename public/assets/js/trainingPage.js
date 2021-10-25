@@ -620,8 +620,9 @@ var templateConfirm = function(event) {
         notification("You have to input template!", 2);
         return;
     }
+    var featureSelect = $("input[name='flexRadioDefault']:checked").val()
     var parent = $("#template-group").attr('item');
-    window.open(baseURL + "/player_editor" + "/#/open/"+languageSelect+"/fabrique/0/" + $("#"+$("#template-group").attr('item')).find('.item-play').attr('data-fabrica') + "/"+templateSelect+"/dae8efee8afc1994204d76ee963bcfb1");
+    window.open(baseURL + "/player_editor" + "/#/open/"+languageSelect+"/" + featureSelect + "/0/" + $("#"+$("#template-group").attr('item')).find('.item-play').attr('data-fabrica') + "/"+templateSelect+"/dae8efee8afc1994204d76ee963bcfb1");
 }
 
 var fabriqueTemplateConfirm = function(event) {
@@ -639,7 +640,7 @@ var templateCancel = function(event) {
     $("#template-group").toggle(false);
 }
 
-var febriqueTemplateCancel = function(event) {
+var fabriqueTemplateCancel = function(event) {
     $("#fabrique-template").toggle(false);
 }
 
@@ -1683,7 +1684,7 @@ $('#template-confirm').click(templateConfirm);
 $('#fabrique-template-confirm').click(fabriqueTemplateConfirm);
 
 $('#template-cancel').click(templateCancel);
-$('#febrique-template-cancel').click(febriqueTemplateCancel);
+$('#fabrique-template-cancel').click(fabriqueTemplateCancel);
 
 
 $(".toolkit-show-filter").click(filterToggleShow);
