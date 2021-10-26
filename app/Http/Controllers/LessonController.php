@@ -323,10 +323,10 @@ class LessonController extends Controller
      */
     public function destroy($id)
     {
-        $lesson = LessonsModel::find($id);
-
+        $lesson = LessonsModel::where("idFabrica", $id)->first();
+        
         $lesson->delete();
-
+        
         $this->deleteCourse($id);
 
         return response()->json($id);

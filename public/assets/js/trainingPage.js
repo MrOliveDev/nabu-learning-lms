@@ -541,7 +541,8 @@ var formStatusChange = function (e) {
 
 var item_delete = function (element) {
     var parent = element.parents(".list-group-item");
-    var id = parent.attr("id").split("_")[1];
+    // var id = parent.attr("id").split("_")[1];
+    var id = parent.find(".item-delete").attr("data-fabrica");
     switch (element.attr("data-content")) {
         case "lesson":
             $.ajax({
