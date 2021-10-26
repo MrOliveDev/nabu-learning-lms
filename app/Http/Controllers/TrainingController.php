@@ -34,7 +34,6 @@ class TrainingController extends Controller
         $lessons = LessonsModel::getLessonsContainedTraining();
         $languages = LanguageModel::all();
         $templates = TemplateModel::getTemplateByClient();
-        // var_dump($lessons);exit;
         return view('training')->with(compact('trainings', 'lessons', 'languages', 'templates'));
     }
 
@@ -429,7 +428,6 @@ class TrainingController extends Controller
             if(is_dir($filename)) continue;
             $destname = $prefix . str_replace($folder.'/', '', $filename);
 
-            //var_dump($filename, $destname );
             $zip->addFile($filename, $destname);
         }
 
@@ -593,8 +591,9 @@ class TrainingController extends Controller
         $dir2copy = env('PRODUCTS_FABRIQUE_PATH') . $productId . "/";
         $dir_paste = env('PRODUCTS_ONLINE_PATH') . $productId . "/";
         $folder_courses = "courses/";
-        
         $list_fichiers = $this->list_fichiers($dir2copy);
+        if(count($list_fichiers) == 0)
+            return response()->json(["success" => false, "message" => "Unable to actualize the online version because the lesson was not exported yet"]);
 
         foreach ($list_fichiers as $file) {
             $file_path = $folder_courses . $file;
@@ -643,14 +642,16 @@ class TrainingController extends Controller
     }
 
     public function list_fichiers($dirname) {
-        $dir = opendir($dirname);
         $return = array();
-        while ($file = readdir($dir)) {
-            if ($file != '.' && $file != '..' && !is_dir($dirname . $file)) {
-                $return [] = $file;
+        if (file_exists($dirname)){
+            $dir = opendir($dirname);
+            while ($file = readdir($dir)) {
+                if ($file != '.' && $file != '..' && !is_dir($dirname . $file)) {
+                    $return [] = $file;
+                }
             }
-        }
-        closedir($dir);
+            closedir($dir);
+        } 
         return ($return);
     }
 
