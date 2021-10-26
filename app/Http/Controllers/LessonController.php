@@ -143,6 +143,19 @@ class LessonController extends Controller
         return $return;
     }
 
+    public function deleteCourse($productId) {
+        $values = array('request' => '
+                                        <request>
+                                            <method>ProductDelete</method>
+                                            <params>
+                                                <param name="code">' . $productId . '</param>
+                                            </params>
+                                        </request>');
+        $delete = $this->doPostRequest(env('FABRIQUE_URL'), $values);
+
+        return $delete;
+    }
+
     /**
      * 
      * @param type $url
@@ -313,6 +326,8 @@ class LessonController extends Controller
         $lesson = LessonsModel::find($id);
 
         $lesson->delete();
+
+        $this->deleteCourse($id);
 
         return response()->json($id);
         //
