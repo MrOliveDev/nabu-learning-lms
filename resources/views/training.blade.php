@@ -209,7 +209,8 @@
                                             @endif
                                             @if (isset(session('permission')->training->lesson->delete))
                                                 <button class="btn item-delete" data-content='lesson'
-                                                    data-item-id="{{ $lesson['id'] }}">
+                                                    data-item-id="{{ $lesson['id'] }}"
+                                                    data-fabrica="{{ $lesson['idFabrica'] }}">
                                                     <i class="px-2 fa fa-trash-alt"></i>
                                                 </button>
                                             @endif
@@ -241,7 +242,8 @@
                                         @endif
                                         @if (isset(session('permission')->training->lesson->delete))
                                             <button class="btn item-delete" data-content='lesson'
-                                                data-item-id="{{ $lesson['id'] }}">
+                                                data-item-id="{{ $lesson['id'] }}"
+                                                data-fabrica="{{ $lesson['idFabrica'] }}">
                                                 <i class="px-2 fa fa-trash-alt"></i>
                                             </button>
                                         @endif
