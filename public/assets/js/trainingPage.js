@@ -531,6 +531,7 @@ var item_edit = function (element) {
 };
 
 var itemEdit = function (event) {
+    $("#template-group").toggle(false);
     item_edit($(this));
 };
 
