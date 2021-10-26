@@ -48,7 +48,7 @@
 
         $openModel   = new openModel;
         $sql         = "SELECT CONCAT( REPLACE( UPPER( cei_process_special_chars(t.translation_string) ), ' ', '_') ) AS 'string_alpha_id', t.translation_string, t.translation_value ";
-        $sql        .= "FROM `tb_languages` AS l INNER JOIN tb_translations AS t ON l.language_id=t.language_id WHERE l.language_iso='$languageId' ; ";
+        $sql        .= "FROM `tb_languages` AS l INNER JOIN tb_player_translations AS t ON l.language_id=t.language_id WHERE l.language_iso='$languageId' ; ";
 
         if ( $debug_api )
         {
