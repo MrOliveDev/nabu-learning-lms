@@ -19,7 +19,7 @@ class GetLanguageController extends controller
             $dir = $path . $datas . '/courses/';
             $langs = array();
             if (!file_exists($dir)){
-                return $langs;
+                return $types;
             }
             $files = scandir($dir);
             foreach ($files as $file) {
