@@ -14,6 +14,7 @@ var grouptab = null,
     detailtags = null;
 var detailtag1 = null;
 var activedTab = "#training-table";
+var lesson_data = null;
 
 var window_level = 1;
 
@@ -66,6 +67,50 @@ var clearClassName = function (i, highlighted) {
     if ($(highlighted).hasClass("highlight")) {
         $(highlighted).removeClass("highlight");
     }
+};
+var stateChange = function (e) {
+    if ($("input[name='flexRadioDefault']:checked").val() == "fabrique") {
+        if (lesson_data.fabrique == true) {
+            $("#div_B #language-section").children("select").detach();
+            $("#div_B #language-section").append(
+                createLanguageData(lesson_data[0])
+            );
+        } else {
+            swal.fire({
+                title: "Warning",
+                text: "This lesson is no fabrique version exported",
+                icon: "info",
+                confirmButtonText: `OK`,
+            });
+            $("input[value='fabrique']").prop("checked", false);
+            $("input[value='online']").prop("checked", true);
+        }
+    } else {
+        if (lesson_data.online == true) {
+            if (lesson_data.fabrique == true) {
+                $("#div_B #language-section").children("select").detach();
+                $("#div_B #language-section").append(
+                    createLanguageData(lesson_data[1])
+                );
+            } else {
+                $("#div_B #language-section").children("select").detach();
+                $("#div_B #language-section").append(
+                    createLanguageData(lesson_data[0])
+                );
+            }
+        } else {
+            swal.fire({
+                title: "Warning",
+                text: "This lesson is no online version exported",
+                icon: "info",
+                confirmButtonText: `OK`,
+            });
+            $("input[value='fabrique']").prop("checked", true);
+            $("input[value='online']").prop("checked", false);
+        }
+    }
+    $("#template-group").toggle(true);
+    toggleFormOrTable($("#LeftPanel"), false, false);
 };
 var leftItemClick = function (e) {
     // e.stopPropagation();
@@ -543,7 +588,6 @@ var item_delete = function (element) {
     var parent = element.parents(".list-group-item");
     var id2 = parent.attr("id").split("_")[1];
     var id = parent.find(".item-delete").attr("data-fabrica");
-    console.log('id', id);
     switch (element.attr("data-content")) {
         case "lesson":
             $.ajax({
@@ -647,7 +691,6 @@ var itemShow = function (event) {
         },
     })
         .done(function (data) {
-            console.log("data", data);
             if (data && data.length != 0) {
                 var detachIcon, addedbutton;
                 if (cate == "lesson") {
@@ -725,8 +768,15 @@ var itemPlay = function (event) {
                 });
                 $("#template-group").toggle(false);
             } else {
+                lesson_data = data;
+                if (data.fabrique == false) {
+                    $("input[value='fabrique']").prop("checked", false);
+                    $("input[value='online']").prop("checked", true);
+                }
                 $("#div_B #language-section").children("select").detach();
-                $("#div_B #language-section").append(createLanguageData(data));
+                $("#div_B #language-section").append(
+                    createLanguageData(data[0])
+                );
                 $("#template-group").toggle(true);
                 toggleFormOrTable($("#LeftPanel"), false, false);
             }
@@ -745,6 +795,7 @@ var itemPlay = function (event) {
 var templateConfirm = function (event) {
     $("#template-group").toggle(false);
     var languageSelect = $("#language-select").val();
+    var course = $("#language-select").find('option:selected').attr('course');
     if (!languageSelect) {
         notification("You have to input language!", 2);
         return;
@@ -755,7 +806,7 @@ var templateConfirm = function (event) {
         return;
     }
     var featureSelect = $("input[name='flexRadioDefault']:checked").val();
-    var parent = $("#template-group").attr("item");  
+    var parent = $("#template-group").attr("item");
     window.open(
         baseURL +
             "/player_editor" +
@@ -767,6 +818,8 @@ var templateConfirm = function (event) {
             $("#" + $("#template-group").attr("item"))
                 .find(".item-play")
                 .attr("data-fabrica") +
+            "/" +
+            course +
             "/" +
             templateSelect
     );
@@ -1155,9 +1208,9 @@ var createLanguageData = function (datas) {
     var languageData = $(
         '<select class="form-control" id="language-select" name="language-select">'
     );
-    datas[0].forEach(function (data) {
+    datas.forEach(function (data) {
         languageData.append(
-            '<option value="' + data.iso + '">' + data.name + "</option>"
+            '<option value="' + data.iso + '" course="' + data.course +'">' + data.name + "</option>"
         );
     });
     return languageData;
@@ -1206,9 +1259,9 @@ var createLessonData = function (data) {
             '" data-training = "' +
             data["training"].join("_") +
             '" id="lesson_' +
-            data["id"] + 
+            data["id"] +
             '"draggable= "true"' +
-            '>' +
+            ">" +
             '<div class="float-left">' +
             status_temp +
             '<span class="item-name">' +
@@ -1239,7 +1292,7 @@ var createLessonData = function (data) {
     var btnDelete = $(
         '<button class="btn item-delete" data-content="lesson" data-item-id="' +
             data["id"] +
-            '" data-fabrica ="' + 
+            '" data-fabrica ="' +
             data["idFabrica"] +
             '">' +
             '<i class="px-2 fa fa-trash-alt"></i>' +
@@ -1288,10 +1341,8 @@ var createLessonData = function (data) {
         .append(btnTemplate)
         .append(btnRefresh)
         .dblclick(itemDBlClick)
-        .click(leftItemClick)
-    lessonItem
-        .bind("dragstart", dragStart)
-        .bind("dragend", dragEnd)
+        .click(leftItemClick);
+    lessonItem.bind("dragstart", dragStart).bind("dragend", dragEnd);
     return lessonItem;
 };
 
@@ -1555,7 +1606,6 @@ var searchfilter = function (event) {
 
     if ($(event.target).is("input.search-filter")) {
         str = event.target.value;
-        console.log("search", str);
     }
 
     if (parent.attr("id") == "lesson-toolkit") {
@@ -1957,7 +2007,6 @@ function dragStart(event) {
     if (dragitem.indexOf($(this).attr("id")) == -1) {
         if (!$(dragitem).is(".drag-disable")) dragitem.push($(this).attr("id"));
     }
-    console.log("dragStart", $(this).css("cursor"));
 }
 
 function dragOver(event) {
@@ -2183,6 +2232,7 @@ $("button.filter-company-btn, button.filter-function-btn").on(
     searchfilter
 );
 
+$(".form-check-input").change(stateChange);
 $("#LeftPanel .list-group-item").click(leftItemClick);
 $("#LeftPanel .list-group-item").dblclick(itemDBlClick);
 $(".list-group-item button.btn").click(btnClick);

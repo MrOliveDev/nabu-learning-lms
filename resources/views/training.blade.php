@@ -387,7 +387,7 @@
                 <div class="card text-black pt-3" id="template-group">
                     <div class="card-body  p-3">
                         <div class="template-select bg-white text-black">
-                            <div class="form-group m-5 text-center" id='status-form'>
+                            <div class="form-group m-5 text-center">
                                 <div class="form-check d-inline">
                                     <input class="form-check-input" type="radio" name="flexRadioDefault"
                                         id="flexRadioDefault1" checked value="fabrique">
