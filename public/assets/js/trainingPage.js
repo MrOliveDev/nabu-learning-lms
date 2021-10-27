@@ -78,7 +78,7 @@ var stateChange = function (e) {
         } else {
             swal.fire({
                 title: "Warning",
-                text: "This lesson is no fabrique version exported",
+                text: "This lesson is not available on fabrique version",
                 icon: "info",
                 confirmButtonText: `OK`,
             });
@@ -101,7 +101,7 @@ var stateChange = function (e) {
         } else {
             swal.fire({
                 title: "Warning",
-                text: "This lesson is no online version exported",
+                text: "This lesson is not available on online version",
                 icon: "info",
                 confirmButtonText: `OK`,
             });
@@ -762,7 +762,7 @@ var itemPlay = function (event) {
             if (data == "") {
                 swal.fire({
                     title: "Warning",
-                    text: "This lesson is no version exported",
+                    text: "This lesson is not exported yet",
                     icon: "info",
                     confirmButtonText: `OK`,
                 });
@@ -784,7 +784,7 @@ var itemPlay = function (event) {
         .fail(function (err) {
             swal.fire({
                 title: "Warning",
-                text: "This lesson is no version exported",
+                text: "This lesson is not exported yet",
                 icon: "info",
                 confirmButtonText: `OK`,
             });
