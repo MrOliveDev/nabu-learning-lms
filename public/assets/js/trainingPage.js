@@ -768,8 +768,7 @@ var templateConfirm = function (event) {
                 .find(".item-play")
                 .attr("data-fabrica") +
             "/" +
-            templateSelect +
-            "/dae8efee8afc1994204d76ee963bcfb1"
+            templateSelect
     );
 };
 

@@ -433,10 +433,10 @@
                                     <select class="form-control" id="template-select" name="template-select">
                                         @foreach ($templates as $template)
                                             @if ($loop->first)
-                                                <option value="{{ $template->id }}" selected="selected">
+                                                <option value="{{ $template->alpha_id }}" selected="selected">
                                                     {{ $template->name }}</option>
                                             @else
-                                                <option value="{{ $template->id }}">
+                                                <option value="{{ $template->alpha_id }}">
                                                     {{ $template->name }}</option>
                                             @endif
                                         @endforeach
