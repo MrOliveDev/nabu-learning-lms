@@ -325,10 +325,26 @@ class LessonController extends Controller
     {
         $lesson = LessonsModel::where("idFabrica", $id)->first();
         
-        $lesson->delete();
+        $trainings=TrainingsModel::all();
+        foreach ($trainings as $training) {            
+            $arr=$training->lesson_content;
+            $value=json_decode($arr);
+            $temp=[];
+            
+            if($value){
+                foreach($value as $ar) {
+                    if(isset($ar->item) && $ar->item!=$lesson->id) {
+                        array_push($temp, ["item"=>$ar->item]);	
+                    }
+                }
+            }
+            $training->lesson_content = json_encode($temp);
+            $training->update();
+        }
         
+        $lesson->delete();
         $this->deleteCourse($id);
-
+        
         return response()->json($id);
         //
     }
