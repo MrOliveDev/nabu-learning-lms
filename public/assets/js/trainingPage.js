@@ -541,7 +541,7 @@ var formStatusChange = function (e) {
 
 var item_delete = function (element) {
     var parent = element.parents(".list-group-item");
-    // var id = parent.attr("id").split("_")[1];
+    var id2 = parent.attr("id").split("_")[1];
     var id = parent.find(".item-delete").attr("data-fabrica");
     switch (element.attr("data-content")) {
         case "lesson":
@@ -562,7 +562,7 @@ var item_delete = function (element) {
         case "training":
             $.ajax({
                 type: "DELETE",
-                url: baseURL + "/training/" + id,
+                url: baseURL + "/training/" + id2,
                 success: function (result) {
                     parent.detach();
                     notification("Successfully deleted!", 1);
@@ -1200,14 +1200,15 @@ var createLessonData = function (data) {
     var lessonItem = $(
         '<a class="list-group-item list-group-item-action p-0 border-transparent border-5x lesson_' +
             data["id"] +
-            '"' +
+            ' "' +
             'data-date="' +
             data["creation_date"] +
             '" data-training = "' +
             data["training"].join("_") +
             '" id="lesson_' +
-            data["id"] +
-            '">' +
+            data["id"] + 
+            '"draggable= "true"' +
+            '>' +
             '<div class="float-left">' +
             status_temp +
             '<span class="item-name">' +
@@ -1286,9 +1287,9 @@ var createLessonData = function (data) {
         .append(btnRefresh)
         .dblclick(itemDBlClick)
         .click(leftItemClick)
+    lessonItem
         .bind("dragstart", dragStart)
         .bind("dragend", dragEnd)
-        .attr("draggable", true);
     return lessonItem;
 };
 
