@@ -543,6 +543,7 @@ var item_delete = function (element) {
     var parent = element.parents(".list-group-item");
     var id2 = parent.attr("id").split("_")[1];
     var id = parent.find(".item-delete").attr("data-fabrica");
+    console.log('id', id);
     switch (element.attr("data-content")) {
         case "lesson":
             $.ajax({
@@ -1239,6 +1240,8 @@ var createLessonData = function (data) {
     var btnDelete = $(
         '<button class="btn item-delete" data-content="lesson" data-item-id="' +
             data["id"] +
+            '" data-fabrica ="' + 
+            data["idFabrica"] +
             '">' +
             '<i class="px-2 fa fa-trash-alt"></i>' +
             "</button>"
