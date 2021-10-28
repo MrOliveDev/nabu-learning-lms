@@ -479,9 +479,8 @@ class SendmailController extends Controller
             file_put_contents(public_path() . '/images/' . $imageName, $data);
             
             $image = MailImages::create([
-                'userId' => Auth::user()->type < 2 ? session("client") : Auth::user()->id,
-                // 'data' => env('APP_URL') . '/public/images/' . $imageName
-                'data' => $request['data']
+                'userId' => Auth::user()->id,
+                'data' => env('APP_URL') . '/public/images/' . $imageName
             ]);
             return response()->json(["success" => true, "src" => $image->data]);
         } else

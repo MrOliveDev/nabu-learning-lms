@@ -494,7 +494,7 @@ class ReportController extends Controller
     function saveReportImg(Request $request){
         if(!empty($request['data'])){
             ReportImages::create([
-                'userId' => auth()->user()->type < 2 ? session("client") : auth()->user()->id,
+                'userId' => auth()->user()->id,
                 'data' => $request['data']
             ]);
             return response()->json(["success" => true]);
