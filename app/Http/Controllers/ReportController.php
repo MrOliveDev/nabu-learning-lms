@@ -418,7 +418,7 @@ class ReportController extends Controller
             if($template){
                 $template->name = $request['name'];
                 $template->data = $request['data'];
-                $template->id_creator = session("client");
+                $template->id_creator = auth()->user()->type < 2 ? session("client") : auth()->user()->id;
 
                 $template->save();
                 return response()->json(["success" => true]);
@@ -429,7 +429,7 @@ class ReportController extends Controller
                     'name' => $request['name'],
                     'data' => $request['data'],
                     'created_time' => gmdate("Y-m-d\TH:i:s", time()),
-                    'id_creator' => auth()->user()->id
+                    'id_creator' => auth()->user()->type < 2 ? session("client") : auth()->user()->id
                 ]);
                 return response()->json(["success" => true, "id" => $template->id]);
             }
