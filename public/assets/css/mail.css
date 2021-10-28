@@ -66,6 +66,13 @@
     color: white;
 }
 
+#historique{
+    display: none;
+}
+#generer{
+    display: none;
+}
+
 #genererLeft, #modelLeft{
     width: 50%;
     float: left;
