@@ -246,6 +246,7 @@ class SessionModel extends Model
         $sessions = array_unique($this->getSessionFromUser($id));
         $trainings = array();
         $temp_trainings = array();
+        // print_r(array_unique($this->getSessionFromUser($id))); exit;
         foreach ($sessions as $session) {
             DB::connection('mysql_reports')->unprepared('CREATE TABLE IF NOT EXISTS `tb_screen_optim_'.$session->id.'` (
                 `id_screen_optim` int(11) NOT NULL AUTO_INCREMENT,
@@ -261,6 +262,8 @@ class SessionModel extends Model
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
                 ');    
             if ($session->contents != NULL && $session->contents != '') {
+                // print_r('here');
+                // print_r(intval($session->contents)); exit;
                 $new_training = TrainingsModel::find(intval($session->contents));
                 if($new_training->lesson_content!=NULL&&$new_training->lesson_content!=''&&$new_training->lesson_content!='[]'){
                     $lessonList = json_decode($new_training->lesson_content, true);
@@ -595,10 +598,28 @@ class SessionModel extends Model
             if(auth()->user()->type < 2) {
                 $session = $this
                 ->whereIn('id_creator', User::get_members())->get();
-            } else {
+            } else if (auth()->user()->type == 4){
+                $sessionList = $this->all();
+                $sessions = [];
+                foreach($sessionList as $sessionItem) {
+                    $participants = json_decode($sessionItem->participants, true);
+                    
+                    if($participants != NULL) {
+                        foreach ($participants['s'] as $participant){
+                            if($participant == auth()->user()->id){
+                                if (!in_array($sessionItem, $sessions)) {
+                                    array_push($sessions, $sessionItem);
+                                }
+                            }
+                        }
+                    }
+                }
+                return $sessions;
+            } else { 
                 $session = $this
                 ->where('id_creator', session("client"))
-                ->where('id_creator', auth()->user()->id)->get();
+                ->orWhere('id_creator', auth()->user()->id)->get();
+                return $session;
             }
         }   
     }
