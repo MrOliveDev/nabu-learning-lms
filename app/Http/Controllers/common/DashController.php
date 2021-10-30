@@ -75,12 +75,12 @@ class DashController extends Controller
             `last_eval_id_screen_optim` int(11) NOT NULL,
             PRIMARY KEY (id_screen_optim) 
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-        ');
-        // var_dump($data);exit;
-        $training = TrainingsModel::getTrainingForTrainingpage($id);
-        $lessons = [];
-        if ($training->lesson_content) {
-            $lessonList = json_decode($training->lesson_content, true);
+            ');
+            // var_dump($data);exit;
+            $training = TrainingsModel::getTrainingForTrainingpage($id);
+            $lessons = [];
+            if ($training->lesson_content) {
+                $lessonList = json_decode($training->lesson_content, true);
             if ($lessonList != NULL) {
                 foreach ($lessonList as $value) {
                     if (LessonsModel::find($value['item'])) {
