@@ -77,6 +77,7 @@ class LessonsModel extends Model
     public function scopeGetLessonContainedTraining($query, $id)
     {
         $trainings = TrainingsModel::select('id', 'lesson_content')->get();
+        
         $lesson = $query->select(
             'tb_lesson.*',
             'tb_languages.language_iso as language_iso'
@@ -91,6 +92,8 @@ class LessonsModel extends Model
                     if(auth()->user()->type < 2) {
                         return $query
                         ->whereIn("tb_lesson.idCreator", User::get_members());
+                    } else if(auth()->user()->type == 4){
+                        return $query;
                     } else {
                         return $query
                         ->where("tb_lesson.idCreator", session("client"))
