@@ -44,12 +44,14 @@ class TrainingsModel extends Model
         $result = $query->select(
             'tb_trainings.*',
             'tb_languages.language_iso as language_iso'
-        )
+            )
             ->leftjoin('tb_languages', 'tb_trainings.lang', '=', 'tb_languages.language_id')
             ->where('tb_trainings.id', $id);
             if(session("user_type") != 0) {
                 if(session("user_type") ==3) {
                     $result = $result->where("tb_trainings.id_creator", session("user_id"));
+                } else if (session('user_type') == 1){
+                    $result = $result ->where('tb_trainings.id', $id);
                 } else {
                     $result = $result->where("tb_trainings.id_creator", session("client"))
                         ->orWhere("tb_trainings.id_creator", auth()->user()->id);

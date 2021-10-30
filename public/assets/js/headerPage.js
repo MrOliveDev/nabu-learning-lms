@@ -101,6 +101,6 @@ $(document).ready(function(e){
 
     }
 
-    $("#page-header-notifications-dropdown span:first").html($(".client-item.active").find(".client_name").html().trim());
+    $("#page-header-notifications-dropdown span:first").html($(".client-item.active").find(".client_name").html());
 })
 
