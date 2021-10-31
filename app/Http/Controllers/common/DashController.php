@@ -87,7 +87,7 @@ class DashController extends Controller
                         if (!in_array(LessonsModel::getLessonContainedTraining($value['item']), $lessons)) {
                             $score_data = DB::connection('mysql_reports')->select('select * from tb_screen_optim_'.$session_id.' where id_fabrique_screen_optim="'.LessonsModel::getLessonContainedTraining($value['item'])["idFabrica"].'" and id_user_screen_optim="'.$user_id.'"');
                             if($score_data){
-                                array_push($lessons, ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>$score_data["progress_screen_optim"]?$score_data["progress_screen_optim"]:0, "eval"=>$score_data["last_eval_id_screen_optim"]?$score_data["last_eval_id_screen_optim"]:0]);
+                                array_push($lessons, ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>$score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0, "eval"=>$score_data[0]->last_eval_id_screen_optim?$score_data[0]->last_eval_id_screen_optim:0]);
                             } else {   
                                 array_push($lessons, ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>0, "eval"=>0]);
                             }
