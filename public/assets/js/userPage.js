@@ -1556,7 +1556,7 @@ var detachLinkFrom = function(e) {
         divAitem.find('input[name="item-' + cate + '"]').val('');
     }
 
-    var result = parent.find('input[name="item-' + cate + '"]').val();
+    var result = divAitem.find('input[name="item-' + cate + '"]').val();
     var parent_id = parent.attr('id').split('_')[1];
 
     detachCall(cate, {
@@ -1576,7 +1576,6 @@ var combine = function(value, id) {
     var combineArray = value.split('_').filter(function(item, i, d) {
         return item != id && item != null;
     });
-    console.log(combineArray);
     return combineArray;
 };
 
@@ -1605,7 +1604,7 @@ var detachCall = function(cate, connectiondata, element) {
         notification("Sorry, Your action brocken!", 2);
         return false;
     }).always(function(data) {
-        console.log(data);
+        // console.log(data);
     });
 };
 
@@ -2922,6 +2921,7 @@ function dropEnd(event, item) {
                 'data': JSON.stringify(requestData)
             }
         }).done(function(data) {
+            console.log('after join', data);
 
             if (showCate) {
                 $('#div_C #' + showCate + " .item-show").click();
@@ -2937,7 +2937,7 @@ function dropEnd(event, item) {
             notification("Sorry, You have an error!", 2);
             requestData = [];
         }).always(function(data) {
-            console.log(data);
+            // console.log(data);
             dragitem = null;
         });
     }
