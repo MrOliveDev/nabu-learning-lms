@@ -282,7 +282,6 @@ var sessionItemClick = function(e) {
         url: baseURL + '/session/' + id,
         success: function(data, state) {
             notification('We got session data successfully!', 1);
-            console.log(state);
             //TODO:show function;
             if (data.contents) {
                 //                 data.contents.map(function(content_item) {
@@ -1333,7 +1332,6 @@ function dragStart(event) {
         dragitem.push($(this).attr('id'));
     }
     console.log($(this).css('cursor'));
-    // console.log(dragitem);
 }
 
 /**
@@ -1371,12 +1369,6 @@ function dragEnd(event) {
 var sessionLinkTo = function(parent, sendData) {
     return new Promise((resolve, reject) => {
         $.post({
-            url: baseURL + '/sessionjointo',
-            url: baseURL + '/sessionjointo',
-            url: baseURL + '/sessionjointo',
-            url: baseURL + '/sessionjointo',
-            url: baseURL + '/sessionjointo',
-            url: baseURL + '/sessionjointo',
             url: baseURL + '/sessionjointo',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

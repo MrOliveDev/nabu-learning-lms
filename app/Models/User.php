@@ -199,13 +199,12 @@ class User extends Authenticatable
     {
         $result = $query->select("tb_users.*")
         ->leftjoin('tb_groups', function ($join) {
-            $join->on('tb_users.linked_groups', 'like', DB::raw("CONCAT('%_', tb_groups.id, '_%')"));
-            $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT(tb_groups.id, '_%')"));
-            $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT('%_', tb_groups.id)"));
+            $join->on('tb_users.linked_groups', 'like', DB::raw("CONCAT('%,', tb_groups.id, ',%')"));
+            $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT(tb_groups.id, ',%')"));
+            $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT('%,', tb_groups.id)"));
         })
-        ->where('tb_users.id_creator', session("client"))
+        // ->where('tb_users.id_creator', session("client"))
         ->where('tb_groups.id', '=', $id)->get();
-        // print_r($result->toArray());
         return $result->toArray();
     }
 
@@ -216,9 +215,9 @@ class User extends Authenticatable
     {
         $result = $query->select("tb_users.id")
         ->leftjoin('tb_groups', function ($join) {
-            $join->on('tb_users.linked_groups', 'like', DB::raw("CONCAT('%_', tb_groups.id, '_%')"));
-            $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT(tb_groups.id, '_%')"));
-            $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT('%_', tb_groups.id)"));
+            $join->on('tb_users.linked_groups', 'like', DB::raw("CONCAT('%,', tb_groups.id, ',%')"));
+            $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT(tb_groups.id, ',%')"));
+            $join->orOn('tb_users.linked_groups', 'like', DB::raw("CONCAT('%,', tb_groups.id)"));
         })
         ->where("tb_users.id_creator", session("client"))
         ->where('tb_groups.id', '=', $id)->get();

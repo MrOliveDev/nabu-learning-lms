@@ -624,12 +624,12 @@ class StudentController extends Controller
                     $user->lang = $request['options']['language'];
                 if($request['options']['group']){
                     if($user->linked_groups){
-                        $groups = explode("_", $user->linked_groups);
+                        $groups = explode(",", $user->linked_groups);
                         $groups[] = $request['options']['group'];
-                        $user->linked_groups = implode("_", $groups);
+                        $user->linked_groups = implode(",", $groups);
                     } else{
                         $groups = array($request['options']['group']);
-                        $user->linked_groups = implode("_", $groups);
+                        $user->linked_groups = implode(",", $groups);
                     }
                 }
                 if($request['options']['company'])
