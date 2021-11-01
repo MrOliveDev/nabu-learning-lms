@@ -406,7 +406,7 @@ var secondShow1 = function(event) {
     if ($(this).parents('fieldset').attr('id') == "RightPanel") {
 
         var item_group = parent.find('input[name="item-group"]').val();
-        var arr_group = item_group.split('_');
+        var arr_group = item_group.split(',');
 
         arr_group.map(function(group) {
             // console.log(group);
@@ -972,10 +972,9 @@ var divAshow = function(event) {
     // var id = parent.attr('id').split('_')[1];
 
     var item_group = parent.find('input[name="item-group"]').val();
-    var arr_group = item_group.split('_');
+    var arr_group = item_group.split(',');
 
     arr_group.map(function(group) {
-        // console.log(group);
         $('#groups').find('.list-group-item').each(function(i, e) {
             if (group == $(e).attr('id').split('_')[1]) {
                 var element = $(e).clone(false);
@@ -1031,7 +1030,7 @@ var divCshow = function(event) {
     items.map(function(i, e) {
         var item = $(e).parents('.list-group-item');
         if (cate == 'group') {
-            var arr_group = $(e).val().split('_');
+            var arr_group = $(e).val().split(',');
             arr_group.map(function(group) {
                 // console.log(group);
                 if (id == group) {
@@ -1522,7 +1521,7 @@ var detachLinkTo = function(e) {
     var cate = parent.attr('id').split('_')[0];
     var value = $("#" + showeditem).find('input[name="item-' + cate + '"]').val();
     if (cate == 'group') {
-        $("#div_A #" + showeditem).find('input[name="item-' + cate + '"]').val(combine(value, id).join('_'));
+        $("#div_A #" + showeditem).find('input[name="item-' + cate + '"]').val(combine(value, id).join(','));
     } else {
         $("#div_A #" + showeditem).find('input[name="item-' + cate + '"]').val('');
     }
@@ -1551,7 +1550,7 @@ var detachLinkFrom = function(e) {
     var cate = $("#" + showeditem).attr('id').split('_')[0];
     var value = divAitem.find('input[name="item-' + cate + '"]').val();
     if (cate == 'group') {
-        divAitem.find('input[name="item-' + cate + '"]').val(combine(value, id).join('_'));
+        divAitem.find('input[name="item-' + cate + '"]').val(combine(value, id).join(','));
     } else {
         divAitem.find('input[name="item-' + cate + '"]').val('');
     }
@@ -1573,7 +1572,7 @@ var detachLinkFrom = function(e) {
  * @returns 
  */
 var combine = function(value, id) {
-    var combineArray = value.split('_').filter(function(item, i, d) {
+    var combineArray = value.split(',').filter(function(item, i, d) {
         return item != id && item != null;
     });
     return combineArray;
@@ -2887,7 +2886,7 @@ function dropEnd(event, item) {
             if (cate == "group") {
                 var cate_items = $("#" + droppeditem).find('input[name="item-group"]').val();
                 if (cate_items.indexOf(cate_id) == -1) {
-                    cate_items += "_" + cate_id;
+                    cate_items += "," + cate_id;
                 }
                 $("#" + droppeditem).find('input[name="item-group"]').val(cate_items);
             } else {

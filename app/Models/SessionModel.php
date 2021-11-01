@@ -612,6 +612,16 @@ class SessionModel extends Model
                                 }
                             }
                         }
+                        foreach ($participants['g'] as $participant){
+                            $users = User::getUserFromGroup($participant);
+                            foreach($users as $user){
+                                if($user['id'] == auth()->user()->id){
+                                    if (!in_array($sessionItem, $sessions)) {
+                                        array_push($sessions, $sessionItem);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 return $sessions;
