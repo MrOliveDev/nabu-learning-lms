@@ -25,6 +25,14 @@ var playBtn = function (event) {
     }
 };
 
+function showContent(e) {
+    $("#div_A").animate({
+        scrollTop: $(e).parents(".accordion").offset().top
+    }, 500)
+    console.log('id',$(e).parents(".accordion").attr("id"))
+}
+
+
 var createLessonItem = function (data) {
     if (data["lesson"] != null) {
         if (
@@ -71,7 +79,7 @@ var createLessonItem = function (data) {
                     data["lesson"]["id"] +
                     '" href="#lesson_' +
                     data["lesson"]["id"] +
-                    '" aria-expanded="false" aria-controls="accordion_q1">' +
+                    '" aria-expanded="false" aria-controls="accordion_q1" onclick="showContent(this)">' +
                     '<i class="fas fa-exclamation-circle m-0 p-2"></i>' +
                     "</a>" +
                     "</button>" +
@@ -118,10 +126,23 @@ var createLessonItem = function (data) {
 };
 
 $(document).ready(function () {
+    // $(window).scroll(function () {
+    //     var height = $(window).scrollTop();
+    //     if (height > 50) {
+    //         console.log("height > 50 ==== ", "true");
+    //     } else {
+    //         console.log("height > 50 ==== ", "false");
+    //     }
+    // });
+    // console.log('scrolltop', $(window).scrollTop())
+
     var divHight = 20 + parseInt($(".content-header").height());
     $("#div_A").css("height", h - divHight + "px");
     $("#div_A").css("height", h - divHight + "px");
 
+    $(".font-w600").click(function(event) {
+        console.log('here');
+    })
     $(".training-collapse").click(function (event) {
         var parent = $(this).parents(".card");
         parent.find(".card-img-top").toggle("slow");
@@ -208,11 +229,6 @@ $(document).ready(function () {
     if (isBreakPoint(768)) {
         $(".training-show").css("display", "none");
         $(".items-push").click(function (event) {
-            // $(".items-push").slideDown("fast");
-            
-            // $("html, body").animate({
-            //     scrollTop: $("#div_A").offset().top
-            //   }, 500)
             var parent = $(this).parents(".card");
             parent.parents("fieldset").find("card").removeClass("active");
             parent.addClass("active");
@@ -273,6 +289,10 @@ $(document).ready(function () {
                                 }
                             });
                     }
+
+                    $("#div_A").animate({
+                        scrollTop: $(".accordion").offset().top
+                    }, 500)
                 })
                 .fail(function (err) {})
                 .always(function () {});
