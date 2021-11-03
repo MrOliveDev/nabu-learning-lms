@@ -750,6 +750,7 @@ var itemShow = function (event) {
         });
 };
 var itemPlay = function (event) {
+    $("#fabrique-template").toggle(false);
     $("#template-group").attr(
         "item",
         $(this).parents(".list-group-item").attr("id")
@@ -851,6 +852,7 @@ var fabriqueTemplateCancel = function (event) {
 };
 
 var itemTemplate = function (event) {
+    $("#template-group").toggle(false);
     $("#fabrique-template").toggle(true);
     $("#fabrique-template").attr(
         "item",
