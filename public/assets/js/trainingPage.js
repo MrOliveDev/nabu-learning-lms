@@ -769,10 +769,7 @@ var itemPlay = function (event) {
                 $("#template-group").toggle(false);
             } else {
                 lesson_data = data;
-                if (data.fabrique == false) {
-                    $("input[value='fabrique']").prop("checked", false);
-                    $("input[value='online']").prop("checked", true);
-                }
+                $("input[value='fabrique']").prop("checked", true);
                 $("#div_B #language-section").children("select").detach();
                 $("#div_B #language-section").append(
                     createLanguageData(data[0])
@@ -1136,6 +1133,28 @@ var submitBtn = function (event) {
             data: serialval,
             success: function (data) {
                 console.log("after creation", data);
+                if (formname == "lesson_form"){
+                    if(serialval[5].value == 5) {
+                        $.ajax({
+                            url: "putOnline",
+                            method: "post",
+                            headers: {
+                                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                            },
+                            data: { id: data.id },
+                            success: function (res) {
+                                if (res.success) {
+                                    notification("Successfully Refreshed", 1);
+                                } else {
+                                    notification(res.message, 2);
+                                }
+                            },
+                            error: function (err) {
+                                notification("Sorry, You have an error!", 2);
+                            },
+                        });
+                    }
+                }
                 if (Object.keys(data).length !== 0) {
                     if (
                         $("#" + formname).attr("data-item") == "" ||
