@@ -593,7 +593,7 @@ class TrainingController extends Controller
         $folder_courses = "courses/";
         $list_fichiers = $this->list_fichiers($dir2copy);
         if(count($list_fichiers) == 0)
-            return response()->json(["success" => false, "message" => "Unable to actualize the online version because the lesson was not exported yet"]);
+            return response()->json(["success" => false, "message" => "You need to publish the lesson first by changing its status to online, in order to actualize it"]);
 
         foreach ($list_fichiers as $file) {
             $file_path = $folder_courses . $file;
