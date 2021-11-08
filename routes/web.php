@@ -344,6 +344,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::get('/pdf/{file}', '\App\Http\Controllers\ReportController@getPDFContents');
     Route::get('/zip/{file}', '\App\Http\Controllers\ReportController@downloadZip');
     Route::post('delReport', '\App\Http\Controllers\ReportController@delReport')->name('delReport');
+    Route::post('delReports', '\App\Http\Controllers\ReportController@delReports')->name('delReports');
 
     Route::get('sendmail', '\App\Http\Controllers\SendmailController@index')->name('sendmail');
     Route::post('getMailHistories', '\App\Http\Controllers\SendmailController@getMailHistories')->name('getMailHistories');
