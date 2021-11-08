@@ -306,6 +306,10 @@ class SendmailController extends Controller
         {
             foreach ($histories as $history)
             {
+                $nestedData['checked'] = "
+                <div class='text-center'>
+                <input type='checkbox' id='sendcheck_".$history->id."' class='mailcheck' style='cursor:pointer; filter: hue-rotate(120deg); transform: scale(1.3);' checked>
+                </div>";
                 $nestedData['id'] = $history->id;
                 $nestedData['sender'] = $history->sender_first . ' ' . $history->sender_last;
                 $nestedData['detail'] = $history->detail;
@@ -462,6 +466,41 @@ class SendmailController extends Controller
                 return response()->json(["success" => true]);
             } else 
                 return response()->json(["success" => false, "message" => "Cannot find the history."]);
+        } else
+            return response()->json(["success" => false, "message" => "Empty Parameter."]);
+    }
+
+    /**
+     * Delete mail history.
+     *
+     * @param  Request  $request
+     * @return JSON
+     */
+
+    public function delMultiHistories(Request $request){
+        if(!empty($request->ids)){
+            $ids = $request->ids;
+            foreach ($ids as $id) {
+            $history = MailHistories::where('id', $id);
+            if(isset(session("permission")->limited)) {
+                $history = $history->where("id_creator", auth()->user()->id)->first();
+            } else {
+                if(auth()->user()->type < 2) {
+                    $history =$history->whereIn("id_creator", User::get_members())
+                    ->first();
+                } else {
+                    $history = $history->where("id_creator", session("client"))
+                    ->orWhere("id_creator", auth()->user()->id)
+                    ->first();
+                }
+            }
+            if($history){
+                $history->delete();
+                
+            } else 
+                return response()->json(["success" => false, "message" => "Cannot find the history."]);
+        }
+            return response()->json(["success" => true]);
         } else
             return response()->json(["success" => false, "message" => "Empty Parameter."]);
     }
