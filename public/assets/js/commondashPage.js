@@ -26,12 +26,14 @@ var playBtn = function (event) {
 };
 
 function showContent(e) {
-    $("#div_A").animate({
-        scrollTop: $(e).parents(".accordion").offset().top
-    }, 500)
-    console.log('id',$(e).parents(".accordion").attr("id"))
+    $("#div_A").animate(
+        {
+            scrollTop: $(e).parents(".accordion").offset().top,
+        },
+        500
+    );
+    console.log("id", $(e).parents(".accordion").attr("id"));
 }
-
 
 var createLessonItem = function (data) {
     if (data["lesson"] != null) {
@@ -140,9 +142,9 @@ $(document).ready(function () {
     $("#div_A").css("height", h - divHight + "px");
     $("#div_A").css("height", h - divHight + "px");
 
-    $(".font-w600").click(function(event) {
-        console.log('here');
-    })
+    $(".font-w600").click(function (event) {
+        console.log("here");
+    });
     $(".training-collapse").click(function (event) {
         var parent = $(this).parents(".card");
         parent.find(".card-img-top").toggle("slow");
@@ -272,8 +274,8 @@ $(document).ready(function () {
                             .find(".content-training")
                             .append(new_comp1);
                     });
-                    if ($("#div_C .push").attr("data-type") != 1) {
-                        $("#div_C")
+                    if ($("#div_C .push").attr("data-type") != 2) {
+                        $(".h-100")
                             .find(".accordion")
                             .map(function (i, item) {
                                 if ($(item).prev(".accordion").length != 0) {
@@ -290,9 +292,13 @@ $(document).ready(function () {
                             });
                     }
 
-                    $("#div_A").animate({
-                        scrollTop: $(".accordion").offset().top
-                    }, 500)
+                    $("#div_A").animate(
+                        {
+                            scrollTop: $(".accordion").offset().top,
+                        },
+                        500
+                    );
+                    
                 })
                 .fail(function (err) {})
                 .always(function () {});
