@@ -328,6 +328,10 @@ class ReportController extends Controller
         {
             foreach ($reports as $report)
             {
+                $nestedData['checked'] = "
+                <div class='text-center'>
+                <input type='checkbox' id='sendcheck_".$report->id."' class='sendcheck' style='cursor:pointer; filter: hue-rotate(120deg); transform: scale(1.3);' checked>
+                </div>";
                 $nestedData['id'] = $report->id;
                 $nestedData['session'] = $report->session;
                 $nestedData['student'] = $report->first_name . ' ' . $report->last_name;
@@ -1043,5 +1047,40 @@ class ReportController extends Controller
                 return response()->json(["success" => false, "message" => "Cannot find the report."]);
         } else
             return response()->json(["success" => false, "message" => "Empty Parameter."]);
+    }
+
+    public function delReports(Request $request){
+        if(!empty($request->ids)){
+            $ids = $request->ids;
+            foreach ($ids as $id) {
+                $report = ReportsModel::where('id', $id);
+            if(isset(session("permission")->limited)) {
+                $report = $report
+                ->where("id_creator", auth()->user()->id)
+                ->first();
+            } else {
+                if(auth()->user()->type < 2) {
+                    $report = $report
+                    ->whereIn("id_creator", User::get_members())
+                    ->first();
+                } else {
+                    $report = $report
+                    ->where("id_creator", session("client"))
+                    ->orWhere("id_creator", auth()->user()->id)
+                    ->first();
+                }
+            }
+            if($report){
+                if($report->filename){
+                    if(file_exists(storage_path($report->type) . '/' . $report->filename))
+                        unlink(storage_path($report->type) . '/' . $report->filename);
+                    $report->delete();
+                }
+            } else 
+                return response()->json(["success" => false, "message" => "Cannot find the report."]);
+            }
+            return response()->json(["success" => true]);
+        } else
+        return response()->json(["success" => false, "message" => "Empty Parameter."]);
     }
 }
