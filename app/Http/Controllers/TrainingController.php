@@ -116,7 +116,7 @@ class TrainingController extends Controller
         if ($request->post('training_name')) {
             $training->name = $request->post('training_name');
         }
-        if ($request->post('training_description')) {
+        if ($request->post('training_description') || $request->post('training_description') =='') {
             $training->description = $request->post('training_description');
         }
         if ($request->post('training_enddate')) {
