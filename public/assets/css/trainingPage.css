@@ -26,6 +26,9 @@
 #div_A .list-group-item.active {
     background-color: var(--lesson-c);
 }
+#div_A .list-group-item:hover {
+    background-color: var(--lesson-c);
+}
 
 #div_B .list-group-item,
 #div_C .list-group-item {
@@ -35,6 +38,9 @@
 #RightPanel .toolkit>div,
 #div_B .list-group-item.active,
 #div_C .list-group-item.active {
+    background-color: var(--training-c);
+}
+#div_C .list-group-item:hover {
     background-color: var(--training-c);
 }
 
