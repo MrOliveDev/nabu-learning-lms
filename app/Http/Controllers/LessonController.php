@@ -56,6 +56,9 @@ class LessonController extends Controller
         if ($request->post('lesson_status')) {
             $lesson->status = $request->post('lesson_status');
         }
+        if ($request->post('threshold-score')) {
+            $lesson->threshold_score = $request->post('threshold-score');
+        }
         if (session("user_type") !== 0) {
             $lesson->idCreator = session("user_id");
         } else {
