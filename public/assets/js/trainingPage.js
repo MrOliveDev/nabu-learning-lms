@@ -793,7 +793,7 @@ var itemPlay = function (event) {
 var templateConfirm = function (event) {
     $("#template-group").toggle(false);
     var languageSelect = $("#language-select").val();
-    var course = $("#language-select").find('option:selected').attr('course');
+    var course = $("#language-select").find("option:selected").attr("course");
     if (!languageSelect) {
         notification("You have to input language!", 2);
         return;
@@ -1135,13 +1135,15 @@ var submitBtn = function (event) {
             data: serialval,
             success: function (data) {
                 console.log("after creation", data);
-                if (formname == "lesson_form"){
-                    if(serialval[5].value == 5) {
+                if (formname == "lesson_form") {
+                    if (serialval[5].value == 5) {
                         $.ajax({
                             url: "putOnline",
                             method: "post",
                             headers: {
-                                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                                "X-CSRF-TOKEN": $(
+                                    'meta[name="csrf-token"]'
+                                ).attr("content"),
                             },
                             data: { id: data.id },
                             success: function (res) {
@@ -1231,7 +1233,13 @@ var createLanguageData = function (datas) {
     );
     datas.forEach(function (data) {
         languageData.append(
-            '<option value="' + data.iso + '" course="' + data.course +'">' + data.name + "</option>"
+            '<option value="' +
+                data.iso +
+                '" course="' +
+                data.course +
+                '">' +
+                data.name +
+                "</option>"
         );
     });
     return languageData;
@@ -1354,15 +1362,15 @@ var createLessonData = function (data) {
     btnRefresh.click(btnClick).click(itemRefresh);
 
     lessonItem
+        .click(leftItemClick)
+        .dblclick(itemDBlClick)
         .find(".btn-group")
         .append(btnShow)
         .append(btnEdit)
         .append(btnDelete)
         .append(btnPlay)
         .append(btnTemplate)
-        .append(btnRefresh)
-        .dblclick(itemDBlClick)
-        .click(leftItemClick);
+        .append(btnRefresh);
     lessonItem.bind("dragstart", dragStart).bind("dragend", dragEnd);
     return lessonItem;
 };
