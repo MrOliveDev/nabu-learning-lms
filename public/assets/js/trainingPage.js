@@ -945,8 +945,7 @@ var detachLink = function (e) {
         var srcValue = $("#training_" + showeditem).attr("data-lesson");
         var jsonValue = JSON.parse(srcValue);
         result = JSON.stringify(jsonRemove(jsonValue, id));
-        $("#" + showeditem).attr("data-lesson", result);
-
+        $("#training_"+showeditem).attr("data-lesson", result)
         detachCall(
             cate,
             {
