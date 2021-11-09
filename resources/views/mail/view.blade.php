@@ -64,9 +64,14 @@
                     </div>
                 </div> -->
             </div>
+            <button type='button' class='js-swal-confirm btn btn-danger mr-3 p-3' onclick='delMails()' style='border-radius: 5px'>
+                <i class='fa fa-trash'></i>
+            </button>
             <table class="table table-striped table-vcenter mailTbl" id="historic-table" style="width:100%;">
             <thead>
                 <tr>
+                    <th class="text-center"><input style="cursor: pointer; filter: hue-rotate(120deg); transform: scale(1.3);"
+                        type="checkbox" id="mailcheck_all" checked></th>
                     <th style="width: 15%;">{{ $translation->l('Sender') }}</th>
                     <th style="width: 20%;">{{ $translation->l('Model Name') }}</th>
                     <th style="width: 30%;">{{ $translation->l('Details') }}</th>
