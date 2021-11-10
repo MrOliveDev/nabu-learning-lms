@@ -2098,7 +2098,6 @@ function dropEnd(event, item) {
                 showItem = droppeditem;
             }
         });
-
         $.post({
             url: baseURL + "/traininglinkfromlesson",
             headers: {
@@ -2222,7 +2221,7 @@ $(document).ready(function () {
 
     $("#div_D .list-group").sortable({
         update: function (event, ui) {
-            var src = $(this).first(".list-group-item").attr("data-src");
+            var src = $(this).children(".list-group-item").attr("data-src");
             var temparr = [];
             if (src != "[]" || src.length != 0) {
                 $(this)
@@ -2233,7 +2232,6 @@ $(document).ready(function () {
                         });
                     });
                 $("#div_A #training" + src).attr("data-lesson", temparr);
-                var cate_id = $("#training" + src).attr("id");
                 $.post({
                     url: baseURL + "/traininglinkfromlesson",
                     headers: {
@@ -2242,7 +2240,7 @@ $(document).ready(function () {
                         ),
                     },
                     data: {
-                        id: cate_id,
+                        id: src,
                         lesson_content: JSON.stringify(temparr),
                     },
                 });
