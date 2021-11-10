@@ -55,7 +55,7 @@
 
                                         </i>
                                         <span>
-                                            {{$training["eval"]}}%
+                                            {{ number_format($training["eval"], 1, ".", "")}}%
                                         </span>
                                     </div>
                                 </div>
