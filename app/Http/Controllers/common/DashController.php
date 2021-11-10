@@ -108,10 +108,10 @@ class DashController extends Controller
                             $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session_id.' where id_lesson="'.LessonsModel::getLessonContainedTraining($value['item'])["idFabrica"].'" and user_id="'.$user_id.'"');
                             $lesson = LessonsModel::getLessonContainedTraining($value['item']);
                             $score_data3 = LessonCourses::getLessonCourse($lesson['id'], $lesson['language_iso']);
-                            if($score_data && $score_data2 && $score_data3){
+                            if($score_data && $score_data2){
                                 array_push($lessons, ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>$score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0, "eval"=>$score_data2[0]->note?$score_data2[0]->note:0, "course_id"=>$score_data3[0]->course_id?$score_data3[0]->course_id:0]);
                             } else {   
-                                array_push($lessons, ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>0, "eval"=>0, "course_id"=>0]);
+                                array_push($lessons, ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>0, "eval"=>0, "course_id"=>$score_data3[0]->course_id?$score_data3[0]->course_id:0]);
                             }
                         }
                     }
