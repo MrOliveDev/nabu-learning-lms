@@ -11,6 +11,7 @@ var playBtn = function (event) {
     event.preventDefault();
     var session_id = $(this).parents(".accordion").attr("data-session");
     var course_id = $(this).parents(".accordion").attr("data-course");
+    console.log('course_id', course_id);
     if ($(this).css("opacity") != "0.3") {
         window.open(
             baseURL +
