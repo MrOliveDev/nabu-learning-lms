@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\InterfaceCfgModel;
+use App\Models\LessonCourses;
 use App\Models\LessonsModel;
 use App\Models\TranslateModel;
 use App\Models\SessionModel;
@@ -105,10 +106,12 @@ class DashController extends Controller
                         if (!in_array(LessonsModel::getLessonContainedTraining($value['item']), $lessons)) {
                             $score_data = DB::connection('mysql_reports')->select('select * from tb_screen_optim_'.$session_id.' where id_fabrique_screen_optim="'.LessonsModel::getLessonContainedTraining($value['item'])["idFabrica"].'" and id_user_screen_optim="'.$user_id.'"');
                             $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session_id.' where id_lesson="'.LessonsModel::getLessonContainedTraining($value['item'])["idFabrica"].'" and user_id="'.$user_id.'"');
-                            if($score_data && $score_data2){
-                                array_push($lessons, ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>$score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0, "eval"=>$score_data2[0]->note?$score_data2[0]->note:0]);
+                            $lesson = LessonsModel::getLessonContainedTraining($value['item']);
+                            $score_data3 = LessonCourses::getLessonCourse($lesson['id'], $lesson['language_iso']);
+                            if($score_data && $score_data2 && $score_data3){
+                                array_push($lessons, ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>$score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0, "eval"=>$score_data2[0]->note?$score_data2[0]->note:0, "course_id"=>$score_data3?$score_data3:0]);
                             } else {   
-                                array_push($lessons, ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>0, "eval"=>0]);
+                                array_push($lessons, ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>0, "eval"=>0, "course_id"=>0]);
                             }
                         }
                     }

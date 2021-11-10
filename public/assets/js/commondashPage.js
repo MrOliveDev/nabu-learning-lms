@@ -10,6 +10,7 @@ var clearRightField = function () {
 var playBtn = function (event) {
     event.preventDefault();
     var session_id = $(this).parents(".accordion").attr("data-session");
+    var course_id = $(this).parents(".accordion").attr("data-course");
     if ($(this).css("opacity") != "0.3") {
         window.open(
             baseURL +
@@ -18,7 +19,7 @@ var playBtn = function (event) {
                 session_id +
                 "/0/" +
                 $(this).attr("data-fabrica") +
-                "/0/dae8efee8afc1994204d76ee963bcfb1"
+                "/"+course_id+"/dae8efee8afc1994204d76ee963bcfb1"
         );
     } else {
         alert("You have to cross the prev lesson first.");
@@ -48,6 +49,8 @@ var createLessonItem = function (data) {
                     data["progress"] +
                     '" data-eval="' +
                     data["eval"] +
+                    '" data-course="' +
+                    data["course_id"] +
                     '">' +
                     '<div class="block block-rounded mb-1 bg-transparent shadow-none">' +
                     '<div class="block-header block-header-default border-transparent border-0 bg-transparent p-0" role="tab" id="accordion_h1">' +
