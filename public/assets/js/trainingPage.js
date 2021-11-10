@@ -1650,6 +1650,7 @@ var searchfilter = function (event) {
             str == null ||
             str == "" ||
             item_name
+                .replace(/\s+/g, "")
                 .toLowerCase()
                 .indexOf(str.toLowerCase().replace(/\s+/g, "")) >= 0
         ) {
