@@ -522,7 +522,7 @@ var item_edit = function (element) {
                 success: function (data, state) {
                     notification("We got lesson data successfully!", 1);
                     $("#lesson_name").val(data.name);
-                    $("#lesson_duration").val("");
+                    $("#lesson_duration").val(data.duration);
                     $("#lesson_target").val(data.publicAudio);
                     $("#lesson_status").val(data.status);
                     $("#lesson_language").val(data.lang);
