@@ -283,16 +283,16 @@ class LoginController extends Controller
                 }
             }
         } else if(auth()->user()->type != 0) {
-            $creator = User::find(auth()->user()->id_creator);
-            if($creator->type != 0 && $creator->type != 1)
-                $creator = User::find($creator->id_creator);
-
+            $creator = User::find(auth()->user()->id);
+            // if($creator->type != 0 && $creator->type != 1)
+            //     $creator = User::find($creator->id_creator);
+                
             if($creator){
                 $config = InterfaceCfgModel::where('id', $creator->id_config)->first();
                 if($config && $config->interface_icon)
                     session(['logo' => $config->interface_icon]);
             }
-        }
+        } 
         
         if ($this->guard()->user()!=NULL) {
             return redirect()->intended($this->redirectPath());
