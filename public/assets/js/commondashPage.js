@@ -47,16 +47,16 @@ var createLessonItem = function (data) {
             var progress;
             if(data["eval"] == ""){
                 eval = '<i class="fa fa-check-circle"></i>' + 
-                        '<span class=" align-middle  pl-1">_</span>'
+                        '<span class="pl-1">-</span>'
             } else if(data["lesson"]['threshold_score'] > data["eval"]) {
                 eval = '<i class="fa fa-check-circle text-danger"></i>' +
-                        '<span class="align-middle pl-1 text-danger">' +
+                        '<span class="pl-1 text-danger">' +
                         data["eval"] +
                         "%" +
                         "</span>"
             } else {
                 eval = '<i class="fa fa-check-circle text-success"></i>' +
-                        '<span class="align-middle pl-1 text-success">' +
+                        '<span class="pl-1 text-success">' +
                          data["eval"] +
                         "%" +
                         "</span>"
