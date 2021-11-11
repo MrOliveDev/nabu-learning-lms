@@ -2242,7 +2242,7 @@ $(document).ready(function () {
                     },
                     data: {
                         id: src,
-                        lesson_content: JSON.stringify(temparr),
+                        target: JSON.stringify(temparr),
                     },
                 });
             }
