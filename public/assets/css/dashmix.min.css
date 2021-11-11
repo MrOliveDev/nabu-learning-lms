@@ -11012,7 +11012,7 @@
     }
 
     .text-danger {
-        color: #e04f1a!important
+        color: #dc3545 !important
     }
 
     a.text-danger.link-fx::before {
