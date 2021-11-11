@@ -246,6 +246,7 @@ class SessionModel extends Model
         $sessions = array_unique($this->getSessionFromUser($id));
         $trainings = array();
         $temp_trainings = array();
+        $user_id = Session::get('user_id');
         // print_r(array_unique($this->getSessionFromUser($id))); exit;
         foreach ($sessions as $session) {
             DB::connection('mysql_reports')->unprepared('CREATE TABLE IF NOT EXISTS `tb_screen_optim_'.$session->id.'` (
@@ -260,10 +261,29 @@ class SessionModel extends Model
                 `last_eval_id_screen_optim` int(11) NOT NULL,
                 PRIMARY KEY (id_screen_optim) 
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-                ');    
+                ');  
+            DB::connection('mysql_historic')->unprepared("CREATE TABLE IF NOT EXISTS `tb_evaluation_'.$session->id.'` ("
+                . "`id` int(11) NOT NULL AUTO_INCREMENT,"
+                . "`session` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                . "`user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                . "`date_start` datetime DEFAULT NULL,"
+                . "`date_end` datetime DEFAULT NULL,"
+                . "`is_presential` int(1) DEFAULT '0',"
+                . "`user_keypad` int(11) DEFAULT '0',"
+                . "`id_lesson` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                . "`date_hour` datetime DEFAULT '0000-00-00 00:00:00',"
+                . "`number_eval` int(11) DEFAULT NULL,"
+                . "`progression` int(11) NOT NULL DEFAULT '0',"
+                . "`note` varchar(11) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',"
+                . "`status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                . "`id_creator` int(11) NOT NULL DEFAULT '1',"
+                . "PRIMARY KEY (id) "
+                . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
+                );  
             if ($session->contents != NULL && $session->contents != '') {
                 // print_r('here');
                 // print_r(intval($session->contents)); exit;
+                $count = 0;
                 $new_training = TrainingsModel::find(intval($session->contents));
                 if($new_training->lesson_content!=NULL&&$new_training->lesson_content!=''&&$new_training->lesson_content!='[]'){
                     $lessonList = json_decode($new_training->lesson_content, true);
@@ -271,8 +291,10 @@ class SessionModel extends Model
                         foreach ($lessonList as $value) {
                             $repeat = false;
                             if (LessonsModel::find($value['item'])) {
+                                $count = $count + 1;
                                 $lesson = LessonsModel::find($value['item']);
                                 if($lesson->status==5){
+
                                     foreach ($temp_trainings as $training_item) {
 //                                         print_r($training_item);
 //                                         print_r($new_triaining);
@@ -285,9 +307,13 @@ class SessionModel extends Model
 
                                     array_push($temp_trainings, $new_training);
                                     if(!$repeat){
-                                        $score_data = DB::connection('mysql_reports')->select('select AVG(progress_screen_optim) as progress_screen_optim, AVG(last_eval_id_screen_optim) as last_eval_id_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.session("user_id").'"');
-                                        $progress = $score_data==NULL?0:(count($score_data)==0?0:($score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0));
-                                        $eval = $score_data==NULL?0:(count($score_data)==0?0:($score_data[0]->last_eval_id_screen_optim?$score_data[0]->last_eval_id_screen_optim:0));
+                                        // $score_data = DB::connection('mysql_reports')->select('select AVG(progress_screen_optim) as progress_screen_optim, AVG(last_eval_id_screen_optim) as last_eval_id_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.session("user_id").'"');
+                                        $score_data = DB::connection('mysql_reports')->select('select progress_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.session("user_id").'"');
+                                        $progress_screen_optim = $score_data[0]->progress_screen_optim;
+                                        $progress = $progress_screen_optim / $count;
+                                        $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id_lesson="'.$lesson->idFabrica.'" and user_id="'.$user_id.'"');
+                                        // $progress = $score_data==NULL?0:(count($score_data)==0?0:($score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0));
+                                        $eval = $score_data2==NULL?0:(count($score_data2)==0?0:($score_data2[0]->note?$score_data[0]->note:0));
                                         array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "threshold_score"=>$lesson->threshold_score]);
                                     }
                                 }
