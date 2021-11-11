@@ -46,7 +46,7 @@
                                 <div class="card-body">
                                     <div class="row mb-0 text-center text-black">
                                         <div class="col-6">
-                                            @if ($training['progress'] = 0)
+                                            @if ($training['progress'] == 0)
                                             <i class="fa fa-chart-line">
 
                                             </i>
