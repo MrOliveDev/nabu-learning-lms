@@ -70,7 +70,14 @@
                                             @endif
                                         </div>
                                         <div class="col-6">
-                                            @if ($training['eval'] < $training['threshold_score'])
+                                            @if ($training['eval'] ==0 )
+                                            <i class="fa fa-check-circle text-muted">
+                                            </i>
+
+                                            <span class="text-muted">
+                                                -
+                                            </span>
+                                            @elseif ($training['eval'] < $training['threshold_score'])
                                                 <i class="fa fa-check-circle text-danger">
                                                 </i>
 
