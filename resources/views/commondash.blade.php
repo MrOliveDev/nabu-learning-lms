@@ -51,9 +51,13 @@
                                         </span>
                                     </div>
                                     <div class="col-6">
-                                        <i class="fa fa-check-circle text-success">
-
-                                        </i>
+                                        @if($training["eval"] < $training["threshold_score"])
+                                            <i class="fa fa-check-circle text-danger">
+                                            </i>
+                                        @else
+                                            <i class="fa fa-check-circle text-success">
+                                            </i>
+                                        @endif
                                         <span>
                                             {{ number_format($training["eval"], 1, ".", "")}}%
                                         </span>
