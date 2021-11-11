@@ -171,7 +171,7 @@ class TrainingController extends Controller
     public function trainingLinkFromLesson(Request $request)
     {
         $training = TrainingsModel::find($request->post('id'));
-        $training->lesson_content = $request->post('lesson_content');
+        $training->lesson_content = $request->post('target');
         $training->update();
         return response()->json($training);
     }
