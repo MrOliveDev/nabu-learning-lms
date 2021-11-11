@@ -47,7 +47,7 @@
 
                                         </i>
                                         <span class="text-mute">
-                                            {{$training["progress"]}}%
+                                            {{ number_format($training["progress"], 1, ".", "")}}%
                                         </span>
                                     </div>
                                     <div class="col-6">
