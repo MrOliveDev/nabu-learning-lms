@@ -46,12 +46,28 @@
                                 <div class="card-body">
                                     <div class="row mb-0 text-center text-black">
                                         <div class="col-6">
+                                            @if ($training['progress'] = 0)
                                             <i class="fa fa-chart-line">
 
                                             </i>
                                             <span class="text-mute">
                                                 {{ number_format($training['progress'], 1, '.', '') }}%
                                             </span>
+                                            @elseif ($training['progress'] < 100)
+                                            <i class="fa fa-chart-line text-warning">
+
+                                            </i>
+                                            <span class="text-mute text-warning">
+                                                {{ number_format($training['progress'], 1, '.', '') }}%
+                                            </span>
+                                            @elseif ($training['progress'] == 100)
+                                            <i class="fa fa-chart-line text-success">
+
+                                            </i>
+                                            <span class="text-mute text-success">
+                                                {{ number_format($training['progress'], 1, '.', '') }}%
+                                            </span>
+                                            @endif
                                         </div>
                                         <div class="col-6">
                                             @if ($training['eval'] < $training['threshold_score'])
