@@ -43,6 +43,23 @@ var createLessonItem = function (data) {
             data["lesson"].status == 5 &&
             $("#accordion" + data["lesson"]["id"]).length == 0
         ) {
+            var eval;
+            if(data["eval"] == ""){
+                eval = '<i class="fa fa-check-circle"></i>' + 
+                        '<span class=" align-middle  pl-1">N/A</span>'
+            } else if(data["lesson"]['threshold_score'] > data["eval"]) {
+                eval = '<i class="fa fa-check-circle text-danger"></i>' +
+                        '<span class="align-middle pl-1 text-danger">' +
+                        data["eval"] +
+                        "%" +
+                        "</span>"
+            } else {
+                eval = '<i class="fa fa-check-circle text-success"></i>' +
+                        '<span class="align-middle pl-1 text-success">' +
+                         data["eval"] +
+                        "%" +
+                        "</span>"
+            }
             var component = $(
                 '<div class="accordion" role="tablist" aria-multiselectable="true" id="accordion' +
                     data["lesson"]["id"] +
@@ -65,12 +82,7 @@ var createLessonItem = function (data) {
                     "</span>" +
                     "</span>" +
                     '<span class="col-md-6 py-2">' +
-                    '<i class="fa fa-check-circle">' +
-                    "</i>" +
-                    '<span class=" align-middle  pl-1">' +
-                    data["eval"] +
-                    "%" +
-                    "</span>" +
+                    eval +
                     "</span>" +
                     "</div>" +
                     '<div class="  col-md-9 border-transparent border-left-1 align-self-stretch d-flex flex-row justify-content-between">' +
