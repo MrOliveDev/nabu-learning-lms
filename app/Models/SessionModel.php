@@ -284,6 +284,7 @@ class SessionModel extends Model
                 // print_r('here');
                 // print_r(intval($session->contents)); exit;
                 $count = 0;
+                $eval = 0;
                 $new_training = TrainingsModel::find(intval($session->contents));
                 if($new_training->lesson_content!=NULL&&$new_training->lesson_content!=''&&$new_training->lesson_content!='[]'){
                     $lessonList = json_decode($new_training->lesson_content, true);
@@ -294,31 +295,32 @@ class SessionModel extends Model
                                 $count = $count + 1;
                                 $lesson = LessonsModel::find($value['item']);
                                 if($lesson->status==5){
-
                                     foreach ($temp_trainings as $training_item) {
-//                                         print_r($training_item);
-//                                         print_r($new_triaining);
-
                                         if($training_item==$new_training){
                                             $repeat=true;
                                         }
                                         // if($training_item['training']!=$new_training)
                                     }
 
-                                    array_push($temp_trainings, $new_training);
-                                    if(!$repeat){
-                                        // $score_data = DB::connection('mysql_reports')->select('select AVG(progress_screen_optim) as progress_screen_optim, AVG(last_eval_id_screen_optim) as last_eval_id_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.session("user_id").'"');
-                                        $score_data = DB::connection('mysql_reports')->select('select progress_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.session("user_id").'"');
-                                        $progress_screen_optim = $score_data[0]->progress_screen_optim;
-                                        $progress = $progress_screen_optim / $count;
+                                    // array_push($temp_trainings, $new_training);
+                                    $score_data = DB::connection('mysql_reports')->select('select progress_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.session("user_id").'"');
+                                    $progress_screen_optim = 0;
+                                    $progress_screen_optim = $progress_screen_optim + $score_data[0]->progress_screen_optim + $score_data[1]->progress_screen_optim;
+                                    $progress = $progress_screen_optim / $count;
+                                    
+                                    if($eval == 0) {
                                         $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id_lesson="'.$lesson->idFabrica.'" and user_id="'.$user_id.'"');
-                                        // $progress = $score_data==NULL?0:(count($score_data)==0?0:($score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0));
-                                        $eval = $score_data2==NULL?0:(count($score_data2)==0?0:($score_data2[0]->note?$score_data[0]->note:0));
-                                        array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "threshold_score"=>$lesson->threshold_score]);
+                                        $eval = $score_data2==NULL?0:(count($score_data2)==0?0:($score_data2[0]->note?$score_data2[0]->note:0));
                                     }
+                                    // if(!$repeat){
+                                        // $score_data = DB::connection('mysql_reports')->select('select AVG(progress_screen_optim) as progress_screen_optim, AVG(last_eval_id_screen_optim) as last_eval_id_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.session("user_id").'"');
+                                        // $progress = $score_data==NULL?0:(count($score_data)==0?0:($score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0));
+                                        // array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "threshold_score"=>$lesson->threshold_score]);
+                                    // }
                                 }
                             }
                         }
+                        array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "threshold_score"=>$lesson->threshold_score]);
                     }
                 }
             }
