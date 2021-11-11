@@ -46,7 +46,7 @@ var createLessonItem = function (data) {
             var eval;
             if(data["eval"] == ""){
                 eval = '<i class="fa fa-check-circle"></i>' + 
-                        '<span class=" align-middle  pl-1">N/A</span>'
+                        '<span class=" align-middle  pl-1">_</span>'
             } else if(data["lesson"]['threshold_score'] > data["eval"]) {
                 eval = '<i class="fa fa-check-circle text-danger"></i>' +
                         '<span class="align-middle pl-1 text-danger">' +
