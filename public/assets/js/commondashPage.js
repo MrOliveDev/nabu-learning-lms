@@ -44,6 +44,7 @@ var createLessonItem = function (data) {
             $("#accordion" + data["lesson"]["id"]).length == 0
         ) {
             var eval;
+            var progress;
             if(data["eval"] == ""){
                 eval = '<i class="fa fa-check-circle"></i>' + 
                         '<span class=" align-middle  pl-1">_</span>'
@@ -60,6 +61,29 @@ var createLessonItem = function (data) {
                         "%" +
                         "</span>"
             }
+
+            if(data["progress"] == 0){
+                progress = '<i class="fa fa-chart-line align-middle">' +
+                            "</i>" +
+                            '<span class=" align-middle pl-1">' +
+                            data["progress"] +
+                            "%" +
+                            "</span>"
+            } else if (data["progress"] < 100) {
+                progress = '<i class="fa fa-chart-line align-middle text-warning">' +
+                            "</i>" +
+                            '<span class=" align-middle pl-1 text-warning">' +
+                            data["progress"] +
+                            "%" +
+                            "</span>"
+            } else if (data["progress"] == 100) {
+                progress = '<i class="fa fa-chart-line align-middle text-success">' +
+                            "</i>" +
+                            '<span class=" align-middle pl-1 text-success">' +
+                            data["progress"] +
+                            "%" +
+                            "</span>"
+            }
             var component = $(
                 '<div class="accordion" role="tablist" aria-multiselectable="true" id="accordion' +
                     data["lesson"]["id"] +
@@ -74,12 +98,7 @@ var createLessonItem = function (data) {
                     '<div class="block-header block-header-default border-transparent border-0 bg-transparent p-0" role="tab" id="accordion_h1">' +
                     '<div class=" col-md-3 text-white align-self-stretch d-flex text-center  flex-md-row" style="border-right:2px solid #9a6cb0;">' +
                     '<span class="col-md-6 align-middle py-2">' +
-                    '<i class="fa fa-chart-line align-middle">' +
-                    "</i>" +
-                    '<span class=" align-middle pl-1">' +
-                    data["progress"] +
-                    "%" +
-                    "</span>" +
+                    progress +
                     "</span>" +
                     '<span class="col-md-6 py-2">' +
                     eval +
