@@ -290,17 +290,17 @@ class SessionModel extends Model
                     $lessonList = json_decode($new_training->lesson_content, true);
                     if ($lessonList != NULL) {
                         foreach ($lessonList as $value) {
-                            $repeat = false;
+                            // $repeat = false;
                             if (LessonsModel::find($value['item'])) {
                                 $count = $count + 1;
                                 $lesson = LessonsModel::find($value['item']);
                                 if($lesson->status==5){
-                                    foreach ($temp_trainings as $training_item) {
-                                        if($training_item==$new_training){
-                                            $repeat=true;
-                                        }
+                                    // foreach ($temp_trainings as $training_item) {
+                                    //     if($training_item==$new_training){
+                                    //         $repeat=true;
+                                    //     }
                                         // if($training_item['training']!=$new_training)
-                                    }
+                                    // }
 
                                     // array_push($temp_trainings, $new_training);
                                     
@@ -319,7 +319,7 @@ class SessionModel extends Model
                         }
                         $score_data = DB::connection('mysql_reports')->select('select progress_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.session("user_id").'"');
                                     $progress_screen_optim = 0;
-                                    for($i=1;$i <= $count; $i ++){
+                                    for($i=1;$i <= count($score_data); $i ++){
                                         $progress_screen_optim += $score_data[$i-1]->progress_screen_optim;
                                     }
                                     $progress = $progress_screen_optim / $count;
