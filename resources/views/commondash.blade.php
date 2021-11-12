@@ -115,7 +115,7 @@
         <fieldset class='col-sm-12 col-md-9 col-lg-9'>
             <div id="div_C" class="window top">
                 <div class="push">
-                    @foreach ($lessons as $lesson)
+                    {{-- @foreach ($lessons as $lesson)
                         <div class="accordion" role="tablist" aria-multiselectable="true">
 
                             <div class="block block-rounded mb-1 bg-transparent shadow-none">
@@ -157,9 +157,9 @@
                                                 <i class="fa fa-play m-0 p-2"></i>
                                             </button>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     {{-- <a class="font-w600" data-toggle="collapse" data-parent="#accordion" href="#accordion_q1" aria-expanded="true" aria-controls="accordion_q1">1.1 Accordion Title</a> --}}
-                                </div>
+                                {{-- </div>
                                 <div id="lesson_{{ $lesson['id'] }}" class="collapse" role="tabpanel"
                                     aria-labelledby="accordion_h1" data-parent="#accordion">
                                     <div class="block-content bg-white mt-2  pb-3">
@@ -169,7 +169,7 @@
                             </div>
 
                         </div>
-                    @endforeach
+                    @endforeach --}}
                 </div>
 
             </div>

@@ -287,26 +287,16 @@ class SessionModel extends Model
                 $eval_count = 0;
                 $eval = 0;
                 $status = 0;
+                $progress_screen_optim = 0;
                 $new_training = TrainingsModel::find(intval($session->contents));
                 if($new_training->lesson_content!=NULL&&$new_training->lesson_content!=''&&$new_training->lesson_content!='[]'){
                     $lessonList = json_decode($new_training->lesson_content, true);
                     if ($lessonList != NULL) {
                         foreach ($lessonList as $value) {
-                            // $repeat = false;
                             if (LessonsModel::find($value['item'])) {
                                 $count = $count + 1;
                                 $lesson = LessonsModel::find($value['item']);
                                 if($lesson->status==5){
-                                    // foreach ($temp_trainings as $training_item) {
-                                    //     if($training_item==$new_training){
-                                    //         $repeat=true;
-                                    //     }
-                                        // if($training_item['training']!=$new_training)
-                                    // }
-
-                                    // array_push($temp_trainings, $new_training);
-                                    
-                                    
                                     $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id_lesson="'.$lesson->idFabrica.'" and user_id="'.$user_id.'"');
                                     if($score_data2) {
                                         $eval_count = $eval_count + 1;
@@ -317,11 +307,11 @@ class SessionModel extends Model
                                             $status = $status + 1;
                                         }
                                     }
-                                    // if(!$repeat){
-                                        // $score_data = DB::connection('mysql_reports')->select('select AVG(progress_screen_optim) as progress_screen_optim, AVG(last_eval_id_screen_optim) as last_eval_id_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.session("user_id").'"');
-                                        // $progress = $score_data==NULL?0:(count($score_data)==0?0:($score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0));
-                                        // array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "threshold_score"=>$lesson->threshold_score]);
-                                    // }
+                                    $score_data = DB::connection('mysql_reports')->select('select progress_screen_optim from tb_screen_optim_'.$session->id.' where id_fabrique_screen_optim="'.$lesson->idFabrica.'" and id_user_screen_optim="'.$user_id.'"');
+                                    if($score_data) {
+                                        $progress_screen_optim += $score_data[0]->progress_screen_optim;
+                                    }
+                                    }
                                 }
                             }
                         }
@@ -341,19 +331,11 @@ class SessionModel extends Model
                     } else {
                         $success = "";
                     }
-                        $score_data = DB::connection('mysql_reports')->select('select progress_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.session("user_id").'"');
-                                    $progress_screen_optim = 0;
-                                    for($i=1;$i <= count($score_data); $i ++){
-                                        $progress_screen_optim += $score_data[$i-1]->progress_screen_optim;
-                                    }
-                                    $progress = $progress_screen_optim / $count;
+                        $progress = $progress_screen_optim / $count;
                         array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "success"=>$success]);
                     }
                 }
             }
-        }
-        // $trainings = array_unique($trainings);
-//         print_r($trainings);exit;
         return $trainings;
     }
 
