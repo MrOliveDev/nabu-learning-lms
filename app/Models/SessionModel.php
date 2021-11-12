@@ -284,7 +284,9 @@ class SessionModel extends Model
                 // print_r('here');
                 // print_r(intval($session->contents)); exit;
                 $count = 0;
+                $eval_count = 0;
                 $eval = 0;
+                $status = 0;
                 $new_training = TrainingsModel::find(intval($session->contents));
                 if($new_training->lesson_content!=NULL&&$new_training->lesson_content!=''&&$new_training->lesson_content!='[]'){
                     $lessonList = json_decode($new_training->lesson_content, true);
@@ -305,10 +307,15 @@ class SessionModel extends Model
                                     // array_push($temp_trainings, $new_training);
                                     
                                     
-                                    if($eval == 0) {
-                                        $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id_lesson="'.$lesson->idFabrica.'" and user_id="'.$user_id.'"');
-                                        $eval = $score_data2==NULL?0:(count($score_data2)==0?0:($score_data2[0]->note?$score_data2[0]->note:0));
+                                    $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id_lesson="'.$lesson->idFabrica.'" and user_id="'.$user_id.'"');
+                                    if($score_data2) {
+                                        $eval_count = $eval_count + 1;
+                                        // $eval = $score_data2==NULL?0:(count($score_data2)==0?0:($score_data2[0]->note?$score_data2[0]->note:0));
+                                        $eval += $score_data2[0]->note;
                                         $threshold_score = $lesson->threshold_score;
+                                        if($threshold_score == $score_data2[0]->note || $threshold_score < $score_data2[0]->note){
+                                            $status = $status + 1;
+                                        }
                                     }
                                     // if(!$repeat){
                                         // $score_data = DB::connection('mysql_reports')->select('select AVG(progress_screen_optim) as progress_screen_optim, AVG(last_eval_id_screen_optim) as last_eval_id_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.session("user_id").'"');
@@ -318,13 +325,25 @@ class SessionModel extends Model
                                 }
                             }
                         }
+                        $eval = $eval / $eval_count; 
+                        if($eval != 0){
+                        if($status == $eval_count) {
+                            $success = "true";
+                        } else if($status == 0) {
+                            $success = "false";
+                        } else {
+                            $success = "NULL";
+                        }
+                    } else {
+                        $success = "";
+                    }
                         $score_data = DB::connection('mysql_reports')->select('select progress_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.session("user_id").'"');
                                     $progress_screen_optim = 0;
                                     for($i=1;$i <= count($score_data); $i ++){
                                         $progress_screen_optim += $score_data[$i-1]->progress_screen_optim;
                                     }
                                     $progress = $progress_screen_optim / $count;
-                        array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "threshold_score"=>$threshold_score]);
+                        array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "success"=>$success]);
                     }
                 }
             }
