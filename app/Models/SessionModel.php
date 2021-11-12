@@ -303,10 +303,7 @@ class SessionModel extends Model
                                     }
 
                                     // array_push($temp_trainings, $new_training);
-                                    $score_data = DB::connection('mysql_reports')->select('select progress_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.session("user_id").'"');
-                                    $progress_screen_optim = 0;
-                                    $progress_screen_optim = $progress_screen_optim + $score_data[0]->progress_screen_optim + $score_data[1]->progress_screen_optim;
-                                    $progress = $progress_screen_optim / $count;
+                                    
                                     
                                     if($eval == 0) {
                                         $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id_lesson="'.$lesson->idFabrica.'" and user_id="'.$user_id.'"');
@@ -320,6 +317,12 @@ class SessionModel extends Model
                                 }
                             }
                         }
+                        $score_data = DB::connection('mysql_reports')->select('select progress_screen_optim from tb_screen_optim_'.$session->id.' where  id_user_screen_optim="'.session("user_id").'"');
+                                    $progress_screen_optim = 0;
+                                    for($i=1;$i <= $count; $i ++){
+                                        $progress_screen_optim += $score_data[$i-1]->progress_screen_optim;
+                                    }
+                                    $progress = $progress_screen_optim / $count;
                         array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "threshold_score"=>$lesson->threshold_score]);
                     }
                 }
