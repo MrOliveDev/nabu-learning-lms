@@ -325,7 +325,11 @@ class SessionModel extends Model
                                 }
                             }
                         }
+                        if($eval_count != 0){
                         $eval = $eval / $eval_count; 
+                        } else {
+                            $success = "";
+                        }
                         if($eval != 0){
                         if($status == $eval_count) {
                             $success = "true";
