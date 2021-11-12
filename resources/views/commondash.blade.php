@@ -70,26 +70,32 @@
                                             @endif
                                         </div>
                                         <div class="col-6">
-                                            @if ($training['eval'] ==0 )
-                                            <i class="fa fa-check-circle text-muted">
+                                            @if ($training['success'] == "true" )
+                                            <i class="fa fa-check-circle text-success">
                                             </i>
 
-                                            <span class="text-muted">
-                                                -
+                                            <span class="text-success">
+                                                {{ number_format($training['eval'], 1, '.', '') }}%
                                             </span>
-                                            @elseif ($training['eval'] < $training['threshold_score'])
+                                            @elseif ($training['success'] == "false")
                                                 <i class="fa fa-check-circle text-danger">
                                                 </i>
 
                                                 <span class="text-danger">
                                                     {{ number_format($training['eval'], 1, '.', '') }}%
                                                 </span>
-                                            @else
-                                                <i class="fa fa-check-circle text-success">
+                                            @elseif ($training['success'] == "NULL")
+                                                <i class="fa fa-check-circle text-warning">
                                                 </i>
-                                                <span class="text-success">
+                                                <span class="text-warning">
                                                     {{ number_format($training['eval'], 1, '.', '') }}%
                                                 </span>
+                                            @elseif ($training['success'] == "")
+                                            <i class="fa fa-check-circle text-muted">
+                                            </i>
+                                            <span class="text-muted">
+                                                -
+                                            </span>
                                             @endif
                                         </div>
                                     </div>
