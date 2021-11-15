@@ -280,6 +280,7 @@ class SessionModel extends Model
                 . "PRIMARY KEY (id) "
                 . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
                 );  
+                
             if ($session->contents != NULL && $session->contents != '') {
                 // print_r('here');
                 // print_r(intval($session->contents)); exit;
@@ -332,7 +333,8 @@ class SessionModel extends Model
                         $success = "";
                     }
                         $progress = $progress_screen_optim / $count;
-                        array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "success"=>$success]);
+                        $user_info = User::find($new_training['id_creator'])->contact_info;
+                        array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "success"=>$success, "user_info"=>json_decode($user_info)]);
                     }
                 }
             }
