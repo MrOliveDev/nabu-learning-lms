@@ -28,16 +28,10 @@ var playBtn = function (event) {
 };
 
 var showContent = function(e) {
-    var target = $( $(e).attr('href') );
-    console.log('jere',target);
-
-            if( target.length ) {
-                event.preventDefault();
-                $('html, body').animate({
-                    scrollTop: target.offset().top-700
-                }, 500);
-            }
-}
+            $('html, body').animate({
+                scrollTop: $(e).parents(".accordion").offset().top
+            }, 500);
+    }
 
 var createLessonItem = function (data) {
     if (data["lesson"] != null) {
