@@ -27,14 +27,16 @@ var playBtn = function (event) {
     }
 };
 
-function showContent(e) {
-    $("#div_A").animate(
-        {
-            scrollTop: $(e).parents(".accordion").offset().top,
-        },
-        500
-    );
-    console.log("id", $(e).parents(".accordion").attr("id"));
+var showContent = function(e) {
+    var target = $( $(e).attr('href') );
+    console.log('jere',target);
+
+            if( target.length ) {
+                event.preventDefault();
+                $('html, body').animate({
+                    scrollTop: target.offset().top-700
+                }, 500);
+            }
 }
 
 var createLessonItem = function (data) {
@@ -96,7 +98,7 @@ var createLessonItem = function (data) {
                     '">' +
                     '<div class="block block-rounded mb-1 bg-transparent shadow-none">' +
                     '<div class="block-header block-header-default border-transparent border-0 bg-transparent p-0" role="tab" id="accordion_h1">' +
-                    '<div class=" col-md-3 text-white align-self-stretch d-flex text-center  flex-md-row" style="border-right:2px solid #9a6cb0;">' +
+                    '<div class=" col-md-3 text-white align-self-stretch d-flex text-center  flex-md-row" style="border-right:3px solid white;">' +
                     '<span class="col-md-6 align-middle py-2">' +
                     progress +
                     "</span>" +
@@ -134,16 +136,19 @@ var createLessonItem = function (data) {
                     data["lesson"]["id"] +
                     '">' +
                     '<div class="block-content bg-white mt-2  pb-3 text-black">' +
-                    "<p><b>Duration: </b> " +
                     (data["lesson"]["duration"]
-                        ? data["lesson"]["duration"]
+                        ? "<p><b>Duration: </b> " + data["lesson"]["duration"]
                         : "") +
                     "</p>" +
-                    "<p><b>Public Target: </b>" +
-                    data["lesson"]["publicAudio"] +
+                    
+                    (data["lesson"]["publicAudio"]
+                        ? "<p><b>Public Target: </b>" + data["lesson"]["publicAudio"]
+                        : "" ) +
                     "</p>" +
-                    "<p><b>Description: </b>" +
-                    data["lesson"]["description"] +
+                    
+                    (data["lesson"]["description"]
+                        ? "<p><b>Description: </b>" + data["lesson"]["description"]
+                        : "") +
                     "</p>" +
                     "</div>" +
                     "</div>" +
@@ -163,6 +168,23 @@ var createLessonItem = function (data) {
 };
 
 $(document).ready(function () {
+    if ($("#div_C .push").attr("data-type") != 2) {
+        $("#div_C")
+            .find(".accordion")
+            .map(function (i, item) {
+                if ($(item).prev(".accordion").length != 0) {
+                    if (
+                        $(item)
+                            .prev(".accordion")
+                            .attr("data-progress") != "100"
+                    ) {
+                        $(item)
+                            .find(".item-play")
+                            .css("opacity", "30%");
+                    }
+                }
+            });
+    }
     // $(window).scroll(function () {
     //     var height = $(window).scrollTop();
     //     if (height > 50) {
@@ -173,13 +195,9 @@ $(document).ready(function () {
     // });
     // console.log('scrolltop', $(window).scrollTop())
 
-    var divHight = 20 + parseInt($(".content-header").height());
-    $("#div_A").css("height", h - divHight + "px");
-    $("#div_A").css("height", h - divHight + "px");
-
-    $(".font-w600").click(function (event) {
-        console.log("here");
-    });
+    // var divHight = 20 + parseInt($(".content-header").height());
+    // $("#div_A").css("height", h - divHight + "px");
+    // $("#div_A").css("height", h - divHight + "px");
     $(".training-collapse").click(function (event) {
         var parent = $(this).parents(".card");
         parent.find(".card-img-top").toggle("slow");
@@ -188,64 +206,10 @@ $(document).ready(function () {
     $(".item-play").click(playBtn);
     $(".training-show").click(function (event) {
         var parent = $(this).parents(".card");
-        parent.parents("fieldset").find("card").removeClass("active");
+        parent.parents("#content").find(".card").removeClass("active");
         parent.addClass("active");
-        $.post({
-            url:
-                baseURL +
-                "/getlessonsforstudent/" +
-                parent.attr("id").split("_")[1] +
-                "/" +
-                parent.parents(".training-item").attr("data-session"),
-        })
-            .then(function (data) {
-                $("#div_A .content-training").find(".accordion").detach();
-                $("#div_A .content-training").attr(
-                    "data-type",
-                    parent.parents(".training-item").attr("data-type")
-                );
-                $("#div_C .push").attr(
-                    "data-type",
-                    parent.parents(".training-item").attr("data-type")
-                );
-                clearRightField();
-                data.map(function (dataItem, i) {
-                    var new_comp = createLessonItem(dataItem);
-                    var new_comp1 = createLessonItem(dataItem);
-                    new_comp1.attr(
-                        "data-session",
-                        parent.parents(".training-item").attr("data-session")
-                    );
-                    new_comp.attr(
-                        "data-session",
-                        parent.parents(".training-item").attr("data-session")
-                    );
-                    $("#div_C .push").append(new_comp);
-                    $(event.target)
-                        .parents(".training-item")
-                        .find(".content-training")
-                        .append(new_comp1);
-                });
-                if ($("#div_C .push").attr("data-type") != 2) {
-                    $("#div_C")
-                        .find(".accordion")
-                        .map(function (i, item) {
-                            if ($(item).prev(".accordion").length != 0) {
-                                if (
-                                    $(item)
-                                        .prev(".accordion")
-                                        .attr("data-progress") != "100"
-                                ) {
-                                    $(item)
-                                        .find(".item-play")
-                                        .css("opacity", "30%");
-                                }
-                            }
-                        });
-                }
-            })
-            .fail(function (err) {})
-            .always(function () {});
+       $(this).parents("#content").find(".push").css('display', 'none');
+       $(this).parents(".row").find("#div_C .push").css('display', 'block');
     });
     var isBreakPoint = function (bp) {
         var bps = [768, 1024],
@@ -267,76 +231,26 @@ $(document).ready(function () {
         $(".training-show").css("display", "none");
         $(".items-push").click(function (event) {
             var parent = $(this).parents(".card");
-            parent.parents("fieldset").find("card").removeClass("active");
+            parent.parents("#content").find(".card").removeClass("active");
             parent.addClass("active");
-            $.post({
-                url:
-                    baseURL +
-                    "/getlessonsforstudent/" +
-                    parent.attr("id").split("_")[1] +
-                    "/" +
-                    parent.parents(".training-item").attr("data-session"),
-            })
-                .then(function (data) {
-                    $("#div_A .content-training").find(".accordion").detach();
-                    $("#div_A .content-training").attr(
-                        "data-type",
-                        parent.parents(".training-item").attr("data-type")
-                    );
-                    $("#div_C .push").attr(
-                        "data-type",
-                        parent.parents(".training-item").attr("data-type")
-                    );
-                    clearRightField();
-                    data.map(function (dataItem, i) {
-                        var new_comp = createLessonItem(dataItem);
-                        var new_comp1 = createLessonItem(dataItem);
-                        new_comp1.attr(
-                            "data-session",
-                            parent
-                                .parents(".training-item")
-                                .attr("data-session")
-                        );
-                        new_comp.attr(
-                            "data-session",
-                            parent
-                                .parents(".training-item")
-                                .attr("data-session")
-                        );
-                        $("#div_C .push").append(new_comp);
-                        $(event.target)
-                            .parents(".training-item")
-                            .find(".content-training")
-                            .append(new_comp1);
-                    });
-                    if ($("#div_C .push").attr("data-type") != 2) {
-                        $(".h-100")
-                            .find(".accordion")
-                            .map(function (i, item) {
-                                if ($(item).prev(".accordion").length != 0) {
-                                    if (
-                                        $(item)
-                                            .prev(".accordion")
-                                            .attr("data-progress") != "100"
-                                    ) {
-                                        $(item)
-                                            .find(".item-play")
-                                            .css("opacity", "30%");
-                                    }
-                                }
-                            });
-                    }
+            $(this).parents("#content").find(".push").css('display', 'none');
+            $(this).parents(".row").find("#div_C .push").css('display', 'block');
 
-                    $("#div_A").animate(
-                        {
-                            scrollTop: $(".accordion").offset().top,
-                        },
-                        500
-                    );
+            $(".row").animate(
+                {
+                    scrollTop: $(".accordion").offset().top,
+                },
+                500
+            );
+            var target = $(this).parents(".row").find("#div_C" );
+
+            if( target.length ) {
+                event.preventDefault();
+                $('html, body').animate({
+                    scrollTop: target.offset().top
+                }, 500);
+            }
                     
-                })
-                .fail(function (err) {})
-                .always(function () {});
         });
     }
     $("main .card:first").addClass("active");

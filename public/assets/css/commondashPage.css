@@ -1,16 +1,16 @@
-#div_C .accordion:nth-child(odd) .block-header>.col-md-3,
-#div_C .accordion:nth-child(odd) .block-header>.col-md-9,
-#div_A .accordion:nth-child(odd) .block-header>.col-md-3,
-#div_A .accordion:nth-child(odd) .block-header>.col-md-9 {
-    background-color: #c3aacb;
+#div_C .accordion .block-header>.col-md-3,
+#div_C .accordion .block-header>.col-md-9,
+#div_A .accordion .block-header>.col-md-3,
+#div_A .accordion .block-header>.col-md-9 {
+    background-color: #f0eaf5;
 }
 
-#div_C .accordion:nth-child(even) .block-header>.col-md-3,
+/* #div_C .accordion:nth-child(even) .block-header>.col-md-3,
 #div_C .accordion:nth-child(even) .block-header>.col-md-9,
 #div_A .accordion:nth-child(even) .block-header>.col-md-3,
 #div_A .accordion:nth-child(even) .block-header>.col-md-9 {
     background-color: #a8abd5;
-}
+} */
 
 .card {
     background-color: transparent !important;
@@ -28,10 +28,10 @@
     background-color: #2e3092;
 }
 
-.btn-group .btn,
+/* .btn-group .btn,
 .btn-group .btn a {
     color: white !important;
-}
+} */
 
 main span,
 main p,
@@ -43,11 +43,36 @@ main p,
     color: blue !important;
 }
 
-.card-body i{
+.card-body i {
     font-size: 1.1vw;
 }
 
+.push {
+    background-color: white;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.item-play,
+.item-name,
+.item-show i {
+    color: #7a3d89 !important;
+}
+
+.description-title {
+    float: left;
+    padding-right: 40px;
+    border-right: 1px solid #f0eaf5;
+}
+
+.lessons {
+    padding: 10px 0;
+    border-top: 2px solid #f0eaf5;
+    border-bottom: 2px solid #f0eaf5;
+}
+
 @media screen and (max-width:992px) {
+
     main span,
     main p,
     .btn-group .btn {
@@ -56,20 +81,36 @@ main p,
 }
 
 @media screen and (max-width:766px) {
+
     main span,
     main p,
     .btn-group .btn {
         font-size: 3vw !important;
     }
-    .training-item .content-training {
-        display: block;
+
+    .card-body i {
+        font-size: 3vw;
     }
-    #div_C .block {
+
+    /* .training-item .content-training {
+        display: block;
+    } */
+
+    /* #div_C .block {
         display: none;
+    } */
+
+    #div_C {
+        margin-bottom: 20px;
+    }
+
+    .card {
+        padding-right: 0 !important;
     }
 }
 
 @media screen and (max-width:400px) {
+
     main span,
     main p,
     .btn-group .btn {
@@ -78,6 +119,7 @@ main p,
 }
 
 @media screen and (max-width:200px) {
+
     main span,
     main p,
     .btn-group .btn {
