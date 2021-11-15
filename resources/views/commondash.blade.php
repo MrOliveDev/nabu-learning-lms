@@ -32,8 +32,8 @@
                                             <div class="options-overlay bg-black-75">
                                                 <div class="options-overlay-content">
 
-                                                    <p class="h6 text-white-75 mb-3">
-                                                        {{ $training['training']['description'] }}</p>
+                                                    {{-- <p class="h6 text-white-75 mb-3">
+                                                        {{ $training['training']['description'] }}</p> --}}
                                                     <a class="btn btn-sm btn-primary training-show"
                                                         href="javascript:void(0)">
                                                         <i class="fa fa-eye mr-1"></i> show
@@ -99,8 +99,8 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <p class="h4 mb-0 mt-2 text-center ">
-                                        Terminated on
+                                    <p class="h4 mb-0 mt-2 text-center training-description">
+                                        Ends on
                                         {{ date_format(date_create($training['training']['date_end']), 'd F Y') }}
                                     </p>
                                 </div>
@@ -117,9 +117,12 @@
                         data-type="{{ $training['training']['type'] }}">
                         <div class="block-content bg-white mt-2 pb-3 text-black">
                             <div>
+                                @if ($training['training']['description'])
                                 <p class="description-title"><b>Description: </b></p>
+                                @endif
                                 @if ($training['training']['duration'])
-                                    <p><b style="margin-left: 40px">Duration: </b>{{ $training['training']['duration'] }}</p>
+                                    <p><b>Duration:
+                                        </b>{{ $training['training']['duration'] }}</p>
                                 @endif
                             </div>
                             {{-- @if ($training['training']['publicAudio'])
@@ -135,98 +138,102 @@
                             @endif
                         </div>
                         <div class="lessons">
-                        @foreach ($lessons[$training['session_id']] as $lesson)
-                            <div class="accordion" role="tablist" aria-multiselectable="true"
-                                id="accordion{{ $lesson['lesson']['id'] }}"
-                                data-progress="{{ $lesson['progress'] }}" data-eval="{{ $lesson['eval'] }}"
-                                data-course="{{ $lesson['course_id'] }}"
-                                data-session="{{ $training['session_id'] }}">
-                                <div class="block block-rounded mb-1 bg-transparent shadow-none">
-                                    <div class="block-header block-header-default border-transparent border-0 bg-transparent p-0"
-                                        role="tab" id="accordion_h1">
-                                        <div class=" col-md-3 text-white align-self-stretch d-flex text-center  flex-md-row"
-                                            style="border-right:3px solid white;">
-                                            <span class="col-md-6 align-middle py-2">
-                                                @if ($lesson['progress'] == 0)
-                                                    <i class="fa fa-chart-line align-middle">
-                                                    </i>
-                                                    <span class=" align-middle pl-1 text-black">
-                                                        {{ $lesson['progress'] }}%
-                                                    </span>
-                                                @elseif ($lesson['progress'] < 100) <i
-                                                        class="fa fa-chart-line align-middle text-warning">
+                            @foreach ($lessons[$training['session_id']] as $lesson)
+                                <div class="accordion" role="tablist" aria-multiselectable="true"
+                                    id="accordion{{ $lesson['lesson']['id'] }}"
+                                    data-progress="{{ $lesson['progress'] }}" data-eval="{{ $lesson['eval'] }}"
+                                    data-course="{{ $lesson['course_id'] }}"
+                                    data-session="{{ $training['session_id'] }}">
+                                    <div class="block block-rounded mb-1 bg-transparent shadow-none">
+                                        <div class="block-header block-header-default border-transparent border-0 bg-transparent p-0"
+                                            role="tab" id="accordion_h1">
+                                            <div class=" col-md-3 text-white align-self-stretch d-flex text-center  flex-md-row"
+                                                style="border-right:3px solid white;">
+                                                <span class="col-md-6 align-middle py-2">
+                                                    @if ($lesson['progress'] == 0)
+                                                        <i class="fa fa-chart-line align-middle">
                                                         </i>
-                                                        <span class=" align-middle pl-1 text-warning">
+                                                        <span class=" align-middle pl-1 text-black">
                                                             {{ $lesson['progress'] }}%
                                                         </span>
-                                                    @elseif ($lesson['progress'] = 100)
-                                                        <i class="fa fa-chart-line align-middle text-success">
-                                                        </i>
-                                                        <span class=" align-middle pl-1 text-success">
-                                                            {{ $lesson['progress'] }}%
-                                                        </span>
-                                                @endif
-                                            </span>
-                                            <span class="col-md-6 py-2">
-                                                @if ($lesson['eval'] == '')
-                                                    <i class="fa fa-check-circle"></i>
-                                                    <span class="pl-1">-</span>
-                                                @elseif($lesson['lesson']['threshold_score'] > $lesson['eval'])
-                                                    <i class="fa fa-check-circle text-danger"></i>
-                                                    <span class="pl-1 text-danger">{{ $lesson['eval'] }}%</span>
-                                                @else
-                                                    <i class="fa fa-check-circle text-success"></i>
-                                                    <span class="pl-1 text-success">{{ $lesson['eval'] }}%</span>
-                                                @endif
-                                            </span>
+                                                    @elseif ($lesson['progress'] < 100) <i
+                                                            class="fa fa-chart-line align-middle text-warning">
+                                                            </i>
+                                                            <span class=" align-middle pl-1 text-warning">
+                                                                {{ $lesson['progress'] }}%
+                                                            </span>
+                                                        @elseif ($lesson['progress'] = 100)
+                                                            <i class="fa fa-chart-line align-middle text-success">
+                                                            </i>
+                                                            <span class=" align-middle pl-1 text-success">
+                                                                {{ $lesson['progress'] }}%
+                                                            </span>
+                                                    @endif
+                                                </span>
+                                                <span class="col-md-6 py-2">
+                                                    @if ($lesson['eval'] == '')
+                                                        <i class="fa fa-check-circle"></i>
+                                                        <span class="pl-1">-</span>
+                                                    @elseif($lesson['lesson']['threshold_score'] > $lesson['eval'])
+                                                        <i class="fa fa-check-circle text-danger"></i>
+                                                        <span class="pl-1 text-danger">{{ $lesson['eval'] }}%</span>
+                                                    @else
+                                                        <i class="fa fa-check-circle text-success"></i>
+                                                        <span class="pl-1 text-success">{{ $lesson['eval'] }}%</span>
+                                                    @endif
+                                                </span>
+                                            </div>
+                                            <div
+                                                class="  col-md-9 border-transparent border-left-1 align-self-stretch d-flex flex-row justify-content-between">
+                                                <div class="float-left py-2">
+                                                    <span
+                                                        class="item-name align-middle">{{ $lesson['lesson']['name'] }}</span>
+                                                </div>
+                                                <div class="btn-group float-right d-flex">
+                                                    @if ($lesson['lesson']['description'] || $lesson['lesson']['duration'] || $lesson['lesson']['publicAudio'])
+                                                        <button class="btn  item-show" data-content='teacher'>
+                                                            <a class="font-w600 collapsed" data-toggle="collapse"
+                                                                data-parent="#accordion{{ $lesson['lesson']['id'] }}"
+                                                                href="#lesson_{{ $lesson['lesson']['id'] }}"
+                                                                aria-expanded="false" aria-controls="accordion_q1"
+                                                                onclick="showContent(this)">
+                                                                <i class="fas fa-exclamation-circle m-0 p-2"></i>
+                                                            </a>
+                                                    @endif
+                                                    </button>
+                                                    <button class="btn  item-play" data-content='teacher'
+                                                        data-fabrica="{{ $lesson['lesson']['idFabrica'] }}">
+                                                        <i class="fa fa-play m-0 p-2 align-middle"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div
-                                            class="  col-md-9 border-transparent border-left-1 align-self-stretch d-flex flex-row justify-content-between">
-                                            <div class="float-left py-2">
-                                                <span
-                                                    class="item-name align-middle">{{ $lesson['lesson']['name'] }}</span>
-                                            </div>
-                                            <div class="btn-group float-right d-flex">
-                                                <button class="btn  item-show" data-content='teacher'>
-                                                    <a class="font-w600 collapsed" data-toggle="collapse"
-                                                        data-parent="#accordion{{ $lesson['lesson']['id'] }}"
-                                                        href="#lesson_{{ $lesson['lesson']['id'] }}"
-                                                        aria-expanded="false" aria-controls="accordion_q1"
-                                                        onclick="showContent(this)">
-                                                        <i class="fas fa-exclamation-circle m-0 p-2"></i>
-                                                    </a>
-                                                </button>
-                                                <button class="btn  item-play" data-content='teacher'
-                                                    data-fabrica="{{ $lesson['lesson']['idFabrica'] }}">
-                                                    <i class="fa fa-play m-0 p-2 align-middle"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="lesson_{{ $lesson['lesson']['id'] }}" class="collapse"
-                                        role="tabpanel" aria-labelledby="accordion_h1"
-                                        data-parent="#accordion{{ $lesson['lesson']['id'] }}">
-                                        <div class="block-content bg-white mt-2 pb-3 text-black">
-                                            <div>
-                                                <p class="description-title"><b>Description: </b></p>
-                                                @if ($lesson['lesson']['duration'] != "")
-                                                    <p><b style="margin-left: 40px">Duration: </b>{{ $lesson['lesson']['duration'] }}</p>
-                                                @else
-                                                    <p><b style="margin-left: 40px"></b></p>
+                                        <div id="lesson_{{ $lesson['lesson']['id'] }}" class="collapse"
+                                            role="tabpanel" aria-labelledby="accordion_h1"
+                                            data-parent="#accordion{{ $lesson['lesson']['id'] }}">
+                                            <div class="block-content bg-white mt-2 pb-3 text-black">
+                                                <div>
+                                                    <p class="description-title"><b>Description: </b></p>
+                                                    @if ($lesson['lesson']['duration'] != '')
+                                                        <p><b style="margin-left: 40px">Duration:
+                                                            </b>{{ $lesson['lesson']['duration'] }}</p>
+                                                    @else
+                                                        <p><b style="margin-left: 40px"></b></p>
+                                                    @endif
+                                                </div>
+                                                @if ($lesson['lesson']['description'])
+                                                    <p>{{ $lesson['lesson']['description'] }}</p>
+                                                @endif
+                                                @if ($lesson['lesson']['publicAudio'])
+                                                    <p><b>Public Target: </b>{{ $lesson['lesson']['publicAudio'] }}
+                                                    </p>
                                                 @endif
                                             </div>
-                                            @if ($lesson['lesson']['description'])
-                                                <p>{{ $lesson['lesson']['description'] }}</p>
-                                            @endif
-                                            @if ($lesson['lesson']['publicAudio'])
-                                                <p><b>Public Target: </b>{{ $lesson['lesson']['publicAudio'] }}</p>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
                 {{-- <div id="div_right" class="handler_horizontal  text-center text-white mb-4">

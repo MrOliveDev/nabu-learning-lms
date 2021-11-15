@@ -63,12 +63,20 @@ main p,
     float: left;
     padding-right: 40px;
     border-right: 1px solid #f0eaf5;
+    margin-right: 40px;
 }
 
 .lessons {
     padding: 10px 0;
     border-top: 2px solid #f0eaf5;
     border-bottom: 2px solid #f0eaf5;
+}
+
+.training-description {
+    color: #b197ae;
+    border-bottom: 1px solid #f0eaf5;
+    border-top: 1px solid #f0eaf5;
+    padding: 10px 0;
 }
 
 @media screen and (max-width:992px) {
