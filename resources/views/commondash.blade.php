@@ -133,11 +133,11 @@
                                 <p>{{ $training['training']['description'] }}</p>
                             @endif
                             @if ($training['teacher'])
-                                <p><b>Responsible for training:</b></p>
+                                <p><b>training tutor:</b></p>
                                 <div>
                                     <span>{{ $training['teacher']['first_name'] }}</span>
-                                    <span class="teacher-info">{{ $training['teacher']['last_name'] }}</span>
-                                    <span>{{ $training['teacher']['contact_info']->email }}</span>
+                                    <span>{{ $training['teacher']['last_name'] }}</span>
+                                    <span class="teacher-info">{{ $training['teacher']['contact_info']->email }}</span>
                                 </div>
                             @endif
                         </div>
