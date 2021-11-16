@@ -62,7 +62,7 @@ main p,
 .description-title {
     float: left;
     padding-right: 40px;
-    border-right: 1px solid #f0eaf5;
+    border-right: 2px solid #f0eaf5;
     margin-right: 40px;
 }
 
@@ -80,10 +80,9 @@ main p,
 }
 
 .teacher-info {
-    margin: 0 25px;
-    padding: 0 25px;
-    border-left: 1px solid grey;
-    border-right: 1px solid grey;
+    margin-left: 25px;
+    padding-left: 25px;
+    border-left: 2px solid #f0eaf5;
 }
 
 @media screen and (max-width:992px) {
