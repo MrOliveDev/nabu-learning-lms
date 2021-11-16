@@ -255,16 +255,11 @@
                                 </div>
                                 <div id="blocks">
                                     <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Header</p>
-                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">
-                                        #Training_Synthetic_details_bloc</p>
-                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">
-                                        #Training_lessons_list_bloc</p>
-                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">
-                                        #Training_Complete_details_bloc</p>
-                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">
-                                        #Training_Evaluation_details_bloc</p>
-                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">
-                                        #Training_Complete_Evaluation_details_bloc</p>
+                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_Synthetic_details_bloc</p>
+                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_lessons_list_bloc</p>
+                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_Complete_details_bloc</p>
+                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_Evaluation_details_bloc</p>
+                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_Complete_Evaluation_details_bloc</p>
                                     <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Signature_bloc</p>
                                     <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Footer</p>
                                 </div>
