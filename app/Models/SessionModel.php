@@ -333,8 +333,19 @@ class SessionModel extends Model
                         $success = "";
                     }
                         $progress = $progress_screen_optim / $count;
-                        $user_info = User::find($new_training['id_creator'])->contact_info;
-                        array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "success"=>$success, "user_info"=>json_decode($user_info)]);
+                        $teacherInfo = array();
+                        if ($session->participants != NULL && $session->participants != '') {
+                            $participant = json_decode($session->participants);
+                            $teacher = $participant->t;
+                            $contact_info = null;
+                            if($teacher){
+                            $contact_info = User::find($teacher[0])->contact_info;
+                            $first_name = User::find($teacher[0])->first_name;
+                            $last_name = User::find($teacher[0])->last_name;
+                            $teacherInfo = ["contact_info"=>json_decode($contact_info), "first_name"=>$first_name, "last_name"=>$last_name];
+                            }
+                            array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "success"=>$success, "session_endDate"=>$session->end_date ,"teacher"=>$teacherInfo]);
+                        }
                     }
                 }
             }
