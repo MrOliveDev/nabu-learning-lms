@@ -85,6 +85,26 @@ main p,
     border-left: 2px solid #f0eaf5;
 }
 
+.user_icon {
+    font-size: 3vw;
+    color: #d3c2de;
+    flex: 1;
+    margin: 0 18px
+}
+
+.upload_icon {
+    font-size: 3vw;
+    color: #7a3d89;
+    flex: 1
+}
+
+.users_icon {
+    font-size: 3vw;
+    color: #d3c2de;
+    flex: 1;
+    margin: 0 10px
+}
+
 @media screen and (max-width:992px) {
 
     main span,
@@ -106,13 +126,11 @@ main p,
         font-size: 3vw;
     }
 
-    /* .training-item .content-training {
-        display: block;
-    } */
-
-    /* #div_C .block {
-        display: none;
-    } */
+    .user_icon,
+    .upload_icon,
+    .users_icon {
+        font-size: 40px;
+    }
 
     #div_C {
         margin-bottom: 20px;

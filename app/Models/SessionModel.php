@@ -344,8 +344,13 @@ class SessionModel extends Model
                             $last_name = User::find($teacher[0])->last_name;
                             $teacherInfo = ["contact_info"=>json_decode($contact_info), "first_name"=>$first_name, "last_name"=>$last_name];
                             }
-                            array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "success"=>$success, "session_endDate"=>$session->end_date ,"teacher"=>$teacherInfo]);
                         }
+                        $reports = DB::connection('mysql_reports')->select('select * from tb_reports where sessionId="'.$session->id.'" and studentId="'.$user_id.'"');
+                        $training_pdf = array();
+                        foreach ($reports as $report) {
+                            array_push($training_pdf, ["filename"=>$report->filename]);
+                        }
+                        array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "success"=>$success, "session_endDate"=>$session->end_date ,"teacher"=>$teacherInfo, "training_pdf"=>$training_pdf]);
                     }
                 }
             }
