@@ -172,7 +172,6 @@ $(document).ready(function () {
                         .prev(".accordion")
                         .attr("data-progress") != "100"
                         ) {
-                        console.log('here');
                         $(item)
                             .find(".item-play")
                             .css("opacity", "30%");
