@@ -118,6 +118,12 @@ main p,
     .flex-mobile {
         flex-direction: column;
     }
+    .teacher-info {
+        margin: 0 25px;
+        padding: 0 25px;
+        border-left: 1px solid grey;
+        border-right: 1px solid grey;
+    }
 }
 
 @media screen and (max-width:400px) {

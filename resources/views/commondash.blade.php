@@ -96,15 +96,15 @@
                                         </div>
                                     </div>
 
-                                    @if (time() - 60 * 60 * 24 < strtotime($training['training']['date_end']))
+                                    @if (time() - 60 * 60 * 24 < strtotime($training['session_endDate']))
                                         <p class="h4 mb-0 mt-2 text-center training-description">
                                             Ends on
-                                            {{ date_format(date_create($training['training']['date_end']), 'd F Y') }}
+                                            {{ date_format(date_create($training['session_endDate']), 'd F Y') }}
                                         </p>
                                     @else
                                         <p class="h4 mb-0 mt-2 text-center training-description text-danger">
                                             Ended on
-                                            {{ date_format(date_create($training['training']['date_end']), 'd F Y') }}
+                                            {{ date_format(date_create($training['session_endDate']), 'd F Y') }}
                                         </p>
                                     @endif
                                 </div>
@@ -129,16 +129,16 @@
                                         </b>{{ $training['training']['duration'] }}</p>
                                 @endif
                             </div>
-                            {{-- @if ($training['training']['publicAudio'])
-                                <p><b>Public Target: </b>{{ $training['training']['publicAudio'] }}</p>
-                            @endif --}}
                             @if ($training['training']['description'])
                                 <p>{{ $training['training']['description'] }}</p>
                             @endif
-                            @if ($training['user_info'])
+                            @if ($training['teacher'])
                                 <p><b>Responsible for training:</b></p>
-                                <p>{{ $training['user_info']->email }}</p>
-                                <p>{{ $training['user_info']->address }}</p>
+                                <div>
+                                    <span>{{ $training['teacher']['first_name'] }}</span>
+                                    <span class="teacher-info">{{ $training['teacher']['last_name'] }}</span>
+                                    <span>{{ $training['teacher']['contact_info']->email }}</span>
+                                </div>
                             @endif
                         </div>
                         <div class="lessons">
@@ -194,8 +194,8 @@
                                                     </div>
                                                 </span>
                                             </div>
-                                            <div
-                                                class="  col-md-9 border-transparent border-left-1 align-self-stretch d-flex flex-row justify-content-between" style="flex: 2">
+                                            <div class="  col-md-9 border-transparent border-left-1 align-self-stretch d-flex flex-row justify-content-between"
+                                                style="flex: 2">
                                                 <div class="float-left py-2 d-flex align-items-center">
                                                     <span
                                                         class="item-name align-middle">{{ $lesson['lesson']['name'] }}</span>
@@ -234,10 +234,6 @@
                                                 </div>
                                                 @if ($lesson['lesson']['description'])
                                                     <p>{{ $lesson['lesson']['description'] }}</p>
-                                                @endif
-                                                @if ($lesson['lesson']['publicAudio'])
-                                                    <p><b>Public Target: </b>{{ $lesson['lesson']['publicAudio'] }}
-                                                    </p>
                                                 @endif
                                             </div>
                                         </div>
