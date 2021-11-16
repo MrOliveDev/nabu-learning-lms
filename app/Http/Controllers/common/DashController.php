@@ -85,7 +85,7 @@ class DashController extends Controller
                         } else if($score_data){
                             array_push($lessons[$session_id], ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>$score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0, "eval"=>"", "course_id"=>$score_data3->course_id?$score_data3->course_id:0]);
                         } else {  
-                            array_push($lessons[$session_id], ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>0, "eval"=>0, "course_id"=>$score_data3->course_id ]);
+                            array_push($lessons[$session_id], ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>0, "eval"=>0, "course_id"=>$score_data3->course_id?$score_data3->course_id:0 ]);
                         }
                     }
                 }

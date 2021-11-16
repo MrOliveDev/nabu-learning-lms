@@ -169,9 +169,10 @@ $(document).ready(function () {
                 if ($(item).prev(".accordion").length != 0) {
                     if (
                         $(item)
-                            .prev(".accordion")
-                            .attr("data-progress") != "100"
-                    ) {
+                        .prev(".accordion")
+                        .attr("data-progress") != "100"
+                        ) {
+                        console.log('here');
                         $(item)
                             .find(".item-play")
                             .css("opacity", "30%");
@@ -192,11 +193,6 @@ $(document).ready(function () {
     // var divHight = 20 + parseInt($(".content-header").height());
     // $("#div_A").css("height", h - divHight + "px");
     // $("#div_A").css("height", h - divHight + "px");
-    $(".training-collapse").click(function (event) {
-        var parent = $(this).parents(".card");
-        parent.find(".card-img-top").toggle("slow");
-        parent.find(".card-body").toggle("slow");
-    });
     $(".item-play").click(playBtn);
     $(".training-show").click(function (event) {
         var parent = $(this).parents(".card");

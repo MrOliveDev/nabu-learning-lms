@@ -16,10 +16,6 @@
                             <div class="card mb-4 pr-3 border-0" id="training_{{ $training['training']['id'] }}">
                                 <div class="card-header d-flex">
                                     <div class="w-100 text-white">
-                                        <a class="training-collapse" href="javascript:void(0)">
-                                            <i class="mb-0 text-white fa fa-bars float-right">
-                                            </i>
-                                        </a>
                                         <h3 class='mb-0 text-white'>{{ $training['training']['name'] }}</h3>
                                     </div>
                                 </div>
