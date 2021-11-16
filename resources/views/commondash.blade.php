@@ -95,10 +95,18 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <p class="h4 mb-0 mt-2 text-center training-description">
-                                        Ends on
-                                        {{ date_format(date_create($training['training']['date_end']), 'd F Y') }}
-                                    </p>
+
+                                    @if (time() - 60 * 60 * 24 < strtotime($training['training']['date_end']))
+                                        <p class="h4 mb-0 mt-2 text-center training-description">
+                                            Ends on
+                                            {{ date_format(date_create($training['training']['date_end']), 'd F Y') }}
+                                        </p>
+                                    @else
+                                        <p class="h4 mb-0 mt-2 text-center training-description text-danger">
+                                            Ended on
+                                            {{ date_format(date_create($training['training']['date_end']), 'd F Y') }}
+                                        </p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -114,7 +122,7 @@
                         <div class="block-content bg-white mt-2 pb-3 text-black">
                             <div>
                                 @if ($training['training']['description'])
-                                <p class="description-title"><b>Description: </b></p>
+                                    <p class="description-title"><b>Description: </b></p>
                                 @endif
                                 @if ($training['training']['duration'])
                                     <p><b>Duration:
@@ -143,45 +151,52 @@
                                     <div class="block block-rounded mb-1 bg-transparent shadow-none">
                                         <div class="block-header block-header-default border-transparent border-0 bg-transparent p-0"
                                             role="tab" id="accordion_h1">
-                                            <div class=" col-md-3 text-white align-self-stretch d-flex text-center  flex-md-row"
-                                                style="border-right:3px solid white;">
-                                                <span class="col-md-6 align-middle py-2">
-                                                    @if ($lesson['progress'] == 0)
-                                                        <i class="fa fa-chart-line align-middle">
-                                                        </i>
-                                                        <span class=" align-middle pl-1 text-black">
-                                                            {{ $lesson['progress'] }}%
-                                                        </span>
-                                                    @elseif ($lesson['progress'] < 100) <i
-                                                            class="fa fa-chart-line align-middle text-warning">
+                                            <div class=" col-md-3 text-white align-self-stretch d-flex text-center  flex-md-row flex-mobile"
+                                                style="border-right:3px solid white; flex:1;">
+                                                <span class="col-md-6 align-middle py-2 d-flex">
+                                                    <div class="d-flex align-items-center m-auto">
+                                                        @if ($lesson['progress'] == 0)
+                                                            <i class="fa fa-chart-line align-middle">
                                                             </i>
-                                                            <span class=" align-middle pl-1 text-warning">
+                                                            <span class=" align-middle pl-1 text-black">
                                                                 {{ $lesson['progress'] }}%
                                                             </span>
-                                                        @elseif ($lesson['progress'] = 100)
-                                                            <i class="fa fa-chart-line align-middle text-success">
-                                                            </i>
-                                                            <span class=" align-middle pl-1 text-success">
-                                                                {{ $lesson['progress'] }}%
-                                                            </span>
-                                                    @endif
+                                                        @elseif ($lesson['progress'] < 100) <i
+                                                                class="fa fa-chart-line align-middle text-warning">
+                                                                </i>
+                                                                <span class=" align-middle pl-1 text-warning">
+                                                                    {{ $lesson['progress'] }}%
+                                                                </span>
+                                                            @elseif ($lesson['progress'] = 100)
+                                                                <i class="fa fa-chart-line align-middle text-success">
+                                                                </i>
+                                                                <span class=" align-middle pl-1 text-success">
+                                                                    {{ $lesson['progress'] }}%
+                                                                </span>
+                                                        @endif
+                                                    </div>
                                                 </span>
-                                                <span class="col-md-6 py-2">
-                                                    @if ($lesson['eval'] == '')
-                                                        <i class="fa fa-check-circle"></i>
-                                                        <span class="pl-1">-</span>
-                                                    @elseif($lesson['lesson']['threshold_score'] > $lesson['eval'])
-                                                        <i class="fa fa-check-circle text-danger"></i>
-                                                        <span class="pl-1 text-danger">{{ $lesson['eval'] }}%</span>
-                                                    @else
-                                                        <i class="fa fa-check-circle text-success"></i>
-                                                        <span class="pl-1 text-success">{{ $lesson['eval'] }}%</span>
-                                                    @endif
+                                                <span class="col-md-6 py-2 d-flex">
+                                                    <div class="d-flex align-items-center m-auto">
+                                                        @if ($lesson['eval'] == '')
+                                                            <i class="fa fa-check-circle"></i>
+                                                            <span class="pl-1">-</span>
+                                                        @elseif($lesson['lesson']['threshold_score'] >
+                                                            $lesson['eval'])
+                                                            <i class="fa fa-check-circle text-danger"></i>
+                                                            <span
+                                                                class="pl-1 text-danger">{{ $lesson['eval'] }}%</span>
+                                                        @else
+                                                            <i class="fa fa-check-circle text-success"></i>
+                                                            <span
+                                                                class="pl-1 text-success">{{ $lesson['eval'] }}%</span>
+                                                        @endif
+                                                    </div>
                                                 </span>
                                             </div>
                                             <div
-                                                class="  col-md-9 border-transparent border-left-1 align-self-stretch d-flex flex-row justify-content-between">
-                                                <div class="float-left py-2">
+                                                class="  col-md-9 border-transparent border-left-1 align-self-stretch d-flex flex-row justify-content-between" style="flex: 2">
+                                                <div class="float-left py-2 d-flex align-items-center">
                                                     <span
                                                         class="item-name align-middle">{{ $lesson['lesson']['name'] }}</span>
                                                 </div>

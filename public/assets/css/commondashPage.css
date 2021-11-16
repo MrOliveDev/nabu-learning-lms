@@ -115,6 +115,9 @@ main p,
     .card {
         padding-right: 0 !important;
     }
+    .flex-mobile {
+        flex-direction: column;
+    }
 }
 
 @media screen and (max-width:400px) {
