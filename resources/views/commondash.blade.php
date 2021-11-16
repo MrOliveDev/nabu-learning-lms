@@ -2,6 +2,7 @@
 
 @section('con')
     <link rel="stylesheet" href="{{ asset('assets/css/commondashPage.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 @section('js_after')
     <script src="{{ asset('assets/js/commondashPage.js') }}"></script>
 @endsection
@@ -107,6 +108,15 @@
                                             {{ date_format(date_create($training['session_endDate']), 'd F Y') }}
                                         </p>
                                     @endif
+
+                                    @if ($training['training_pdf'])
+                                        <p class="mt-2 d-flex align-items-center" style="color: #362f81"><i
+                                                class="fa fa-file-pdf-o mr-4" style="font-size:55px;color:#7a3d89"></i>
+                                            You've got documents to download</p>
+                                    @else
+                                        <p class="mb-0 mt-2 text-center" style="color: #362f81">Score required for the
+                                            attestation : 80</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -133,11 +143,12 @@
                                 <p>{{ $training['training']['description'] }}</p>
                             @endif
                             @if ($training['teacher'])
-                                <p><b>training tutor:</b></p>
+                                <p><b>Training tutor:</b></p>
                                 <div>
                                     <span>{{ $training['teacher']['first_name'] }}</span>
                                     <span>{{ $training['teacher']['last_name'] }}</span>
-                                    <span class="teacher-info">{{ $training['teacher']['contact_info']->email }}</span>
+                                    <span
+                                        class="teacher-info">{{ $training['teacher']['contact_info']->email }}</span>
                                 </div>
                             @endif
                         </div>
@@ -236,9 +247,45 @@
                                                     <p>{{ $lesson['lesson']['description'] }}</p>
                                                 @endif
                                             </div>
+                                            <div>
+                                                <div>
+                                                    <div class="d-flex align-items-center flex-row">
+                                                        <div class="users_icon">
+                                                            <i class="fas fa-users"
+                                                                ></i>
+                                                        </div>
+                                                        <i class="fas fa-upload upload_icon"></i>
+                                                        <p class="ml-3" style="flex:3">Upload a group document
+                                                        </p>
+                                                        <p style="flex:15; padding:0 50px;">There is already a document
+                                                            sent by albert einstein on 03/15/2021 at 2:35 p.m.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-4">
+                                                    <div class="d-flex align-items-center flex-row">
+                                                        <div class="user_icon">
+                                                            <i class="fas fa-user"
+                                                                ></i>
+                                                        </div>
+                                                        <i class="fas fa-upload upload_icon"></i>
+                                                        <p class="ml-3" style="flex:3">Upload a group document
+                                                        </p>
+                                                        <p style="flex:15; padding:0 50px;">You have already sent a
+                                                            document on 03/15/2021 at 2:35 p.m.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            @endforeach
+                        </div>
+                        <div>
+                            @foreach ($training['training_pdf'] as $item)
+                                <p class="mt-2 d-flex align-items-center" style="color: #362f81">
+                                    <i class="fa fa-file-pdf-o mr-4" style="font-size:48px;color:#7a3d89"></i>
+                                    {{ $item['filename'] }}
+                                </p>
                             @endforeach
                         </div>
                     </div>
