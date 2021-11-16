@@ -79,6 +79,13 @@ main p,
     padding: 10px 0;
 }
 
+.teacher-info {
+    margin: 0 25px;
+    padding: 0 25px;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+}
+
 @media screen and (max-width:992px) {
 
     main span,
@@ -115,14 +122,9 @@ main p,
     .card {
         padding-right: 0 !important;
     }
+
     .flex-mobile {
         flex-direction: column;
-    }
-    .teacher-info {
-        margin: 0 25px;
-        padding: 0 25px;
-        border-left: 1px solid grey;
-        border-right: 1px solid grey;
     }
 }
 
