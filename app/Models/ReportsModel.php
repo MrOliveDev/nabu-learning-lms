@@ -11,7 +11,7 @@ class ReportsModel extends Model
 
 
     protected $fillable = [
-        'id', 'sessionId', 'studentId', 'filename', 'type', 'detail', 'created_time', 'id_creator'
+        'id', 'sessionId', 'studentId', 'filename', 'type', 'detail', 'created_time', 'id_creator', 'model'
     ];
 
     protected $connection= 'mysql_reports';

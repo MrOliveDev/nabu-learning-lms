@@ -984,10 +984,10 @@ class ReportController extends Controller
                     'filename' => $filename,
                     'type' => 'pdf',
                     'created_time' => gmdate("Y-m-d\TH:i:s", time()),
-                    'id_creator' => auth()->user()->type!=0?auth()->user()->id:session("client")
+                    'id_creator' => auth()->user()->type!=0?auth()->user()->id:session("client"),
+                    'model' => $report['model']
                 ]);
             }
-
             $filename = $request['sessionId'] . '_' . time() . '.zip';
             $zip = new ZipArchive();
             $zip->open(storage_path('zip') . '/' . $filename, ZipArchive::CREATE);
@@ -1002,7 +1002,8 @@ class ReportController extends Controller
                 'filename' => $filename,
                 'type' => 'zip',
                 'created_time' => gmdate("Y-m-d\TH:i:s", time()),
-                'id_creator' => auth()->user()->type!=0?auth()->user()->id:session("client")
+                'id_creator' => auth()->user()->type!=0?auth()->user()->id:session("client"),
+                'model' => 0
             ]);
 
             return response()->json(["success" => true, "filename" => $filename]);
