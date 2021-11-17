@@ -348,7 +348,7 @@ class SessionModel extends Model
                         $reports = DB::connection('mysql_reports')->select('select * from tb_reports where sessionId="'.$session->id.'" and studentId="'.$user_id.'"');
                         $training_pdf = array();
                         foreach ($reports as $report) {
-                            array_push($training_pdf, ["filename"=>$report->filename]);
+                            array_push($training_pdf, ["filename"=>$report->model]);
                         }
                         array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "success"=>$success, "session_endDate"=>$session->end_date ,"teacher"=>$teacherInfo, "training_pdf"=>$training_pdf]);
                     }

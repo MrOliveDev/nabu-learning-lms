@@ -162,12 +162,14 @@ var createLessonItem = function (data) {
 };
 
 $(document).ready(function () {
-    if ($("#div_C .push").attr("data-type") != 2) {
-        $("#div_C")
-            .find(".accordion")
-            .map(function (i, item) {
-                if ($(item).prev(".accordion").length != 0) {
-                    if (
+    $('#content').find('.lessons_group').map(function(i, item) {
+        console.log("here",item);
+        if ($(item).find('.push').attr("data-type") != 2) {
+            $(item)
+             .find(".accordion")
+                .map(function (i, item) {
+                   if ($(item).prev(".accordion").length != 0) {
+                     if (
                         $(item)
                         .prev(".accordion")
                         .attr("data-progress") != "100"
@@ -178,7 +180,8 @@ $(document).ready(function () {
                     }
                 }
             });
-    }
+        }
+    })
     // $(window).scroll(function () {
     //     var height = $(window).scrollTop();
     //     if (height > 50) {

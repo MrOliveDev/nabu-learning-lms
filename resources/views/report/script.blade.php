@@ -1530,7 +1530,6 @@
                 }
 
                 buildTemplateInfo(info, template);
-
                 if ($("#overviewPane #rep_header")[0])
                     header = $("#overviewPane #rep_header")[0].outerHTML;
                 $("#overviewPane #rep_header").remove();
@@ -1541,7 +1540,8 @@
                     studentId: curStudent,
                     header: header,
                     footer: footer,
-                    content: $("#overviewPane").html()
+                    content: $("#overviewPane").html(),
+                    model: $("#doc-type-list").find(".active span").text()
                 });
                 $("#overviewPane").html('');
             }

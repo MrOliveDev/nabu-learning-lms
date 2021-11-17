@@ -115,7 +115,7 @@
                                             You've got documents to download</p>
                                     @else
                                         <p class="mb-0 mt-2 text-center" style="color: #362f81">Score required for the
-                                            attestation : 80</p>
+                                            attestation : {{ number_format($training['eval'], 1, '.', '') }}%</p>
                                     @endif
                                 </div>
                             </div>
@@ -126,7 +126,7 @@
                 </div>
             </fieldset>
             <fieldset class='col-sm-12 col-md-9 col-lg-9'>
-                <div id="div_C" class="window top">
+                <div id="div_C" class="window top lessons_group">
                     <div class="push" style="display: none"
                         data-type="{{ $training['training']['type'] }}">
                         <div class="block-content bg-white mt-2 pb-3 text-black">
@@ -221,8 +221,8 @@
                                                                 onclick="showContent(this)">
                                                                 <i class="fas fa-exclamation-circle m-0 p-2"></i>
                                                             </a>
+                                                        </button>
                                                     @endif
-                                                    </button>
                                                     <button class="btn  item-play" data-content='teacher'
                                                         data-fabrica="{{ $lesson['lesson']['idFabrica'] }}">
                                                         <i class="fa fa-play m-0 p-2 align-middle"></i>
@@ -251,8 +251,7 @@
                                                 <div>
                                                     <div class="d-flex align-items-center flex-row">
                                                         <div class="users_icon">
-                                                            <i class="fas fa-users"
-                                                                ></i>
+                                                            <i class="fas fa-users"></i>
                                                         </div>
                                                         <i class="fas fa-upload upload_icon"></i>
                                                         <p class="ml-3" style="flex:3">Upload a group document
@@ -264,8 +263,7 @@
                                                 <div class="mt-4">
                                                     <div class="d-flex align-items-center flex-row">
                                                         <div class="user_icon">
-                                                            <i class="fas fa-user"
-                                                                ></i>
+                                                            <i class="fas fa-user"></i>
                                                         </div>
                                                         <i class="fas fa-upload upload_icon"></i>
                                                         <p class="ml-3" style="flex:3">Upload a group document
@@ -282,10 +280,12 @@
                         </div>
                         <div>
                             @foreach ($training['training_pdf'] as $item)
-                                <p class="mt-2 d-flex align-items-center" style="color: #362f81">
-                                    <i class="fa fa-file-pdf-o mr-4" style="font-size:48px;color:#7a3d89"></i>
-                                    {{ $item['filename'] }}
-                                </p>
+                                <a href="/pdf/{{ $item['filename'] }}" target="_blank">
+                                    <p class="mt-2 d-flex align-items-center" style="color: #362f81">
+                                        <i class="fa fa-file-pdf-o mr-4" style="font-size:48px;color:#7a3d89"></i>
+                                        {{ $item['filename'] }}
+                                    </p>
+                                </a>
                             @endforeach
                         </div>
                     </div>
