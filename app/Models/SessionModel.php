@@ -262,7 +262,7 @@ class SessionModel extends Model
                 PRIMARY KEY (id_screen_optim) 
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
                 ');  
-            DB::connection('mysql_historic')->unprepared("CREATE TABLE IF NOT EXISTS `tb_evaluation_'.$session->id.'` ("
+            DB::connection('mysql_historic')->unprepared("CREATE TABLE IF NOT EXISTS `tb_evaluation_".$session->id."` ("
                 . "`id` int(11) NOT NULL AUTO_INCREMENT,"
                 . "`session` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
                 . "`user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
