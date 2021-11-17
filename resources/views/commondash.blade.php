@@ -283,7 +283,7 @@
                                 <a href="/pdf/{{ $item['filename'] }}" target="_blank">
                                     <p class="mt-2 d-flex align-items-center" style="color: #362f81">
                                         <i class="fa fa-file-pdf-o mr-4" style="font-size:48px;color:#7a3d89"></i>
-                                        {{ $item['filename'] }}
+                                        {{ $item['model'] }}_{{date("YWd", strtotime($item['date']))}}
                                     </p>
                                 </a>
                             @endforeach
