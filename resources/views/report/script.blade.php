@@ -1449,7 +1449,8 @@
                 studentId: curStudent,
                 header: header,
                 footer: footer,
-                content: $("#overviewPane").html()
+                content: $("#overviewPane").html(), 
+                model: $("#doc-type-list").find(".active span").text()
             },
             success: function(res) {
                 swal.close();

@@ -917,7 +917,8 @@ class ReportController extends Controller
                 'filename' => $filename,
                 'type' => 'pdf',
                 'created_time' => gmdate("Y-m-d\TH:i:s", time()),
-                'id_creator' =>auth()->user()->type!=0?auth()->user()->id:session("client")
+                'id_creator' =>auth()->user()->type!=0?auth()->user()->id:session("client"),
+                'model' => $request['model']
             ]);
 
             return response()->json(["success" => true, "filename" => $filename]);
