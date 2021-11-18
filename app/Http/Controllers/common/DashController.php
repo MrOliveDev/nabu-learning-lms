@@ -80,12 +80,27 @@ class DashController extends Controller
                         $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session_id.' where id_lesson="'.LessonsModel::getLessonContainedTraining($value['item'])["idFabrica"].'" and user_id="'.$user_id.'"');
                         $lesson = LessonsModel::getLessonContainedTraining($value['item']);
                         $score_data3 = LessonCourses::getLessonCourse($lesson['id'], $lesson['language_iso']);
+                        $modules = json_decode($score_data3->module_structure);
+                        $is_eval = false;
+                        if($modules){
+                            foreach ($modules as $module) {
+                                if($module){
+                                    $vars = get_object_vars($module);
+                                    $names = array_keys($vars);
+                                    for($i=0;$i<count($names);$i++){
+                                        if($names[$i] == "hasevaluation"){
+                                            $is_eval = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         if($score_data && $score_data2){
-                            array_push($lessons[$session_id], ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>$score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0, "eval"=>$score_data2[0]->note?$score_data2[0]->note:0, "course_id"=>$score_data3->course_id?$score_data3->course_id:0]);
+                            array_push($lessons[$session_id], ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>$score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0, "eval"=>$score_data2[0]->note?$score_data2[0]->note:0, "course_id"=>$score_data3->course_id?$score_data3->course_id:0,  "is_eval" => $is_eval ]);
                         } else if($score_data){
-                            array_push($lessons[$session_id], ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>$score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0, "eval"=>"", "course_id"=>$score_data3->course_id?$score_data3->course_id:0]);
+                            array_push($lessons[$session_id], ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>$score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0, "eval"=>"", "course_id"=>$score_data3->course_id?$score_data3->course_id:0,  "is_eval" => $is_eval ]);
                         } else {  
-                            array_push($lessons[$session_id], ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>0, "eval"=>0, "course_id"=>$score_data3->course_id?$score_data3->course_id:0 ]);
+                            array_push($lessons[$session_id], ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>0, "eval"=>0, "course_id"=>$score_data3->course_id?$score_data3->course_id:0, "is_eval" => $is_eval ]);
                         }
                     }
                 }
@@ -154,12 +169,14 @@ class DashController extends Controller
                             $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session_id.' where id_lesson="'.LessonsModel::getLessonContainedTraining($value['item'])["idFabrica"].'" and user_id="'.$user_id.'"');
                             $lesson = LessonsModel::getLessonContainedTraining($value['item']);
                             $score_data3 = LessonCourses::getLessonCourse($lesson['id'], $lesson['language_iso']);
+                            $modules = json_decode($score_data3->module_structure);
+                            print_r($modules);
                             if($score_data && $score_data2){
                                 array_push($lessons, ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>$score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0, "eval"=>$score_data2[0]->note?$score_data2[0]->note:0, "course_id"=>$score_data3->course_id?$score_data3->course_id:0]);
                             } else if($score_data){
                                 array_push($lessons, ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>$score_data[0]->progress_screen_optim?$score_data[0]->progress_screen_optim:0, "eval"=>"", "course_id"=>$score_data3->course_id?$score_data3->course_id:0]);
                             } else {  
-                                array_push($lessons, ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>0, "eval"=>0, "course_id"=>$score_data3->course_id ]);
+                                array_push($lessons, ["lesson"=>LessonsModel::getLessonContainedTraining($value['item']), "progress"=>0, "eval"=>0, "course_id"=>$score_data3->course_id, "hasEvaluation"=>$score_data3->has ]);
                             }
                         }
                     }
