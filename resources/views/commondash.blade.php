@@ -116,7 +116,7 @@
                                     @else
                                     <?php $flag = 0; ?>
                                         @foreach ($lessons[$training['session_id']] as $lesson)
-                                            @if ($lesson['eval'] == 0 || $lesson['eval'] == null || $lesson['eval'] == "")
+                                            @if (!$lesson['is_eval'])
                                                 <?php $flag += 1; ?>
                                             @endif
                                         @endforeach
@@ -124,7 +124,7 @@
                                         <p class="mb-0 mt-2 text-center" style="color: #362f81">Score required for the
                                             attestation :
                                             @foreach ($lessons[$training['session_id']] as $lesson)
-                                                @if ($lesson['eval'] != 0)
+                                                @if ($lesson['is_eval'])
                                                     {{ $lesson['lesson']['threshold_score'] }}%
                                                 @endif
                                             @endforeach
