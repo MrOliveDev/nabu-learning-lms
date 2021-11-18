@@ -1,4 +1,6 @@
 <script>
+    var evalUniqueId = 0;
+
     $(document).ready(function() {
         $(".content-side.content-side-full").find(".active").toggleClass("active", false);
         $("#rapports").toggleClass("active", true);
@@ -1118,19 +1120,19 @@
 
                                 if (lessonData.eval_questions && lessonData.eval_questions.length > 0) {
                                     // html.append('<br>');
-                                    lessonData.eval_questions.forEach((questionData, j) => {
+                                    lessonData.eval_questions.forEach((questionData) => {
                                         let questionHtml = $(
                                             "#overviewPane #evaluation_details").clone();
-                                        questionHtml.attr('id', "evaluation_details_" + j);
+                                        questionHtml.attr('id', "evaluation_details_" + evalUniqueId);
                                         questionHtml.insertAfter(lastHtmlId);
-                                        lastHtmlId = "#overviewPane #evaluation_details_" + j;
+                                        lastHtmlId = "#overviewPane #evaluation_details_" + evalUniqueId;
 
-                                        $(`#overviewPane #evaluation_details_${j} #question_title`)
+                                        $(`#overviewPane #evaluation_details_${evalUniqueId} #question_title`)
                                             .html(`<b>${questionData.title}</b>`);
                                         if (questionData.options && questionData.options
                                             .length > 0) {
                                             questionData.options.forEach((option, k) => {
-                                                $(`#overviewPane #evaluation_details_${j}`)
+                                                $(`#overviewPane #evaluation_details_${evalUniqueId}`)
                                                     .append("<tr>" +
                                                         `<td style="width: 30%; color:#000000; border:1px solid #000000;" >Option ${k + 1}</td>` +
                                                         `<td style="width: 50%; color:#000000; border:1px solid #000000;" >${option.intitule}</td>` +
@@ -1148,7 +1150,7 @@
                                                         ` border:1px solid #000000;" ></td>` +
                                                         "</tr>");
                                             });
-                                            $(`#overviewPane #evaluation_details_${j}`).append(
+                                            $(`#overviewPane #evaluation_details_${evalUniqueId}`).append(
                                                 "<tr>" +
                                                 `<td style="width: 30%; color:#000000; border:1px solid #000000; background: ` +
                                                 (questionData.result ? 'lightgreen' :
@@ -1161,6 +1163,7 @@
                                                 "</tr>");
                                         }
                                         // if(j != 0) questionHtml.prepend('<br>');
+                                        evalUniqueId ++;
                                     })
                                 }
 
@@ -1303,19 +1306,19 @@
 
                                 if (lessonData.eval_questions && lessonData.eval_questions.length > 0) {
                                     // $(lastHtmlId).append('<br>');
-                                    lessonData.eval_questions.forEach((questionData, j) => {
+                                    lessonData.eval_questions.forEach((questionData) => {
                                         let questionHtml = $(
                                             "#overviewPane #complete_evaldetails").clone();
-                                        questionHtml.attr('id', "complete_evaldetails_" + j);
+                                        questionHtml.attr('id', "complete_evaldetails_" + evalUniqueId);
                                         questionHtml.insertAfter(lastHtmlId);
-                                        lastHtmlId = "#overviewPane #complete_evaldetails_" + j;
+                                        lastHtmlId = "#overviewPane #complete_evaldetails_" + evalUniqueId;
 
-                                        $(`#overviewPane #complete_evaldetails_${j} #question_title`)
+                                        $(`#overviewPane #complete_evaldetails_${evalUniqueId} #question_title`)
                                             .html(`<b>${questionData.title}</b>`);
                                         if (questionData.options && questionData.options
                                             .length > 0) {
                                             questionData.options.forEach((option, k) => {
-                                                $(`#overviewPane #complete_evaldetails_${j}`)
+                                                $(`#overviewPane #complete_evaldetails_${evalUniqueId}`)
                                                     .append("<tr>" +
                                                         `<td style="width: 30%; color:#000000; border:1px solid #000000;" >Option ${k + 1}</td>` +
                                                         `<td style="width: 50%; color:#000000; border:1px solid #000000;" >${option.intitule}</td>` +
@@ -1333,7 +1336,7 @@
                                                         ` border:1px solid #000000;" ></td>` +
                                                         "</tr>");
                                             });
-                                            $(`#overviewPane #complete_evaldetails_${j}`)
+                                            $(`#overviewPane #complete_evaldetails_${evalUniqueId}`)
                                                 .append("<tr>" +
                                                     `<td style="width: 30%; color:#000000; border:1px solid #000000; background: ` +
                                                     (questionData.result ? 'lightgreen' :
@@ -1346,6 +1349,7 @@
                                                     "</tr>");
                                         }
                                         // if(j != 0) questionHtml.prepend('<br>');
+                                        evalUniqueId ++;
                                     })
                                 }
 
