@@ -11,7 +11,6 @@ var playBtn = function (event) {
     event.preventDefault();
     var session_id = $(this).parents(".accordion").attr("data-session");
     var course_id = $(this).parents(".accordion").attr("data-course");
-    console.log('course_id', course_id);
     if ($(this).css("opacity") != "0.3") {
         window.open(
             baseURL +
@@ -23,7 +22,14 @@ var playBtn = function (event) {
                 "/"+course_id+"/dae8efee8afc1994204d76ee963bcfb1"
         );
     } else {
-        alert("You have to cross the prev lesson first.");
+        // alert("You have to cross the prev lesson first.");
+        swal.fire({
+            title: "Warning",
+            text: "You must finish the previous lesson first",
+            icon: "info",
+            confirmButtonText: `OK`,
+        });
+        // notification("You have to cross the prev lesson first.", 2);
     }
 };
 
@@ -163,7 +169,6 @@ var createLessonItem = function (data) {
 
 $(document).ready(function () {
     $('#content').find('.lessons_group').map(function(i, item) {
-        console.log("here",item);
         if ($(item).find('.push').attr("data-type") != 2) {
             $(item)
              .find(".accordion")
