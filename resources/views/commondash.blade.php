@@ -114,21 +114,34 @@
                                                 class="fa fa-file-pdf-o mr-4" style="font-size:55px;color:#7a3d89"></i>
                                             You've got documents to download</p>
                                     @else
-                                    <?php $flag = 0; ?>
+                                        <?php $flag = 0; ?>
                                         @foreach ($lessons[$training['session_id']] as $lesson)
                                             @if (!$lesson['is_eval'])
                                                 <?php $flag += 1; ?>
                                             @endif
                                         @endforeach
                                         @if ($flag != count($lessons[$training['session_id']]))
-                                        <p class="mb-0 mt-2 text-center" style="color: #362f81">Score required for the
-                                            attestation :
-                                            @foreach ($lessons[$training['session_id']] as $lesson)
-                                                @if ($lesson['is_eval'])
-                                                    {{ $lesson['lesson']['threshold_score'] }}%
-                                                @endif
-                                            @endforeach
-                                        </p>
+                                            @if (count($lessons[$training['session_id']]) - $flag == 1)
+                                                <p class="mb-0 mt-2 text-center" style="color: #362f81">Score required
+                                                    for the
+                                                    attestation :
+                                                    @foreach ($lessons[$training['session_id']] as $lesson)
+                                                        @if ($lesson['is_eval'])
+                                                            {{ $lesson['lesson']['threshold_score'] }}%
+                                                        @endif
+                                                    @endforeach
+                                                </p>
+                                            @else
+                                                <p class="mb-0 mt-2 text-center" style="color: #362f81">Scores required
+                                                    for the
+                                                    attestations :
+                                                    @foreach ($lessons[$training['session_id']] as $lesson)
+                                                        @if ($lesson['is_eval'])
+                                                            {{ $lesson['lesson']['threshold_score'] }}%
+                                                        @endif
+                                                    @endforeach
+                                                </p>
+                                            @endif
                                         @endif
                                     @endif
                                 </div>
