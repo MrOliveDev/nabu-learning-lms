@@ -83,9 +83,6 @@
                     "data": "type"
                 },
                 {
-                    "data": "detail"
-                },
-                {
                     "data": "created_time"
                 },
                 {
