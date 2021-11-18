@@ -3,8 +3,10 @@
 @section('con')
     <link rel="stylesheet" href="{{ asset('assets/css/commondashPage.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.min.css') }}" />
 @section('js_after')
     <script src="{{ asset('assets/js/commondashPage.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 <div id="content">
     @foreach ($trainings as $training)

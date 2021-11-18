@@ -71,13 +71,12 @@
                     <table class="table table-striped table-vcenter reportTbl" id="historic-table" style="width:100%;">
                         <thead>
                             <tr>
-                                <th class="text-center"><input style="cursor: pointer; filter: hue-rotate(120deg); transform: scale(1.3);"
+                                <th class="text-center" style="width: 5%;"><input style="cursor: pointer; filter: hue-rotate(120deg); transform: scale(1.3);"
                                     type="checkbox" id="sendcheck_all" checked></th>
                                 <th style="width: 15%;">{{ $translation->l('Session') }}</th>
                                 <th style="width: 15%;">{{ $translation->l('Student') }}</th>
                                 <th style="width: 15%;">{{ $translation->l('FileName') }}</th>
                                 <th style="width: 10%;">{{ $translation->l('FileType') }}</th>
-                                <th style="width: 25%;">{{ $translation->l('Details') }}</th>
                                 <th style="width: 10%;">{{ $translation->l('Date') }}</th>
                                 <th style="width: 15%;" class="text-center">{{ $translation->l('Actions') }}</th>
                             </tr>
