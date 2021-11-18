@@ -114,8 +114,22 @@
                                                 class="fa fa-file-pdf-o mr-4" style="font-size:55px;color:#7a3d89"></i>
                                             You've got documents to download</p>
                                     @else
+                                    <?php $flag = 0; ?>
+                                        @foreach ($lessons[$training['session_id']] as $lesson)
+                                            @if ($lesson['eval'] == 0)
+                                                <?php $flag += 1; ?>
+                                            @endif
+                                        @endforeach
+                                        @if ($flag != count($lessons))
                                         <p class="mb-0 mt-2 text-center" style="color: #362f81">Score required for the
-                                            attestation : {{ number_format($training['eval'], 1, '.', '') }}%</p>
+                                            attestation :
+                                            @foreach ($lessons[$training['session_id']] as $lesson)
+                                                @if ($lesson['eval'] != 0)
+                                                    {{ $lesson['lesson']['threshold_score'] }}%
+                                                @endif
+                                            @endforeach
+                                        </p>
+                                        @endif
                                     @endif
                                 </div>
                             </div>
@@ -283,7 +297,7 @@
                                 <a href="pdf/{{ $item['filename'] }}" target="_blank">
                                     <p class="mt-2 d-flex align-items-center" style="color: #362f81">
                                         <i class="fa fa-file-pdf-o mr-4" style="font-size:48px;color:#7a3d89"></i>
-                                        {{ $item['model'] }}_{{date("YWd", strtotime($item['date']))}}
+                                        {{ $item['model'] }}_{{ date('YWd', strtotime($item['date'])) }}
                                     </p>
                                 </a>
                             @endforeach
