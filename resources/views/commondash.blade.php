@@ -120,7 +120,7 @@
                                                 <?php $flag += 1; ?>
                                             @endif
                                         @endforeach
-                                        @if ($flag != count($lessons))
+                                        @if ($flag != count($lessons[$training['session_id']]))
                                         <p class="mb-0 mt-2 text-center" style="color: #362f81">Score required for the
                                             attestation :
                                             @foreach ($lessons[$training['session_id']] as $lesson)
