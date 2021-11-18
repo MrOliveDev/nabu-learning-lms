@@ -116,7 +116,7 @@
                                     @else
                                     <?php $flag = 0; ?>
                                         @foreach ($lessons[$training['session_id']] as $lesson)
-                                            @if ($lesson['eval'] == 0)
+                                            @if ($lesson['eval'] == 0 || $lesson['eval'] == null || $lesson['eval'] == "")
                                                 <?php $flag += 1; ?>
                                             @endif
                                         @endforeach
