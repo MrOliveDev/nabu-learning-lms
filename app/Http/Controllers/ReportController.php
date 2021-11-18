@@ -337,6 +337,7 @@ class ReportController extends Controller
                 $nestedData['student'] = $report->first_name . ' ' . $report->last_name;
                 $nestedData['filename'] = $report->filename;
                 $nestedData['type'] = $report->type;
+                $nestedData['detail'] = $report->detail;
                 $nestedData['created_time'] = $report->created_time;
                 
                 $nestedData['actions'] = "
