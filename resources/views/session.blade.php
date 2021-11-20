@@ -19,84 +19,68 @@
         :root {
             --student-c:
                 <?php
-                echo '#'. $interfaceCfg->Students->h;
-            ?>
-            ;
+                echo '#' . $interfaceCfg->Students->h;
+                ?>;
             --student-h:
                 <?php
-                echo '#'. $interfaceCfg->Students->c;
-            ?>
-            ;
+                echo '#' . $interfaceCfg->Students->c;
+                ?>;
             --teacher-c:
                 <?php
-                echo '#'. $interfaceCfg->Teachers->h;
-            ?>
-            ;
+                echo '#' . $interfaceCfg->Teachers->h;
+                ?>;
             --teacher-h:
                 <?php
-                echo '#'. $interfaceCfg->Teachers->c;
-            ?>
-            ;
+                echo '#' . $interfaceCfg->Teachers->c;
+                ?>;
             --author-c:
                 <?php
-                echo '#'. $interfaceCfg->Authors->h;
-            ?>
-            ;
+                echo '#' . $interfaceCfg->Authors->h;
+                ?>;
             --author-h:
                 <?php
-                echo '#'. $interfaceCfg->Authors->c;
-            ?>
-            ;
+                echo '#' . $interfaceCfg->Authors->c;
+                ?>;
             --group-c:
                 <?php
-                echo '#'. $interfaceCfg->Groups->h;
-            ?>
-            ;
+                echo '#' . $interfaceCfg->Groups->h;
+                ?>;
             --group-h:
                 <?php
-                echo '#'. $interfaceCfg->Groups->c;
-            ?>
-            ;
+                echo '#' . $interfaceCfg->Groups->c;
+                ?>;
             --company-c:
                 <?php
-                echo '#'. $interfaceCfg->Companies->h;
-            ?>
-            ;
+                echo '#' . $interfaceCfg->Companies->h;
+                ?>;
             --company-h:
                 <?php
-                echo '#'. $interfaceCfg->Companies->c;
-            ?>
-            ;
+                echo '#' . $interfaceCfg->Companies->c;
+                ?>;
             --position-c:
                 <?php
-                echo '#'. $interfaceCfg->Positions->h;
-            ?>
-            ;
+                echo '#' . $interfaceCfg->Positions->h;
+                ?>;
             --position-h:
                 <?php
-                echo '#'. $interfaceCfg->Positions->c;
-            ?>
-            ;
+                echo '#' . $interfaceCfg->Positions->c;
+                ?>;
             --session-c:
                 <?php
-                echo '#'. $interfaceCfg->Sessions->h;
-            ?>
-            ;
+                echo '#' . $interfaceCfg->Sessions->h;
+                ?>;
             --session-h:
                 <?php
-                echo '#'. $interfaceCfg->Sessions->c;
-            ?>
-            ;
+                echo '#' . $interfaceCfg->Sessions->c;
+                ?>;
             --training-c:
                 <?php
-                echo '#'. $interfaceCfg->TrainingCourses->c;
-            ?>
-            ;
+                echo '#' . $interfaceCfg->TrainingCourses->c;
+                ?>;
             --training-h:
                 <?php
-                echo '#'. $interfaceCfg->TrainingCourses->h;
-            ?>
-            ;
+                echo '#' . $interfaceCfg->TrainingCourses->h;
+                ?>;
         }
 
     </style>
@@ -135,31 +119,29 @@
     </script>
 @endsection
 
-<div id="content"
-data-session-display="{{isset(session("permission")->session->session->display)}}"
-data-session-delete="{{isset(session("permission")->session->session->delete)}}"
-data-session-show="{{isset(session("permission")->session->session->show)}}"
-data-session-edit="{{isset(session("permission")->session->session->edit)}}"
-data-session-create="{{isset(session("permission")->session->session->create)}}"
-data-student-display="{{isset(session("permission")->session->student->display)}}"
-data-student-link="{{isset(session("permission")->session->student->link)}}"
-data-teacher-display="{{isset(session("permission")->session->teacher->display)}}"
-data-teacher-link="{{isset(session("permission")->session->teacher->link)}}"
-data-group-display="{{isset(session("permission")->session->group->display)}}"
-data-group-link="{{isset(session("permission")->session->group->link)}}"
-data-search-session="{{isset(session("permission")->session->search->session)}}"
-data-search-category="{{isset(session("permission")->session->search->category)}}"
->
+<div id="content" data-session-display="{{ isset(session('permission')->session->session->display) }}"
+    data-session-delete="{{ isset(session('permission')->session->session->delete) }}"
+    data-session-show="{{ isset(session('permission')->session->session->show) }}"
+    data-session-edit="{{ isset(session('permission')->session->session->edit) }}"
+    data-session-create="{{ isset(session('permission')->session->session->create) }}"
+    data-student-display="{{ isset(session('permission')->session->student->display) }}"
+    data-student-link="{{ isset(session('permission')->session->student->link) }}"
+    data-teacher-display="{{ isset(session('permission')->session->teacher->display) }}"
+    data-teacher-link="{{ isset(session('permission')->session->teacher->link) }}"
+    data-group-display="{{ isset(session('permission')->session->group->display) }}"
+    data-group-link="{{ isset(session('permission')->session->group->link) }}"
+    data-search-session="{{ isset(session('permission')->session->search->session) }}"
+    data-search-category="{{ isset(session('permission')->session->search->category) }}">
     <fieldset id="LeftPanel">
         <div class="mx-4 mb-3 text-white clear-fix toolkit d-flex justify-content-lg-start flex-column"
             id="session-toolkit">
             <div class="p-2 w-100">
                 <span style="font-size:16pt" id="toolkit-tab-name">SESSIONS</span>
                 <div class="float-right input-container">
-                    @if (isset(session("permission")->session->session->create))
-                    <a href="#" class="toolkit-add-item">
-                        <i class="p-2 text-white fa fa-plus icon"></i>
-                    </a>
+                    @if (isset(session('permission')->session->session->create))
+                        <a href="#" class="toolkit-add-item">
+                            <i class="p-2 text-white fa fa-plus icon"></i>
+                        </a>
                     @endif
                     <span class="p-2 text-black bg-white rounded">
                         <input class="border-0 input-field mw-100 search-filter" type="text" name="search-filter">
@@ -201,39 +183,43 @@ data-search-category="{{isset(session("permission")->session->search->category)}
             <div class="mx-4 clear-fix">
                 <div id="session">
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
-                        @if (isset(session("permission")->session->session->display))
-                        @foreach ($sessions as $session)
-                            <a class="list-group-item list-group-item-action p-0 border-transparent border-5x session_{{ $session->id }}"
-                                id="session_{{ $session->id }}" data-date='{{ $session->create_date }}'
-                                data-participant='{{ $session->participants }}'
-                                data-content="{{ $session->contents }}">
-                                <div class="float-left">
-                                    @if ($session->status == 1)
-                                        <i class="m-2 fa fa-circle" style="color:green;"></i>
-                                        <input type="hidden" name="item-status" class='status-notification' value="1">
-                                    @else
-                                        <i class="m-2 fa fa-circle" style="color:red;"></i>
-                                        <input type="hidden" name="item-status" class='status-notification' value="0">
-                                    @endif
-                                    <span class="item-name">{{ $session->name }}</span>
-                                    <input type="hidden" name="item-name" value="{{ $session->name }}">
-                                </div>
-                                <div class="float-right btn-group">
-                                    <span
-                                        class="p-2 font-weight-bolder item-lang">{{ strtoupper($session->language_iso) }}
-                                    </span>
-                                    @if(isset(session("permission")->session->session->delete))
+                        @if (isset(session('permission')->session->session->display))
+                            @foreach ($sessions as $session)
+                                <a class="list-group-item list-group-item-action p-0 border-transparent border-5x session_{{ $session->id }}"
+                                    id="session_{{ $session->id }}" data-date='{{ $session->create_date }}'
+                                    data-participant='{{ $session->participants }}'
+                                    data-content="{{ $session->contents }}">
+                                    <div class="float-left">
+                                        @if ($session->status == 1)
+                                            <i class="m-2 fa fa-circle" style="color:green;"></i>
+                                            <input type="hidden" name="item-status" class='status-notification'
+                                                value="1">
+                                        @else
+                                            <i class="m-2 fa fa-circle" style="color:red;"></i>
+                                            <input type="hidden" name="item-status" class='status-notification'
+                                                value="0">
+                                        @endif
+                                        <span class="item-name">{{ $session->name }}</span>
+                                        <input type="hidden" name="item-name" value="{{ $session->name }}">
+                                    </div>
+                                    <div class="float-right btn-group">
+                                        <span
+                                            class="p-2 font-weight-bolder item-lang">{{ strtoupper($session->language_iso) }}
+                                        </span>
+                                        @if (isset(session('permission')->session->session->delete))
 
-                                    <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?sessionId={{$session->id}}')" data-id="{{$session->id}}">
-                                        <i class="px-2 fa fa-envelope"></i>
-                                    </button>
-                                    <button class="btn item-delete" data-content='session'>
-                                        <i class="px-2 fa fa-trash-alt"></i>
-                                    </button>
-                                    @endif
-                                </div>
-                            </a>
-                        @endforeach
+                                            <button class="btn item-mail"
+                                                onclick="redirectPage('{{ route('sendmail') }}?sessionId={{ $session->id }}')"
+                                                data-id="{{ $session->id }}">
+                                                <i class="px-2 fa fa-envelope"></i>
+                                            </button>
+                                            <button class="btn item-delete" data-content='session'>
+                                                <i class="px-2 fa fa-trash-alt"></i>
+                                            </button>
+                                        @endif
+                                    </div>
+                                </a>
+                            @endforeach
                         @endif
                     </div>
                 </div>
@@ -366,107 +352,114 @@ data-search-category="{{isset(session("permission")->session->search->category)}
 
 
                         <div class="list-group" id="list-tab" role="tablist" data-src=''>
-                            @if(isset(session("permission")->session->student->display))
-                            @foreach ($students as $student)
-                                <a class="list-group-item list-group-item-action p-0 border-transparent border-5x student_{{ $student->id }}"
-                                    id="student_{{ $student->id }}" data-date="{{ $student->creation_date }}">
-                                    <div class="float-left">
-                                        @if ($student->status == 1)
-                                            <i class="m-2 fa fa-circle" style="color:green;"></i>
-                                            <input type="hidden" name="item-status" class='status-notification'
-                                                value="1">
-                                        @else
-                                            <i class="m-2 fa fa-circle" style="color:red;"></i>
-                                            <input type="hidden" name="item-status" class='status-notification'
-                                                value="0">
-                                        @endif
-                                        <span
-                                            class="item-name">{{ $student->first_name }}&nbsp;{{ $student->last_name }}</span>
-                                        <input type="hidden" name="item-name"
-                                            value="{{ $student->first_name }}{{ $student->last_name }}">
-                                        <input type="hidden" name="item-group" value="{{ $student->linked_groups }}">
-                                        <input type="hidden" name="item-company" value="{{ $student->company }}">
-                                        <input type="hidden" name="item-function" value="{{ $student->function }}">
-                                    </div>
-                                    <div class="float-right btn-group">
-                                        <span
-                                            class="p-2 font-weight-bolder item-lang">{{ strtoupper($student->language_iso) }}
-                                        </span>
-                                        <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?studentId={{$student->id}}')">
-                                            <i class="px-2 fa fa-envelope"></i>
-                                        </button>
-                                    </div>
-                                </a>
-                            @endforeach
+                            @if (isset(session('permission')->session->student->display))
+                                @foreach ($students as $student)
+                                    <a class="list-group-item list-group-item-action p-0 border-transparent border-5x student_{{ $student->id }}"
+                                        id="student_{{ $student->id }}" data-date="{{ $student->creation_date }}">
+                                        <div class="float-left">
+                                            @if ($student->status == 1)
+                                                <i class="m-2 fa fa-circle" style="color:green;"></i>
+                                                <input type="hidden" name="item-status" class='status-notification'
+                                                    value="1">
+                                            @else
+                                                <i class="m-2 fa fa-circle" style="color:red;"></i>
+                                                <input type="hidden" name="item-status" class='status-notification'
+                                                    value="0">
+                                            @endif
+                                            <span
+                                                class="item-name">{{ $student->first_name }}&nbsp;{{ $student->last_name }}</span>
+                                            <input type="hidden" name="item-name"
+                                                value="{{ $student->first_name }}{{ $student->last_name }}">
+                                            <input type="hidden" name="item-group"
+                                                value="{{ $student->linked_groups }}">
+                                            <input type="hidden" name="item-company" value="{{ $student->company }}">
+                                            <input type="hidden" name="item-function"
+                                                value="{{ $student->function }}">
+                                        </div>
+                                        <div class="float-right btn-group">
+                                            <span
+                                                class="p-2 font-weight-bolder item-lang">{{ strtoupper($student->language_iso) }}
+                                            </span>
+                                            <button class="btn item-mail"
+                                                onclick="redirectPage('{{ route('sendmail') }}?studentId={{ $student->id }}')">
+                                                <i class="px-2 fa fa-envelope"></i>
+                                            </button>
+                                        </div>
+                                    </a>
+                                @endforeach
                             @endif
                         </div>
                     </div>
                     <div id="teachers">
 
                         <div class="list-group" id="list-tab" role="tablist" data-src=''>
-                            @if(isset(session("permission")->session->teacher->display))
-                            @foreach ($teachers as $teacher)
-                                <a class="list-group-item list-group-item-action p-0 border-transparent border-5x teacher_{{ $teacher->id }}"
-                                    id="teacher_{{ $teacher->id }}" data-date="{{ $teacher->creation_date }}">
-                                    <div class="float-left">
-                                        @if ($teacher->status == 1)
-                                            <i class="m-2 fa fa-circle" style="color:green;"></i>
-                                            <input type="hidden" name="item-status" class='status-notification'
-                                                value="1">
-                                        @else
-                                            <i class="m-2 fa fa-circle" style="color:red;"></i>
-                                            <input type="hidden" name="item-status" class='status-notification'
-                                                value="0">
-                                        @endif
-                                        <span
-                                            class="item-name">{{ $teacher->first_name }}&nbsp;{{ $teacher->last_name }}</span>
-                                        <input type="hidden" name="item-name"
-                                            value="{{ $teacher->first_name }}{{ $teacher->last_name }}">
-                                        <input type="hidden" name="item-group" value="{{ $teacher->linked_groups }}">
-                                        <input type="hidden" name="item-company" value="{{ $teacher->company }}">
-                                        <input type="hidden" name="item-function" value="{{ $teacher->function }}">
-                                    </div>
-                                    <div class="float-right btn-group">
-                                        <span
-                                            class="p-2 font-weight-bolder item-lang">{{ strtoupper($teacher->language_iso) }}</span>
-                                            <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?teacherId={{$teacher->id}}')">
+                            @if (isset(session('permission')->session->teacher->display))
+                                @foreach ($teachers as $teacher)
+                                    <a class="list-group-item list-group-item-action p-0 border-transparent border-5x teacher_{{ $teacher->id }}"
+                                        id="teacher_{{ $teacher->id }}" data-date="{{ $teacher->creation_date }}">
+                                        <div class="float-left">
+                                            @if ($teacher->status == 1)
+                                                <i class="m-2 fa fa-circle" style="color:green;"></i>
+                                                <input type="hidden" name="item-status" class='status-notification'
+                                                    value="1">
+                                            @else
+                                                <i class="m-2 fa fa-circle" style="color:red;"></i>
+                                                <input type="hidden" name="item-status" class='status-notification'
+                                                    value="0">
+                                            @endif
+                                            <span
+                                                class="item-name">{{ $teacher->first_name }}&nbsp;{{ $teacher->last_name }}</span>
+                                            <input type="hidden" name="item-name"
+                                                value="{{ $teacher->first_name }}{{ $teacher->last_name }}">
+                                            <input type="hidden" name="item-group"
+                                                value="{{ $teacher->linked_groups }}">
+                                            <input type="hidden" name="item-company" value="{{ $teacher->company }}">
+                                            <input type="hidden" name="item-function"
+                                                value="{{ $teacher->function }}">
+                                        </div>
+                                        <div class="float-right btn-group">
+                                            <span
+                                                class="p-2 font-weight-bolder item-lang">{{ strtoupper($teacher->language_iso) }}</span>
+                                            <button class="btn item-mail"
+                                                onclick="redirectPage('{{ route('sendmail') }}?teacherId={{ $teacher->id }}')">
                                                 <i class="px-2 fa fa-envelope"></i>
                                             </button>
-                                    </div>
-                                </a>
-                            @endforeach
+                                        </div>
+                                    </a>
+                                @endforeach
                             @endif
                         </div>
                     </div>
                     <div id="groups">
                         <div class="list-group" id="list-tab" role="tablist" data-src=''>
-                            @if(isset(session("permission")->session->group->display))
-                            @foreach ($groups as $group)
-                                <a class="list-group-item list-group-item-action p-0 border-transparent border-5x group_{{ $group->id }}"
-                                    id="group_{{ $group->id }}" data-date="{{ $group->creation_date }}">
-                                    <div class="float-left">
-                                        @if ($group->status == 1)
-                                            <i class="m-2 fa fa-circle" style="color:green;"></i>
-                                            <input type="hidden" name="item-status" class="status-notification"
-                                                value="1">
-                                        @else
-                                            <i class="m-2 fa fa-circle" style="color:red;"></i>
-                                            <input type="hidden" name="item-status" class="status-notification"
-                                                value="0">
-                                        @endif
-                                        <span class="item-name">{{ $group->name }}</span>
-                                        <input type="hidden" name="item-name" value="{{ $group->name }}">
-                                    </div>
-                                    <div class="float-right btn-group">
-                                        <button class="btn toggle2-btn" data-content="group">
-                                            <i class="px-2 fas fa-check-circle"></i>
-                                        </button>
-                                        <button class="btn item-mail" onclick="redirectPage('{{route('sendmail')}}?groupId={{$group->id}}')">
-                                            <i class="px-2 fa fa-envelope"></i>
-                                        </button>
-                                    </div>
-                                </a>
-                            @endforeach
+                            @if (isset(session('permission')->session->group->display))
+                                @foreach ($groups as $group)
+                                    <a class="list-group-item list-group-item-action p-0 border-transparent border-5x group_{{ $group->id }}"
+                                        id="group_{{ $group->id }}" data-date="{{ $group->creation_date }}">
+                                        <div class="float-left">
+                                            @if ($group->status == 1)
+                                                <i class="m-2 fa fa-circle" style="color:green;"></i>
+                                                <input type="hidden" name="item-status" class="status-notification"
+                                                    value="1">
+                                            @else
+                                                <i class="m-2 fa fa-circle" style="color:red;"></i>
+                                                <input type="hidden" name="item-status" class="status-notification"
+                                                    value="0">
+                                            @endif
+                                            <span class="item-name">{{ $group->name }}</span>
+                                            <input type="hidden" name="item-name" value="{{ $group->name }}">
+                                        </div>
+                                        <div class="float-right btn-group">
+                                            <button class="btn toggle2-btn" data-content="group">
+                                                <i class="px-2 fas fa-check-circle"></i>
+                                            </button>
+                                            <button class="btn item-mail"
+                                                onclick="redirectPage('{{ route('sendmail') }}?groupId={{ $group->id }}')">
+                                                <i class="px-2 fa fa-envelope"></i>
+                                            </button>
+                                        </div>
+                                    </a>
+                                @endforeach
                             @endif
                         </div>
                     </div>
@@ -619,26 +612,38 @@ data-search-category="{{isset(session("permission")->session->search->category)}
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group" id='status-form-group'>
-                                <div class="mb-2 ml-0 custom-control custom-switch custom-control-lg ">
-                                    <input type="checkbox" class="custom-control-input" id="session-status-icon"
-                                        name="session-status-icon" checked="">
-                                    <label class="custom-control-label" for="session-status-icon">Status</label>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend mb-5">
+                                        <span class="input-group-text">
+                                            Maximum attempt to evaluation
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="clearfix form-group">
-                                <button type="submit" class="float-right mx-1 btn btn-hero-primary submit-btn"
-                                    id="session_save_button" data-form="session_form">SAVE</button>
-                                <button type="button" class="float-right mx-1 btn btn-hero-primary cancel-btn"
-                                    id="user_cancel_button">CANCEL</button>
-                                <input type="hidden" name="cate-status">
+                                <input type="text" class="js-rangeslider" id="attempts"
+                                    name="attempts" value="0">
                             </div>
                         </div>
+                        <div class="form-group" id='status-form-group'>
+                            <div class="mb-2 ml-0 custom-control custom-switch custom-control-lg ">
+                                <input type="checkbox" class="custom-control-input" id="session-status-icon"
+                                    name="session-status-icon">
+                                <label class="custom-control-label" for="session-status-icon">Session Offline</label>
+                            </div>
+                        </div>
+                        <div class="clearfix form-group">
+                            <button type="submit" class="float-right mx-1 btn btn-hero-primary submit-btn"
+                                id="session_save_button" data-form="session_form">SAVE</button>
+                            <button type="button" class="float-right mx-1 btn btn-hero-primary cancel-btn"
+                                id="user_cancel_button">CANCEL</button>
+                            <input type="hidden" name="cate-status">
+                        </div>
                     </div>
-                </form>
             </div>
+            </form>
         </div>
-    </fieldset>
+</div>
+</fieldset>
 </div>
 <button type="button" id="notificator" class="js-notify btn btn-secondary push" data-message="Your message!<br>"
     style="display:none">
@@ -647,7 +652,7 @@ data-search-category="{{isset(session("permission")->session->search->category)}
 <script>
     $('#sessions').addClass('active');
 
-    function redirectPage(link){
+    function redirectPage(link) {
         window.location.href = link;
     }
 </script>

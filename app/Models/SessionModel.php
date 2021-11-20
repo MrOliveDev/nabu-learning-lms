@@ -29,6 +29,7 @@ class SessionModel extends Model
         'participants',
         'contents',
         'end_date',
+        'max_attempts_eval',
         'creator_id'
     ];
 
