@@ -135,6 +135,19 @@
             $return['datas']['allLessons']          = $alllessons;
             $return['datas']['thresholdscore']      = $thresholdscore;
 
+            if($sessionId){
+                $sql1 = "SELECT max_attempts_eval FROM `tb_session` WHERE id = '$sessionId'";
+                $results1 = $openModel->getDatas( $sql1 );
+                $max_eval_attempts = $results1[0];
+                $return['datas']['maxEvalAttempts'] = $max_eval_attempts;
+
+                $sql2 = "SELECT * FROM `tb_evaluation_'.$sessionId.'` WHERE id_lesson = '$productId'";
+                $results2 = $openModel->getDatas( $sql2 );
+                $lesson_try_number = count($results2);
+                $return['datas']['evalAttemptsDone'] = $lesson_try_number;
+
+            }
+
             if($nextlesson != ''){
                 $sql = "SELECT lang, profile FROM tb_users WHERE id = " . auth()->user()->id;
                 $userdata = $openModel->getDatas( $sql );
