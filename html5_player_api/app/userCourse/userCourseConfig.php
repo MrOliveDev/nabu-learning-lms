@@ -138,11 +138,31 @@
             if($sessionId){
                 $sql1 = "SELECT max_attempts_eval FROM `tb_session` WHERE id = '$sessionId'";
                 $results1 = $openModel->getDatas( $sql1 );
-                $max_eval_attempts = $results1[0];
-                $return['datas']['maxEvalAttempts'] = $max_eval_attempts->max_attempts_eval;
+                $max_attempts_eval = $results1[0];
+                $return['datas']['maxEvalAttempts'] = $max_attempts_eval->max_attempts_eval;
+
+                $insertModel = new openModel(DB_HISTORIC_DSN);
+                $evalTableName = "tb_evaluation_" . $sessionId;
+                $createSql = "CREATE TABLE IF NOT EXISTS `{$evalTableName}` ("
+                            . "`id` int(11) NOT NULL AUTO_INCREMENT,"
+                            . "`session` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                            . "`user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                            . "`date_start` datetime DEFAULT NULL,"
+                            . "`date_end` datetime DEFAULT NULL,"
+                            . "`is_presential` int(1) DEFAULT '0',"
+                            . "`user_keypad` int(11) DEFAULT '0',"
+                            . "`id_lesson` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                            . "`date_hour` datetime DEFAULT '0000-00-00 00:00:00',"
+                            . "`number_eval` int(11) DEFAULT NULL,"
+                            . "`progression` int(11) NOT NULL DEFAULT '0',"
+                            . "`note` varchar(11) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',"
+                            . "`status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+                            . "PRIMARY KEY (id) "
+                          . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+                        $insertModel->query( $createSql );
 
                 $sql2 = "SELECT * FROM `tb_evaluation_'.$sessionId.'` WHERE id_lesson = '$productId'";
-                $results2 = $openModel->getDatas( $sql2 );
+                $results2 = $insertModel->getDatas( $sql2 );
                 $lesson_try_number = count($results2);
                 $return['datas']['evalAttemptsDone'] = $lesson_try_number;
 
