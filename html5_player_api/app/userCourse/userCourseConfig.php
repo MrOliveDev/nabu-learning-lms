@@ -138,7 +138,7 @@
             if($sessionId){
                 $sql1 = "SELECT max_attempts_eval FROM `tb_session` WHERE id = '$sessionId'";
                 $results1 = $openModel->getDatas( $sql1 );
-                $max_attempts_eval = $results1[0]->max_attempts_eval;
+                $max_attempts_eval = $results1[0]['max_attempts_eval'];
                 $return['datas']['maxEvalAttempts'] = $max_attempts_eval;
 
                 $insertModel = new openModel(DB_HISTORIC_DSN);
