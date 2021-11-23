@@ -139,7 +139,7 @@
                 $sql1 = "SELECT max_attempts_eval FROM `tb_session` WHERE id = '$sessionId'";
                 $results1 = $openModel->getDatas( $sql1 );
                 $max_eval_attempts = $results1[0];
-                $return['datas']['maxEvalAttempts'] = $max_eval_attempts;
+                $return['datas']['maxEvalAttempts'] = $max_eval_attempts->max_attempts_eval;
 
                 $sql2 = "SELECT * FROM `tb_evaluation_'.$sessionId.'` WHERE id_lesson = '$productId'";
                 $results2 = $openModel->getDatas( $sql2 );
