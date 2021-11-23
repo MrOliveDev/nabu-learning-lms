@@ -1387,6 +1387,7 @@ function dragEnd(event) {
  * @returns 
  */
 var sessionLinkTo = function (parent, sendData) {
+    console.log('sendData:', sendData);
     return new Promise((resolve, reject) => {
         $.post({
             url: baseURL + '/sessionjointo',
@@ -1589,6 +1590,8 @@ $(document).ready(function () {
     
 });
 $("#attempts").ionRangeSlider({
+    // instance,
+    skin: "round",
     min: 0,
     max: 5,
     from: 0,
