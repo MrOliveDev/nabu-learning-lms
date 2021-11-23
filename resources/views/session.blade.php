@@ -604,7 +604,7 @@
                                         </span>
                                     </div>
                                     <select class="form-control" id="language" name="language" required>
-                                        <option value="" selected>No Langauge</option>
+                                        <option value="" selected>Langauge</option>
                                         @foreach ($languages as $language)
                                             <option value="{{ $language->language_id }}">
                                                 {{ $language->language_name }}</option>

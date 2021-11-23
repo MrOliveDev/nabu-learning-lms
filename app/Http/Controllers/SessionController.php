@@ -10,6 +10,9 @@ use App\Models\CompanyModel;
 use App\Models\LanguageModel;
 use App\Models\SessionModel;
 use App\Models\TrainingsModel;
+use App\Models\LessonModel;
+use App\Models\LessonCourses;
+use Illuminate\Support\Facades\DB;
 
 class SessionController extends Controller
 {
@@ -71,7 +74,7 @@ class SessionController extends Controller
             $session->language_iso = $request->post('language');
         }
         if ($request->post("attempts") != NULL) {
-            $session->language_iso = $request->post('attempts');
+            $session->max_attempts_eval = $request->post('attempts');
         }
         $session->id_creator = session("client");
         // if(){
@@ -158,6 +161,11 @@ class SessionController extends Controller
     {
         $session = SessionModel::find($id);
         $session->delete();
+        DB::connection('mysql_reports')->unprepared('DROP TABLE IF EXISTS `tb_screen_optim_'.$id.'`');
+        DB::connection('mysql_historic')->unprepared('DROP TABLE IF EXISTS `tb_evaluation_'.$id.'`');
+        DB::connection('mysql_historic')->unprepared('DROP TABLE IF EXISTS `tb_evaluation_question_'.$id.'`');
+        DB::connection('mysql_historic')->unprepared('DROP TABLE IF EXISTS `tb_screen_stats_'.$id.'`');
+
         return response()->json(["success" => true]);
     }
 
@@ -174,6 +182,35 @@ class SessionController extends Controller
         $id = $request->post("id");
         $cate = $request->post("cate");
         $session = SessionModel::find($id);
+
+        // DB::connection('mysql_reports')->unprepared('CREATE TABLE IF NOT EXISTS `tb_lesson_course_'.$id.'` (
+        //     `id` int(11) NOT NULL,
+        //     `curso_id` int(11) NOT NULL,
+        //     `course_id` int(11) NOT NULL,
+        //     `product_id` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+        //     `profile` int(11) NOT NULL,
+        //     `lang` varchar(3) COLLATE utf8_unicode_ci NOT NULL DEFAULT "30",
+        //     `module_structure` text COLLATE utf8_unicode_ci NOT NULL,
+        //     `screens_total` int(11) NOT NULL,
+        //     `screens_titles` text COLLATE utf8_unicode_ci NOT NULL,
+        //     `xml_src` text COLLATE utf8_unicode_ci NOT NULL,
+        //     `creation_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+        //     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+        //     ');
+        // $training = TrainingsModel::find($contentData);
+        // if($training-> lesson_content) {
+        //     $lessonList = json_decode($training->lesson_content, true);
+        //     if($lessonList != NULL) {
+        //         foreach($lessonList as $value) {
+        //             print_r('here lesson_course');
+        //             if(LessonCourses::find($value['item'])) {
+        //                 $lesson_course = LessonCourses::find($value['item']);
+        //                 print_r($lesson_course);
+        //             }
+        //         }
+        //         exit;
+        //     }
+        // }
 
         if ($session != NULL) {
             if ($cate == 'participant') {
