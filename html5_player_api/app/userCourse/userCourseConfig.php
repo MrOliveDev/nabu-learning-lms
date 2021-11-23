@@ -144,7 +144,7 @@
                 $insertModel = new openModel(DB_HISTORIC_DSN);
                 $evalTableName = "tb_evaluation_" . $sessionId;
 
-                $sql2 = "SELECT * FROM `tb_evaluation_'.$sessionId.'` WHERE id_lesson = '$productId'";
+                $sql2 = "SELECT * FROM `tb_evaluation_'$sessionId'` WHERE id_lesson = '$productId'";
                 $results2 = $insertModel->getDatas( $sql2 );
                 $lesson_try_number = count($results2);
                 $return['datas']['evalAttemptsDone'] = $lesson_try_number;
