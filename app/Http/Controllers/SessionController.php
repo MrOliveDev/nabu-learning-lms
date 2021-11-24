@@ -205,9 +205,8 @@ class SessionController extends Controller
             $lessonList = json_decode($training->lesson_content, true);
             if($lessonList != NULL) {
                 foreach($lessonList as $value) {
-                    if(LessonCourses::getLessonCourseByCourseId($value['item'])) {
+                    if(LessonCourses::getLessonCourseByCourseId($value['item']) != "") {
                         $lesson_course = LessonCourses::getLessonCourseByCourseId($value['item']);
-                        print_r($lesson_course['id']);
                         DB::connection('mysql_reports')->unprepared("INSERT INTO `tb_lesson_course_".$id."` (`id`,`curso_id`, `course_id`, `product_id`, `profile`, `lang`, `module_structure`, `screens_total`, `screens_titles`, `xml_src`, `creation_date`) VALUES(".$lesson_course['id'].",".$lesson_course['curso_id'].",".$lesson_course['course_id'].",'".$lesson_course['product_id']."',".$lesson_course['profile'].",'".$lesson_course['lang']."','".$lesson_course['module_structure']."',".$lesson_course['screens_total'].",'".$lesson_course['screens_titles']."','".$lesson_course['xml_src']."','".$lesson_course['creation_date']."')"
                         );
                         }
