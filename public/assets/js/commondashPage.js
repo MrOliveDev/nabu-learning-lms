@@ -19,7 +19,7 @@ var playBtn = function (event) {
                 session_id +
                 "/0/" +
                 $(this).attr("data-fabrica") +
-                "/"+course_id+"/dae8efee8afc1994204d76ee963bcfb1"
+                "/"+course_id+"/dae8efee8afc1994204d76ee963bcfb1","_self"
         );
     } else {
         // alert("You have to cross the prev lesson first.");
