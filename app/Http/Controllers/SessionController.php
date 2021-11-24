@@ -10,7 +10,7 @@ use App\Models\CompanyModel;
 use App\Models\LanguageModel;
 use App\Models\SessionModel;
 use App\Models\TrainingsModel;
-use App\Models\LessonModel;
+use App\Models\LessonsModel;
 use App\Models\LessonCourses;
 use Illuminate\Support\Facades\DB;
 
@@ -183,34 +183,34 @@ class SessionController extends Controller
         $cate = $request->post("cate");
         $session = SessionModel::find($id);
 
-        // DB::connection('mysql_reports')->unprepared('CREATE TABLE IF NOT EXISTS `tb_lesson_course_'.$id.'` (
-        //     `id` int(11) NOT NULL,
-        //     `curso_id` int(11) NOT NULL,
-        //     `course_id` int(11) NOT NULL,
-        //     `product_id` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-        //     `profile` int(11) NOT NULL,
-        //     `lang` varchar(3) COLLATE utf8_unicode_ci NOT NULL DEFAULT "30",
-        //     `module_structure` text COLLATE utf8_unicode_ci NOT NULL,
-        //     `screens_total` int(11) NOT NULL,
-        //     `screens_titles` text COLLATE utf8_unicode_ci NOT NULL,
-        //     `xml_src` text COLLATE utf8_unicode_ci NOT NULL,
-        //     `creation_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-        //     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-        //     ');
-        // $training = TrainingsModel::find($contentData);
-        // if($training-> lesson_content) {
-        //     $lessonList = json_decode($training->lesson_content, true);
-        //     if($lessonList != NULL) {
-        //         foreach($lessonList as $value) {
-        //             print_r('here lesson_course');
-        //             if(LessonCourses::find($value['item'])) {
-        //                 $lesson_course = LessonCourses::find($value['item']);
-        //                 print_r($lesson_course);
-        //             }
-        //         }
-        //         exit;
-        //     }
-        // }
+        DB::connection('mysql_reports')->unprepared('CREATE TABLE IF NOT EXISTS `tb_lesson_course_'.$id.'` (
+            `id` int(11) NOT NULL,
+            `curso_id` int(11) NOT NULL,
+            `course_id` int(11) NOT NULL,
+            `product_id` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+            `profile` int(11) NOT NULL,
+            `lang` varchar(3) COLLATE utf8_unicode_ci NOT NULL DEFAULT "30",
+            `module_structure` text COLLATE utf8_unicode_ci NOT NULL,
+            `screens_total` int(11) NOT NULL,
+            `screens_titles` text COLLATE utf8_unicode_ci NOT NULL,
+            `xml_src` text COLLATE utf8_unicode_ci NOT NULL,
+            `creation_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+            ');
+        $training = TrainingsModel::find($contentData);
+        if($training-> lesson_content) {
+            $lessonList = json_decode($training->lesson_content, true);
+            if($lessonList != NULL) {
+                foreach($lessonList as $value) {
+                    if(LessonCourses::getLessonCourseByCourseId($value['item'])) {
+                        $lesson_course = LessonCourses::getLessonCourseByCourseId($value['item']);
+                        DB::connection('mysql_reports')->unprepared("INSERT INTO `tb_lesson_course_".$id."` (`id`,`curso_id`, `course_id`, `product_id`, `profile`, `lang`, `module_structure`, `screens_total`, `screens_titles`, `xml_src`, `creation_date`) VALUES(".$lesson_course['id'].",".$lesson_course['curso_id'].",".$lesson_course['course_id'].",'".$lesson_course['product_id']."',".$lesson_course['profile'].",'".$lesson_course['lang']."','".$lesson_course['module_structure']."',".$lesson_course['screens_total'].",'".$lesson_course['screens_titles']."','".$lesson_course['xml_src']."','".$lesson_course['creation_date']."')"
+                        );
+                    }
+                }
+                exit;
+            }
+        }
 
         if ($session != NULL) {
             if ($cate == 'participant') {
