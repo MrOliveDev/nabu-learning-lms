@@ -112,6 +112,13 @@
                                     @endif
 
                                     @if ($training['training_pdf'])
+                                        <p class="mb-0 mt-2 text-center" style="color: #362f81">
+                                            @foreach ($lessons[$training['session_id']] as $lesson)
+                                                @if ($lesson['is_eval'])
+                                                    {{ $lesson['lesson']['threshold_score'] }}%
+                                                @endif
+                                            @endforeach
+                                        </p>
                                         <p class="mt-2 d-flex align-items-center" style="color: #362f81"><i
                                                 class="fa fa-file-pdf-o mr-4" style="font-size:55px;color:#7a3d89"></i>
                                             You've got documents to download</p>
