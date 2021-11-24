@@ -26,6 +26,10 @@ class LessonCourses extends Model
     public function scopeGetLessonCourseByCourseId($query, $lessonId){
 
         $data = $query->where('curso_id', $lessonId)->first();
-        return $data;
+        if($data){
+            return $data;
+        } else {
+            return "";
+        }
 	}
 }
