@@ -162,6 +162,7 @@ class SessionController extends Controller
         $session = SessionModel::find($id);
         $session->delete();
         DB::connection('mysql_reports')->unprepared('DROP TABLE IF EXISTS `tb_screen_optim_'.$id.'`');
+        DB::connection('mysql_reports')->unprepared('DROP TABLE IF EXISTS `tb_lesson_course_'.$id.'`');
         DB::connection('mysql_historic')->unprepared('DROP TABLE IF EXISTS `tb_evaluation_'.$id.'`');
         DB::connection('mysql_historic')->unprepared('DROP TABLE IF EXISTS `tb_evaluation_question_'.$id.'`');
         DB::connection('mysql_historic')->unprepared('DROP TABLE IF EXISTS `tb_screen_stats_'.$id.'`');
@@ -197,7 +198,9 @@ class SessionController extends Controller
             `creation_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
             ');
+        DB::connection('mysql_reports')->delete("DELETE FROM `tb_lesson_course_".$id."`");
         $training = TrainingsModel::find($contentData);
+        if($contentData){
         if($training-> lesson_content) {
             $lessonList = json_decode($training->lesson_content, true);
             if($lessonList != NULL) {
@@ -208,9 +211,9 @@ class SessionController extends Controller
                         );
                     }
                 }
-                exit;
             }
         }
+    }
 
         if ($session != NULL) {
             if ($cate == 'participant') {

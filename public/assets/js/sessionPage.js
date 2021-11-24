@@ -256,6 +256,8 @@ var toolkitAddItem = function (event) {
     $("#session_form .method-select").val('POST');
     $("#language").val(1);
     $("#session_form").attr('action', baseURL + '/session');
+    $('#session-status-icon').prop('checked', false);
+    $('.custom-control-label').html("Session Offline");
 
 };
 
@@ -329,6 +331,11 @@ var sessionItemClick = function (e) {
             }
 
             $('#session-status-icon').prop('checked', data.session_info.status == 1).change();
+            if(data.session_info.status == 1) {
+                $('.custom-control-label').html("Session Online");
+            } else {
+                $('.custom-control-label').html("Session Offline");
+            }
             $('#session_name').val(data.session_info.name);
             $('#session_description').val(data.session_info.description);
             $('#end_date').val(data.session_info.end_date);
