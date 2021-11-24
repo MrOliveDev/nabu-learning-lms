@@ -22,4 +22,10 @@ class LessonCourses extends Model
         $data = $query->where('curso_id', $lessonId)->where('lang', $lang)->first();
         return $data;
 	}
+
+    public function scopeGetLessonCourseByCourseId($query, $lessonId){
+
+        $data = $query->where('curso_id', $lessonId)->first();
+        return $data;
+	}
 }
