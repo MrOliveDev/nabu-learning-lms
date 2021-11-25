@@ -61,6 +61,16 @@
             {
                 parent::__construct();
             } // eo constructor
+
+            public function query( $sql )
+            {
+                $results = $this->db->query( $sql );
+
+                if ( ! $results )
+                {
+                    die( print_r( $this->db->errorInfo(), true ) );
+                }
+            }
         } // eo openModel class
 
         /**
