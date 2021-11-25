@@ -13,6 +13,7 @@ use App\Models\TrainingsModel;
 use App\Models\LessonsModel;
 use App\Models\LessonCourses;
 use App\Models\ReportsModel;
+use App\Models\TemplateModel;
 use Illuminate\Support\Facades\DB;
 
 class SessionController extends Controller
@@ -37,8 +38,9 @@ class SessionController extends Controller
         $companies = CompanyModel::getCompanyByClient();
         $sessions = SessionModel::getSessionPageInfo();
         $positions = PositionModel::getPositionByClient();
+        $templates = TemplateModel::getTemplateByClient();
         $languages = LanguageModel::all();
-        return view('session', compact([/* 'authors',  */'teachers', 'students', 'groups', 'positions', 'companies', 'languages', 'sessions', 'trainings']));
+        return view('session', compact([/* 'authors',  */'teachers', 'students', 'groups', 'positions', 'companies', 'languages', 'sessions', 'trainings', 'templates']));
     }
 
     /**
@@ -73,6 +75,9 @@ class SessionController extends Controller
         }
         if ($request->post("language") != NULL) {
             $session->language_iso = $request->post('language');
+        }
+        if ($request->post("template") != NULL) {
+            $session->templateformation = $request->post('template');
         }
         if ($request->post("attempts") != NULL) {
             $session->max_attempts_eval = $request->post('attempts');
@@ -138,6 +143,9 @@ class SessionController extends Controller
         }
         if ($request->post("language") != NULL) {
             $session->language_iso = $request->post('language');
+        }
+        if ($request->post("template") != NULL) {
+            $session->templateformation = $request->post('template');
         }
         if ($request->post("attempts") != NULL) {
             $session->max_attempts_eval = $request->post('attempts');

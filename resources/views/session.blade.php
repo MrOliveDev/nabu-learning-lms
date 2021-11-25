@@ -614,14 +614,29 @@
                             </div>
                             <div class="form-group">
                                 <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Templates
+                                        </span>
+                                    </div>
+                                    <select id="template" name="template" class="form-control">
+                                        <option value="" selected>Template</option>
+                                        @foreach ($templates as $template)
+                                            <option value="{{ $template->id }}">{{ $template->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
                                     <div class="input-group-prepend mb-5">
                                         <span class="input-group-text">
                                             Maximum attempt to evaluation
                                         </span>
                                     </div>
                                 </div>
-                                <input type="text" class="js-rangeslider" id="attempts"
-                                    name="attempts" value="0">
+                                <input type="text" class="js-rangeslider" id="attempts" name="attempts" value="0">
                             </div>
                         </div>
                         <div class="form-group" id='status-form-group'>
