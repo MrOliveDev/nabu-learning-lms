@@ -20,7 +20,11 @@ class LessonCourses extends Model
     public function scopeGetLessonCourse($query, $lessonId, $lang){
 
         $data = $query->where('curso_id', $lessonId)->where('lang', $lang)->first();
-        return $data;
+        if($data){
+            return $data;
+        } else {
+            return "";
+        }
 	}
 
     public function scopeGetLessonCourseByCourseId($query, $lessonId){
