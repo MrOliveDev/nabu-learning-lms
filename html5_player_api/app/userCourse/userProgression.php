@@ -85,7 +85,7 @@
 
         if($sessionId){
             $tableName = "tb_screen_optim_" . $sessionId;
-            $openModel = new openModel(DB_HISTORIC_DSN);
+            $openModel = new openModel(DB_REPORTS_DSN);
             $createSql = "CREATE TABLE IF NOT EXISTS `{$tableName}` ("
             . "`id_screen_optim` int(11) NOT NULL AUTO_INCREMENT,"
             . "`id_fabrique_screen_optim` varchar(10) COLLATE utf8_unicode_ci NOT NULL,"
