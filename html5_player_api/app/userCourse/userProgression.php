@@ -67,6 +67,7 @@
          * GET historic datas from DATABASE
          */
 
+        $openModel  = new openModel;
         $curso_sql = 'select * from tb_lesson where idFabrica = "'.$productId.'"';
         $curso_result = $openModel->getDatas( $curso_sql );
         $cursoId = $curso_result[0]['id'];
