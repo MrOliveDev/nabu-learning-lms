@@ -120,6 +120,10 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => 'html5
         require_once('../html5_player_api/app/userCourse/userProgression.php');
     });
 
+    Route::get('/progression/{sessionId}/{productId}/user/{userId}', function ($sessionId, $productId, $userId) {
+        require_once('../html5_player_api/app/userCourse/userProgression.php');
+    });
+
     // Route pour créer une session à un utilisateur
     Route::get('/user/{userId}/session/courses/{productId}', function ($userId, $productId) {
         require_once('../html5_player_api/app/user/userSession.php');
@@ -236,6 +240,10 @@ Route::group(['prefix' => 'html5_player_api_'], function () {
     });
 
     Route::get('/progression/{productId}/user/{userId}', function ($productId, $userId) {
+        require_once('../html5_player_api_/app/userCourse/userProgression.php');
+    });
+
+    Route::get('/progression/{sessionId}/{productId}/user/{userId}', function ($sessionId, $productId, $userId) {
         require_once('../html5_player_api_/app/userCourse/userProgression.php');
     });
 
