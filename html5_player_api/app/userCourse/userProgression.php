@@ -57,9 +57,9 @@
 
         class openModel extends dbModel
         {
-            public function __construct()
+            public function __construct($dbdsn = null)
             {
-                parent::__construct();
+                parent::__construct($dbdsn);
             } // eo constructor
 
             public function query( $sql )
