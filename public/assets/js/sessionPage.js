@@ -341,6 +341,10 @@ var sessionItemClick = function (e) {
             $('#end_date').val(data.session_info.end_date);
             $('#begin_date').val(data.session_info.begin_date);
             $('#language').val(data.session_info.language_iso);
+            $('#template').val(data.session_info.templateformation);
+            $("#attempts").data("ionRangeSlider").update({
+                from: data.session_info.max_attempts_eval,
+            });
         },
         error: function (err) {
             notification("Sorry, You can't get session data!", 2);
@@ -519,8 +523,8 @@ var formStatusChange = function (e) {
  * @returns 
  */
 var submitFunction = function (event) {
-    console.log($(this).attr('action'));
-    console.log($("#cate-status").attr("checked"));
+    // console.log($(this).attr('action'));
+    // console.log($("#cate-status").attr("checked"));
 
     return false;
 };
