@@ -12,6 +12,7 @@ use App\Models\SessionModel;
 use App\Models\TrainingsModel;
 use App\Models\LessonsModel;
 use App\Models\LessonCourses;
+use App\Models\ReportsModel;
 use Illuminate\Support\Facades\DB;
 
 class SessionController extends Controller
@@ -166,7 +167,8 @@ class SessionController extends Controller
         DB::connection('mysql_historic')->unprepared('DROP TABLE IF EXISTS `tb_evaluation_'.$id.'`');
         DB::connection('mysql_historic')->unprepared('DROP TABLE IF EXISTS `tb_evaluation_question_'.$id.'`');
         DB::connection('mysql_historic')->unprepared('DROP TABLE IF EXISTS `tb_screen_stats_'.$id.'`');
-
+        
+        ReportsModel::where('sessionId', $id)->delete();
         return response()->json(["success" => true]);
     }
 
