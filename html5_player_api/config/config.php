@@ -67,6 +67,7 @@ define('DEFAULT_LANGUAGE', 1); // ATTENTION : changer aussi dans open/optim.php
 // Local
 define("DB_DSN", "mysql:host=localhost;dbname=laravel");
 define("DB_HISTORIC_DSN", "mysql:host=localhost;dbname=db_historic");
+define("DB_REPORTS_DSN", "mysql:host=localhost;dbname=db_reports");
 define("DB_USERNAME", "root");
 define("DB_PASSWORD", "mabrQv$%2x");
 
