@@ -186,6 +186,28 @@
 
             }
 
+            if($nextlesson != ''){
+                $sql = "SELECT lang FROM tb_users WHERE id = " . auth()->user()->id;
+                $userdata = $openModel->getDatas( $sql );
+                if($userdata[0])
+                {
+                    $sql = "SELECT language_iso FROM tb_languages WHERE language_id = " . $userdata[0]['lang'];
+                    $lang = $openModel->getDatas( $sql );
+                    if($lang[0])
+                    {
+                        $sql = "SELECT * FROM tb_lesson_courses WHERE product_id = '" . $nextlesson . "' AND lang = '" . $lang[0]['language_iso'] . "'";
+                        $lessondata = $openModel->getDatas( $sql );
+                        if($lessondata[0])
+                            $return['datas']['nextCourseId'] = $lessondata[0]['course_id'];
+                        else{
+                            $sql = "SELECT * FROM tb_lesson_courses WHERE product_id = '" . $nextlesson . "' AND lang = '" . $lang[0]['language_iso'] . "'";
+                            $lessondata = $openModel->getDatas( $sql );
+                            if($lessondata[0])
+                                $return['datas']['nextCourseId'] = $lessondata[0]['course_id'];
+                        }
+                    }
+                }
+            }
             // if($nextlesson != ''){
             //     $sql = "SELECT lang, profile FROM tb_users WHERE id = " . auth()->user()->id;
             //     $userdata = $openModel->getDatas( $sql );
