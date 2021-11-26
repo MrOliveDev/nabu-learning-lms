@@ -90,7 +90,7 @@
         if($sessionId) {
             $sql4        = "SELECT contents FROM `tb_session` WHERE id = '$sessionId'";
             $results_training    = $openModel->getDatas( $sql4 );
-            $trainingId = $results_training;
+            $trainingId = $results_training[0]['contents'];
         }
         
         $sql3 = "SELECT lesson_content FROM `tb_trainings` WHERE id = '$trainingId'";
