@@ -170,12 +170,10 @@
             $return['datas']['thresholdscore']      = $thresholdscore;
 
             if($sessionId){
-                $sql1 = "SELECT max_attempts_eval, contents FROM `tb_session` WHERE id = '$sessionId'";
+                $sql1 = "SELECT max_attempts_eval FROM `tb_session` WHERE id = '$sessionId'";
                 $results1 = $openModel->getDatas( $sql1 );
                 $max_attempts_eval = $results1[0]['max_attempts_eval'];
-                $trainingId = $results1[0]['contents'];
                 $return['datas']['maxEvalAttempts'] = $max_attempts_eval;
-                $return['datas']['contents'] = $trainingId;
 
                 $insertModel = new openModel(DB_HISTORIC_DSN);
                 $evalTableName = "tb_evaluation_" . $sessionId;
@@ -187,28 +185,28 @@
 
             }
 
-            if($nextlesson != ''){
-                $sql = "SELECT lang, profile FROM tb_users WHERE id = " . auth()->user()->id;
-                $userdata = $openModel->getDatas( $sql );
-                if($userdata[0])
-                {
-                    $sql = "SELECT language_iso FROM tb_languages WHERE language_id = " . $userdata[0]['lang'];
-                    $lang = $openModel->getDatas( $sql );
-                    if($lang[0])
-                    {
-                        $sql = "SELECT * FROM tb_lesson_courses WHERE product_id = '" . $nextlesson . "' AND profile = '" . $userdata[0]['profile'] . "' AND lang = '" . $lang[0]['language_iso'] . "'";
-                        $lessondata = $openModel->getDatas( $sql );
-                        if($lessondata[0])
-                            $return['datas']['nextCourseId'] = $lessondata[0]['course_id'];
-                        else{
-                            $sql = "SELECT * FROM tb_lesson_courses WHERE product_id = '" . $nextlesson . "' AND profile = '0' AND lang = '" . $lang[0]['language_iso'] . "'";
-                            $lessondata = $openModel->getDatas( $sql );
-                            if($lessondata[0])
-                                $return['datas']['nextCourseId'] = $lessondata[0]['course_id'];
-                        }
-                    }
-                }
-            }
+            // if($nextlesson != ''){
+            //     $sql = "SELECT lang, profile FROM tb_users WHERE id = " . auth()->user()->id;
+            //     $userdata = $openModel->getDatas( $sql );
+            //     if($userdata[0])
+            //     {
+            //         $sql = "SELECT language_iso FROM tb_languages WHERE language_id = " . $userdata[0]['lang'];
+            //         $lang = $openModel->getDatas( $sql );
+            //         if($lang[0])
+            //         {
+            //             $sql = "SELECT * FROM tb_lesson_courses WHERE product_id = '" . $nextlesson . "' AND profile = '" . $userdata[0]['profile'] . "' AND lang = '" . $lang[0]['language_iso'] . "'";
+            //             $lessondata = $openModel->getDatas( $sql );
+            //             if($lessondata[0])
+            //                 $return['datas']['nextCourseId'] = $lessondata[0]['course_id'];
+            //             else{
+            //                 $sql = "SELECT * FROM tb_lesson_courses WHERE product_id = '" . $nextlesson . "' AND profile = '0' AND lang = '" . $lang[0]['language_iso'] . "'";
+            //                 $lessondata = $openModel->getDatas( $sql );
+            //                 if($lessondata[0])
+            //                     $return['datas']['nextCourseId'] = $lessondata[0]['course_id'];
+            //             }
+            //         }
+            //     }
+            // }
         } // eo else
     } // eo else
 

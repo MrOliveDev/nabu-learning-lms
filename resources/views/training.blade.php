@@ -214,6 +214,11 @@
                                                     data-item-id="{{ $lesson['id'] }}"
                                                     data-fabrica="{{ $lesson['idFabrica'] }}">
                                                     <i class="px-2 fa fa-trash-alt"></i>
+                                                    {{-- @if ($training->status == 0)
+                                                        <i class="px-2 fa fa-trash-alt"></i>
+                                                    @else
+                                                        <i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>
+                                                    @endif --}}
                                                 </button>
                                             @endif
                                             @if (isset(session('permission')->training->lesson->play))
@@ -247,6 +252,11 @@
                                                 data-item-id="{{ $lesson['id'] }}"
                                                 data-fabrica="{{ $lesson['idFabrica'] }}">
                                                 <i class="px-2 fa fa-trash-alt"></i>
+                                                {{-- @if ($training->status == 0)
+                                                    <i class="px-2 fa fa-trash-alt"></i>
+                                                @else
+                                                    <i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>
+                                                @endif --}}
                                             </button>
                                         @endif
                                         @if (isset(session('permission')->training->lesson->play))
@@ -682,8 +692,13 @@
                             </div>
                             <div class="form-group m-5 my-auto" id='status-form'>
                                 <div class="custom-control custom-switch custom-control-lg mb-2 ml-0 ">
-                                    <input type="checkbox" class="custom-control-input" id="training-status-icon"
-                                        name="training-status-icon" checked="">
+                                    @if ($training->status == 0)
+                                        <input type="checkbox" class="custom-control-input" id="training-status-icon"
+                                            name="training-status-icon" checked="">
+                                    @else
+                                        <input type="checkbox" class="custom-control-input" id="training-status-icon"
+                                            name="training-status-icon" checked="" disabled>
+                                    @endif
                                     <label class="custom-control-label"
                                         for="training-status-icon">Online/Offline</label>
                                 </div>
@@ -696,8 +711,13 @@
                                                 Name<span class="text-danger">*</span>
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control" id="training_name"
-                                            name="training_name" value="" required="">
+                                        @if ($training->status == 0)
+                                            <input type="text" class="form-control" id="training_name"
+                                                name="training_name" value="" required="">
+                                        @else
+                                            <input type="text" class="form-control" id="training_name"
+                                                name="training_name" value="" required="" disabled>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -718,16 +738,22 @@
                                                 Language<span class="text-danger">*</span>
                                             </span>
                                         </div>
-                                        <select class="form-control" id="training_language" name="training_language">
-                                            @foreach ($languages as $language)
-                                                @if ($loop->last)
-                                                    <option value="{{ $language->language_id }}" selected>
-                                                        {{ $language->language_name }}</option>
-                                                @else
-                                                    <option value="{{ $language->language_id }}">
-                                                        {{ $language->language_name }}</option>
-                                                @endif
-                                            @endforeach
+                                        @if ($training->status == 0)
+                                            <select class="form-control" id="training_language"
+                                                name="training_language">
+                                            @else
+                                                <select class="form-control" id="training_language"
+                                                    name="training_language" disabled>
+                                        @endif
+                                        @foreach ($languages as $language)
+                                            @if ($loop->last)
+                                                <option value="{{ $language->language_id }}" selected>
+                                                    {{ $language->language_name }}</option>
+                                            @else
+                                                <option value="{{ $language->language_id }}">
+                                                    {{ $language->language_name }}</option>
+                                            @endif
+                                        @endforeach
                                         </select>
                                     </div>
                                 </div>
