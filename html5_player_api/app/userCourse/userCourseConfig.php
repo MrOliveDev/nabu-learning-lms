@@ -88,12 +88,12 @@
         } // eo if
 
         if($sessionId) {
-            $sql        = "SELECT contents FROM `tb_session` WHERE id = $sessionId";
+            $sql        = "SELECT contents FROM `tb_session` WHERE id = '$sessionId'";
             $results    = $openModel->getDatas( $sql );
             $trainingId = $results[0];
         }
         
-        $sql = "SELECT lesson_content FROM `tb_trainings` WHERE id = $trainingId";
+        $sql = "SELECT lesson_content FROM `tb_trainings` WHERE id = '$trainingId'";
         $results    = $openModel->getDatas( $sql );
         $training = $results[0];
 
@@ -103,7 +103,7 @@
             if ($lessonList != NULL) {
                 foreach ($lessonList as $value) {
                     $lessonId = $value['item'];
-                    $sql = "SELECT idFabrica FROM `tb_lesson` WHERE id = $lessonId";
+                    $sql = "SELECT idFabrica FROM `tb_lesson` WHERE id = '$lessonId'";
                     $results    = $openModel->getDatas( $sql );
                     if ( $next ) {
                         if ( count( $nextlessons ) == 0 )
