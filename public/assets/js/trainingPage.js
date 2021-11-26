@@ -185,15 +185,15 @@ var btnClick = function (e) {
             case "div_A":
                 if ($("#div_D").find(".highlight").length != 0)
                     $("#div_D")
-                        .find(".highlight")
-                        .each(function (i, e) {
-                            $(e).removeClass("highlight");
-                            $(e)
-                                .find(".btn")
-                                .each(function (i, item) {
-                                    $(item).removeClass("active");
-                                });
-                        });
+                    .find(".highlight")
+                    .each(function (i, e) {
+                        $(e).removeClass("highlight");
+                        $(e)
+                            .find(".btn")
+                            .each(function (i, item) {
+                                $(item).removeClass("active");
+                            });
+                    });
                 break;
             case "div_B":
                 if (
@@ -201,15 +201,15 @@ var btnClick = function (e) {
                     activedTab == "#training-table"
                 )
                     $("#div_C")
-                        .find(".highlight")
-                        .each(function (i, e) {
-                            $(e).removeClass("highlight");
-                            $(e)
-                                .find(".btn")
-                                .each(function (i, item) {
-                                    $(item).removeClass("active");
-                                });
-                        });
+                    .find(".highlight")
+                    .each(function (i, e) {
+                        $(e).removeClass("highlight");
+                        $(e)
+                            .find(".btn")
+                            .each(function (i, item) {
+                                $(item).removeClass("active");
+                            });
+                    });
                 break;
             case "div_C":
                 if (
@@ -217,28 +217,28 @@ var btnClick = function (e) {
                     activedTab == "#training-table"
                 )
                     $("#div_B")
-                        .find(".highlight")
-                        .each(function (i, e) {
-                            $(e).removeClass("highlight");
-                            $(e)
-                                .find(".btn")
-                                .each(function (i, item) {
-                                    $(item).removeClass("active");
-                                });
-                        });
+                    .find(".highlight")
+                    .each(function (i, e) {
+                        $(e).removeClass("highlight");
+                        $(e)
+                            .find(".btn")
+                            .each(function (i, item) {
+                                $(item).removeClass("active");
+                            });
+                    });
                 break;
             case "div_D":
                 if ($("#div_A").find(".highlight").length != 0)
                     $("#div_A")
-                        .find(".highlight")
-                        .each(function (i, e) {
-                            $(e).removeClass("highlight");
-                            $(e)
-                                .find(".btn")
-                                .each(function (i, item) {
-                                    $(item).removeClass("active");
-                                });
-                        });
+                    .find(".highlight")
+                    .each(function (i, e) {
+                        $(e).removeClass("highlight");
+                        $(e)
+                            .find(".btn")
+                            .each(function (i, item) {
+                                $(item).removeClass("active");
+                            });
+                    });
                 break;
 
             default:
@@ -625,51 +625,51 @@ var item_delete = function (element) {
 };
 
 var itemDelete = function (event) {
-    elem = $(this);
-    cate = $(this).attr("data-content");
-    var e = Swal.mixin({
-        buttonsStyling: !1,
-        customClass: {
-            confirmButton: "btn btn-success m-1",
-            cancelButton: "btn btn-danger m-1",
-            input: "form-control",
-        },
-    });
-    e.fire({
-        title: "Are you sure you want to delete this item ?",
-        text:
-            cate == "student"
-                ? " This user and all his historic and reports will be permanently deleted"
-                : "",
-        icon: "warning",
-        showCancelButton: !0,
-        customClass: {
-            confirmButton: "btn btn-danger m-1",
-            cancelButton: "btn btn-secondary m-1",
-        },
-        confirmButtonText: "Yes, delete it!",
-        html: !1,
-        preConfirm: function (e) {
-            return new Promise(function (e) {
-                setTimeout(function () {
-                    e();
-                    item_delete(elem);
-                }, 50);
-            });
-        },
-    }).then(function (n) {
-        if (n.value) {
-            e.fire(
-                "Deleted!",
-                "Your " + cate + " has been deleted.",
-                "success"
-            );
-            $(elem).parents(".list-group-item").remove();
-        } else {
-            "cancel" === n.dismiss &&
-                e.fire("Cancelled", "Your data is safe :)", "error");
-        }
-    });
+    if ($(this).find("i").css("opacity") != 0.3) {
+        elem = $(this);
+        cate = $(this).attr("data-content");
+        var e = Swal.mixin({
+            buttonsStyling: !1,
+            customClass: {
+                confirmButton: "btn btn-success m-1",
+                cancelButton: "btn btn-danger m-1",
+                input: "form-control",
+            },
+        });
+        e.fire({
+            title: "Are you sure you want to delete this item ?",
+            text: cate == "student" ?
+                " This user and all his historic and reports will be permanently deleted" : "",
+            icon: "warning",
+            showCancelButton: !0,
+            customClass: {
+                confirmButton: "btn btn-danger m-1",
+                cancelButton: "btn btn-secondary m-1",
+            },
+            confirmButtonText: "Yes, delete it!",
+            html: !1,
+            preConfirm: function (e) {
+                return new Promise(function (e) {
+                    setTimeout(function () {
+                        e();
+                        item_delete(elem);
+                    }, 50);
+                });
+            },
+        }).then(function (n) {
+            if (n.value) {
+                e.fire(
+                    "Deleted!",
+                    "Your " + cate + " has been deleted.",
+                    "success"
+                );
+                $(elem).parents(".list-group-item").remove();
+            } else {
+                "cancel" === n.dismiss &&
+                    e.fire("Cancelled", "Your data is safe :)", "error");
+            }
+        });
+    }
 };
 
 var itemShow = function (event) {
@@ -685,11 +685,11 @@ var itemShow = function (event) {
     var id = $(this).attr("data-item-id");
     var cate = $(this).attr("data-content");
     $.post({
-        url: baseURL + "/" + cate + "show/" + id,
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
-    })
+            url: baseURL + "/" + cate + "show/" + id,
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+        })
         .done(function (data) {
             if (data && data.length != 0) {
                 var detachIcon, addedbutton;
@@ -703,8 +703,7 @@ var itemShow = function (event) {
                                 e &&
                                 Object.keys(e).length === 0 &&
                                 e.constructor === Object
-                            ) {
-                            } else {
+                            ) {} else {
                                 detachIcon = $(
                                     '<button class="btn toggle1-btn" data-content="training"><i class="px-2 fas fa-unlink"></i></button>'
                                 ).on("click", detachLink);
@@ -727,8 +726,7 @@ var itemShow = function (event) {
                                 e &&
                                 Object.keys(e).length === 0 &&
                                 e.constructor === Object
-                            ) {
-                            } else {
+                            ) {} else {
                                 detachIcon = $(
                                     '<button class="btn toggle1-btn" data-content="lesson"><i class="px-2 fas fa-unlink"></i></button>'
                                 ).on("click", detachLink);
@@ -756,9 +754,9 @@ var itemPlay = function (event) {
         $(this).parents(".list-group-item").attr("id")
     );
     $.get(
-        "getlanguagesforlesson/" +
+            "getlanguagesforlesson/" +
             $(this).closest(".item-play").attr("data-fabrica")
-    )
+        )
         .done(function (data) {
             if (data == "") {
                 swal.fire({
@@ -807,19 +805,19 @@ var templateConfirm = function (event) {
     var parent = $("#template-group").attr("item");
     window.open(
         baseURL +
-            "/player_editor" +
-            "/#/open/" +
-            languageSelect +
-            "/" +
-            featureSelect +
-            "/0/" +
-            $("#" + $("#template-group").attr("item"))
-                .find(".item-play")
-                .attr("data-fabrica") +
-            "/" +
-            course +
-            "/" +
-            templateSelect
+        "/player_editor" +
+        "/#/open/" +
+        languageSelect +
+        "/" +
+        featureSelect +
+        "/0/" +
+        $("#" + $("#template-group").attr("item"))
+        .find(".item-play")
+        .attr("data-fabrica") +
+        "/" +
+        course +
+        "/" +
+        templateSelect
     );
 };
 
@@ -833,13 +831,13 @@ var fabriqueTemplateConfirm = function (event) {
     var parent = $(this).parents(".list-group-item");
     window.open(
         baseURL +
-            "/fabrique_editor" +
-            "/#/open/" +
-            $("#" + $("#fabrique-template").attr("item"))
-                .find(".item-play")
-                .attr("data-fabrica") +
-            "/" +
-            templateSelect
+        "/fabrique_editor" +
+        "/#/open/" +
+        $("#" + $("#fabrique-template").attr("item"))
+        .find(".item-play")
+        .attr("data-fabrica") +
+        "/" +
+        templateSelect
     );
 };
 
@@ -871,7 +869,9 @@ var itemRefresh = function (event) {
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
-        data: { id: $(this).attr("data-item-id") },
+        data: {
+            id: $(this).attr("data-item-id")
+        },
         success: function (res) {
             if (res.success) {
                 notification("Successfully Refreshed", 1);
@@ -889,34 +889,46 @@ var curTrainingId = -1;
 
 var itemScorm = function (event) {
     curTrainingId = $(this).attr("data-item-id");
-    $("#scormModal").modal({ backdrop: "static", keyboard: false });
+    $("#scormModal").modal({
+        backdrop: "static",
+        keyboard: false
+    });
 };
 
 var itemType = function (event) {
-    var parent = $(this).parents(".list-group-item");
-    var id = parent.attr("id").split("_")[1];
-    if ($(this).attr("data-type") == "1") {
-        $(this).attr("data-type", "2");
-        $(this).find("i").toggleClass("fa-wave-square", false);
-        $(this).find("i").toggleClass("fa-sort-amount-down-alt", true);
-    } else {
-        $(this).attr("data-type", "1");
-        $(this).find("i").toggleClass("fa-wave-square", true);
-        $(this).find("i").toggleClass("fa-sort-amount-down-alt", false);
-    }
+    if ($(this).find("i").css("opacity") != "0.3") {
+        var parent = $(this).parents(".list-group-item");
+        var id = parent.attr("id").split("_")[1];
+        if ($(this).attr("data-type") == "1") {
+            $(this).attr("data-type", "2");
+            $(this).find("i").toggleClass("fa-wave-square", false);
+            $(this).find("i").toggleClass("fa-sort-amount-down-alt", true);
+        } else {
+            $(this).attr("data-type", "1");
+            $(this).find("i").toggleClass("fa-wave-square", true);
+            $(this).find("i").toggleClass("fa-sort-amount-down-alt", false);
+        }
 
-    $.post({
-        url: baseURL + "/trainingupdatetype",
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
-        data: {
-            id: id,
-            type: $(this).attr("data-type"),
-        },
-    }).done(function (data) {
-        updateTrainingData(data, parent.attr("id"));
-    });
+        $.post({
+            url: baseURL + "/trainingupdatetype",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            data: {
+                id: id,
+                type: $(this).attr("data-type"),
+            },
+        }).done(function (data) {
+            updateTrainingData(data, parent.attr("id"));
+        });
+    } else {
+        // swal.fire({
+        //     title: "Warning",
+        //     text: "You must finish the previous lesson first",
+        //     icon: "info",
+        //     confirmButtonText: `OK`,
+        // });
+    }
 };
 
 var submitFunction = function (event) {
@@ -945,10 +957,9 @@ var detachLink = function (e) {
         var srcValue = $("#training_" + showeditem).attr("data-lesson");
         var jsonValue = JSON.parse(srcValue);
         result = JSON.stringify(jsonRemove(jsonValue, id));
-        $("#training_"+showeditem).attr("data-lesson", result)
+        $("#training_" + showeditem).attr("data-lesson", result)
         detachCall(
-            cate,
-            {
+            cate, {
                 id: showeditem,
                 target: result,
             },
@@ -966,15 +977,14 @@ var detachLink = function (e) {
         $(`.lesson_` + showeditem).attr(
             "data-training",
             $(`.lesson_` + showeditem)
-                .attr("data-training")
-                .split("_")
-                .filter((e) => e != id)
-                .join("_")
+            .attr("data-training")
+            .split("_")
+            .filter((e) => e != id)
+            .join("_")
         );
         result = parent.attr("data-lesson");
         detachCall(
-            cate,
-            {
+            cate, {
                 id: id,
                 target: result,
             },
@@ -1003,13 +1013,13 @@ var combine = function (value, id) {
 
 var detachCall = function (cate, connectiondata, element) {
     $.post({
-        url: baseURL + "/traininglinkfromlesson",
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
+            url: baseURL + "/traininglinkfromlesson",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
 
-        data: connectiondata,
-    })
+            data: connectiondata,
+        })
         .done(function (data) {
             notification("Successfully unlinked!", 1);
             if (element.parents("fieldset").attr("id") == "RightPanel") {
@@ -1067,9 +1077,9 @@ var submitBtn = function (event) {
             .map(function (item) {
                 if (item.name == "training-status-icon") {
                     item.value =
-                        $("#training-status-icon").prop("checked") == true
-                            ? 1
-                            : 0;
+                        $("#training-status-icon").prop("checked") == true ?
+                        1 :
+                        0;
                 }
                 return item;
             });
@@ -1081,25 +1091,21 @@ var submitBtn = function (event) {
             if (formname == "training_form") {
                 serialval.push({
                     name: "training-status-icon",
-                    value:
-                        $("#training-status-icon").prop("checked") == true
-                            ? 1
-                            : 0,
+                    value: $("#training-status-icon").prop("checked") == true ?
+                        1 : 0,
                 });
             }
         }
         if (
             !$("#" + formname)
-                .find("input[type=checkbox]")
-                .prop("checked")
+            .find("input[type=checkbox]")
+            .prop("checked")
         ) {
             if (formname == "training_form") {
                 serialval.push({
                     name: "training-status-icon",
-                    value:
-                        $("#training-status-icon").prop("checked") == true
-                            ? 1
-                            : 0,
+                    value: $("#training-status-icon").prop("checked") == true ?
+                        1 : 0,
                 });
             }
         }
@@ -1144,7 +1150,9 @@ var submitBtn = function (event) {
                                     'meta[name="csrf-token"]'
                                 ).attr("content"),
                             },
-                            data: { id: data.id },
+                            data: {
+                                id: data.id
+                            },
                             success: function (res) {
                                 if (res.success) {
                                     notification("Successfully Refreshed", 1);
@@ -1214,8 +1222,8 @@ var submitBtn = function (event) {
         $("#" + formname).attr("data-item") != null
     ) {
         var targetName = $("#" + formname)
-                .attr("data-item")
-                .split("_")[0],
+            .attr("data-item")
+            .split("_")[0],
             sourceId;
         if (targetName == "lesson") {
             sourceId = $("#lesson_form").attr("data-item");
@@ -1233,12 +1241,12 @@ var createLanguageData = function (datas) {
     datas.forEach(function (data) {
         languageData.append(
             '<option value="' +
-                data.iso +
-                '" course="' +
-                data.course +
-                '">' +
-                data.name +
-                "</option>"
+            data.iso +
+            '" course="' +
+            data.course +
+            '">' +
+            data.name +
+            "</option>"
         );
     });
     return languageData;
@@ -1280,72 +1288,72 @@ var createLessonData = function (data) {
     }
     var lessonItem = $(
         '<a class="list-group-item list-group-item-action p-0 border-transparent border-5x lesson_' +
-            data["id"] +
-            ' "' +
-            'data-date="' +
-            data["creation_date"] +
-            '" data-training = "' +
-            data["training"].join("_") +
-            '" id="lesson_' +
-            data["id"] +
-            '"draggable= "true"' +
-            ">" +
-            '<div class="float-left">' +
-            status_temp +
-            '<span class="item-name">' +
-            data["name"] +
-            "</span>" +
-            "</div>" +
-            '<div class="btn-group float-right">' +
-            '<span class=" p-2 font-weight-bolder item-lang">' +
-            data["language_iso"].toUpperCase() +
-            "</span>" +
-            "</div>" +
-            "</a>"
+        data["id"] +
+        ' "' +
+        'data-date="' +
+        data["creation_date"] +
+        '" data-training = "' +
+        data["training"].join("_") +
+        '" id="lesson_' +
+        data["id"] +
+        '"draggable= "true"' +
+        ">" +
+        '<div class="float-left">' +
+        status_temp +
+        '<span class="item-name">' +
+        data["name"] +
+        "</span>" +
+        "</div>" +
+        '<div class="btn-group float-right">' +
+        '<span class=" p-2 font-weight-bolder item-lang">' +
+        data["language_iso"].toUpperCase() +
+        "</span>" +
+        "</div>" +
+        "</a>"
     );
     var btnShow = $(
         '<button class="btn  item-show" data-content="lesson" data-item-id="' +
-            data["id"] +
-            '">' +
-            '<i class="px-2 fa fa-eye"></i>' +
-            "</button>"
+        data["id"] +
+        '">' +
+        '<i class="px-2 fa fa-eye"></i>' +
+        "</button>"
     );
     var btnEdit = $(
         '<button class="btn item-edit" data-content="lesson" data-item-id="' +
-            data["id"] +
-            '">' +
-            '<i class="px-2 fa fa-edit"></i>' +
-            "</button>"
+        data["id"] +
+        '">' +
+        '<i class="px-2 fa fa-edit"></i>' +
+        "</button>"
     );
     var btnDelete = $(
         '<button class="btn item-delete" data-content="lesson" data-item-id="' +
-            data["id"] +
-            '" data-fabrica ="' +
-            data["idFabrica"] +
-            '">' +
-            '<i class="px-2 fa fa-trash-alt"></i>' +
-            "</button>"
+        data["id"] +
+        '" data-fabrica ="' +
+        data["idFabrica"] +
+        '">' +
+        '<i class="px-2 fa fa-trash-alt"></i>' +
+        "</button>"
     );
     var btnPlay = $(
         '<button class="btn item-play" data-content="lesson" data-fabrica ="' +
-            data["idFabrica"] +
-            '">' +
-            '<i class="px-2 fa fa-play"></i>' +
-            "</button>"
+        data["idFabrica"] +
+        '">' +
+        '<i class="px-2 fa fa-play"></i>' +
+        "</button>"
     );
     var btnTemplate = $(
         '<button class="btn item-template" data-content="lesson" data-template = "' +
-            data["template_player_id"] +
-            '">' +
-            '<i class="px-2 fa fa-cube"></i>' +
-            "</button>"
+        data["template_player_id"] +
+        '">' +
+        '<i class="px-2 fa fa-cube"></i>' +
+        "</button>"
     );
     var btnRefresh = $(
         '<button class="btn item-refresh" data-content="lesson" data-item-id = "' +
-            data["id"] +
-            '">' +
-            '<i class="px-2 fa fa-sync-alt"></i>' +
-            "</button>"
+        data["id"] +
+        '">' +
+        '<i class="px-2 fa fa-sync-alt"></i>' +
+        "</button>"
     );
 
     btnShow.click(btnClick).click(itemShow);
@@ -1392,67 +1400,79 @@ var createTrainingData = function (data) {
     }
     var trainingItem = $(
         '<a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_' +
-            data["id"] +
-            '"' +
-            'data-date="' +
-            data["creation_date"] +
-            '" data-lesson = ' +
-            "''" +
-            ' id="training_' +
-            data["id"] +
-            '">' +
-            '<div class="float-left">' +
-            status_temp +
-            '<span class="item-name">' +
-            data["name"] +
-            "</span>" +
-            "</div>" +
-            '<div class="btn-group float-right">' +
-            '<span class=" p-2 font-weight-bolder item-lang">' +
-            data["language_iso"].toUpperCase() +
-            "</span>" +
-            "</div>" +
-            "</a>"
+        data["id"] +
+        '"' +
+        'data-date="' +
+        data["creation_date"] +
+        '" data-lesson = ' +
+        "''" +
+        ' id="training_' +
+        data["id"] +
+        '">' +
+        '<div class="float-left">' +
+        status_temp +
+        '<span class="item-name">' +
+        data["name"] +
+        "</span>" +
+        "</div>" +
+        '<div class="btn-group float-right">' +
+        '<span class=" p-2 font-weight-bolder item-lang">' +
+        data["language_iso"].toUpperCase() +
+        "</span>" +
+        "</div>" +
+        "</a>"
     );
-
-    var btnType =
-        data.type == 1
-            ? $(
-                  '<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
-                      '<i class="px-2 fas fa-sort-amount-down-alt"></i></button>'
-              )
-            : $(
-                  '<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
-                      '<i class="px-2 fas fa-wave-square"></i></button>'
-              );
+    if (data["status"] == 0) {
+        var btnType =
+            data.type == 1 ?
+            $(
+                '<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
+                '<i class="px-2 fas fa-sort-amount-down-alt"></i></button>'
+            ) :
+            $(
+                '<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
+                '<i class="px-2 fas fa-wave-square"></i></button>'
+            );
+    } else {
+        var btnType =
+            data.type == 1 ?
+            $(
+                '<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
+                '<i class="px-2 fas fa-sort-amount-down-alt" style="opacity: 0.3"></i></button>'
+            ) :
+            $(
+                '<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
+                '<i class="px-2 fas fa-wave-square" style="opacity: 0.3"></i></button>'
+            );
+    }
 
     var btnScorm = $(
         '<button class="btn item-scorm" data-content="training" data-item-id = "' +
-            data["id"] +
-            '">' +
-            '<i class="px-2 fa fa-cogs"></i>' +
-            "</button>"
+        data["id"] +
+        '">' +
+        '<i class="px-2 fa fa-cogs"></i>' +
+        "</button>"
     );
     var btnShow = $(
         '<button class="btn  item-show" data-content="training" data-item-id="' +
-            data["id"] +
-            '">' +
-            '<i class="px-2 fa fa-eye"></i>' +
-            "</button>"
+        data["id"] +
+        '">' +
+        '<i class="px-2 fa fa-eye"></i>' +
+        "</button>"
     );
     var btnEdit = $(
         '<button class="btn item-edit" data-content="training" data-item-id="' +
-            data["id"] +
-            '">' +
-            '<i class="px-2 fa fa-edit"></i>' +
-            "</button>"
+        data["id"] +
+        '">' +
+        '<i class="px-2 fa fa-edit"></i>' +
+        "</button>"
     );
     var btnDelete = $(
         '<button class="btn item-delete" data-content="training" data-item-id="' +
-            data["id"] +
-            '">' +
-            '<i class="px-2 fa fa-trash-alt"></i>' +
-            "</button>"
+        data["id"] +
+        '">' +
+        '<i class="px-2 fa fa-trash-alt"></i>' +
+        "</button>"
     );
 
     btnType.click(btnClick).click(itemType);
@@ -1500,10 +1520,21 @@ var updateLessonData = function (data, target) {
 
 var updateTrainingData = function (data, target) {
     $("." + target).each(function (i, im) {
-        var btnType =
-            data.type == 1
-                ? $('<i class="px-2 fas fa-sort-amount-down-alt"></i>')
-                : $('<i class="px-2 fas fa-wave-square"></i>');
+        if (data['status'] == 0) {
+            var btnType =
+                data.type == 1 ?
+                $('<i class="px-2 fas fa-sort-amount-down-alt"></i>') :
+                $('<i class="px-2 fas fa-wave-square"></i>');
+        } else {
+            var btnType =
+                data.type == 1 ?
+                $('<i class="px-2 fas fa-sort-amount-down-alt" style="opacity: 0.3"></i>') :
+                $('<i class="px-2 fas fa-wave-square" style="opacity: 0.3"></i>');
+        }
+
+        if (data['status'] == 1) {
+            $(im).find(".item-delete i").css('opacity', '0.3');
+        } 
 
         $(im).find(".item-type i").remove();
         $(im).find(".item-type").attr("data-value", data.type);
@@ -1650,9 +1681,9 @@ var searchfilter = function (event) {
             str == null ||
             str == "" ||
             item_name
-                .replace(/\s+/g, "")
-                .toLowerCase()
-                .indexOf(str.toLowerCase().replace(/\s+/g, "")) >= 0
+            .replace(/\s+/g, "")
+            .toLowerCase()
+            .indexOf(str.toLowerCase().replace(/\s+/g, "")) >= 0
         ) {
             switch (opt) {
                 case "on":
@@ -1767,9 +1798,11 @@ var toolkitLessonMultiDelete = function (event) {
         }).then(function (n) {
             if (n.value) {
                 $.post({
-                    url: baseURL + "/" + category + "/multidelete",
-                    data: { data: selectedItemStr },
-                })
+                        url: baseURL + "/" + category + "/multidelete",
+                        data: {
+                            data: selectedItemStr
+                        },
+                    })
                     .done(function () {
                         e.fire(
                             "Deleted!",
@@ -1828,17 +1861,17 @@ var sortfilter = function (event) {
                 lessonNameSort = !lessonNameSort;
                 $items.sort(function (a, b) {
                     var an = $(a)
-                            .find("span.item-name")
-                            .html()
-                            .split("&nbsp;")
-                            .join("")
-                            .toLowerCase(),
+                        .find("span.item-name")
+                        .html()
+                        .split("&nbsp;")
+                        .join("")
+                        .toLowerCase(),
                         bn = $(b)
-                            .find("span.item-name")
-                            .html()
-                            .split("&nbsp;")
-                            .join("")
-                            .toLowerCase();
+                        .find("span.item-name")
+                        .html()
+                        .split("&nbsp;")
+                        .join("")
+                        .toLowerCase();
 
                     if (lessonNameSort) {
                         nameIcon.toggleClass("fa-sort-alpha-down", true);
@@ -1899,17 +1932,17 @@ var sortfilter = function (event) {
                 trainingNameSort = !trainingNameSort;
                 $items.sort(function (a, b) {
                     var an = $(a)
-                            .find("span.item-name")
-                            .html()
-                            .split("&nbsp;")
-                            .join("")
-                            .toLowerCase(),
+                        .find("span.item-name")
+                        .html()
+                        .split("&nbsp;")
+                        .join("")
+                        .toLowerCase(),
                         bn = $(b)
-                            .find("span.item-name")
-                            .html()
-                            .split("&nbsp;")
-                            .join("")
-                            .toLowerCase();
+                        .find("span.item-name")
+                        .html()
+                        .split("&nbsp;")
+                        .join("")
+                        .toLowerCase();
 
                     if (trainingNameSort) {
                         nameIcon.toggleClass("fa-sort-alpha-down", true);
@@ -1999,10 +2032,10 @@ var handlerDBClick = function (event) {
         var activeTabHeight = parseInt(
             $(
                 $(this)
-                    .parents("fieldset")
-                    .find(".ui-state-active a")
-                    .first()
-                    .attr("href")
+                .parents("fieldset")
+                .find(".ui-state-active a")
+                .first()
+                .attr("href")
             ).innerHeight()
         );
         var newHeight =
@@ -2100,15 +2133,15 @@ function dropEnd(event, item) {
             }
         });
         $.post({
-            url: baseURL + "/traininglinkfromlesson",
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            },
-            data: {
-                id: cate_id,
-                target: JSON.stringify(requestData),
-            },
-        })
+                url: baseURL + "/traininglinkfromlesson",
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+                data: {
+                    id: cate_id,
+                    target: JSON.stringify(requestData),
+                },
+            })
             .done(function (data) {
                 if (showCate) {
                     $("#div_C #" + showCate + " .item-show").click();
@@ -2119,9 +2152,9 @@ function dropEnd(event, item) {
                 if (dragitem[0]) {
                     notification(
                         dragitem.length +
-                            " lesson s linked to " +
-                            parent.find(".item-name").html() +
-                            "!",
+                        " lesson s linked to " +
+                        parent.find(".item-name").html() +
+                        "!",
                         1
                     );
                 }
@@ -2129,9 +2162,9 @@ function dropEnd(event, item) {
                 dragitem.map(function (droppeditem) {
                     if (
                         $("#" + droppeditem)
-                            .attr("data-training")
-                            .split("_")
-                            .indexOf(cate_id) == -1
+                        .attr("data-training")
+                        .split("_")
+                        .indexOf(cate_id) == -1
                     ) {
                         var arraytemp = $("#" + droppeditem)
                             .attr("data-training")
@@ -2163,7 +2196,10 @@ function dropEnd(event, item) {
 }
 
 function generateScorm() {
-    swal.fire({ title: "Please wait...", showConfirmButton: false });
+    swal.fire({
+        title: "Please wait...",
+        showConfirmButton: false
+    });
     swal.showLoading();
     $.ajax({
         url: "generateScorm",

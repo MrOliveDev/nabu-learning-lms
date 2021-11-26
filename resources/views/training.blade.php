@@ -86,8 +86,8 @@
     data-search-lesson="{{ isset(session('permission')->training->search->lesson) }}"
     data-search-training="{{ isset(session('permission')->training->search->training) }}">
     <fieldset id="LeftPanel">
-        <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4" data-target="#div_A"
-            id="lesson-toolkit">
+        <div class="clear-fix text-white mb-3 toolkit  d-flex justify-content-lg-start flex-column mx-4"
+            data-target="#div_A" id="lesson-toolkit">
             <div class="w-100 p-2">
                 <span style="font-size:16pt">LESSON</span>
 
@@ -150,7 +150,9 @@
                 <div class="list-group" id="list-tab" role="tablist" data-src=''>
                     @if (isset(session('permission')->training->lesson->display) && !empty($lessons[0]))
                         @foreach ($lessons as $lesson)
-                            <a class="list-group-item list-group-item-action p-0 border-transparent border-5x lesson_{{ $lesson['id'] }} <?php if (isset(session('permission')->limited) && auth()->user()->id != $lesson['idCreator']) {echo 'drag-disable';} ?>"
+                            <a class="list-group-item list-group-item-action p-0 border-transparent border-5x lesson_{{ $lesson['id'] }} <?php if (isset(session('permission')->limited) && auth()->user()->id != $lesson['idCreator']) {
+    echo 'drag-disable';
+} ?>"
                                 id="lesson_{{ $lesson['id'] }}" data-date="{{ $lesson['creation_date'] }}"
                                 data-training="{{ implode('_', $lesson['training']) }}">
                                 <div class="float-left">
@@ -572,11 +574,20 @@
                                                 <button class="btn  item-type" data-content='training'
                                                     data-value="{{ $training->type }}"
                                                     data-item-id="{{ $training->id }}">
-                                                    @if ($training->type == 1)
-                                                        <i class="px-2 fas fa-sort-amount-down-alt"></i>
-
+                                                    @if ($training->status == 0)
+                                                        @if ($training->type == 1)
+                                                            <i class="px-2 fas fa-sort-amount-down-alt"></i>
+                                                        @else
+                                                            <i class="px-2 fas fa-wave-square"></i>
+                                                        @endif
                                                     @else
-                                                        <i class="px-2 fas fa-wave-square"></i>
+                                                        @if ($training->type == 1)
+                                                            <i class="px-2 fas fa-sort-amount-down-alt"
+                                                                style="opacity: 0.3"></i>
+                                                        @else
+                                                            <i class="px-2 fas fa-wave-square"
+                                                                style="opacity: 0.3"></i>
+                                                        @endif
                                                     @endif
                                                 </button>
                                                 <button class="btn item-scorm" data-content='training'
@@ -592,7 +603,11 @@
                                                 @if (isset(session('permission')->training->training->delete))
                                                     <button class="btn item-delete" data-content='training'
                                                         data-item-id="{{ $training->id }}">
-                                                        <i class="px-2 fa fa-trash-alt"></i>
+                                                        @if ($training->status == 0)
+                                                            <i class="px-2 fa fa-trash-alt"></i>
+                                                        @else
+                                                            <i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>
+                                                        @endif
                                                     </button>
                                                 @endif
                                             @endif
@@ -600,11 +615,19 @@
                                             <button class="btn  item-type" data-content='training'
                                                 data-value="{{ $training->type }}"
                                                 data-item-id="{{ $training->id }}">
-                                                @if ($training->type == 1)
-                                                    <i class="px-2 fas fa-sort-amount-down-alt"></i>
+                                                @if ($training->status == 0)
+                                                    @if ($training->type == 1)
+                                                        <i class="px-2 fas fa-sort-amount-down-alt"></i>
+                                                    @else
+                                                        <i class="px-2 fas fa-wave-square"></i>
+                                                    @endif
                                                 @else
-                                                    <i class="px-2 fas fa-wave-square"></i>
-
+                                                    @if ($training->type == 1)
+                                                        <i class="px-2 fas fa-sort-amount-down-alt"
+                                                            style="opacity: 0.3"></i>
+                                                    @else
+                                                        <i class="px-2 fas fa-wave-square" style="opacity: 0.3"></i>
+                                                    @endif
                                                 @endif
                                             </button>
                                             <button class="btn item-scorm" data-content='training'
@@ -620,7 +643,11 @@
                                             @if (isset(session('permission')->training->training->delete))
                                                 <button class="btn item-delete" data-content='training'
                                                     data-item-id="{{ $training->id }}">
-                                                    <i class="px-2 fa fa-trash-alt"></i>
+                                                    @if ($training->status == 0)
+                                                        <i class="px-2 fa fa-trash-alt"></i>
+                                                    @else
+                                                        <i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>
+                                                    @endif
                                                 </button>
                                             @endif
                                         @endif
