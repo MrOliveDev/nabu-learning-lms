@@ -88,9 +88,9 @@
         } // eo if
 
         if($sessionId) {
-            $sql        = "SELECT contents FROM `tb_session` WHERE id = '$sessionId'";
-            $results    = $openModel->getDatas( $sql );
-            $trainingId = $results[0];
+            $sql4        = "SELECT contents FROM `tb_session` WHERE id = '$sessionId'";
+            $results_training    = $openModel->getDatas( $sql4 );
+            $trainingId = $results_training;
         }
         
         $sql3 = "SELECT lesson_content FROM `tb_trainings` WHERE id = '$trainingId'";
