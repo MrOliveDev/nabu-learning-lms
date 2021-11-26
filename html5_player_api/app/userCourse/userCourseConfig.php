@@ -87,41 +87,39 @@
             $where  = " AND c.status = 7 ";
         } // eo if
 
-        if($sessionId) {
-            $sql4        = "SELECT contents FROM `tb_session` WHERE id = '$sessionId'";
-            $results_training    = $openModel->getDatas( $sql4 );
+            $sql4 = "SELECT contents FROM `tb_session` WHERE id = '$sessionId'";
+            $results_training = $openModel->getDatas( $sql4 );
             $trainingId = $results_training[0]['contents'];
-        }
         
-        $sql3 = "SELECT lesson_content FROM `tb_trainings` WHERE id = '$trainingId'";
-        $results    = $openModel->getDatas( $sql3 );
-        $training = $results[0];
+        // $sql3 = "SELECT lesson_content FROM `tb_trainings` WHERE id = '$trainingId'";
+        // $results    = $openModel->getDatas( $sql3 );
+        // $training = $results[0];
 
-        $lessons = [];
-        if ($training) {
-            $lessonList = json_decode($training, true);
-            if ($lessonList != NULL) {
-                foreach ($lessonList as $value) {
-                    $lessonId = $value['item'];
-                    $sql12 = "SELECT idFabrica FROM `tb_lesson` WHERE id = '$lessonId'";
-                    $idFabrica    = $openModel->getDatas( $sql12 );
-                    if ( $next ) {
-                        if ( count( $nextlessons ) == 0 )
-                        {
-                            $nextlesson = $idFabrica[0];
-                        }
+        // $lessons = [];
+        // if ($training) {
+        //     $lessonList = json_decode($training, true);
+        //     if ($lessonList != NULL) {
+        //         foreach ($lessonList as $value) {
+        //             $lessonId = $value['item'];
+        //             $sql12 = "SELECT idFabrica FROM `tb_lesson` WHERE id = '$lessonId'";
+        //             $idFabrica    = $openModel->getDatas( $sql12 );
+        //             if ( $next ) {
+        //                 if ( count( $nextlessons ) == 0 )
+        //                 {
+        //                     $nextlesson = $idFabrica[0];
+        //                 }
 
-                        $nextlessons[] = $idFabrica[0];
-                    }
+        //                 $nextlessons[] = $idFabrica[0];
+        //             }
 
-                    if ( $idFabrica[0] == $productId )
-                    {
-                        $next  = true;
-                    }
-                    $alllessons[] = $idFabrica[0];
-                }
-            }
-        }
+        //             if ( $idFabrica[0] == $productId )
+        //             {
+        //                 $next  = true;
+        //             }
+        //             $alllessons[] = $idFabrica[0];
+        //         }
+        //     }
+        // }
 
         // $sql        = "SELECT c.idFabrica FROM tb_lesson c LEFT JOIN tb_manage_formations_courses mfc ON mfc.id_course = c.id WHERE mfc.id_formation = '$formationId' $where ORDER BY mfc.order";
         // $results    = $openModel->getDatas( $sql );
