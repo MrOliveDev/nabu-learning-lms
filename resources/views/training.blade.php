@@ -604,20 +604,10 @@
                                                 <button class="btn  item-type" data-content='training'
                                                     data-value="{{ $training->type }}"
                                                     data-item-id="{{ $training->id }}">
-                                                    @if ($training->status == 0)
-                                                        @if ($training->type == 1)
-                                                            <i class="px-2 fas fa-sort-amount-down-alt"></i>
-                                                        @else
-                                                            <i class="px-2 fas fa-wave-square"></i>
-                                                        @endif
+                                                    @if ($training->type == 1)
+                                                        <i class="px-2 fas fa-sort-amount-down-alt"></i>
                                                     @else
-                                                        @if ($training->type == 1)
-                                                            <i class="px-2 fas fa-sort-amount-down-alt"
-                                                                style="opacity: 0.3"></i>
-                                                        @else
-                                                            <i class="px-2 fas fa-wave-square"
-                                                                style="opacity: 0.3"></i>
-                                                        @endif
+                                                        <i class="px-2 fas fa-wave-square"></i>
                                                     @endif
                                                 </button>
                                                 <button class="btn item-scorm" data-content='training'
@@ -645,19 +635,10 @@
                                             <button class="btn  item-type" data-content='training'
                                                 data-value="{{ $training->type }}"
                                                 data-item-id="{{ $training->id }}">
-                                                @if ($training->status == 0)
-                                                    @if ($training->type == 1)
-                                                        <i class="px-2 fas fa-sort-amount-down-alt"></i>
-                                                    @else
-                                                        <i class="px-2 fas fa-wave-square"></i>
-                                                    @endif
+                                                @if ($training->type == 1)
+                                                    <i class="px-2 fas fa-sort-amount-down-alt"></i>
                                                 @else
-                                                    @if ($training->type == 1)
-                                                        <i class="px-2 fas fa-sort-amount-down-alt"
-                                                            style="opacity: 0.3"></i>
-                                                    @else
-                                                        <i class="px-2 fas fa-wave-square" style="opacity: 0.3"></i>
-                                                    @endif
+                                                    <i class="px-2 fas fa-wave-square"></i>
                                                 @endif
                                             </button>
                                             <button class="btn item-scorm" data-content='training'

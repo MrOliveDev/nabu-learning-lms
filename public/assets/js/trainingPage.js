@@ -530,7 +530,7 @@ var item_edit = function (element) {
                     $("#threshold-score").data("ionRangeSlider").update({
                         from: data.threshold_score,
                     });
-                    if(data.status == 5) {
+                    if (data.status == 5) {
                         $("#lesson_status").attr('disabled', true);
                         $("#lesson_name").attr('disabled', true);
                         $("#lesson_language").attr('disabled', true);
@@ -565,7 +565,7 @@ var item_edit = function (element) {
                     $("#training_type").val(data.type);
                     $("#training_description").val(data.description);
                     $(".preview-rect").attr("src", data.training_icon);
-                    if(data.status == 1) {
+                    if (data.status == 1) {
                         $("#training-status-icon").attr('disabled', true);
                         $("#training_name").attr('disabled', true);
                         $("#training_language").attr('disabled', true);
@@ -910,39 +910,30 @@ var itemScorm = function (event) {
 };
 
 var itemType = function (event) {
-    if ($(this).find("i").css("opacity") != "0.3") {
-        var parent = $(this).parents(".list-group-item");
-        var id = parent.attr("id").split("_")[1];
-        if ($(this).attr("data-type") == "1") {
-            $(this).attr("data-type", "2");
-            $(this).find("i").toggleClass("fa-wave-square", false);
-            $(this).find("i").toggleClass("fa-sort-amount-down-alt", true);
-        } else {
-            $(this).attr("data-type", "1");
-            $(this).find("i").toggleClass("fa-wave-square", true);
-            $(this).find("i").toggleClass("fa-sort-amount-down-alt", false);
-        }
-
-        $.post({
-            url: baseURL + "/trainingupdatetype",
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            },
-            data: {
-                id: id,
-                type: $(this).attr("data-type"),
-            },
-        }).done(function (data) {
-            updateTrainingData(data, parent.attr("id"));
-        });
+    var parent = $(this).parents(".list-group-item");
+    var id = parent.attr("id").split("_")[1];
+    if ($(this).attr("data-type") == "1") {
+        $(this).attr("data-type", "2");
+        $(this).find("i").toggleClass("fa-wave-square", false);
+        $(this).find("i").toggleClass("fa-sort-amount-down-alt", true);
     } else {
-        // swal.fire({
-        //     title: "Warning",
-        //     text: "You must finish the previous lesson first",
-        //     icon: "info",
-        //     confirmButtonText: `OK`,
-        // });
+        $(this).attr("data-type", "1");
+        $(this).find("i").toggleClass("fa-wave-square", true);
+        $(this).find("i").toggleClass("fa-sort-amount-down-alt", false);
     }
+
+    $.post({
+        url: baseURL + "/trainingupdatetype",
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+        data: {
+            id: id,
+            type: $(this).attr("data-type"),
+        },
+    }).done(function (data) {
+        updateTrainingData(data, parent.attr("id"));
+    });
 };
 
 var submitFunction = function (event) {
@@ -1436,29 +1427,16 @@ var createTrainingData = function (data) {
         "</div>" +
         "</a>"
     );
-    if (data["status"] == 0) {
-        var btnType =
-            data.type == 1 ?
-            $(
-                '<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
-                '<i class="px-2 fas fa-sort-amount-down-alt"></i></button>'
-            ) :
-            $(
-                '<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
-                '<i class="px-2 fas fa-wave-square"></i></button>'
-            );
-    } else {
-        var btnType =
-            data.type == 1 ?
-            $(
-                '<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
-                '<i class="px-2 fas fa-sort-amount-down-alt" style="opacity: 0.3"></i></button>'
-            ) :
-            $(
-                '<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
-                '<i class="px-2 fas fa-wave-square" style="opacity: 0.3"></i></button>'
-            );
-    }
+    var btnType =
+        data.type == 1 ?
+        $(
+            '<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
+            '<i class="px-2 fas fa-sort-amount-down-alt"></i></button>'
+        ) :
+        $(
+            '<button class="btn  item-type" data-content="training" data-value="{{$training->type}}" data-item-id = "{{$training->id}}">' +
+            '<i class="px-2 fas fa-wave-square"></i></button>'
+        );
 
     var btnScorm = $(
         '<button class="btn item-scorm" data-content="training" data-item-id = "' +
@@ -1534,17 +1512,10 @@ var updateLessonData = function (data, target) {
 
 var updateTrainingData = function (data, target) {
     $("." + target).each(function (i, im) {
-        if (data['status'] == 0) {
-            var btnType =
-                data.type == 1 ?
-                $('<i class="px-2 fas fa-sort-amount-down-alt"></i>') :
-                $('<i class="px-2 fas fa-wave-square"></i>');
-        } else {
-            var btnType =
-                data.type == 1 ?
-                $('<i class="px-2 fas fa-sort-amount-down-alt" style="opacity: 0.3"></i>') :
-                $('<i class="px-2 fas fa-wave-square" style="opacity: 0.3"></i>');
-        }
+        var btnType =
+            data.type == 1 ?
+            $('<i class="px-2 fas fa-sort-amount-down-alt"></i>') :
+            $('<i class="px-2 fas fa-wave-square"></i>');
 
         if (data['status'] == 1) {
             $(im).find(".item-delete i").css('opacity', '0.3');
