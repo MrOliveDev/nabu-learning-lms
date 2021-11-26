@@ -87,9 +87,9 @@
             $where  = " AND c.status = 7 ";
         } // eo if
 
-            $sql4 = "SELECT contents FROM `tb_session` WHERE id = '$sessionId'";
-            $results_training = $openModel->getDatas( $sql4 );
-            $trainingId = $results_training[0]['contents'];
+            // $sql4 = "SELECT contents FROM `tb_session` WHERE id = '$sessionId'";
+            // $results_training = $openModel->getDatas( $sql4 );
+            // $trainingId = $results_training[0]['contents'];
         
         // $sql3 = "SELECT lesson_content FROM `tb_trainings` WHERE id = '$trainingId'";
         // $results    = $openModel->getDatas( $sql3 );
@@ -166,14 +166,16 @@
             $return['datas']['enableEvaluation']    = $enableEvaluation;
             $return['datas']['nextLesson']          = $nextlesson;
             $return['datas']['nextLessons']         = $nextlessons;
-            $return['datas']['allLessons']          = $trainingId;
+            $return['datas']['allLessons']          = $alllessons;
             $return['datas']['thresholdscore']      = $thresholdscore;
 
             if($sessionId){
-                $sql1 = "SELECT max_attempts_eval FROM `tb_session` WHERE id = '$sessionId'";
+                $sql1 = "SELECT max_attempts_eval, contents FROM `tb_session` WHERE id = '$sessionId'";
                 $results1 = $openModel->getDatas( $sql1 );
                 $max_attempts_eval = $results1[0]['max_attempts_eval'];
+                $trainingId = $results1[0]['contents'];
                 $return['datas']['maxEvalAttempts'] = $max_attempts_eval;
+                $return['datas']['contents'] = $trainingId;
 
                 $insertModel = new openModel(DB_HISTORIC_DSN);
                 $evalTableName = "tb_evaluation_" . $sessionId;
