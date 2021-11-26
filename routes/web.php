@@ -85,9 +85,9 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => 'html5
         require_once('../html5_player_api/app/userCourse/userCourseConfig.php');
     });
 
-    Route::get('/courses/{formationId}/{productId}/{courseId}/user/{userId}/config', function ($formationId, $productId, $courseId, $userId) {
-        require_once('../html5_player_api/app/userCourse/userCourseConfig.php');
-    });
+    // Route::get('/courses/{formationId}/{productId}/{courseId}/user/{userId}/config', function ($formationId, $productId, $courseId, $userId) {
+    //     require_once('../html5_player_api/app/userCourse/userCourseConfig.php');
+    // });
 
     // Route pour enregistrer l'évaluation de l'utilisateur
     Route::post('/courses/{productId}/{courseId}/user/{userId}/screen/{screenId}/{state}/evaluation', function ($productId, $courseId, $userId, $screenId, $state) {
