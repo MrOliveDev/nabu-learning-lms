@@ -57,7 +57,8 @@
         $config_datas       = $results[0];
 
         // Get the "automaticLaunch" value of config.xml file and put it in a variable - this parameter able the player to launch the next lesson automatically without going back to the student context
-        $automaticLaunch    = $config_datas['AutoOpenNextLesson'] ? "true":"false";
+        //$automaticLaunch    = $config_datas['AutoOpenNextLesson'] ? "true":"false";
+        $automaticLaunch    = "true";
 
         // Get the value of enableEvaluation to enable ou disable the acess to the evaluation
         $enableEvaluation   = $config_datas['enableEvaluation'] ? "true":"false";
