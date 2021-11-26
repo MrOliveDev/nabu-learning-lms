@@ -101,6 +101,7 @@
         if ($training) {
             $lessonList = json_decode($training, true);
             if ($lessonList != NULL) {
+                $next  = false;
                 foreach ($lessonList as $value) {
                     $sql = "SELECT idFabrica FROM `tb_lesson` WHERE id = {$value['item']}";
                     $results    = $openModel->getDatas( $sql );
