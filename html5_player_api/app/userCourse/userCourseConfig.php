@@ -104,21 +104,21 @@
                 foreach ($lessonList as $value) {
                     $lessonId = $value['item'];
                     $sql = "SELECT idFabrica FROM `tb_lesson` WHERE id = '$lessonId'";
-                    $results    = $openModel->getDatas( $sql );
+                    $idFabrica    = $openModel->getDatas( $sql );
                     if ( $next ) {
                         if ( count( $nextlessons ) == 0 )
                         {
-                            $nextlesson = $results[0];
+                            $nextlesson = $idFabrica[0];
                         }
 
-                        $nextlessons[]  = $results[0];
+                        $nextlessons[] = $idFabrica[0];
                     }
 
-                    if ( $results[0] == $productId )
+                    if ( $idFabrica[0] == $productId )
                     {
                         $next  = true;
                     }
-                    $alllessons[] = $results[0];
+                    $alllessons[] = $idFabrica[0];
                 }
             }
         }
