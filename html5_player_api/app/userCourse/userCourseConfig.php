@@ -87,6 +87,41 @@
             $where  = " AND c.status = 7 ";
         } // eo if
 
+        if($sessionId) {
+            $sql        = "SELECT contents FROM `tb_session` WHERE id = '$sessionId'";
+            $results    = $openModel->getDatas( $sql );
+            $trainingId = $results[0];
+        }
+        
+        $sql = "SELECT lesson_content FROM `tb_trainings` WHERE id = $trainingId";
+        $results    = $openModel->getDatas( $sql );
+        $training = $results[0];
+
+        $lessons = [];
+        if ($training) {
+            $lessonList = json_decode($training, true);
+            if ($lessonList != NULL) {
+                foreach ($lessonList as $value) {
+                    $sql = "SELECT idFabrica FROM `tb_lesson` WHERE id = {$value['item']}";
+                    $results    = $openModel->getDatas( $sql );
+                    if ( $next ) {
+                        if ( count( $nextlessons ) == 0 )
+                        {
+                            $nextlesson = $results[0];
+                        }
+
+                        $nextlessons[]  = $results[0];
+                    }
+
+                    if ( $results[0] == $productId )
+                    {
+                        $next  = true;
+                    }
+                    $alllessons[] = $results[0];
+                }
+            }
+        }
+
         // $sql        = "SELECT c.idFabrica FROM tb_lesson c LEFT JOIN tb_manage_formations_courses mfc ON mfc.id_course = c.id WHERE mfc.id_formation = '$formationId' $where ORDER BY mfc.order";
         // $results    = $openModel->getDatas( $sql );
 
