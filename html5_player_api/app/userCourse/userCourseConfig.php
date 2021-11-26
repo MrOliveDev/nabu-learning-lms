@@ -88,7 +88,7 @@
         } // eo if
 
         if($sessionId) {
-            $sql        = "SELECT contents FROM `tb_session` WHERE id = '$sessionId'";
+            $sql        = "SELECT contents FROM `tb_session` WHERE id = $sessionId";
             $results    = $openModel->getDatas( $sql );
             $trainingId = $results[0];
         }
@@ -101,7 +101,6 @@
         if ($training) {
             $lessonList = json_decode($training, true);
             if ($lessonList != NULL) {
-                $next  = false;
                 foreach ($lessonList as $value) {
                     $lessonId = $value['item'];
                     $sql = "SELECT idFabrica FROM `tb_lesson` WHERE id = $lessonId";
