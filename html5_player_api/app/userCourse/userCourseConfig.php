@@ -168,6 +168,7 @@
             $return['datas']['nextLessons']         = $nextlessons;
             $return['datas']['allLessons']          = $alllessons;
             $return['datas']['thresholdscore']      = $thresholdscore;
+            $return['datas']['sessionID']           = $sessionId;
 
             if($sessionId){
                 $sql1 = "SELECT max_attempts_eval, contents FROM `tb_session` WHERE id = '$sessionId'";
