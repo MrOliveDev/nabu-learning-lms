@@ -213,12 +213,11 @@
                                                 <button class="btn item-delete" data-content='lesson'
                                                     data-item-id="{{ $lesson['id'] }}"
                                                     data-fabrica="{{ $lesson['idFabrica'] }}">
-                                                    <i class="px-2 fa fa-trash-alt"></i>
-                                                    {{-- @if ($training->status == 0)
-                                                        <i class="px-2 fa fa-trash-alt"></i>
-                                                    @else
+                                                    @if ($lesson['status'] == 5)
                                                         <i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>
-                                                    @endif --}}
+                                                    @else
+                                                        <i class="px-2 fa fa-trash-alt"></i>
+                                                    @endif
                                                 </button>
                                             @endif
                                             @if (isset(session('permission')->training->lesson->play))
@@ -230,13 +229,22 @@
                                             @if (isset(session('permission')->training->lesson->fabrique))
                                                 <button class="btn item-template" data-content='lesson'
                                                     data-template="{{ $lesson['template_player_id'] }}">
-                                                    <i class="px-2 fa fa-cube"></i>
+                                                    @if ($lesson['status'] == 5)
+                                                        <i class="px-2 fa fa-cube" style="opacity: 0.3"></i>
+                                                    @else
+                                                        <i class="px-2 fa fa-cube"></i>
+                                                    @endif
                                                 </button>
                                             @endif
                                             @if (isset(session('permission')->training->lesson->refresh))
                                                 <button class="btn item-refresh" data-content='lesson'
                                                     data-item-id="{{ $lesson['id'] }}">
-                                                    <i class="px-2 fa fa-sync-alt"></i>
+                                                    {{-- <i class="px-2 fa fa-sync-alt"></i> --}}
+                                                    @if ($lesson['status'] == 5)
+                                                        <i class="px-2 fa fa-sync-alt" style="opacity: 0.3"></i>
+                                                    @else
+                                                        <i class="px-2 fa fa-sync-alt"></i>
+                                                    @endif
                                                 </button>
                                             @endif
                                         @endif
@@ -251,12 +259,11 @@
                                             <button class="btn item-delete" data-content='lesson'
                                                 data-item-id="{{ $lesson['id'] }}"
                                                 data-fabrica="{{ $lesson['idFabrica'] }}">
-                                                <i class="px-2 fa fa-trash-alt"></i>
-                                                {{-- @if ($training->status == 0)
-                                                    <i class="px-2 fa fa-trash-alt"></i>
-                                                @else
+                                                @if ($lesson['status'] == 5)
                                                     <i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>
-                                                @endif --}}
+                                                @else
+                                                    <i class="px-2 fa fa-trash-alt"></i>
+                                                @endif
                                             </button>
                                         @endif
                                         @if (isset(session('permission')->training->lesson->play))
@@ -268,13 +275,21 @@
                                         @if (isset(session('permission')->training->lesson->fabrique))
                                             <button class="btn item-template" data-content='lesson'
                                                 data-template="{{ $lesson['template_player_id'] }}">
-                                                <i class="px-2 fa fa-cube"></i>
+                                                @if ($lesson['status'] == 5)
+                                                    <i class="px-2 fa fa-cube" style="opacity: 0.3"></i>
+                                                @else
+                                                    <i class="px-2 fa fa-cube"></i>
+                                                @endif
                                             </button>
                                         @endif
                                         @if (isset(session('permission')->training->lesson->refresh))
                                             <button class="btn item-refresh" data-content='lesson'
                                                 data-item-id="{{ $lesson['id'] }}">
-                                                <i class="px-2 fa fa-sync-alt"></i>
+                                                @if ($lesson['status'] == 5)
+                                                    <i class="px-2 fa fa-sync-alt" style="opacity: 0.3"></i>
+                                                @else
+                                                    <i class="px-2 fa fa-sync-alt"></i>
+                                                @endif
                                             </button>
                                         @endif
                                     @endif
@@ -305,8 +320,13 @@
                                             Name<span class="text-danger">*</span>
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="lesson_name" name="lesson_name"
-                                        value="" required="">
+                                    @if ($lesson['status'] == 5)
+                                        <input type="text" class="form-control" id="lesson_name" name="lesson_name"
+                                            value="" required="" disabled>
+                                    @else
+                                        <input type="text" class="form-control" id="lesson_name" name="lesson_name"
+                                            value="" required="">
+                                    @endif
                                 </div>
                             </div>
                             <div class="form-group">
