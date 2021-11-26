@@ -103,7 +103,8 @@
             if ($lessonList != NULL) {
                 $next  = false;
                 foreach ($lessonList as $value) {
-                    $sql = "SELECT idFabrica FROM `tb_lesson` WHERE id = {$value['item']}";
+                    $lessonId = $value['item'];
+                    $sql = "SELECT idFabrica FROM `tb_lesson` WHERE id = $lessonId";
                     $results    = $openModel->getDatas( $sql );
                     if ( $next ) {
                         if ( count( $nextlessons ) == 0 )
