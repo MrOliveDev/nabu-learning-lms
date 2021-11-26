@@ -530,6 +530,11 @@ var item_edit = function (element) {
                     $("#threshold-score").data("ionRangeSlider").update({
                         from: data.threshold_score,
                     });
+                    if(data.status == 5) {
+                        $("#lesson_status").attr('disabled', true);
+                        $("#lesson_name").attr('disabled', true);
+                        $("#lesson_language").attr('disabled', true);
+                    }
                 },
                 error: function (err) {
                     notification("Sorry, You can't get lesson data!", 2);
@@ -560,6 +565,11 @@ var item_edit = function (element) {
                     $("#training_type").val(data.type);
                     $("#training_description").val(data.description);
                     $(".preview-rect").attr("src", data.training_icon);
+                    if(data.status == 1) {
+                        $("#training-status-icon").attr('disabled', true);
+                        $("#training_name").attr('disabled', true);
+                        $("#training_language").attr('disabled', true);
+                    }
                 },
                 error: function (err) {
                     notification("Sorry, You can't get training data!", 2);
@@ -850,39 +860,43 @@ var fabriqueTemplateCancel = function (event) {
 };
 
 var itemTemplate = function (event) {
-    $("#template-group").toggle(false);
-    $("#fabrique-template").toggle(true);
-    $("#fabrique-template").attr(
-        "item",
-        $(this).parents(".list-group-item").attr("id")
-    );
-    toggleFormOrTable($("#LeftPanel"), false, false);
-    // var parent = $(this).parents('.list-group-item');
-    // window.open(baseURL + "/fabrique_editor" + "/#/open/" + parent.find('.item-play').attr('data-fabrica') + "/dae8efee8afc1994204d76ee963bcfb1");
+    if ($(this).find("i").css("opacity") != "0.3") {
+        $("#template-group").toggle(false);
+        $("#fabrique-template").toggle(true);
+        $("#fabrique-template").attr(
+            "item",
+            $(this).parents(".list-group-item").attr("id")
+        );
+        toggleFormOrTable($("#LeftPanel"), false, false);
+        // var parent = $(this).parents('.list-group-item');
+        // window.open(baseURL + "/fabrique_editor" + "/#/open/" + parent.find('.item-play').attr('data-fabrica') + "/dae8efee8afc1994204d76ee963bcfb1");
+    }
 };
 var itemRefresh = function (event) {
-    event.preventDefault();
+    if ($(this).find("i").css("opacity") != "0.3") {
+        event.preventDefault();
 
-    $.ajax({
-        url: "putOnline",
-        method: "post",
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
-        data: {
-            id: $(this).attr("data-item-id")
-        },
-        success: function (res) {
-            if (res.success) {
-                notification("Successfully Refreshed", 1);
-            } else {
-                notification(res.message, 2);
-            }
-        },
-        error: function (err) {
-            notification("Sorry, You have an error!", 2);
-        },
-    });
+        $.ajax({
+            url: "putOnline",
+            method: "post",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            data: {
+                id: $(this).attr("data-item-id")
+            },
+            success: function (res) {
+                if (res.success) {
+                    notification("Successfully Refreshed", 1);
+                } else {
+                    notification(res.message, 2);
+                }
+            },
+            error: function (err) {
+                notification("Sorry, You have an error!", 2);
+            },
+        });
+    }
 };
 
 var curTrainingId = -1;
@@ -1534,7 +1548,7 @@ var updateTrainingData = function (data, target) {
 
         if (data['status'] == 1) {
             $(im).find(".item-delete i").css('opacity', '0.3');
-        } 
+        }
 
         $(im).find(".item-type i").remove();
         $(im).find(".item-type").attr("data-value", data.type);
