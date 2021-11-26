@@ -93,8 +93,8 @@
             $trainingId = $results[0];
         }
         
-        $sql = "SELECT lesson_content FROM `tb_trainings` WHERE id = '$trainingId'";
-        $results    = $openModel->getDatas( $sql );
+        $sql3 = "SELECT lesson_content FROM `tb_trainings` WHERE id = '$trainingId'";
+        $results    = $openModel->getDatas( $sql3 );
         $training = $results[0];
 
         $lessons = [];
@@ -103,8 +103,8 @@
             if ($lessonList != NULL) {
                 foreach ($lessonList as $value) {
                     $lessonId = $value['item'];
-                    $sql = "SELECT idFabrica FROM `tb_lesson` WHERE id = '$lessonId'";
-                    $idFabrica    = $openModel->getDatas( $sql );
+                    $sql12 = "SELECT idFabrica FROM `tb_lesson` WHERE id = '$lessonId'";
+                    $idFabrica    = $openModel->getDatas( $sql12 );
                     if ( $next ) {
                         if ( count( $nextlessons ) == 0 )
                         {
@@ -168,7 +168,7 @@
             $return['datas']['enableEvaluation']    = $enableEvaluation;
             $return['datas']['nextLesson']          = $nextlesson;
             $return['datas']['nextLessons']         = $nextlessons;
-            $return['datas']['allLessons']          = $alllessons;
+            $return['datas']['allLessons']          = $trainingId;
             $return['datas']['thresholdscore']      = $thresholdscore;
 
             if($sessionId){
