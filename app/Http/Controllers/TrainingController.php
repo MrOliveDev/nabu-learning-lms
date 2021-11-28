@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\TrainingsModel;
 use App\Models\LanguageModel;
 use App\Models\TemplateModel;
+use App\Models\SessionModel;
 
 use SimpleXMLElement;
 use App\Models\LessonCourses;
@@ -30,10 +31,51 @@ class TrainingController extends Controller
      */
     public function index()
     {
-        $trainings = TrainingsModel::getTrainingByClient();
-        $lessons = LessonsModel::getLessonsContainedTraining();
+        $Alltrainings = TrainingsModel::getTrainingByClient();
+        $Alllessons = LessonsModel::getLessonsContainedTraining();
         $languages = LanguageModel::all();
         $templates = TemplateModel::getTemplateByClient();
+        $sessions = SessionModel::getSessionPageInfo();
+
+        $trainings = array();
+        $lessons = array();
+        foreach ($Alltrainings as $training) {
+            $session_linked = false;
+            $session_status = 0;
+            foreach ($sessions as $session) {
+                if($training->id == $session->contents){
+                    $session_linked = true;
+                    if($session->status == 1){
+                        $session_status = 1;
+                    }
+                }
+            }
+           array_push($trainings, ["training"=>$training, "session_linked"=>$session_linked, "session_status"=>$session_status]);
+        }
+        foreach($Alllessons as $lesson) {
+            $session_linked = false;
+            $session_status = 0;
+            foreach ($trainings as $training) {
+                if($training["session_linked"] == true){
+                    if ($training['training']->lesson_content) {
+                        $lessonList = json_decode($training['training']->lesson_content, true);
+                        if ($lessonList != NULL) {
+                            foreach ($lessonList as $value) {
+                                if ($lesson['id'] == $value['item']) {
+                                    $session_linked = true;
+                                    if($training["session_status"] == 1){
+                                        $session_status = 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            array_push($lessons, ["lesson"=>$lesson, "session_linked"=>$session_linked, "session_status"=>$session_status]);
+        }
+        // print_r($lessons);
+        // exit;
         return view('training')->with(compact('trainings', 'lessons', 'languages', 'templates'));
     }
 
@@ -97,10 +139,20 @@ class TrainingController extends Controller
      */
     public function show($id)
     {
+        $sessions = SessionModel::getSessionPageInfo();
         $training = TrainingsModel::find($id);
+        $session_linked = false;
+            $session_status = 0;
+            foreach ($sessions as $session) {
+                if($training->id == $session->contents){
+                    $session_linked = true;
+                    if($session->status == 1){
+                        $session_status = 1;
+                    }
+                }
+            }
 
-        return response()->json($training);
-        //
+        return response()->json(["training"=>$training,"session_linked"=>$session_linked,"session_status"=>$session_status]);
     }
 
     /**
