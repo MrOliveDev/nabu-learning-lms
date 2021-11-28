@@ -6,6 +6,7 @@ use App\Models\CursoModel;
 use Illuminate\Http\Request;
 use App\Models\LessonsModel;
 use App\Models\TrainingsModel;
+use App\Models\SessionModel;
 
 use SimpleXMLElement;
 use Exception;
@@ -200,8 +201,45 @@ class LessonController extends Controller
     public function show($id)
     {
         $lesson = LessonsModel::getLessonForTrainingpage($id);
+        $Alltrainings = TrainingsModel::getTrainingByClient();
+        $sessions = SessionModel::getSessionPageInfo();
+        $trainings = array();
+        foreach ($Alltrainings as $training) {
+            $session_linked = false;
+            $session_status = 0;
+            foreach ($sessions as $session) {
+                if($training->id == $session->contents){
+                    $session_linked = true;
+                    if($session->status == 1){
+                        $session_status = 1;
+                    }
+                }
+            }
+           array_push($trainings, ["training"=>$training, "session_linked"=>$session_linked, "session_status"=>$session_status]);
+        }
 
-        return response()->json($lesson);
+
+        $session_linked = false;
+        $session_status = 0;
+            foreach ($trainings as $training) {
+                if($training["session_linked"] == true){
+                    if ($training['training']->lesson_content) {
+                        $lessonList = json_decode($training['training']->lesson_content, true);
+                        if ($lessonList != NULL) {
+                            foreach ($lessonList as $value) {
+                                if ($lesson['id'] == $value['item']) {
+                                    $session_linked = true;
+                                    if($training["session_status"] == 1){
+                                        $session_status = 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        return response()->json(["lesson"=>$lesson, "session_linked"=>$session_linked, "session_status"=>$session_status]);
     }
 
     /**

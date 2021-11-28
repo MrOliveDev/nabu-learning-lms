@@ -521,16 +521,17 @@ var item_edit = function (element) {
                 url: baseURL + "/lesson/" + id,
                 success: function (data, state) {
                     notification("We got lesson data successfully!", 1);
-                    $("#lesson_name").val(data.name);
-                    $("#lesson_duration").val(data.duration);
-                    $("#lesson_target").val(data.publicAudio);
-                    $("#lesson_status").val(data.status);
-                    $("#lesson_language").val(data.lang);
-                    $("#lesson_description").val(data.description);
+                    console.log('lesson Data:', data);
+                    $("#lesson_name").val(data['lesson'].name);
+                    $("#lesson_duration").val(data['lesson'].duration);
+                    $("#lesson_target").val(data['lesson'].publicAudio);
+                    $("#lesson_status").val(data['lesson'].status);
+                    $("#lesson_language").val(data['lesson'].lang);
+                    $("#lesson_description").val(data['lesson'].description);
                     $("#threshold-score").data("ionRangeSlider").update({
-                        from: data.threshold_score,
+                        from: data['lesson'].threshold_score,
                     });
-                    if (data.status == 5) {
+                    if (data['session_linked'] == true && data['session_status'] == 1) {
                         $("#lesson_status").attr('disabled', true);
                         $("#lesson_name").attr('disabled', true);
                         $("#lesson_language").attr('disabled', true);
@@ -553,22 +554,26 @@ var item_edit = function (element) {
                 url: baseURL + "/training/" + id,
                 success: function (data, state) {
                     notification("We got train data successfully!", 1);
-                    $("#preview-rect").attr("src", data.training_icon);
-                    $("#base64_img_data").val(data.training_icon);
+                    $("#preview-rect").attr("src", data['training'].training_icon);
+                    $("#base64_img_data").val(data['training'].training_icon);
                     $("#training-status-icon").prop(
                         "checked",
-                        data.status == 1 ? true : false
+                        data['training'].status == 1 ? true : false
                     );
-                    $("#training_name").val(data.name);
-                    $("#training_duration").val(data.duration);
-                    $("#training_language").val(data.lang);
-                    $("#training_type").val(data.type);
-                    $("#training_description").val(data.description);
-                    $(".preview-rect").attr("src", data.training_icon);
-                    if (data.status == 1) {
+                    $("#training_name").val(data['training'].name);
+                    $("#training_duration").val(data['training'].duration);
+                    $("#training_language").val(data['training'].lang);
+                    $("#training_type").val(data['training'].type);
+                    $("#training_description").val(data['training'].description);
+                    $(".preview-rect").attr("src", data['training'].training_icon);
+                    if (data["session_linked"] && data["session_status"] == 1) {
                         $("#training-status-icon").attr('disabled', true);
                         $("#training_name").attr('disabled', true);
                         $("#training_language").attr('disabled', true);
+                    } else {
+                        $("#training-status-icon").attr('disabled', false);
+                        $("#training_name").attr('disabled', false);
+                        $("#training_language").attr('disabled', false);
                     }
                 },
                 error: function (err) {

@@ -150,13 +150,14 @@
                 <div class="list-group" id="list-tab" role="tablist" data-src=''>
                     @if (isset(session('permission')->training->lesson->display) && !empty($lessons[0]))
                         @foreach ($lessons as $lesson)
-                            <a class="list-group-item list-group-item-action p-0 border-transparent border-5x lesson_{{ $lesson['id'] }} <?php if (isset(session('permission')->limited) && auth()->user()->id != $lesson['idCreator']) {
+                            <a class="list-group-item list-group-item-action p-0 border-transparent border-5x lesson_{{ $lesson['lesson']['id'] }} <?php if (isset(session('permission')->limited) && auth()->user()->id != $lesson['idCreator']) {
     echo 'drag-disable';
 } ?>"
-                                id="lesson_{{ $lesson['id'] }}" data-date="{{ $lesson['creation_date'] }}"
-                                data-training="{{ implode('_', $lesson['training']) }}">
+                                id="lesson_{{ $lesson['lesson']['id'] }}"
+                                data-date="{{ $lesson['lesson']['creation_date'] }}"
+                                data-training="{{ implode('_', $lesson['lesson']['training']) }}">
                                 <div class="float-left">
-                                    {{-- @switch ($lesson['status'])
+                                    {{-- @switch ($lesson['lesson']['status'])
                                     @case (1)
                                         <i class="fa fa-circle  m-2" style="color:green;"></i>
                                         <input type="hidden" name="item-status" class="status-notification" value="1">
@@ -181,39 +182,39 @@
                                         <i class="fa fa-circle  m-2" style="color:red;"></i>
                                         <input type="hidden" name="item-status" class="status-notification" value="2">
                                 @endswitch --}}
-                                    @if ($lesson['status'] == 5)
+                                    @if ($lesson['lesson']['status'] == 5)
                                         <i class="fa fa-circle  m-2" style="color:green;"></i>
                                         <input type="hidden" name="item-status" class="status-notification" value="5">
                                     @else
                                         <i class="fa fa-circle  m-2" style="color:red;"></i>
                                         <input type="hidden" name="item-status" class="status-notification"
-                                            value="{{ $lesson['status'] }}">
+                                            value="{{ $lesson['lesson']['status'] }}">
                                     @endif
-                                    <span class="item-name">{{ $lesson['name'] }}</span>
-                                    <input type="hidden" name="item-name" value="{{ $lesson['name'] }}">
+                                    <span class="item-name">{{ $lesson['lesson']['name'] }}</span>
+                                    <input type="hidden" name="item-name" value="{{ $lesson['lesson']['name'] }}">
                                 </div>
                                 <div class="btn-group float-right">
                                     <span
-                                        class=" p-2 font-weight-bolder item-lang">{{ strtoupper($lesson['language_iso']) }}</span>
+                                        class=" p-2 font-weight-bolder item-lang">{{ strtoupper($lesson['lesson']['language_iso']) }}</span>
                                     @if (isset(session('permission')->training->lesson->show))
                                         <button class="btn  item-show" data-content='lesson'
-                                            data-item-id="{{ $lesson['id'] }}">
+                                            data-item-id="{{ $lesson['lesson']['id'] }}">
                                             <i class="px-2 fa fa-eye"></i>
                                         </button>
                                     @endif
                                     @if (isset(session('permission')->limited))
-                                        @if (auth()->user()->id == $lesson['idCreator'])
+                                        @if (auth()->user()->id == $lesson['lesson']['idCreator'])
                                             @if (isset(session('permission')->training->lesson->edit))
                                                 <button class="btn item-edit" data-content='lesson'
-                                                    data-item-id="{{ $lesson['id'] }}">
+                                                    data-item-id="{{ $lesson['lesson']['id'] }}">
                                                     <i class="px-2 fa fa-edit"></i>
                                                 </button>
                                             @endif
                                             @if (isset(session('permission')->training->lesson->delete))
                                                 <button class="btn item-delete" data-content='lesson'
-                                                    data-item-id="{{ $lesson['id'] }}"
-                                                    data-fabrica="{{ $lesson['idFabrica'] }}">
-                                                    @if ($lesson['status'] == 5)
+                                                    data-item-id="{{ $lesson['lesson']['id'] }}"
+                                                    data-fabrica="{{ $lesson['lesson']['idFabrica'] }}">
+                                                    @if ($lesson['session_linked'] == 1 && $lesson['session_status'] == 1)
                                                         <i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>
                                                     @else
                                                         <i class="px-2 fa fa-trash-alt"></i>
@@ -222,14 +223,14 @@
                                             @endif
                                             @if (isset(session('permission')->training->lesson->play))
                                                 <button class="btn item-play" data-content='lesson'
-                                                    data-fabrica="{{ $lesson['idFabrica'] }}">
+                                                    data-fabrica="{{ $lesson['lesson']['idFabrica'] }}">
                                                     <i class="px-2 fa fa-play"></i>
                                                 </button>
                                             @endif
                                             @if (isset(session('permission')->training->lesson->fabrique))
                                                 <button class="btn item-template" data-content='lesson'
-                                                    data-template="{{ $lesson['template_player_id'] }}">
-                                                    @if ($lesson['status'] == 5)
+                                                    data-template="{{ $lesson['lesson']['template_player_id'] }}">
+                                                    @if ($lesson['session_linked'] == 1 && $lesson['session_status'] == 1)
                                                         <i class="px-2 fa fa-cube" style="opacity: 0.3"></i>
                                                     @else
                                                         <i class="px-2 fa fa-cube"></i>
@@ -238,9 +239,8 @@
                                             @endif
                                             @if (isset(session('permission')->training->lesson->refresh))
                                                 <button class="btn item-refresh" data-content='lesson'
-                                                    data-item-id="{{ $lesson['id'] }}">
-                                                    {{-- <i class="px-2 fa fa-sync-alt"></i> --}}
-                                                    @if ($lesson['status'] == 5)
+                                                    data-item-id="{{ $lesson['lesson']['id'] }}">
+                                                    @if ($lesson['session_linked'] == 1 && $lesson['session_status'] == 1)
                                                         <i class="px-2 fa fa-sync-alt" style="opacity: 0.3"></i>
                                                     @else
                                                         <i class="px-2 fa fa-sync-alt"></i>
@@ -251,15 +251,15 @@
                                     @else
                                         @if (isset(session('permission')->training->lesson->edit))
                                             <button class="btn item-edit" data-content='lesson'
-                                                data-item-id="{{ $lesson['id'] }}">
+                                                data-item-id="{{ $lesson['lesson']['id'] }}">
                                                 <i class="px-2 fa fa-edit"></i>
                                             </button>
                                         @endif
                                         @if (isset(session('permission')->training->lesson->delete))
                                             <button class="btn item-delete" data-content='lesson'
-                                                data-item-id="{{ $lesson['id'] }}"
-                                                data-fabrica="{{ $lesson['idFabrica'] }}">
-                                                @if ($lesson['status'] == 5)
+                                                data-item-id="{{ $lesson['lesson']['id'] }}"
+                                                data-fabrica="{{ $lesson['lesson']['idFabrica'] }}">
+                                                @if ($lesson['session_linked'] == 1 && $lesson['session_status'] == 1)
                                                     <i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>
                                                 @else
                                                     <i class="px-2 fa fa-trash-alt"></i>
@@ -268,14 +268,14 @@
                                         @endif
                                         @if (isset(session('permission')->training->lesson->play))
                                             <button class="btn item-play" data-content='lesson'
-                                                data-fabrica="{{ $lesson['idFabrica'] }}">
+                                                data-fabrica="{{ $lesson['lesson']['idFabrica'] }}">
                                                 <i class="px-2 fa fa-play"></i>
                                             </button>
                                         @endif
                                         @if (isset(session('permission')->training->lesson->fabrique))
                                             <button class="btn item-template" data-content='lesson'
-                                                data-template="{{ $lesson['template_player_id'] }}">
-                                                @if ($lesson['status'] == 5)
+                                                data-template="{{ $lesson['lesson']['template_player_id'] }}">
+                                                @if ($lesson['session_linked'] == 1 && $lesson['session_status'] == 1)
                                                     <i class="px-2 fa fa-cube" style="opacity: 0.3"></i>
                                                 @else
                                                     <i class="px-2 fa fa-cube"></i>
@@ -284,8 +284,8 @@
                                         @endif
                                         @if (isset(session('permission')->training->lesson->refresh))
                                             <button class="btn item-refresh" data-content='lesson'
-                                                data-item-id="{{ $lesson['id'] }}">
-                                                @if ($lesson['status'] == 5)
+                                                data-item-id="{{ $lesson['lesson']['id'] }}">
+                                                @if ($lesson['session_linked'] == 1 && $lesson['session_status'] == 1)
                                                     <i class="px-2 fa fa-sync-alt" style="opacity: 0.3"></i>
                                                 @else
                                                     <i class="px-2 fa fa-sync-alt"></i>
@@ -320,13 +320,8 @@
                                             Name<span class="text-danger">*</span>
                                         </span>
                                     </div>
-                                    @if ($lesson['status'] == 5)
-                                        <input type="text" class="form-control" id="lesson_name" name="lesson_name"
-                                            value="" required="" disabled>
-                                    @else
-                                        <input type="text" class="form-control" id="lesson_name" name="lesson_name"
-                                            value="" required="">
-                                    @endif
+                                    <input type="text" class="form-control" id="lesson_name" name="lesson_name"
+                                        value="" required="">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -571,13 +566,14 @@
                     <div class="list-group" id="list-tab" role="tablist" data-src=''>
                         @if (isset(session('permission')->training->training->display))
                             @foreach ($trainings as $training)
-                                <a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_{{ $training->id }} <?php if (isset(session('permission')->limited) && auth()->user()->id != $training->id_creator) {
+                                <a class="list-group-item list-group-item-action p-0 border-transparent border-5x training_{{ $training['training']->id }} <?php if (isset(session('permission')->limited) && auth()->user()->id != $training['training']->id_creator) {
     echo 'drag-disable';
 } ?>"
-                                    id="training_{{ $training->id }}" data-date="{{ $training->creation_date }}"
-                                    data-lesson='{{ $training->lesson_content }}'>
+                                    id="training_{{ $training['training']->id }}"
+                                    data-date="{{ $training['training']->creation_date }}"
+                                    data-lesson='{{ $training['training']->lesson_content }}'>
                                     <div class="float-left">
-                                        @if ($training->status != 0)
+                                        @if ($training['training']->status != 0)
                                             <i class="fa fa-circle  m-2" style="color:green;"></i>
                                             <input type="hidden" name="item-status" class='status-notification'
                                                 value="1">
@@ -586,44 +582,45 @@
                                             <input type="hidden" name="item-status" class='status-notification'
                                                 value="0">
                                         @endif
-                                        <span class="item-name">{{ $training->name }}</span>
-                                        <input type="hidden" name="item-name" value="{{ $training->name }}">
+                                        <span class="item-name">{{ $training['training']->name }}</span>
+                                        <input type="hidden" name="item-name"
+                                            value="{{ $training['training']->name }}">
                                     </div>
                                     <div class="btn-group float-right">
                                         <span
-                                            class=" p-2 font-weight-bolder  item-lang">{{ strtoupper($training->language_iso) }}</span>
+                                            class=" p-2 font-weight-bolder  item-lang">{{ strtoupper($training['training']->language_iso) }}</span>
 
                                         @if (isset(session('permission')->training->training->show))
                                             <button class="btn item-show" data-content='training'
-                                                data-item-id="{{ $training->id }}">
+                                                data-item-id="{{ $training['training']->id }}">
                                                 <i class="px-2 fa fa-eye"></i>
                                             </button>
                                         @endif
                                         @if (isset(session('permission')->limited))
-                                            @if (auth()->user()->id == $training->id_creator)
+                                            @if (auth()->user()->id == $training['training']->id_creator)
                                                 <button class="btn  item-type" data-content='training'
-                                                    data-value="{{ $training->type }}"
-                                                    data-item-id="{{ $training->id }}">
-                                                    @if ($training->type == 1)
+                                                    data-value="{{ $training['training']->type }}"
+                                                    data-item-id="{{ $training['training']->id }}">
+                                                    @if ($training['training']->type == 1)
                                                         <i class="px-2 fas fa-sort-amount-down-alt"></i>
                                                     @else
                                                         <i class="px-2 fas fa-wave-square"></i>
                                                     @endif
                                                 </button>
                                                 <button class="btn item-scorm" data-content='training'
-                                                    data-item-id="{{ $training->id }}">
+                                                    data-item-id="{{ $training['training']->id }}">
                                                     <i class="px-2 fa fa-cogs"></i>
                                                 </button>
                                                 @if (isset(session('permission')->training->training->edit))
                                                     <button class="btn item-edit" data-content='training'
-                                                        data-item-id="{{ $training->id }}">
+                                                        data-item-id="{{ $training['training']->id }}">
                                                         <i class="px-2 fa fa-edit"></i>
                                                     </button>
                                                 @endif
                                                 @if (isset(session('permission')->training->training->delete))
                                                     <button class="btn item-delete" data-content='training'
-                                                        data-item-id="{{ $training->id }}">
-                                                        @if ($training->status == 0)
+                                                        data-item-id="{{ $training['training']->id }}">
+                                                        @if ($training['session_linked'] && $training['session_status'] == 0)
                                                             <i class="px-2 fa fa-trash-alt"></i>
                                                         @else
                                                             <i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>
@@ -633,31 +630,31 @@
                                             @endif
                                         @else
                                             <button class="btn  item-type" data-content='training'
-                                                data-value="{{ $training->type }}"
-                                                data-item-id="{{ $training->id }}">
-                                                @if ($training->type == 1)
+                                                data-value="{{ $training['training']->type }}"
+                                                data-item-id="{{ $training['training']->id }}">
+                                                @if ($training['training']->type == 1)
                                                     <i class="px-2 fas fa-sort-amount-down-alt"></i>
                                                 @else
                                                     <i class="px-2 fas fa-wave-square"></i>
                                                 @endif
                                             </button>
                                             <button class="btn item-scorm" data-content='training'
-                                                data-item-id="{{ $training->id }}">
+                                                data-item-id="{{ $training['training']->id }}">
                                                 <i class="px-2 fa fa-cogs"></i>
                                             </button>
                                             @if (isset(session('permission')->training->training->edit))
                                                 <button class="btn item-edit" data-content='training'
-                                                    data-item-id="{{ $training->id }}">
+                                                    data-item-id="{{ $training['training']->id }}">
                                                     <i class="px-2 fa fa-edit"></i>
                                                 </button>
                                             @endif
                                             @if (isset(session('permission')->training->training->delete))
                                                 <button class="btn item-delete" data-content='training'
-                                                    data-item-id="{{ $training->id }}">
-                                                    @if ($training->status == 0)
-                                                        <i class="px-2 fa fa-trash-alt"></i>
-                                                    @else
+                                                    data-item-id="{{ $training['training']->id }}">
+                                                    @if ($training['session_linked'] == 1 && $training['session_status'] == 1)
                                                         <i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>
+                                                    @else
+                                                        <i class="px-2 fa fa-trash-alt"></i>
                                                     @endif
                                                 </button>
                                             @endif
@@ -693,13 +690,8 @@
                             </div>
                             <div class="form-group m-5 my-auto" id='status-form'>
                                 <div class="custom-control custom-switch custom-control-lg mb-2 ml-0 ">
-                                    @if ($training->status == 0)
-                                        <input type="checkbox" class="custom-control-input" id="training-status-icon"
-                                            name="training-status-icon" checked="">
-                                    @else
-                                        <input type="checkbox" class="custom-control-input" id="training-status-icon"
-                                            name="training-status-icon" checked="" disabled>
-                                    @endif
+                                    <input type="checkbox" class="custom-control-input" id="training-status-icon"
+                                        name="training-status-icon" checked="">
                                     <label class="custom-control-label"
                                         for="training-status-icon">Online/Offline</label>
                                 </div>
@@ -712,13 +704,8 @@
                                                 Name<span class="text-danger">*</span>
                                             </span>
                                         </div>
-                                        @if ($training->status == 0)
-                                            <input type="text" class="form-control" id="training_name"
-                                                name="training_name" value="" required="">
-                                        @else
-                                            <input type="text" class="form-control" id="training_name"
-                                                name="training_name" value="" required="" disabled>
-                                        @endif
+                                        <input type="text" class="form-control" id="training_name"
+                                            name="training_name" value="" required="">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -739,22 +726,16 @@
                                                 Language<span class="text-danger">*</span>
                                             </span>
                                         </div>
-                                        @if ($training->status == 0)
-                                            <select class="form-control" id="training_language"
-                                                name="training_language">
-                                            @else
-                                                <select class="form-control" id="training_language"
-                                                    name="training_language" disabled>
-                                        @endif
-                                        @foreach ($languages as $language)
-                                            @if ($loop->last)
-                                                <option value="{{ $language->language_id }}" selected>
-                                                    {{ $language->language_name }}</option>
-                                            @else
-                                                <option value="{{ $language->language_id }}">
-                                                    {{ $language->language_name }}</option>
-                                            @endif
-                                        @endforeach
+                                        <select class="form-control" id="training_language" name="training_language">
+                                            @foreach ($languages as $language)
+                                                @if ($loop->last)
+                                                    <option value="{{ $language->language_id }}" selected>
+                                                        {{ $language->language_name }}</option>
+                                                @else
+                                                    <option value="{{ $language->language_id }}">
+                                                        {{ $language->language_name }}</option>
+                                                @endif
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
