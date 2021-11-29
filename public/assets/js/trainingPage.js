@@ -521,7 +521,6 @@ var item_edit = function (element) {
                 url: baseURL + "/lesson/" + id,
                 success: function (data, state) {
                     notification("We got lesson data successfully!", 1);
-                    console.log('lesson Data:', data);
                     $("#lesson_name").val(data['lesson'].name);
                     $("#lesson_duration").val(data['lesson'].duration);
                     $("#lesson_target").val(data['lesson'].publicAudio);
@@ -719,10 +718,17 @@ var itemShow = function (event) {
                                 Object.keys(e).length === 0 &&
                                 e.constructor === Object
                             ) {} else {
-                                detachIcon = $(
-                                    '<button class="btn toggle1-btn" data-content="training"><i class="px-2 fas fa-unlink"></i></button>'
-                                ).on("click", detachLink);
-                                addedbutton = createTrainingData(e);
+                                // var opacity = $(`#training_${data["id"]}`).find('.item-delete i').css('opacity');
+                                // if(opacity == 0.3){
+                                //     detachIcon = $(
+                                //         '<button class="btn toggle1-btn" data-content="training"><i class="px-2 fas fa-unlink" style="opacity: 0.3"></i></button>'
+                                //     );
+                                // } else {
+                                //     detachIcon = $(
+                                //         '<button class="btn toggle1-btn" data-content="training"><i class="px-2 fas fa-unlink"></i></button>'
+                                //     ).on("click", detachLink);
+                                // }
+                                addedbutton = createTrainingData(e, id);
                                 addedbutton
                                     .find(".btn-group")
                                     .append(detachIcon);
@@ -742,10 +748,17 @@ var itemShow = function (event) {
                                 Object.keys(e).length === 0 &&
                                 e.constructor === Object
                             ) {} else {
-                                detachIcon = $(
-                                    '<button class="btn toggle1-btn" data-content="lesson"><i class="px-2 fas fa-unlink"></i></button>'
-                                ).on("click", detachLink);
-                                addedbutton = createLessonData(e);
+                                var opacity = $(`#training_${id}`).find('.item-delete i').css('opacity');
+                                if(opacity == 0.3){
+                                    detachIcon = $(
+                                        '<button class="btn toggle1-btn" data-content="lesson"><i class="px-2 fas fa-unlink" style="opacity: 0.3"></i></button>'
+                                    );
+                                } else {
+                                    detachIcon = $(
+                                        '<button class="btn toggle1-btn" data-content="lesson"><i class="px-2 fas fa-unlink"></i></button>'
+                                    ).on("click", detachLink);
+                                }
+                                addedbutton = createLessonData(e, id);
                                 addedbutton
                                     .find(".btn-group")
                                     .append(detachIcon);
@@ -875,6 +888,13 @@ var itemTemplate = function (event) {
         toggleFormOrTable($("#LeftPanel"), false, false);
         // var parent = $(this).parents('.list-group-item');
         // window.open(baseURL + "/fabrique_editor" + "/#/open/" + parent.find('.item-play').attr('data-fabrica') + "/dae8efee8afc1994204d76ee963bcfb1");
+    } else {
+        swal.fire({
+            title: "Warning",
+            text: "Modifying or actualizing a lesson that is part of an active session is not allowed. However, it's possible to duplicate the lesson in order to update its content and publish it separately.",
+            icon: "info",
+            confirmButtonText: `OK`,
+        });
     }
 };
 var itemRefresh = function (event) {
@@ -900,6 +920,13 @@ var itemRefresh = function (event) {
             error: function (err) {
                 notification("Sorry, You have an error!", 2);
             },
+        });
+    } else {
+        swal.fire({
+            title: "Warning",
+            text: "Modifying or actualizing a lesson that is part of an active session is not allowed. However, it's possible to duplicate the lesson in order to update its content and publish it separately.",
+            icon: "info",
+            confirmButtonText: `OK`,
         });
     }
 };
@@ -1262,8 +1289,9 @@ var createLanguageData = function (datas) {
     return languageData;
 };
 
-var createLessonData = function (data) {
+var createLessonData = function (data, id) {
     var status_temp;
+    var opacity = $(`#training_${id}`).find('.item-delete i').css('opacity');
     switch (data["status"]) {
         case 1:
             status_temp =
@@ -1341,7 +1369,7 @@ var createLessonData = function (data) {
         '" data-fabrica ="' +
         data["idFabrica"] +
         '">' +
-        '<i class="px-2 fa fa-trash-alt"></i>' +
+        (opacity == 0.3 ?'<i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>':'<i class="px-2 fa fa-trash-alt"></i>') +
         "</button>"
     );
     var btnPlay = $(
@@ -1355,14 +1383,14 @@ var createLessonData = function (data) {
         '<button class="btn item-template" data-content="lesson" data-template = "' +
         data["template_player_id"] +
         '">' +
-        '<i class="px-2 fa fa-cube"></i>' +
+        (opacity == 0.3 ?'<i class="px-2 fa fa-cube" style="opacity: 0.3"></i>':'<i class="px-2 fa fa-cube"></i>') +
         "</button>"
     );
     var btnRefresh = $(
         '<button class="btn item-refresh" data-content="lesson" data-item-id = "' +
         data["id"] +
         '">' +
-        '<i class="px-2 fa fa-sync-alt"></i>' +
+        (opacity == 0.3 ?'<i class="px-2 fa fa-sync-alt" style="opacity: 0.3"></i>':'<i class="px-2 fa fa-sync-alt"></i>') +
         "</button>"
     );
 
@@ -1392,8 +1420,9 @@ var createLessonData = function (data) {
     return lessonItem;
 };
 
-var createTrainingData = function (data) {
+var createTrainingData = function (data, id) {
     var status_temp;
+    var opacity = $(`#training_${data["id"]}`).find('.item-delete i').css('opacity');
     switch (data["status"]) {
         case 0:
             status_temp =
@@ -1468,9 +1497,19 @@ var createTrainingData = function (data) {
         '<button class="btn item-delete" data-content="training" data-item-id="' +
         data["id"] +
         '">' +
-        '<i class="px-2 fa fa-trash-alt"></i>' +
+        (opacity == 0.3 ?'<i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>':'<i class="px-2 fa fa-trash-alt"></i>') +
         "</button>"
     );
+
+    if(opacity == 0.3){
+        var detachIcon = $(
+            '<button class="btn toggle1-btn" data-content="training"><i class="px-2 fas fa-unlink" style="opacity: 0.3"></i></button>'
+        );
+    } else {
+        var detachIcon = $(
+            '<button class="btn toggle1-btn" data-content="training"><i class="px-2 fas fa-unlink"></i></button>'
+        ).on("click", detachLink);
+    }
 
     btnType.click(btnClick).click(itemType);
 
@@ -1488,7 +1527,8 @@ var createTrainingData = function (data) {
         .append(btnType)
         .append(btnScorm)
         .append(btnEdit)
-        .append(btnDelete);
+        .append(btnDelete)
+        .append(detachIcon);
     trainingItem.on("drop", dropEnd);
     trainingItem.attr("draggable", false);
     // trainingItem.on('drop', dropEnd);
@@ -2076,6 +2116,7 @@ function dragEnd(event) {
 }
 
 function dropEnd(event, item) {
+    if($(event.target).find(".fa-trash-alt").css('opacity') != 0.3){
     $(event.target).css("opacity", "100%");
     $("main").css("cursor", "default");
     var parent = $(event.target);
@@ -2183,6 +2224,15 @@ function dropEnd(event, item) {
                 $(this).removeClass("active");
             }
         });
+    } else {
+        $(event.target).css("opacity", "100%");
+        swal.fire({
+            title: "Warning",
+            text: "This training is part of an ongoing session. You cannot add or remove lessons from it. You can only change the sequence order.",
+            icon: "info",
+            confirmButtonText: `OK`,
+        });
+    }
 }
 
 function generateScorm() {
