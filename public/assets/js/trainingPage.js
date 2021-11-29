@@ -683,6 +683,13 @@ var itemDelete = function (event) {
                     e.fire("Cancelled", "Your data is safe :)", "error");
             }
         });
+    } else {
+        swal.fire({
+            title: "Warning",
+            text: "This operation is not possible. This Lesson or Training is part of an active session. Please, cancel the Session in order to be able to delete the lesson or training. ",
+            icon: "info",
+            confirmButtonText: `OK`,
+        });
     }
 };
 
