@@ -342,6 +342,7 @@ var sessionItemClick = function (e) {
             $('#begin_date').val(data.session_info.begin_date);
             $('#language').val(data.session_info.language_iso);
             $('#template').val(data.session_info.templateformation);
+            $('#evaluation').val(data.session_info.consider_eval);
             $("#attempts").data("ionRangeSlider").update({
                 from: data.session_info.max_attempts_eval,
             });

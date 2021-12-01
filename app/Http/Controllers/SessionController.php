@@ -79,6 +79,9 @@ class SessionController extends Controller
         if ($request->post("template") != NULL) {
             $session->templateformation = $request->post('template');
         }
+        if ($request->post("evaluation") != NULL) {
+            $session->consider_eval = $request->post('evaluation');
+        }
         if ($request->post("attempts") != NULL) {
             $session->max_attempts_eval = $request->post('attempts');
         }
@@ -146,6 +149,9 @@ class SessionController extends Controller
         }
         if ($request->post("template") != NULL) {
             $session->templateformation = $request->post('template');
+        }
+        if ($request->post("evaluation") != NULL) {
+            $session->consider_eval = $request->post('evaluation');
         }
         if ($request->post("attempts") != NULL) {
             $session->max_attempts_eval = $request->post('attempts');

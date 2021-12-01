@@ -47,6 +47,7 @@ class DashController extends Controller
             `last_date_screen_optim` datetime NOT NULL,
             `first_eval_id_screen_optim` int(11) NOT NULL,
             `last_eval_id_screen_optim` int(11) NOT NULL,
+            `best_eval_id_screen_optim` int(11) NOT NULL,
             PRIMARY KEY (id_screen_optim) 
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
             ');
@@ -142,6 +143,7 @@ class DashController extends Controller
             `last_date_screen_optim` datetime NOT NULL,
             `first_eval_id_screen_optim` int(11) NOT NULL,
             `last_eval_id_screen_optim` int(11) NOT NULL,
+            `best_eval_id_screen_optim` int(11) NOT NULL,
             PRIMARY KEY (id_screen_optim) 
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
             ');

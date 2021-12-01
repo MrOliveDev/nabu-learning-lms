@@ -604,7 +604,7 @@
                                         </span>
                                     </div>
                                     <select class="form-control" id="language" name="language" required>
-                                        <option value="" selected>Langauge</option>
+                                        <option value="" selected>Language</option>
                                         @foreach ($languages as $language)
                                             <option value="{{ $language->language_id }}">
                                                 {{ $language->language_name }}</option>
@@ -625,6 +625,20 @@
                                             <option value="{{ $template->id }}">{{ $template->name }}
                                             </option>
                                         @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Evaluation Score
+                                        </span>
+                                    </div>
+                                    <select id="evaluation" name="evaluation" class="form-control">
+                                        <option value="1" selected>Consider the best score</option>
+                                        <option value="2">Consider the first score</option>
+                                        <option value="3">Consider the last score</option>
                                     </select>
                                 </div>
                             </div>
