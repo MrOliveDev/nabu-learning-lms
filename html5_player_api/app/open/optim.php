@@ -152,6 +152,7 @@ function treatOptimEval($optim_datas) {
                 'last_date' => $optim_datas['date_end'],
                 'sessionId' => $optim_datas['sessionId']);
             modelUpdateOptim($payload,$optim['id_screen_optim']);
+            modelUpdateBestEvalOptim($payload,$optim['id_screen_optim']);
             
         } else { // Si il faut créer la ligne optim
             $payload = array('id_fabrique' => $optim_datas['id_fabrique'],
@@ -172,6 +173,7 @@ function treatOptimEval($optim_datas) {
                 'last_date' => $optim_datas['date_end'],
                 'sessionId' => $optim_datas['sessionId']);
             modelUpdateOptim($payload,$id_optim_inserted);
+            modelUpdateBestEvalOptim($payload, $id_optim_inserted);
         }
     }
 }
@@ -352,6 +354,25 @@ function modelUpdateLastEvalOptim($datas,$id_row) {
     $stmt->execute();
 }
 
+function modelUpdateBestEvalOptim($datas, $id_row) {
+    $tableName2 = "tb_screen_optim_" . $datas['sessionId'];
+    $db2 = new PDO("mysql:host=localhost;dbname=db_historic", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+    $sql2 = "SELECT MAX(note) AS best_eval FROM {$tableName2}";
+    $stmt2 = $db2->prepare($sql2);
+    $best_eval = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+    if($datas['sessionId']){
+        $tableName = "tb_screen_optim_" . $datas['sessionId'];
+        $db = new PDO("mysql:host=localhost;dbname=db_reports", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+    } else {
+        $tableName = "tb_screen_optim";
+        $db = new PDO("mysql:host=localhost;dbname=laravel", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+    }
+    $sql = "UPDATE {$tableName} SET best_eval_id_screen_optim = {$best_eval} WHERE id_screen_optim = {$id_row}";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+}
+
 // Récupère une ligne dans la table screen_optm
 function modelGetOptim($id_fabrique,$id_user,$id_curso='',$sessionId=null) {
     if($sessionId){
@@ -367,6 +388,7 @@ function modelGetOptim($id_fabrique,$id_user,$id_curso='',$sessionId=null) {
             . "`last_date_screen_optim` datetime NOT NULL,"
             . "`first_eval_id_screen_optim` int(11) NOT NULL,"
             . "`last_eval_id_screen_optim` int(11) NOT NULL,"
+            . "`best_eval_id_screen_optim` int(11) NOT NULL,"
             . "PRIMARY KEY (id_screen_optim) "
             . ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
         $stmt = $db->prepare($createSql);
