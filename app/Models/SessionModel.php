@@ -30,6 +30,7 @@ class SessionModel extends Model
         'contents',
         'end_date',
         'max_attempts_eval',
+        'consider_eval',
         'creator_id'
     ];
 
