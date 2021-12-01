@@ -607,6 +607,7 @@ class ReportController extends Controller
                         if($lessonInfo["optim"]){
                             $lessonInfo["first_eval"] = $this->getEvaluation($request['sessionId'], $lessonInfo["optim"]->first_eval_id_screen_optim);
                             $lessonInfo["last_eval"] = $this->getEvaluation($request['sessionId'], $lessonInfo["optim"]->last_eval_id_screen_optim);
+                            $lessonInfo["best_eval"] = $this->getEvaluation($request['sessionId'], $lessonInfo["optim"]->last_eval_id_screen_optim);
                             
                             if ($last_date_view == FALSE || (strtotime($lessonInfo['optim']->last_date_screen_optim) > strtotime($last_date_view)))
                                 $last_date_view = $lessonInfo['optim']->last_date_screen_optim;
@@ -616,6 +617,7 @@ class ReportController extends Controller
                         } else{
                             $lessonInfo["first_eval"] = null;
                             $lessonInfo["last_eval"] = null;
+                            $lessonInfo["best_eval"] = null;
                             $lessonInfo["visitedScreens"] = 0;
                         }
                         $lessonInfo["evalCounts"] = $this->getNbEvaluations($request['sessionId'], $request['studentId'], $lesson['idFabrica']);
@@ -633,27 +635,64 @@ class ReportController extends Controller
 
                         $time_eval = '00:00:00';
                         $lessonInfo["eval"] = '';
-                        if($lessonInfo["last_eval"] != null){
-                            $diff_time = $this->helperDateDiff(strtotime($lessonInfo['last_eval']->date_start),strtotime($lessonInfo['last_eval']->date_end));
-                            $time_eval = date('H:i:s',strtotime("+".$diff_time['hour']." hours ".$diff_time['minute']." minutes ".$diff_time['second']." seconds",strtotime($time_eval)));
-                            $lessonInfo['last_eval']->time_eval = $time_eval;
-                            $lessonInfo['eval'] = 'first';
+                        if($session->consider_eval == 1){
+                            if($lessonInfo["best_eval"] != null) {
+                                $diff_time = $this->helperDateDiff(strtotime($lessonInfo['best_eval']->date_start),strtotime($lessonInfo['best_eval']->date_end));
+                                $time_eval = date('H:i:s',strtotime("+".$diff_time['hour']." hours ".$diff_time['minute']." minutes ".$diff_time['second']." seconds",strtotime($time_eval)));
+                                $lessonInfo['best_eval']->time_eval = $time_eval;
+                                $lessonInfo['eval'] = 'first';
                             
-                            $data["are_eval_there"]["answer"] ++;
-                            $data["are_eval_there"]["evals"][] = array("module" => $lessonInfo["lesson"]["name"], "note" => $lessonInfo['last_eval']->note);
+                                $data["are_eval_there"]["answer"] ++;
+                                $data["are_eval_there"]["evals"][] = array("module" => $lessonInfo["lesson"]["name"], "note" => $lessonInfo['best_eval']->note);
                             
-                            $lessonInfo['eval_questions'] = $this->getQuestionDetails($request['sessionId'], $lessonInfo['last_eval']->id);
-                        } else if($lessonInfo["first_eval"] != null){
-                            $diff_time = $this->helperDateDiff(strtotime($lessonInfo['first_eval']->date_start),strtotime($lessonInfo['first_eval']->date_end));
-                            $time_eval = date('H:i:s',strtotime("+".$diff_time['hour']." hours ".$diff_time['minute']." minutes ".$diff_time['second']." seconds",strtotime($time_eval)));
-                            $lessonInfo['first_eval']->time_eval = $time_eval;
-                            $lessonInfo['eval'] = 'first';
-                            
-                            $data["are_eval_there"]["answer"] ++;
-                            $data["are_eval_there"]["evals"][] = array("module" => $lessonInfo["lesson"]["name"], "note" => $lessonInfo['first_eval']->note);
-                            
-                            $lessonInfo['eval_questions'] = $this->getQuestionDetails($request['sessionId'], $lessonInfo['first_eval']->id);
+                                $lessonInfo['eval_questions'] = $this->getQuestionDetails($request['sessionId'], $lessonInfo['best_eval']->id);
+                            }
+                        } else if ($session->consider_eval == 2) {
+                            if($lessonInfo["first_eval"] != null){
+                                $diff_time = $this->helperDateDiff(strtotime($lessonInfo['first_eval']->date_start),strtotime($lessonInfo['first_eval']->date_end));
+                                $time_eval = date('H:i:s',strtotime("+".$diff_time['hour']." hours ".$diff_time['minute']." minutes ".$diff_time['second']." seconds",strtotime($time_eval)));
+                                $lessonInfo['first_eval']->time_eval = $time_eval;
+                                $lessonInfo['eval'] = 'first';
+                                
+                                $data["are_eval_there"]["answer"] ++;
+                                $data["are_eval_there"]["evals"][] = array("module" => $lessonInfo["lesson"]["name"], "note" => $lessonInfo['first_eval']->note);
+                                
+                                $lessonInfo['eval_questions'] = $this->getQuestionDetails($request['sessionId'], $lessonInfo['first_eval']->id);
+                            }
+                        } else if ($session->consider_eval == 3) {
+                            if($lessonInfo["last_eval"] != null){
+                                $diff_time = $this->helperDateDiff(strtotime($lessonInfo['last_eval']->date_start),strtotime($lessonInfo['last_eval']->date_end));
+                                $time_eval = date('H:i:s',strtotime("+".$diff_time['hour']." hours ".$diff_time['minute']." minutes ".$diff_time['second']." seconds",strtotime($time_eval)));
+                                $lessonInfo['last_eval']->time_eval = $time_eval;
+                                $lessonInfo['eval'] = 'first';
+                                
+                                $data["are_eval_there"]["answer"] ++;
+                                $data["are_eval_there"]["evals"][] = array("module" => $lessonInfo["lesson"]["name"], "note" => $lessonInfo['last_eval']->note);
+                                
+                                $lessonInfo['eval_questions'] = $this->getQuestionDetails($request['sessionId'], $lessonInfo['last_eval']->id);
+                            }
                         }
+                        // if($lessonInfo["last_eval"] != null){
+                        //     $diff_time = $this->helperDateDiff(strtotime($lessonInfo['last_eval']->date_start),strtotime($lessonInfo['last_eval']->date_end));
+                        //     $time_eval = date('H:i:s',strtotime("+".$diff_time['hour']." hours ".$diff_time['minute']." minutes ".$diff_time['second']." seconds",strtotime($time_eval)));
+                        //     $lessonInfo['last_eval']->time_eval = $time_eval;
+                        //     $lessonInfo['eval'] = 'first';
+                            
+                        //     $data["are_eval_there"]["answer"] ++;
+                        //     $data["are_eval_there"]["evals"][] = array("module" => $lessonInfo["lesson"]["name"], "note" => $lessonInfo['last_eval']->note);
+                            
+                        //     $lessonInfo['eval_questions'] = $this->getQuestionDetails($request['sessionId'], $lessonInfo['last_eval']->id);
+                        // } else if($lessonInfo["first_eval"] != null){
+                        //     $diff_time = $this->helperDateDiff(strtotime($lessonInfo['first_eval']->date_start),strtotime($lessonInfo['first_eval']->date_end));
+                        //     $time_eval = date('H:i:s',strtotime("+".$diff_time['hour']." hours ".$diff_time['minute']." minutes ".$diff_time['second']." seconds",strtotime($time_eval)));
+                        //     $lessonInfo['first_eval']->time_eval = $time_eval;
+                        //     $lessonInfo['eval'] = 'first';
+                            
+                        //     $data["are_eval_there"]["answer"] ++;
+                        //     $data["are_eval_there"]["evals"][] = array("module" => $lessonInfo["lesson"]["name"], "note" => $lessonInfo['first_eval']->note);
+                            
+                        //     $lessonInfo['eval_questions'] = $this->getQuestionDetails($request['sessionId'], $lessonInfo['first_eval']->id);
+                        // }
 
                         if (isset($lessonInfo['eval_questions'])) {
                             $questions = array();
