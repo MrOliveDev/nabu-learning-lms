@@ -187,7 +187,18 @@
                 jQuery('body').bind("mouseup", function() {
                     jQuery('body').unbind("mousemove");
                     jQuery('body').unbind("mouseup");
-
+                    if($(".js-rangeslider").length){
+                        $(".js-rangeslider").data("ionRangeSlider").update({
+                            from: $(this).data(
+                                "ionRangeSlider"
+                            )
+                        });
+                        $("#attempts").data("ionRangeSlider").update({
+                            from: $(this).data(
+                                "ionRangeSlider"
+                            )
+                        });
+                    }
                 });
                 jQuery('body').bind("mousemove", function(e) {
                     var end = e.pageY;
