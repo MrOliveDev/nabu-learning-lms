@@ -355,10 +355,11 @@ function modelUpdateLastEvalOptim($datas,$id_row) {
 }
 
 function modelUpdateBestEvalOptim($datas, $id_row) {
-    $tableName2 = "tb_screen_optim_" . $datas['sessionId'];
+    $tableName2 = "tb_evaluation_" . $datas['sessionId'];
     $db2 = new PDO("mysql:host=localhost;dbname=db_historic", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
-    $sql2 = "SELECT MAX(note) AS best_eval FROM {$tableName2}";
+    $sql2 = "SELECT id, note FROM {$tableName2} ORDER BY note DESC LIMIT 1";
     $stmt2 = $db2->prepare($sql2);
+    $stmt2->execute();
     $best_eval = $stmt2->fetch(PDO::FETCH_ASSOC);
 
     if($datas['sessionId']){
@@ -368,7 +369,7 @@ function modelUpdateBestEvalOptim($datas, $id_row) {
         $tableName = "tb_screen_optim";
         $db = new PDO("mysql:host=localhost;dbname=laravel", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
     }
-    $sql = "UPDATE {$tableName} SET best_eval_id_screen_optim = {$best_eval} WHERE id_screen_optim = {$id_row}";
+    $sql = "UPDATE {$tableName} SET best_eval_id_screen_optim = {$best_eval['id']} WHERE id_screen_optim = {$id_row}";
     $stmt = $db->prepare($sql);
     $stmt->execute();
 }

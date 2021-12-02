@@ -55,7 +55,7 @@
 
     <script src="{{ asset('assets/js/dashmix.app.min.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
-    <script src="{{ asset('assets/js/baseURL.js')}}"></script>
+    <script src="{{ asset('assets/js/baseURL.js') }}"></script>
 
     @yield('js_before')
     <!-- Scripts -->
@@ -63,7 +63,7 @@
     <!-- END Stylesheets -->
 </head>
 
-<body @if(session("pageBackground") != null && session("pageBackground") != "") style="background:{{session("pageBackground")}}" @endif>
+<body @if (session('pageBackground') != null && session('pageBackground') != '') style="background:{{ session('pageBackground') }}" @endif>
     <div id="page-container"
         class="sidebar-dark enable-page-overlay side-scroll page-header-fixed page-header-dark page-header-glass main-content-boxed side-trans-enabled sidebar-o-xs sidebar-o">
         @include('sidebar')
@@ -150,7 +150,7 @@
                 .body
                 .clientHeight));
             var divHight = 20 + parseInt($("#div_left").height()) + parseInt($('.content-header')
-        .height()); //20=body padding:10px
+                .height()); //20=body padding:10px
             $("#content").css({
                 "min-height": h - divHight + "px"
             });
@@ -187,12 +187,14 @@
                 jQuery('body').bind("mouseup", function() {
                     jQuery('body').unbind("mousemove");
                     jQuery('body').unbind("mouseup");
-                    if($(".js-rangeslider").length){
+                    if ($(".js-rangeslider").length) {
                         $(".js-rangeslider").data("ionRangeSlider").update({
                             from: $(this).data(
                                 "ionRangeSlider"
                             )
                         });
+                    }
+                    if ($("#attempts").length) {
                         $("#attempts").data("ionRangeSlider").update({
                             from: $(this).data(
                                 "ionRangeSlider"
@@ -235,7 +237,6 @@
         jQuery.resizable('div_left', "h");
         jQuery.resizable('div_left1', "h");
         jQuery.resizable('div_left2', "h");
-
     </script>
 
 
