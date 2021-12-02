@@ -1370,15 +1370,15 @@ var createLessonData = function (data, id) {
         '<i class="px-2 fa fa-edit"></i>' +
         "</button>"
     );
-    var btnDelete = $(
-        '<button class="btn item-delete" data-content="lesson" data-item-id="' +
-        data["id"] +
-        '" data-fabrica ="' +
-        data["idFabrica"] +
-        '">' +
-        (opacity == 0.3 ?'<i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>':'<i class="px-2 fa fa-trash-alt"></i>') +
-        "</button>"
-    );
+    // var btnDelete = $(
+    //     '<button class="btn item-delete" data-content="lesson" data-item-id="' +
+    //     data["id"] +
+    //     '" data-fabrica ="' +
+    //     data["idFabrica"] +
+    //     '">' +
+    //     (opacity == 0.3 ?'<i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>':'<i class="px-2 fa fa-trash-alt"></i>') +
+    //     "</button>"
+    // );
     var btnPlay = $(
         '<button class="btn item-play" data-content="lesson" data-fabrica ="' +
         data["idFabrica"] +
@@ -1405,7 +1405,7 @@ var createLessonData = function (data, id) {
 
     btnEdit.click(btnClick).click(itemEdit);
 
-    btnDelete.click(btnClick).click(itemDelete);
+    // btnDelete.click(btnClick).click(itemDelete);
 
     btnPlay.click(btnClick).click(itemPlay);
 
@@ -1419,7 +1419,7 @@ var createLessonData = function (data, id) {
         .find(".btn-group")
         .append(btnShow)
         .append(btnEdit)
-        .append(btnDelete)
+        // .append(btnDelete)
         .append(btnPlay)
         .append(btnTemplate)
         .append(btnRefresh);
