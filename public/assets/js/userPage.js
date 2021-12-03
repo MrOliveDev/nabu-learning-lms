@@ -624,7 +624,7 @@ var divACshow = function (event) {
             data: userItem.attr("id").split("_")[1]
         }
     }).done(function (data) {
-        data.map ? .(function (item, i) {
+        data.map ?.(function (item, i) {
             $("#table-session .list-group").append(createSessionItem(item[0]));
         })
     }).fail(function (err) {
@@ -1895,9 +1895,9 @@ var submitBtn = function (event) {
                     var groupName = arr_url[arr_url.length - 1];
                     switch (groupName) {
                         case 'user':
-                            if (data ? .mail_success) {
+                            if (data ?.mail_success) {
                                 notification('Success to send mail to User!', 1);
-                            } else if (data ? .mail_success == false) {
+                            } else if (data ?.mail_success == false) {
                                 notification('Fail to send mail to User!', 2);
                             }
                             notification('User added successfully!', 1);
