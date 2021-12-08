@@ -332,6 +332,35 @@ class StudentController extends Controller
                 DB::connection('mysql_historic')->delete("DELETE FROM `tb_screen_stats_{$session->id}` WHERE user_id={$id}");
             if(DB::connection('mysql_reports')->getSchemaBuilder()->hasTable("tb_screen_optim_{$session->id}"))
                 DB::connection('mysql_reports')->delete("DELETE FROM `tb_screen_optim_{$session->id}` WHERE id_user_screen_optim={$id}");
+            
+            $participant_data = $session->participants;
+            if (isset($participant_data) || $participant_data != "") {
+                $participant = json_decode($participant_data);
+                $studentList = isset($participant->s) ? $participant->s : array();
+                $teacherList = isset($participant->t) ? $participant->t : array();
+                $groupList = isset($participant->g) ? $participant->g : array();
+                $newstudentList = array();
+                $flag = false;
+    
+                if (isset($studentList) || $studentList != "") {
+                    if (count($studentList) != 0) {
+                        foreach ($studentList as $studentValue) {
+                            if($studentValue != $id){
+                                array_push($newstudentList, $studentValue);
+                            } else {
+                                $flag = true;
+                            }
+                        }
+                    }
+                }
+                if($flag){
+                    $newParticipant['s'] = $newstudentList;
+                    $newParticipant['t'] = $teacherList;
+                    $newParticipant['g'] = $groupList;
+                    $session->participants = json_encode($newParticipant);
+                    $session->update();
+                }
+            }
         }
 
         InterfaceCfgModel::where('id', $user->id_config)->delete();
@@ -346,6 +375,7 @@ class StudentController extends Controller
             $report->delete();
         }
         ReportsModel::where('id_creator', $id)->delete();
+        ReportsModel::where('studentId', $id)->delete();
         ReportTemplateModel::where('id_creator', $id)->delete();
         ReportImages::where('userId', $id)->delete();
 
