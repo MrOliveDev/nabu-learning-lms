@@ -436,4 +436,58 @@ class LessonController extends Controller
         }
         return $string;
     }
+
+    public function duplicateLesson(Request $request) {
+        $lesson = LessonsModel::find($request->post('id'));
+        $newlesson = new LessonsModel();
+
+        if ($request->post('name')) {
+            $newlesson->name = $request->post('name');
+        }
+        if ($lesson->duration) {
+            $newlesson->duration = $lesson->duration;
+        }
+        if ($lesson->description) {
+            $newlesson->description = $lesson->description;
+        }
+        if ($lesson->date_end) {
+            $newlesson->date_end = $lesson->date_end;
+        }
+        if ($lesson->publicAudio) {
+            $newlesson->publicAudio = $lesson->publicAudio;
+        }
+        if ($lesson->lang) {
+            $newlesson->lang = $lesson->lang;
+        }
+        if ($lesson->status) {
+            $newlesson->status = $lesson->status;
+        }
+        if ($lesson->threshold_score) {
+            $newlesson->threshold_score = $lesson->threshold_score;
+        }
+        if (session("user_type") !== 0) {
+            $newlesson->idCreator = session("user_id");
+        } else {
+            $newlesson->idCreator = session("client");
+        }
+        $newlesson->idFabrica = $this->randomGenerate();
+        $newlesson->save();
+
+        $this->createCourse($newlesson->name, $newlesson->idFabrica);
+
+        $values = array('request' => '
+        <request>
+            <method>ProductDuplicate</method>
+            <params>
+                <param name="source">' . $request->post("id") . '</param>
+                <param name="newcode">' . $newlesson->idFabrica . '</param>
+                <param name="label">' . $newlesson->name . '</param>
+            </params>
+        </request>');
+
+        $return = $this->doPostRequest(env('FABRIQUE_URL'), $values);
+        $return_update = get_object_vars($return);
+
+        return response()->json(LessonsModel::getLessonContainedTraining($newlesson->id));
+    }
 }

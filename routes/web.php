@@ -337,6 +337,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('generateScorm', '\App\Http\Controllers\TrainingController@generateScorm')->name('generateScorm');
     Route::get('/scorm/{file}', '\App\Http\Controllers\TrainingController@downloadScorm');
     Route::post('lessonshow/{id}', '\App\Http\Controllers\LessonController@getTrainingFromLesson')->name('lessonshow');
+    Route::post('duplicateLesson', '\App\Http\Controllers\LessonController@duplicateLesson')->name('duplicateLesson');
 
     Route::post('getPPTConfig/{id}', '\App\Http\Controllers\StudentController@getPPTConfig');
 

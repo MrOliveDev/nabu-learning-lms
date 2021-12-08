@@ -36,6 +36,10 @@
             display: none;
         }
 
+        #duplicate_lesson_form {
+            display: none
+        }
+
         .cropper-view-box {
             border-radius: 0;
         }
@@ -247,6 +251,12 @@
                                                     @endif
                                                 </button>
                                             @endif
+                                            @if (isset(session('permission')->training->lesson->duplicate))
+                                                <button class="btn item-duplicate" data-content='lesson'
+                                                    data-item-id="{{ $lesson['lesson']['id'] }}">
+                                                    <i class="px-2 fa fa-copy"></i>
+                                                </button>
+                                            @endif
                                         @endif
                                     @else
                                         @if (isset(session('permission')->training->lesson->edit))
@@ -290,6 +300,12 @@
                                                 @else
                                                     <i class="px-2 fa fa-sync-alt"></i>
                                                 @endif
+                                            </button>
+                                        @endif
+                                        @if (isset(session('permission')->training->lesson->duplicate))
+                                            <button class="btn item-duplicate" data-content='lesson'
+                                                data-item-id="{{ $lesson['lesson']['id'] }}">
+                                                <i class="px-2 fa fa-copy"></i>
                                             </button>
                                         @endif
                                     @endif
@@ -480,6 +496,31 @@
                     </div>
                 </div>
 
+                <div id="duplicate_lesson_form" enctype="multipart/form-data" class="second-table">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input name="_method" type="hidden" value="POST" class="method-select">
+                    <div class="card text-black pt-3">
+                        <div class="card-body  p-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Name<span class="text-danger">*</span>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="duplicate_lesson_name" name="lesson_name"
+                                        value="" required>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <button type="submit" class="btn btn-hero-primary float-right mx-1 duplicate-btn"
+                                    id="lesson_save_button" data-form="duplicate_lesson_form">SAVE</button>
+                                <button type="button" class="btn btn-hero-primary float-right mx-1"
+                                    id="duplicate-cancel-btn">CANCEL</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card text-black pt-3" id="fabrique-template">
                     <div class="card-body  p-3">
                         <div class="template-select bg-white text-black">

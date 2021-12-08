@@ -591,6 +591,7 @@ var item_edit = function (element) {
 
 var itemEdit = function (event) {
     $("#template-group").toggle(false);
+    $("#duplicate_lesson_form").toggle(false);
     item_edit($(this));
 };
 
@@ -719,6 +720,7 @@ var itemShow = function (event) {
                         JSON.parse(data).data != [] &&
                         Object.keys(data).length !== 0
                     ) {
+                        $('#duplicate_lesson_form').toggle(false);
                         JSON.parse(data).data.forEach((e) => {
                             if (
                                 e &&
@@ -756,7 +758,7 @@ var itemShow = function (event) {
                                 e.constructor === Object
                             ) {} else {
                                 var opacity = $(`#training_${id}`).find('.item-delete i').css('opacity');
-                                if(opacity == 0.3){
+                                if (opacity == 0.3) {
                                     detachIcon = $(
                                         '<button class="btn toggle1-btn" data-content="lesson"><i class="px-2 fas fa-unlink" style="opacity: 0.3"></i></button>'
                                     );
@@ -883,6 +885,9 @@ var templateCancel = function (event) {
 var fabriqueTemplateCancel = function (event) {
     $("#fabrique-template").toggle(false);
 };
+var duplicateCancel = function (event) {
+    $("#duplicate_lesson_form").toggle(false);
+}
 
 var itemTemplate = function (event) {
     if ($(this).find("i").css("opacity") != "0.3") {
@@ -937,6 +942,24 @@ var itemRefresh = function (event) {
         });
     }
 };
+
+var itemDuplicate = function (event) {
+    toggleFormOrTable($("#LeftPanel"), true);
+    $("#lesson_form").toggle(false)
+
+    var parent = $(this).parents("fieldset");
+    $('#duplicate_lesson_form').toggle(true);
+
+    var name = $(this).parents(".list-group-item").find(".item-name").html();
+    var id = $(this).attr("data-item-id")
+    $("#duplicate_lesson_name").val(name);
+    $("#duplicate_lesson_name").attr("data-item-id", id);
+
+    $("#div_A").find(".list-group-item").each(clearClassName);
+    $("#duplicate_lesson_form").attr("action", baseURL + "/lesson123");
+    parent.find(".method-select").val("POST");
+    parent.find("form").attr("data-item", "");
+}
 
 var curTrainingId = -1;
 
@@ -1278,6 +1301,59 @@ var submitBtn = function (event) {
         $("#" + sourceId + " .item-edit").toggleClass("active", false);
     }
 };
+
+var duplicateBtn = function (event) {
+    var name = $(this).parents("#duplicate_lesson_form").find('#duplicate_lesson_name').val();
+    var id = $(this).parents("#duplicate_lesson_form").find('#duplicate_lesson_name').attr("data-item-id");
+    console.log('name', name, "id", id);
+    // $.ajax({
+    //     url: "duplicateLesson",
+    //     headers: {
+    //         "X-CSRF-TOKEN": $(
+    //             'meta[name="csrf-token"]'
+    //         ).attr("content"),
+    //     },
+    //     data: {
+    //         name: name,
+    //         id: id
+    //     },
+    //     success: function (data) {
+    //         console.log('after duplication', data);
+    //         if (data) {
+    //             notification("Successfully Duplicated", 1);
+    //             $("#div_A .list-group").append(
+    //                 createLessonData(data)
+    //             );
+    //         } else {
+    //             notification("Failed", 2);
+    //         }
+    //     },
+    //     error: function (err) {
+    //         notification("Sorry, You have an error!", 2);
+    //     },
+    // });
+    $.post({
+            url: "duplicateLesson",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            data: {
+                name: name,
+                id: id
+            },
+        })
+        .done(function (data) {
+            notification("Successfully Duplicated", 1);
+            $("#div_A .list-group").append(
+                createLessonData(data)
+            );
+            return true;
+        })
+        .fail(function (err) {
+            notification("Sorry! You have an error", 2);
+            return false;
+        })
+}
 var createLanguageData = function (datas) {
     var languageData = $(
         '<select class="form-control" id="language-select" name="language-select">'
@@ -1297,6 +1373,7 @@ var createLanguageData = function (datas) {
 };
 
 var createLessonData = function (data, id) {
+    console.log('data', data, id);
     var status_temp;
     var opacity = $(`#training_${id}`).find('.item-delete i').css('opacity');
     switch (data["status"]) {
@@ -1370,15 +1447,18 @@ var createLessonData = function (data, id) {
         '<i class="px-2 fa fa-edit"></i>' +
         "</button>"
     );
-    // var btnDelete = $(
-    //     '<button class="btn item-delete" data-content="lesson" data-item-id="' +
-    //     data["id"] +
-    //     '" data-fabrica ="' +
-    //     data["idFabrica"] +
-    //     '">' +
-    //     (opacity == 0.3 ?'<i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>':'<i class="px-2 fa fa-trash-alt"></i>') +
-    //     "</button>"
-    // );
+
+    if (!id) {
+        var btnDelete = $(
+            '<button class="btn item-delete" data-content="lesson" data-item-id="' +
+            data["id"] +
+            '" data-fabrica ="' +
+            data["idFabrica"] +
+            '">' +
+            (opacity == 0.3 ? '<i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>' : '<i class="px-2 fa fa-trash-alt"></i>') +
+            "</button>"
+        );
+    }
     var btnPlay = $(
         '<button class="btn item-play" data-content="lesson" data-fabrica ="' +
         data["idFabrica"] +
@@ -1390,22 +1470,32 @@ var createLessonData = function (data, id) {
         '<button class="btn item-template" data-content="lesson" data-template = "' +
         data["template_player_id"] +
         '">' +
-        (opacity == 0.3 ?'<i class="px-2 fa fa-cube" style="opacity: 0.3"></i>':'<i class="px-2 fa fa-cube"></i>') +
+        (opacity == 0.3 ? '<i class="px-2 fa fa-cube" style="opacity: 0.3"></i>' : '<i class="px-2 fa fa-cube"></i>') +
         "</button>"
     );
     var btnRefresh = $(
         '<button class="btn item-refresh" data-content="lesson" data-item-id = "' +
         data["id"] +
         '">' +
-        (opacity == 0.3 ?'<i class="px-2 fa fa-sync-alt" style="opacity: 0.3"></i>':'<i class="px-2 fa fa-sync-alt"></i>') +
+        (opacity == 0.3 ? '<i class="px-2 fa fa-sync-alt" style="opacity: 0.3"></i>' : '<i class="px-2 fa fa-sync-alt"></i>') +
         "</button>"
     );
-
+    if (!id) {
+        var btnDuplicate = $(
+            '<button class="btn item-copy" data-content="lesson" data-fabrica ="' +
+            data["id"] +
+            '">' +
+            '<i class="px-2 fa fa-copy"></i>' +
+            "</button>"
+        );
+    }
     btnShow.click(btnClick).click(itemShow);
 
     btnEdit.click(btnClick).click(itemEdit);
 
-    // btnDelete.click(btnClick).click(itemDelete);
+    if (!id) {
+        btnDelete.click(btnClick).click(itemDelete);
+    }
 
     btnPlay.click(btnClick).click(itemPlay);
 
@@ -1413,16 +1503,33 @@ var createLessonData = function (data, id) {
 
     btnRefresh.click(btnClick).click(itemRefresh);
 
-    lessonItem
-        .click(leftItemClick)
-        .dblclick(itemDBlClick)
-        .find(".btn-group")
-        .append(btnShow)
-        .append(btnEdit)
-        // .append(btnDelete)
-        .append(btnPlay)
-        .append(btnTemplate)
-        .append(btnRefresh);
+    if (!id) {
+        btnDuplicate.click(btnClick).click(itemDuplicate);
+    }
+
+    if (!id) {
+        lessonItem
+            .click(leftItemClick)
+            .dblclick(itemDBlClick)
+            .find(".btn-group")
+            .append(btnShow)
+            .append(btnEdit)
+            .append(btnDelete)
+            .append(btnPlay)
+            .append(btnTemplate)
+            .append(btnRefresh)
+            .append(btnDuplicate);
+    } else {
+        lessonItem
+            .click(leftItemClick)
+            .dblclick(itemDBlClick)
+            .find(".btn-group")
+            .append(btnShow)
+            .append(btnEdit)
+            .append(btnPlay)
+            .append(btnTemplate)
+            .append(btnRefresh);
+    }
     lessonItem.bind("dragstart", dragStart).bind("dragend", dragEnd);
     return lessonItem;
 };
@@ -1504,11 +1611,11 @@ var createTrainingData = function (data, id) {
         '<button class="btn item-delete" data-content="training" data-item-id="' +
         data["id"] +
         '">' +
-        (opacity == 0.3 ?'<i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>':'<i class="px-2 fa fa-trash-alt"></i>') +
+        (opacity == 0.3 ? '<i class="px-2 fa fa-trash-alt" style="opacity: 0.3"></i>' : '<i class="px-2 fa fa-trash-alt"></i>') +
         "</button>"
     );
 
-    if(opacity == 0.3){
+    if (opacity == 0.3) {
         var detachIcon = $(
             '<button class="btn toggle1-btn" data-content="training"><i class="px-2 fas fa-unlink" style="opacity: 0.3"></i></button>'
         );
@@ -2123,114 +2230,114 @@ function dragEnd(event) {
 }
 
 function dropEnd(event, item) {
-    if($(event.target).find(".fa-trash-alt").css('opacity') != 0.3){
-    $(event.target).css("opacity", "100%");
-    $("main").css("cursor", "default");
-    var parent = $(event.target);
-    if (!parent.is(".list-group-item")) {
-        parent = $(event.target).parents(".list-group-item");
-    }
-    var showCate = null,
-        showItem = null;
-    if (parent.hasClass("highlight")) {
-        showCate = parent.attr("id");
-    }
-
-    var requestData = Array();
-    var originalData;
-    var cate_id = parent.attr("id").split("_")[1];
-    var cate = parent.attr("id").split("_")[0];
-    var rowData = Array();
-    if (dragitem != null) {
-        // var category = dragitem[0].split('_')[0];
-        originalData = parent.attr("data-lesson");
-        if (originalData.length && originalData != "[]") {
-            requestData = JSON.parse(originalData);
+    if ($(event.target).find(".fa-trash-alt").css('opacity') != 0.3) {
+        $(event.target).css("opacity", "100%");
+        $("main").css("cursor", "default");
+        var parent = $(event.target);
+        if (!parent.is(".list-group-item")) {
+            parent = $(event.target).parents(".list-group-item");
         }
-        dragitem.map(function (droppeditem) {
-            rowData = $("#" + droppeditem)
-                .attr("id")
-                .split("_")[1];
-            if (requestData.length != 0) {
-                if (
-                    requestData.filter(function (e) {
-                        return e.item == parseInt(rowData);
-                    }).length == 0
-                )
+        var showCate = null,
+            showItem = null;
+        if (parent.hasClass("highlight")) {
+            showCate = parent.attr("id");
+        }
+
+        var requestData = Array();
+        var originalData;
+        var cate_id = parent.attr("id").split("_")[1];
+        var cate = parent.attr("id").split("_")[0];
+        var rowData = Array();
+        if (dragitem != null) {
+            // var category = dragitem[0].split('_')[0];
+            originalData = parent.attr("data-lesson");
+            if (originalData.length && originalData != "[]") {
+                requestData = JSON.parse(originalData);
+            }
+            dragitem.map(function (droppeditem) {
+                rowData = $("#" + droppeditem)
+                    .attr("id")
+                    .split("_")[1];
+                if (requestData.length != 0) {
+                    if (
+                        requestData.filter(function (e) {
+                            return e.item == parseInt(rowData);
+                        }).length == 0
+                    )
+                        requestData.push({
+                            item: parseInt(rowData),
+                        });
+                } else {
                     requestData.push({
                         item: parseInt(rowData),
                     });
-            } else {
-                requestData.push({
-                    item: parseInt(rowData),
-                });
-            }
+                }
 
-            if ($("#" + droppeditem).hasClass("highlight")) {
-                showItem = droppeditem;
-            }
-        });
-        $.post({
-                url: baseURL + "/traininglinkfromlesson",
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-                },
-                data: {
-                    id: cate_id,
-                    target: JSON.stringify(requestData),
-                },
-            })
-            .done(function (data) {
-                if (showCate) {
-                    $("#div_C #" + showCate + " .item-show").click();
+                if ($("#" + droppeditem).hasClass("highlight")) {
+                    showItem = droppeditem;
                 }
-                if (showItem) {
-                    $("#div_A #" + showItem + " .item-show").click();
-                }
-                if (dragitem[0]) {
-                    notification(
-                        dragitem.length +
-                        " lesson s linked to " +
-                        parent.find(".item-name").html() +
-                        "!",
-                        1
-                    );
-                }
-                parent.attr("data-lesson", JSON.stringify(requestData));
-                dragitem.map(function (droppeditem) {
-                    if (
-                        $("#" + droppeditem)
-                        .attr("data-training")
-                        .split("_")
-                        .indexOf(cate_id) == -1
-                    ) {
-                        var arraytemp = $("#" + droppeditem)
-                            .attr("data-training")
-                            .split("_");
-                        arraytemp.push(cate_id);
-                        $("#" + droppeditem).attr(
-                            "data-training",
-                            arraytemp.join("_")
+            });
+            $.post({
+                    url: baseURL + "/traininglinkfromlesson",
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                    },
+                    data: {
+                        id: cate_id,
+                        target: JSON.stringify(requestData),
+                    },
+                })
+                .done(function (data) {
+                    if (showCate) {
+                        $("#div_C #" + showCate + " .item-show").click();
+                    }
+                    if (showItem) {
+                        $("#div_A #" + showItem + " .item-show").click();
+                    }
+                    if (dragitem[0]) {
+                        notification(
+                            dragitem.length +
+                            " lesson s linked to " +
+                            parent.find(".item-name").html() +
+                            "!",
+                            1
                         );
                     }
+                    parent.attr("data-lesson", JSON.stringify(requestData));
+                    dragitem.map(function (droppeditem) {
+                        if (
+                            $("#" + droppeditem)
+                            .attr("data-training")
+                            .split("_")
+                            .indexOf(cate_id) == -1
+                        ) {
+                            var arraytemp = $("#" + droppeditem)
+                                .attr("data-training")
+                                .split("_");
+                            arraytemp.push(cate_id);
+                            $("#" + droppeditem).attr(
+                                "data-training",
+                                arraytemp.join("_")
+                            );
+                        }
+                    });
+                    requestData = [];
+                })
+                .fail(function (err) {
+                    notification("Sorry, You have an error!", 2);
+                    requestData = [];
+                })
+                .always(function (data) {
+                    dragitem = null;
                 });
-                requestData = [];
-            })
-            .fail(function (err) {
-                notification("Sorry, You have an error!", 2);
-                requestData = [];
-            })
-            .always(function (data) {
-                dragitem = null;
+        }
+        $("#LeftPanel")
+            .find(".list-group-item")
+            .each(function () {
+                if ($(this).hasClass("active")) {
+                    $(this).removeClass("active");
+                }
             });
-    }
-    $("#LeftPanel")
-        .find(".list-group-item")
-        .each(function () {
-            if ($(this).hasClass("active")) {
-                $(this).removeClass("active");
-            }
-        });
     } else {
         $(event.target).css("opacity", "100%");
         swal.fire({
@@ -2352,6 +2459,7 @@ $(".item-show").click(itemShow);
 $(".item-play").click(itemPlay);
 $(".item-template").click(itemTemplate);
 $(".item-refresh").click(itemRefresh);
+$(".item-duplicate").click(itemDuplicate);
 $(".item-scorm").click(itemScorm);
 $(".item-type").click(itemType);
 
@@ -2359,12 +2467,14 @@ $(".toolkit-lesson-multi-delete").click(toolkitLessonMultiDelete);
 $(".toolkit-add-item").click(toolkitAddItem);
 $(".submit-btn").click(submitBtn);
 $(".cancel-btn").click(cancelBtn);
+$(".duplicate-btn").click(duplicateBtn);
 
 $("#template-confirm").click(templateConfirm);
 $("#fabrique-template-confirm").click(fabriqueTemplateConfirm);
 
 $("#template-cancel").click(templateCancel);
 $("#fabrique-template-cancel").click(fabriqueTemplateCancel);
+$("#duplicate-cancel-btn").click(duplicateCancel);
 
 $(".toolkit-show-filter").click(filterToggleShow);
 $(".filter-name-btn").click(sortfilter);
