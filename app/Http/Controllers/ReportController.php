@@ -583,6 +583,9 @@ class ReportController extends Controller
                         }
                     }
 
+                    $training->date_begin = $session->begin_date;
+                    $training->date_end = $session->end_date;
+
                     $data["are_eval_there"] = array("evals" => array(), "answer" => 0, "evalnums");
                     $first_date_view = FALSE;
                     $last_date_view = FALSE;
