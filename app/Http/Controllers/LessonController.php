@@ -188,7 +188,6 @@ class LessonController extends Controller
             throw new Exception("Problem reading data from $url");
         }
         $xml = new SimpleXMLElement($response);
-        //var_dump($xml);
         return $xml;
     }
 
@@ -473,7 +472,7 @@ class LessonController extends Controller
         $newlesson->idFabrica = $this->randomGenerate();
         $newlesson->save();
 
-        $this->createCourse($newlesson->name, $newlesson->idFabrica);
+        // $this->createCourse($newlesson->name, $newlesson->idFabrica);
 
         $values = array('request' => '
         <request>
