@@ -113,6 +113,7 @@
 
                                     @if ($training['training_pdf'])
                                         <p class="mb-0 mt-2 text-center" style="color: #362f81">
+                                            Score required for the attestation :
                                             @foreach ($lessons[$training['session_id']] as $lesson)
                                                 @if ($lesson['is_eval'])
                                                     {{ $lesson['lesson']['threshold_score'] }}%
