@@ -49,6 +49,7 @@ class SessionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    protected $dateFormat = 'dd/mm/yyyy';
     public function store(Request $request)
     {
         $session = new SessionModel();
@@ -68,10 +69,10 @@ class SessionController extends Controller
             $session->status = $request->post('session-status-icon');
         }
         if ($request->post("begin_date") != NULL) {
-            $session->begin_date = $request->post('begin_date');
+            $session->begin_date = date("Y-m-d H:m:s", strtotime($request->post('begin_date')));
         }
         if ($request->post("end_date") != NULL) {
-            $session->end_date = $request->post('end_date');
+            $session->begin_date = date("Y-m-d H:m:s", strtotime($request->post('end_date')));
         }
         if ($request->post("language") != NULL) {
             $session->language_iso = $request->post('language');
@@ -139,10 +140,10 @@ class SessionController extends Controller
             $session->status = $request->post('session-status-icon');
         }
         if ($request->post("begin_date") != NULL) {
-            $session->begin_date = $request->post('begin_date');
+            $session->begin_date = date("Y-m-d H:m:s", strtotime($request->post('begin_date')));
         }
         if ($request->post("end_date") != NULL) {
-            $session->end_date = $request->post('end_date');
+            $session->end_date = date("Y-m-d H:m:s", strtotime($request->post('end_date')));
         }
         if ($request->post("language") != NULL) {
             $session->language_iso = $request->post('language');
