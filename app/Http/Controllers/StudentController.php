@@ -129,7 +129,7 @@ class StudentController extends Controller
             'id_config' => $interfaceCfg->id,
             'status' => $request->input('user-status-icon'),
             'type' => $request->post('type'),
-            'expired_date'=>$request->post('expired_date'),
+            'expired_date'=>date("Y-m-d", strtotime($request->post('expired_date'))),
             'permission_id'=>$request->post('permission')?$request->post('permission'):$request->post('type')
         ]);
 
@@ -299,7 +299,7 @@ class StudentController extends Controller
         if ($request->post('permission') != null) {
             $user->permission_id = $request->post('permission')?$request->post('permission'):null;
         }
-        $user->expired_date=$request->post('expired_date');
+        $user->expired_date=date("Y-m-d", strtotime($request->post('expired_date')));
 
         $user->update();
         $lang= LanguageModel::where('language_id', $user->lang)->first();

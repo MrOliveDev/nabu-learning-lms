@@ -45,34 +45,36 @@
                             </div>
                         </div>
                         <!-- <div class="row filter p-2 toolkit-filter">
-                        <div class="">
-                            <div class="status-switch">
-                                <input type="radio" id="filter-state-on" name="status" value="on">
-                                <span>on&nbsp;</span>
-                                <input type="radio" id="filter-state-off" name="status" value="off">
-                                <span>off&nbsp;</span>
-                                <input type="radio" id="filter-state-all" name="status" value="all">
-                                <span>all&nbsp;</span>
+                            <div class="">
+                                <div class="status-switch">
+                                    <input type="radio" id="filter-state-on" name="status" value="on">
+                                    <span>on&nbsp;</span>
+                                    <input type="radio" id="filter-state-off" name="status" value="off">
+                                    <span>off&nbsp;</span>
+                                    <input type="radio" id="filter-state-all" name="status" value="all">
+                                    <span>all&nbsp;</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="ml-5">
-                            <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
-                                <i class="fas fa-sort-numeric-down"></i>
-                            </button>
-                            <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
-                                <i class="fas fa-sort-numeric-down"></i>
-                            </button>
-                        </div>
-                    </div> -->
+                            <div class="ml-5">
+                                <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
+                                    <i class="fas fa-sort-numeric-down"></i>
+                                </button>
+                                <button value='' class="rounded text-white filter-date-btn px-1 border-0">Date
+                                    <i class="fas fa-sort-numeric-down"></i>
+                                </button>
+                            </div>
+                        </div> -->
                     </div>
-                    <button type='button' class='js-swal-confirm btn btn-danger mr-3 p-3' onclick='delReports()' style='border-radius: 5px'>
+                    <button type='button' class='js-swal-confirm btn btn-danger mr-3 p-3' onclick='delReports()'
+                        style='border-radius: 5px'>
                         <i class='fa fa-trash'></i>
                     </button>
                     <table class="table table-striped table-vcenter reportTbl" id="historic-table" style="width:100%;">
                         <thead>
                             <tr>
-                                <th class="text-center" style="width: 5%;"><input style="cursor: pointer; filter: hue-rotate(120deg); transform: scale(1.3);"
-                                    type="checkbox" id="sendcheck_all" checked></th>
+                                <th class="text-center" style="width: 5%;"><input
+                                        style="cursor: pointer; filter: hue-rotate(120deg); transform: scale(1.3);"
+                                        type="checkbox" id="sendcheck_all" checked></th>
                                 <th style="width: 15%;">{{ $translation->l('Session') }}</th>
                                 <th style="width: 15%;">{{ $translation->l('Student') }}</th>
                                 <th style="width: 15%;">{{ $translation->l('FileName') }}</th>
@@ -83,15 +85,15 @@
                         </thead>
                         <tbody>
                             <!-- <tr>
-                            <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                            <td class="font-w600">Name of File</td>
-                            <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
-                            <td class="font-w600">Details</td>
-                            <td class="font-w600">Date</td>
-                            <td style="background-color: #7e3e98; cursor: pointer;">
-                                <i class="far fa-trash-alt"></i>
-                            </td>
-                        </tr> -->
+                                <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
+                                <td class="font-w600">Name of File</td>
+                                <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
+                                <td class="font-w600">Details</td>
+                                <td class="font-w600">Date</td>
+                                <td style="background-color: #7e3e98; cursor: pointer;">
+                                    <i class="far fa-trash-alt"></i>
+                                </td>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -142,7 +144,12 @@
                                             <td class="font-w600" style="border-radius: 10px;">
                                                 {{ $session['name'] }}</td>
                                             <td class="font-w600" style="border-radius: 10px;">
-                                                {{ date("d-m-Y H:m:s", strtotime($session['create_date']))  }}</td>
+                                                @if (session('language') == 'fr')
+                                                    {{ date('d-m-Y H:m:s', strtotime($session['create_date'])) }}
+                                                @else
+                                                    {{ $session['create_date'] }}
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -202,7 +209,8 @@
                                     <div class="model-item" id="model-item-{{ $template['id'] }}">
                                         <div>
                                             <i class="fa fa-circle mr-3" style="color: green;"></i>
-                                            <span id="model-title-{{ $template['id'] }}">{{ $template['name'] }}</span>
+                                            <span
+                                                id="model-title-{{ $template['id'] }}">{{ $template['name'] }}</span>
                                         </div>
                                         <div>
                                             <i class="fa fa-edit mr-3 actionBtn"
@@ -254,11 +262,16 @@
                                 </div>
                                 <div id="blocks">
                                     <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Header</p>
-                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_Synthetic_details_bloc</p>
-                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_lessons_list_bloc</p>
-                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_Complete_details_bloc</p>
-                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_Evaluation_details_bloc</p>
-                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Training_Complete_Evaluation_details_bloc</p>
+                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">
+                                        #Training_Synthetic_details_bloc</p>
+                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">
+                                        #Training_lessons_list_bloc</p>
+                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">
+                                        #Training_Complete_details_bloc</p>
+                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">
+                                        #Training_Evaluation_details_bloc</p>
+                                    <p class="model-drag-item mt-1" onclick="toggleActive(this)">
+                                        #Training_Complete_Evaluation_details_bloc</p>
                                     <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Signature_bloc</p>
                                     <p class="model-drag-item mt-1" onclick="toggleActive(this)">#Footer</p>
                                 </div>
@@ -414,7 +427,7 @@
         $modal.on('shown.bs.modal', function() {
             $('#image-crop-modal .modal-body').prepend(
                 '<div id="drag-comment"><div class="text-center mt-3" id="drop-text">Drop your file here!</div><div class="text-center my-1" id="drop-text1">or</div><div class="row"  id="browse-btn"><button type="button" class="btn btn-hero-primary float-right mx-auto" id="browse">Browse</button></div></div>'
-                );
+            );
             $('#image').remove();
             $("#zoom-rangeslider-group").css('display', 'none');
             if (cropper != null) {
@@ -462,7 +475,7 @@
                                 if (res.success) {
                                     $("#imagePreviews").append('<img src="' + base64data +
                                         '" alt="image" class="model-drag-item previewImg" width="100" height="100" onclick="toggleActive(this)">'
-                                        );
+                                    );
                                 } else
                                     Dashmix.helpers('notify', {
                                         type: 'danger',

@@ -628,9 +628,15 @@
                                                 User's subscription end date<span class="text-danger">*</span>
                                             </span>
                                         </div>
-                                        <input type="text" class="bg-white js-flatpickr form-control" id="expired_date"
-                                            name="expired_date" placeholder="d-m-Y" data-date-format="d-m-Y" required
-                                            title="You need a correct date">
+                                        @if (session('language') == 'fr')
+                                            <input type="text" class="bg-white js-flatpickr form-control" id="expired_date"
+                                                name="expired_date" placeholder="d-m-Y" data-date-format="d-m-Y" required
+                                                title="You need a correct date">
+                                        @else
+                                            <input type="text" class="bg-white js-flatpickr form-control" id="expired_date"
+                                                name="expired_date" placeholder="Y-m-d" data-date-format="Y-m-d" required
+                                                title="You need a correct date">
+                                        @endif
                                     </div>
                                 </div>
 

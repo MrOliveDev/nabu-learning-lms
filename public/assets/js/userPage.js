@@ -770,12 +770,21 @@ var toolkitAddItem = function (event) {
         $('#password').attr('placeholder', '');
         $('#preview').attr('src', baseURL + '/assets/media/default.png');
         $('#generatepassword').prop('checked', false);
-        var expired_date_val = (() => {
-            var date = new Date().toLocaleDateString("ja").split("/");
-            var newDate = date[2] + '-' + date[1] + '-' + date[0];
-            // date[0] = parseInt(date[0]) + 1;
-            return newDate
-        })();
+        if($('.badge-pill').html() == "FR"){
+            var expired_date_val = (() => {
+                var date = new Date().toLocaleDateString("ja").split("/");
+                var newDate = date[2] + '-' + date[1] + '-' + date[0];
+                // date[0] = parseInt(date[0]) + 1;
+                return newDate
+            })();
+        } else {
+            var expired_date_val = (() => {
+                var date = new Date().toLocaleDateString("ja").split("/");
+                var newDate = date[0] + '-' + date[1] + '-' + date[2];
+                // date[0] = parseInt(date[0]) + 1;
+                return newDate
+            })();
+        }
         $("#expired_date").val(expired_date_val);
         switch (activeTagName) {
             case '#students':
@@ -1335,12 +1344,25 @@ var item_edit = function (element) {
                     }
 
                     $('#login').val(data.user_info.login);
-                    var expired_date = data.user_info.expired_date ? data.user_info.expired_date : (() => {
-                        var date = new Date().toLocaleDateString("ja").split("/");
-                        var newDate = date[2] + '-' + date[1] + '-' + date[0];
-                        // date[0] = parseInt(date[0]) + 1;
-                        return newDate
-                    })();
+                    if($('.badge-pill').html() == "FR"){
+                        if(data.user_info.expired_date){
+                            var date = data.user_info.expired_date.split("-");
+                            var expired_date = date[2] + '-' + date[1] + '-' + date[0];
+                        } else {
+                            var date = new Date().toLocaleDateString("ja").split("/");
+                            var expired_date = date[2] + '-' + date[1] + '-' + date[0];
+                            // date[0] = parseInt(date[0]) + 1;
+                        }
+                    } else {
+                        if(data.user_info.expired_date){
+                            var date = data.user_info.expired_date.split("-");
+                            var expired_date = date[0] + '-' + date[1] + '-' + date[2];
+                        } else {
+                            var date = new Date().toLocaleDateString("ja").split("/");
+                            var expired_date = date[0] + '-' + date[1] + '-' + date[2];
+                            // date[0] = parseInt(date[0]) + 1;
+                        }
+                    }
                     $('#expired_date').val(expired_date);
                     $('#password').attr('placeholder', "Private password");
                     $('#generatepassword').prop('checked', false);

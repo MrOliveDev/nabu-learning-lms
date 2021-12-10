@@ -577,10 +577,15 @@
                                             Start date
                                         </span>
                                     </div>
-                                    <input type="text" class="bg-white js-flatpickr form-control" id="begin_date"
-                                        name="begin_date" placeholder="d-m-Y" data-date-format="d-m-Y" required
-                                        title="You need a correct date">
-
+                                    @if (session('language') == 'fr')
+                                        <input type="text" class="bg-white js-flatpickr form-control" id="begin_date"
+                                            name="begin_date" placeholder="d-m-Y" data-date-format="d-m-Y" required
+                                            title="You need a correct date">
+                                    @else
+                                        <input type="text" class="bg-white js-flatpickr form-control" id="begin_date"
+                                            name="begin_date" placeholder="Y-m-d" data-date-format="Y-m-d" required
+                                            title="You need a correct date">
+                                    @endif
                                 </div>
                             </div>
                             <div class="form-group" id="expired_date_input">
@@ -590,10 +595,15 @@
                                             End date
                                         </span>
                                     </div>
-                                    <input type="text" class="bg-white js-flatpickr form-control" id="end_date"
-                                        name="end_date" placeholder="d-m-Y" data-date-format="d-m-Y" required
-                                        title="You need a correct date">
-
+                                    @if (session('language') == 'fr')
+                                        <input type="text" class="bg-white js-flatpickr form-control" id="end_date"
+                                            name="end_date" placeholder="d-m-Y" data-date-format="d-m-Y" required
+                                            title="You need a correct date">
+                                    @else
+                                        <input type="text" class="bg-white js-flatpickr form-control" id="end_date"
+                                            name="end_date" placeholder="Y-m-d" data-date-format="Y-m-d" required
+                                            title="You need a correct date">
+                                    @endif
                                 </div>
                             </div>
                             <div class="form-group">
