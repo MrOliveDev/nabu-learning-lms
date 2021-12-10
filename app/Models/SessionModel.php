@@ -274,7 +274,7 @@ class SessionModel extends Model
                 . "`is_presential` int(1) DEFAULT '0',"
                 . "`user_keypad` int(11) DEFAULT '0',"
                 . "`id_lesson` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
-                . "`date_hour` datetime DEFAULT '0000-00-00 00:00:00',"
+                . "`date_hour` datetime DEFAULT '00-00-0000 00:00:00',"
                 . "`number_eval` int(11) DEFAULT NULL,"
                 . "`progression` int(11) NOT NULL DEFAULT '0',"
                 . "`note` varchar(11) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',"
@@ -353,7 +353,7 @@ class SessionModel extends Model
                         foreach ($reports as $report) {
                             array_push($training_pdf, ["model"=>$report->model, "filename"=>$report->filename, "date"=>$report->created_time]);
                         }
-                        array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "success"=>$success, "session_endDate"=>$session->end_date ,"teacher"=>$teacherInfo, "training_pdf"=>$training_pdf]);
+                        array_push($trainings, ["training"=>$new_training->toArray(), "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "success"=>$success, "session_endDate"=>$session->end_date ,"teacher"=>$teacherInfo, "training_pdf"=>$training_pdf, "session_consider"=>$session->consider_eval]);
                     }
                 }
             }

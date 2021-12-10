@@ -339,8 +339,22 @@ var sessionItemClick = function (e) {
             }
             $('#session_name').val(data.session_info.name);
             $('#session_description').val(data.session_info.description);
-            $('#end_date').val(data.session_info.end_date);
-            $('#begin_date').val(data.session_info.begin_date);
+            var end_date = data.session_info.end_date ? data.session_info.end_date : (() => {
+                var date = new Date().toLocaleDateString("ja").split("/");
+                var newDate = date[2] + '-' + date[1] + '-' + date[0];
+                // date[0] = parseInt(date[0]) + 1;
+                return newDate
+            })();
+            if(data.session_info.end_date){
+                var end_date_new = data.session_info.end_date.split("-");
+                var end_date = end_date_new[2] + '-' + end_date_new[1] + '-' + end_date_new[0];
+            }
+            if(data.session_info.begin_date){
+                var begin_date_new = data.session_info.begin_date.split("-");
+                var begin_date = begin_date_new[2] + '-' + begin_date_new[1] + '-' + begin_date_new[0];
+            }
+            $('#end_date').val(end_date);
+            $('#begin_date').val(begin_date);
             $('#language').val(data.session_info.language_iso);
             $('#template').val(data.session_info.templateformation);
             $('#evaluation').val(data.session_info.consider_eval);
