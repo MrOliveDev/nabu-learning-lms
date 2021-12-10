@@ -629,7 +629,7 @@
                                             </span>
                                         </div>
                                         <input type="text" class="bg-white js-flatpickr form-control" id="expired_date"
-                                            name="expired_date" placeholder="Y-m-d" data-date-format="Y-m-d" required
+                                            name="expired_date" placeholder="d-m-Y" data-date-format="d-m-Y" required
                                             title="You need a correct date">
                                     </div>
                                 </div>

@@ -255,6 +255,7 @@ var toolkitAddItem = function (event) {
     $('#div_A .list-group-item').removeClass('active');
     $("#session_form .method-select").val('POST');
     $("#language").val(1);
+    $("#evaluation").val(1);
     $("#session_form").attr('action', baseURL + '/session');
     $('#session-status-icon').prop('checked', false);
     $('.custom-control-label').html("Session Offline");

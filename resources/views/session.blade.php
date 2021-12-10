@@ -578,7 +578,7 @@
                                         </span>
                                     </div>
                                     <input type="text" class="bg-white js-flatpickr form-control" id="begin_date"
-                                        name="begin_date" placeholder="Y-m-d" data-date-format="Y-m-d" required
+                                        name="begin_date" placeholder="d-m-Y" data-date-format="d-m-Y" required
                                         title="You need a correct date">
 
                                 </div>
@@ -591,7 +591,7 @@
                                         </span>
                                     </div>
                                     <input type="text" class="bg-white js-flatpickr form-control" id="end_date"
-                                        name="end_date" placeholder="Y-m-d" data-date-format="Y-m-d" required
+                                        name="end_date" placeholder="d-m-Y" data-date-format="d-m-Y" required
                                         title="You need a correct date">
 
                                 </div>
@@ -632,10 +632,10 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Evaluation Score
+                                            Auto generate reports:
                                         </span>
                                     </div>
-                                    <select id="evaluation" name="evaluation" class="form-control">
+                                    <select id="evaluation" name="evaluation" class="form-control" required>
                                         <option value="1" selected>Consider the best score</option>
                                         <option value="2">Consider the first score</option>
                                         <option value="3">Consider the last score</option>

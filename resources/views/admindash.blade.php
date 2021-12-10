@@ -236,12 +236,12 @@
             </td>
             <td>
                 <div class="p-2">
-                    {{$session['begin_date']?$session['begin_date']:"Not Defined"}}
+                    {{$session['begin_date']?date("d-m-Y", strtotime($session['begin_date'])):"Not Defined"}}
                 </div>
             </td>
             <td>
                 <div class="p-2">
-                    {{$session['end_date']?$session['end_date']:"Not Defined"}}
+                    {{$session['end_date']?date("d-m-Y", strtotime($session['end_date'])):"Not Defined"}}
                 </div>
             </td>
         </tr>
