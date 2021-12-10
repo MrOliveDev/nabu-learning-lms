@@ -35,6 +35,7 @@ class DashController extends Controller
         $trainings = SessionModel::getTrainingsForStudent($user_id);
         $lessons = array();
         foreach ($trainings as $training) {
+            $session_consider = $training['session_consider'];
             $session_id = $training['session_id'];
             $lessons[$session_id] = [];
         DB::connection('mysql_reports')->unprepared('CREATE TABLE IF NOT EXISTS `tb_screen_optim_'.$session_id.'` (
@@ -79,7 +80,19 @@ class DashController extends Controller
                 if (LessonsModel::find($value['item'])) {
                     if (!in_array(LessonsModel::getLessonContainedTraining($value['item']), $lessons[$session_id])) {
                         $score_data = DB::connection('mysql_reports')->select('select * from tb_screen_optim_'.$session_id.' where id_fabrique_screen_optim="'.LessonsModel::getLessonContainedTraining($value['item'])["idFabrica"].'" and id_user_screen_optim="'.$user_id.'"');
-                        $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session_id.' where id_lesson="'.LessonsModel::getLessonContainedTraining($value['item'])["idFabrica"].'" and user_id="'.$user_id.'"');
+                        print_r($session_consider );
+                        if($score_data) {
+                            if($session_consider == 1){           
+                                $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session_id.' where id="'.$score_data[0]->best_eval_id_screen_optim.'"');
+                            } else if ($session_consider == 2) {
+                                $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session_id.' where id="'.$score_data[0]->first_eval_id_screen_optim.'"');
+                            } else if ($session_consider == 3) {
+                                $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session_id.' where id="'.$score_data[0]->last_eval_id_screen_optim.'"');
+                            }
+                        } else {
+                          $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session_id.' where id_lesson="'.LessonsModel::getLessonContainedTraining($value['item'])["idFabrica"].'" and user_id="'.$user_id.'"');
+                        }
+                        // print_r($score_data2[0]?$score_data2[0]:0);
                         $lesson = LessonsModel::getLessonContainedTraining($value['item']);
                         $score_data3 = LessonCourses::getLessonCourse($lesson['id'], $lesson['language_iso']);
                         $is_eval = false;
@@ -116,6 +129,7 @@ class DashController extends Controller
         }
     }
         }
+        // exit;
         // print_r($trainings);
         // print_r($lessons); exit;
         return view('commondash', compact('sidebardata', 'trainings', 'lessons'));
