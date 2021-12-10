@@ -11,7 +11,21 @@ var playBtn = function (event) {
     event.preventDefault();
     var session_id = $(this).parents(".accordion").attr("data-session");
     var course_id = $(this).parents(".accordion").attr("data-course");
-    if ($(this).css("opacity") != "0.3") {
+    if($(this).css("opacity") == "0.2") {
+        swal.fire({
+            title: "Warning",
+            text: "The session is ended, access to lesson is not allowed",
+            icon: "info",
+            confirmButtonText: `OK`,
+        });
+    }else if ($(this).css("opacity") == "0.3") {
+        swal.fire({
+            title: "Warning",
+            text: "You must finish the previous lesson first",
+            icon: "info",
+            confirmButtonText: `OK`,
+        });
+    } else {
         window.open(
             baseURL +
                 "/player_editor" +
@@ -21,16 +35,27 @@ var playBtn = function (event) {
                 $(this).attr("data-fabrica") +
                 "/"+course_id+"/dae8efee8afc1994204d76ee963bcfb1","_self"
         );
-    } else {
-        // alert("You have to cross the prev lesson first.");
-        swal.fire({
-            title: "Warning",
-            text: "You must finish the previous lesson first",
-            icon: "info",
-            confirmButtonText: `OK`,
-        });
-        // notification("You have to cross the prev lesson first.", 2);
     }
+    // if ($(this).css("opacity") != "0.3") {
+    //     window.open(
+    //         baseURL +
+    //             "/player_editor" +
+    //             "/#/open/fr/fabrique/" +
+    //             session_id +
+    //             "/0/" +
+    //             $(this).attr("data-fabrica") +
+    //             "/"+course_id+"/dae8efee8afc1994204d76ee963bcfb1","_self"
+    //     );
+    // } else {
+    //     // alert("You have to cross the prev lesson first.");
+    //     swal.fire({
+    //         title: "Warning",
+    //         text: "You must finish the previous lesson first",
+    //         icon: "info",
+    //         confirmButtonText: `OK`,
+    //     });
+    //     // notification("You have to cross the prev lesson first.", 2);
+    // }
 };
 
 var showContent = function(e) {
@@ -177,7 +202,7 @@ $(document).ready(function () {
                      if (
                         $(item)
                         .prev(".accordion")
-                        .attr("data-progress") != "100"
+                        .attr("data-progress") != "100" && $(item).find(".item-play").css("opacity") != 0.2
                         ) {
                         $(item)
                             .find(".item-play")

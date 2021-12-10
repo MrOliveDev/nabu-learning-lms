@@ -260,10 +260,18 @@
                                                             </a>
                                                         </button>
                                                     @endif
-                                                    <button class="btn  item-play" data-content='teacher'
-                                                        data-fabrica="{{ $lesson['lesson']['idFabrica'] }}">
-                                                        <i class="fa fa-play m-0 p-2 align-middle"></i>
-                                                    </button>
+                                                    @if (time() - 60 * 60 * 24 < strtotime($training['session_endDate']))
+                                                        <button class="btn  item-play" data-content='teacher'
+                                                            data-fabrica="{{ $lesson['lesson']['idFabrica'] }}">
+                                                            <i class="fa fa-play m-0 p-2 align-middle"></i>
+                                                        </button>
+                                                    @else
+                                                        <button class="btn  item-play" data-content='teacher'
+                                                            data-fabrica="{{ $lesson['lesson']['idFabrica'] }}"
+                                                            style="opacity: 0.2">
+                                                            <i class="fa fa-play m-0 p-2 align-middle"></i>
+                                                        </button>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
