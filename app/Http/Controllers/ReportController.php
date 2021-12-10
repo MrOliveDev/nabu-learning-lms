@@ -338,7 +338,11 @@ class ReportController extends Controller
                 $nestedData['filename'] = $report->filename;
                 $nestedData['type'] = $report->type;
                 $nestedData['detail'] = $report->detail;
-                $nestedData['created_time'] = date("d-m-Y H:m:s", strtotime($report->created_time));
+                if(session('language') == 'fr'){
+                    $nestedData['created_time'] = date("d-m-Y H:m:s", strtotime($report->created_time));
+                } else {
+                    $nestedData['created_time'] = $report->created_time;
+                }
                 
                 $nestedData['actions'] = "
                 <div class='text-center'>

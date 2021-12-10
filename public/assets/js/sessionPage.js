@@ -332,29 +332,23 @@ var sessionItemClick = function (e) {
             }
 
             $('#session-status-icon').prop('checked', data.session_info.status == 1).change();
-            if(data.session_info.status == 1) {
+            if (data.session_info.status == 1) {
                 $('.custom-control-label').html("Session Online");
             } else {
                 $('.custom-control-label').html("Session Offline");
             }
             $('#session_name').val(data.session_info.name);
             $('#session_description').val(data.session_info.description);
-            var end_date = data.session_info.end_date ? data.session_info.end_date : (() => {
-                var date = new Date().toLocaleDateString("ja").split("/");
-                var newDate = date[2] + '-' + date[1] + '-' + date[0];
-                // date[0] = parseInt(date[0]) + 1;
-                return newDate
-            })();
-            if(data.session_info.end_date){
+            if (data.session_info.end_date) {
                 var end_date_new = data.session_info.end_date.split("-");
                 var end_date = end_date_new[2] + '-' + end_date_new[1] + '-' + end_date_new[0];
             }
-            if(data.session_info.begin_date){
+            if (data.session_info.begin_date) {
                 var begin_date_new = data.session_info.begin_date.split("-");
                 var begin_date = begin_date_new[2] + '-' + begin_date_new[1] + '-' + begin_date_new[0];
             }
-            $('#end_date').val(end_date);
-            $('#begin_date').val(begin_date);
+            $('#end_date').val($('.badge-pill').html() == "FR" ? end_date : data.session_info.end_date);
+            $('#begin_date').val($('.badge-pill').html() == "FR" ? begin_date : data.session_info.begin_date);
             $('#language').val(data.session_info.language_iso);
             $('#template').val(data.session_info.templateformation);
             $('#evaluation').val(data.session_info.consider_eval);
@@ -565,7 +559,7 @@ var submitBtn = function (event) {
             if (item.name == 'session-status-icon') {
                 item.value = $('#session-status-icon').prop('checked') == true ? 1 : 0;
             }
-            if(item.name == 'attempts') {
+            if (item.name == 'attempts') {
                 item.value = $("#attempts").data("ionRangeSlider").result.from
             }
             return item;
@@ -586,7 +580,7 @@ var submitBtn = function (event) {
             notification('You have to insert correct date!', 2);
             return;
         }
-        console.log("serialval:",serialval);
+        console.log("serialval:", serialval);
         $.ajax({
             url: $('#' + formname).attr('action'),
             method: $('#' + formname).find('.method-select').val(),
@@ -1531,16 +1525,16 @@ async function dropEnd(event, item) {
                     cate = 'participant';
                     break;
                 case "training":
-                                        // if(content.length!=0){
-                                        //    var repeat = content.filter(function(contentItem){
-                                        //        return contentItem == droppeditem_id;
-                                        //    })
-                                        //    if(repeat.length==0){
-                                        //        content.push(droppeditem_id);
-                                        //    }
-                                        // } else {
-                                        //     content.push(droppeditem_id);
-                                        // }
+                    // if(content.length!=0){
+                    //    var repeat = content.filter(function(contentItem){
+                    //        return contentItem == droppeditem_id;
+                    //    })
+                    //    if(repeat.length==0){
+                    //        content.push(droppeditem_id);
+                    //    }
+                    // } else {
+                    //     content.push(droppeditem_id);
+                    // }
 
                     content = droppeditem_id;
                     $(event.target).attr('data-content', content);
@@ -1614,7 +1608,7 @@ $(document).ready(function () {
         elem.addEventListener('dragend', dragEnd);
         $(elem).attr('draggable', true);
     });
-    
+
 });
 $("#attempts").ionRangeSlider({
     // instance,

@@ -314,7 +314,11 @@ class SendmailController extends Controller
                 $nestedData['sender'] = $history->sender_first . ' ' . $history->sender_last;
                 $nestedData['detail'] = $history->detail;
                 $nestedData['model'] = $history->model;
-                $nestedData['created_time'] = date("d-m-Y H:m:s", strtotime($history->created_time));
+                if (session('language') == 'fr') {
+                    $nestedData['created_time'] = date("d-m-Y H:m:s", strtotime($history->created_time));
+                } else {
+                    $nestedData['created_time'] =$history->created_time;
+                }
                 
                 $nestedData['actions'] = "
                 <div class='text-center'>
