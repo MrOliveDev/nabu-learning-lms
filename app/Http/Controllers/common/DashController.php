@@ -80,7 +80,6 @@ class DashController extends Controller
                 if (LessonsModel::find($value['item'])) {
                     if (!in_array(LessonsModel::getLessonContainedTraining($value['item']), $lessons[$session_id])) {
                         $score_data = DB::connection('mysql_reports')->select('select * from tb_screen_optim_'.$session_id.' where id_fabrique_screen_optim="'.LessonsModel::getLessonContainedTraining($value['item'])["idFabrica"].'" and id_user_screen_optim="'.$user_id.'"');
-                        print_r($session_consider );
                         if($score_data) {
                             if($session_consider == 1){           
                                 $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session_id.' where id="'.$score_data[0]->best_eval_id_screen_optim.'"');

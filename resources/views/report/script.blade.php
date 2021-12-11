@@ -358,12 +358,18 @@
     };
 
     function toggleActive(e) {
-        $(".model-drag-item").each(function() {
-            if (e != this)
-                $(this).removeClass('active');
-            else
-                $(this).toggleClass('active');
-        });
+        var className = $(e).attr('class');
+        if(className.indexOf('active') != -1){
+            $(e).removeClass('active');
+        } else {
+            $(e).toggleClass('active')
+        }
+        // $(".model-drag-item").each(function() {
+        //     if (e != this)
+        //         $(this).removeClass('active');
+        //     else
+        //         $(this).toggleClass('active');
+        // });
     }
 
     var trumbowygChanged = -1;
