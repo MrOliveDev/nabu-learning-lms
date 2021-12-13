@@ -86,6 +86,9 @@ class SessionController extends Controller
         if ($request->post("attempts") != NULL) {
             $session->max_attempts_eval = $request->post('attempts');
         }
+        if ($request->post("reportStatus") != NULL) {
+            $session->report_status = $request->post('reportStatus');
+        }
         $session->id_creator = session("client");
         // if(){
 
@@ -156,6 +159,9 @@ class SessionController extends Controller
         }
         if ($request->post("attempts") != NULL) {
             $session->max_attempts_eval = $request->post('attempts');
+        }
+        if ($request->post("reportStatus") != NULL) {
+            $session->report_status = $request->post('reportStatus');
         }
         $session->id_creator = session("client");
         if (session("user_type") !== 0) {

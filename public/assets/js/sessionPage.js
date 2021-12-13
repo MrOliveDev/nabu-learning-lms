@@ -174,7 +174,18 @@ var clearTable = function (element) {
 var clearFrom = function (element) {
     element.find('input, select').each(function (i, forminput) {
         if ($(forminput).attr('name') != '_token' && $(forminput).attr('name') != '_method') {
-            $(forminput).val('');
+            if($(forminput).attr('name') == 'session-status-icon'){
+                $(forminput).prop('checked', false);
+                $('.session-status-label').html("Session Offline");
+            } else if($(forminput).attr('name') == 'session-status'){
+                $(forminput).prop('checked', false);
+                $('.report-generate-label').html("Off");
+                $('#auto-generate-report').css('display', 'none');
+            }  else if($(forminput).attr('name') == 'evaluation') {
+                $("#evaluation").val(1);
+            } else {
+                $(forminput).val('');
+            }
         }
     });
 };
@@ -258,8 +269,10 @@ var toolkitAddItem = function (event) {
     $("#evaluation").val(1);
     $("#session_form").attr('action', baseURL + '/session');
     $('#session-status-icon').prop('checked', false);
-    $('.custom-control-label').html("Session Offline");
-
+    $('.session-status-label').html("Session Offline");
+    $('#session-status').prop('checked', false);
+    $('.report-generate-label').html("off");
+    $("#reportStatus").val(1);
 };
 
 /**
@@ -330,13 +343,20 @@ var sessionItemClick = function (e) {
                     });
                 }
             }
-
             $('#session-status-icon').prop('checked', data.session_info.status == 1).change();
+            $('#session-status').prop('checked', data.session_info.report_status != 0).change();
             if (data.session_info.status == 1) {
-                $('.custom-control-label').html("Session Online");
+                $('.session-status-label').html("Session Online");
             } else {
-                $('.custom-control-label').html("Session Offline");
+                $('.session-status-label').html("Session Offline");
             }
+            if (data.session_info.report_status != 0) {
+                $('.report-generate-label').html("On");
+                $('#auto-generate-report').css('display', 'block');
+            } else {
+                $('.report-generate-label').html("Off");
+            }
+            $('#reportStatus').val(data.session_info.report_status);
             $('#session_name').val(data.session_info.name);
             $('#session_description').val(data.session_info.description);
             if (data.session_info.end_date) {
@@ -562,6 +582,9 @@ var submitBtn = function (event) {
             if (item.name == 'attempts') {
                 item.value = $("#attempts").data("ionRangeSlider").result.from
             }
+            if (item.name == 'session-status') {
+                item.value = $('#session-status').prop('checked') == true ? 1 : 0;
+            }
             return item;
         });
         if (!serialval.filter(function (em, t, arr) {
@@ -569,11 +592,20 @@ var submitBtn = function (event) {
             }).length) {
 
         }
-        if (!$("#session_form").find('input[type=checkbox]').prop('checked')) {
+
+
+        if (!$("#session_form").find('input[name=session-status-icon]').prop('checked')) {
             serialval.push({
                 name: 'session-status-icon',
                 value: 0
             });
+        }
+        if (!$("#session_form").find('input[name=session-status]').prop('checked')) {
+            serialval.map((item, index) => {
+                if (item.name == 'reportStatus') {
+                    item.value = 0;
+                }
+            })
         }
 
         if ($('#begin_date').val() != '' && $('#end_date').val() != '' && $('#begin_date').val() > $('#end_date').val()) {
@@ -1337,7 +1369,7 @@ var statusBtn = function (event) {
             console.log('error');
             notification('You are not allowed to set online when you are out date', 2);
             $(event.target).prop('checked', false);
-            $('.custom-control-label').html("Session Offline");
+            $('.session-status-label').html("Session Offline");
         } else {
             $(event.target).prop('checked', false);
             swal.fire({
@@ -1349,12 +1381,23 @@ var statusBtn = function (event) {
             }).then(function (n) {
                 if (n.value) {
                     $(event.target).prop('checked', true);
-                    $('.custom-control-label').html("Session Online");
+                    $('.session-status-label').html("Session Online");
                 }
             });
         }
     } else {
-        $('.custom-control-label').html("Session Offline");
+        $('.session-status-label').html("Session Offline");
+    }
+}
+
+var reportStatusBtn = function (event) {
+    if ($(event.target).prop('checked') == true) {
+        $('.report-generate-label').html("On");
+        $('#auto-generate-report').css('display', 'block');
+        $('#reportStatus').val(1);
+    } else {
+        $('.report-generate-label').html("Off");
+        $('#auto-generate-report').css('display', 'none');
     }
 }
 
@@ -1679,6 +1722,7 @@ $("#table-content .list-group").sortable({
 });
 $('.cancel-btn').click(cancelBtn);
 $('#session-status-icon').click(statusBtn);
+$('#session-status').click(reportStatusBtn);
 $("#div_A, #div_C").on("DOMSubtreeModified", function () {
     if ($(this).attr("id") == "div_A") {
         heightToggleLeft = true;
