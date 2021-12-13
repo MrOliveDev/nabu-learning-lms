@@ -152,7 +152,7 @@ function treatOptimEval($optim_datas) {
                 'last_date' => $optim_datas['date_end'],
                 'sessionId' => $optim_datas['sessionId']);
             modelUpdateOptim($payload,$optim['id_screen_optim']);
-            modelUpdateBestEvalOptim($payload,$optim['id_screen_optim']);
+            modelUpdateBestEvalOptim($payload,$optim['id_screen_optim'], $optim['id_fabrique_screen_optim']);
             
         } else { // Si il faut créer la ligne optim
             $payload = array('id_fabrique' => $optim_datas['id_fabrique'],
@@ -173,7 +173,7 @@ function treatOptimEval($optim_datas) {
                 'last_date' => $optim_datas['date_end'],
                 'sessionId' => $optim_datas['sessionId']);
             modelUpdateOptim($payload,$id_optim_inserted);
-            modelUpdateBestEvalOptim($payload, $id_optim_inserted);
+            modelUpdateBestEvalOptim($payload, $id_optim_inserted,  $optim['id_fabrique_screen_optim']);
         }
     }
 }
@@ -354,10 +354,10 @@ function modelUpdateLastEvalOptim($datas,$id_row) {
     $stmt->execute();
 }
 
-function modelUpdateBestEvalOptim($datas, $id_row) {
+function modelUpdateBestEvalOptim($datas, $id_row, $id_fabrique) {
     $tableName2 = "tb_evaluation_" . $datas['sessionId'];
     $db2 = new PDO("mysql:host=localhost;dbname=db_historic", "root", "mabrQv$%2x", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
-    $sql2 = "SELECT id, note FROM {$tableName2} ORDER BY note DESC LIMIT 1";
+    $sql2 = "SELECT id, note FROM {$tableName2} WHERE id_lesson = '{$id_fabrique}' ORDER BY note DESC LIMIT 1";
     $stmt2 = $db2->prepare($sql2);
     $stmt2->execute();
     $best_eval = $stmt2->fetch(PDO::FETCH_ASSOC);
