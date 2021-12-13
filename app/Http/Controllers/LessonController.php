@@ -473,12 +473,11 @@ class LessonController extends Controller
         $newlesson->save();
 
         // $this->createCourse($newlesson->name, $newlesson->idFabrica);
-
         $values = array('request' => '
         <request>
             <method>ProductDuplicate</method>
             <params>
-                <param name="source">' . $request->post("id") . '</param>
+                <param name="source">' . $lesson->idFabrica . '</param>
                 <param name="newcode">' . $newlesson->idFabrica . '</param>
                 <param name="label">' . $newlesson->name . '</param>
             </params>
