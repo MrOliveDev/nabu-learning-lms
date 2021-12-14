@@ -50,21 +50,21 @@
 
                                                 </i>
                                                 <span class="text-mute">
-                                                    {{ number_format($training['progress'], 1, '.', '') }}%
+                                                    {{ number_format($training['progress'], 2, '.', '') }}%
                                                 </span>
                                             @elseif ($training['progress'] < 100) <i
                                                     class="fa fa-chart-line text-warning">
 
                                                     </i>
                                                     <span class="text-mute text-warning">
-                                                        {{ number_format($training['progress'], 1, '.', '') }}%
+                                                        {{ number_format($training['progress'], 2, '.', '') }}%
                                                     </span>
                                                 @elseif ($training['progress'] == 100)
                                                     <i class="fa fa-chart-line text-success">
 
                                                     </i>
                                                     <span class="text-mute text-success">
-                                                        {{ number_format($training['progress'], 1, '.', '') }}%
+                                                        {{ number_format($training['progress'], 2, '.', '') }}%
                                                     </span>
                                             @endif
                                         </div>
@@ -74,20 +74,20 @@
                                                 </i>
 
                                                 <span class="text-success">
-                                                    {{ number_format($training['eval'], 1, '.', '') }}%
+                                                    {{ number_format($training['eval'], 2, '.', '') }}%
                                                 </span>
                                             @elseif ($training['success'] == "false")
                                                 <i class="fa fa-check-circle text-danger">
                                                 </i>
 
                                                 <span class="text-danger">
-                                                    {{ number_format($training['eval'], 1, '.', '') }}%
+                                                    {{ number_format($training['eval'], 2, '.', '') }}%
                                                 </span>
                                             @elseif ($training['success'] == "NULL")
                                                 <i class="fa fa-check-circle text-warning">
                                                 </i>
                                                 <span class="text-warning">
-                                                    {{ number_format($training['eval'], 1, '.', '') }}%
+                                                    {{ number_format($training['eval'], 2, '.', '') }}%
                                                 </span>
                                             @elseif ($training['success'] == "")
                                                 <i class="fa fa-check-circle text-muted">
