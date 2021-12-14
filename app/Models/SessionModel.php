@@ -301,7 +301,22 @@ class SessionModel extends Model
                                 $count = $count + 1;
                                 $lesson = LessonsModel::find($value['item']);
                                 if($lesson->status==5){
-                                    $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id_lesson="'.$lesson->idFabrica.'" and user_id="'.$user_id.'"');
+                                    $score_data = DB::connection('mysql_reports')->select('select progress_screen_optim from tb_screen_optim_'.$session->id.' where id_fabrique_screen_optim="'.$lesson->idFabrica.'" and id_user_screen_optim="'.$user_id.'"');
+                                    if($score_data) {
+                                        $progress_screen_optim += $score_data[0]->progress_screen_optim;
+                                    }
+                                    // $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id_lesson="'.$lesson->idFabrica.'" and user_id="'.$user_id.'"');
+                                    if($score_data) {
+                                        if($session->consider_eval == 1) {
+                                            $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id="'.$score_data[0]->best_eval_id_screen_optim.'"');
+                                        } else if ($session->consider_eval == 2) {
+                                            $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id="'.$score_data[0]->first_eval_id_screen_optim.'"');
+                                        } else if ($session->consider_eval == 3) {
+                                            $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id="'.$score_data[0]->last_eval_id_screen_optim.'"');
+                                        }
+                                    } else {
+                                        $score_data2 = array();
+                                    } 
                                     if($score_data2) {
                                         $eval_count = $eval_count + 1;
                                         // $eval = $score_data2==NULL?0:(count($score_data2)==0?0:($score_data2[0]->note?$score_data2[0]->note:0));
@@ -310,10 +325,6 @@ class SessionModel extends Model
                                         if($threshold_score == $score_data2[0]->note || $threshold_score < $score_data2[0]->note){
                                             $status = $status + 1;
                                         }
-                                    }
-                                    $score_data = DB::connection('mysql_reports')->select('select progress_screen_optim from tb_screen_optim_'.$session->id.' where id_fabrique_screen_optim="'.$lesson->idFabrica.'" and id_user_screen_optim="'.$user_id.'"');
-                                    if($score_data) {
-                                        $progress_screen_optim += $score_data[0]->progress_screen_optim;
                                     }
                                     }
                                 }
