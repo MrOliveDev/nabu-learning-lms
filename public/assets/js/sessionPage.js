@@ -355,6 +355,7 @@ var sessionItemClick = function (e) {
                 $('#auto-generate-report').css('display', 'block');
             } else {
                 $('.report-generate-label').html("Off");
+                $('#auto-generate-report').css('display', 'none');
             }
             $('#reportStatus').val(data.session_info.report_status);
             $('#session_name').val(data.session_info.name);

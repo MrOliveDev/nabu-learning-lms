@@ -82,9 +82,11 @@
                 echo '#' . $interfaceCfg->TrainingCourses->h;
                 ?>;
         }
+
         #auto-generate-report {
             display: none;
         }
+
     </style>
     <link rel="stylesheet" href="{{ asset('assets/css/sessionPage.css') }}">
 
@@ -557,11 +559,14 @@
                                             Session Status
                                         </span>
                                     </div>
-                                    <div class="ml-0 custom-control custom-switch custom-control-lg d-flex align-items-center">
-                                        <input type="checkbox" class="custom-control-input" id="session-status"
-                                            name="session-status">
-                                        <label class="custom-control-label report-generate-label" for="session-status">off</label>
+                                    <div
+                                        class="ml-0 custom-control custom-switch custom-control-lg d-flex align-items-center">
+                                        <input type="checkbox" class="custom-control-input" id="session-status-icon"
+                                            name="session-status-icon">
+                                        <label class="custom-control-label session-status-label"
+                                            for="session-status-icon">Session Offline</label>
                                     </div>
+
                                 </div>
                             </div>
                             <div class="form-group">
@@ -678,11 +683,25 @@
                                 </div>
                                 <input type="text" class="js-rangeslider" id="attempts" name="attempts" value="0">
                             </div>
-                            <div class="form-group" id="auto-generate-report">
+                            <div class="form-group" id='status-form-group'>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
                                             Auto generate report:
+                                        </span>
+                                    </div>
+                                    <div class="ml-0 custom-control custom-switch custom-control-lg d-flex align-items-center">
+                                        <input type="checkbox" class="custom-control-input" id="session-status"
+                                            name="session-status">
+                                        <label class="custom-control-label report-generate-label"
+                                            for="session-status">off</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" id="auto-generate-report">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
                                         </span>
                                     </div>
                                     <select id="reportStatus" name="reportStatus" class="form-control" required>
@@ -690,13 +709,6 @@
                                         <option value="2">When progress is 100% and threshold score is reached.</option>
                                     </select>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="form-group" id='status-form-group'>
-                            <div class="mb-2 ml-0 custom-control custom-switch custom-control-lg ">
-                                <input type="checkbox" class="custom-control-input" id="session-status-icon"
-                                    name="session-status-icon">
-                                <label class="custom-control-label session-status-label" for="session-status-icon">Session Offline</label>
                             </div>
                         </div>
                         <div class="clearfix form-group">
