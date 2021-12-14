@@ -306,13 +306,17 @@ class SessionModel extends Model
                                         $progress_screen_optim += $score_data[0]->progress_screen_optim;
                                     }
                                     // $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id_lesson="'.$lesson->idFabrica.'" and user_id="'.$user_id.'"');
-                                    if($session->consider_eval == 1) {
-                                        $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id="'.$score_data[0]->best_eval_id_screen_optim.'"');
-                                    } else if ($session->consider_eval == 2) {
-                                        $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id="'.$score_data[0]->first_eval_id_screen_optim.'"');
-                                    } else if ($session->consider_eval == 3) {
-                                        $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id="'.$score_data[0]->last_eval_id_screen_optim.'"');
-                                    }
+                                    if($score_data) {
+                                        if($session->consider_eval == 1) {
+                                            $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id="'.$score_data[0]->best_eval_id_screen_optim.'"');
+                                        } else if ($session->consider_eval == 2) {
+                                            $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id="'.$score_data[0]->first_eval_id_screen_optim.'"');
+                                        } else if ($session->consider_eval == 3) {
+                                            $score_data2 = DB::connection('mysql_historic')->select('select * from tb_evaluation_'.$session->id.' where id="'.$score_data[0]->last_eval_id_screen_optim.'"');
+                                        }
+                                    } else {
+                                        $score_data2 = array();
+                                    } 
                                     if($score_data2) {
                                         $eval_count = $eval_count + 1;
                                         // $eval = $score_data2==NULL?0:(count($score_data2)==0?0:($score_data2[0]->note?$score_data2[0]->note:0));
