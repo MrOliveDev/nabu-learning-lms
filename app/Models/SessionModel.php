@@ -301,7 +301,7 @@ class SessionModel extends Model
                                 $count = $count + 1;
                                 $lesson = LessonsModel::find($value['item']);
                                 if($lesson->status==5){
-                                    $score_data = DB::connection('mysql_reports')->select('select progress_screen_optim from tb_screen_optim_'.$session->id.' where id_fabrique_screen_optim="'.$lesson->idFabrica.'" and id_user_screen_optim="'.$user_id.'"');
+                                    $score_data = DB::connection('mysql_reports')->select('select * from tb_screen_optim_'.$session->id.' where id_fabrique_screen_optim="'.$lesson->idFabrica.'" and id_user_screen_optim="'.$user_id.'"');
                                     if($score_data) {
                                         $progress_screen_optim += $score_data[0]->progress_screen_optim;
                                     }
