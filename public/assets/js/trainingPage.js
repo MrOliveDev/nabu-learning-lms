@@ -773,6 +773,14 @@ var itemShow = function (event) {
                                     .append(detachIcon);
                                 addedbutton.attr("data-src", id);
                                 $("#div_D .list-group").append(addedbutton);
+                                // sortfilter();
+                                // if($(".filter-date-btn").attr('class').indexOf('active') != -1){
+                                //     $(".filter-date-btn").click();
+                                //     $(".filter-date-btn").click();
+                                // } else if ($(".filter-name-btn").attr('class').indexOf('active') != -1) {
+                                //     $(".filter-name-btn").click();
+                                //     $(".filter-name-btn").click();
+                                // }
                             }
                         });
                     }
@@ -1250,6 +1258,13 @@ var submitBtn = function (event) {
                             $("#div_A .list-group").append(
                                 createLessonData(data)
                             );
+                            if($(".filter-date-btn").attr('class').indexOf('active') != -1){
+                                $(".filter-date-btn").click();
+                                $(".filter-date-btn").click();
+                            } else if ($(".filter-name-btn").attr('class').indexOf('active') != -1) {
+                                $(".filter-name-btn").click();
+                                $(".filter-name-btn").click();
+                            }
                         } else if (formname == "training_form") {
                             notification(
                                 "The training has been saved sucessfully!",
@@ -1347,6 +1362,13 @@ var duplicateBtn = function (event) {
             $("#div_A .list-group").append(
                 createLessonData(data)
             );
+            if($(".filter-date-btn").attr('class').indexOf('active') != -1){
+                $(".filter-date-btn").click();
+                $(".filter-date-btn").click();
+            } else if ($(".filter-name-btn").attr('class').indexOf('active') != -1) {
+                $(".filter-name-btn").click();
+                $(".filter-name-btn").click();
+            }
             return true;
         })
         .fail(function (err) {
@@ -1969,6 +1991,8 @@ var toolkitLessonMultiDelete = function (event) {
 };
 
 var sortfilter = function (event) {
+    console.log(event);
+    console.log(event.target);
     var parent = $(event.target).parents(".toolkit");
     var $items = null,
         $itemgroup;
