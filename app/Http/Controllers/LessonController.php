@@ -485,11 +485,11 @@ class LessonController extends Controller
 
         $return = $this->doPostRequest(env('FABRIQUE_URL'), $values);
         $return_update = get_object_vars($return);
-        if ($return_update['@attributes']['type'] == "error") {
-            return array("error" => "nt> Product can't be updated > ".$return_update['message']);
-        } else {
-            return response()->json(LessonsModel::getLessonContainedTraining($newlesson->id));
-        }
+        // if ($return_update['@attributes']['type'] == "error") {
+        //     return array("error" => "nt> Product can't be updated > ".$return_update['message']);
+        // } else {
+        // }
+        return response()->json(LessonsModel::getLessonContainedTraining($newlesson->id));
 
     }
 }
