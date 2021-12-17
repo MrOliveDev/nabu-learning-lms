@@ -174,14 +174,15 @@ var clearTable = function (element) {
 var clearFrom = function (element) {
     element.find('input, select').each(function (i, forminput) {
         if ($(forminput).attr('name') != '_token' && $(forminput).attr('name') != '_method') {
-            if($(forminput).attr('name') == 'session-status-icon'){
+            if ($(forminput).attr('name') == 'session-status-icon') {
                 $(forminput).prop('checked', false);
                 $('.session-status-label').html("Session Offline");
-            } else if($(forminput).attr('name') == 'session-status'){
+            } else if ($(forminput).attr('name') == 'session-status') {
                 $(forminput).prop('checked', false);
                 $('.report-generate-label').html("Off");
                 $('#auto-generate-report').css('display', 'none');
-            }  else if($(forminput).attr('name') == 'evaluation') {
+                $('#doc-type-list').css('display', 'none');
+            } else if ($(forminput).attr('name') == 'evaluation') {
                 $("#evaluation").val(1);
             } else {
                 $(forminput).val('');
@@ -280,6 +281,9 @@ var toolkitAddItem = function (event) {
  * @param {*} e 
  */
 var sessionItemClick = function (e) {
+    $(".doc-type-item").each(function() {
+        $(this).removeClass("active");
+    });
     $('#session_form').toggle(true);
     $('#div_A .list-group-item').removeClass('active');
     if (!$(this).hasClass("active")) {
@@ -353,9 +357,18 @@ var sessionItemClick = function (e) {
             if (data.session_info.report_status != 0) {
                 $('.report-generate-label').html("On");
                 $('#auto-generate-report').css('display', 'block');
+                $('#doc-type-list').css('display', 'block');
             } else {
                 $('.report-generate-label').html("Off");
                 $('#auto-generate-report').css('display', 'none');
+                $('#doc-type-list').css('display', 'none');
+            }
+            if(data.session_info.selected_models){
+                console.log('show response: ', JSON.parse(data.session_info.selected_models));
+                JSON.parse(data.session_info.selected_models).map((item, index) => {
+                    console.log('items', item);
+                    $("#doc-type-item-" + item).addClass("active");
+                })
             }
             $('#reportStatus').val(data.session_info.report_status);
             $('#session_name').val(data.session_info.name);
@@ -537,7 +550,7 @@ var refreshGroupBtn = function (e) {
  * @param {*} event 
  */
 var formInputChange = function (event) {
-    console.log($(event.target).val());
+    // console.log($(event.target).val());
 };
 
 /**
@@ -613,6 +626,17 @@ var submitBtn = function (event) {
             notification('You have to insert correct date!', 2);
             return;
         }
+        var models = [];
+        if($('#session-status').prop('checked') == true){
+            $("#doc-type-list .active").each(function() {
+                var curModel = $(this).attr('id').split('-')[3];
+                models.push(curModel);
+            });
+        }
+        serialval.push({
+            name: 'selected-models',
+            value: JSON.stringify(models)
+        });
         console.log("serialval:", serialval);
         $.ajax({
             url: $('#' + formname).attr('action'),
@@ -1395,10 +1419,25 @@ var reportStatusBtn = function (event) {
     if ($(event.target).prop('checked') == true) {
         $('.report-generate-label').html("On");
         $('#auto-generate-report').css('display', 'block');
+        $('#doc-type-list').css('display', 'block');
+        $(".doc-type-item").each(function() {
+            $(this).removeClass("active");
+        });
         $('#reportStatus').val(1);
     } else {
         $('.report-generate-label').html("Off");
         $('#auto-generate-report').css('display', 'none');
+        $('#doc-type-list').css('display', 'none');
+    }
+}
+
+function selectModel(templateId) {
+    if ($("#doc-type-item-" + templateId).attr('class').indexOf('active') != -1) {
+        $("#doc-type-item-" + templateId).removeClass("active");
+    } else {
+        if ($("#doc-type-list .active").length < 2) {
+            $("#doc-type-item-" + templateId).addClass("active");
+        }
     }
 }
 
