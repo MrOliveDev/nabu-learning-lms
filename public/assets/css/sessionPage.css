@@ -261,9 +261,11 @@ a.list-group-item:not([href]) {
     0% {
         border-color: var(--student-h);
     }
+
     50% {
         border-color: var(--student-c);
     }
+
     100% {
         border-color: var(--student-h);
     }
@@ -277,9 +279,11 @@ a.list-group-item:not([href]) {
     0% {
         border-color: var(--training-h);
     }
+
     50% {
         border-color: var(--training-c);
     }
+
     100% {
         border-color: var(--training-h);
     }
@@ -293,9 +297,11 @@ a.list-group-item:not([href]) {
     0% {
         border-color: var(--session-h);
     }
+
     50% {
         border-color: var(--session-c);
     }
+
     100% {
         border-color: var(--session-h);
     }
@@ -309,9 +315,11 @@ a.list-group-item:not([href]) {
     0% {
         border-color: var(--teacher-h);
     }
+
     50% {
         border-color: var(--teacher-c);
     }
+
     100% {
         border-color: var(--teacher-h);
     }
@@ -325,9 +333,11 @@ a.list-group-item:not([href]) {
     0% {
         border-color: var(--group-h);
     }
+
     50% {
         border-color: var(--group-c);
     }
+
     100% {
         border-color: var(--group-h);
     }
@@ -351,4 +361,55 @@ select:focus {
 
 .list-group-item.border-transparent {
     border-color: transparent;
+}
+
+
+#auto-generate-report {
+    display: none;
+}
+
+#doc-type-list {
+    display: none;
+}
+
+.doc-type-item,
+.model-item {
+    border-radius: 5px;
+    background-color: #9d9b9b;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    padding: 5px 20px;
+    align-items: center;
+    font-size: 20px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.doc-type-item:hover {
+    background-color: #6f6e6e;
+}
+
+.doc-type-item.active {
+    background-color: #6f6e6e;
+}
+
+.sliderStyle {
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.sliderStyle::-webkit-scrollbar {
+    width: 8px;
+}
+
+
+/* Track */
+
+
+/* Handle */
+
+.sliderStyle::-webkit-scrollbar-thumb {
+    background: #2e3092;
+    border-radius: 8px;
 }

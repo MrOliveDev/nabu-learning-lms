@@ -14,6 +14,8 @@ use App\Models\LessonsModel;
 use App\Models\LessonCourses;
 use App\Models\ReportsModel;
 use App\Models\TemplateModel;
+use App\Models\ReportTemplateModel;
+use App\Models\ReportImages;
 use Illuminate\Support\Facades\DB;
 
 class SessionController extends Controller
@@ -40,7 +42,18 @@ class SessionController extends Controller
         $positions = PositionModel::getPositionByClient();
         $templates = TemplateModel::getTemplateByClient();
         $languages = LanguageModel::all();
-        return view('session', compact([/* 'authors',  */'teachers', 'students', 'groups', 'positions', 'companies', 'languages', 'sessions', 'trainings', 'templates']));
+        $report_models = ReportTemplateModel::getTemplateModelByClient();
+        if(isset(session("permission")->limited)) {
+            $report_images = ReportImages::where('userId', auth()->user()->id)->get();
+        } else {
+            if(auth()->user()->type < 2) {
+                $report_images = ReportImages::whereIn('userId', User::get_members())->get();
+            } else {
+                $report_images = ReportImages::where('userId', session("client"))
+                ->orWhere("userId", auth()->user()->id)->get();
+            }
+        }   
+        return view('session', compact([/* 'authors',  */'teachers', 'students', 'groups', 'positions', 'companies', 'languages', 'sessions', 'trainings', 'templates', 'report_models', 'report_images']));
     }
 
     /**
@@ -88,6 +101,9 @@ class SessionController extends Controller
         }
         if ($request->post("reportStatus") != NULL) {
             $session->report_status = $request->post('reportStatus');
+        }
+        if ($request->post("selected-models") != NULL) {
+            $session->selected_models = $request->post('selected-models');
         }
         $session->id_creator = session("client");
         // if(){
@@ -162,6 +178,9 @@ class SessionController extends Controller
         }
         if ($request->post("reportStatus") != NULL) {
             $session->report_status = $request->post('reportStatus');
+        }
+        if ($request->post("selected-models") != NULL) {
+            $session->selected_models = $request->post('selected-models');
         }
         $session->id_creator = session("client");
         if (session("user_type") !== 0) {

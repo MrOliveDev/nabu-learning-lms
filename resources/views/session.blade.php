@@ -83,9 +83,6 @@
                 ?>;
         }
 
-        #auto-generate-report {
-            display: none;
-        }
 
     </style>
     <link rel="stylesheet" href="{{ asset('assets/css/sessionPage.css') }}">
@@ -687,10 +684,11 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Auto generate report:
+                                            Authorize student to generate report:
                                         </span>
                                     </div>
-                                    <div class="ml-0 custom-control custom-switch custom-control-lg d-flex align-items-center">
+                                    <div
+                                        class="ml-0 custom-control custom-switch custom-control-lg d-flex align-items-center">
                                         <input type="checkbox" class="custom-control-input" id="session-status"
                                             name="session-status">
                                         <label class="custom-control-label report-generate-label"
@@ -707,9 +705,21 @@
                                     <select id="reportStatus" name="reportStatus" class="form-control" required>
                                         <option value="1" selected>When threshold score is reached.</option>
                                         <option value="2">When progress is 100% and threshold score is reached.</option>
+                                        <option value="3">When the session ends.</option>
                                     </select>
                                 </div>
                             </div>
+                            {{-- <div class="w-100 p-2 sliderStyle" style="height: 240px;"> --}}
+                            <div id="doc-type-list" class="sliderStyle" style="height: 230px;">
+                                @foreach ($report_models as $report_model)
+                                    <div class="doc-type-item" onclick="selectModel({{ $report_model['id'] }})"
+                                        id="doc-type-item-{{ $report_model['id'] }}">
+                                        <span
+                                            id="doc-type-item-title-{{ $report_model['id'] }}">{{ $report_model['name'] }}</span>
+                                    </div>
+                                @endforeach
+                            </div>
+                            {{-- </div> --}}
                         </div>
                         <div class="clearfix form-group">
                             <button type="submit" class="float-right mx-1 btn btn-hero-primary submit-btn"
