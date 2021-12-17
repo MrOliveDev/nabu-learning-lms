@@ -13,7 +13,7 @@
         <div class="row ml-3">
             <fieldset class='col-sm-12 col-md-3 col-lg-3 h-100'>
                 <div id="div_A" class="window top">
-                    <div class="training-item" data-session="{{ $training['session_id'] }}"
+                    <div class="training-item" data-session="{{ $training['sessionjoinedtraining']['id'] }}"
                         data-type="{{ $training['training']['type'] }}">
                         <div class="training-card">
                             <div class="card mb-4 pr-3 border-0" id="training_{{ $training['training']['id'] }}">
@@ -99,22 +99,22 @@
                                         </div>
                                     </div>
 
-                                    @if (time() - 60 * 60 * 24 < strtotime($training['session_endDate']))
+                                    @if (time() - 60 * 60 * 24 < strtotime($training['sessionjoinedtraining']['end_date']))
                                         <p class="h4 mb-0 mt-2 text-center training-description">
                                             Ends on
-                                            {{ date_format(date_create($training['session_endDate']), 'd F Y') }}
+                                            {{ date_format(date_create($training['sessionjoinedtraining']['end_date']), 'd F Y') }}
                                         </p>
                                     @else
                                         <p class="h4 mb-0 mt-2 text-center training-description text-danger">
                                             Ended on
-                                            {{ date_format(date_create($training['session_endDate']), 'd F Y') }}
+                                            {{ date_format(date_create($training['sessionjoinedtraining']['end_date']), 'd F Y') }}
                                         </p>
                                     @endif
 
                                     @if ($training['training_pdf'])
                                         <p class="mb-0 mt-2 text-center" style="color: #362f81">
                                             Score required for the attestation :
-                                            @foreach ($lessons[$training['session_id']] as $lesson)
+                                            @foreach ($lessons[$training['sessionjoinedtraining']['id']] as $lesson)
                                                 @if ($lesson['is_eval'])
                                                     {{ $lesson['lesson']['threshold_score'] }}%
                                                 @endif
@@ -125,17 +125,17 @@
                                             You've got documents to download</p>
                                     @else
                                         <?php $flag = 0; ?>
-                                        @foreach ($lessons[$training['session_id']] as $lesson)
+                                        @foreach ($lessons[$training['sessionjoinedtraining']['id']] as $lesson)
                                             @if (!$lesson['is_eval'])
                                                 <?php $flag += 1; ?>
                                             @endif
                                         @endforeach
-                                        @if ($flag != count($lessons[$training['session_id']]))
-                                            @if (count($lessons[$training['session_id']]) - $flag == 1)
+                                        @if ($flag != count($lessons[$training['sessionjoinedtraining']['id']]))
+                                            @if (count($lessons[$training['sessionjoinedtraining']['id']]) - $flag == 1)
                                                 <p class="mb-0 mt-2 text-center" style="color: #362f81">Score required
                                                     for the
                                                     attestation :
-                                                    @foreach ($lessons[$training['session_id']] as $lesson)
+                                                    @foreach ($lessons[$training['sessionjoinedtraining']['id']] as $lesson)
                                                         @if ($lesson['is_eval'])
                                                             {{ $lesson['lesson']['threshold_score'] }}%
                                                         @endif
@@ -145,7 +145,7 @@
                                                 <p class="mb-0 mt-2 text-center" style="color: #362f81">Scores required
                                                     for the
                                                     attestations :
-                                                    @foreach ($lessons[$training['session_id']] as $lesson)
+                                                    @foreach ($lessons[$training['sessionjoinedtraining']['id']] as $lesson)
                                                         @if ($lesson['is_eval'])
                                                             {{ $lesson['lesson']['threshold_score'] }}%
                                                         @endif
@@ -154,6 +154,16 @@
                                             @endif
                                         @endif
                                     @endif
+                                    {{-- @if ($training['report_status'] != 0)
+                                        <div class="text-center">
+                                            <button type="button"
+                                                class="btn btn-hero-primary mx-1 template-submit-btn my-2">GENERATE
+                                                DOCUMENT 1</button>
+                                            <button type="button"
+                                                class="btn btn-hero-primary mx-1 template-submit-btn my-2">GENERATE
+                                                DOCUMENT 2</button>
+                                        </div>
+                                    @endif --}}
                                 </div>
                             </div>
                         </div>
@@ -190,12 +200,12 @@
                             @endif
                         </div>
                         <div class="lessons">
-                            @foreach ($lessons[$training['session_id']] as $lesson)
+                            @foreach ($lessons[$training['sessionjoinedtraining']['id']] as $lesson)
                                 <div class="accordion" role="tablist" aria-multiselectable="true"
                                     id="accordion{{ $lesson['lesson']['id'] }}"
                                     data-progress="{{ $lesson['progress'] }}" data-eval="{{ $lesson['eval'] }}"
                                     data-course="{{ $lesson['course_id'] }}"
-                                    data-session="{{ $training['session_id'] }}">
+                                    data-session="{{ $training['sessionjoinedtraining']['id'] }}">
                                     <div class="block block-rounded mb-1 bg-transparent shadow-none">
                                         <div class="block-header block-header-default border-transparent border-0 bg-transparent p-0"
                                             role="tab" id="accordion_h1">
@@ -260,7 +270,7 @@
                                                             </a>
                                                         </button>
                                                     @endif
-                                                    @if (time() - 60 * 60 * 24 < strtotime($training['session_endDate']))
+                                                    @if (time() - 60 * 60 * 24 < strtotime($training['sessionjoinedtraining']['end_date']))
                                                         <button class="btn  item-play" data-content='teacher'
                                                             data-fabrica="{{ $lesson['lesson']['idFabrica'] }}">
                                                             <i class="fa fa-play m-0 p-2 align-middle"></i>

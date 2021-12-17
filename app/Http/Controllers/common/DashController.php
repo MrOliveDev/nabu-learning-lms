@@ -35,8 +35,9 @@ class DashController extends Controller
         $trainings = SessionModel::getTrainingsForStudent($user_id);
         $lessons = array();
         foreach ($trainings as $training) {
-            $session_consider = $training['session_consider'];
-            $session_id = $training['session_id'];
+            // print_r($training['sessionjoinedtraining']['id']);
+            $session_consider = $training['sessionjoinedtraining']['consider_eval'];
+            $session_id = $training['sessionjoinedtraining']['id'];
             $lessons[$session_id] = [];
         DB::connection('mysql_reports')->unprepared('CREATE TABLE IF NOT EXISTS `tb_screen_optim_'.$session_id.'` (
             `id_screen_optim` int(11) NOT NULL AUTO_INCREMENT,
@@ -128,9 +129,8 @@ class DashController extends Controller
         }
     }
         }
-        // exit;
         // print_r($trainings);
-        // print_r($lessons); exit;
+        //  exit;
         return view('commondash', compact('sidebardata', 'trainings', 'lessons'));
     }
 
