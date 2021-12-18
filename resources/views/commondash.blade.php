@@ -8,6 +8,12 @@
     <script src="{{ asset('assets/js/commondashPage.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
+<script src="{{ asset('assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
+<script>
+    jQuery(function() {
+        Dashmix.helpers(['select2', 'rangeslider', 'notify', 'summernote', 'flatpickr', 'datepicker']);
+    });
+</script>
 <div id="content">
     @foreach ($trainings as $training)
         <div class="row ml-3">
@@ -99,7 +105,7 @@
                                         </div>
                                     </div>
 
-                                    @if (time() - 60 * 60 * 24 < strtotime($training['sessionjoinedtraining']['end_date']))
+                                    @if (time() < strtotime($training['sessionjoinedtraining']['end_date']))
                                         <p class="h4 mb-0 mt-2 text-center training-description">
                                             Ends on
                                             {{ date_format(date_create($training['sessionjoinedtraining']['end_date']), 'd F Y') }}
@@ -154,16 +160,39 @@
                                             @endif
                                         @endif
                                     @endif
-                                    {{-- @if ($training['report_status'] != 0)
+
+                                    {{-- check the availablity to generate report --}}
+                                    <?php $generate_available = false; ?>
+                                    @if ($training['sessionjoinedtraining']['report_status'] == 1 && $training['success'] == 'true')
+                                        <?php $generate_available = true; ?>
+                                    @elseif ($training['sessionjoinedtraining']['report_status'] == 2 &&
+                                        $training['progress'] == 100 && $training['success'] == 'true')
+                                        <?php $generate_available = true; ?>
+                                    @elseif ($training['sessionjoinedtraining']['report_status'] != 0 && time() >=
+                                        strtotime($training['sessionjoinedtraining']['end_date']))
+                                        <?php $generate_available = true; ?>
+                                    @endif
+                                    <?php
+                                    $models = json_decode($training['sessionjoinedtraining']['selected_models']);
+                                    // $firstDoc = json_decode($training['sessionjoinedtraining']['selected_models'])[0];
+                                    // $secDoc = json_decode($training['sessionjoinedtraining']['selected_models'])[1];
+                                    ?>
+                                    @if ($generate_available == true)
                                         <div class="text-center">
-                                            <button type="button"
-                                                class="btn btn-hero-primary mx-1 template-submit-btn my-2">GENERATE
-                                                DOCUMENT 1</button>
-                                            <button type="button"
-                                                class="btn btn-hero-primary mx-1 template-submit-btn my-2">GENERATE
-                                                DOCUMENT 2</button>
+                                            @if (count($models) > 0)
+                                                <button type="button"
+                                                    class="btn btn-hero-primary mx-1 template-submit-btn my-2"
+                                                    onclick="downloadReport('{{ auth()->user()->id }}', '{{ $models[0] }}', '{{ $training['sessionjoinedtraining']['id'] }}')">GENERATE
+                                                    DOCUMENT 1</button>
+                                            @endif
+                                            @if (count($models) == 2)
+                                                <button type="button"
+                                                    class="btn btn-hero-primary mx-1 template-submit-btn my-2"
+                                                    onclick="downloadReport('{{ auth()->user()->id }}', '{{ $models[1] }}', '{{ $training['sessionjoinedtraining']['id'] }}')">GENERATE
+                                                    DOCUMENT 2</button>
+                                            @endif
                                         </div>
-                                    @endif --}}
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -270,7 +299,7 @@
                                                             </a>
                                                         </button>
                                                     @endif
-                                                    @if (time() - 60 * 60 * 24 < strtotime($training['sessionjoinedtraining']['end_date']))
+                                                    @if (time() < strtotime($training['sessionjoinedtraining']['end_date']))
                                                         <button class="btn  item-play" data-content='teacher'
                                                             data-fabrica="{{ $lesson['lesson']['idFabrica'] }}">
                                                             <i class="fa fa-play m-0 p-2 align-middle"></i>
@@ -393,5 +422,7 @@
             </fieldset>
         </div>
     @endforeach
+</div>
+<div class="w-100 p-2" id="overviewPane">
 </div>
 @endsection

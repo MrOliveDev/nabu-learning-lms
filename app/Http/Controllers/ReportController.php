@@ -383,6 +383,9 @@ class ReportController extends Controller
                     $template = $template
                     ->whereIn("id_creator", User::get_members())
                     ->first();
+                } else if(auth()->user()->type == 4) {
+                    $template = $template
+                    ->first();
                 } else {
                     $template = $template
                     ->where("id_creator", session("client"))
@@ -963,6 +966,12 @@ class ReportController extends Controller
             $filelink = storage_path('pdf') . '/' . $filename;
             $mpdf->Output($filelink, 'F');
 
+            if($request['model'] != NULL) {
+                $model = $request['model'];
+            }
+            if($request['modelId'] != NULL) {
+                $model = ReportTemplateModel::find($request['modelId'])->name;
+            }
             ReportsModel::create([
                 'sessionId' => $request['sessionId'],
                 'studentId' => $request['studentId'],
@@ -970,7 +979,7 @@ class ReportController extends Controller
                 'type' => 'pdf',
                 'created_time' => gmdate("Y-m-d\TH:i:s", time()),
                 'id_creator' =>auth()->user()->type!=0?auth()->user()->id:session("client"),
-                'model' => $request['model']
+                'model' => $model
             ]);
 
             return response()->json(["success" => true, "filename" => $filename]);

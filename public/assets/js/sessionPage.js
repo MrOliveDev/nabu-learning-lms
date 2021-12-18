@@ -364,9 +364,7 @@ var sessionItemClick = function (e) {
                 $('#doc-type-list').css('display', 'none');
             }
             if(data.session_info.selected_models){
-                console.log('show response: ', JSON.parse(data.session_info.selected_models));
                 JSON.parse(data.session_info.selected_models).map((item, index) => {
-                    console.log('items', item);
                     $("#doc-type-item-" + item).addClass("active");
                 })
             }
