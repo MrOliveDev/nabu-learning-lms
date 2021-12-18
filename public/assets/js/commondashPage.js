@@ -7,6 +7,8 @@ var clearRightField = function () {
     $("#div_C .push").find(".accordion").detach();
 };
 
+var evalUniqueId = 0;
+
 var playBtn = function (event) {
     event.preventDefault();
     var session_id = $(this).parents(".accordion").attr("data-session");
