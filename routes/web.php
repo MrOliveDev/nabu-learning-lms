@@ -285,6 +285,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('setSessionForUserPage', '\App\Http\Controllers\GlobalSessionController@setToPageSetting');
     Route::post('getSessionFromUser', 'App\Http\Controllers\StudentController@getSessionFromUser');
     Route::get('dash', '\App\Http\Controllers\common\DashController@index')->name('dash');
+    Route::post('upload_document', '\App\Http\Controllers\common\DashController@upload_document')->name('upload_document');
     Route::get('student', '\App\Http\Controllers\StudentController@index')->name('student');
     Route::get('template_editor', '\App\Http\Controllers\TemplateEditorController@index')->name('template_editor');
     Route::get('player_editor', '\App\Http\Controllers\PlayerController@index')->name('player_editor');

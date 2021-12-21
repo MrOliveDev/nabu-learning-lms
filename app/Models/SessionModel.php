@@ -364,8 +364,18 @@ class SessionModel extends Model
                         foreach ($reports as $report) {
                             array_push($training_pdf, ["model"=>$report->model, "filename"=>$report->filename, "date"=>$report->created_time]);
                         }
+                        $uploaded_documents = DocumentModel::where('user', auth()->user()->id)->where('session_id',$session->id)->get();
+                        $group_document="";
+                        $person_document="";
+                        foreach ($uploaded_documents as $document) {
+                            if($document->type == 'group'){
+                                $group_document = $document;
+                            } else {
+                                $person_document = $document;
+                            }
+                        }
                         // array_push($trainings, ["training"=>$new_training->toArray(),"sessionjoinedtraining"=>$session, "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "success"=>$success, "session_endDate"=>$session->end_date ,"teacher"=>$teacherInfo, "training_pdf"=>$training_pdf, "session_consider"=>$session->consider_eval, "report_status"=>$session->report_status]);
-                        array_push($trainings, ["training"=>$new_training->toArray(),"sessionjoinedtraining"=>$session, "progress"=>$progress, "eval"=>$eval, "success"=>$success,"teacher"=>$teacherInfo, "training_pdf"=>$training_pdf]);
+                        array_push($trainings, ["training"=>$new_training->toArray(),"sessionjoinedtraining"=>$session, "progress"=>$progress, "eval"=>$eval, "success"=>$success,"teacher"=>$teacherInfo, "training_pdf"=>$training_pdf, "group_document"=>$group_document, "person_document"=>$person_document]);
                     }
                 }
             }

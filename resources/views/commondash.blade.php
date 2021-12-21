@@ -4,9 +4,11 @@
     <link rel="stylesheet" href="{{ asset('assets/css/commondashPage.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/cropperModal.css') }}">
 @section('js_after')
     <script src="{{ asset('assets/js/commondashPage.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/sweetalert2/sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/js/documentModal.js') }}"></script>
 @endsection
 <script src="{{ asset('assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
 <script>
@@ -16,7 +18,7 @@
 </script>
 <div id="content">
     @foreach ($trainings as $training)
-        <div class="row ml-3">
+        <div class="row ml-3" id="session_{{ $training['sessionjoinedtraining']['id'] }}">
             <fieldset class='col-sm-12 col-md-3 col-lg-3 h-100'>
                 <div id="div_A" class="window top">
                     <div class="training-item" data-session="{{ $training['sessionjoinedtraining']['id'] }}"
@@ -331,16 +333,21 @@
                                                     <p>{{ $lesson['lesson']['description'] }}</p>
                                                 @endif
                                             </div>
-                                            <div>
+                                            <div class="upload-action" data-lesson="{{ $lesson['lesson']['id'] }}" data-session="{{ $training['sessionjoinedtraining']['id'] }}">
                                                 <div>
                                                     <div class="d-flex align-items-center flex-row">
                                                         <div class="users_icon">
                                                             <i class="fas fa-users"></i>
                                                         </div>
-                                                        <i class="fas fa-upload upload_icon"></i>
-                                                        <p class="ml-3" style="flex:3">Upload a group document
+                                                        <i class="fas fa-upload upload_icon" id="upload_document_group"
+                                                            for="group_document" onclick="upload('group', '{{$lesson['lesson']['id']}}', '{{ $training['sessionjoinedtraining']['id'] }}')">
+                                                            <input type="file" name="document" class="document"
+                                                                accept=".pdf" id="group_document" hidden>
+                                                        </i>
+                                                        <p class="ml-3" style="flex:4">Upload a group document
                                                         </p>
-                                                        <p style="flex:15; padding:0 50px;">There is already a document
+                                                        <p style="flex:15; padding:0 50px;"
+                                                            class="document_detail_group">There is already a document
                                                             sent by albert einstein on 03/15/2021 at 2:35 p.m.</p>
                                                     </div>
                                                 </div>
@@ -349,10 +356,15 @@
                                                         <div class="user_icon">
                                                             <i class="fas fa-user"></i>
                                                         </div>
-                                                        <i class="fas fa-upload upload_icon"></i>
-                                                        <p class="ml-3" style="flex:3">Upload a group document
+                                                        <i class="fas fa-upload upload_icon" id="upload_document_person"
+                                                            for="person_document" onclick="upload('person', '{{$lesson['lesson']['id']}}', '{{ $training['sessionjoinedtraining']['id'] }}')">
+                                                            <input type="file" name="document" class="document"
+                                                                accept=".pdf" id="person_document" hidden>
+                                                        </i>
+                                                        <p class="ml-3" style="flex:4">Upload an individual document
                                                         </p>
-                                                        <p style="flex:15; padding:0 50px;">You have already sent a
+                                                        <p style="flex:15; padding:0 50px;"
+                                                            class="document_detail_person">You have already sent a
                                                             document on 03/15/2021 at 2:35 p.m.</p>
                                                     </div>
                                                 </div>
@@ -422,6 +434,22 @@
             </fieldset>
         </div>
     @endforeach
+</div>
+<div class="modal myModal fade mt-lg-5" id="image-crop-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body d-flex text-center align-items-center" id="drop">
+                <div class="img-container" id="img-range-slider">
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirm">OK</button>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="w-100 p-2" id="overviewPane">
 </div>

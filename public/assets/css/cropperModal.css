@@ -79,6 +79,15 @@
     color:#d52f72;
 }
 
+#upload_document_person:hover{
+    color:#d52f72;
+}
+
+#upload_document_group:hover{
+    color:#d52f72;
+}
+
+
 .btn-hero-primary:hover #upload_button:hover {
     background-color: #d52f72;
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\common;
 
 use App\Http\Controllers\Controller;
+use App\Models\DocumentModel;
 use Illuminate\Http\Request;
 
 use App\Models\InterfaceCfgModel;
@@ -10,10 +11,12 @@ use App\Models\LessonCourses;
 use App\Models\LessonsModel;
 use App\Models\TranslateModel;
 use App\Models\SessionModel;
+use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use App\Models\TrainingsModel;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 use Auth;
 
@@ -35,7 +38,8 @@ class DashController extends Controller
         $trainings = SessionModel::getTrainingsForStudent($user_id);
         $lessons = array();
         foreach ($trainings as $training) {
-            // print_r($training['sessionjoinedtraining']['id']);
+            // print_r('<br/>');
+            // var_dump($training['person_document']);
             $session_consider = $training['sessionjoinedtraining']['consider_eval'];
             $session_id = $training['sessionjoinedtraining']['id'];
             $lessons[$session_id] = [];
@@ -130,6 +134,9 @@ class DashController extends Controller
     }
         }
         // print_r($trainings);
+        // foreach ($uploaded_documents as $document) {
+        //     print_r($document->id);
+        // }
         //  exit;
         return view('commondash', compact('sidebardata', 'trainings', 'lessons'));
     }
@@ -206,5 +213,25 @@ class DashController extends Controller
             }
         }
         return response()->json($lessons);
+    }
+
+    public function upload_document(request $request) {
+        $filename = $request->file('file')->getClientOriginalName();
+        if($request->type == 'group')
+        $success = Storage::putFileAs('group_document', $request->file('file'), $filename);
+        if($request->type == 'person')
+        $success = Storage::putFileAs('person_document', $request->file('file'), $filename);
+
+        $document = new DocumentModel();
+        $document->user = auth()->user()->id;
+        $document->created_date = date("Y-m-d");
+        $document->filename = $filename;
+        $document->type = $request->type;
+        $document->lesson_id = $request->lessonId;
+        $document->session_id = $request->sessionId;
+        $document->save();
+
+        $user = User::getUserPageInfoFromId(auth()->user()->id);
+        return response()->json(["success"=>true, "document"=>$document, "user"=>$user]);
     }
 }
