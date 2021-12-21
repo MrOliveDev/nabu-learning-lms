@@ -359,7 +359,28 @@ class SessionModel extends Model
                             $teacherInfo = ["contact_info"=>json_decode($contact_info), "first_name"=>$first_name, "last_name"=>$last_name];
                             }
                         }
+                        $available1 = true;
+                        $available2 = true;
+                        $downloaded1 = array();
+                        $downloaded2 = array();
                         $reports = DB::connection('mysql_reports')->select('select * from tb_reports where sessionId="'.$session->id.'" and studentId="'.$user_id.'"');
+                        $models = json_decode($session->selected_models);
+                        if($models){
+                            if(count($models) == 2)
+                                $downloaded2 = DB::connection('mysql_reports')->select('select * from tb_reports where sessionId="'.$session->id.'" and studentId="'.$user_id.'" and id_creator="'.$user_id.'" and model="'.ReportTemplateModel::find($models[1])->name.'"');
+                            if(count($models) != 0)
+                                $downloaded1 = DB::connection('mysql_reports')->select('select * from tb_reports where sessionId="'.$session->id.'" and studentId="'.$user_id.'" and id_creator="'.$user_id.'" and model="'.ReportTemplateModel::find($models[0])->name.'"');
+                        }
+                        if(count($downloaded1) != 0){
+                            $available1 = false;
+                        } else {
+                            $available1 = true;
+                        }
+                        if(count($downloaded2) != 0){
+                            $available2 = false;
+                        } else {
+                            $available2 = true;
+                        }
                         $training_pdf = array();
                         foreach ($reports as $report) {
                             array_push($training_pdf, ["model"=>$report->model, "filename"=>$report->filename, "date"=>$report->created_time]);
@@ -375,7 +396,7 @@ class SessionModel extends Model
                             }
                         }
                         // array_push($trainings, ["training"=>$new_training->toArray(),"sessionjoinedtraining"=>$session, "session_id"=>$session->id, "progress"=>$progress, "eval"=>$eval, "success"=>$success, "session_endDate"=>$session->end_date ,"teacher"=>$teacherInfo, "training_pdf"=>$training_pdf, "session_consider"=>$session->consider_eval, "report_status"=>$session->report_status]);
-                        array_push($trainings, ["training"=>$new_training->toArray(),"sessionjoinedtraining"=>$session, "progress"=>$progress, "eval"=>$eval, "success"=>$success,"teacher"=>$teacherInfo, "training_pdf"=>$training_pdf, "group_document"=>$group_document, "person_document"=>$person_document]);
+                        array_push($trainings, ["training"=>$new_training->toArray(),"sessionjoinedtraining"=>$session, "progress"=>$progress, "eval"=>$eval, "success"=>$success,"teacher"=>$teacherInfo, "training_pdf"=>$training_pdf,"available1"=>$available1,"available2"=>$available2, "group_document"=>$group_document, "person_document"=>$person_document]);
                     }
                 }
             }

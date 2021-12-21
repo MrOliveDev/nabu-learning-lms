@@ -170,7 +170,8 @@
                                     @elseif ($training['sessionjoinedtraining']['report_status'] == 2 &&
                                         $training['progress'] == 100 && $training['success'] == 'true')
                                         <?php $generate_available = true; ?>
-                                    @elseif ($training['sessionjoinedtraining']['report_status'] != 0 && time() >=
+                                    @elseif ($training['sessionjoinedtraining']['report_status'] != 0 && time()
+                                        >=
                                         strtotime($training['sessionjoinedtraining']['end_date']))
                                         <?php $generate_available = true; ?>
                                     @endif
@@ -181,13 +182,13 @@
                                     ?>
                                     @if ($generate_available == true)
                                         <div class="text-center">
-                                            @if (count($models) > 0)
+                                            @if ($training['available1'] && count($models) > 0)
                                                 <button type="button"
                                                     class="btn btn-hero-primary mx-1 template-submit-btn my-2"
                                                     onclick="downloadReport('{{ auth()->user()->id }}', '{{ $models[0] }}', '{{ $training['sessionjoinedtraining']['id'] }}')">GENERATE
                                                     DOCUMENT 1</button>
                                             @endif
-                                            @if (count($models) == 2)
+                                            @if ($training['available2'] && count($models) == 2)
                                                 <button type="button"
                                                     class="btn btn-hero-primary mx-1 template-submit-btn my-2"
                                                     onclick="downloadReport('{{ auth()->user()->id }}', '{{ $models[1] }}', '{{ $training['sessionjoinedtraining']['id'] }}')">GENERATE
@@ -333,14 +334,16 @@
                                                     <p>{{ $lesson['lesson']['description'] }}</p>
                                                 @endif
                                             </div>
-                                            <div class="upload-action" data-lesson="{{ $lesson['lesson']['id'] }}" data-session="{{ $training['sessionjoinedtraining']['id'] }}">
+                                            <div class="upload-action" data-lesson="{{ $lesson['lesson']['id'] }}"
+                                                data-session="{{ $training['sessionjoinedtraining']['id'] }}">
                                                 <div>
                                                     <div class="d-flex align-items-center flex-row">
                                                         <div class="users_icon">
                                                             <i class="fas fa-users"></i>
                                                         </div>
                                                         <i class="fas fa-upload upload_icon" id="upload_document_group"
-                                                            for="group_document" onclick="upload('group', '{{$lesson['lesson']['id']}}', '{{ $training['sessionjoinedtraining']['id'] }}')">
+                                                            for="group_document"
+                                                            onclick="upload('group', '{{ $lesson['lesson']['id'] }}', '{{ $training['sessionjoinedtraining']['id'] }}')">
                                                             <input type="file" name="document" class="document"
                                                                 accept=".pdf" id="group_document" hidden>
                                                         </i>
@@ -357,11 +360,13 @@
                                                             <i class="fas fa-user"></i>
                                                         </div>
                                                         <i class="fas fa-upload upload_icon" id="upload_document_person"
-                                                            for="person_document" onclick="upload('person', '{{$lesson['lesson']['id']}}', '{{ $training['sessionjoinedtraining']['id'] }}')">
+                                                            for="person_document"
+                                                            onclick="upload('person', '{{ $lesson['lesson']['id'] }}', '{{ $training['sessionjoinedtraining']['id'] }}')">
                                                             <input type="file" name="document" class="document"
                                                                 accept=".pdf" id="person_document" hidden>
                                                         </i>
-                                                        <p class="ml-3" style="flex:4">Upload an individual document
+                                                        <p class="ml-3" style="flex:4">Upload an individual
+                                                            document
                                                         </p>
                                                         <p style="flex:15; padding:0 50px;"
                                                             class="document_detail_person">You have already sent a

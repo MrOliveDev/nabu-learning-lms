@@ -343,6 +343,7 @@ async function downloadReport(studentId, curModel, curSession) {
                 let link = "pdf" + "/" + res.filename;
                 window.open(link, '_blank');
                 window.location.reload();
+
             } else
                 notification(res.message, 2);
         },
