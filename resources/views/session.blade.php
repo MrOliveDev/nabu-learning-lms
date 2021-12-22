@@ -83,7 +83,6 @@
                 ?>;
         }
 
-
     </style>
     <link rel="stylesheet" href="{{ asset('assets/css/sessionPage.css') }}">
 
@@ -160,6 +159,8 @@
                         <span>on&nbsp;</span>
                         <input type="radio" id="filter-state-off" name="status" value="off">
                         <span>off&nbsp;</span>
+                        <input type="radio" id="filter-state-ended" name="status" value="ended">
+                        <span>ended&nbsp;</span>
                         <input type="radio" id="filter-state-all" name="status" value="all">
                         <span>all&nbsp;</span>
                     </div>
@@ -202,6 +203,11 @@
                                         @endif
                                         <span class="item-name">{{ $session->name }}</span>
                                         <input type="hidden" name="item-name" value="{{ $session->name }}">
+                                        @if (time() < strtotime($session->end_date))
+                                            <input type="hidden" name="item-ended" value="1">
+                                        @else
+                                            <input type="hidden" name="item-ended" value="0">
+                                        @endif
                                     </div>
                                     <div class="float-right btn-group">
                                         <span

@@ -182,17 +182,21 @@
                                     ?>
                                     @if ($generate_available == true)
                                         <div class="text-center">
-                                            @if ($training['available1'] && count($models) > 0)
-                                                <button type="button"
-                                                    class="btn btn-hero-primary mx-1 template-submit-btn my-2"
-                                                    onclick="downloadReport('{{ auth()->user()->id }}', '{{ $models[0] }}', '{{ $training['sessionjoinedtraining']['id'] }}')">GENERATE
-                                                    DOCUMENT 1</button>
+                                            @if ($models && $training['available1'])
+                                                @if (count($models) > 0)
+                                                    <button type="button"
+                                                        class="btn btn-hero-primary mx-1 template-submit-btn my-2"
+                                                        onclick="downloadReport('{{ auth()->user()->id }}', '{{ $models[0] }}', '{{ $training['sessionjoinedtraining']['id'] }}')">GENERATE
+                                                        DOCUMENT 1</button>
+                                                @endif
                                             @endif
-                                            @if ($training['available2'] && count($models) == 2)
-                                                <button type="button"
-                                                    class="btn btn-hero-primary mx-1 template-submit-btn my-2"
-                                                    onclick="downloadReport('{{ auth()->user()->id }}', '{{ $models[1] }}', '{{ $training['sessionjoinedtraining']['id'] }}')">GENERATE
-                                                    DOCUMENT 2</button>
+                                            @if ($models && $training['available2'])
+                                                @if (count($models) == 2)
+                                                    <button type="button"
+                                                        class="btn btn-hero-primary mx-1 template-submit-btn my-2"
+                                                        onclick="downloadReport('{{ auth()->user()->id }}', '{{ $models[1] }}', '{{ $training['sessionjoinedtraining']['id'] }}')">GENERATE
+                                                        DOCUMENT 2</button>
+                                                @endif
                                             @endif
                                         </div>
                                     @endif

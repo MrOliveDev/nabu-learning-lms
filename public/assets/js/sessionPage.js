@@ -281,7 +281,7 @@ var toolkitAddItem = function (event) {
  * @param {*} e 
  */
 var sessionItemClick = function (e) {
-    $(".doc-type-item").each(function() {
+    $(".doc-type-item").each(function () {
         $(this).removeClass("active");
     });
     $('#session_form').toggle(true);
@@ -363,7 +363,7 @@ var sessionItemClick = function (e) {
                 $('#auto-generate-report').css('display', 'none');
                 $('#doc-type-list').css('display', 'none');
             }
-            if(data.session_info.selected_models){
+            if (data.session_info.selected_models) {
                 JSON.parse(data.session_info.selected_models).map((item, index) => {
                     $("#doc-type-item-" + item).addClass("active");
                 })
@@ -534,6 +534,15 @@ var createSessionData = function (data) {
 var updateSessionData = function (data, target) {
     $('#' + target + " .item-lang").html(data.language_iso.toUpperCase());
     $('#' + target + " input[name='item-name']").val(data.name);
+
+    var q = new Date();
+    var ended_date = new Date(data.end_date)
+
+    if ( q < ended_date) {
+        $('#' + target + " input[name='item-ended']").val("1");
+    } else {
+        $('#' + target + " input[name='item-ended']").val("0");
+    }
     $('#' + target + " .item-name").html(data.name);
     $('#' + target).find('.status-notification').val(data.status);
     $('#' + target).find('.status-notification').prev().css('color', data.status == '1' ? 'green' : 'red');
@@ -625,8 +634,8 @@ var submitBtn = function (event) {
             return;
         }
         var models = [];
-        if($('#session-status').prop('checked') == true){
-            $("#doc-type-list .active").each(function() {
+        if ($('#session-status').prop('checked') == true) {
+            $("#doc-type-list .active").each(function () {
                 var curModel = $(this).attr('id').split('-')[3];
                 models.push(curModel);
             });
@@ -1062,6 +1071,7 @@ var searchfilter = function (event) {
     items.map(function (i, e) {
         var item_name = $(e).find('input[name="item-name"]').val();
         var item_status = $(e).find('input[name="item-status"]').val();
+        var item_ended = $(e).find('input[name="item-ended"]').val();
         var item_company = $(e).find('input[name="item-company"]').val();
         var item_function = $(e).find('input[name="item-function"]').val();
 
@@ -1090,6 +1100,13 @@ var searchfilter = function (event) {
                             break;
                         case 'off':
                             if (item_status == 1) {
+                                $(e).toggle(false);
+                            } else {
+                                $(e).toggle(true);
+                            }
+                            break;
+                        case 'ended':
+                            if (item_ended == 1) {
                                 $(e).toggle(false);
                             } else {
                                 $(e).toggle(true);
@@ -1418,7 +1435,7 @@ var reportStatusBtn = function (event) {
         $('.report-generate-label').html("On");
         $('#auto-generate-report').css('display', 'block');
         $('#doc-type-list').css('display', 'block');
-        $(".doc-type-item").each(function() {
+        $(".doc-type-item").each(function () {
             $(this).removeClass("active");
         });
         $('#reportStatus').val(1);
