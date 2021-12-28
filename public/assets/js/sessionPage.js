@@ -538,7 +538,7 @@ var updateSessionData = function (data, target) {
     var q = new Date();
     var ended_date = new Date(data.end_date)
 
-    if ( q < ended_date) {
+    if (q < ended_date) {
         $('#' + target + " input[name='item-ended']").val("1");
     } else {
         $('#' + target + " input[name='item-ended']").val("0");
@@ -1313,7 +1313,24 @@ var sortfilter = function (event) {
  * @param {*} event 
  */
 var tabClick = function (event) {
-    if ($(this).parents('fieldset').attr('id') == 'LeftPanel') {
+    if ($(this).parents(".modal").length != 0) {
+        switch ($(this).attr('id')) {
+            case 'group-doc-tab':
+                $("#person-document").toggle(false);
+                $("#group-document").toggle(true);
+                $(this).addClass('active');
+                $('#person-doc-tab').removeClass('active');
+                break;
+            case 'person-doc-tab':
+                $("#group-document").toggle(false);
+                $("#person-document").toggle(true);
+                $(this).addClass('active');
+                $('#group-doc-tab').removeClass('active');
+                break;
+            default:
+                break;
+        }
+    } else if ($(this).parents('fieldset').attr('id') == 'LeftPanel') {
         switch ($(this).attr('id')) {
             case 'table-conent-tab':
                 $('#cate-toolkit .filter-function-btn').toggle(false);
@@ -1684,6 +1701,79 @@ var contentClick = function (e) {
     $('#cate-toolkit .filter-function-btn').toggle(false);
     $('#cate-toolkit .filter-company-btn').toggle(false);
 }
+
+function showModal(session_id) {
+    $(this).addClass('active');
+    $('#person-doc-tab').removeClass('active');
+    $('.document-table').find('td').remove();
+    $.post({
+        url: baseURL + '/getModalData',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {
+            "session_id": session_id
+        }
+    }).done(function (data) {
+        console.log('modal data: ', data);
+        $('#modal-block-fadein').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+        createGroupDocument(data);
+        createPersonDocument(data);
+    })
+    $("#group-document").toggle(true);
+}
+
+function createGroupDocument(data) {
+    data.map((item) => {
+        if(item.type != "person"){
+            var document = $('<tr><td><div>' + item.type + '</div></td><td><div>' + item.document + '<i class="pl-3 fas fa-download download_icon" onclick="download_pdf(`' + item.document + '`)"></i></div></td><td><div>' + item.depositDate + '</div></td><td><div>' + item.user.first_name + ' ' + item.user.last_name + '</div></td>')
+            $("#group-document").find('.document-table').append(document);
+        }
+    })
+}
+
+function createPersonDocument(data) {
+    data.map((item) => {
+        if(item.type == "person"){
+            var document = $('<tr><td><div>' + item.user.first_name + ' ' + item.user.last_name + '</div></td><td><div>' + item.document + '<i class="pl-3 fas fa-download download_icon" onclick="download_pdf("' + item.document + '")"></i></div></td><td><div>' + item.depositDate + '</div></td></tr>')
+            $('#person-document').find('.document-table').append(document);
+        }
+    })
+}
+
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+async function download_pdf(filename) {
+    const a = document.createElement('a');
+    a.download = filename;
+    if ($('#modal-block-fadein').find('.active').attr('id') == "group-doc-tab") {
+        a.href = 'group_document/' + filename;
+    } else {
+        a.href = 'person_document/' + filename;
+    }
+    a.style.display = 'none';
+    document.body.append(a);
+    a.click();
+
+    // Chrome requires the timeout
+    await delay(100);
+    a.remove();
+}
+// $('#modal-block-fadein').on('shown.bs.modal', function () {
+//     $('#image-crop-modal .modal-body').prepend('<div id="drag-comment" class="w-100"><div class="text-center mt-3" id="drop-text">Drop your file here!</div><div class="text-center my-1" id="drop-text1">or</div><div class="row"  id="browse-btn"><button type="button" class="btn btn-hero-primary float-right mx-auto" id="browse">Browse</button></div></div>');
+//     $('.img-container').removeClass('w-100');
+//     $('#document').val('');
+//     $('#doc_url').remove();
+
+// }).on('hidden.bs.modal', function () {
+//     $('#drag-comment').remove()
+//     $('#document').val('');
+//     $('.upload-action').find('.active').removeClass('active');
+// });
+
 
 /**
  * when page is ready to use, actions

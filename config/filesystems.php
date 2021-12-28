@@ -57,6 +57,16 @@ return [
             'root' => storage_path('pdf'),
         ],
 
+        'group_uploads' => [
+            'driver' => 'local',
+            'root'   => public_path() . '/group_document',
+        ],
+
+        'person_uploads' => [
+            'driver' => 'local',
+            'root'   => public_path() . '/person_document',
+        ],
+
     ],
 
     /*
