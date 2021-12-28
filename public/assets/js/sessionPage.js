@@ -1738,7 +1738,7 @@ function createGroupDocument(data) {
 function createPersonDocument(data) {
     data.map((item) => {
         if(item.type == "person"){
-            var document = $('<tr><td><div>' + item.user.first_name + ' ' + item.user.last_name + '</div></td><td><div>' + item.document + '<i class="pl-3 fas fa-download download_icon" onclick="download_pdf("' + item.document + '")"></i></div></td><td><div>' + item.depositDate + '</div></td></tr>')
+            var document = $('<tr><td><div>' + item.user.first_name + ' ' + item.user.last_name + '</div></td><td><div>' + item.document + '<i class="pl-3 fas fa-download download_icon"  onclick="download_pdf(`' + item.document + '`)"></i></div></td><td><div>' + item.depositDate + '</div></td></tr>')
             $('#person-document').find('.document-table').append(document);
         }
     })
