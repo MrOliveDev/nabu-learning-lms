@@ -1056,6 +1056,15 @@ function buildTemplateInfo(info, template) {
     }
 }
 
+function upload_disable() {
+    swal.fire({
+        title: "Warning",
+        text: "You can't upload the group document",
+        icon: "info",
+        confirmButtonText: `OK`,
+    });
+}
+
 var notification = function(str, type) {
     switch (type) {
         case 1:

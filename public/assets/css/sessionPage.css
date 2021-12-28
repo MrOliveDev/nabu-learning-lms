@@ -413,3 +413,55 @@ select:focus {
     background: #2e3092;
     border-radius: 8px;
 }
+
+.document.active {
+    background-color: #F39200;
+}
+
+.document {
+    background-color: #312783;
+}
+
+#person-document,
+#group-document {
+    display: none;
+}
+
+.document-table td .list-group-item>div {
+    border: 0;
+}
+
+table.document-table {
+    width: 100%;
+    margin-left: 10px;
+}
+
+.document-table th div,
+.document-table td div {
+    border: 1px solid transparent;
+    border-radius: 3px;
+    padding: 6px;
+    margin-right: 3px;
+}
+
+table.document-table th {
+    color: white;
+    font-size: 16pt;
+    font-weight: 100;
+}
+
+table.document-table th div {
+    background-color: #2e3092;
+}
+
+table.document-table th i {
+    float: right;
+    padding: 10px;
+}
+
+.document-table td>div {
+    color: black;
+    background-color: #f0eaf5;
+    /* padding-top: 19px; */
+    margin-top: 3px;
+}

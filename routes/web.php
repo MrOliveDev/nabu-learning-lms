@@ -346,6 +346,7 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
 
     Route::get('session', '\App\Http\Controllers\SessionController@index')->name('session');
     Route::post('sessionjointo', '\App\Http\Controllers\SessionController@sessionJoinTo')->name('sessionjointo');
+    Route::post('getModalData', '\App\Http\Controllers\SessionController@getModalData')->name('getModalData');
 
     Route::get('report', '\App\Http\Controllers\ReportController@index')->name('report');
     Route::post('getReportList', '\App\Http\Controllers\ReportController@getReportList')->name('getReportList');

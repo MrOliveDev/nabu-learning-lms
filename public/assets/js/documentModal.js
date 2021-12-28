@@ -121,6 +121,13 @@ $("#confirm").click(function () {
                 } else if (active_item == "upload_document_group") {
                     $("#session_" + data.document.session_id).find('#lesson_' + data.document.lesson_id).find('.document_detail_group').text(text);
                 }
+            } else {
+                swal.fire({
+                    title: "Warning",
+                    text: "This document's name is already exist",
+                    icon: "info",
+                    confirmButtonText: `OK`,
+                });
             }
         })
         .fail(function (err) {

@@ -105,6 +105,8 @@
     <script src="{{ asset('assets/js/sessionPage.js') }}"></script>
 
     <script src="{{ asset('assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/dashmix.app.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dashmix.core.min.js') }}"></script> --}}
 
     <script>
         $(function() {
@@ -213,6 +215,12 @@
                                         <span
                                             class="p-2 font-weight-bolder item-lang">{{ strtoupper($session->language_iso) }}
                                         </span>
+                                        <button type="button" class="btn push" data-toggle="modal"
+                                            data-target="#modal-block-fadein" onclick="showModal({{$session->id}})">
+                                            {{-- <button href="#modal-block-fadein" class="btn push" data-toggle="modal"> --}}
+                                            <i class="px-2 fas fa-download download_icon"></i>
+                                            {{-- </button> --}}
+                                        </button>
                                         @if (isset(session('permission')->session->session->delete))
 
                                             <button class="btn item-mail"
@@ -734,9 +742,90 @@
                                 id="user_cancel_button">CANCEL</button>
                             <input type="hidden" name="cate-status">
                         </div>
+
                     </div>
             </div>
             </form>
+        </div>
+        <div class="modal fade" id="modal-block-fadein" tabindex="-1" role="dialog"
+            aria-labelledby="modal-block-fadein" aria-hidden="true">
+            <div class="modal-dialog" role="document" style="max-width: 800px; top: 20%">
+                <div class="modal-content">
+                    <div class="block block-themed block-transparent mb-0">
+                        <div class="block-header bg-primary-dark" style="justify-content:initial">
+                            {{-- <h3 class="block-title">Modal Title</h3> --}}
+                            {{-- <div class="block-options">
+                                <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                                    <i class="fa fa-fw fa-times"></i>
+                                </button>
+                            </div> --}}
+                            <a class="m-1 border-0 nav-link rounded-1 document active" id="group-doc-tab"
+                                href="#group-document">GROUP
+                                DOCUMENTS</a>
+                            <a class="m-1 border-0 nav-link rounded-1 document" id="person-doc-tab"
+                                href="#person-document">INDIVIDUAL DOCUMENTS</a>
+                            <span class="p-2 text-black bg-white rounded ml-5">
+                                <input class="border-0 input-field mw-100 search-filter" type="text"
+                                    name="search-filter">
+                                <i class="p-2 fa fa-search icon"></i>
+                            </span>
+                        </div>
+                        <div class="block-content">
+                            <div id="group-document">
+                                <table class="document-table">
+                                    <tr>
+                                        <th>
+                                            <div>
+                                                STUDENT NAME
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div>
+                                                DOCUMENTS
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div>
+                                                DEPOSITE DATE
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div>
+                                                DEPOSITE BY
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="person-document">
+                                <table class="document-table">
+                                    <tr>
+                                        <th>
+                                            <div>
+                                                STUDENT NAME
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div>
+                                                DOCUMENTS
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div>
+                                                DEPOSITE DATE
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="block-content block-content-full text-right bg-light">
+                            <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Done</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 </div>
 </fieldset>

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
+
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\GroupModel;
 use App\Models\PositionModel;
 use App\Models\CompanyModel;
+use App\Models\DocumentModel;
 use App\Models\LanguageModel;
 use App\Models\SessionModel;
 use App\Models\TrainingsModel;
@@ -16,7 +19,10 @@ use App\Models\ReportsModel;
 use App\Models\TemplateModel;
 use App\Models\ReportTemplateModel;
 use App\Models\ReportImages;
+use Faker\Documentor;
 use Illuminate\Support\Facades\DB;
+
+use Response;
 
 class SessionController extends Controller
 {
@@ -52,7 +58,8 @@ class SessionController extends Controller
                 $report_images = ReportImages::where('userId', session("client"))
                 ->orWhere("userId", auth()->user()->id)->get();
             }
-        }   
+        } 
+        // print_r($sessions); exit;
         return view('session', compact([/* 'authors',  */'teachers', 'students', 'groups', 'positions', 'companies', 'languages', 'sessions', 'trainings', 'templates', 'report_models', 'report_images']));
     }
 
@@ -276,5 +283,20 @@ class SessionController extends Controller
             }
         }
         return false;
+    }
+
+    public function getModalData(Request $request){
+        $documents = DocumentModel::getDocumentsBySession($request->post('session_id'));
+        $detail = array();
+        foreach ($documents as $document) {
+            $user = User::getUserPageInfoFromId($document->user);
+            if($document->type == "person"){
+                array_push($detail, ["user"=>$user, "document"=>$document->filename, "depositDate"=>$document->created_date, "type"=>$document->type]);
+            } else {
+                $group = groupModel::find($document->type);
+                array_push($detail, ["user"=>$user, "document"=>$document->filename, "depositDate"=>$document->created_date, "type"=>$group->name]);
+            }   
+        }
+        return response()->json($detail);
     }
 }

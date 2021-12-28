@@ -345,12 +345,24 @@
                                                         <div class="users_icon">
                                                             <i class="fas fa-users"></i>
                                                         </div>
-                                                        <i class="fas fa-upload upload_icon" id="upload_document_group"
-                                                            for="group_document"
-                                                            onclick="upload('group', '{{ $lesson['lesson']['id'] }}', '{{ $training['sessionjoinedtraining']['id'] }}')">
-                                                            <input type="file" name="document" class="document"
-                                                                accept=".pdf" id="group_document" hidden>
-                                                        </i>
+                                                        <?php 
+                                                            $participant = json_decode($training['sessionjoinedtraining']['participants']);
+                                                            $groups = $participant->g;
+                                                        ?>
+                                                        @if ($groups)
+                                                            <i class="fas fa-upload upload_icon"
+                                                                id="upload_document_group" for="group_document"
+                                                                onclick="upload('group', '{{ $lesson['lesson']['id'] }}', '{{ $training['sessionjoinedtraining']['id'] }}')">
+                                                                <input type="file" name="document"
+                                                                    class="document" accept=".pdf"
+                                                                    id="group_document" hidden>
+                                                            </i>
+                                                        @else
+                                                            <i class="fas fa-upload upload_icon"
+                                                                id="upload_document_group" for="group_document"
+                                                                onclick="upload_disable()">
+                                                            </i>
+                                                        @endif
                                                         <p class="ml-3" style="flex:4">Upload a group document
                                                         </p>
                                                         <p style="flex:15; padding:0 50px;"
