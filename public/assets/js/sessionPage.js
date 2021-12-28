@@ -1750,9 +1750,11 @@ async function download_pdf(filename) {
     const a = document.createElement('a');
     a.download = filename;
     if ($('#modal-block-fadein').find('.active').attr('id') == "group-doc-tab") {
-        a.href = 'group_document/' + filename;
+        // a.href = 'group_document/' + filename;
+        a.href = 'public/group_document/' + filename;
     } else {
-        a.href = 'person_document/' + filename;
+        // a.href = 'person_document/' + filename;
+        a.href = 'public/person_document/' + filename;
     }
     a.style.display = 'none';
     document.body.append(a);
