@@ -1704,8 +1704,10 @@ var contentClick = function (e) {
 
 function showModal(session_id) {
     $(this).addClass('active');
+    $('#group-doc-tab').addClass('active');
     $('#person-doc-tab').removeClass('active');
     $('.document-table').find('td').remove();
+    $('#person-document').toggle(false);
     $.post({
         url: baseURL + '/getModalData',
         headers: {
