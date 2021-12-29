@@ -776,7 +776,7 @@
                                     <tr>
                                         <th>
                                             <div>
-                                                STUDENT NAME
+                                                GROUP NAME
                                             </div>
                                         </th>
                                         <th>
