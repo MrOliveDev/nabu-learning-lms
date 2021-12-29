@@ -465,3 +465,11 @@ table.document-table th i {
     /* padding-top: 19px; */
     margin-top: 3px;
 }
+
+.doc_download:hover{
+    color: #be0f2d
+}
+
+.doc_download{
+    cursor: pointer;
+}
