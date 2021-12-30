@@ -198,7 +198,7 @@
                 <div class="tab-content">
                     <div class="tab-avatar"
                         style='background-color: {{ session('iconBack') ? session('iconBack') : '#912891' }}'>
-                        <i class="fas fa-network-wired"></i>
+                        <i class="fas fa-hdd"></i>
                     </div>
                     <span class="tab-item-value">{{ $freeSpace }}</span>
                     <input type="hidden" class="store-value" value="{{ $freeSpace }}">
