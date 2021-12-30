@@ -57,6 +57,9 @@ class LessonController extends Controller
         if ($request->post('lesson_status')) {
             $lesson->status = $request->post('lesson_status');
         }
+        if ($request->post('upload-status')) {
+            $lesson->upload_status = $request->post('upload-status');
+        }
         if ($request->post('threshold-score')) {
             $lesson->threshold_score = $request->post('threshold-score');
         }
@@ -273,6 +276,9 @@ class LessonController extends Controller
         if ($request->post('lesson_status')) {
             $lesson->status = $request->post('lesson_status');
         }
+        if ($request->post('upload-status') != NULL) {
+            $lesson->upload_status = $request->post('upload-status');
+        }
         if ($request->post('threshold-score')) {
             $lesson->threshold_score = $request->post('threshold-score');
         }
@@ -460,6 +466,9 @@ class LessonController extends Controller
         }
         if ($lesson->status) {
             $newlesson->status = $lesson->status;
+        }
+        if ($lesson->upload_status) {
+            $newlesson->upload_status = $lesson->upload_status;
         }
         if ($lesson->threshold_score) {
             $newlesson->threshold_score = $lesson->threshold_score;

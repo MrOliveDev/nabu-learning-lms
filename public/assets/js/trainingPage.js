@@ -112,6 +112,13 @@ var stateChange = function (e) {
     $("#template-group").toggle(true);
     toggleFormOrTable($("#LeftPanel"), false, false);
 };
+var uploadStateChange = function (e) {
+    if ($(event.target).prop('checked') == true) {
+        $('.upload-state-label').html("On");
+    } else {
+        $('.upload-state-label').html("Off");
+    }
+}
 var leftItemClick = function (e) {
     // e.stopPropagation();
     var target = $(e.target).closest(".list-group-item");
@@ -501,6 +508,9 @@ var toolkitAddItem = function (event) {
     } else if (parent_id == "LeftPanel") {
         $("#div_A").find(".list-group-item").each(clearClassName);
         $("#lesson_form").attr("action", baseURL + "/lesson");
+        $("#lesson_status").attr('disabled', false);
+        $("#lesson_name").attr('disabled', false);
+        $("#lesson_language").attr('disabled', false);
     }
     parent.find(".method-select").val("POST");
     parent.find("form").attr("data-item", "");
@@ -525,6 +535,16 @@ var item_edit = function (element) {
                     $("#lesson_duration").val(data['lesson'].duration);
                     $("#lesson_target").val(data['lesson'].publicAudio);
                     $("#lesson_status").val(data['lesson'].status);
+                    $("#upload-status").prop(
+                        "checked",
+                        data['lesson'].upload_status == 1 ? true : false
+                    );
+                    if(data['lesson'].upload_status == 1){
+                        $('.upload-state-label').html("On");
+                    } else {
+                        $('.upload-state-label').html("Off");
+                    }
+                    // $('.upload-status-label').html(data['lesson'].upload_status == 1 ? "On" : "Off")
                     $("#lesson_language").val(data['lesson'].lang);
                     $("#lesson_description").val(data['lesson'].description);
                     $("#threshold-score").data("ionRangeSlider").update({
@@ -534,6 +554,10 @@ var item_edit = function (element) {
                         $("#lesson_status").attr('disabled', true);
                         $("#lesson_name").attr('disabled', true);
                         $("#lesson_language").attr('disabled', true);
+                    } else {
+                        $("#lesson_status").attr('disabled', false);
+                        $("#lesson_name").attr('disabled', false);
+                        $("#lesson_language").attr('disabled', false);
                     }
                 },
                 error: function (err) {
@@ -1155,6 +1179,11 @@ var submitBtn = function (event) {
                         $("#training-status-icon").prop("checked") == true ?
                         1 :
                         0;
+                } else if (item.name == "upload-status") {
+                    item.value =
+                        $("#upload-status").prop("checked") == true ?
+                        1 :
+                        0;
                 }
                 return item;
             });
@@ -1182,6 +1211,13 @@ var submitBtn = function (event) {
                     value: $("#training-status-icon").prop("checked") == true ?
                         1 : 0,
                 });
+            }
+            if (formname == "lesson_form") {
+                serialval.push({
+                    name: "upload-status",
+                    value: $("#upload-status").prop("checked") == true ?
+                        1 : 0,
+                })
             }
         }
 
@@ -1214,7 +1250,6 @@ var submitBtn = function (event) {
                 .val(),
             data: serialval,
             success: function (data) {
-                console.log("after creation", data);
                 if (formname == "lesson_form") {
                     if (serialval[5].value == 5) {
                         $.ajax({
@@ -1258,7 +1293,7 @@ var submitBtn = function (event) {
                             $("#div_A .list-group").append(
                                 createLessonData(data)
                             );
-                            if($(".filter-date-btn").attr('class').indexOf('active') != -1){
+                            if ($(".filter-date-btn").attr('class').indexOf('active') != -1) {
                                 $(".filter-date-btn").click();
                                 $(".filter-date-btn").click();
                             } else if ($(".filter-name-btn").attr('class').indexOf('active') != -1) {
@@ -1362,7 +1397,7 @@ var duplicateBtn = function (event) {
             $("#div_A .list-group").append(
                 createLessonData(data)
             );
-            if($(".filter-date-btn").attr('class').indexOf('active') != -1){
+            if ($(".filter-date-btn").attr('class').indexOf('active') != -1) {
                 $(".filter-date-btn").click();
                 $(".filter-date-btn").click();
             } else if ($(".filter-name-btn").attr('class').indexOf('active') != -1) {
@@ -2473,6 +2508,7 @@ $("button.filter-company-btn, button.filter-function-btn").on(
     searchfilter
 );
 
+$('#upload-status').change(uploadStateChange);
 $(".form-check-input").change(stateChange);
 $("#LeftPanel .list-group-item").click(leftItemClick);
 $("#LeftPanel .list-group-item").dblclick(itemDBlClick);

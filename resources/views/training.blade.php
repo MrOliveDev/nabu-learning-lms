@@ -403,6 +403,22 @@
                                 <input type="text" class="js-rangeslider" id="threshold-score" name="threshold-score"
                                     value="25">
                             </div>
+                            <div class="form-group mb-3">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Allow uploading:
+                                        </span>
+                                    </div>
+                                    <div
+                                        class="ml-0 custom-control custom-switch custom-control-lg d-flex align-items-center">
+                                        <input type="checkbox" class="custom-control-input" id="upload-status"
+                                            name="upload-status">
+                                        <label class="custom-control-label upload-state-label"
+                                            for="upload-status">off</label>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <span class="input-group-text bg-transparent border-0">
                                     Description
