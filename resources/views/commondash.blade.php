@@ -338,9 +338,9 @@
                                                     <p>{{ $lesson['lesson']['description'] }}</p>
                                                 @endif
                                             </div>
-                                            @if($lesson['lesson']['upload_status'] == 1)
                                             <div class="upload-action" data-lesson="{{ $lesson['lesson']['id'] }}"
                                                 data-session="{{ $training['sessionjoinedtraining']['id'] }}">
+                                                @if($lesson['lesson']['upload_group_status'] == 1)
                                                 <div>
                                                     <div class="d-flex align-items-center flex-row">
                                                         <div class="users_icon">
@@ -371,6 +371,8 @@
                                                             sent by albert einstein on 03/15/2021 at 2:35 p.m.</p>
                                                     </div>
                                                 </div>
+                                                @endif
+                                                @if($lesson['lesson']['upload_person_status'] == 1)
                                                 <div class="mt-4">
                                                     <div class="d-flex align-items-center flex-row">
                                                         <div class="user_icon">
@@ -390,8 +392,8 @@
                                                             document on 03/15/2021 at 2:35 p.m.</p>
                                                     </div>
                                                 </div>
+                                                @endif
                                             </div>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>

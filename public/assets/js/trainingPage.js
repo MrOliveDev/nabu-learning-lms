@@ -112,12 +112,11 @@ var stateChange = function (e) {
     $("#template-group").toggle(true);
     toggleFormOrTable($("#LeftPanel"), false, false);
 };
-var uploadStateChange = function (e) {
-    if ($(event.target).prop('checked') == true) {
-        $('.upload-state-label').html("On");
-    } else {
-        $('.upload-state-label').html("Off");
-    }
+var uploadGroupStateChange = function (e) {
+    $('.upload-group-state-label').html($(event.target).prop('checked') == true ? "On" : "Off");
+}
+var uploadPersonStateChange = function (e) {
+    $('.upload-person-state-label').html($(event.target).prop('checked') == true ? "On" : "Off");
 }
 var leftItemClick = function (e) {
     // e.stopPropagation();
@@ -535,16 +534,16 @@ var item_edit = function (element) {
                     $("#lesson_duration").val(data['lesson'].duration);
                     $("#lesson_target").val(data['lesson'].publicAudio);
                     $("#lesson_status").val(data['lesson'].status);
-                    $("#upload-status").prop(
+                    $("#upload-group-status").prop(
                         "checked",
-                        data['lesson'].upload_status == 1 ? true : false
+                        data['lesson'].upload_group_status == 1 ? true : false
                     );
-                    if(data['lesson'].upload_status == 1){
-                        $('.upload-state-label').html("On");
-                    } else {
-                        $('.upload-state-label').html("Off");
-                    }
-                    // $('.upload-status-label').html(data['lesson'].upload_status == 1 ? "On" : "Off")
+                    $('.upload-group-state-label').html(data['lesson'].upload_group_status == 1 ? "On" : "Off")
+                    $("#upload-person-status").prop(
+                        "checked",
+                        data['lesson'].upload_person_status == 1 ? true : false
+                    );
+                    $('.upload-person-state-label').html(data['lesson'].upload_person_status == 1 ? "On" : "Off")
                     $("#lesson_language").val(data['lesson'].lang);
                     $("#lesson_description").val(data['lesson'].description);
                     $("#threshold-score").data("ionRangeSlider").update({
@@ -1179,9 +1178,14 @@ var submitBtn = function (event) {
                         $("#training-status-icon").prop("checked") == true ?
                         1 :
                         0;
-                } else if (item.name == "upload-status") {
+                } else if (item.name == "upload-group-status") {
                     item.value =
-                        $("#upload-status").prop("checked") == true ?
+                        $("#upload-group-status").prop("checked") == true ?
+                        1 :
+                        0;
+                } else if (item.name == "upload-person-status") {
+                    item.value =
+                        $("#upload-person-status").prop("checked") == true ?
                         1 :
                         0;
                 }
@@ -1214,11 +1218,28 @@ var submitBtn = function (event) {
             }
             if (formname == "lesson_form") {
                 serialval.push({
-                    name: "upload-status",
-                    value: $("#upload-status").prop("checked") == true ?
+                    name: "upload-group-status",
+                    value: $("#upload-group-status").prop("checked") == true ?
+                        1 : 0,
+                })
+                serialval.push({
+                    name: "upload-person-status",
+                    value: $("#upload-person-status").prop("checked") == true ?
                         1 : 0,
                 })
             }
+        }
+
+        if (
+            !$("#" + formname)
+            .find("input[name=upload-person-status]")
+            .prop("checked")
+        ){
+            serialval.push({
+                name: "upload-person-status",
+                value: $("#upload-person-status").prop("checked") == true ?
+                    1 : 0,
+            })
         }
 
         if (formname == "training_form") {
@@ -1240,6 +1261,7 @@ var submitBtn = function (event) {
                 }
             });
         }
+        console.log('serialval', serialval);
         $.ajax({
             url: $("#" + formname).attr("action"),
             headers: {
@@ -2508,7 +2530,8 @@ $("button.filter-company-btn, button.filter-function-btn").on(
     searchfilter
 );
 
-$('#upload-status').change(uploadStateChange);
+$('#upload-group-status').change(uploadGroupStateChange);
+$('#upload-person-status').change(uploadPersonStateChange);
 $(".form-check-input").change(stateChange);
 $("#LeftPanel .list-group-item").click(leftItemClick);
 $("#LeftPanel .list-group-item").dblclick(itemDBlClick);
