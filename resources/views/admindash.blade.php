@@ -193,6 +193,21 @@
                         {{ $translation->l('Consulter') }} <i class="fa fa-arrow-circle-right"></i></div>
                 </div>
             </div>
+            <div class="tab-item"
+                style='background-color: {{ session('paneBack') ? session('paneBack') : '#c3aaca' }}'>
+                <div class="tab-content">
+                    <div class="tab-avatar"
+                        style='background-color: {{ session('iconBack') ? session('iconBack') : '#912891' }}'>
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <span class="tab-item-value">{{ $freeSpace }}</span>
+                    <input type="hidden" class="store-value" value="{{ $freeSpace }}">
+                    <span class="tab-description">Free <br>Space</span>
+                    <div class="tab-link"
+                        style='background-color: {{ session('capBack') ? session('capBack') : '#946e97' }}'>
+                        {{ $translation->l('Consulter') }} <i class="fa fa-arrow-circle-right"></i></div>
+                </div>
+            </div>
         </div>
 
         <table class="session-table"

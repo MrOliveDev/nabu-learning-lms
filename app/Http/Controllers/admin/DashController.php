@@ -65,7 +65,9 @@ class DashController extends Controller
 
             $generatedReports = ReportsModel::getReportByClient()->count();
 
-            return view('admindash', compact(['sessions', 'registeredUsers', 'activedStudents', 'sessionsInProgress', 'createdLessons', 'finishedSessions', 'generatedReports']));
+            $freeSpace = $this->size(disk_free_space('/'));
+
+            return view('admindash', compact(['sessions', 'registeredUsers', 'activedStudents', 'sessionsInProgress', 'createdLessons', 'finishedSessions', 'generatedReports', 'freeSpace']));
 
         } else if(auth()->user()->type == 2){
             return redirect('training');
@@ -94,5 +96,49 @@ class DashController extends Controller
         $user_info = User::getUserPageInfoFromId($id);
         $reports = ReportsModel::where('sessionId', $session_id)->where("id_creator", session("client"))->get();
         return response()->json(["user_info"=>$user_info, "reports"=>$reports]);
+    }
+
+    
+    public function size($size, array $options=null) {
+
+        $o = [
+            'binary' => false,
+            'decimalPlaces' => 2,
+            'decimalSeparator' => '.',
+            'thausandsSeparator' => '',
+            'maxThreshold' => false, // or thresholds key
+            'sufix' => [
+                'thresholds' => ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'],
+                'decimal' => ' {threshold}B',
+                'binary' => ' {threshold}iB'
+            ]
+        ];
+    
+        if ($options !== null)
+            $o = array_replace_recursive($o, $options);
+    
+        $count = count($o['sufix']['thresholds']);
+        $pow = $o['binary'] ? 1024 : 1000;
+    
+        for ($i = 0; $i < $count; $i++)
+    
+            if (($size < pow($pow, $i + 1)) ||
+                ($i === $o['maxThreshold']) ||
+                ($i === ($count - 1))
+            )
+                return
+    
+                    number_format(
+                        $size / pow($pow, $i),
+                        $o['decimalPlaces'],
+                        $o['decimalSeparator'],
+                        $o['thausandsSeparator']
+                    ) .
+    
+                    str_replace(
+                        '{threshold}',
+                        $o['sufix']['thresholds'][$i],
+                        $o['sufix'][$o['binary'] ? 'binary' : 'decimal']
+                    );
     }
 }
