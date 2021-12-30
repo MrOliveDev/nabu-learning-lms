@@ -338,6 +338,7 @@
                                                     <p>{{ $lesson['lesson']['description'] }}</p>
                                                 @endif
                                             </div>
+                                            @if($lesson['lesson']['upload_status'] == 1)
                                             <div class="upload-action" data-lesson="{{ $lesson['lesson']['id'] }}"
                                                 data-session="{{ $training['sessionjoinedtraining']['id'] }}">
                                                 <div>
@@ -390,6 +391,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
