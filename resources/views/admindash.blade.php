@@ -202,7 +202,7 @@
                     </div>
                     <span class="tab-item-value">{{ $freeSpace }}</span>
                     <input type="hidden" class="store-value" value="{{ $freeSpace }}">
-                    <span class="tab-description">Free <br>Space</span>
+                    <span class="tab-description">Available <br>Space</span>
                     <div class="tab-link"
                         style='background-color: {{ session('capBack') ? session('capBack') : '#946e97' }}'>
                         {{ $translation->l('Consulter') }} <i class="fa fa-arrow-circle-right"></i></div>
