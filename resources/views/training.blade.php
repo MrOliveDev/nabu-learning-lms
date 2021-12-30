@@ -407,15 +407,31 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            Allow uploading:
+                                            Allow upload of group document:
                                         </span>
                                     </div>
                                     <div
                                         class="ml-0 custom-control custom-switch custom-control-lg d-flex align-items-center">
-                                        <input type="checkbox" class="custom-control-input" id="upload-status"
-                                            name="upload-status">
-                                        <label class="custom-control-label upload-state-label"
-                                            for="upload-status">off</label>
+                                        <input type="checkbox" class="custom-control-input" id="upload-group-status"
+                                            name="upload-group-status">
+                                        <label class="custom-control-label upload-group-state-label"
+                                            for="upload-group-status">off</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Allow upload of individual document:
+                                        </span>
+                                    </div>
+                                    <div
+                                        class="ml-0 custom-control custom-switch custom-control-lg d-flex align-items-center">
+                                        <input type="checkbox" class="custom-control-input" id="upload-person-status"
+                                            name="upload-person-status">
+                                        <label class="custom-control-label upload-person-state-label"
+                                            for="upload-person-status">off</label>
                                     </div>
                                 </div>
                             </div>
