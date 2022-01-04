@@ -1,7 +1,7 @@
 .table-training,
 .table-paticiaptn,
 .table-training,
-.table-report {
+.table-admindash {
     display:none;
 }
 
@@ -52,14 +52,18 @@ select:focus {
 }
 
 
-.table-report .list-group-item,
-.table-report-tab {
+.table-admindash .list-group-item,
+.table-report-tab, .table-group-tab, .table-person-tab{
     background-color: var(--training-h) !important;
 }
-.table-report .list-group-item.active,
-.table-report .list-group-item:hover,
+.table-admindash .list-group-item.active,
+.table-admindash .list-group-item:hover,
 .table-report-tab:hover,
-.ui-state-active .table-report-tab {
+.table-group-tab:hover,
+.table-person-tab:hover,
+.ui-state-active .table-report-tab,
+.ui-state-active .table-group-tab,
+.ui-state-active .table-person-tab {
     background-color: var(--training-c) !important;
 }
 
@@ -96,4 +100,8 @@ tr.session-title+tr.session-content {
 
 tr.session-title.active+tr.session-content {
     display:table-row !important;
+}
+
+.doc_download:hover{
+    color: #be0f2d
 }

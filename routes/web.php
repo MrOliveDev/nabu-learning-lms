@@ -285,6 +285,8 @@ Route::group(['middleware' => ['auth', 'checksinglesession'], 'prefix' => ''], f
     Route::post('setSessionForUserPage', '\App\Http\Controllers\GlobalSessionController@setToPageSetting');
     Route::post('getSessionFromUser', 'App\Http\Controllers\StudentController@getSessionFromUser');
     Route::get('dash', '\App\Http\Controllers\common\DashController@index')->name('dash');
+    Route::post('getGroupDocumentBySession', '\App\Http\Controllers\admin\DashController@getGroupDocumentBySession')->name('getGroupDocumentBySession');
+    Route::post('getPersonDocumentBySession', '\App\Http\Controllers\admin\DashController@getPersonDocumentBySession')->name('getPersonDocumentBySession');
     Route::post('upload_document', '\App\Http\Controllers\common\DashController@upload_document')->name('upload_document');
     Route::get('student', '\App\Http\Controllers\StudentController@index')->name('student');
     Route::get('template_editor', '\App\Http\Controllers\TemplateEditorController@index')->name('template_editor');

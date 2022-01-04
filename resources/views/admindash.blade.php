@@ -324,6 +324,22 @@
                                                         Reports</a>
                                                 </li>
                                             @endif
+                                            @if (isset(session('permission')->admindash->group_document->display))
+                                                <li class="nav-item">
+                                                    <a class="nav-link m-1 rounded-1 border-0 table-group-tab"
+                                                        id="table-group-tab_{{ $session['id'] }}"
+                                                        href="#table-group_{{ $session['id'] }}">
+                                                        Group Documents</a>
+                                                </li>
+                                            @endif
+                                            @if (isset(session('permission')->admindash->individual_document->display))
+                                                <li class="nav-item">
+                                                    <a class="nav-link m-1 rounded-1 border-0 table-person-tab"
+                                                        id="table-person-tab_{{ $session['id'] }}"
+                                                        href="#table-person_{{ $session['id'] }}">
+                                                        Individual Documents</a>
+                                                </li>
+                                            @endif
                                         </ul>
 
                                     </div>
@@ -349,7 +365,8 @@
 
 
                                         @if (isset(session('permission')->admindash->report->display))
-                                            <div id="table-report_{{ $session['id'] }}" class="table-report">
+                                            <div id="table-report_{{ $session['id'] }}"
+                                                class="table-admindash table-report">
                                                 <table class="table table-striped table-vcenter reportTbl"
                                                     id="historic-table_{{ $session['id'] }}" style="width:100%;">
                                                     <thead>
@@ -364,15 +381,80 @@
                                                     </thead>
                                                     <tbody>
                                                         <!-- <tr>
-                                                    <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
-                                                    <td class="font-w600">Name of File</td>
-                                                    <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
-                                                    <td class="font-w600">Details</td>
-                                                    <td class="font-w600">Date</td>
-                                                    <td style="background-color: #7e3e98; cursor: pointer;">
-                                                        <i class="far fa-trash-alt"></i>
-                                                    </td>
-                                                </tr> -->
+                                                                <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
+                                                                <td class="font-w600">Name of File</td>
+                                                                <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
+                                                                <td class="font-w600">Details</td>
+                                                                <td class="font-w600">Date</td>
+                                                                <td style="background-color: #7e3e98; cursor: pointer;">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </td>
+                                                            </tr> -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        @endif
+
+
+                                        @if (isset(session('permission')->admindash->group_document->display))
+                                            <div id="table-group_{{ $session['id'] }}"
+                                                class="table-admindash table-group-document">
+                                                <table class="table table-striped table-vcenter reportTbl"
+                                                    id="historic-table_{{ $session['id'] }}" style="width:100%;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 20%;">Group Name</th>
+                                                            <th style="width: 20%;">Documents</th>
+                                                            <th style="width: 20%;">Deposite Date
+                                                            </th>
+                                                            <th style="width: 20%;">Deposite By</th>
+                                                            <th style="width: 20%;" class="text-center">
+                                                                {{ $translation->l('Actions') }}</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- <tr>
+                                                                <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
+                                                                <td class="font-w600">Name of File</td>
+                                                                <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
+                                                                <td class="font-w600">Details</td>
+                                                                <td class="font-w600">Date</td>
+                                                                <td style="background-color: #7e3e98; cursor: pointer;">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </td>
+                                                            </tr> -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        @endif
+
+
+                                        @if (isset(session('permission')->admindash->individual_document->display))
+                                            <div id="table-person_{{ $session['id'] }}"
+                                                class="table-admindash table-person-document">
+                                                <table class="table table-striped table-vcenter reportTbl"
+                                                    id="historic-table_{{ $session['id'] }}" style="width:100%;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 25%;">Student Name</th>
+                                                            <th style="width: 25%;">Documents</th>
+                                                            <th style="width: 25%;">Deposite Date
+                                                            </th>
+                                                            <th style="width: 25%;" class="text-center">
+                                                                {{ $translation->l('Actions') }}</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- <tr>
+                                                                <td class="font-w600">Name of Session <i class="fa fa-download"></i></td>
+                                                                <td class="font-w600">Name of File</td>
+                                                                <td class="font-w600"><i class="fa fa-file-csv"></i> .csv</td>
+                                                                <td class="font-w600">Details</td>
+                                                                <td class="font-w600">Date</td>
+                                                                <td style="background-color: #7e3e98; cursor: pointer;">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </td>
+                                                            </tr> -->
                                                     </tbody>
                                                 </table>
                                             </div>
