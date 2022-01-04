@@ -241,7 +241,7 @@ class DashController extends Controller
                 
                 $nestedData['actions'] = "
                 <div class='text-center d-flex'>
-                    <a href='" .url('/').'/person_document' . '/'.$document->filename."' class='btn btn-primary mr-3' style='border-radius: 5px' target='_blank'>
+                    <a href='" .url('/').'/public/person_document' . '/'.$document->filename."' class='btn btn-primary mr-3' style='border-radius: 5px' target='_blank'>
                         <i class='fa fa-eye'></i>
                     </a>
                     <button type='button' class='js-swal-confirm btn btn-danger mr-3' onclick='delDocument({$nestedData['id']})' style='border-radius: 5px'>
@@ -360,7 +360,7 @@ class DashController extends Controller
                 
                 $nestedData['actions'] = "
                 <div class='text-center d-flex'>
-                    <a href='" .url('/').'/group_document' . '/'.$document->filename."' class='btn btn-primary mr-3' style='border-radius: 5px' target='_blank'>
+                    <a href='" .url('/').'/public/group_document' . '/'.$document->filename."' class='btn btn-primary mr-3' style='border-radius: 5px' target='_blank'>
                         <i class='fa fa-eye'></i>
                     </a>
                     <button type='button' class='js-swal-confirm btn btn-danger mr-3' onclick='delDocument({$nestedData['id']})' style='border-radius: 5px'>
@@ -377,5 +377,21 @@ class DashController extends Controller
             "data"            => $data   
             );
         echo json_encode($json_data);
+    }
+
+    public function deleteDocument(request $request) {
+        $document = DocumentModel::find($request->post('id'));
+        
+        if($document['type'] == "person"){
+            if(file_exists('public/person_document' . '/' . $document['filename']))
+            unlink('public/person_document' . '/' . $document['filename']);
+        } else {
+            if(file_exists(public_path().'public/group_document' . '/' . $document['filename'])){
+                unlink(public_path().'public/group_document' . '/' . $document['filename']);
+            }
+        }
+
+        $document->delete();
+        return response()->json(["success" => true]);
     }
 }

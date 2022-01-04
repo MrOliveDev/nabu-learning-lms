@@ -515,20 +515,31 @@ var delDocument = function (id) {
             return new Promise((function (e) {
                 setTimeout((function () {
                     e();
-                    detachLinkTo($(event.target));
+                    deleteDocument(id);
                 }), 50);
             }));
         }
     }).then((function (n) {
         if (n.value) {
-            e.fire('Deleted!', 'This item is disconnected.', 'success');
+            e.fire('Deleted!', 'This item is deleted.', 'success');
             console.log();
         } else {
             'cancel' === n.dismiss && e.fire('Cancelled', 'Your data is safe :)', 'error');
         }
     }));
+}
 
-
+function deleteDocument(id) {
+    $.post({
+        url: "deleteDocument",
+        data: {
+            "id": id
+        }
+    }).then(function (data) {
+        // window.open(baseURL + "/student");
+    }).fail(function (err) {
+        notification("You have an error going to user page.", 2);
+    })
 }
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
