@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\SessionModel;
 use App\Models\User;
 use App\Models\ReportsModel;
+use App\Models\DocumentModel;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use App\Models\LessonsModel;
+use League\CommonMark\Block\Element\Document;
 
 class DashController extends Controller
 {
@@ -140,5 +142,240 @@ class DashController extends Controller
                         $o['sufix']['thresholds'][$i],
                         $o['sufix'][$o['binary'] ? 'binary' : 'decimal']
                     );
+    }
+
+    public function getPersonDocumentBySession(request $request){
+        // print_r($request->session_id); exit;
+        $columns = array( 
+            0 =>'session', 
+            1 =>'first_name',
+            2 =>'filename',
+            3 =>'type',
+            4 =>'detail',
+            5 =>'created_time'
+        );
+        // $totalData = ReportsModel::getReportByClient()->count();
+        $totalData = DocumentModel::getDocumentsBySession($request->session_id)->count();
+        $totalFiltered = $totalData;
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        // $handler = new ReportsModel;
+        $handler = new DocumentModel;
+        $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_session as tb_session', "tb_session.id", "=", "tb_document.session_id");
+        $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_users as tb_users', "tb_users.id", "=", "tb_document.user");
+        $handler = $handler->where("session_id", $request->post('session_id'))->where('tb_document.type', 'person');
+        // if(isset(session("permission")->limited)) {
+        //     $handler = $handler->where("tb_reports.id_creator", auth()->user()->id);
+        // } else {
+        //     if(auth()->user()->type < 2) {
+        //         $handler = $handler
+        //         ->whereIn("tb_reports.id_creator", User::get_members());
+        //     } else {
+        //         $handler = $handler
+        //         ->where("tb_reports.id_creator", session("client"))
+        //         ->orWhere("tb_reports.id_creator", auth()->user()->id);
+        //     }
+        // }
+        if(empty($request->input('search.value')))
+        {            
+            $totalFiltered = $handler->count();
+            $person_documents = $handler->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->get(
+                    array(
+                        'tb_document.id as id',
+                        'tb_session.name as session',
+                        'tb_users.first_name as first_name',
+                        'tb_users.last_name as last_name',
+                        'tb_document.filename as filename',
+                        'tb_document.type as type',
+                        'tb_document.created_date as created_time',
+                    )
+                );
+        }
+        else {
+            $search = $request->input('search.value'); 
+            $person_documents =  $handler->where(function ($q) use ($search) {
+                            $q->where('tb_document.id','LIKE',"%{$search}%")
+                            ->orWhere('tb_document.filename', 'LIKE',"%{$search}%");
+                        })
+                        ->offset($start)
+                        ->limit($limit)
+                        ->orderBy($order,$dir)
+                        ->get(
+                            array(
+                                'tb_document.id as id',
+                                'tb_session.name as session',
+                                'tb_users.first_name as first_name',
+                                'tb_users.last_name as last_name',
+                                'tb_document.filename as filename'
+                            )
+                        );
+
+            $totalFiltered = $handler->where(function ($q) use ($search) {
+                                $q->where('tb_document.id','LIKE',"%{$search}%")
+                                ->orWhere('tb_document.filename', 'LIKE',"%{$search}%");
+                            })
+                        ->count();
+        }
+
+        $data = array();
+
+        if(!empty($person_documents))
+        {
+            foreach ($person_documents as $document)
+            {
+                $nestedData['id'] = $document->id;
+                $nestedData['studentname'] = $document->first_name . ' ' . $document->last_name;
+                $nestedData['depositedate'] = $document->created_time;
+                // $nestedData['document'] = $document->filename;
+                $nestedData['document'] = "
+                $document->filename
+                <i class='pl-3 fas fa-download doc_download' onclick='download_person_pdf(`".$document->filename."`)'></i>
+                ";
+                
+                $nestedData['actions'] = "
+                <div class='text-center d-flex'>
+                    <a href='" .url('/').'/person_document' . '/'.$document->filename."' class='btn btn-primary mr-3' style='border-radius: 5px' target='_blank'>
+                        <i class='fa fa-eye'></i>
+                    </a>
+                    <button type='button' class='js-swal-confirm btn btn-danger mr-3' onclick='delDocument({$nestedData['id']})' style='border-radius: 5px'>
+                        <i class='fa fa-trash'></i>
+                    </button>
+                </div>";
+                $data[] = $nestedData;
+            }
+        }
+        $json_data = array(
+            "draw"            => intval($request->input('draw')),  
+            "recordsTotal"    => intval($totalData),  
+            "recordsFiltered" => intval($totalFiltered), 
+            "data"            => $data   
+            );
+        echo json_encode($json_data);
+    }
+
+    public function getGroupDocumentBySession(request $request){
+        // print_r($request->session_id); exit;
+        $columns = array( 
+            0 =>'session', 
+            1 =>'first_name',
+            2 =>'filename',
+            3 =>'type',
+            4 =>'detail',
+            5 =>'created_time',
+            6 =>'group'
+        );
+        // $totalData = ReportsModel::getReportByClient()->count();
+        $totalData = DocumentModel::getDocumentsBySession($request->session_id)->count();
+        $totalFiltered = $totalData;
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        // $handler = new ReportsModel;
+        $handler = new DocumentModel;
+        $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_session as tb_session', "tb_session.id", "=", "tb_document.session_id");
+        $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_users as tb_users', "tb_users.id", "=", "tb_document.user");
+        $handler = $handler->leftjoin(env('DB_DATABASE').'.tb_groups as tb_groups', "tb_groups.id", "=", "tb_document.type");
+        $handler = $handler->where("session_id", $request->post('session_id'))->where('tb_document.type','!=', 'person');
+        // if(isset(session("permission")->limited)) {
+        //     $handler = $handler->where("tb_reports.id_creator", auth()->user()->id);
+        // } else {
+        //     if(auth()->user()->type < 2) {
+        //         $handler = $handler
+        //         ->whereIn("tb_reports.id_creator", User::get_members());
+        //     } else {
+        //         $handler = $handler
+        //         ->where("tb_reports.id_creator", session("client"))
+        //         ->orWhere("tb_reports.id_creator", auth()->user()->id);
+        //     }
+        // }
+        if(empty($request->input('search.value')))
+        {            
+            $totalFiltered = $handler->count();
+            $group_documents = $handler->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->get(
+                    array(
+                        'tb_document.id as id',
+                        'tb_session.name as session',
+                        'tb_groups.name as group',
+                        'tb_users.first_name as first_name',
+                        'tb_users.last_name as last_name',
+                        'tb_document.filename as filename',
+                        'tb_document.type as type',
+                        'tb_document.created_date as created_time',
+                    )
+                );
+        }
+        else {
+            $search = $request->input('search.value'); 
+            $group_documents =  $handler->where(function ($q) use ($search) {
+                            $q->where('tb_document.id','LIKE',"%{$search}%")
+                            ->orWhere('tb_document.filename', 'LIKE',"%{$search}%");
+                        })
+                        ->offset($start)
+                        ->limit($limit)
+                        ->orderBy($order,$dir)
+                        ->get(
+                            array(
+                                'tb_document.id as id',
+                                'tb_session.name as session',
+                                'tb_users.first_name as first_name',
+                                'tb_users.last_name as last_name',
+                                'tb_document.filename as filename'
+                            )
+                        );
+
+            $totalFiltered = $handler->where(function ($q) use ($search) {
+                                $q->where('tb_document.id','LIKE',"%{$search}%")
+                                ->orWhere('tb_document.filename', 'LIKE',"%{$search}%");
+                            })
+                        ->count();
+        }
+
+        $data = array();
+
+        if(!empty($group_documents))
+        {
+            foreach ($group_documents as $document)
+            {
+                $nestedData['id'] = $document->id;
+                $nestedData['groupname'] = $document->group;
+                $nestedData['depositeby'] = $document->first_name . ' ' . $document->last_name;
+                $nestedData['depositedate'] = $document->created_time;
+                $nestedData['document'] = "
+                $document->filename
+                <i class='pl-3 fas fa-download doc_download' onclick='download_group_pdf(`".$document->filename."`)'></i>
+                ";
+                
+                $nestedData['actions'] = "
+                <div class='text-center d-flex'>
+                    <a href='" .url('/').'/group_document' . '/'.$document->filename."' class='btn btn-primary mr-3' style='border-radius: 5px' target='_blank'>
+                        <i class='fa fa-eye'></i>
+                    </a>
+                    <button type='button' class='js-swal-confirm btn btn-danger mr-3' onclick='delDocument({$nestedData['id']})' style='border-radius: 5px'>
+                        <i class='fa fa-trash'></i>
+                    </button>
+                </div>";
+                $data[] = $nestedData;
+            }
+        }
+        $json_data = array(
+            "draw"            => intval($request->input('draw')),  
+            "recordsTotal"    => intval($totalData),  
+            "recordsFiltered" => intval($totalFiltered), 
+            "data"            => $data   
+            );
+        echo json_encode($json_data);
     }
 }
