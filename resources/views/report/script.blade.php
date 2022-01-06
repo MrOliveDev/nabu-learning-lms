@@ -120,6 +120,11 @@
                                         param: res.html,
                                         forceCss: false,
                                     });
+                                    $('#rep_header').css('float', 'right');
+                                    if($('.trumbowyg-editor').find('img').length != 0){
+                                        console.log('image exist');
+                                        $('#rep_header').css('width', '60%');
+                                    }
                                 } else
                                     notification(res.message, 2);
                             },
@@ -275,14 +280,20 @@
                             }
                         });
                     } else if ($(this).is('img')) {
+                        $('#rep_header').css('width', '60%');
                         if ($(this).attr('src') != '') {
                             $('#model-trumb-pane').trumbowyg('execCmd', {
                                 cmd: 'insertImage',
                                 param: $(this).attr('src'),
+                                prefix: 'report_image',
                                 forceCss: false,
-                                skipTrumbowyg: true
+                                skipTrumbowyg: true,
+                                class: 'report_image',
                             });
                         }
+                        $('.report_image').css('display', 'inline-block');
+                        // $('.trumbowyg-editor').find('img').css('width', '30%');
+                        $('.trumbowyg-editor').find('p').css('display', 'inline-block');
                     } else {
                         $('#model-trumb-pane').trumbowyg('execCmd', {
                             cmd: 'insertText',
