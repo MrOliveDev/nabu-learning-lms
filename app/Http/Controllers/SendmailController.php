@@ -70,9 +70,9 @@ class SendmailController extends Controller
             $activeTab = 1;
             $process = 'List of members of the Session ' . $session->name;
         } else if($request['groupId']){
-            $users = User::getUserFromGroup($request['id']);
+            $users = User::getUserFromGroup($request['groupId']);
             $activeTab = 1;
-            $group = GroupModel::where("id_creator", $request['id']);
+            $group = GroupModel::where("id", $request['groupId']);
             if(isset(session("permission")->limited)) {
                 $group = $group->where("id_creator", auth()->user()->id)
                 ->get();
@@ -87,8 +87,10 @@ class SendmailController extends Controller
                     ->get();
                 }
             }
-            if($group)
-            $process = 'List of members of the Group ' . $group->name;
+            // print_r($group[0]->id); exit;
+            if($group){
+                $process = 'List of members of the Group ' . $group[0]->name;
+            }
         } else if($request['companyId']){
             if(isset(session("permission")->limited)) {
                 $users = User::where('company', $request['companyId'])->where("id_creator", auth()->user()->id)->get();
