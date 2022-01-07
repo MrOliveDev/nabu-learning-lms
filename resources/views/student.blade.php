@@ -261,6 +261,7 @@
                                                 class="p-2 font-weight-bolder item-lang">{{ strtoupper($student->language_iso) }}</span>
                                             <button class="btn item-mail"
                                                 onclick="redirectPage('{{ route('sendmail') }}?studentId={{ $student->id }}')">
+                                                
                                                 <i class="px-2 fa fa-envelope"></i>
                                             </button>
                                             <button class="btn item-show" data-content='student'>

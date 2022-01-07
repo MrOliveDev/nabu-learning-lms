@@ -169,6 +169,10 @@
             else
                 $(".mailcheck").prop('checked', false);
         })
+
+        // $('#historique').css('display', 'none');
+        // $('#generer').css('display', 'block');
+        $('#send-tab').click();
     });
 
     var notification = function(str, type) {
