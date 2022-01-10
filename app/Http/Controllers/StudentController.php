@@ -667,6 +667,7 @@ class StudentController extends Controller
                 if($request['options']['position'])
                     $user->function = $request['options']['position'];
 
+                $user->id_creator = auth()->user()->id;
                 $user->save();
             }
 
