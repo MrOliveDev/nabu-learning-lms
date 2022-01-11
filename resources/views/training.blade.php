@@ -398,6 +398,28 @@
                                     </select>
                                 </div>
                             </div>
+                            @if (auth()->user()->id == 1)
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                List of Clients
+                                            </span>
+                                        </div>
+                                        <select class="form-control" id="list_client" name="list_client">
+                                            @foreach ($clients as $client)
+                                                @if ($loop->first)
+                                                    <option value="{{ $client['id'] }}" selected="selected">
+                                                        {{ $client['first_name'] }} {{$client['last_name']}}</option>
+                                                @else
+                                                    <option value="{{ $client['id'] }}">
+                                                        {{ $client['first_name'] }} {{$client['last_name']}}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            @endif
                             <div class="form-group mb-5">
                                 <label class="mb-4">Threshold Score</label>
                                 <input type="text" class="js-rangeslider" id="threshold-score" name="threshold-score"
@@ -540,8 +562,8 @@
                                             Name<span class="text-danger">*</span>
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="duplicate_lesson_name" name="lesson_name"
-                                        value="" required>
+                                    <input type="text" class="form-control" id="duplicate_lesson_name"
+                                        name="lesson_name" value="" required>
                                 </div>
                             </div>
                             <div class="form-group clearfix">

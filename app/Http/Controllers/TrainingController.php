@@ -8,6 +8,7 @@ use App\Models\TrainingsModel;
 use App\Models\LanguageModel;
 use App\Models\TemplateModel;
 use App\Models\SessionModel;
+use App\Models\User;
 
 use SimpleXMLElement;
 use App\Models\LessonCourses;
@@ -74,9 +75,10 @@ class TrainingController extends Controller
             }
             array_push($lessons, ["lesson"=>$lesson, "session_linked"=>$session_linked, "session_status"=>$session_status]);
         }
-        // print_r($lessons);
+        $clients = User::getClients();
+        // print_r($clients);
         // exit;
-        return view('training')->with(compact('trainings', 'lessons', 'languages', 'templates'));
+        return view('training')->with(compact('trainings', 'lessons', 'languages', 'templates', 'clients'));
     }
 
     /**
@@ -195,6 +197,7 @@ class TrainingController extends Controller
         if ($request->post('training_duration') != NULL) {
             $training->duration = $request->post('training_duration');
         }
+
         if ($request->post('cate-status-icon') != NULL) {
             $training->status = $request->post('cate-status-icon');
         }
