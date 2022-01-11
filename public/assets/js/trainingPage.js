@@ -545,6 +545,7 @@ var item_edit = function (element) {
                     );
                     $('.upload-person-state-label').html(data['lesson'].upload_person_status == 1 ? "On" : "Off")
                     $("#lesson_language").val(data['lesson'].lang);
+                    $("#list_client").val(data['lesson'].connected_client);
                     $("#lesson_description").val(data['lesson'].description);
                     $("#threshold-score").data("ionRangeSlider").update({
                         from: data['lesson'].threshold_score,
@@ -1261,7 +1262,9 @@ var submitBtn = function (event) {
                 }
             });
         }
+
         console.log('serialval', serialval);
+
         $.ajax({
             url: $("#" + formname).attr("action"),
             headers: {

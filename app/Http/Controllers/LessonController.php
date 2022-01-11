@@ -54,6 +54,9 @@ class LessonController extends Controller
         if ($request->post('lesson_language')) {
             $lesson->lang = $request->post('lesson_language');
         }
+        if ($request->post('list_client')) {
+            $lesson->connected_client = $request->post('list_client');
+        }
         if ($request->post('lesson_status')) {
             $lesson->status = $request->post('lesson_status');
         }
@@ -275,6 +278,9 @@ class LessonController extends Controller
         }
         if ($request->post('lesson_language')) {
             $lesson->lang = $request->post('lesson_language');
+        }
+        if ($request->post('list_client')) {
+            $lesson->connected_client = $request->post('list_client');
         }
         if ($request->post('lesson_status')) {
             $lesson->status = $request->post('lesson_status');
