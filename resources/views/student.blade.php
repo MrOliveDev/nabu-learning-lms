@@ -734,7 +734,7 @@
                                 <input type="radio" name="separator" id="comma-semicolon" data-value=",">
                                 <label for="comma-semicolon" style="cursor: pointer;">,(comma)</label>
                             </div>
-                            <input style="width:200px;" type="text" placeholder="Manual" class="form-control"
+                            <input style="width:200px;" type="text" placeholder="Others" class="form-control"
                                 name="separator_man">
                         </div>
 
@@ -794,7 +794,7 @@
                         <div class="row mb-5">
                             <div class="col-3">
                                 <select class="form-control" name="import-tongue">
-                                    <option value="" selected>Tongue</option>
+                                    <option value="" selected>Lang</option>
                                     @foreach ($languages as $language)
                                         <option value="{{ $language->language_id }}">{{ $language->language_name }}
                                         </option>
