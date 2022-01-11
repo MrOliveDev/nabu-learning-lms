@@ -407,14 +407,16 @@
                                             </span>
                                         </div>
                                         <select class="form-control" id="list_client" name="list_client">
+                                            <option value="1">
+                                                SUPER ADMIN</option>
                                             @foreach ($clients as $client)
-                                                @if ($loop->first)
-                                                    <option value="{{ $client['id'] }}" selected="selected">
-                                                        {{ $client['first_name'] }} {{$client['last_name']}}</option>
-                                                @else
+                                                {{-- @if ($loop->first) --}}
+                                                    {{-- <option value="{{ $client['id'] }}" selected="selected">
+                                                        {{ $client['first_name'] }} {{$client['last_name']}}</option> --}}
+                                                {{-- @else --}}
                                                     <option value="{{ $client['id'] }}">
                                                         {{ $client['first_name'] }} {{$client['last_name']}}</option>
-                                                @endif
+                                                {{-- @endif --}}
                                             @endforeach
                                         </select>
                                     </div>
