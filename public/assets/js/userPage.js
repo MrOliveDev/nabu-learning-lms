@@ -915,6 +915,15 @@ var csvSubmitBtn = function (event) {
 
     // datas.importtype = $("select[name=import-type]").val()
     datas.language = $("select[name=import-tongue]").val();
+    if($("select[name=import-tongue]").val() == ""){
+        swal.fire({
+            title: "Warning",
+            text: "Please select the lang of the students you are about to import.",
+            icon: "warning",
+            confirmButtonText: `OK`
+        });
+        return;
+    }
     datas.group = $("select[name=import-group]").val();
     datas.company = $("select[name=import-company]").val();
     datas.position = $("select[name=import-position]").val();
