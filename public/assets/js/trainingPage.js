@@ -1380,33 +1380,7 @@ var submitBtn = function (event) {
 var duplicateBtn = function (event) {
     var name = $(this).parents("#duplicate_lesson_form").find('#duplicate_lesson_name').val();
     var id = $(this).parents("#duplicate_lesson_form").find('#duplicate_lesson_name').attr("data-item-id");
-    console.log('name', name, "id", id);
-    // $.ajax({
-    //     url: "duplicateLesson",
-    //     headers: {
-    //         "X-CSRF-TOKEN": $(
-    //             'meta[name="csrf-token"]'
-    //         ).attr("content"),
-    //     },
-    //     data: {
-    //         name: name,
-    //         id: id
-    //     },
-    //     success: function (data) {
-    //         console.log('after duplication', data);
-    //         if (data) {
-    //             notification("Successfully Duplicated", 1);
-    //             $("#div_A .list-group").append(
-    //                 createLessonData(data)
-    //             );
-    //         } else {
-    //             notification("Failed", 2);
-    //         }
-    //     },
-    //     error: function (err) {
-    //         notification("Sorry, You have an error!", 2);
-    //     },
-    // });
+    var language = $(this).parents("#duplicate_lesson_form").find('#lesson_language').val();
     $.post({
             url: "duplicateLesson",
             headers: {
@@ -1414,7 +1388,8 @@ var duplicateBtn = function (event) {
             },
             data: {
                 name: name,
-                id: id
+                id: id,
+                language: language
             },
         })
         .done(function (data) {

@@ -473,8 +473,8 @@ class LessonController extends Controller
         if ($lesson->publicAudio) {
             $newlesson->publicAudio = $lesson->publicAudio;
         }
-        if ($lesson->lang) {
-            $newlesson->lang = $lesson->lang;
+        if ($request->post('language')) {
+            $newlesson->lang = $request->post('language');
         }
         if ($lesson->status) {
             $newlesson->status = $lesson->status;
