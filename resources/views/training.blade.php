@@ -199,7 +199,7 @@
                                 </div>
                                 <div class="btn-group float-right">
                                     <span
-                                        class=" p-2 font-weight-bolder item-lang">{{ strtoupper($lesson['lesson']['language_iso']) }}</span>
+                                        class=" p-2 font-weight-bolder item-lang" data-lang="{{$lesson['lesson']['lang']}}">{{ strtoupper($lesson['lesson']['language_iso']) }}</span>
                                     @if (isset(session('permission')->training->lesson->show))
                                         <button class="btn  item-show" data-content='lesson'
                                             data-item-id="{{ $lesson['lesson']['id'] }}">

@@ -979,8 +979,10 @@ var itemDuplicate = function (event) {
     toggleFormOrTable($("#LeftPanel"), true);
     $("#lesson_form").toggle(false)
 
+    var lang = $(this).parents('.list-group-item').find(".item-lang").attr('data-lang');
     var parent = $(this).parents("fieldset");
     $('#duplicate_lesson_form').toggle(true);
+    $('#duplicate_lesson_form').find('#lesson_language').val(lang);
 
     var name = $(this).parents(".list-group-item").find(".item-name").html();
     var id = $(this).attr("data-item-id")
