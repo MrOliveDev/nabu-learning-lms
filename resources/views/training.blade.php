@@ -568,6 +568,26 @@
                                         name="lesson_name" value="" required>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Language
+                                        </span>
+                                    </div>
+                                    <select class="form-control" id="lesson_language" name="lesson_language">
+                                        @foreach ($languages as $language)
+                                            @if ($loop->first)
+                                                <option value="{{ $language->language_id }}" selected="selected">
+                                                    {{ $language->language_name }}</option>
+                                            @else
+                                                <option value="{{ $language->language_id }}">
+                                                    {{ $language->language_name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <div class="form-group clearfix">
                                 <button type="submit" class="btn btn-hero-primary float-right mx-1 duplicate-btn"
                                     id="lesson_save_button" data-form="duplicate_lesson_form">SAVE</button>

@@ -261,7 +261,7 @@
                                                 class="p-2 font-weight-bolder item-lang">{{ strtoupper($student->language_iso) }}</span>
                                             <button class="btn item-mail"
                                                 onclick="redirectPage('{{ route('sendmail') }}?studentId={{ $student->id }}')">
-                                                
+
                                                 <i class="px-2 fa fa-envelope"></i>
                                             </button>
                                             <button class="btn item-show" data-content='student'>
@@ -734,8 +734,11 @@
                                 <input type="radio" name="separator" id="comma-semicolon" data-value=",">
                                 <label for="comma-semicolon" style="cursor: pointer;">,(comma)</label>
                             </div>
-                            <input style="width:200px;" type="text" placeholder="Others" class="form-control"
-                                name="separator_man">
+                            <div class="d-flex align-items-center">
+                                <input type="radio" name="separator" id="comma-others" data-value=",">
+                                <input style="width:200px;margin-left:10px;" type="text" placeholder="Others" class="form-control"
+                                    name="separator_man">
+                            </div>
                         </div>
 
                         <div class="col-9 mb-2"
