@@ -1081,6 +1081,7 @@ var csvImportBtn = function (event) {
                         confirmButtonText: `OK`
                     });
                 $("#csv-user-list").css('display', 'none');
+                location.reload();
             } else {
                 swal.fire({
                     title: "Error",
