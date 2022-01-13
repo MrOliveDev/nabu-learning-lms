@@ -56,6 +56,8 @@ class LessonController extends Controller
         }
         if ($request->post('list_client')) {
             $lesson->connected_client = $request->post('list_client');
+        } else {
+            $lesson->connected_client = auth()->user()->id;
         }
         if ($request->post('lesson_status')) {
             $lesson->status = $request->post('lesson_status');
