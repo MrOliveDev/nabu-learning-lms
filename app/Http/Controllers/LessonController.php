@@ -478,6 +478,9 @@ class LessonController extends Controller
         if ($request->post('language')) {
             $newlesson->lang = $request->post('language');
         }
+        if ($lesson->connected_client) {
+            $newlesson->connected_client = $lesson->connected_client;
+        }
         if ($lesson->status) {
             $newlesson->status = $lesson->status;
         }
