@@ -76,8 +76,8 @@ class TrainingController extends Controller
             array_push($lessons, ["lesson"=>$lesson, "session_linked"=>$session_linked, "session_status"=>$session_status]);
         }
         $clients = User::getClients();
-        // print_r($clients);
-        // exit;
+        print_r($lessons);
+        exit;
         return view('training')->with(compact('trainings', 'lessons', 'languages', 'templates', 'clients'));
     }
 
