@@ -152,7 +152,7 @@
         <div id="div_A" class="window top">
             <div class="clear-fix mx-4">
                 <div class="list-group" id="list-tab" role="tablist" data-src=''>
-                    @if (isset(session('permission')->training->lesson->display) && !empty($lessons[0]))
+                    @if (isset(session('permission')->training->lesson->display) && count($lessons) != 0)
                         @foreach ($lessons as $lesson)
                             <a class="list-group-item list-group-item-action p-0 border-transparent border-5x lesson_{{ $lesson['lesson']['id'] }} <?php if (isset(session('permission')->limited) && auth()->user()->id != $lesson['idCreator']) {
     echo 'drag-disable';
