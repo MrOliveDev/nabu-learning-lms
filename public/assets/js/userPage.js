@@ -770,7 +770,7 @@ var toolkitAddItem = function (event) {
         $('#password').attr('placeholder', '');
         $('#preview').attr('src', baseURL + '/assets/media/default.png');
         $('#generatepassword').prop('checked', false);
-        if($('.badge-pill').html() == "FR"){
+        if ($('.badge-pill').html() == "FR") {
             var expired_date_val = (() => {
                 var date = new Date().toLocaleDateString("ja").split("/");
                 var newDate = date[2] + '-' + date[1] + '-' + date[0];
@@ -848,7 +848,19 @@ function csvImportOpen() {
 
 $("#import-file").on('change', function () {
     $("#import-file-name").val($(this).val().split('\\').pop());
-    $("#csv-import-cancel").css("display", "block");
+    var extension = $(this).val().split('\\').pop().substr($(this).val().split('\\').pop().lastIndexOf('.'));
+    if ((extension.toLowerCase() == ".xls")) {
+        swal.fire({
+            title: "Warning",
+            text: "You can't select the xls file.",
+            icon: "warning",
+            confirmButtonText: `OK`
+        });
+        $("#import-file").val("");
+        $("#import-file-name").val("");
+    } else {
+        $("#csv-import-cancel").css("display", "block");
+    }
 });
 
 $("input[name=separator_man]").on("keyup", function () {
@@ -915,7 +927,7 @@ var csvSubmitBtn = function (event) {
 
     // datas.importtype = $("select[name=import-type]").val()
     datas.language = $("select[name=import-tongue]").val();
-    if($("select[name=import-tongue]").val() == ""){
+    if ($("select[name=import-tongue]").val() == "") {
         swal.fire({
             title: "Warning",
             text: "Please select the lang of the students you are about to import.",
@@ -1354,8 +1366,8 @@ var item_edit = function (element) {
                     }
 
                     $('#login').val(data.user_info.login);
-                    if($('.badge-pill').html() == "FR"){
-                        if(data.user_info.expired_date){
+                    if ($('.badge-pill').html() == "FR") {
+                        if (data.user_info.expired_date) {
                             var date = data.user_info.expired_date.split("-");
                             var expired_date = date[2] + '-' + date[1] + '-' + date[0];
                         } else {
@@ -1364,7 +1376,7 @@ var item_edit = function (element) {
                             // date[0] = parseInt(date[0]) + 1;
                         }
                     } else {
-                        if(data.user_info.expired_date){
+                        if (data.user_info.expired_date) {
                             var date = data.user_info.expired_date.split("-");
                             var expired_date = date[0] + '-' + date[1] + '-' + date[2];
                         } else {
