@@ -545,7 +545,7 @@ var item_edit = function (element) {
                     );
                     $('.upload-person-state-label').html(data['lesson'].upload_person_status == 1 ? "On" : "Off")
                     $("#lesson_language").val(data['lesson'].lang);
-                    if(data['lesson'].connected_client == 0){
+                    if (data['lesson'].connected_client == 0) {
                         $("#list_client").val(1);
                     } else {
                         $("#list_client").val(data['lesson'].connected_client);
@@ -1241,7 +1241,7 @@ var submitBtn = function (event) {
             !$("#" + formname)
             .find("input[name=upload-person-status]")
             .prop("checked")
-        ){
+        ) {
             serialval.push({
                 name: "upload-person-status",
                 value: $("#upload-person-status").prop("checked") == true ?
@@ -1719,7 +1719,8 @@ var updateLessonData = function (data, target) {
     $("." + target).each(function (i, im) {
         $(im).find(".item-name").html(data.name);
         $(im).find('input[name="item-name"]').val(data.name);
-        $(im).find(".item-lang").val(data.lesson_language);
+        $(im).find(".item-lang").html(data.language_iso.toUpperCase());
+        $(im).find(".item-lang").attr("data-lang", data.lang);
         $(im).find(".status-notification").val(data.status);
         $(im)
             .find(".status-notification")
@@ -1868,6 +1869,7 @@ var searchfilter = function (event) {
     var opt = parent.find("input[name=status]:checked").val();
     if (opt == null || opt == "") {
         opt = parent.find("select.status-switch").val();
+        opt2 = parent.find("select.status-switch-2").val();
     }
 
     if ($(event.target).is("input.search-filter")) {
@@ -1883,7 +1885,7 @@ var searchfilter = function (event) {
     items.map(function (i, e) {
         var item_name = $(e).find('input[name="item-name"]').val();
         var item_status = $(e).find('input[name="item-status"]').val();
-
+        var item_lang = $(e).find(".item-lang").attr('data-lang');
         if (
             str == null ||
             str == "" ||
@@ -1892,64 +1894,114 @@ var searchfilter = function (event) {
             .toLowerCase()
             .indexOf(str.toLowerCase().replace(/\s+/g, "")) >= 0
         ) {
-            switch (opt) {
-                case "on":
-                case "1":
-                    if (item_status == 1) {
+            if (opt2) {
+                switch (opt2) {
+                    case "1":
+                        if (item_lang == 1) {
+                            $(e).toggle(true);
+                        } else {
+                            $(e).toggle(false);
+                        }
+                        break;
+                    case "30":
+                        if (item_lang == 30) {
+                            $(e).toggle(true);
+                        } else {
+                            $(e).toggle(false);
+                        }
+                        break;
+                    case "31":
+                        if (item_lang == 31) {
+                            $(e).toggle(true);
+                        } else {
+                            $(e).toggle(false);
+                        }
+                        break;
+                    case "32":
+                        if (item_lang == 32) {
+                            $(e).toggle(true);
+                        } else {
+                            $(e).toggle(false);
+                        }
+                        break;
+                    case "33":
+                        if (item_lang == 33) {
+                            $(e).toggle(false);
+                        } else {
+                            $(e).toggle(true);
+                        }
+                        break;
+                    case "34":
+                        if (item_lang == 34) {
+                            $(e).toggle(true);
+                        } else {
+                            $(e).toggle(false);
+                        }
+                        break;
+                    default:
                         $(e).toggle(true);
-                    } else {
-                        $(e).toggle(false);
-                    }
-                    break;
-                case "all":
-                    $(e).toggle(true);
-                    break;
+                        break;
+                }
+            } else {
+                switch (opt) {
+                    case "on":
+                    case "1":
+                        if (item_status == 1) {
+                            $(e).toggle(true);
+                        } else {
+                            $(e).toggle(false);
+                        }
+                        break;
+                    case "all":
+                        $(e).toggle(true);
+                        break;
 
-                case "off":
-                    if (item_status == 1) {
-                        $(e).toggle(false);
-                    } else {
+                    case "off":
+                        if (item_status == 1) {
+                            $(e).toggle(false);
+                        } else {
+                            $(e).toggle(true);
+                        }
+                        break;
+                    case "2":
+                        if (item_status != 2) {
+                            $(e).toggle(false);
+                        } else {
+                            $(e).toggle(true);
+                        }
+                        break;
+                    case "3":
+                        if (item_status != 3) {
+                            $(e).toggle(false);
+                        } else {
+                            $(e).toggle(true);
+                        }
+                        break;
+                    case "4":
+                        if (item_status != 4) {
+                            $(e).toggle(false);
+                        } else {
+                            $(e).toggle(true);
+                        }
+                        break;
+                    case "5":
+                        if (item_status != 5) {
+                            $(e).toggle(false);
+                        } else {
+                            $(e).toggle(true);
+                        }
+                        break;
+                    case "orphans":
+                        if ($(e).attr("data-training").length > 0) {
+                            $(e).toggle(false);
+                        } else {
+                            $(e).toggle(true);
+                        }
+                        break;
+                    default:
                         $(e).toggle(true);
-                    }
-                    break;
-                case "2":
-                    if (item_status != 2) {
-                        $(e).toggle(false);
-                    } else {
-                        $(e).toggle(true);
-                    }
-                    break;
-                case "3":
-                    if (item_status != 3) {
-                        $(e).toggle(false);
-                    } else {
-                        $(e).toggle(true);
-                    }
-                    break;
-                case "4":
-                    if (item_status != 4) {
-                        $(e).toggle(false);
-                    } else {
-                        $(e).toggle(true);
-                    }
-                    break;
-                case "5":
-                    if (item_status != 5) {
-                        $(e).toggle(false);
-                    } else {
-                        $(e).toggle(true);
-                    }
-                    break;
-                case "orphans":
-                    if ($(e).attr("data-training").length > 0) {
-                        $(e).toggle(false);
-                    } else {
-                        $(e).toggle(true);
-                    }
-                    break;
-                default:
-                    $(e).toggle(true);
-                    break;
+                        break;
+                }
             }
         } else {
             $(e).toggle(false);
@@ -2506,7 +2558,7 @@ $(document).ready(function () {
     $("#div_D .list-group").disableSelection();
 });
 $(
-    "input[name=status], input.search-filter, button.filter-company-btn, button.filter-function-btn, select.status-switch"
+    "input[name=status], input.search-filter, button.filter-company-btn, button.filter-function-btn, select.status-switch, select.status-switch-2"
 ).change(searchfilter);
 $("input.search-filter").on("keydown change keyup", searchfilter);
 $("button.filter-company-btn, button.filter-function-btn").on(
