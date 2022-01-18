@@ -849,10 +849,10 @@ function csvImportOpen() {
 $("#import-file").on('change', function () {
     $("#import-file-name").val($(this).val().split('\\').pop());
     var extension = $(this).val().split('\\').pop().substr($(this).val().split('\\').pop().lastIndexOf('.'));
-    if ((extension.toLowerCase() == ".xls")) {
+    if ((extension.toLowerCase() == ".xlsx") || (extension.toLowerCase() == ".xls")) {
         swal.fire({
             title: "Warning",
-            text: "You can't select the xls file.",
+            text: "You can't select the " + extension + " file.",
             icon: "warning",
             confirmButtonText: `OK`
         });
