@@ -1896,6 +1896,9 @@ var searchfilter = function (event) {
         ) {
             if (opt2) {
                 switch (opt2) {
+                    case "all":
+                        $(e).toggle(true);
+                        break;
                     case "1":
                         if (item_lang == 1) {
                             $(e).toggle(true);
