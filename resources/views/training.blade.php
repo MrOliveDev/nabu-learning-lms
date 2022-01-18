@@ -138,6 +138,13 @@
                             ORPHANS
                         </option>
                     </select>
+                    <select class="status-switch-2">
+                        <option selected hidden>Language</option>
+                        @foreach ($languages as $language)
+                            <option value="{{ $language->language_id }}">
+                                {{ $language->language_name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="float-right">
                     <button value='' class="rounded text-white filter-name-btn px-1 border-0">Name
@@ -198,8 +205,8 @@
                                     <input type="hidden" name="item-name" value="{{ $lesson['lesson']['name'] }}">
                                 </div>
                                 <div class="btn-group float-right">
-                                    <span
-                                        class=" p-2 font-weight-bolder item-lang" data-lang="{{$lesson['lesson']['lang']}}">{{ strtoupper($lesson['lesson']['language_iso']) }}</span>
+                                    <span class=" p-2 font-weight-bolder item-lang"
+                                        data-lang="{{ $lesson['lesson']['lang'] }}">{{ strtoupper($lesson['lesson']['language_iso']) }}</span>
                                     @if (isset(session('permission')->training->lesson->show))
                                         <button class="btn  item-show" data-content='lesson'
                                             data-item-id="{{ $lesson['lesson']['id'] }}">
@@ -411,11 +418,12 @@
                                                 SUPER ADMIN</option>
                                             @foreach ($clients as $client)
                                                 {{-- @if ($loop->first) --}}
-                                                    {{-- <option value="{{ $client['id'] }}" selected="selected">
+                                                {{-- <option value="{{ $client['id'] }}" selected="selected">
                                                         {{ $client['first_name'] }} {{$client['last_name']}}</option> --}}
                                                 {{-- @else --}}
-                                                    <option value="{{ $client['id'] }}">
-                                                        {{ $client['first_name'] }} {{$client['last_name']}}</option>
+                                                <option value="{{ $client['id'] }}">
+                                                    {{ $client['first_name'] }} {{ $client['last_name'] }}
+                                                </option>
                                                 {{-- @endif --}}
                                             @endforeach
                                         </select>
