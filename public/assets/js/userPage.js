@@ -947,26 +947,15 @@ var csvSubmitBtn = function (event) {
         dataType: 'json',
         success: function (res) {
             if (res.success) {
-                credentialExist = 0;
-                res.data[0].forEach(element => {
-                    if(element == "password"){
-                        credentialExist ++;
-                    }
-                    if(element == "login"){
-                        credentialExist ++;
-                    }
-                });
+                $("#csv-import-form").css("display", "none");
 
-                if(credentialExist == 2 || $("input[name=generate]:checked").attr('data-value') == 1){
-                    $("#csv-import-form").css("display", "none");
-    
-                    $("#csv-user-tbl").html('');
-                    if (res.data) {
-                        if (res.data[0]) {
-                            let html = '<thead>';
-                            html += '<th></th>';
-                            for (let i = 0; i < res.data[0].length; i++) {
-                                html += ('<th>\
+                $("#csv-user-tbl").html('');
+                if (res.data) {
+                    if (res.data[0]) {
+                        let html = '<thead>';
+                        html += '<th></th>';
+                        for (let i = 0; i < res.data[0].length; i++) {
+                            html += ('<th>\
                                     <div class="form-group mb-0">\
                                         <select class="select-col form-control">\
                                             <option value="-1">Do not import</option>\
@@ -979,35 +968,27 @@ var csvSubmitBtn = function (event) {
                                         </select>\
                                     </div>\
                                     </th>');
+                        }
+                        html += '</thead>';
+                        $("#csv-user-tbl").append(html);
+                    }
+                    $("#csv-user-tbl").append('<tbody>');
+                    res.data.forEach((line, index) => {
+                        if (index != 0 || datas.header == "0") {
+                            let html = '<tr>';
+                            html += `<td class='line-index'>${datas.header == "0" ? index + 1 : index}</td>`;
+                            if (Array.isArray(line)) {
+                                line.forEach(field => {
+                                    html += `<td>${field}</td>`;
+                                })
                             }
-                            html += '</thead>';
+                            html += '</tr>';
                             $("#csv-user-tbl").append(html);
                         }
-                        $("#csv-user-tbl").append('<tbody>');
-                        res.data.forEach((line, index) => {
-                            if (index != 0 || datas.header == "0") {
-                                let html = '<tr>';
-                                html += `<td class='line-index'>${datas.header == "0" ? index + 1 : index}</td>`;
-                                if (Array.isArray(line)) {
-                                    line.forEach(field => {
-                                        html += `<td>${field}</td>`;
-                                    })
-                                }
-                                html += '</tr>';
-                                $("#csv-user-tbl").append(html);
-                            }
-                        });
-                        $("#csv-user-tbl").append('</tbody>');
-                    }
-                    $("#csv-user-list").css("display", "block");
-                } else {
-                    swal.fire({
-                        title: "Warning",
-                        text: "Impossible to import the list. You should select the option : generate login and password on previous screen",
-                        icon: "warning",
-                        confirmButtonText: `OK`
                     });
+                    $("#csv-user-tbl").append('</tbody>');
                 }
+                $("#csv-user-list").css("display", "block");
 
             } else {
                 swal.fire({
@@ -1057,6 +1038,15 @@ var csvImportBtn = function (event) {
         swal.fire({
             title: "Warning",
             text: "Please select Email field.",
+            icon: "warning",
+            confirmButtonText: `OK`
+        });
+        return;
+    }
+    if(($("input[name=generate]:checked").attr('data-value') == 0) && (fields.indexOf('password') == -1 || fields.indexOf('login') == -1 )){
+        swal.fire({
+            title: "Warning",
+            text: "Impossible to import the list. You should select the option : generate login and password on previous screen.",
             icon: "warning",
             confirmButtonText: `OK`
         });
