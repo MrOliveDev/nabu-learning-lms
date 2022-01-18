@@ -139,8 +139,7 @@
                         </option>
                     </select>
                     <select class="status-switch-2">
-                        <option selected hidden>Language</option>
-                        <option value="all">ALL LANG</option>
+                        <option value="all" selected>ALL LANG</option>
                         @foreach ($languages as $language)
                             <option value="{{ $language->language_id }}">
                                 {{ $language->language_name }}</option>
