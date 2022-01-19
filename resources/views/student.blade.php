@@ -154,7 +154,7 @@
         data-search-category="{{ isset(session('permission')->student->search->category) }}"
         data-search-showtable="{{ isset(session('permission')->student->search->showtable) }}"
         data-session-edit="{{ isset(session('permission')->session) }}" data-authed-user="{{ session('user_id') }}"
-        data-authed-user-type="{{ session('user_type') }}">
+        data-authed-user-type="{{ session('user_type') }}" data-client={{session('client')}}>
         <fieldset id="LeftPanel">
             <ul class="mx-4 mb-2 border-0 nav nav-tabs">
                 @if (isset(session('permission')->student->student->display))
