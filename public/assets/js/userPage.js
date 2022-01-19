@@ -971,6 +971,7 @@ var csvSubmitBtn = function (event) {
                         }
                         html += '</thead>';
                         $("#csv-user-tbl").append(html);
+                        $(".select-col").change(selectCol)
                     }
                     $("#csv-user-tbl").append('<tbody>');
                     res.data.forEach((line, index) => {
@@ -989,7 +990,9 @@ var csvSubmitBtn = function (event) {
                     $("#csv-user-tbl").append('</tbody>');
                 }
                 $("#csv-user-list").css("display", "block");
+                $('#force-update').attr('disabled', true);
 
+                // $("#content").attr("data-log-user-id")
             } else {
                 swal.fire({
                     title: "Error",
@@ -3196,6 +3199,23 @@ function functionDropEnd(event, item) {
     }
     dragitem = null;
     $('.filter-function-btn').change();
+}
+
+function selectCol(){
+    $(".select-col").val()
+    var items = $("#csv-user-tbl").find(".select-col")
+    var flag = 0;
+    items.map((index, item) => {
+        if($(item).val() == "login"){
+            flag++;
+            // $("#content").attr("data-log-user-id")
+        }
+    })
+    if(flag != 0){
+        $("#force-update").attr('disabled', false);
+    } else {
+        $("#force-update").attr('disabled', true);
+    }
 }
 
 
