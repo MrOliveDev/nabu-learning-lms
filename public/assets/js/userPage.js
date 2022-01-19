@@ -1077,6 +1077,8 @@ var csvImportBtn = function (event) {
     datas.company = $("select[name=import-company]").val();
     datas.position = $("select[name=import-position]").val();
 
+    var id_creator = $("#content").attr('data-client');
+
     $.ajax({
         type: "POST",
         url: "importCSV",
@@ -1084,7 +1086,8 @@ var csvImportBtn = function (event) {
             fields: fields,
             users: userdatas,
             forceupdate: $("#force-update")[0].checked,
-            options: datas
+            options: datas,
+            id_creator: id_creator
         },
         dataType: 'json',
         success: function (res) {
