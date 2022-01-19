@@ -55,9 +55,7 @@ class LessonController extends Controller
             $lesson->lang = $request->post('lesson_language');
         }
         if ($request->post('list_client')) {
-            $lesson->connected_client = $request->post('list_client');
-        } else {
-            $lesson->connected_client = auth()->user()->id;
+            $lesson->idCreator = $request->post('list_client');
         }
         if ($request->post('lesson_status')) {
             $lesson->status = $request->post('lesson_status');
@@ -70,11 +68,6 @@ class LessonController extends Controller
         }
         if ($request->post('threshold-score')) {
             $lesson->threshold_score = $request->post('threshold-score');
-        }
-        if (session("user_type") !== 0) {
-            $lesson->idCreator = session("user_id");
-        } else {
-            $lesson->idCreator = session("client");
         }
         $lesson->idFabrica = $this->randomGenerate();
         $lesson->save();
@@ -282,7 +275,7 @@ class LessonController extends Controller
             $lesson->lang = $request->post('lesson_language');
         }
         if ($request->post('list_client')) {
-            $lesson->connected_client = $request->post('list_client');
+            $lesson->idCreator = $request->post('list_client');
         }
         if ($request->post('lesson_status')) {
             $lesson->status = $request->post('lesson_status');
@@ -478,8 +471,8 @@ class LessonController extends Controller
         if ($request->post('language')) {
             $newlesson->lang = $request->post('language');
         }
-        if ($lesson->connected_client) {
-            $newlesson->connected_client = $lesson->connected_client;
+        if ($lesson->idCreator) {
+            $newlesson->idCreator = $lesson->idCreator;
         }
         if ($lesson->status) {
             $newlesson->status = $lesson->status;
@@ -492,11 +485,6 @@ class LessonController extends Controller
         }
         if ($lesson->threshold_score) {
             $newlesson->threshold_score = $lesson->threshold_score;
-        }
-        if (session("user_type") !== 0) {
-            $newlesson->idCreator = session("user_id");
-        } else {
-            $newlesson->idCreator = session("client");
         }
         $newlesson->idFabrica = $this->randomGenerate();
         $newlesson->save();
