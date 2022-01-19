@@ -1281,6 +1281,9 @@ var submitBtn = function (event) {
                 .val(),
             data: serialval,
             success: function (data) {
+                if(data.length == 0){
+                    location.reload();
+                }
                 if (formname == "lesson_form") {
                     if (serialval[5].value == 5) {
                         $.ajax({
