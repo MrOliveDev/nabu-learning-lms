@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\LessonsModel;
 use App\Models\TrainingsModel;
 use App\Models\SessionModel;
+use App\Models\LanguageModel;
 
 use SimpleXMLElement;
 use Exception;
@@ -96,7 +97,7 @@ class LessonController extends Controller
         // $curso->idCriador = 1;
         // $curso->save();
 
-        $this->createCourse($lesson->name, $lesson->idFabrica);
+        $this->createCourse($lesson->name, $lesson->idFabrica, $lesson->lang);
 
         return response()->json(LessonsModel::getLessonContainedTraining($lesson->id));
         //
@@ -107,7 +108,7 @@ class LessonController extends Controller
     * @param type $array
     * @return XML
     */
-    private function createCourse($name, $productId) {
+    private function createCourse($name, $productId, $lang) {
         //echo "--createCourse--"."<br>\n";
         //$course = parent::create ( $array );
         //echo "createCourse\n";
@@ -121,16 +122,16 @@ class LessonController extends Controller
         // }
         //echo "name:".$name;
         //echo "productId:".$productId;
- 
+        $lang_iso = LanguageModel::get_language_iso($lang);
         $config = new SimpleXMLElement('<project></project>');
         $config->addAttribute('code', $productId);
         $config->addAttribute('label', $name);
         $n = $config->addChild('languages');
-        $n->addChild('lang', session('language'));
+        $n->addChild('lang', $lang_iso);
         $t = $config->addChild('lessonPlan');
         $t->addAttribute('id', '0');
         $n2 = $t->addChild('title');
-        $n2->addChild(session('language'), 'Menu Principal');
+        $n2->addChild($lang_iso, 'Menu Principal');
         //    Header('Content-type: text/xml');
         //    echo $config->asXML();
  
