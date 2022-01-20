@@ -417,7 +417,7 @@ class LessonController extends Controller
                                     array_push($trainingList, $trainingItem);
                                 }
                             } else {
-                                if($trainingItem->id_creator == session("client") || $trainingItem->id_creator == user()->auth()->id) {
+                                if($trainingItem->id_creator == session("client") || $trainingItem->id_creator == auth()->user()->id) {
                                     array_push($trainingList, $trainingItem);
                                 }
                             }
@@ -497,6 +497,7 @@ class LessonController extends Controller
                 <param name="source">' . $lesson->idFabrica . '</param>
                 <param name="newcode">' . $newlesson->idFabrica . '</param>
                 <param name="label">' . $newlesson->name . '</param>
+                <param name="lang">' . $newlesson->lang . '</param>
             </params>
         </request>');
 
