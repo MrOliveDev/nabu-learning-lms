@@ -491,6 +491,7 @@ class LessonController extends Controller
         $newlesson->save();
 
         // $this->createCourse($newlesson->name, $newlesson->idFabrica);
+        $lang_iso = LanguageModel::get_language_iso($newlesson->lang);
         $values = array('request' => '
         <request>
             <method>ProductDuplicate</method>
@@ -498,7 +499,7 @@ class LessonController extends Controller
                 <param name="source">' . $lesson->idFabrica . '</param>
                 <param name="newcode">' . $newlesson->idFabrica . '</param>
                 <param name="label">' . $newlesson->name . '</param>
-                <param name="lang">' . $newlesson->lang . '</param>
+                <param name="lang">' . $lang_iso . '</param>
             </params>
         </request>');
 
