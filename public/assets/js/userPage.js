@@ -975,12 +975,37 @@ var csvSubmitBtn = function (event) {
                     }
                     $("#csv-user-tbl").append('<tbody>');
                     res.data.forEach((line, index) => {
+                        let checkable = 0;
                         if (index != 0 || datas.header == "0") {
                             let html = '<tr>';
                             html += `<td class='line-index'>${datas.header == "0" ? index + 1 : index}</td>`;
                             if (Array.isArray(line)) {
+                                if(line[3]){
+                                    res.data.forEach((sec, index2) => {
+                                        if(line[3] == sec[3] && index != index2){
+                                            checkable = 1
+                                        }
+                                    })
+                                }
+                                if(line[4]){
+                                    res.data.forEach((sec, index2) => {
+                                        if(line[4] == sec[4] && index != index2){
+                                            checkable = 1
+                                        }
+                                    })
+                                }
                                 line.forEach(field => {
-                                    html += `<td>${field}</td>`;
+                                    if(checkable == 0) {
+                                        html += `<td>${field}</td>`;
+                                    } else {
+                                        html += `<td style="color: red">${field}</td>`
+                                        swal.fire({
+                                            title: "Warning",
+                                            text: "Please check the errors displayed in red. Some login can be duplicated, or some password are not fitting the password policy. Change the csv file content before importing again, or click IMPORT button, the duplicated login won't be imported",
+                                            icon: "error",
+                                            confirmButtonText: `OK`
+                                        });
+                                    }
                                 })
                             }
                             html += '</tr>';
