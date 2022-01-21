@@ -980,22 +980,22 @@ var csvSubmitBtn = function (event) {
                             let html = '<tr>';
                             html += `<td class='line-index'>${datas.header == "0" ? index + 1 : index}</td>`;
                             if (Array.isArray(line)) {
-                                if(line[3]){
+                                if (line[3]) {
                                     res.data.forEach((sec, index2) => {
-                                        if(line[3] == sec[3] && index != index2){
+                                        if (line[3] == sec[3] && index != index2) {
                                             checkable = 1
                                         }
                                     })
                                 }
-                                if(line[4]){
+                                if (line[4]) {
                                     res.data.forEach((sec, index2) => {
-                                        if(line[4] == sec[4] && index != index2){
+                                        if (line[4] == sec[4] && index != index2) {
                                             checkable = 1
                                         }
                                     })
                                 }
                                 line.forEach(field => {
-                                    if(checkable == 0) {
+                                    if (checkable == 0) {
                                         html += `<td>${field}</td>`;
                                     } else {
                                         html += `<td style="color: red">${field}</td>`
@@ -1044,6 +1044,37 @@ var csvImportBtn = function (event) {
         fields.push($(this).val());
     });
 
+    var items = $('#csv-user-tbl').find("tr");
+    var point = 0
+    items.map((index, item) => {
+        var tds = $(item).find('td');
+        tds.map((index, td) => {
+            console.log("td", td); 
+            if ($(td).css('color') == "rgb(255, 0, 0)") {
+                point=1;
+            }
+        })
+        // if($(item).find('td').css('color') == "red"){
+        //     swal.fire({
+        //         title: "Warning",
+        //         text: "Please fix red color.",
+        //         icon: "warning",
+        //         confirmButtonText: `OK`
+        //     });
+        //     return;
+        // }
+    })
+
+    if(point == 1){
+        swal.fire({
+                    title: "Warning",
+                    text: "Please fix red color.",
+                    icon: "warning",
+                    confirmButtonText: `OK`
+                });
+                return;
+    }
+
     if (fields.indexOf('name') == -1) {
         swal.fire({
             title: "Warning",
@@ -1071,7 +1102,8 @@ var csvImportBtn = function (event) {
         });
         return;
     }
-    if(($("input[name=generate]:checked").attr('data-value') == 0) && (fields.indexOf('password') == -1 || fields.indexOf('login') == -1 )){
+
+    if (($("input[name=generate]:checked").attr('data-value') == 0) && (fields.indexOf('password') == -1 || fields.indexOf('login') == -1)) {
         swal.fire({
             title: "Warning",
             text: "Impossible to import the list. You should select the option : generate login and password on previous screen.",
@@ -3229,17 +3261,17 @@ function functionDropEnd(event, item) {
     $('.filter-function-btn').change();
 }
 
-function selectCol(){
+function selectCol() {
     $(".select-col").val()
     var items = $("#csv-user-tbl").find(".select-col")
     var flag = 0;
     items.map((index, item) => {
-        if($(item).val() == "login"){
+        if ($(item).val() == "login") {
             flag++;
             // $("#content").attr("data-log-user-id")
         }
     })
-    if(flag != 0){
+    if (flag != 0) {
         $("#force-update").attr('disabled', false);
     } else {
         $("#force-update").attr('disabled', true);
